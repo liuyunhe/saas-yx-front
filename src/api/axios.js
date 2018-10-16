@@ -9,8 +9,7 @@ import qs from 'qs';
 
 
 
-const base1 = process.env.API_ROOT1
-const base2 = process.env.API_ROOT2
+
 
 
 //有的请求需要用户认证，视情况而定
@@ -24,9 +23,8 @@ const base2 = process.env.API_ROOT2
 //   return config;
 // }
 
-var request1 = {
+var request = {
   get:function (url,param,success,fail) {
-    var url = base1 + url
     return http.get(url,{
       params:param
     }).then((res) => {
@@ -40,13 +38,12 @@ var request1 = {
   },
   post:function (url,param,jsonFlag,success,fail) {
     var config = {
-      method: "post",
+      method: "POST",
       url:url,
-      baseURL: base1,
     };
     if(jsonFlag){
       config.headers = {
-        'Content-type': 'application/json;charset=UTF-8'
+        'Content-Type': 'application/json;charset=UTF-8'
       }
       config.data = JSON.stringify(param);
       return http(config)
@@ -88,69 +85,6 @@ var request1 = {
   // },
 }
 
-var request2 = {
-  get:function (url,param,success,fail) {
-    var url = base2 + url
-    return http.get(url,{
-      params:param
-    }).then((res) => {
-      success(res.data);
-    }).catch(function (error) {
-      if(fail){
-        fail(error);
-      }
-      console.log(error);
-    })
-  },
-  post:function (url,param,jsonFlag,success,fail) {
-    var config = {
-      method: "post",
-      url:url,
-      baseURL: base2,
-    };
-    if(jsonFlag){
-      config.headers = {
-        'Content-type': 'application/json;charset=UTF-8'
-      }
-      config.data = JSON.stringify(param);
-      return http(config)
-        .then((res) => {
-          success(res.data);
-        })
-        .catch(function (error) {
-          if(fail){
-            fail(error);
-          }
-          console.log(error);
-        })
-    }else{
-      config.data = qs.stringify(param);
-      return http(config)
-        .then((res) => {
-          success(res.data);
-        })
-        .catch(function (error) {
-          if(fail){
-            fail(error);
-          }
-          console.log(error);
-        })
-    }
-
-  },
-  // put:function (url,data,auth,success,fail) {
-  //   return http.put(url,data,getConfig(auth))
-  //     .then((res)=> {
-  //       success(res);
-  //     })
-  //     .catch(function (error) {
-  //       if(fail){
-  //         fail(error);
-  //       }
-  //       console.log(error);
-  //     })
-  // },
-}
 
 // 用法
 // this.$request1.get(url,params,res => {
@@ -163,4 +97,4 @@ var request2 = {
 // },err => {
 
 // })
-export {request1,request2}  ;
+export default  request  ;
