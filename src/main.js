@@ -14,13 +14,12 @@ import store from './store'
 import './assets/theme/theme-crm/index.css'
 import ElementUI from 'element-ui';
 //引入api配置文件
-import {request1,request2} from "./api/axios";
+import request from "./api/axios";
 // import Mock from './mock'
 // Mock.bootstrap();
 
 Vue.config.productionTip = false
-Vue.prototype.$request1 = request1;
-Vue.prototype.$request2 = request2;
+Vue.prototype.$request = request;
 
 
 

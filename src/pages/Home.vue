@@ -157,7 +157,8 @@
         },
       },
       created(){
-        this.$request1.get("","",res => {
+          console.log(this.$api)
+        this.$request.post(`/api/saotx/menu/list`,{"service":"browser"},true,res => {
           console.log(res)
         }),err => {
           console.log(err)
