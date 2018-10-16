@@ -23,8 +23,14 @@ export default new Router({
     {
       path: '/',
       name: '首页',
+      leaf: true,
+      redirect: '/Home'
+    },
+    {
+      path: '/Home',
+      name: '首页',
       leaf:true,    //没有子级菜单的标识
-      component: TopMenu,
+      component: Home,
       redirect: { path: '/Home'},
       children:[
         {
