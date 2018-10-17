@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '../pages/Login.vue'
+import Login from '../pages/Login/Login.vue'
+import Find from '../pages/Login/Find.vue'
 import TopMenu from '../components/TopMenu.vue'  //主体框架头部菜单
 import Home from '../pages/Home.vue'
 import NotFound from '../pages/404.vue'
@@ -19,6 +20,12 @@ export default new Router({
       name: 'Login',
       leaf:true,
       component: Login
+    },
+    {
+      path: '/find',
+      name: 'Find',
+      leaf:true,
+      component: Find
     },
     {
       path: '/',
