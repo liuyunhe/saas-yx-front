@@ -20,6 +20,7 @@ import VueCookies from 'vue-cookies'
 
 // import Mock from './mock'
 // Mock.bootstrap();
+import './assets/css/global.css'
 
 Vue.config.productionTip = false
 Vue.prototype.$request = request;

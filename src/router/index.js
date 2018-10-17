@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import Login from '../pages/Login/Login.vue'
 import Find from '../pages/Login/Find.vue'
 import TopMenu from '../components/TopMenu.vue'  //主体框架头部菜单
-import Home from '../pages/Home.vue'
+import Home from '../pages/Home/Home.vue'
+import KPI from '../pages/Home/KPI/KPI.vue'
 import NotFound from '../pages/404.vue'
 
 //投放管理
@@ -22,23 +23,28 @@ export default new Router({
       component: Login
     },
     {
-      path: '/find',
-      name: 'Find',
-      leaf:true,
-      component: Find
+        path: '/find',
+        name: 'Find',
+        leaf:true,
+        component: Find
     },
     {
       path: '/',
+      name: 'Login',
+      leaf: true,
+      redirect: '/login'
+    },
+    {
+      path: '/Home',
       name: '首页',
       leaf:true,    //没有子级菜单的标识
-      component: TopMenu,
-      redirect: { path: '/Home'},
+      component: Home,
+      redirect: { path: '/kpi'},
       children:[
         {
-          path:'/Home',
-          name:'首页内容',
-          component: Home,
-
+          path:'/kpi',
+          name:'kpi实时播报',
+          component: KPI,
         }
       ]
     },

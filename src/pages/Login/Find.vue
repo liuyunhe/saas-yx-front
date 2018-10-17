@@ -177,8 +177,8 @@
 							} else {
 								alert(res.message || "验证码不正确！");
 							}
-						}, function() {
-							alert(res.message || "找回密码失败！");
+						}, function(err) {
+							alert(err.message || "找回密码失败！");
 						})
 					} else {
 						alert('请输入正确的信息');
