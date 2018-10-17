@@ -30,9 +30,9 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'Login',
+      name: 'Home',
       leaf: true,
-      redirect: '/login'
+      redirect: '/Home'
     },
     {
       path: '/Home',
