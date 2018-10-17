@@ -51,3 +51,5 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+export {router,store}
