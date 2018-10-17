@@ -57,6 +57,8 @@
 		},
 		created() {
 			var num='';
+			sessionStorage.removeItem('access_token');
+            sessionStorage.removeItem('access_loginId');
 			var that=this;
 			for(let i=0;i<6;i++){
 				num+=Math.floor(Math.random()*10);
