@@ -1,7 +1,5 @@
 import http from 'axios'
-
 http.defaults.timeout = 100000;
-
 //  http.defaults.headers.post['Content-Type'] = 'application/json'
 // cache-control: "max-age=0, private, must-revalidate"
 //http.defaults.headers.post['Cache-control'] = 'max-age=5'
@@ -14,8 +12,7 @@ http.interceptors.request.use(
     // console.log(config)
     config.headers['loginId'] = sessionStorage.getItem('loginId') || "2d07e7953a2a63ceda6df5144d1abec3";
     config.headers['token'] = sessionStorage.getItem('token')|| "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDA1NTIxMjU2NTksInBheWxvYWQiOiJ7XCJpZFwiOjE1Mzk2ODgxMjUxNDMsXCJhY2NvdW50XCI6XCJoZW5hbl9jdWlndW9jaGFvXCIsXCJuYW1lXCI6XCLltJTlm73otoVcIixcIm9yZ0NvZGVcIjpcImhlbmFuemhvbmd5YW5cIixcIm9yZ0lkXCI6XCJoZW5hbnpob25neWFuXCIsXCJvcmdOYW1lXCI6bnVsbCxcImRlcHRcIjpudWxsLFwibW9iaWxlXCI6bnVsbCxcIm1lbW9cIjpudWxsLFwiaXBcIjpudWxsLFwic3RhdHVzXCI6bnVsbCxcImN0aW1lXCI6bnVsbCxcInV0aW1lXCI6bnVsbCxcImNyZWF0b3JcIjpudWxsLFwic21hbGxVcmxcIjpudWxsLFwiYmlnVXJsXCI6bnVsbCxcImxvZ2luVGltZVwiOjE1Mzk2ODgxMjUxNDMsXCJtYW5hZ2VyXCI6ZmFsc2UsXCJ0eXBlXCI6bnVsbCxcIm9yZ1JlZ2lvblwiOm51bGx9In0.6fSIYMcwSIzwDkSMt88Ww9dN8ApJhjP2v9EaLEBBL1w";
-
-
+    config.headers['CLIENTSESSIONID'] = sessionStorage.getItem('CLIENTSESSIONID') || "2d07e7953a2a63ceda6df5144d1abec3";
     if (config.method == 'get') {
       config.url = encodeURI(config.url);
       // config.data = config.params
@@ -30,8 +27,7 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   function (response) {
     // Do something with response data
-    // console.log(response)
-
+ 
     if (response.headers['content-type'] == "application/vnd.ms-excel") {
 
     }
