@@ -103,7 +103,7 @@
                         var data = res.data || {};
                         sessionStorage.setItem('access_token', data.token);
                         sessionStorage.setItem('access_loginId', data.loginId);
-                        that.$router.push({
+                        that.$router.replace({
                         	name:'首页内容'
                         })
                     } else if (res.ret == '100409') {
@@ -113,6 +113,7 @@
                         })
                     } else {
                         alert(res.message);
+                        that.srcClick();
                     }
 				})
 			},
