@@ -104,7 +104,7 @@
                         sessionStorage.setItem('access_token', data.token);
                         sessionStorage.setItem('access_loginId', data.loginId);
                         that.$router.push({
-                        	name:'首页内容'
+                            path: '/Home',
                         })
                     } else if (res.ret == '100409') {
                         alert(res.message);
