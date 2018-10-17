@@ -103,8 +103,8 @@
                         var data = res.data || {};
                         sessionStorage.setItem('access_token', data.token);
                         sessionStorage.setItem('access_loginId', data.loginId);
-                        that.$router.push({
-                            path: '/Home',
+                        that.$router.replace({
+                        	name:'kpi实时播报'
                         })
                     } else if (res.ret == '100409') {
                         alert(res.message);
@@ -113,6 +113,7 @@
                         })
                     } else {
                         alert(res.message);
+                        that.srcClick();
                     }
 				})
 			},
