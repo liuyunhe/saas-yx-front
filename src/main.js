@@ -30,18 +30,13 @@ Vue.use(VueCookies)
 
 Vue.use(ElementUI);
 
-//router.beforeEach((to, from, next) => {
-////登录规则
-//if (to.path == '/login') {
-//  sessionStorage.removeItem('user');
-//}
-//let user = JSON.parse(sessionStorage.getItem('user'));
-//if (!user && to.path != '/login') {
-//  next({ path: '/login' })
-//} else {
-//  next()
-//}
-//})
+router.beforeEach((to, from, next) => {
+  //登录规则
+  if (to.path === '/login' || to.path === '/find') return next()
+  const tokenStr = window.sessionStorage.getItem('access_token')
+  if (!tokenStr) return next('/login')
+  next()
+})
 
 /* eslint-disable no-new */
 new Vue({
