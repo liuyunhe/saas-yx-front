@@ -1,4 +1,9 @@
-.DS_Store
 node_modules/
 dist/
-npm-debug.log
+zip/
+.vscode
+test/
+.DS_Store
+.gitignore
+.idea
+.project
