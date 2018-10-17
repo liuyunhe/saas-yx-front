@@ -10,10 +10,21 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
-
+    proxyTable: {
+        '/api': {
+            target: 'http://cs-sass.saotianxia.vip/',
+            changeOrigin: true,
+            pathRewrite: {
+                '^/api': ''
+            }
+        }
+    },
     // Various Dev Server settings
+<<<<<<< HEAD
     host: '127.0.0.1', // can be overwritten by process.env.HOST
+=======
+    host: 'localhost', // can be overwritten by process.env.HOST
+>>>>>>> 5bec5e90b022bf664d0ec153d917dcf34db77217
     port: 8088, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,

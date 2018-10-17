@@ -1,4 +1,16 @@
+<<<<<<< HEAD
 .DS_Store
 node_modules/
 dist/
 npm-debug.log
+=======
+node_modules/
+dist/
+zip/
+.vscode
+test/
+.DS_Store
+.gitignore
+.idea
+.project
+>>>>>>> 4d3e6ee1413f9a90c893a89f1ae743a212548939
