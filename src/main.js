@@ -32,7 +32,10 @@ Vue.use(ElementUI);
 
 router.beforeEach((to, from, next) => {
   //登录规则
-  if (to.path === '/login' || to.path === '/find') return next()
+  if (to.path === '/login' || to.path === '/find'){
+    sessionStorage.removeItem('access_token');
+    return next()
+  }
   const tokenStr = window.sessionStorage.getItem('access_token')
   if (!tokenStr) return next('/login')
   next()
