@@ -133,8 +133,7 @@
 				} else {
 					localStorage.removeItem('username');
 				}
-			},
-			'$route':'srcClick'
+			}
 		}
 	}
 </script>
