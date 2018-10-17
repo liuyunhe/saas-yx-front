@@ -21,7 +21,7 @@
 							<el-input v-model="dynamicValidateForm.phone"></el-input>
 						</el-form-item>
 						<el-form-item label="验证码" prop="code" :rules="[
-      { required: true, message: '请输入验证码', trigger: 'blur' }]">
+      { required: true, message: '请输入验证码', trigger: 'blur' }]"class='code-input'>
 							<el-input v-model="dynamicValidateForm.code"></el-input>
 							<el-button @click.prevent="time" class='{active:active}'>{{timeText}}</el-button>
 						</el-form-item>
@@ -226,7 +226,13 @@
 				width: 60%;
 				margin: 0 auto;
 				padding-top: 20px;
+				.code-input {
+					.el-input__inner{
+						width:80% !important;
+					}
+				}
 			}
+			
 		}
 	}
 </style>
