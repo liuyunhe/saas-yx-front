@@ -30,9 +30,9 @@ export default new Router({
     },
     {
       path: '/',
-      name: '首页',
+      name: 'Login',
       leaf: true,
-      redirect: '/Home'
+      redirect: '/login'
     },
     {
       path: '/Home',
