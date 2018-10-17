@@ -28,7 +28,9 @@ var request = {
     return http.get(url,{
       params:param
     }).then((res) => {
-      success(res.data);
+      if(success){
+        success(res.data);
+      }
     }).catch(function (error) {
       if(fail){
         fail(error);
@@ -48,7 +50,9 @@ var request = {
       config.data = JSON.stringify(param);
       return http(config)
         .then((res) => {
-          success(res.data);
+          if(success){
+              success(res.data);
+          }
         })
         .catch(function (error) {
           if(fail){

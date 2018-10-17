@@ -30,7 +30,7 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   function (response) {
     // Do something with response data
-    console.log(response)
+    // console.log(response)
 
     if (response.headers['content-type'] == "application/vnd.ms-excel") {
 
