@@ -24,11 +24,11 @@
         <el-main>Main</el-main>
       </el-container>
     </el-container> -->
-		<el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+		<!--<el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
 			<span>确定要退出登录？</span>
 			<span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="logout">确 定</el-button>
+    <el-button type="primary" @click="logout">确 定</el-button>-->
   </span>
 		</el-dialog>
 		<el-container class="home-container">
@@ -74,7 +74,7 @@
 								</el-dropdown-item>
 								<el-dropdown-item divided>
 									<div class="btns">
-										<div class="user-btn" @click='dialogVisible = true'>退出登录</div>
+										<div class="user-btn" @click='handleClose'>退出登录</div>
 									</div>
 
 								</el-dropdown-item>
@@ -109,7 +109,7 @@
 				nowMenuName: '首页',
 				account: '',
 				orgName: '',
-				dialogVisible:false
+				dialogVisible: false
 			}
 		},
 		created() {
@@ -200,7 +200,7 @@
 				var that = this;
 				this.$request.post('/api/sys/login/logout', {}, true, (res) => {
 					if(res.ret == '200000') {
-						that.dialogVisible=false;
+						that.dialogVisible = false;
 						that.$router.replace({
 							name: 'Login'
 						})
@@ -210,12 +210,13 @@
 				})
 			},
 			handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-      }
+				var that=this;
+				this.$confirm('确定退出登录吗？')
+					.then(_ => {
+						that.logout();
+					})
+					.catch(_ => {});
+			}
 		}
 	}
 </script>
