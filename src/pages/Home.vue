@@ -32,7 +32,7 @@
           </div>
           <div class="parent-menu">
             <ul>
-              <li ref="parentMenu" v-for="(item, index) in menuList" :key="item.idx" @click="getsonMenuList(item, index)" :class="index == 0 ? 'active' : ''">{{item.menuName}}</li>
+              <li ref="parentMenu" v-for="(item, index) in menuList" :key="item.id" @click="getsonMenuList(item, index)" :class="index == 0 ? 'active' : ''">{{item.menuName}}</li>
             </ul>
           </div>
         </div>
@@ -40,7 +40,7 @@
           <div class="menuName">{{nowMenuName}}</div>
           <div class="son-menu">
             <ul>
-              <li v-for="(item, index) in sonMenuList" :key="item.idx" @click="getGrandsonMentList(item, index)"><a href="javascript:;" ref="sonMenu" :class="index == 0 ? 'active' : ''">{{item.menuName}}</a></li>
+              <li v-for="(item, index) in sonMenuList" :key="item.id" @click="getGrandsonMentList(item, index)"><a :href="item.menuCode" ref="sonMenu" :class="index == 0 ? 'active' : ''">{{item.menuName}}</a></li>
             </ul>
           </div>
         </div>
@@ -87,13 +87,14 @@ export default {
       this.$request.post(`/api/saotx/menu/all`, { service: 'browser' }, true, res => {
         console.log(res)
         if (res.ret === '200000') {
+          // this.$message.success('获取成功')
           this.menuList = res.data
           this.sonMenuList = res.data[0].nodeList
           this.initGrandsonMenu(this.sonMenuList[0])
         }
       }),
         err => {
-          console.log(err)
+          this.$message.erroe('获取数据失败!')
         }
     },
     // 获取子级菜单(子级)
@@ -191,12 +192,12 @@ export default {
       float: left;
       width: 40%;
       .logo {
-        width: 90px;
+        width: 100%;
         height: 65px;
         line-height: 65px;
         text-align: center;
         img {
-          width: 50px;
+          width: 40px;
           vertical-align: middle;
         }
       }
@@ -257,6 +258,7 @@ export default {
           display: block;
           width: 100%;
           height: 100%;
+          box-sizing: border-box;
         }
       }
       a.active {
