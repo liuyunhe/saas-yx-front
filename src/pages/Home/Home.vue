@@ -109,7 +109,7 @@
 				nowMenuName: '首页',
 				account: '',
 				orgName: '',
-				dialogVisible: false
+				dialogVisible:false
 			}
 		},
 		created() {
