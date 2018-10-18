@@ -42,7 +42,7 @@ export default new Router({
       children: [
         // 数据
         { path: '/datas', name: '数据', redirect: '/datas/kpi' },
-        { path: '/datas/kpi', name: 'kpi', component: KPI },
+        { path: '/datas/kpi', name: 'kpi实时播报', component: KPI },
         { path: '/datas/multi', name: '多维查询', component: Multi },
         { path: '/datas/report', name: '固定报表', component: KPI },
         { path: '/datas/agree', name: '履约报表', component: KPI },
