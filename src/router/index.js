@@ -5,9 +5,8 @@ import Find from '../pages/Login/Find.vue'
 // import TopMenu from '../components/TopMenu.vue'  //主体框架头部菜单
 import Home from '../pages/Home.vue'
 import KPI from '../pages/Datas/KPI/KPI.vue'
-import Multi from '../pages/Datas/Multi/Multi.vue'
 import NotFound from '../pages/404.vue'
-
+import ActTpl from '../pages/Market/ActTpl/ActTpl.vue'
 
 
 Vue.use(Router)
@@ -43,7 +42,7 @@ export default new Router({
         // 数据
         { path: '/datas', name: '数据', redirect: '/datas/kpi' },
         { path: '/datas/kpi', name: 'kpi实时播报', component: KPI },
-        { path: '/datas/multi', name: '多维查询', component: Multi },
+        { path: '/datas/multi', name: '多维查询', component: KPI },
         { path: '/datas/report', name: '固定报表', component: KPI },
         { path: '/datas/agree', name: '履约报表', component: KPI },
         { path: '/datas/visit', name: '回访报表', component: KPI },
@@ -90,7 +89,7 @@ export default new Router({
         { path: '/product/materiel/integral', name: '积分', component: KPI },
         // 营销
         { path: '/market', name: '营销', redirect: '/market/actTpl' },
-        { path: '/market/actTpl', name: '活动模板', component: KPI },
+        { path: '/market/actTpl', name: '活动模板', component: ActTpl },
         { path: '/market/actMgr', name: '活动管理', component: KPI },
         { path: '/orders', name: '订单', redirect: '/orders/act' },
         { path: '/orders/seller', name: '零售户订单', component: KPI },

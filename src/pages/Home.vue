@@ -81,8 +81,8 @@
 							</el-dropdown-menu>
 						</el-dropdown>
 						<ul>
-							<li v-for="(item, index) in grandsonMenuLisy" :key="index" @click="getPages(item, index)">
-								<router-link :to="item.menuUrl" ref="grandsonMenu" :class="index == 0 ? 'active' : ''">{{item.menuName}}</router-link>
+							<li v-for="(item, index) in grandsonMenuLisy" :key="index" @click="getPages(item, index)" ref="grandsonMenu" :class="index == 0 ? 'active' : ''">
+								<router-link :to="item.menuUrl">{{item.menuName}}</router-link>
 							</li>
 						</ul>
 					</div>
@@ -357,7 +357,7 @@ export default {
           height: 100%;
         }
       }
-      a.active {
+      li.active {
         border-bottom: 2px solid #38f;
       }
       .user-info-home {
