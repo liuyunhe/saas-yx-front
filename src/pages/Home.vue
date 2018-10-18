@@ -24,13 +24,13 @@
         <el-main>Main</el-main>
       </el-container>
     </el-container> -->
-		<el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+		<!--<el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
 			<span>确定要退出登录？</span>
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="dialogVisible = false">取 消</el-button>
 				<el-button type="primary" @click="logout">确 定</el-button>
 			</span>
-		</el-dialog>
+		</el-dialog>-->
 		<el-container class="home-container">
 			<el-aside width="200px">
 				<div class="left">
@@ -74,7 +74,7 @@
 								</el-dropdown-item>
 								<el-dropdown-item divided>
 									<div class="btns">
-										<div class="user-btn" @click='dialogVisible = true'>退出登录</div>
+										<div class="user-btn" @click='handleClose'>退出登录</div>
 									</div>
 
 								</el-dropdown-item>
@@ -225,9 +225,10 @@ export default {
       )
     },
     handleClose(done) {
-      this.$confirm('确认关闭？')
+    	var that=this;
+      this.$confirm('确定要退出登录？')
         .then(_ => {
-          done()
+          that.logout()
         })
         .catch(_ => {})
     }

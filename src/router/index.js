@@ -37,7 +37,7 @@ export default new Router({
       name: '首页',
       // leaf:true,    //没有子级菜单的标识
       component: Home,
-      redirect: '/datas',
+//    redirect: '/datas',
       children: [
         // 数据
         { path: '/datas', name: '数据', redirect: '/datas/kpi' },
