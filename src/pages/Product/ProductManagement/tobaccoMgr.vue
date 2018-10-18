@@ -62,53 +62,24 @@
         </el-col>
         <!--列表-->
         <el-col class="crm-table-wrap" v-loading="listLoading" :span="24">
-            <table class="crm-table" width="100%">
-                <thead>
-                <tr>
-                    <th style="width: 120px">落地页ID</th>
-                    <th>落地页名称</th>
-                    <th>所属项目</th>
-                    <th>所属机构</th>
-                    <th>项目城市</th>
-                    <th>
-                        <el-dropdown trigger="click" @command="pageTypeHandle">
-              <span class="el-dropdown-link">
-                落地页类型<i class="el-icon-arrow-down el-icon--right"></i>
-              </span>
-                            <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item :class="{active:pageType === ''}" command="">全部</el-dropdown-item>
-                                <el-dropdown-item :class="{active:pageType === '0'}" command="0">PC落地页</el-dropdown-item>
-                                <el-dropdown-item :class="{active:pageType === '1'}" command="1">移动端落地页</el-dropdown-item>
-                            </el-dropdown-menu>
-                        </el-dropdown>
-                    </th>
-                    <th>更新时间</th>
-                    <th>操作人员</th>
-                    <th class="ctrl" style="width: 270px">操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="item in pageList">
-                    <td>{{item.gid}}</td>
-                    <td :title="istitle(item.pageName)" style="width: 300px">{{item.pageName}}</td>
-                    <td :title="istitle(item.projectName)">{{item.projectName}}</td>
-                    <td :title="istitle(item.orgName)">{{item.orgName}}</td>
-                    <td :title="istitle(item.cityName)">{{ item.cityName }}</td>
-                    <td>{{item.pageType == '1' ? "移动" : "PC"}}</td>
-                    <td :title="istitle(item.updateTime)">{{item.updateTime}}</td>
-                    <td :title="istitle(item.updateOperName)">{{item.updateOperName}}</td>
-                    <td>
-                        <span class="ctrl" @click="previewLandingPage(item)">预览</span>
-                        <!--<span class="ctrl" v-if="filters.status==='0'">检测</span>-->
-                        <span class="ctrl" v-if="filters.status==='1'" @click="editLandingpage(item)">编辑</span>
-                        <span class="ctrl" v-if="filters.status==='0'" @click="handleUpdateStatus(item)">下架</span>
-                        <span class="ctrl" v-if="filters.status==='1'" @click="handleUpdateStatus(item)">发布</span>
-                        <span class="ctrl">复制链接</span>
-                        <!--<span class="ctrl" v-if="filters.status==='0'">数据</span>-->
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <el-table
+                :data="listTbc"
+                style="width: 100%">
+                <el-table-column
+                    prop="index"
+                    label="序号"
+                    width="180">
+                </el-table-column>
+                <el-table-column
+                    prop="product.brandName"
+                    label="品牌"
+                    width="180">
+                </el-table-column>
+                <el-table-column
+                    prop="address"
+                    label="地址">
+                </el-table-column>
+            </el-table>
         </el-col>
 
         <!--工具条-->
@@ -175,17 +146,23 @@
           time: []
         },
         //table内容
-        pageList: [],
+        listTbc: [],
         //数据总条数
         total: 0,
         //分页器当前选中页码
         currentPage: 1,
-        //每页显示条数
-        pageSize: 0,
-        //查询页码
-        page: 1,
+
         sels: [],//列表选中列
         pageType: '',
+        brandCodeArr: [],
+        gradeArr: [],
+        maxPrice: "",
+        minPrice: "",
+        packArr: [],
+        pageNo: 1,
+        pageSize: 10,
+        snArr: [],
+        status: 1,
       }
     },
     methods: {
@@ -242,13 +219,15 @@
       getUsers() {
         this.configTime()
         let para = {
-          "pageNo": this.page,
-          "status": this.filters.status,
-          "name": this.filters.name,
-          "beginDate": this.filters.time[0],
-          "endDate": this.filters.time[1],
-          "pageType": this.pageType,
-          [this.filters.type]: this.filters.search
+          "brandCodeArr": [],
+          "gradeArr": [],
+          "maxPrice": "",
+          "minPrice": "",
+          "packArr": [],
+          "pageNo": 1,
+          "pageSize": 10,
+          "snArr": [],
+          "status": 1,
         };
         this.search = para
         this.postSearch()
@@ -256,25 +235,16 @@
       //传送查询条件
       postSearch() {
         this.listLoading = true;
-        this.$api.requestPagelist(this.search).then((res) => {
-          if (res.code === 1) {
+        this.$request.post('/api/saotx/prod/listTbc',this.search,true,(res) => {
+          if (res.ret == '200000') {
             console.log(res.data.list)
-            this.pageList = res.data.list
-            this.total = res.data.count
-            this.pageSize = res.data.pageSize
+            this.listTbc = res.data.list
+            this.total = res.data.page.count
+            this.pageSize = res.data.page.pageSize
+            this.pageNo = res.data.page.pageNo
             this.listLoading = false;
           }
-        }).catch((err) => {
-          this.$confirm("网络报错", "提示", {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            this.listLoading = false;
-          }).catch(() => {
-            this.listLoading = false;
-          })
-        });
+        })
       },
       //查询按钮
       commitForm() {
@@ -362,6 +332,14 @@
         this.$store.commit('setLandingPageId', item.uuid)
         this.$router.push({path: '/MessageSetting'})
       }
+    },
+    created(){
+      this.$request.post('/api/saotx/dim/tobaccoPack',{parentCode: ""},true,(res) => {
+        if (res.ret == '200000') {
+          console.log(res.data)
+
+        }
+      })
     },
     mounted() {
       this.getUsers()
