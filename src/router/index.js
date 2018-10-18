@@ -6,7 +6,8 @@ import Home from '../pages/Home/Home.vue'
 import KPI from '../pages/Home/KPI/KPI.vue'
 import NotFound from '../pages/404.vue'
 
-
+//产品-产品管理-烟草管理
+import tobacco from '../pages/Product/ProductManagement/tobaccoMgr'
 
 Vue.use(Router)
 
@@ -42,6 +43,20 @@ export default new Router({
           path:'/kpi',
           name:'kpi实时播报',
           component: KPI,
+        }
+      ]
+    },
+    {
+      path: '/product',
+      name: '产品',
+      leaf:true,    //没有子级菜单的标识
+      component: Home,
+      redirect: { path: '/product/mgr/tobacco'},
+      children:[
+        {
+          path:'/product/mgr/tobacco',
+          name:'烟草管理',
+          component: tobacco,
         }
       ]
     },
