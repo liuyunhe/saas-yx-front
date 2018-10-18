@@ -1,4 +1,6 @@
 import http from 'axios'
+import {router} from '../main'
+
 http.defaults.timeout = 100000;
 //  http.defaults.headers.post['Content-Type'] = 'application/json'
 // cache-control: "max-age=0, private, must-revalidate"
@@ -26,10 +28,30 @@ http.interceptors.request.use(
 );
 http.interceptors.response.use(
   function (response) {
-    // Do something with response data
- 
-    if (response.headers['content-type'] == "application/vnd.ms-excel") {
 
+    // Do something with response data
+
+
+    if(response.data.ret == '100405') {
+      alert(response.data.message || "请重新登陆！")
+      router.push({
+        path:"/login"
+      })
+    }else if(response.data.ret == '100408') {
+      alert(response.data.message ||"此帐号已在其他地方登录，您已被迫下线！")
+      router.push({
+        path:"/login"
+      })
+    }else if(response.data.ret == '100409') {
+      alert(response.data.message ||"密码时限超出，请修改密码！")
+      router.push({
+        path:"/login"
+      })
+    }
+
+
+    if (response.headers['content-type'] == "application/vnd.ms-excel") {
+      //do something
     }
 
 
@@ -39,19 +61,19 @@ http.interceptors.response.use(
     // Do something with response error
     if (error.response) {
       if (error.response.status === 400) {
-        error.response('客户端请求的语法错误，服务器无法理解！');
+        alert('客户端请求的语法错误，服务器无法理解！');
       } else if (error.response.status === 401) {
         // define window.app=vm in main.js
         // window.app.$message.error('请求要求用户的身份认证！');
-        window.app.$router.push({
-          name: 'Login'
-        });
+        router.push({
+          path:"/login"
+        })
       } else if (error.response.status === 403) {
-        window.app.$message.error('服务器理解请求客户端的请求，但是拒绝执行此请求！');
+        alert('服务器理解请求客户端的请求，但是拒绝执行此请求！');
       } else if (error.response.status === 404) {
-        window.app.$message.error('服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置"您所请求的资源无法找到"的个性页面！');
+        alert('服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置"您所请求的资源无法找到"的个性页面！');
       } else if (error.response.status === 500) {
-        window.app.$message.error('服务器内部错误，无法完成请求！');
+        alert('服务器内部错误，无法完成请求！');
       } else {
         error.response = '服务器错误，无法完成请求！';
       }

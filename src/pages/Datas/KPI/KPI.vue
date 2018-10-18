@@ -1,5 +1,5 @@
 <template>
-  <div class="kip-container">
+  <div class="kpi-container">
     <el-card>kip实时播报</el-card>
   </div>
 </template>

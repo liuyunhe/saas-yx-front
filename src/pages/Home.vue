@@ -1,6 +1,6 @@
 <template>
-  <div class="home-container">
-    <!-- <el-container>
+	<div class="home-container">
+		<!-- <el-container>
       <el-header>
         <div class="top-logo">
           <img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/top_logo.png" alt="">
@@ -24,41 +24,75 @@
         <el-main>Main</el-main>
       </el-container>
     </el-container> -->
-    <el-container class="home-container">
-      <el-aside width="200px">
-        <div class="left">
-          <div class="logo">
-            <img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/top_logo_mini.png" alt="">
-          </div>
-          <div class="parent-menu">
-            <ul>
-              <li ref="parentMenu" v-for="(item, index) in menuList" :key="item.id" @click="getsonMenuList(item, index)" :class="index == 0 ? 'active' : ''">{{item.menuName}}</li>
-            </ul>
-          </div>
-        </div>
-        <div class="right">
-          <div class="menuName">{{nowMenuName}}</div>
-          <div class="son-menu">
-            <ul>
-              <li v-for="(item, index) in sonMenuList" :key="item.id" @click="getGrandsonMentList(item, index)"><a :href="item.menuCode" ref="sonMenu" :class="index == 0 ? 'active' : ''">{{item.menuName}}</a></li>
-            </ul>
-          </div>
-        </div>
-      </el-aside>
-      <el-container>
-        <el-header>
-          <div class="grandson-menu">
-            <ul>
-              <li v-for="(item, index) in grandsonMenuLisy" :key="index" @click="getPages(item, index)"><a href="javascipt:;" ref="grandsonMenu" :class="index == 0 ? 'active' : ''">{{item.menuName}}</a></li>
-            </ul>
-          </div>
-        </el-header>
-        <el-main>
-          <router-view></router-view>
-        </el-main>
-      </el-container>
-    </el-container>
-  </div>
+		<el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+			<span>确定要退出登录？</span>
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="dialogVisible = false">取 消</el-button>
+				<el-button type="primary" @click="logout">确 定</el-button>
+			</span>
+		</el-dialog>
+		<el-container class="home-container">
+			<el-aside width="200px">
+				<div class="left">
+					<div class="logo">
+						<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/top_logo_mini.png" alt="">
+					</div>
+					<div class="parent-menu">
+						<ul>
+							<li ref="parentMenu" v-for="(item, index) in menuList" :key="item.id" @click="getsonMenuList(item, index)" :class="index == 0 ? 'active' : ''"><router-link :to="item.menuUrl">{{item.menuName}}</router-link></li>
+						</ul>
+					</div>
+				</div>
+				<div class="right">
+					<div class="menuName">{{nowMenuName}}</div>
+					<div class="son-menu">
+						<ul>
+							<li v-for="(item, index) in sonMenuList" :key="item.id" @click="getGrandsonMentList(item, index)" ref="sonMenu" :class="index == 0 ? 'active' : ''">
+								<router-link :to="item.menuUrl">{{item.menuName}}</router-link>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</el-aside>
+			<el-container>
+				<el-header>
+					<div class="grandson-menu">
+						<el-dropdown class='user-info-home'>
+
+							<span class="el-dropdown-link">
+								<span>{{account}}</span>
+								<i class="el-icon-arrow-down el-icon--right"></i>
+							</span>
+							<el-dropdown-menu slot="dropdown" class='down-home-item'>
+								<el-dropdown-item>用户名：{{account}}</el-dropdown-item>
+								<el-dropdown-item>公司：{{orgName}}</el-dropdown-item>
+								<el-dropdown-item divided>
+									<div class="btns">
+										<div class="user-btn">修改密码</div>
+									</div>
+
+								</el-dropdown-item>
+								<el-dropdown-item divided>
+									<div class="btns">
+										<div class="user-btn" @click='dialogVisible = true'>退出登录</div>
+									</div>
+
+								</el-dropdown-item>
+							</el-dropdown-menu>
+						</el-dropdown>
+						<ul>
+							<li v-for="(item, index) in grandsonMenuLisy" :key="index" @click="getPages(item, index)">
+								<router-link :to="item.menuUrl" ref="grandsonMenu" :class="index == 0 ? 'active' : ''">{{item.menuName}}</router-link>
+							</li>
+						</ul>
+					</div>
+				</el-header>
+				<el-main>
+					<router-view></router-view>
+				</el-main>
+			</el-container>
+		</el-container>
+	</div>
 </template>
 
 <script>
@@ -72,7 +106,10 @@ export default {
       menuList: [],
       sonMenuList: [],
       grandsonMenuLisy: [],
-      nowMenuName: '首页'
+      nowMenuName: '首页',
+      account: '',
+      orgName: '',
+      dialogVisible: false
     }
   },
   created() {
@@ -81,20 +118,46 @@ export default {
   methods: {
     init() {
       this.getMenuList()
+      this.getUserInfo()
+    },
+    getUserInfo() {
+      var that = this
+      this.$request.post(
+        '/api/saotx/user/cluser',
+        {},
+        true,
+        res => {
+          console.log(res)
+          if (res.ret == '200000') {
+            var data = res.data || {}
+            that.account = data.account
+            that.orgName = data.orgName
+          }
+        },
+        err => {
+          console.log(err)
+        }
+      )
     },
     // 获取菜单
     getMenuList() {
-      this.$request.post(`/api/saotx/menu/all`, { service: 'browser' }, true, res => {
-        console.log(res)
-        if (res.ret === '200000') {
-          // this.$message.success('获取成功')
-          this.menuList = res.data
-          this.sonMenuList = res.data[0].nodeList
-          this.initGrandsonMenu(this.sonMenuList[0])
+      this.$request.post(
+        `/api/saotx/menu/all`,
+        {
+          service: 'browser'
+        },
+        true,
+        res => {
+          console.log(res)
+          if (res.ret === '200000') {
+            this.menuList = res.data
+            this.sonMenuList = res.data[0].nodeList
+            this.initGrandsonMenu(this.sonMenuList[0])
+          }
         }
-      }),
+      ),
         err => {
-          this.$message.erroe('获取数据失败!')
+          console.log(err)
         }
     },
     // 获取子级菜单(子级)
@@ -140,6 +203,33 @@ export default {
         item.classList.remove('active')
       })
       allSon[0].classList.add('active')
+    },
+    comfirm() {},
+    logout() {
+      var that = this
+      this.$request.post(
+        '/api/sys/login/logout',
+        {},
+        true,
+        res => {
+          if (res.ret == '200000') {
+            that.dialogVisible = false
+            that.$router.replace({
+              name: 'Login'
+            })
+          }
+        },
+        err => {
+          console.log(err)
+        }
+      )
+    },
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done()
+        })
+        .catch(_ => {})
     }
   }
 }
@@ -186,25 +276,31 @@ export default {
     li {
       height: 36px;
       line-height: 36px;
-      margin-bottom: 14px;
+			margin-bottom: 14px;
     }
     .left {
       float: left;
       width: 40%;
       .logo {
-        width: 100%;
+        width: 90px;
         height: 65px;
         line-height: 65px;
         text-align: center;
         img {
-          width: 40px;
+          width: 50px;
           vertical-align: middle;
         }
-      }
+			}
+			a {
+				color: #fff;
+			}
       li.active {
         background-color: #f8f8f8;
-        color: #333;
-      }
+        a {
+					color: #333;
+				}
+			}
+			
     }
     .right {
       float: left;
@@ -231,7 +327,7 @@ export default {
           width: 100%;
           height: 100%;
         }
-        a.active {
+        li.active {
           background-color: #eee;
         }
         a:hover {
@@ -248,6 +344,7 @@ export default {
     border-bottom: 1px solid #e5e5e5;
     .grandson-menu {
       height: 100%;
+      position: relative;
       li {
         float: left;
         height: 50px;
@@ -258,11 +355,42 @@ export default {
           display: block;
           width: 100%;
           height: 100%;
-          box-sizing: border-box;
         }
       }
       a.active {
         border-bottom: 2px solid #38f;
+      }
+      .user-info-home {
+        width: 100px;
+        height: 100%;
+        position: absolute;
+        right: 0;
+        top: 0;
+        color: #000;
+        line-height: 50px;
+        i {
+          position: absolute;
+          right: 0;
+          top: 50%;
+          margin-top: -7px;
+        }
+        .el-dropdown-link {
+          cursor: pointer;
+          display: block;
+          span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            width: 70px !important;
+          }
+        }
+      }
+      .btns {
+        .user-btn {
+          width: 50%;
+        }
       }
     }
   }
