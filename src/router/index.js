@@ -5,7 +5,6 @@ import Find from '../pages/Login/Find.vue'
 // import TopMenu from '../components/TopMenu.vue'  //主体框架头部菜单
 import Home from '../pages/Home.vue'
 import KPI from '../pages/Datas/KPI/KPI.vue'
-import Multi from '../pages/Datas/Multi/Multi.vue'
 import NotFound from '../pages/404.vue'
 
 
@@ -43,7 +42,7 @@ export default new Router({
         // 数据
         { path: '/datas', name: '数据', redirect: '/datas/kpi' },
         { path: '/datas/kpi', name: 'kpi实时播报', component: KPI },
-        { path: '/datas/multi', name: '多维查询', component: Multi },
+        { path: '/datas/multi', name: '多维查询', component: KPI },
         { path: '/datas/report', name: '固定报表', component: KPI },
         { path: '/datas/agree', name: '履约报表', component: KPI },
         { path: '/datas/visit', name: '回访报表', component: KPI },
