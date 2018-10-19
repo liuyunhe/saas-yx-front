@@ -9,6 +9,8 @@ import NotFound from '../pages/404.vue'
 
 //产品-产品管理-烟草管理
 import tobacco from '../pages/Product/ProductManagement/tobaccoMgr'
+import addTobaccoMr from '../pages/Product/ProductManagement/addTobaccoMgr'
+import editTobaccoMr from '../pages/Product/ProductManagement/editTobaccoMgr'
 
 Vue.use(Router)
 
@@ -81,7 +83,9 @@ export default new Router({
         {  path: '/product', name: '产品', redirect: '/product/mgr' },
         { path: '/product/supply', name: '供应商管理', component: KPI },
         { path: '/product/mgr', name: '产品管理', redirect: '/product/mgr/tobacco' },
-        { path: '/product/mgr/tobacco', name: '卷烟管理', component: KPI },
+        { path: '/product/mgr/tobacco', name: '卷烟管理', component: tobacco },
+        { path: '/product/mgr/addTobaccoMr', name: '新建卷烟', component: addTobaccoMr },
+        { path: '/product/mgr/editTobaccoMr', name: '编辑卷烟', component: editTobaccoMr,props: (route) => ({id:route.query.id}) },
         { path: '/product/mgr/liquor', name: '酒管理', component: KPI },
         { path: '/product/materiel', name: '物料管理', redirect: '/product/materiel/object' },
         { path: '/product/materiel/object', name: '实物礼品', component: KPI },
@@ -399,20 +403,20 @@ export default new Router({
 
     //   ]
     // },
-    {
-      path: '/product',
-      name: '产品',
-      leaf:true,    //没有子级菜单的标识
-      component: Home,
-      redirect: { path: '/product/mgr/tobacco'},
-      children:[
-        {
-          path:'/product/mgr/tobacco',
-          name:'烟草管理',
-          component: tobacco,
-        }
-      ]
-    },
+    // {
+    //   path: '/product',
+    //   name: '产品',
+    //   leaf:true,    //没有子级菜单的标识
+    //   component: Home,
+    //   redirect: { path: '/product/mgr/tobacco'},
+    //   children:[
+    //     {
+    //       path:'/product/mgr/tobacco',
+    //       name:'烟草管理',
+    //       component: tobacco,
+    //     }
+    //   ]
+    // },
     {
       path:'/404',
       name:'404',
