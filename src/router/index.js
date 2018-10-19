@@ -7,6 +7,17 @@ import Home from '../pages/Home.vue'
 import KPI from '../pages/Datas/KPI/KPI.vue'
 import NotFound from '../pages/404.vue'
 
+// 产品-物料管理-实物礼品
+import MaterielObject from '../pages/Product/Materiel/Object.vue'
+// 产品-物料管理-虚拟礼品
+import MaterielVirtual from '../pages/Product/Materiel/Virtual.vue'
+// 产品-物料管理-红包礼品
+import MaterielRedpack from '../pages/Product/Materiel/Redpack.vue'
+// 产品-物料管理-积分礼品
+import MaterielIntegral from '../pages/Product/Materiel/Integral.vue'
+// 产品-物料管理-实物、虚拟、红包、积分表格展示公共页
+import MaterielTable from '../pages/Product/Materiel/Table.vue'
+import MaterielForm from '../pages/Product/Materiel/Form.vue'
 
 
 Vue.use(Router)
@@ -83,10 +94,12 @@ export default new Router({
         { path: '/product/mgr/tobacco', name: '卷烟管理', component: KPI },
         { path: '/product/mgr/liquor', name: '酒管理', component: KPI },
         { path: '/product/materiel', name: '物料管理', redirect: '/product/materiel/object' },
-        { path: '/product/materiel/object', name: '实物礼品', component: KPI },
-        { path: '/product/materiel/virtual', name: '虚拟礼品', component: KPI },
-        { path: '/product/materiel/redpack', name: '红包', component: KPI },
-        { path: '/product/materiel/integral', name: '积分', component: KPI },
+        { path: '/product/materiel/table', name: '物料礼品列表', component: MaterielTable, props: (route) => ({metraFlag:route.query.metraFlag})},
+        { path: '/product/materiel/form', name: '物料表单管理', component: MaterielForm, props: (route) => ({metraFlag:route.query.metraFlag, id:route.query.id})},
+        { path: '/product/materiel/object', name: '实物礼品', component: MaterielObject },
+        { path: '/product/materiel/virtual', name: '虚拟礼品', component: MaterielVirtual },
+        { path: '/product/materiel/redpack', name: '红包', component: MaterielRedpack },
+        { path: '/product/materiel/integral', name: '积分', component: MaterielIntegral },
         // 营销
         { path: '/market', name: '营销', redirect: '/market/actTpl' },
         { path: '/market/actTpl', name: '活动模板', component: KPI },
