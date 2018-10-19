@@ -75,12 +75,12 @@
                 <el-form-item :size="'small'" label="至">
                   <el-input v-model="filters.maxPrice" style="width: 80px" placeholder="最小值"></el-input>
                 </el-form-item>
+                <div></div>
                 <el-form-item class="mr0" :size="'small'">
-                    <el-button type="primary" size="small" @click="commitForm">查询</el-button>
+                  <el-button type="primary" size="small" @click="commitForm">查询</el-button>
+                  <el-button size="small" class="important" @click="getStatus">重置</el-button>
                 </el-form-item>
-                <el-form-item :size="'small'">
-                    <el-button size="small" class="important" @click="getStatus">重置</el-button>
-                </el-form-item>
+                、
             </el-form>
         </el-col>
         <!--列表-->
@@ -235,7 +235,7 @@
         })
       },
       //获取列表
-      getTbcListt() {
+      getTbcList() {
         let params = {
           "brandCodeArr": this.filters.brandCodeArr,
           "snArr": this.filters.snArr,
@@ -302,7 +302,7 @@
       commitForm() {
         this.page = 1
         this.currentPage = 1
-        this.getTbcListt()
+        this.getTbcList()
       },
       //radio按钮,重置
       getStatus() {
@@ -315,7 +315,7 @@
 
         this.pageNo = 1
         this.currentPage = 1
-        this.getTbcListt()
+        this.getTbcList()
       },
       //编辑
       handleEdit(index, row) {
@@ -325,7 +325,7 @@
       handleCurrentChange(val) {
         this.pageNo = val
         this.currentPage = val
-        this.getTbcListt()
+        this.getTbcList()
       },
       //跳转按钮功能
       jumpTo() {
@@ -353,7 +353,7 @@
 
     },
     mounted() {
-      this.getTbcListt()
+      this.getTbcList()
     }
   }
 </script>
