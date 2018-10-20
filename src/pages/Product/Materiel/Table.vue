@@ -96,7 +96,11 @@
             <el-table-column prop="operName" label="动作"></el-table-column>
             <el-table-column prop="actName" label="活动名称"></el-table-column>
             <el-table-column prop="operNum" :label="'操作数量('+materielUnit[metraFlag]+')'"></el-table-column>
-            <el-table-column prop="ctime" label="操作时间"></el-table-column>
+            <el-table-column label="操作时间" width="160">
+              <template slot-scope="scope">
+                {{new Date(scope.row.ctime).Format("yyyy-MM-dd hh:mm:ss")}}
+              </template>
+            </el-table-column>
             <el-table-column prop="creatorName" label="操作人"></el-table-column>
           </el-table>
           <div class="space"></div>
