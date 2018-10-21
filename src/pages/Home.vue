@@ -60,11 +60,11 @@
 						<el-dropdown class='user-info-home'>
 
 							<span class="el-dropdown-link">
-								<span>{{account}}</span>
+								<span>{{name}}</span>
 								<i class="el-icon-arrow-down el-icon--right"></i>
 							</span>
 							<el-dropdown-menu slot="dropdown" class='down-home-item'>
-								<el-dropdown-item>用户名：{{account}}</el-dropdown-item>
+								<el-dropdown-item>用户名：{{name}}</el-dropdown-item>
 								<el-dropdown-item>公司：{{orgName}}</el-dropdown-item>
 								<el-dropdown-item divided>
 									<div class="btns">
@@ -108,6 +108,7 @@ export default {
       grandsonMenuLisy: [],
       nowMenuName: '首页',
       account: '',
+      name: '',
       orgName: '',
       dialogVisible: false
     }
@@ -130,7 +131,16 @@ export default {
           console.log(res)
           if (res.ret == '200000') {
             var data = res.data || {}
+            let cluser = {
+              account: data.account,
+              name: data.name,
+              orgId: data.orgId,
+              orgName: data.orgName,
+              orgRegion: data.orgRegion
+            };
+            sessionStorage.setItem("cluser", JSON.stringify(cluser));
             that.account = data.account
+            that.name = data.name
             that.orgName = data.orgName
           }
         },

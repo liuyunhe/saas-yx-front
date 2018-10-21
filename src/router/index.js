@@ -19,6 +19,11 @@ import MaterielIntegral from '../pages/Product/Materiel/Integral.vue'
 import MaterielTable from '../pages/Product/Materiel/Table.vue'
 import MaterielForm from '../pages/Product/Materiel/Form.vue'
 
+// 设置-日志管理
+import SettingLogs from '../pages/Setting/Logs.vue'
+import ModPwd from '../pages/Setting/User/ModPwd.vue'
+//import SettingLogs from '../pages/Setting/Logs.vue'
+//import SettingLogs from '../pages/Setting/Logs.vue'
 
 Vue.use(Router)
 
@@ -135,8 +140,11 @@ export default new Router({
         { path: '/mall/product/jd', name: '京东商品管理', component: KPI },
         // 设置
         { path: '/setting', name: '设置', redirect: '/setting/user'},
-        { path: '/setting/user', name: '账户设置', component: KPI },
-        { path: '/setting/logs', name: '日志管理', component: KPI },
+        { path: '/setting/user', name: '账户设置', redirect: '/setting/user/modPwd' },
+        { path: '/setting/user/modPwd', name: '密码修改', component: ModPwd },
+        { path: '/setting/user/account', name: '成员管理', component: KPI },
+        { path: '/setting/user/role', name: '角色管理', component: KPI },
+        { path: '/setting/logs', name: '日志管理', component: SettingLogs },
         { path: '/setting/seller', name: '零售户管理', component: KPI },
         { path: '/setting/mall', name: '积分设置', component: KPI }
         // {
