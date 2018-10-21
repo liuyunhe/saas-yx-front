@@ -169,7 +169,6 @@ export default {
           let _data = res.data;
           if(_data) {
             this.form = Object.assign({}, this.form, _data);
-            console.log(this.form);
             if(this.metraFlag=='virtual') {
               this.getCategories(2, this.form.type, this.form.subType);
               if(_data.sourceFile) {

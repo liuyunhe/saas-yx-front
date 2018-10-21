@@ -31,18 +31,26 @@
                 <el-button @click="resetForm">重置</el-button>
             </el-form-item>
         </el-form>
+      </el-card>
+      <div class="space"></div>
+      <el-card class="box-card">
         <!-- 数据表格 -->
         <el-table v-loading="loading" :data="tableList" style="width: 100%">
-            <el-table-column prop="operUsername" label="用户名" width="140"></el-table-column>
-            <el-table-column label="时间" width="160">
-              <template slot-scope="scope">
-                {{new Date(scope.row.operTime).Format("yyyy-MM-dd hh:mm:ss")}}
-              </template>
-            </el-table-column>
-            <el-table-column prop="clientIp" label="IP" width="130"></el-table-column>
-            <el-table-column prop="operName" label="操作类型" width="80"></el-table-column>
-            <el-table-column prop="operBusiness" label="模块" width="120"></el-table-column>
-            <el-table-column prop="operContent" label="操作详情"></el-table-column>
+          <el-table-column label="序号" type="index">
+            <template slot-scope="scope">
+              {{ (form.pageNo-1)*form.pageSize + scope.$index + 1 }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="operUsername" label="用户名" width="140"></el-table-column>
+          <el-table-column label="时间" width="160">
+            <template slot-scope="scope">
+              {{new Date(scope.row.operTime).Format("yyyy-MM-dd hh:mm:ss")}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="clientIp" label="IP" width="130"></el-table-column>
+          <el-table-column prop="operName" label="操作类型" width="80"></el-table-column>
+          <el-table-column prop="operBusiness" label="模块" width="120"></el-table-column>
+          <el-table-column prop="operContent" label="操作详情"></el-table-column>
         </el-table>
         <div class="space"></div>
         <!-- 分页组件 -->
@@ -67,9 +75,8 @@ export default {
             },
             // selectDate = { maxDate, minDate }
             onPick(selectDate) {
-                console.log(selectDate.minDate);
-                console.log(selectDate.maxDate);
-                //console.log(maxDate.getTime - minDate.getTime);
+                //console.log(selectDate.minDate);
+                //console.log(selectDate.maxDate);
             }
         },
         form: { // 查询区域

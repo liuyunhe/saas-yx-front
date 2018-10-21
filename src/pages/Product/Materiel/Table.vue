@@ -32,7 +32,11 @@
           </el-form>
           <!-- 数据表格 -->
           <el-table :data="materielDatas" style="width: 100%">
-            <el-table-column label="序号" type="index"></el-table-column>
+            <el-table-column label="序号" type="index">
+              <template slot-scope="scope">
+                {{ (form.pageNo-1)*form.pageSize + scope.$index + 1 }}
+              </template>
+            </el-table-column>
             <el-table-column prop="name" :label="materielName[metraFlag]+'名称'" width="180"></el-table-column>
             <el-table-column label="礼品图片">
               <template slot-scope="scope">
@@ -90,7 +94,11 @@
           </el-form>
           <!-- 数据表格 -->
           <el-table :data="operLogDatas" style="width: 100%">
-            <el-table-column label="序号" type="index"></el-table-column>
+            <el-table-column label="序号" type="index">
+              <template slot-scope="scope">
+                {{ (form.pageNo-1)*form.pageSize + scope.$index + 1 }}
+              </template>
+            </el-table-column>
             <el-table-column prop="poolName" :label="materielName[metraFlag]+'名称'" width="180"></el-table-column>
             <el-table-column prop="supplierName" label="供应商"></el-table-column>
             <el-table-column prop="operName" label="动作"></el-table-column>
@@ -255,7 +263,7 @@ export default {
         pageSize: 10,
         keywords: '', // 公共参数：关键字
         supplierArr: [], // 公共参数：供应商
-        status: '', // 礼品库参数：操作动作
+        status: '', // 数据状态
         operType: '' // 流水明细参数：操作动作
       }
       this.listMateriel();
@@ -326,7 +334,6 @@ export default {
     },
     // 增库
     handleAddPool(index, row) {
-      console.log(row);
       this.addPool.id = row.id;
       this.addPool.type = row.type;
       this.addPool.show = true;

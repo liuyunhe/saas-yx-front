@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card class="box-card">
-      <el-form :model="form" :rules="rules" ref="form" label-width="120px" status-icon>
+      <el-form :model="form" :rules="rules" ref="form" label-width="120px" status-icon class="mod-pwd">
         <el-form-item label="原密码" prop="oldPwd">
           <el-input type="password" v-model="form.oldPwd"></el-input>
         </el-form-item>
@@ -97,7 +97,7 @@ export default {
 </script>
 
 <style>
-    .el-input {
+    .mod-pwd .el-input {
         width: 400px;
     }
 </style>
