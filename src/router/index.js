@@ -148,12 +148,13 @@ export default new Router({
         { path: '/seller/rebate/mgr', name: '扫码返佣管理', component: KPI },
         // 商城
         { path: '/mall', name: '商城', redirect: '/mall/auth' },
-        { path: '/mall/auth', name: '审核管理', component: KPI },
+        { path: '/mall/auth', name: '审核管理', component: auditManage },
+        { path: '/mall/systemLayout', name: '系统配置', component: systemLayout },
         { path: '/mall/category', name: '分类管理', component: KPI },
         { path: '/mall/recommend', name: '推荐位管理', component: KPI },
         { path: '/mall/banner', name: 'banner位管理', component: KPI },
         { path: '/mall/product', name: '商品管理', redirect: '/mall/product/zj' },
-        { path: '/mall/product/zj', name: '自建商品管理', component: KPI },
+        { path: '/mall/product/zj', name: '自建商品管理', component: buildProduct},
         { path: '/mall/product/jd', name: '京东商品管理', component: KPI },
         // 设置
         { path: '/setting', name: '设置', redirect: '/setting/user'},
@@ -368,88 +369,6 @@ export default new Router({
         // }
       ]
     },
-    // {
-    //   path: '/datas',
-    //   name: '数据',
-    //   // component: DataTransfer,
-    //   redirect: '/datas/kpi',
-    //   children: [
-    //     { path: '/datas/kpi', name: 'kpi', component: KPI }
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: '投放管理',
-    //   component: TopMenu,
-    //   children:[
-    //     {
-    //       path: '/LandingPageSetting',
-    //       name: '落地页设置',
-    //       component: LandingPageSetting,
-    //     },
-    //     {
-    //       path: '/SelectLandingPageTemplate',
-    //       name: '从模板中创建',
-    //       // hidden:true,
-    //       component: SelectLandingPageTemplate,
-    //     },
-
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: '数据分析',
-    //   component: TopMenu,
-    //   children:[
-
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: '客户管理',
-    //   component: TopMenu,
-    //   children:[
-
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: '项目管理',
-    //   component: TopMenu,
-    //   children:[
-
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: '运营助手',
-    //   component: TopMenu,
-    //   children:[
-
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: '系统管理',
-    //   component: TopMenu,
-    //   children:[
-
-    //   ]
-    // },
-    // {
-    //   path: '/product',
-    //   name: '产品',
-    //   leaf:true,    //没有子级菜单的标识
-    //   component: Home,
-    //   redirect: { path: '/product/mgr/tobacco'},
-    //   children:[
-    //     {
-    //       path:'/product/mgr/tobacco',
-    //       name:'烟草管理',
-    //       component: tobacco,
-    //     }
-    //   ]
-    // },
     {
       path:'/404',
       name:'404',
@@ -466,3 +385,11 @@ export default new Router({
     return { x: 0, y: 0 }
   }
 })
+
+// 商城-审核管理
+import auditManage from '../pages/Mall/AuditManage/AuditManage'
+// 商城-系统设置
+import systemLayout from '../pages/Mall/SystemLayout/SystemLayout'
+// 商城-商品管理-自建商品管理
+import buildProduct from '../pages/Mall/CommodityManage/BuildProduct/BuildProduct'
+
