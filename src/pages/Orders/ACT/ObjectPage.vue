@@ -16,7 +16,7 @@
                       </el-select>
                   </el-form-item>
                   <el-form-item label="规格选择">
-                      <el-select v-model="selectSpeciSns" placeholder="请选择" multiple>
+                      <el-select v-model="selectSpeciSns" placeholder="请选择" :disabled="id?true:false" :clearable="id?true:false"   >
                           <el-option v-for="(item,index) in allSpecisData" :key="item.product.sn" :label="item.product.allName" :value="item.product.sn"></el-option>
                       </el-select>
                   </el-form-item>
@@ -50,9 +50,22 @@
               <el-form-item>
                   <el-button type="primary" v-on:click="queryData">查询</el-button>
                   <el-button v-on:click="resetData">重置</el-button>
+                  <el-button ><el-upload
+                          class="upload-demo"
+                          action="/api/saotx/order/import"
+                          :headers="headers"
+                          :data="addPool"
+                          :before-upload="handlerSourceFileBUpload"
+                          :on-success="handleSourceFileSuccess"
+                          :on-remove="handleSourceFileRemove"
+                          :file-list="sourceFiles"
+                          :auto-upload="true">
+                      <el-button slot="trigger" size="small" type="primary">导入物流信息</el-button>
+                  </el-upload></el-button>
+                  <el-button plain  v-on:click="exportData" >导出搜索结果</el-button>
               </el-form-item>
           </el-form>
-          <el-table :data="listData" style="width: 100%">
+          <el-table :data="listData" style="width: 100%" border>
               <el-table-column prop="orderCode" label="订单号" ></el-table-column>
               <el-table-column prop="actCode" label="活动ID" ></el-table-column>
               <el-table-column prop="actName" label="活动名称"></el-table-column>
@@ -61,9 +74,24 @@
               <el-table-column prop="prizeName" label="奖项名称"></el-table-column>
               <el-table-column prop="snName" label="关联规格"></el-table-column>
               <el-table-column prop="ctime" label="领奖时间"></el-table-column>
-              <el-table-column prop="awdProvinceName" label="中奖地区"></el-table-column>
-              <el-table-column prop="status" label="订单状态	"></el-table-column>
-              <el-table-column prop="address" label="操作	"></el-table-column>
+              <el-table-column  label="中奖地区">
+                  <template slot-scope="scope">
+                      <span>{{scope.row.awdProvinceName}}-{{scope.row.awdCityName}}-{{scope.row.awdDistrictName}}</span>
+                  </template>
+              </el-table-column>
+              <el-table-column  label="订单状态	">
+                  <template slot-scope="scope">
+                      <span>{{ scope.row.status==1?'已领取':scope.row.status==2?'待发货':'已发货' }}</span>
+                  </template>
+              </el-table-column>
+              <el-table-column
+                      fixed="right"
+                      label="操作"
+                      width="100">
+                  <template slot-scope="scope">
+                      <el-button v-on:click="ObjectPageDatail(scope.row.orderCode)" type="text" size="small">查看详情</el-button>
+                  </template>
+              </el-table-column>
           </el-table>
           <!-- 分页组件 -->
           <el-pagination background layout="total, prev, pager, next, jumper"
@@ -92,6 +120,7 @@ import draggable from 'vuedraggable'
                 selectAllBrands:'',
                 selectSpeciSns:'',
                 selectAllarea:'',
+                id:'1',
                 form: {
                     brandArr:[],
                     snArr:[],
@@ -109,7 +138,11 @@ import draggable from 'vuedraggable'
                 headers: {
                     "token": sessionStorage.getItem("access_token"),
                     "loginId": sessionStorage.getItem("access_loginId")
-                }
+                },
+                addPool: {
+
+                },
+                sourceFiles: [] // 卡密文件上传结果存储{name:'', sourceCode: ''}
             }
         },
         name: "Object",
@@ -121,6 +154,7 @@ import draggable from 'vuedraggable'
                 if(nval&&nval!=oval) {
                     this.form.brandArr  = [];
                     this.form.brandArr[0] = nval;
+                    this.id='';
                     this.allSpecisList(this.form.brandArr[0]);
                 }
             },
@@ -178,13 +212,12 @@ import draggable from 'vuedraggable'
             },
             allSpecisList(nval){//所有规格
                 var brandCodeArr = [];
-                var brandListArrObj = {};
                 brandCodeArr.push(nval);
-                brandListArrObj.brandCodeArr = brandCodeArr;
                 this.$request.post(`/api/saotx/prod/listTbc`,{
-                    brandListArrObj
+                    brandCodeArr
                     },true,res => {
                         if (res.ret === '200000') {
+                            this.allSpecisData=[];
                             this.allSpecisData = res.data.list;
                         }
                     }
@@ -236,6 +269,8 @@ import draggable from 'vuedraggable'
                     res => {
                         console.log(res.data)
                         if (res.ret === '200000') {
+                            this.listData = res.data.list;
+                            this.initPagination(res.data.page||{});
                             //this.listData = res.data;
                         }
                     }
@@ -244,27 +279,20 @@ import draggable from 'vuedraggable'
                         console.log(err)
                     }
             },
-            // 点击搜索
-             searchItem : function () {
-                return {
-                    hdCode:this.form.hdCode || '',
-                    orderCode: this.form.orderCode || '',
-                    brandArr: this.form.brandArr=="" ||this.form.brandArr==undefined ?[]:[this.form.brandArr],
-                    snArr: this.form.snArr=="" || this.form.snArr==undefined?[]:[$this.form.snArr],
-                    cityArr: this.form.allareaArr==""|| this.form.allareaArr ==undefined?[]: [this.form.allareaArr],
-                    metraType: 1,
-                    status: this.form.status || '',
-                    stime: this.form.startTime ,
-                    etime: this.form.endTime
+            // page = {"pageCount":总页数, "count":总数据条数}
+            initPagination(page) {
+                if(page) {
+                    this.pagination.total = page.count;
                 }
             },
-            queryData: function(event){
+            queryData: function(event){//搜索
                 this.getlistData();
             },
-            resetData: function(event){
+            resetData: function(event){//重置
                 this.selectAllBrands='';
-                this.selectSpeciSns='';
+                 this.selectSpeciSns=[];
                 this.selectAllarea='';
+                this.id='1';
                 this.form = {
                     metraFlag: 'Object',
                     hdCode: '', // 活动编号
@@ -280,6 +308,57 @@ import draggable from 'vuedraggable'
                     pageSize: 10
                 }
                 this.getlistData();
+            },
+            // 文件上传之前
+            handlerSourceFileBUpload(file) {
+            },
+            // 文件上传控制。成功之后的回调
+            handleSourceFileSuccess(res, file) {
+                if(res.ret==200000) {
+                    this.$message({type:'success', message:res.data.successMsg});
+                    let obj = {name:res.data.sourceFile, sourceCode:res.data.sourceCode, count:res.data.successCount};
+                    this.sourceFiles.push(obj);
+                } else {
+                    this.$message.error(res.message);
+                }
+            },
+            // 卡密文件上传之后，删除文件
+            handleSourceFileRemove(file, fileList) {
+                this.sourceFiles = []; // 清空上传文件内容的引用
+            },
+            exportData(){//导出
+                var url = "/api/saotx/order/export";
+                var xhr = new XMLHttpRequest();
+                var formData = new FormData();
+                for(var attr in this.form) {
+                    formData.append(attr, this.form[attr]);
+                }
+                xhr.overrideMimeType("text/plain; charset=x-user-defined");
+                xhr.open('POST', url, true);
+                xhr.responseType = "blob";
+                xhr.responseType = "arraybuffer"
+                xhr.setRequestHeader("token", sessionStorage.getItem('access_token'));
+                xhr.setRequestHeader("loginId", sessionStorage.getItem('access_loginId'));
+                xhr.onload = function(res) {
+                    if (this.status == 200) {
+                        var blob = new Blob([this.response], {type: 'application/vnd.ms-excel'});
+                        var respHeader = xhr.getResponseHeader("Content-Disposition");
+                        var fileName = decodeURI(respHeader.match(/filename=(.*?)(;|$)/)[1]);
+                        if (window.navigator.msSaveOrOpenBlob) {
+                            navigator.msSaveBlob(blob, fileName);
+                        } else {
+                            var link = document.createElement('a');
+                            link.href = window.URL.createObjectURL(blob);
+                            link.download = fileName;
+                            link.click();
+                            window.URL.revokeObjectURL(link.href);
+                        }
+                    }
+                }
+                xhr.send(formData);
+            },
+            ObjectPageDatail(orderId){//订单详细
+                alert(orderId);
             }
         }
 
