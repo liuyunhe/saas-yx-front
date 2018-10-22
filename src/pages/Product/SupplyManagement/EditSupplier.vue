@@ -18,7 +18,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-        <el-button>取消</el-button>
+        <el-button @click="returnSupplier">取消</el-button>
       </el-form-item>
     </el-form>
   </section>
@@ -113,6 +113,11 @@
             this.ruleForm.addr = res.data.addr
             this.ruleForm.note = res.data.note
           }
+        })
+      },
+      returnSupplier(){
+        this.$router.push({
+          path:'/product/supply'
         })
       }
     }

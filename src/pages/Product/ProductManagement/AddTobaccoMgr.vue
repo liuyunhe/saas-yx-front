@@ -134,7 +134,7 @@
         <div class="add-tobaccomgr-form-bt">
           <el-form-item>
           <el-button type="primary" size="small" @click="submitForm('ruleForm')">保存</el-button>
-          <el-button size="small">取消</el-button>
+          <el-button size="small" @click="returnTobaccoMgr">取消</el-button>
         </el-form-item>
         </div>
       </el-form>
@@ -407,6 +407,11 @@
         var imgUrl = data && data.accessUrl;
         this.filters.smallPic = imgUrl;
       },
+      returnTobaccoMgr(){
+        this.$router.push({
+          path:'/product/mgr/tobacco'
+        })
+      }
     }
   }
 </script>

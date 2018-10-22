@@ -79,7 +79,7 @@
               <template slot-scope="scope">
                 <el-button
                     size="mini"
-                    @click="modifyStatus(scope.row.id)"
+                    @click="handleEdit(scope.$index, scope.row)"
                 >编辑</el-button>
                 <el-button
                     v-if="scope.row.status == 1"
