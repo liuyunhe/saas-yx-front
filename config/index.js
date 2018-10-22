@@ -11,13 +11,20 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-        '/api': {
-            target: 'http://cs-sass.saotianxia.vip/',
-            changeOrigin: true,
-            pathRewrite: {
-                '^/api': ''
-            }
+      '/api': {
+        target: 'http://cs-sass.saotianxia.vip/',
+        changeOrigin: true,
+        pathRewrite: {
+            '^/api': ''
         }
+      },
+      '/sc': {
+        target: 'http://cs-jfs.saotianxia.vip/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/sc': ''
+        }
+      }
     },
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
