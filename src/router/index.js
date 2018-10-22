@@ -36,7 +36,12 @@ import ModPwd from '../pages/Setting/User/ModPwd.vue'
 import SettingAccount from '../pages/Setting/User/Account.vue'
 // 设置-账号管理-角色管理
 import SettingRole from '../pages/Setting/User/Role.vue'
-
+//菜单配置
+import MenuConf from '../pages/Wplat/MenuConf/MenuConf.vue'
+//扫码落地页配置
+import ScanConf from '../pages/Wplat/ScanConf/ScanConf.vue'
+//平台风格配置
+import StyleConf from '../pages/Wplat/StyleConf/StyleConf.vue'
 
 Vue.use(Router)
 
@@ -97,14 +102,14 @@ export default new Router({
         { path: '/datas/fakeCode/qrcodeActive', name: '二维码激活', component: KPI },
         // 微平台
         { path: '/weplat', name: '微平台', redirect: '/weplat/mgr' },
-        { path: '/weplat/down', name: '扫码落地页', component: KPI },
-        { path: '/weplat/style', name: '平台风格', component: KPI },
+        { path: '/weplat/down', name: '扫码落地页', component: ScanConf },
+        { path: '/weplat/style', name: '平台风格', component: StyleConf },
         { path: '/weplat/mgr', redirect: '/weplat/mgr/scanCheck' },
         { path: '/weplat/mgr/scanCheck', name: '验真首页', component: KPI },
         { path: '/weplat/mgr/actList', name: '活动中心', component: KPI },
         { path: '/weplat/mgr/mall', name: '积分商城', component: KPI },
         { path: '/weplat/mgr/personCenter', name: '个人中心', component: KPI },
-        { path: '/weplat/mgr/menu', name: '菜单配置', component: KPI },
+        { path: '/weplat/menu', name: '菜单配置', component: MenuConf },
         // 产品
         {  path: '/product', name: '产品', redirect: '/product/mgr' },
         { path: '/product/supply', name: '供应商管理', component: supply },
