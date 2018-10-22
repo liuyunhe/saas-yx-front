@@ -17,6 +17,7 @@ import ElementUI from 'element-ui'
 import request from "./api/axios"
 import md5 from 'js-md5'
 import VueCookies from 'vue-cookies'
+import "./common/js/dateFormat"  //  时间类型格式化组件
 
 // import Mock from './mock'
 // Mock.bootstrap();

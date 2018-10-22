@@ -7,14 +7,7 @@ import Home from '../pages/Home.vue'
 import KPI from '../pages/Datas/KPI/KPI.vue'
 import NotFound from '../pages/404.vue'
 
-//产品-产品管理-烟草管理
-import tobacco from '../pages/Product/ProductManagement/TobaccoMgr'
-import addTobaccoMr from '../pages/Product/ProductManagement/AddTobaccoMgr'
-import editTobaccoMr from '../pages/Product/ProductManagement/EditTobaccoMgr'
-//产品-供应商管理
-import supply from '../pages/Product/SupplyManagement/Supply'
-import addSupplier from '../pages/Product/SupplyManagement/AddSupplier'
-import editSupplier from '../pages/Product/SupplyManagement/EditSupplier'
+
 
 Vue.use(Router)
 
@@ -85,13 +78,9 @@ export default new Router({
         { path: '/weplat/mgr/menu', name: '菜单配置', component: KPI },
         // 产品
         {  path: '/product', name: '产品', redirect: '/product/mgr' },
-        { path: '/product/supply', name: '供应商管理', component: supply },
-        { path: '/product/addSupplier', name: '供应商管理', component: addSupplier },
-        { path: '/product/editSupplier', name: '供应商管理', component: editSupplier,props: (route) => ({id:route.query.id}) },
+        { path: '/product/supply', name: '供应商管理', component: KPI },
         { path: '/product/mgr', name: '产品管理', redirect: '/product/mgr/tobacco' },
-        { path: '/product/mgr/tobacco', name: '卷烟管理', component: tobacco },
-        { path: '/product/mgr/addTobaccoMr', name: '新建卷烟', component: addTobaccoMr },
-        { path: '/product/mgr/editTobaccoMr', name: '编辑卷烟', component: editTobaccoMr,props: (route) => ({id:route.query.id}) },
+        { path: '/product/mgr/tobacco', name: '卷烟管理', component: KPI },
         { path: '/product/mgr/liquor', name: '酒管理', component: KPI },
         { path: '/product/materiel', name: '物料管理', redirect: '/product/materiel/object' },
         { path: '/product/materiel/object', name: '实物礼品', component: KPI },
@@ -407,20 +396,6 @@ export default new Router({
     //   component: TopMenu,
     //   children:[
 
-    //   ]
-    // },
-    // {
-    //   path: '/product',
-    //   name: '产品',
-    //   leaf:true,    //没有子级菜单的标识
-    //   component: Home,
-    //   redirect: { path: '/product/mgr/tobacco'},
-    //   children:[
-    //     {
-    //       path:'/product/mgr/tobacco',
-    //       name:'烟草管理',
-    //       component: tobacco,
-    //     }
     //   ]
     // },
     {
