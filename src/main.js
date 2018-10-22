@@ -12,10 +12,10 @@ import router from './router'
 import store from './store'
 //引入ElementUI
 import './assets/theme/theme-crm/index.css'
-import ElementUI from 'element-ui';
+import ElementUI from 'element-ui'
 //引入api配置文件
-import request from "./api/axios";
-import md5 from 'js-md5';
+import request from "./api/axios"
+import md5 from 'js-md5'
 import VueCookies from 'vue-cookies'
 
 // import Mock from './mock'

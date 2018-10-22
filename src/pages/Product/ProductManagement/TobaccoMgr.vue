@@ -1,166 +1,181 @@
 <template>
     <section class="tobacco-container clearfix">
+      <div class="box-container">
         <!--面包屑-->
         <el-col :span="24" class="breadcrumb-container">
-            <el-button size="small" type="primary" @click="addTobaccoMgr">新增卷烟</el-button>
+          <el-button size="small" type="primary" @click="addTobaccoMgr">新增卷烟</el-button>
         </el-col>
         <!--查询表单-->
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-            <el-form :inline="true" :model="filters">
-                <el-form-item :size="'small'" label="品牌">
-                  <el-select
-                      v-model="filters.brandCodeArr"
-                      multiple
-                      collapse-tags
-                      filterable
-                      placeholder="请选择"
-                      @change="selectBrand">
-                    <el-option
-                        v-for="item in brandList"
-                        :key="item.brandCode"
-                        :label="item.name"
-                        :value="item.brandCode"
-                        >
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item :size="'small'" label="规格">
-                  <el-select
-                      v-model="filters.snArr"
-                      multiple
-                      collapse-tags
-                      filterable
-                      placeholder="请选择">
-                    <el-option
-                        v-for="item in snList"
-                        :key="item.sn"
-                        :label="item.name"
-                        :value="item.sn">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item :size="'small'" label="包装">
-                  <el-select
-                      v-model="filters.packArr"
-                      multiple
-                      collapse-tags
-                      filterable
-                      placeholder="请选择">
-                    <el-option
-                        v-for="item in packArrList"
-                        :key="item.code"
-                        :label="item.name"
-                        :value="item.code">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item :size="'small'" label="价类">
-                  <el-select
-                      v-model="filters.gradeArr"
-                      multiple
-                      collapse-tags
-                      filterable
-                      placeholder="请选择">
-                    <el-option
-                        v-for="item in gradeArrList"
-                        :key="item.code"
-                        :label="item.name"
-                        :value="item.code">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item :size="'small'" label="价格" style="margin-right: 10px">
-                  <el-input v-model="filters.minPrice" style="width: 80px" placeholder="最大值"></el-input>
-                </el-form-item>
-                <el-form-item :size="'small'" label="至">
-                  <el-input v-model="filters.maxPrice" style="width: 80px" placeholder="最小值"></el-input>
-                </el-form-item>
-                <div></div>
-                <el-form-item class="mr0" :size="'small'">
-                  <el-button type="primary" size="small" @click="commitForm">查询</el-button>
-                  <el-button size="small" class="important" @click="getStatus">重置</el-button>
-                </el-form-item>
-                、
-            </el-form>
+          <el-form :inline="true" :model="filters">
+            <el-form-item :size="'small'" label="品牌">
+              <el-select
+                  v-model="filters.brandCodeArr"
+                  multiple
+                  collapse-tags
+                  filterable
+                  placeholder="请选择"
+                  @change="selectBrand">
+                <el-option
+                    v-for="item in brandList"
+                    :key="item.brandCode"
+                    :label="item.name"
+                    :value="item.brandCode"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item :size="'small'" label="规格">
+              <el-select
+                  v-model="filters.snArr"
+                  multiple
+                  collapse-tags
+                  filterable
+                  placeholder="请选择">
+                <el-option
+                    v-for="item in snList"
+                    :key="item.sn"
+                    :label="item.name"
+                    :value="item.sn">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item :size="'small'" label="包装">
+              <el-select
+                  v-model="filters.packArr"
+                  multiple
+                  collapse-tags
+                  filterable
+                  placeholder="请选择">
+                <el-option
+                    v-for="item in packArrList"
+                    :key="item.code"
+                    :label="item.name"
+                    :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item :size="'small'" label="价类">
+              <el-select
+                  v-model="filters.gradeArr"
+                  multiple
+                  collapse-tags
+                  filterable
+                  placeholder="请选择">
+                <el-option
+                    v-for="item in gradeArrList"
+                    :key="item.code"
+                    :label="item.name"
+                    :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item :size="'small'" label="价格" style="margin-right: 10px">
+              <el-input v-model="filters.minPrice" style="width: 80px" placeholder="最大值"></el-input>
+            </el-form-item>
+            <el-form-item :size="'small'" label="至">
+              <el-input v-model="filters.maxPrice" style="width: 80px" placeholder="最小值"></el-input>
+            </el-form-item>
+            <div></div>
+            <el-form-item class="mr0" :size="'small'">
+              <el-button type="primary" size="small" @click="commitForm">查询</el-button>
+              <el-button size="small" class="important" @click="getStatus">重置</el-button>
+            </el-form-item>
+            、
+          </el-form>
         </el-col>
+      </div>
+      <div class="box-container">
         <!--列表-->
         <el-col class="crm-table-wrap" v-loading="listLoading" :span="24">
-            <el-table
-                :data="listTbc"
-                style="width: 100%">
-                <el-table-column
-                    type="index"
-                    label="序号"
-                    width="70">
-                </el-table-column>
-                <el-table-column
-                    type="index"
-                    label="略缩图"
-                    width="120">
-                  <template slot-scope="scope">
-                    <img :src="scope.row.product.bigPic" width="23" style="display: block;margin: 0" alt="">
-                  </template>
-                </el-table-column>
-                <el-table-column
-                    prop="product.brandName"
-                    label="品牌"
-                    width="120">
-                </el-table-column>
-                <el-table-column
-                    prop="product.allName"
-                    label="规格"
-                    width="180">
-                </el-table-column>
-                <el-table-column
-                    prop="product.sn"
-                    label="SN码">
-                </el-table-column>
-                <el-table-column
-                    prop="gradeName"
-                    label="价类"
-                    width="80">
-                </el-table-column>
-                <el-table-column
-                    prop="packName"
-                    label="包装"
-                    width="80">
-                </el-table-column>
-                <el-table-column
-                    prop="price"
-                    label="价格（元）"
-                    width="100">
-                </el-table-column>
-                <el-table-column
-                    label="操作">
-                  <template slot-scope="scope">
-                    <el-button
-                        size="mini"
-                        @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                  </template>
-                </el-table-column>
-            </el-table>
+          <el-table
+              :data="listTbc"
+              style="width: 100%">
+            <el-table-column
+                type="index"
+                label="序号"
+                width="70">
+            </el-table-column>
+            <el-table-column
+                type="index"
+                label="略缩图"
+                width="120">
+              <template slot-scope="scope">
+                <img :src="scope.row.product.bigPic" width="23" style="display: block;margin: 0 auto" alt="">
+              </template>
+            </el-table-column>
+            <el-table-column
+                prop="product.brandName"
+                label="品牌"
+                width="120">
+            </el-table-column>
+            <el-table-column
+                prop="product.allName"
+                label="规格"
+                width="180">
+            </el-table-column>
+            <el-table-column
+                prop="product.sn"
+                label="SN码">
+            </el-table-column>
+            <el-table-column
+                prop="gradeName"
+                label="价类"
+                width="80">
+            </el-table-column>
+            <el-table-column
+                prop="packName"
+                label="包装"
+                width="80">
+            </el-table-column>
+            <el-table-column
+                prop="price"
+                label="价格（元）"
+                width="100">
+            </el-table-column>
+            <el-table-column
+                label="操作">
+              <template slot-scope="scope">
+                <el-button
+                    size="mini"
+                    @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-col>
 
         <!--工具条-->
         <el-col :span="24" class="footer-toolbar">
-            <el-button type="primary" class="btn-jump-to" @click="jumpTo">跳转</el-button>
-            <el-pagination
-                background
-                layout="total,prev, pager, next,jumper"
-                :current-page="currentPage"
-                @current-change="handleCurrentChange"
-                :page-size="pageSize"
-                :total="total"
-                style="float:right;">
-            </el-pagination>
+          <el-button type="primary" class="btn-jump-to" @click="jumpTo">跳转</el-button>
+          <el-pagination
+              background
+              layout="total,prev, pager, next,jumper"
+              :current-page="currentPage"
+              @current-change="handleCurrentChange"
+              :page-size="pageSize"
+              :total="total"
+              style="float:right;">
+          </el-pagination>
         </el-col>
+      </div>
+
     </section>
 </template>
 
 <style lang="scss" scoped>
     .tobacco-container{
+      .box-container{
         background-color: #fff;
         padding: 15px;
+        margin-bottom: 30px;
+        &:after{
+          content: '';
+          display: block;
+          width: 0;
+          height: 0;
+          clear: both;
+        }
+      }
     }
     .el-dropdown {
         color: #8A96A0 !important;
@@ -192,7 +207,10 @@
         }
     }
 </style>
-
+<style>
+  .tobacco-container .el-table{text-align: center}
+  .tobacco-container .el-table th{text-align: center}
+</style>
 <script>
   export default {
     name: "",

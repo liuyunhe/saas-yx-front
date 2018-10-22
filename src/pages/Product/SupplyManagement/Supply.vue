@@ -1,113 +1,133 @@
 <template>
     <section class="supply-container clearfix">
+      <div class="box-container">
         <!--面包屑-->
         <el-col :span="24" class="breadcrumb-container">
-            <el-button size="small" type="primary" @click="addSupplier">新增供应商</el-button>
+          <el-button size="small" type="primary" @click="addSupplier">新增供应商</el-button>
         </el-col>
         <!--查询表单-->
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-            <el-form :inline="true" :model="filters" label-width="90px">
-                <el-form-item :size="'small'" label="筛选供应商">
-                  <el-input v-model="filters.keywords" placeholder="请输入内容"></el-input>
-                </el-form-item>
-                <el-form-item :size="'small'" label="联系人">
-                  <el-input v-model="filters.contact" placeholder="请输入内容"></el-input>
-                </el-form-item>
-              <el-form-item :size="'small'" label="联系电话">
-                <el-input v-model="filters.mobile" placeholder="请输入内容"></el-input>
-              </el-form-item>
-                <el-form-item :size="'small'" label="状态">
-                  <el-select
-                      v-model="filters.status"
-                      placeholder="请选择">
-                    <el-option
-                        v-for="item in dataStatusList"
-                        :key="item.code"
-                        :label="item.name"
-                        :value="item.code">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-                <div></div>
-                <el-form-item class="mr0" :size="'small'">
-                  <el-button type="primary" size="small" @click="commitForm">查询</el-button>
-                  <el-button size="small" class="important" @click="getStatus">重置</el-button>
-                </el-form-item>
-                、
-            </el-form>
+          <el-form :inline="true" :model="filters" label-width="90px">
+            <el-form-item :size="'small'" label="筛选供应商">
+              <el-input v-model="filters.keywords" placeholder="请输入内容"></el-input>
+            </el-form-item>
+            <el-form-item :size="'small'" label="联系人">
+              <el-input v-model="filters.contact" placeholder="请输入内容"></el-input>
+            </el-form-item>
+            <el-form-item :size="'small'" label="联系电话">
+              <el-input v-model="filters.mobile" placeholder="请输入内容"></el-input>
+            </el-form-item>
+            <el-form-item :size="'small'" label="状态">
+              <el-select
+                  v-model="filters.status"
+                  placeholder="请选择">
+                <el-option
+                    v-for="item in dataStatusList"
+                    :key="item.code"
+                    :label="item.name"
+                    :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <div></div>
+            <el-form-item class="mr0" :size="'small'">
+              <el-button type="primary" size="small" @click="commitForm">查询</el-button>
+              <el-button size="small" class="important" @click="getStatus">重置</el-button>
+            </el-form-item>
+            、
+          </el-form>
         </el-col>
+      </div>
+      <div class="box-container">
         <!--列表-->
         <el-col class="crm-table-wrap" v-loading="listLoading" :span="24">
-            <el-table
-                :data="supplyList"
-                style="width: 100%">
-                <el-table-column
-                    type="index"
-                    label="序号"
-                    width="100">
-                </el-table-column>
-                <el-table-column
-                    prop="name"
-                    label="供应商名称">
-                </el-table-column>
-                <el-table-column
-                    prop="contact"
-                    label="联系人"
-                    width="180">
-                </el-table-column>
-                <el-table-column
-                    prop="mobile"
-                    label="联系电话">
-                </el-table-column>
-                <el-table-column
-                    prop="status"
-                    label="状态"
-                    width="100">
-                  <template slot-scope="scope">
-                    <span v-if="scope.row.status == 0">{{ '已停用' }}</span>
-                    <span v-else>{{ '已启用' }}</span>
-                  </template>
+          <el-table
+              :data="supplyList"
+              style="width: 100%">
+            <el-table-column
+                type="index"
+                label="序号"
+                width="100">
+            </el-table-column>
+            <el-table-column
+                prop="name"
+                label="供应商名称">
+            </el-table-column>
+            <el-table-column
+                prop="contact"
+                label="联系人"
+                width="180">
+            </el-table-column>
+            <el-table-column
+                prop="mobile"
+                label="联系电话">
+            </el-table-column>
+            <el-table-column
+                prop="status"
+                label="状态"
+                width="100">
+              <template slot-scope="scope">
+                <span v-if="scope.row.status == 0">{{ '已停用' }}</span>
+                <span v-else>{{ '已启用' }}</span>
+              </template>
 
-                </el-table-column>
-                <el-table-column
-                    label="操作"
-                    width="150"
-                >
-                  <template slot-scope="scope">
-                    <el-button
-                      size="mini"
-                      @click="handleEdit(scope.$index, scope.row)"
-                    >编辑</el-button>
-                    <el-button
-                      size="mini"
-                      type="danger"
-                      @click="handleEdit(scope.$index, scope.row)"
-                    >停用</el-button>
-                  </template>
-                </el-table-column>
-            </el-table>
+            </el-table-column>
+            <el-table-column
+                label="操作"
+                width="150"
+            >
+              <template slot-scope="scope">
+                <el-button
+                    size="mini"
+                    @click="modifyStatus(scope.row.id)"
+                >编辑</el-button>
+                <el-button
+                    v-if="scope.row.status == 1"
+                    size="mini"
+                    type="danger"
+                    @click="modifyStatus(scope.row.id,'0')"
+                >停用</el-button>
+                <el-button
+                    v-else
+                    size="mini"
+                    @click="modifyStatus(scope.row.id,'1')"
+                >启用</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-col>
 
         <!--工具条-->
         <el-col :span="24" class="footer-toolbar">
-            <el-button type="primary" class="btn-jump-to" @click="jumpTo">跳转</el-button>
-            <el-pagination
-                background
-                layout="total,prev, pager, next,jumper"
-                :current-page="currentPage"
-                @current-change="handleCurrentChange"
-                :page-size="pageSize"
-                :total="total"
-                style="float:right;">
-            </el-pagination>
+          <el-button type="primary" class="btn-jump-to" @click="jumpTo">跳转</el-button>
+          <el-pagination
+              background
+              layout="total,prev, pager, next,jumper"
+              :current-page="currentPage"
+              @current-change="handleCurrentChange"
+              :page-size="pageSize"
+              :total="total"
+              style="float:right;">
+          </el-pagination>
         </el-col>
+      </div>
     </section>
 </template>
 
 <style lang="scss" scoped>
     .supply-container{
+      .box-container{
         background-color: #fff;
         padding: 15px;
+        margin-bottom: 30px;
+        &:after{
+          content: '';
+          display: block;
+          width: 0;
+          height: 0;
+          clear: both;
+        }
+      }
     }
     .el-dropdown {
         color: #8A96A0 !important;
@@ -138,6 +158,10 @@
             cursor: pointer;
         }
     }
+</style>
+<style>
+  .supply-container .el-table{text-align: center}
+  .supply-container .el-table th{text-align: center}
 </style>
 
 <script>
@@ -250,8 +274,20 @@
       //   }
       // },
       //新增按钮
-      addTemplate() {
-
+      modifyStatus(id,status) {
+        let params = {
+          id,
+          status
+        }
+        this.$request.post('/api/saotx/supplier/modifyStatus',params,true,res => {
+          if(res.ret == "200000"){
+            this.$message({
+              message: '保存成功！',
+              type: 'success'
+            });
+            this.getStatus()
+          }
+        })
       },
     },
     created(){
