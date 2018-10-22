@@ -41,10 +41,10 @@
               </el-row>
               <el-row>
                   <el-form-item label="领奖时段" >
-                     <el-date-picker v-model="form.startTime" type="date" placeholder="选择日期"> </el-date-picker>
+                     <el-date-picker v-model="form.stime" type="date" placeholder="选择日期"> </el-date-picker>
                   </el-form-item>
                   <el-form-item label="至">
-                      <el-date-picker v-model="form.endTime" type="date"  placeholder="选择日期"> </el-date-picker>
+                      <el-date-picker v-model="form.etime" type="date"  placeholder="选择日期"> </el-date-picker>
                   </el-form-item>
               </el-row>
               <el-form-item>
@@ -65,7 +65,12 @@
               <el-table-column prop="status" label="订单状态	"></el-table-column>
               <el-table-column prop="address" label="操作	"></el-table-column>
           </el-table>
-
+          <!-- 分页组件 -->
+          <el-pagination background layout="total, prev, pager, next, jumper"
+                         @size-change="sizeChange" @current-change="currentChange"
+                         :current-page="form.pageNo" :page-size="form.pageSize"
+                         :total="pagination.total">
+          </el-pagination>
       </el-card>
    </div>
 </template>
@@ -88,13 +93,23 @@ import draggable from 'vuedraggable'
                 selectSpeciSns:'',
                 selectAllarea:'',
                 form: {
+                    brandArr:[],
+                    snArr:[],
+                    cityArr:[],
                     hdCode: '', // 活动编号
                     orderCode:'',
-                    endTime:"",
-                    startTime:"",
+                    etime:"",
+                    stime:"",
                     status:"",
                     metraType: 1
                 },
+                pagination: { // 分页
+                    total: 0
+                },
+                headers: {
+                    "token": sessionStorage.getItem("access_token"),
+                    "loginId": sessionStorage.getItem("access_loginId")
+                }
             }
         },
         name: "Object",
@@ -114,21 +129,35 @@ import draggable from 'vuedraggable'
                     this.form.snArr  = [];
                     this.form.snArr[0] = nval;
                 }
+            },
+            selectAllarea(nval, oval){
+                if(nval&&nval!=oval) {
+                    this.form.cityArr  = [];
+                    this.form.cityArr[0] = nval;
+                }
             }
         },
         methods: {
+            currentChange(pageNo) {
+                this.form.pageNo = pageNo;
+                // 分页pageNo变更监听
+                this.getlistData();
+            },
+            sizeChange(pageSize) {
+                // 分页pageSize变更监听
+                this.form.pageSize = pageSize;
+            },
             init(){
                 this.orderStatusList()
                 this.allBrandsList();
                 this.allareaList();
-               // this.getlistData()
+                this.getlistData();
             },
             orderStatusList() {//发货状态
                 this.$request.post(`/api/saotx/order/statusSelect`,{service: 'browser'},true,res => {
                         console.log(res.data)
                         if (res.ret === '200000') {
                             this.orderStatusData = res.data;
-                            this.orderStatus="";
                         }
                     }
                 ),
@@ -192,7 +221,6 @@ import draggable from 'vuedraggable'
                                             }
                                         }
                                         thisnext.allareaData.push(group);
-                                        console.log(thisnext.allareaData);
                                     })
                                 })
                             }
@@ -204,23 +232,11 @@ import draggable from 'vuedraggable'
                     }
             },
             getlistData(){//数据列表
-                this.$request.post(`/api/saotx/order/list`,{
-                        brandArr:this.selectAllBrands==""?[]:this.selectAllBrands,
-                        cityArr:this.allareas==""?[]:this.allareas,
-                        stime:this.startTime,
-                        etime:this.endTime,
-                        hdCode:this.hdCode,
-                        metraType:1,
-                        orderCode:this.orderCode,
-                        snArr:this.selectSpecis==""?[]:this.selectSpecis,
-                        status:this.status,
-                        pageNo: 1,
-                        pageSize: 10
-                    },true,
+                this.$request.post(`/api/saotx/order/list`,this.form,true,
                     res => {
                         console.log(res.data)
                         if (res.ret === '200000') {
-                            this.listData = res.data;
+                            //this.listData = res.data;
                         }
                     }
                 ),
@@ -243,10 +259,27 @@ import draggable from 'vuedraggable'
                 }
             },
             queryData: function(event){
-
+                this.getlistData();
             },
             resetData: function(event){
-
+                this.selectAllBrands='';
+                this.selectSpeciSns='';
+                this.selectAllarea='';
+                this.form = {
+                    metraFlag: 'Object',
+                    hdCode: '', // 活动编号
+                    orderCode:'',//订单编号
+                    brandArr:[],//品牌
+                    snArr:[],//规格
+                    cityArr:[],//地区
+                    metraType: 1, // 订单类型
+                    status: '', // 发货状态
+                    stime: '', // 开始时间
+                    etime: '', // 结束时间
+                    pageNo: 1,
+                    pageSize: 10
+                }
+                this.getlistData();
             }
         }
 
