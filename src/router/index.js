@@ -6,6 +6,7 @@ import Find from '../pages/Login/Find.vue'
 import Home from '../pages/Home.vue'
 import KPI from '../pages/Datas/KPI/KPI.vue'
 import ObjectPage from '../pages/Orders/ACT/ObjectPage.vue'
+import ObjectPageDetail from  '../pages/Orders/ACT/ObjectPageDetail.vue'
 //import Multi from '../pages/Datas/Multi/Multi.vue'
 import NotFound from '../pages/404.vue'
 
@@ -98,6 +99,7 @@ export default new Router({
         { path: '/Orders/member', name: '权益订单', component: KPI },
         { path: '/Orders/ACT', name: '活动订单', redirect: '/Orders/ACT/object' },
         { path: '/Orders/ACT/object', name: '实物领奖明细', component: ObjectPage },
+        { path: '/Orders/ACT/objectDetail', name: '实物领奖订单详细', component: ObjectPageDetail,props: (route) => ({orderId:route.query.orderId})  },
         { path: '/Orders/ACT/virtual', name: '虚拟领奖明细', component: KPI },
         { path: '/Orders/ACT/redpack', name: '红包领奖明细', component: KPI },
         { path: '/Orders/ACT/integral', name: '积分领奖明细', component: KPI },

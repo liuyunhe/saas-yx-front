@@ -41,28 +41,29 @@
               </el-row>
               <el-row>
                   <el-form-item label="领奖时段" >
-                     <el-date-picker v-model="form.stime" type="date" placeholder="选择日期"> </el-date-picker>
+                     <el-date-picker v-model="form.stime" type="date" placeholder="选择日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd"> </el-date-picker>
                   </el-form-item>
                   <el-form-item label="至">
-                      <el-date-picker v-model="form.etime" type="date"  placeholder="选择日期"> </el-date-picker>
+                      <el-date-picker v-model="form.etime" type="date" placeholder="选择日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd"> </el-date-picker>
                   </el-form-item>
               </el-row>
               <el-form-item>
-                  <el-button type="primary" v-on:click="queryData">查询</el-button>
-                  <el-button v-on:click="resetData">重置</el-button>
-                  <el-button ><el-upload
-                          class="upload-demo"
-                          action="/api/saotx/order/import"
-                          :headers="headers"
-                          :data="addPool"
-                          :before-upload="handlerSourceFileBUpload"
-                          :on-success="handleSourceFileSuccess"
-                          :on-remove="handleSourceFileRemove"
-                          :file-list="sourceFiles"
-                          :auto-upload="true">
-                      <el-button slot="trigger" size="small" type="primary">导入物流信息</el-button>
-                  </el-upload></el-button>
-                  <el-button plain  v-on:click="exportData" >导出搜索结果</el-button>
+                  <el-row><el-button type="primary" v-on:click="queryData">查询</el-button>
+                      <el-button v-on:click="resetData">重置</el-button>
+                      <el-button ><el-upload
+                              class="upload-demo"
+                              action="/api/saotx/order/import"
+                              :headers="headers"
+                              :data="addPool"
+                              :before-upload="handlerSourceFileBUpload"
+                              :on-success="handleSourceFileSuccess"
+                              :on-remove="handleSourceFileRemove"
+                              :file-list="sourceFiles"
+                              :auto-upload="true">
+                          <el-button slot="trigger" size="small" type="primary">导入物流信息</el-button>
+                      </el-upload></el-button>
+                      <el-button plain  v-on:click="exportData" >导出搜索结果</el-button>
+                  </el-row>
               </el-form-item>
           </el-form>
           <el-table :data="listData" style="width: 100%" border>
@@ -130,11 +131,17 @@ import draggable from 'vuedraggable'
                     etime:"",
                     stime:"",
                     status:"",
-                    metraType: 1
+                    metraType: 1,
+                    pageNo: 1,
+                    pageSize: 10,
                 },
                 pagination: { // 分页
                     total: 0
                 },
+                //分页器当前选中页码
+                currentPage: 1,
+
+
                 headers: {
                     "token": sessionStorage.getItem("access_token"),
                     "loginId": sessionStorage.getItem("access_loginId")
@@ -358,7 +365,7 @@ import draggable from 'vuedraggable'
                 xhr.send(formData);
             },
             ObjectPageDatail(orderId){//订单详细
-                alert(orderId);
+                this.$router.push({path:'/Orders/ACT/objectDetail?orderId='+orderId})
             }
         }
 
