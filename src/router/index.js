@@ -42,7 +42,11 @@ import MenuConf from '../pages/Wplat/MenuConf/MenuConf.vue'
 import ScanConf from '../pages/Wplat/ScanConf/ScanConf.vue'
 //平台风格配置
 import StyleConf from '../pages/Wplat/StyleConf/StyleConf.vue'
-
+//微平台管理的四个子菜单
+import wplatHome from '../pages/Wplat/WplatConf/WplatHome.vue'
+import Activities from '../pages/Wplat/WplatConf/Activities.vue'
+import Shop from '../pages/Wplat/WplatConf/Shop.vue'
+import Person from '../pages/Wplat/WplatConf/Person.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -105,10 +109,10 @@ export default new Router({
         { path: '/weplat/down', name: '扫码落地页', component: ScanConf },
         { path: '/weplat/style', name: '平台风格', component: StyleConf },
         { path: '/weplat/mgr', redirect: '/weplat/mgr/scanCheck' },
-        { path: '/weplat/mgr/scanCheck', name: '验真首页', component: KPI },
-        { path: '/weplat/mgr/actList', name: '活动中心', component: KPI },
-        { path: '/weplat/mgr/mall', name: '积分商城', component: KPI },
-        { path: '/weplat/mgr/personCenter', name: '个人中心', component: KPI },
+        { path: '/weplat/mgr/scanCheck', name: '验真首页', component: wplatHome },
+        { path: '/weplat/mgr/actList', name: '活动中心', component: Activities },
+        { path: '/weplat/mgr/mall', name: '积分商城', component: Shop },
+        { path: '/weplat/mgr/personCenter', name: '个人中心', component: Person },
         { path: '/weplat/menu', name: '菜单配置', component: MenuConf },
         // 产品
         {  path: '/product', name: '产品', redirect: '/product/mgr' },

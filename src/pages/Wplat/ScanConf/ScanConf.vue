@@ -1,29 +1,28 @@
 <template>
 	<div class="scan-root">
 		<div class="scan-list" v-show='listShow'>
-			
+
 			<div class="scan-content">
 				<div class="top">
-					<el-button type="primary" size='small' class='pri-btn' @click='listShow=false;addTplShow=true;'>新建落地页</el-button>
-					<br /><br />
-					摸板类型:
-					<el-select v-model="modelValue" placeholder="请选择"size='small'>
+					<el-button type="primary" size='small' class='pri-btn' @click='listShow=false;addTplShow=true;'>新建扫码落地页</el-button>
+					<br /><br /> 摸板类型:
+					<el-select v-model="modelValue" placeholder="请选择" size='small'>
 						<el-option v-for="item in options" :key="item.name" :label="item.name" :value="item.name">
 						</el-option>
 					</el-select>
 					&nbsp;&nbsp;创建时间:
-					<el-date-picker v-model="dateValue"size='small' type="date" placeholder="选择日期" class='date-select'>
+					<el-date-picker v-model="dateValue" size='small' type="date" placeholder="选择日期" class='date-select'>
 					</el-date-picker>
 					&nbsp;&nbsp;关键字:
-					<el-input v-model="keywords"size='small' placeholder="请输入内容" class='keyword-input'></el-input>
+					<el-input v-model="keywords" size='small' placeholder="请输入内容" class='keyword-input'></el-input>
 					<br /><br />
 					<div class="input-btns">
-						<el-button type="primary" size='small' class='pri-btn' @click='search'>搜索</el-button>
+						<el-button type="primary" size='small' class='pri-btn' @click='search'>查询</el-button>
 						<el-button type="primary" size='small' class='pri-btn' @click='resetSearch'>重置</el-button>
 					</div>
 				</div>
 				<div class="bottom">
-					<el-table :data="tableData" style="width: 100%" @selection-change="handleSelectionChange">
+					<el-table :data="tableData"v-loading="loading" style="width: 100%" @selection-change="handleSelectionChange">
 						<el-table-column type="selection" width="55">
 						</el-table-column>
 						<el-table-column prop="name" label="模板名称" width="120">
@@ -36,8 +35,9 @@
 						</el-table-column>
 						<el-table-column prop="statusName" label="状态" width="100">
 						</el-table-column>
-						<el-table-column label="操作" width="100">
+						<el-table-column label="操作" width="150">
 							<template slot-scope="scope">
+								<el-button @click="use(scope.row)" type="text" size="small">启用</el-button>
 								<el-button @click="removeItem(scope.row)" type="text" size="small">删除</el-button>
 								<el-button type="text" size="small" @click="editItem(scope.row)">编辑</el-button>
 							</template>
@@ -54,16 +54,16 @@
 
 		</div>
 		<div class="add-tpl" v-show='addTplShow'>
-			<span @click='backMain'class='backMain'>返回</span>
+			<span @click='backMain' class='backMain'>返回</span>
 			<ul class="clearfix">
-				<li v-for='(item,key) in options' >
+				<li v-for='(item,key) in options'>
 					<img :src="item.icon" alt="" />
 					<div @click='addSure(item)'>使用模板</div>
 				</li>
 			</ul>
 		</div>
 		<div class="add-part" v-show='addShow'>
-			<span @click='backMain'class='backMain'>返回</span>
+			<span @click='backMain' class='backMain'>返回</span>
 			<div class="title">扫码验真页配置</div>
 			<el-tabs v-model="activeName" @tab-click="tabPartClick">
 				<el-tab-pane label="扫码验真完成页面" name="first">
@@ -77,12 +77,12 @@
 											<br />
 											<div class="detail">
 												<div>页面名称:</div>
-												<el-input v-model="addlist.conf.has.title.name"size='small' placeholder="请输入页面名称"></el-input>
+												<el-input v-model="addlist.conf.has.title.name" size='small' placeholder="请输入页面名称"></el-input>
 											</div>
 											<br />
 											<div class="detail">
 												<div>页面描述:</div>
-												<el-input v-model="addlist.conf.has.title.note"size='small' placeholder="请输入页面描述"></el-input>
+												<el-input v-model="addlist.conf.has.title.note" size='small' placeholder="请输入页面描述"></el-input>
 											</div>
 											<br />
 										</div>
@@ -101,7 +101,7 @@
 										</div>
 										<div class="back">
 											背景图片：<img :src="addlist.conf.has.yz.bg" alt="" />
-											<el-upload class="avatar-uploader"size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz">
+											<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz">
 												<el-button type="primary">更换图片</el-button>
 											</el-upload>
 										</div>
@@ -192,6 +192,14 @@
 							<br />
 							<el-input v-model="addlist.note" placeholder="请输入模板说明"></el-input>
 							<br /><br />
+							请选择品牌：<el-select class="filter-item" multiple v-model="selectBrand" placeholder="请选择品牌">
+								<el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
+								</el-option>
+							</el-select>
+							请选择规格：<el-select class="filter-item" multiple v-model="addlist.snArr"@visible-change='snCallback' placeholder="请选择规格">
+								<el-option v-for="item in snList" :key="item.id" :label="item.allName" :value="item.sn">
+								</el-option>
+							</el-select>
 						</div>
 					</first>
 				</el-tab-pane>
@@ -234,13 +242,13 @@
 											<br /><br />
 											<div>提示语：</div>
 											<el-input v-model="addlist.conf.not.yz.tip" placeholder="请输入内容"></el-input>
-											<br />
-											按钮图片：<img :src="addlist.conf.not.yz.btnIcon" alt="" />
+											<br /> 按钮图片：
+											<img :src="addlist.conf.not.yz.btnIcon" alt="" />
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz4">
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
-											<br />
-											背景图片：<img :src="addlist.conf.not.yz.bg" alt="" />
+											<br /> 背景图片：
+											<img :src="addlist.conf.not.yz.bg" alt="" />
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz5">
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
@@ -297,6 +305,14 @@
 							<br />
 							<el-input v-model="addlist.note" placeholder="请输入模板说明"></el-input>
 							<br /><br />
+							请选择品牌：<el-select class="filter-item" multiple v-model="selectBrand" placeholder="请选择品牌">
+								<el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
+								</el-option>
+							</el-select>
+							请选择规格：<el-select class="filter-item" multiple v-model="addlist.snArr"@visible-change='snCallback' placeholder="请选择规格">
+								<el-option v-for="item in snList" :key="item.id" :label="item.allName" :value="item.sn">
+								</el-option>
+							</el-select>
 						</div>
 					</second>
 				</el-tab-pane>

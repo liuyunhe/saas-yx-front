@@ -1,23 +1,23 @@
 <template>
 	<div class="menu-root">
 		<div class="menu-content clearfix" v-show='listShow'>
-			<div class="nav-img">
-				<img src="../../../assets/img/nav-edit.png" alt="" @click='contentShow=true' />
-				<div class="click-con":style="{background:colorValue}">
+			<div class="nav-img" @click='contentShow=true'>
+				<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/top.png" alt="" />
+				<div class="click-con" :style="{background:colorValue}">
 					<ul>
-						<li v-for='(value,key) in typeArr'@click='activeShow(value)':class='{active:activeFlag==value.type}'>
-							<img :src="value.icon" alt=""class='first' />
-							<img :src="value.activeIcon"class='second' alt="" />
+						<li v-for='(value,key) in typeArr' @click='activeShow(value)' :class='{active:activeFlag==value.type}'>
+							<img :src="value.icon" alt="" class='first' />
+							<img :src="value.activeIcon" class='second' alt="" />
 						</li>
 					</ul>
 				</div>
 			</div>
-			<div class="content" v-show='contentShow'>
+			<div class="content" v-show='contentShow' v-loading='loading'>
 				<div class="title">菜单栏</div>
 				<div class="select-btn">
 					<label for="">底色: </label>
-					<el-color-picker v-model="colorValue"@change="colorChange"class='color-select'></el-color-picker>
-					<button class='btn btn-primary' @click='resetColor'>重置</button>
+					<el-color-picker v-model="colorValue" @change="colorChange" class='color-select'></el-color-picker>
+					<el-button type="primary" plain @click='resetColor' size='small'>重置</el-button>
 				</div>
 				<ul class="icon-con">
 					<li v-for='(value,key) in typeArr'>
@@ -47,15 +47,16 @@
 
 		</div>
 		<div class="add-menu" v-show='addListShow'>
-			<span class='back'@click='back'>返回</span>
+			<span class='back' @click='back'>返回</span>
 			<div class="modal-header">
 				<h4 class="modal-title">添加菜单</h4>
 			</div>
 			<div class="modal-body">
 				菜单名称：
-				<select name="" id="menuType" v-model="selectValue">
-					<option v-for='(value,key) in noArr' v-model='value.type'>{{value.name}}</option>
-				</select>
+				<el-select v-model="selectValue" placeholder="请选择" size='small'>
+					<el-option v-for='(value,key) in noArr' :key="value.name" :label="value.name" :value="value.name">
+					</el-option>
+				</el-select>
 			</div>
 
 			<div class="modal-body">
@@ -77,7 +78,7 @@
 			</div>
 		</div>
 		<div class="edit-menu" v-show='editListShow'>
-			<span class='back'@click='back'>返回</span>
+			<span class='back' @click='back'>返回</span>
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4 class="modal-title">修改菜单</h4>
@@ -93,7 +94,7 @@
 			<!-- /.modal-content -->
 		</div>
 		<div class="save">
-			<button class='btn btn-primary' @click='navSave()'>保存</button>
+			<el-button type="primary" @click='navSave()' size='small'>保存</el-button>
 		</div>
 	</div>
 </template>
@@ -111,7 +112,7 @@
 				addtext: '',
 				editId: 0,
 				removeId: 0,
-				contentShow: false,
+				contentShow: true,
 				colorValue: '#ffffff',
 				editImg: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png',
 				addImg1: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png',
@@ -130,7 +131,8 @@
 					token: sessionStorage.getItem('access_token'),
 					loginId: sessionStorage.getItem('access_loginId')
 				},
-				activeFlag:'scan'
+				activeFlag: 'scan',
+				loading: true
 			}
 		},
 		created() {
@@ -152,41 +154,24 @@
 							that.addShow = true;
 						}
 						that.submitArr = DATA.orgMenus;
-						for(var i = 0; i < that.navArr.length; i++) {
-							var flag = false;
-							for(var j = 0; j < that.typeArr.length; j++) {
-								if(that.typeArr[j].type === that.navArr[i].type) {
-									flag = true;
-									break;
-								}
-							}
-							if(flag == false) {
-								that.noArr.push(that.navArr[i])
-							}
-						}
-						if(!that.noArr.length==0){
-							that.selectValue = that.noArr[0].name;
-						}
-						
-						console.log(that.typeArr)
 						if(that.typeArr.length == 0) {
 							that.colorValue = '#ffffff';
 						} else {
 							that.colorValue = that.typeArr[0].bgColor || '#ffffff';
 						}
-
+						that.loading = false;
 					}
 				})
 			},
-			back(){
-				if(this.addListShow){
-					this.addImg1='http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png';
-					this.addImg2='http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png';
-					this.editImg='http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png';
+			back() {
+				if(this.addListShow) {
+					this.addImg1 = 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png';
+					this.addImg2 = 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png';
+					this.editImg = 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png';
 				}
-				this.listShow=true;
-				this.addListShow=false;
-				this.editListShow=false;
+				this.listShow = true;
+				this.addListShow = false;
+				this.editListShow = false;
 			},
 			colorChange() {},
 			resetColor() {
@@ -211,11 +196,28 @@
 				that.listShow = false;
 				that.addListShow = true;
 				that.editListShow = false;
+				console.log(that.noArr)
+				for(let i = 0; i < that.navArr.length; i++) {
+					let flag = false;
+					for(let j = 0; j < that.typeArr.length; j++) {
+						if(that.typeArr[j].type == that.navArr[i].type) {
+							flag = true;
+							break;
+						}
+					}
+					if(flag == false) {
+						that.noArr.push(that.navArr[i])
+					}
+				}
 			},
-			save(){
-				var that=this;
+			save() {
+				var that = this;
 				that.$request.post('/api/saotx/weplat/msom', that.submitArr, true, (res) => {
 					if(res.ret === '200000') {
+						this.$message({
+							message: '保存成功',
+							type: 'success'
+						});
 						that.addListShow = false;
 						that.editListShow = false;
 						that.init();
@@ -248,13 +250,13 @@
 					} else {
 						that.submitArr[that.editId].activeIcon = that.editImg;
 					}
-				}else {					
-					that.submitArr.forEach((item)=>{
-						item.bgColor=that.colorValue;
+				} else {
+					that.submitArr.forEach((item) => {
+						item.bgColor = that.colorValue;
 					})
 				}
 				that.save();
-				
+
 			},
 			handleAvatarSuccess(res, file) {
 				var data = res.data || {};
@@ -273,17 +275,17 @@
 			},
 			handleClose(done) {
 				console.log(event.currentTarget.getAttribute('dataId'))
-				var id=parseInt(event.currentTarget.getAttribute('dataId'));
+				var id = parseInt(event.currentTarget.getAttribute('dataId'));
 				var that = this;
 				this.$confirm('确定要退出登录？')
 					.then(_ => {
-						that.submitArr.splice(id,1);
+						that.submitArr.splice(id, 1);
 						that.save();
 					})
 					.catch(_ => {})
 			},
-			activeShow(item){
-				this.activeFlag=item.type;
+			activeShow(item) {
+				this.activeFlag = item.type;
 			}
 		}
 	}
@@ -295,13 +297,17 @@
 		border-radius: 4px;
 		color: #666;
 	}
+	
 	.color-select {
-		width:80px;
-		
+		width: 80px;
+		vertical-align: middle;
+		margin-left: 10px;
 	}
+	
 	.color-select .el-color-picker__trigger {
-		width:80px;
+		width: 80px;
 	}
+	
 	.menu-content {
 		border: none;
 		padding-bottom: 20px;
@@ -319,43 +325,52 @@
 	
 	.nav-img {
 		float: left;
-		width: 383px;
+		width: 300px;
+		height: 500px;
 		position: relative;
+		margin-top: 105px;
+		margin-left: 60px;
+		margin-right: 30px;
+		border: 1px solid #eee;
 	}
 	
 	.nav-img>img {
 		width: 300px;
-		height: 550px;
-		margin-top: 95px;
-		margin-left: 20px;
+		height: 50px;
 	}
 	
 	.nav-img .click-con {
 		position: absolute;
 		bottom: 0;
-		left: 20px;
+		left: 0;
 		width: 300px;
 		height: 37px;
 		border: 1px dashed #0099FF;
 	}
-	.click-con li{
+	
+	.click-con li {
 		float: left;
-		width:74px;
+		width: 74px;
 		height: 37px;
 		text-align: center;
 	}
+	
 	.click-con li .first {
 		display: inline-block;
 	}
+	
 	.click-con li .second {
 		display: none;
 	}
+	
 	.click-con li.active .first {
 		display: none;
 	}
+	
 	.click-con li.active .second {
 		display: inline-block;
 	}
+	
 	.click-con li img {
 		width: 30px;
 		height: 30px;
@@ -363,6 +378,7 @@
 		margin-top: 3px;
 		cursor: pointer;
 	}
+	
 	.content {
 		float: left;
 		border: 1px solid #eee;
@@ -532,14 +548,16 @@
 		padding: 20px 0 20px 20px;
 		position: relative;
 	}
+	
 	.back {
 		position: absolute;
-		top:10px;
-		right:20px;
-		color:#aaa;
+		top: 10px;
+		right: 20px;
+		color: #aaa;
 		font-size: 16px;
 		cursor: pointer;
 	}
+	
 	.modal-title {
 		font-size: 20px;
 	}

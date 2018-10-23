@@ -28,11 +28,16 @@ export default {
 				token: sessionStorage.getItem('access_token'),
 				loginId: sessionStorage.getItem('access_loginId')
 			},
+			brandList: [],
+			brandNameList: [],
+			selectBrand: [],
+			snList: [],
 			initList: {
 				id: '',
 				name: '',
 				note: '',
 				type: '',
+				snArr: [],
 				conf: {
 					has: {
 						title: {
@@ -80,6 +85,7 @@ export default {
 				name: '',
 				note: '',
 				type: '',
+				snArr: [],
 				conf: {
 					has: {
 						title: {
@@ -122,7 +128,8 @@ export default {
 				},
 				publish: 0
 			},
-			removeArr: []
+			removeArr: [],
+			loading: true
 		}
 	},
 	created() {
@@ -138,12 +145,14 @@ export default {
 			this.addTplShow = false;
 			this.addShow = false;
 			this.listShow = true;
-			var str=JSON.stringify(this.initList);
-			this.addlist=JSON.parse(str);
+			var str = JSON.stringify(this.initList);
+			this.addlist = JSON.parse(str);
+			this.selectBrand = [];
 		},
 		search() {
 			var that = this;
 			var time = '';
+			that.loading = true;
 			if(that.dateValue) {
 				time = that.formatTime(that.dateValue).substr(0, 10)
 			}
@@ -164,6 +173,7 @@ export default {
 							that.tableData = data;
 						} else {
 							that.tableData = data;
+							that.loading = false;
 							that.total = res.data.page.count;
 							that.tableData.forEach((item) => {
 								item.ctime = that.formatTime(item.ctime)
@@ -201,6 +211,7 @@ export default {
 
 						} else {
 							that.tableData = data;
+							that.loading = false;
 							that.total = res.data.page.count;
 							that.tableData.forEach((item) => {
 								item.ctime = that.formatTime(item.ctime)
@@ -237,10 +248,11 @@ export default {
 		handleSelectionChange(val) {
 			var that = this;
 			this.multipleSelection = val;
+			var idArr = [];
 			val.forEach((item) => {
-				that.removeArr.push(item.id)
+				idArr.push(item.id)
 			})
-			that.removeArr = that.quc(that.removeArr)
+			that.removeArr = idArr;
 		},
 		quc(array) {
 			var temp = []; //一个新的临时数组
@@ -262,10 +274,57 @@ export default {
 			return times;
 		},
 		addSure(item) {
+			var that = this;
 			this.addlist.type = item.type;
 			this.addTplShow = false;
 			this.addShow = true;
 			this.listShow = false;
+			this.$request.post(
+				'/api/saotx/prod/listBrand', {
+					pageSize: -1
+				},
+				true,
+				res => {
+					if(res.ret == '200000') {
+						var data = res.data.list || [];
+						that.brandList = data;
+					}
+				},
+				err => {
+					console.log(err)
+				}
+			)
+		},
+		snCallback(flag) {
+			var that = this;
+			if(flag) {
+				if(that.selectBrand.length == 0) {
+					that.$message({
+						message: '请先选择品牌',
+						type: 'warning'
+					});
+				} else {
+					this.$request.post(
+						'/api/saotx/prod/list', {
+							pageSize: -1,
+							brandCodeArr: that.selectBrand
+						},
+						true,
+						res => {
+							if(res.ret == '200000') {
+								var data = res.data.list || [];
+								that.snList = data;
+							}
+						},
+						err => {
+							console.log(err)
+						}
+					)
+				}
+			} else {
+				console.log(that.addlist.snArr)
+			}
+
 		},
 		tabPartClick(tab, event) {
 			console.log(tab, event);
@@ -317,10 +376,12 @@ export default {
 		save() {
 			var that = this;
 			var savelist = {};
+			savelist.id = that.addlist.id;
 			savelist.name = that.addlist.name;
 			savelist.note = that.addlist.note;
 			savelist.type = that.addlist.type
-			savelist.conf = that.addlist.conf;;
+			savelist.conf = that.addlist.conf;
+			savelist.snArr = that.addlist.snArr;
 			savelist.conf = JSON.stringify(savelist.conf);
 			savelist.publish = 0;
 			this.$request.post(
@@ -328,12 +389,16 @@ export default {
 				true,
 				res => {
 					if(res.ret == '200000') {
-						alert('保存成功');
+						this.$message({
+							message: '保存成功',
+							type: 'success'
+						});
 						that.addTplShow = false;
 						that.addShow = false;
 						that.listShow = true;
-						var str=JSON.stringify(that.initList);
-						that.addlist=JSON.parse(str);
+						var str = JSON.stringify(that.initList);
+						that.addlist = JSON.parse(str);
+						this.selectBrand = [];
 						that.init();
 
 					}
@@ -346,10 +411,12 @@ export default {
 		saveAdd() {
 			var that = this;
 			var savelist = {};
+			savelist.id = that.addlist.id;
 			savelist.name = that.addlist.name;
 			savelist.note = that.addlist.note;
 			savelist.type = that.addlist.type
-			savelist.conf = that.addlist.conf;;
+			savelist.conf = that.addlist.conf;
+			savelist.snArr = that.addlist.snArr;
 			savelist.conf = JSON.stringify(savelist.conf);
 			savelist.publish = 1;
 			this.$request.post(
@@ -357,12 +424,16 @@ export default {
 				true,
 				res => {
 					if(res.ret == '200000') {
-						alert('保存成功');
+						this.$message({
+							message: '保存成功',
+							type: 'success'
+						});
 						that.addTplShow = false;
 						that.addShow = false;
 						that.listShow = true;
-						var str=JSON.stringify(that.initList);
-						that.addlist=JSON.parse(str);
+						var str = JSON.stringify(that.initList);
+						that.addlist = JSON.parse(str);
+						this.selectBrand = [];
 						that.init();
 
 					}
@@ -373,16 +444,65 @@ export default {
 			)
 		},
 		editItem(item) {
-			console.log(item.id)
+			var that = this;
 			this.addTplShow = false;
 			this.addShow = true;
 			this.listShow = false;
-			this.addlist.id = item.id;
-			this.addlist.name = item.name;
-			this.addlist.note = item.note;
-			this.addlist.type = item.type;
-			this.addlist.conf = JSON.parse(item.conf);
-			console.log(this.addlist)
+			this.$request.post(
+				'/api/saotx/orgtpl/detail', {
+					id: item.id
+				},
+				true,
+				res => {
+					if(res.ret == '200000') {
+						var data = res.data || [];
+						that.addlist.id = data.id;
+						that.addlist.name = data.name;
+						that.addlist.note = data.note;
+						that.addlist.type = data.type;
+						that.addlist.conf = JSON.parse(item.conf);
+						var list = [];
+						var blist = [];
+						data.snArr.forEach((item, i) => {
+							list.push({
+								allName: data.snNameArr[i],
+								sn: item
+							})
+						})
+						data.brandNameArr.forEach((val, j) => {
+							blist.push({
+								name: val,
+								brandCode: data.brandArr[j]
+							})
+						})
+						that.snList = list;
+						that.addlist.snArr = data.snArr;
+						that.brandList = blist;
+						that.selectBrand = data.brandArr;
+
+					}
+				},
+				err => {
+					console.log(err)
+				}
+			)
+
+			this.$request.post(
+				'/api/saotx/prod/listBrand', {
+					pageSize: -1
+				},
+				true,
+				res => {
+					if(res.ret == '200000') {
+						var data = res.data.list || [];
+						that.brandList = data;
+
+					}
+				},
+				err => {
+					console.log(err)
+				}
+			)
 
 		},
 		remove(idArr) {
@@ -394,7 +514,10 @@ export default {
 				true,
 				res => {
 					if(res.ret == '200000') {
-						alert('删除成功');
+						this.$message({
+							message: '删除成功',
+							type: 'success'
+						});
 						that.removeArr = [];
 						that.init();
 					}
@@ -418,7 +541,10 @@ export default {
 		removeMul() {
 			var that = this;
 			if(that.removeArr.length == 0) {
-				alert('请选择要删除的记录');
+				this.$message({
+					message: '请选择要删除的记录',
+					type: 'warning'
+				});
 				return;
 			}
 			this.$confirm('确定要删除选中的的记录吗？')
@@ -426,6 +552,26 @@ export default {
 					that.remove(that.removeArr)
 				})
 				.catch(_ => {})
+		},
+		use(item) {
+			this.$request.post(
+				'/api/saotx/orgtpl/use', {
+					id: item.id
+				},
+				true,
+				res => {
+					if(res.ret == '200000') {
+						this.$message({
+							message: '已启用',
+							type: 'success'
+						});
+						this.init();
+					}
+				},
+				err => {
+					console.log(err)
+				}
+			)
 		}
 
 	},
