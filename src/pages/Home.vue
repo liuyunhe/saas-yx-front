@@ -68,7 +68,7 @@
 								<el-dropdown-item>公司：{{orgName}}</el-dropdown-item>
 								<el-dropdown-item divided>
 									<div class="btns">
-										<div class="user-btn">修改密码</div>
+										<div class="user-btn"><router-link to='/setting/user/modPwd'>修改密码</router-link></div>
 									</div>
 
 								</el-dropdown-item>
