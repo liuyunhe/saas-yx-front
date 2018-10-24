@@ -17,16 +17,27 @@ import ElementUI from 'element-ui';
 import request from "./api/axios";
 import md5 from 'js-md5';
 import VueCookies from 'vue-cookies'
+// import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
+// 富文本编辑器
+import VueQuillEditor from 'vue-quill-editor'
+// 富文本编辑器相关的样式
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 // import Mock from './mock'
 // Mock.bootstrap();
+import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/global.css'
 
 Vue.config.productionTip = false
 Vue.prototype.$request = request;
 Vue.prototype.$md5 = md5;
-Vue.use(VueCookies)
 
+Vue.use(VueQuillEditor)
+
+Vue.use(VueCookies)
 
 Vue.use(ElementUI);
 

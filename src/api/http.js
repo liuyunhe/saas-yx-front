@@ -1,5 +1,6 @@
 import http from 'axios'
 import {router} from '../main'
+import NProgress from 'nprogress'
 
 http.defaults.timeout = 100000;
 //  http.defaults.headers.post['Content-Type'] = 'application/json'
@@ -19,6 +20,8 @@ http.interceptors.request.use(
       config.url = encodeURI(config.url);
       // config.data = config.params
     }
+    NProgress.start()
+
     return config;
   },
   function (error) {
@@ -49,6 +52,7 @@ http.interceptors.response.use(
       })
     }
 
+    NProgress.done()
 
     if (response.headers['content-type'] == "application/vnd.ms-excel") {
       //do something

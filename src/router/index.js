@@ -7,6 +7,10 @@ import Home from '../pages/Home.vue'
 import KPI from '../pages/Datas/KPI/KPI.vue'
 import NotFound from '../pages/404.vue'
 import ActTpl from '../pages/Market/ActTpl/ActTpl.vue'
+import ActMgc from '../pages/Market/ActMgr/ActMgr.vue'
+import AddAct from '../components/addAct.vue'
+import ActSetConf from '../components/ActSetConf.vue'
+import ActPutConf from '../components/ActPutConf.vue'
 
 
 Vue.use(Router)
@@ -90,7 +94,10 @@ export default new Router({
         // 营销
         { path: '/market', name: '营销', redirect: '/market/actTpl' },
         { path: '/market/actTpl', name: '活动模板', component: ActTpl },
-        { path: '/market/actMgr', name: '活动管理', component: KPI },
+        { path: '/market/actMgr', name: '活动管理', component: ActMgc },
+        { path: '/market/actTpl/addAct', name: '新建活动模板配置', component: AddAct, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/actSetConf', name: '基础设置', component: ActSetConf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode}) },
+        { path: '/market/actTpl/actPutConf', name: '投放设置', component: ActPutConf, props: (router) => ({id: router.query.form, actCode: router.query.actCode}) },
         { path: '/orders', name: '订单', redirect: '/orders/act' },
         { path: '/orders/seller', name: '零售户订单', component: KPI },
         { path: '/orders/member', name: '权益订单', component: KPI },

@@ -19,6 +19,7 @@
     "lodash": "^4.17.10",
     "mockjs": "^1.0.1-beta3",
     "node-sass": "^4.8.3",
+    "nprogress": "^0.2.0",
     "sass-loader": "^6.0.7",
     "vue": "^2.5.2",
     "vue-cookies": "^1.5.7",

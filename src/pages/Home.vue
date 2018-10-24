@@ -39,7 +39,7 @@
 					</div>
 					<div class="parent-menu">
 						<ul>
-							<li ref="parentMenu" v-for="(item, index) in menuList" :key="item.id" @click="getsonMenuList(item, index)" :class="index == 0 ? 'active' : ''"><router-link :to="item.menuUrl">{{item.menuName}}</router-link></li>
+							<li ref="parentMenu" v-for="(item, index) in menuList" :key="item.id" @click="getsonMenuList(item, index)" :class="index == nowOneMenuActive ? 'active' : ''"><router-link :to="item.menuUrl">{{item.menuName}}</router-link></li>
 						</ul>
 					</div>
 				</div>
@@ -47,7 +47,7 @@
 					<div class="menuName">{{nowMenuName}}</div>
 					<div class="son-menu">
 						<ul>
-							<li v-for="(item, index) in sonMenuList" :key="item.id" @click="getGrandsonMentList(item, index)" ref="sonMenu" :class="index == 0 ? 'active' : ''">
+							<li v-for="(item, index) in sonMenuList" :key="item.id" @click="getGrandsonMentList(item, index)" ref="sonMenu" :class="index == nowTowMenuActive ? 'active' : ''">
 								<router-link :to="item.menuUrl">{{item.menuName}}</router-link>
 							</li>
 						</ul>
@@ -81,7 +81,7 @@
 							</el-dropdown-menu>
 						</el-dropdown>
 						<ul>
-							<li v-for="(item, index) in grandsonMenuLisy" :key="index" @click="getPages(item, index)" ref="grandsonMenu" :class="index == 0 ? 'active' : ''">
+							<li v-for="(item, index) in grandsonMenuLisy" :key="index" @click="getPages(item, index)" ref="grandsonMenu" :class="index == nowThreeMenuActive ? 'active' : ''">
 								<router-link :to="item.menuUrl">{{item.menuName}}</router-link>
 							</li>
 						</ul>
@@ -109,7 +109,10 @@ export default {
       nowMenuName: '首页',
       account: '',
       orgName: '',
-      dialogVisible: false
+      dialogVisible: false,
+      nowOneMenuActive: 0,
+      nowTowMenuActive: 0,
+      nowThreeMenuActive: 0,
     }
   },
   created() {
@@ -127,11 +130,12 @@ export default {
         {},
         true,
         res => {
-          console.log(res)
           if (res.ret == '200000') {
             var data = res.data || {}
             that.account = data.account
             that.orgName = data.orgName
+          } else {
+            this.$message.error(res.message)
           }
         },
         err => {
@@ -153,6 +157,8 @@ export default {
             this.menuList = res.data
             this.sonMenuList = res.data[0].nodeList
             this.initGrandsonMenu(this.sonMenuList[0])
+          } else {
+            this.$message.error(res.message)
           }
         }
       ),
@@ -162,31 +168,22 @@ export default {
     },
     // 获取子级菜单(子级)
     getsonMenuList(item, index) {
-      this.$refs.parentMenu.forEach(item => {
-        item.classList.remove('active')
-      })
-      this.$refs.parentMenu[index].classList.add('active')
+      this.nowOneMenuActive = index
       this.sonMenuList = item.nodeList
       this.nowMenuName = item.menuName
       this.initGrandsonMenu(this.sonMenuList[0])
-      this.initJuniorStyle(this.$refs.sonMenu)
-      this.initJuniorStyle(this.$refs.grandsonMenu)
+      this.nowTowMenuActive = 0
+      this.nowThreeMenuActive = 0
     },
     // 获取次子菜单(孙子级)
     getGrandsonMentList(item, index) {
-      this.$refs.sonMenu.forEach(item => {
-        item.classList.remove('active')
-      })
-      this.$refs.sonMenu[index].classList.add('active')
+      this.nowTowMenuActive = index
       this.initGrandsonMenu(item)
-      this.initJuniorStyle(this.$refs.grandsonMenu)
+      this.nowThreeMenuActive = 0
     },
     // 获取页面详情
     getPages(item, index) {
-      this.$refs.grandsonMenu.forEach(item => {
-        item.classList.remove('active')
-      })
-      this.$refs.grandsonMenu[index].classList.add('active')
+      this.nowThreeMenuActive = index
     },
     // 初始化次子级菜单(孙子级)
     initGrandsonMenu(son) {
@@ -197,14 +194,6 @@ export default {
         this.grandsonMenuLisy.push(son)
       }
     },
-    // 重置下级默认样式
-    initJuniorStyle(allSon) {
-      allSon.forEach(item => {
-        item.classList.remove('active')
-      })
-      allSon[0].classList.add('active')
-    },
-    comfirm() {},
     logout() {
       var that = this
       this.$request.post(
@@ -217,6 +206,8 @@ export default {
             that.$router.replace({
               name: 'Login'
             })
+          } else {
+            this.$message.error(res.message)
           }
         },
         err => {
