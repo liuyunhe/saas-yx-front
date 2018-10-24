@@ -150,12 +150,18 @@ export default new Router({
         { path: '/mall', name: '商城', redirect: '/mall/auth' },
         { path: '/mall/auth', name: '审核管理', component: auditManage },
         { path: '/mall/systemLayout', name: '系统配置', component: systemLayout },
-        { path: '/mall/category', name: '分类管理', component: KPI },
+        { path: '/mall/category', name: '分类管理', component: sortManage },
         { path: '/mall/recommend', name: '推荐位管理', component: KPI },
-        { path: '/mall/banner', name: 'banner位管理', component: KPI },
+        { path: '/mall/banner', name: 'banner位管理', component: bannerManage},
+        { path: '/mall/banner/addBanner', name: '新增banner', component: addBanner},
+        { path: '/mall/banner/editBanner', name: '编辑banner', component: editBanner,props: (route) => ({id:route.query.id})},
         { path: '/mall/product', name: '商品管理', redirect: '/mall/product/zj' },
         { path: '/mall/product/zj', name: '自建商品管理', component: buildProduct},
-        { path: '/mall/product/jd', name: '京东商品管理', component: KPI },
+        { path: '/mall/product/addProduct', name: '新建自建商品', component: addProduct},
+        { path: '/mall/product/editProduct', name: '编辑自建商品', component: editProduct,props: (route) => ({id:route.query.id})},
+        { path: '/mall/product/jd', name: '京东商品管理', component: JDProduct },
+        { path: '/mall/product/addJDProduct', name: '新建京东商品', component: addJDProduct },
+        { path: '/mall/product/editJDProduct', name: '编辑京东商品', component: editJDProduct,props: (route) => ({id:route.query.id})},
         // 设置
         { path: '/setting', name: '设置', redirect: '/setting/user'},
         { path: '/setting/user', name: '账户设置', redirect: '/setting/user/modPwd' },
@@ -392,4 +398,17 @@ import auditManage from '../pages/Mall/AuditManage/AuditManage'
 import systemLayout from '../pages/Mall/SystemLayout/SystemLayout'
 // 商城-商品管理-自建商品管理
 import buildProduct from '../pages/Mall/CommodityManage/BuildProduct/BuildProduct'
+import addProduct from  '../pages/Mall/CommodityManage/BuildProduct/AddProduct'
+import editProduct from  '../pages/Mall/CommodityManage/BuildProduct/EditProduct'
+// 商城-商品管理-京东商品管理
+import JDProduct from '../pages/Mall/CommodityManage/JDProduct/JDProduct'
+import addJDProduct from '../pages/Mall/CommodityManage/JDProduct/AddJDProduct'
+import editJDProduct from '../pages/Mall/CommodityManage/JDProduct/EditJDProduct'
+// 商城-banner位管理
+import bannerManage from '../pages/Mall/BannerManage/BannerManage'
+import addBanner from '../pages/Mall/BannerManage/AddBanner'
+import editBanner from '../pages/Mall/BannerManage/EditBanner'
+// 商城-分类管理
+import sortManage from '../pages/Mall/SortManage/SortManage'
+
 
