@@ -18,11 +18,11 @@ module.exports = {
             '^/api': ''
           }
       },
-      '/data': { // SAAS后端数据接口
+      '/record': { // SAAS后端数据接口
         target: 'http://cs-data.saotianxia.com.cn/',
         changeOrigin: true,
         pathRewrite: {
-          '^/data': ''
+          '^/record': ''
         }
       },
       '/seller': { // SAAS后端零售户接口
