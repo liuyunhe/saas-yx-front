@@ -20,6 +20,9 @@ import VueCookies from 'vue-cookies'
 // import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import "./common/js/dateFormat"  //  时间类型格式化组件
+import echarts from 'echarts'
+
+
 
 // 富文本编辑器
 import VueQuillEditor from 'vue-quill-editor'
@@ -35,6 +38,8 @@ import './assets/css/global.css'
 Vue.config.productionTip = false
 Vue.prototype.$request = request;
 Vue.prototype.$md5 = md5;
+Vue.prototype.$echarts = echarts;
+Vue.use(VueCookies)
 
 Vue.use(VueQuillEditor)
 

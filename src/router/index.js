@@ -24,6 +24,13 @@ import AddAct from '@/pages/Market/ActTpl/AddAct.vue'
 import ActSetConf from '@/pages/Market/ActMgr/ActSetConf.vue'
 import ActPutConf from '@/pages/Market/ActMgr/ActPutConf.vue'
 
+// 数据-零售户-明细查询
+import DataSellerDetail from '../pages/Datas/SellerData/DetailSearch.vue'
+// 数据-履约报表
+import DataAgree from '../pages/Datas/Agree.vue'
+// 数据-回访报表
+import DataVisit from '../pages/Datas/Visit.vue'
+
 //产品-产品管理-烟草管理
 import tobacco from '@/pages/Product/ProductManagement/TobaccoMgr'
 import addTobaccoMr from '@/pages/Product/ProductManagement/AddTobaccoMgr'
@@ -59,10 +66,14 @@ import ScanConf from '@/pages/Wplat/ScanConf/ScanConf.vue'
 //平台风格配置
 import StyleConf from '@/pages/Wplat/StyleConf/StyleConf.vue'
 //微平台管理的四个子菜单
-import wplatHome from '@/pages/Wplat/WplatConf/WplatHome.vue'
-import Activities from '@/pages/Wplat/WplatConf/Activities.vue'
-import Shop from '@/pages/Wplat/WplatConf/Shop.vue'
-import Person from '@/pages/Wplat/WplatConf/Person.vue'
+import wplatHome from '../pages/Wplat/WplatConf/WplatHome.vue'
+import Activities from '../pages/Wplat/WplatConf/Activities.vue'
+import Shop from '../pages/Wplat/WplatConf/Shop.vue'
+import Person from '../pages/Wplat/WplatConf/Person.vue'
+//首页主题查询中的地域查询
+import RegionSearch from '../pages/Datas/ThemeSearch/RegionSearch.vue'
+//首页主题查询中的规格查询
+import SpecSearch from '../pages/Datas/ThemeSearch/SpecSearch.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -98,12 +109,12 @@ export default new Router({
         { path: '/datas/kpi', name: 'kpi实时播报', component: KPI },
         { path: '/datas/multi', name: '多维查询', component: KPI },
         { path: '/datas/report', name: '固定报表', component: KPI },
-        { path: '/datas/agree', name: '履约报表', component: KPI },
-        { path: '/datas/visit', name: '回访报表', component: KPI },
+        { path: '/datas/agree', name: '履约报表', component: DataAgree },
+        { path: '/datas/visit', name: '回访报表', component: DataVisit },
         { path: '/datas/theme', name: '主题查询', redirect: '/datas/theme/kpiReview', },
         { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: KPI },
-        { path: '/datas/theme/region', name: '地域查询', component: KPI },
-        { path: '/datas/theme/spec', name: '规格查询', component: KPI },
+        { path: '/datas/theme/region', name: '地域查询', component: RegionSearch },
+        { path: '/datas/theme/spec', name: '规格查询', component: SpecSearch },
         { path: '/datas/track', name: '活动追踪', redirect: '/datas/track/realtime' },
         { path: '/datas/track/realtime', name: '活动实时跟踪', component: KPI },
         { path: '/datas/track/dayanalysis', name: '活动日常分析', component: KPI },
@@ -114,7 +125,7 @@ export default new Router({
         { path: '/datas/userAnalysis/label', name: '用户标签', component: KPI },
         { path: '/datas/sellerDatas', name: '零售户', redirect: '/datas/sellerDatas/develop' },
         { path: '/datas/sellerDatas/develop', name: '发展情况概况', component: KPI },
-        { path: '/datas/sellerDatas/search', name: '明细查询', component: KPI },
+        { path: '/datas/sellerDatas/search', name: '明细查询', component: DataSellerDetail },
         { path: '/datas/operate', name: '运营小工具', redirect: '/datas/operate/steal' },
         { path: '/datas/operate/steal', name: '盗扫明细', component: KPI },
         { path: '/datas/fakeCode', name: '异常码明细', redirect: '/datas/fakeCode/report' },
