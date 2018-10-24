@@ -8,40 +8,44 @@
     <el-card>
       <el-button type="primary" size="medium" @click="addAct()">新建活动模板</el-button>
       <el-form ref="form" :model="actListParams" label-width="80px">
-        <el-row :gutter="20">
-          <el-col :span="6">
+        <el-row>
+          <el-col :span="7">
             <el-form-item label="模板类型">
               <el-select v-model="actListParams.form">
                 <el-option v-for="item in selectOption" :key="item.form" :label="item.name" :value="item.form"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="7">
             <el-form-item label="时间段">
               <el-col>
                 <el-date-picker type="date" placeholder="开始时间" v-model="actListParams.ctime" style="width: 100%;"></el-date-picker>
               </el-col>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="7">
             <el-form-item label="关键词">
               <el-input v-model="actListParams.keyword" placeholder="请输入关键词"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col>
             <!-- 按钮 -->
-            <el-button type="primary" size="small" @click="getActList()">查询</el-button>
-            <el-button type="primary" size="small" @click="resetSearch()">重置</el-button>
+            <el-button type="primary" @click="getActList()">查询</el-button>
+            <el-button type="primary" @click="resetSearch()">重置</el-button>
           </el-col>
         </el-row>
       </el-form>
-      <el-table ref="multipleTable" border :data="actList" style="width: 100%" @select="test(actList)">
+      <el-table v-loading="loading" border :data="actList" style="width: 100%" @select="test(actList)" class="mt20">
         <el-table-column type="index" width="50" align="center"></el-table-column>
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="tplCode" label="模板编号" align="center"></el-table-column>
         <el-table-column prop="name" label="模板名称" align="center"></el-table-column>
         <el-table-column prop="note" label="模板说明" align="center"></el-table-column>
-        <el-table-column prop="ctime" label="创建时间" align="center"></el-table-column>
+        <el-table-column prop="ctime" label="创建时间" align="center">
+          <template slot-scope="scope">
+            {{new Date(scope.row.ctime).Format('yyyy-MM-dd hh:mm:ss')}}
+          </template>
+        </el-table-column>
         <el-table-column prop="creatorName" label="创建人" align="center"></el-table-column>
         <el-table-column prop="statusName" label="状态" align="center"></el-table-column>
         <el-table-column label="操作" align="center" width="220px">
@@ -113,7 +117,8 @@ export default {
         pcode: ''
       },
       actTotal: null,
-      actForms: []
+      actForms: [],
+      loading: true
     }
   },
   created() {
@@ -130,6 +135,7 @@ export default {
           if (res.ret === '200000') {
             this.actList = res.data.list
             this.total = res.data.page.count
+            this.loading = false
           } else {
             this.$message.error(res.message)
           }

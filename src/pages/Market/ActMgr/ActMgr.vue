@@ -1,7 +1,7 @@
 <template>
   <div class="actMgr-container">
     <el-card>
-      <el-button type="primary">新建活动</el-button>
+      <el-button type="primary" class="ml20">新建活动</el-button>
       <el-form label-width="80px" label-position="left">
         <el-row :gutter="30">
           <el-col :span="8">
@@ -56,7 +56,7 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="8" :offset="4">
+          <el-col>
             <el-button type="primary">查询</el-button>
             <el-button type="primary">重置</el-button>
           </el-col>

@@ -24,13 +24,13 @@
         <el-main>Main</el-main>
       </el-container>
     </el-container> -->
-		<el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+		<!--<el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
 			<span>确定要退出登录？</span>
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="dialogVisible = false">取 消</el-button>
 				<el-button type="primary" @click="logout">确 定</el-button>
 			</span>
-		</el-dialog>
+		</el-dialog>-->
 		<el-container class="home-container">
 			<el-aside width="200px">
 				<div class="left">
@@ -60,21 +60,21 @@
 						<el-dropdown class='user-info-home'>
 
 							<span class="el-dropdown-link">
-								<span>{{account}}</span>
+								<span>{{name}}</span>
 								<i class="el-icon-arrow-down el-icon--right"></i>
 							</span>
 							<el-dropdown-menu slot="dropdown" class='down-home-item'>
-								<el-dropdown-item>用户名：{{account}}</el-dropdown-item>
+								<el-dropdown-item>用户名：{{name}}</el-dropdown-item>
 								<el-dropdown-item>公司：{{orgName}}</el-dropdown-item>
 								<el-dropdown-item divided>
 									<div class="btns">
-										<div class="user-btn">修改密码</div>
+										<div class="user-btn"><router-link to='/setting/user/modPwd'>修改密码</router-link></div>
 									</div>
 
 								</el-dropdown-item>
 								<el-dropdown-item divided>
 									<div class="btns">
-										<div class="user-btn" @click='dialogVisible = true'>退出登录</div>
+										<div class="user-btn" @click='handleClose'>退出登录</div>
 									</div>
 
 								</el-dropdown-item>
@@ -108,6 +108,7 @@ export default {
       grandsonMenuLisy: [],
       nowMenuName: '首页',
       account: '',
+      name: '',
       orgName: '',
       dialogVisible: false,
       nowOneMenuActive: 0,
@@ -132,7 +133,16 @@ export default {
         res => {
           if (res.ret == '200000') {
             var data = res.data || {}
+            let cluser = {
+              account: data.account,
+              name: data.name,
+              orgId: data.orgId,
+              orgName: data.orgName,
+              orgRegion: data.orgRegion
+            };
+            sessionStorage.setItem("cluser", JSON.stringify(cluser));
             that.account = data.account
+            that.name = data.name
             that.orgName = data.orgName
           } else {
             this.$message.error(res.message)
@@ -216,9 +226,10 @@ export default {
       )
     },
     handleClose(done) {
-      this.$confirm('确认关闭？')
+    	var that=this;
+      this.$confirm('确定要退出登录？')
         .then(_ => {
-          done()
+          that.logout()
         })
         .catch(_ => {})
     }

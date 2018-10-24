@@ -12,13 +12,14 @@ import router from './router'
 import store from './store'
 //引入ElementUI
 import './assets/theme/theme-crm/index.css'
-import ElementUI from 'element-ui';
+import ElementUI from 'element-ui'
 //引入api配置文件
-import request from "./api/axios";
-import md5 from 'js-md5';
+import request from "./api/axios"
+import md5 from 'js-md5'
 import VueCookies from 'vue-cookies'
 // import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import "./common/js/dateFormat"  //  时间类型格式化组件
 
 // 富文本编辑器
 import VueQuillEditor from 'vue-quill-editor'

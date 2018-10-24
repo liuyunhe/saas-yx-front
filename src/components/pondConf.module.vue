@@ -2,7 +2,7 @@
   <div class="pond">
     <el-form ref="form" :model="pondConf" label-width="100px">
       <el-form-item label="奖品类型:">
-        <el-select size="medium" v-model="pondConf.awardType" multiple placeholder="请选择">
+        <el-select size="medium" v-model="pondConf.awardType" placeholder="请选择">
           <el-option v-for="item in prizeList" :key="item.type" :label="item.name" :value="item.type">
           </el-option>
         </el-select>
@@ -12,12 +12,43 @@
           <el-input size="medium" v-model="pondConf.prizeName" placeholder="请输入奖品名称"></el-input>
         </el-col>
       </el-form-item>
-      <el-form-item label="选择物品:">
-        <el-button size="medium">选择</el-button>
-      </el-form-item>
-      <el-form-item label="投放数量:">
-        <el-input-number size="small" v-model="pondConf.remainNum" :min="0" controls-position="right"></el-input-number> 个
-      </el-form-item>
+      <template v-if="pondConf.awardType == '1' || pondConf.awardType == '2'">
+        <el-form-item label="选择物品:">
+          <el-button size="medium">选择</el-button>
+        </el-form-item>
+        <el-form-item label="投放数量:">
+          <el-input-number size="small" v-model="pondConf.remainNum" :min="0" controls-position="right"></el-input-number> 个
+        </el-form-item>
+      </template>
+      <template v-if="pondConf.awardType == '3'">
+        <el-form-item label="红包池:">
+          <el-button size="medium">选择</el-button>
+        </el-form-item>
+        <el-col :span="10">
+          <el-form-item label="红包面额:">
+          <el-input-number size="small" v-model="pondConf.remainNum" :min="0" controls-position="right"></el-input-number> 元
+        </el-form-item>
+        </el-col>
+        <el-col :span="14">
+        <el-form-item label="投放数量:">
+          <el-input-number size="small" v-model="pondConf.remainNum" :min="0" controls-position="right"></el-input-number> 个
+        </el-form-item>
+        </el-col>
+        <el-form-item label="红包金额:">
+          <el-input-number size="small" v-model="pondConf.remainNum" :min="0" controls-position="right"></el-input-number> 元
+        </el-form-item>
+      </template>
+      <template v-if="pondConf.awardType == '4'">
+        <el-form-item label="选择积分:">
+          <el-button size="medium">选择</el-button>
+        </el-form-item>
+        <el-form-item label="投放数量:">
+          <el-input-number size="small" v-model="pondConf.remainNum" :min="0" controls-position="right"></el-input-number> 个
+        </el-form-item>
+        <el-form-item label="积分面额:">
+          <el-input-number size="small" v-model="pondConf.remainNum" :min="0" controls-position="right"></el-input-number> 分
+        </el-form-item>
+      </template>
       <el-form-item label="中奖概率:">
         <el-input-number size="small" v-model="pondConf.remainNum" :min="0" :max="100" controls-position="right"></el-input-number> %
       </el-form-item>
