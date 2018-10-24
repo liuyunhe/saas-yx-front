@@ -204,5 +204,14 @@ export default {
       margin: 2px 0px 2px 20px;
     }
   }
+.sort-manage-container .el-tree-node__content{
+  height: 60px;
+  border-bottom: 1px solid #ccc;
 
+}
+.sort-manage-container .el-tree{
+  .el-tree-node:first-child {
+    border-top: 1px solid #ccc;
+  }
+}
 </style>
