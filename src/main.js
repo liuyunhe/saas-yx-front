@@ -18,6 +18,9 @@ import request from "./api/axios"
 import md5 from 'js-md5'
 import VueCookies from 'vue-cookies'
 import "./common/js/dateFormat"  //  时间类型格式化组件
+import echarts from 'echarts'
+
+
 
 // import Mock from './mock'
 // Mock.bootstrap();
@@ -26,6 +29,7 @@ import './assets/css/global.css'
 Vue.config.productionTip = false
 Vue.prototype.$request = request;
 Vue.prototype.$md5 = md5;
+Vue.prototype.$echarts = echarts;
 Vue.use(VueCookies)
 
 

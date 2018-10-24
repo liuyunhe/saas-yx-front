@@ -66,7 +66,7 @@
 			<span @click='backMain' class='backMain'>返回</span>
 			<div class="title">扫码验真页配置</div>
 			<el-tabs v-model="activeName" @tab-click="tabPartClick">
-				<el-tab-pane label="扫码验真完成页面" name="first">
+				<el-tab-pane label="扫码验真完成页面" name="first"slot='second'>
 					<first class='has clearfix'>
 						<div class="phone">
 							<div class="phone-top">
@@ -204,7 +204,7 @@
 					</first>
 				</el-tab-pane>
 
-				<el-tab-pane label="未扫码页面" name="second">
+				<el-tab-pane label="未扫码页面" name="second"slot='second'>
 					<second class='not'>
 						<div class="phone">
 							<div class="phone-top">

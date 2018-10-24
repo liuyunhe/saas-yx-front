@@ -53,6 +53,10 @@ import wplatHome from '../pages/Wplat/WplatConf/WplatHome.vue'
 import Activities from '../pages/Wplat/WplatConf/Activities.vue'
 import Shop from '../pages/Wplat/WplatConf/Shop.vue'
 import Person from '../pages/Wplat/WplatConf/Person.vue'
+//首页主题查询中的地域查询
+import RegionSearch from '../pages/Datas/ThemeSearch/RegionSearch.vue'
+//首页主题查询中的规格查询
+import SpecSearch from '../pages/Datas/ThemeSearch/SpecSearch.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -92,8 +96,8 @@ export default new Router({
         { path: '/datas/visit', name: '回访报表', component: KPI },
         { path: '/datas/theme', name: '主题查询', redirect: '/datas/theme/kpiReview', },
         { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: KPI },
-        { path: '/datas/theme/region', name: '地域查询', component: KPI },
-        { path: '/datas/theme/spec', name: '规格查询', component: KPI },
+        { path: '/datas/theme/region', name: '地域查询', component: RegionSearch },
+        { path: '/datas/theme/spec', name: '规格查询', component: SpecSearch },
         { path: '/datas/track', name: '活动追踪', redirect: '/datas/track/realtime' },
         { path: '/datas/track/realtime', name: '活动实时跟踪', component: KPI },
         { path: '/datas/track/dayanalysis', name: '活动日常分析', component: KPI },

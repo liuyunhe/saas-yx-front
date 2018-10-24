@@ -132,6 +132,7 @@ export default {
 			loading: true
 		}
 	},
+	
 	created() {
 		this.init();
 		this.initTpl();
