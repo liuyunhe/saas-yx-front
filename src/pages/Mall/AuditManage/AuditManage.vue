@@ -37,7 +37,7 @@
           </el-form-item>
           <div></div>
           <el-form-item class="mr0" :size="'small'">
-            <el-button type="primary" size="small" @click="getAuthList">查询</el-button>
+            <el-button type="primary" size="small" @click="commitForm">查询</el-button>
             <el-button size="small" class="important" @click="getStatus">重置</el-button>
           </el-form-item>
         </el-form>
