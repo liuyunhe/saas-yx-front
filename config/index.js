@@ -11,13 +11,34 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-        '/api': {
-            target: 'http://cs-sass.saotianxia.vip/',
-            changeOrigin: true,
-            pathRewrite: {
-                '^/api': ''
-            }
+      '/api': { // SAAS后端主接口
+          target: 'http://cs-sass.saotianxia.vip/',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/api': ''
+          }
+      },
+      '/data': { // SAAS后端数据接口
+        target: 'http://cs-data.saotianxia.com.cn/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/data': ''
         }
+      },
+      '/seller': { // SAAS后端零售户接口
+        target: 'http://cs-retailer.saotianxia.com.cn/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/seller': ''
+        }
+      },
+      '/sc': { // SAAS后端积分商城接口
+        target: 'http://cs-jfs.saotianxia.vip/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/sc': ''
+        }
+      }
     },
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

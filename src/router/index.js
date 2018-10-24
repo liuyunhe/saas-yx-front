@@ -5,6 +5,12 @@ import Find from '../pages/Login/Find.vue'
 // import TopMenu from '../components/TopMenu.vue'  //主体框架头部菜单
 import Home from '../pages/Home.vue'
 import KPI from '../pages/Datas/KPI/KPI.vue'
+import ObjectPage from '../pages/Orders/ACT/ObjectPage.vue'
+import ObjectPageDetail from  '../pages/Orders/ACT/ObjectPageDetail.vue'
+import VirtualPage from '../pages/Orders/ACT/VirtualPage.vue'
+import RedpackPage from '../pages/Orders/ACT/RedpackPage.vue'
+import IntegralPage from '../pages/Orders/ACT/IntegralPage.vue'
+//import Multi from '../pages/Datas/Multi/Multi.vue'
 import NotFound from '../pages/404.vue'
 
 
@@ -139,18 +145,19 @@ export default new Router({
         { path: '/market', name: '营销', redirect: '/market/actTpl' },
         { path: '/market/actTpl', name: '活动模板', component: KPI },
         { path: '/market/actMgr', name: '活动管理', component: KPI },
-        { path: '/orders', name: '订单', redirect: '/orders/act' },
-        { path: '/orders/seller', name: '零售户订单', component: KPI },
-        { path: '/orders/member', name: '权益订单', component: KPI },
-        { path: '/orders/act', name: '活动订单', redirect: '/orders/act/object' },
-        { path: '/orders/act/object', name: '实物领奖明细', component: KPI },
-        { path: '/orders/act/virtual', name: '虚拟领奖明细', component: KPI },
-        { path: '/orders/act/redpack', name: '红包领奖明细', component: KPI },
-        { path: '/orders/act/integral', name: '积分领奖明细', component: KPI },
-        { path: '/orders/mall', name: '商城订单', redirect: '/orders/mall/zj'},
-        { path: '/orders/mall/zj', name: '自建商品订单', component: KPI },
-        { path: '/orders/mall/jd', name: '京东商品订单', component: KPI },
-        { path: '/orders/mall/integral', name: '积分活动订单', component: KPI },
+        { path: '/Orders', name: '订单', redirect: '/Orders/ACT' },
+        { path: '/Orders/seller', name: '零售户订单', component: KPI },
+        { path: '/Orders/member', name: '权益订单', component: KPI },
+        { path: '/Orders/ACT', name: '活动订单', redirect: '/Orders/ACT/Object' },
+        { path: '/Orders/ACT/object', name: '实物领奖明细', component: ObjectPage },
+        { path: '/Orders/ACT/objectDetail', name: '实物领奖订单详细', component: ObjectPageDetail,props: (route) => ({orderId:route.query.orderId})  },
+        { path: '/Orders/ACT/virtual', name: '虚拟领奖明细', component: VirtualPage },
+        { path: '/Orders/ACT/redpack', name: '红包领奖明细', component: RedpackPage },
+        { path: '/Orders/ACT/integral', name: '积分领奖明细', component: IntegralPage },
+        { path: '/Orders/mall', name: '商城订单', redirect: '/Orders/mall/zj'},
+        { path: '/Orders/mall/zj', name: '自建商品订单', component: KPI },
+        { path: '/Orders/mall/jd', name: '京东商品订单', component: KPI },
+        { path: '/Orders/mall/integral', name: '积分活动订单', component: KPI },
         // 零售户
         { path: '/seller', name: '零售户', redirect: '/seller/review' },
         { path: '/seller/review', name: '审核管理', component: KPI },
@@ -302,31 +309,31 @@ export default new Router({
         //   ]
         // },
         // {
-        //   path: '/orders',
+        //   path: '/Orders',
         //   name: '订单',
-        //   redirect: '/orders/act',
+        //   redirect: '/Orders/ACT',
         //   children: [
         //     { path: '/orders/seller', name: '零售户订单', component: KPI },
         //     { path: '/orders/member', name: '权益订单', component: KPI },
         //     {
         //       path: '/orders/act',
         //       name: '活动订单',
-        //       redirect: '/orders/act/object',
+        //       redirect: '/Orders/ACT/object',
         //       children: [
-        //         { path: '/orders/act/object', name: '实物领奖明细', component: KPI },
-        //         { path: '/orders/act/virtual', name: '虚拟领奖明细', component: KPI },
-        //         { path: '/orders/act/redpack', name: '红包领奖明细', component: KPI },
-        //         { path: '/orders/act/integral', name: '积分领奖明细', component: KPI }
+        //         { path: '/Orders/ACT/object', name: '实物领奖明细', component: KPI },
+        //         { path: '/Orders/ACT/virtual', name: '虚拟领奖明细', component: KPI },
+        //         { path: '/Orders/ACT/redpack', name: '红包领奖明细', component: KPI },
+        //         { path: '/Orders/ACT/integral', name: '积分领奖明细', component: KPI }
         //       ]
         //     },
         //     {
-        //       path: '/orders/mall',
+        //       path: '/Orders/mall',
         //       name: '商城订单',
-        //       redirect: '/orders/mall/zj',
+        //       redirect: '/Orders/mall/zj',
         //       children: [
-        //         { path: '/orders/mall/zj', name: '自建商品订单', component: KPI },
-        //         { path: '/orders/mall/jd', name: '京东商品订单', component: KPI },
-        //         { path: '/orders/mall/integral', name: '积分活动订单', component: KPI }
+        //         { path: '/Orders/mall/zj', name: '自建商品订单', component: KPI },
+        //         { path: '/Orders/mall/jd', name: '京东商品订单', component: KPI },
+        //         { path: '/Orders/mall/integral', name: '积分活动订单', component: KPI }
         //       ]
         //     }
         //   ]
