@@ -126,7 +126,7 @@
         pageNo: 1,
         pageSize: 10,
 
-        addBannerFormVisible: false,
+        // addBannerFormVisible: false,
       }
     },
     methods: {
@@ -181,13 +181,12 @@
       },
       deleteBanner(id){
         console.log(id)
-      }
+      },
     },
     created(){
       this.getBannerList()
 
 
     },
-
   }
 </script>
