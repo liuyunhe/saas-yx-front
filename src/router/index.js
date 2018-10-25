@@ -151,7 +151,8 @@ export default new Router({
         { path: '/mall/auth', name: '审核管理', component: auditManage },
         { path: '/mall/systemLayout', name: '系统配置', component: systemLayout },
         { path: '/mall/category', name: '分类管理', component: sortManage },
-        { path: '/mall/recommend', name: '推荐位管理', component: KPI },
+        { path: '/mall/recommend', name: '推荐位管理', component: recommendManage },
+        { path: '/mall/addCommendTpmA', name: '新增推荐位模板1', component: addCommendTpmA },
         { path: '/mall/banner', name: 'banner位管理', component: bannerManage},
         { path: '/mall/banner/addBanner', name: '新增banner', component: addBanner},
         { path: '/mall/banner/editBanner', name: '编辑banner', component: editBanner,props: (route) => ({id:route.query.id})},
@@ -410,5 +411,8 @@ import addBanner from '../pages/Mall/BannerManage/AddBanner'
 import editBanner from '../pages/Mall/BannerManage/EditBanner'
 // 商城-分类管理
 import sortManage from '../pages/Mall/SortManage/SortManage'
-
+// 商城-推荐位管理
+import recommendManage from '../pages/Mall/RecommendManage/RecommendManage'
+// 商城-推荐位管理-新增推荐位A
+import addCommendTpmA from '../pages/Mall/RecommendManage/Template/AddCommendTpmA'
 
