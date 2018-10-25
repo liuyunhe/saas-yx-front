@@ -5,11 +5,16 @@ import Find from '@/pages/Login/Find.vue'
 // import TopMenu from '@/components/TopMenu.vue'  //主体框架头部菜单
 import Home from '@/pages/Home.vue'
 import KPI from '@/pages/Datas/KPI/KPI.vue'
+//活动订单管理
 import ObjectPage from '@/pages/Orders/ACT/ObjectPage.vue'
 import ObjectPageDetail from  '@/pages/Orders/ACT/ObjectPageDetail.vue'
 import VirtualPage from '@/pages/Orders/ACT/VirtualPage.vue'
 import RedpackPage from '@/pages/Orders/ACT/RedpackPage.vue'
 import IntegralPage from '@/pages/Orders/ACT/IntegralPage.vue'
+//商城订单管理
+import ZjOrderPage from '@/pages/Orders/mall/ZjOrderPage.vue'
+import ZjOrderPageDetail from '@/pages/Orders/mall/ZjOrderPageDetail.vue'
+import JdOrderPage from '@/pages/Orders/mall/JdOrderPage.vue'
 //import Multi from '@/pages/Datas/Multi/Multi.vue'
 import NotFound from '@/pages/404.vue'
 // 营销
@@ -23,7 +28,6 @@ import ActMgc from '@/pages/Market/ActMgr/ActMgr.vue'
 import AddAct from '@/pages/Market/ActTpl/AddAct.vue'
 import ActSetConf from '@/pages/Market/ActMgr/ActSetConf.vue'
 import ActPutConf from '@/pages/Market/ActMgr/ActPutConf.vue'
-
 // 数据-零售户-明细查询
 import DataSellerDetail from '../pages/Datas/SellerData/DetailSearch.vue'
 // 数据-履约报表
@@ -174,10 +178,11 @@ export default new Router({
         { path: '/Orders/ACT/virtual', name: '虚拟领奖明细', component: VirtualPage },
         { path: '/Orders/ACT/redpack', name: '红包领奖明细', component: RedpackPage },
         { path: '/Orders/ACT/integral', name: '积分领奖明细', component: IntegralPage },
-        { path: '/orders/mall', name: '商城订单', redirect: '/orders/mall/zj'},
-        { path: '/orders/mall/zj', name: '自建商品订单', component: KPI },
-        { path: '/orders/mall/jd', name: '京东商品订单', component: KPI },
-        { path: '/orders/mall/integral', name: '积分活动订单', component: KPI },
+        { path: '/Orders/mall', name: '商城订单', redirect: '/Orders/mall/zj'},
+        { path: '/Orders/mall/zj', name: '自建商品订单', component: ZjOrderPage },
+        { path: '/Orders/mall/zjOrderPageDetail', name: '自建商品订单详情',  component: ZjOrderPageDetail,props: (route) => ({orderCode:route.query.orderCode})  },
+        { path: '/Orders/mall/jd', name: '京东商品订单', component: JdOrderPage },
+        { path: '/Orders/mall/integral', name: '积分活动订单', component: KPI },
         // 零售户
         { path: '/seller', name: '零售户', redirect: '/seller/review' },
         { path: '/seller/review', name: '审核管理', component: KPI },
