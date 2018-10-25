@@ -215,10 +215,9 @@ export default {
         // 加载累计零售户数
         getTotal() {
             this.$request.post('/record/shopKeeper/getShopTotalFamily', this.getParams(), true, (res)=>{
-                // [{"arriveNum":"5344"}]
                 let datas = res||[];
                 //datas = [{"arriveNum":"5344"}];
-                if(datas.length>0) {
+                if(datas.length>0&&datas[0]) {
                     this.showNum.total = datas[0].arriveNum;
                 }
             });
@@ -226,10 +225,9 @@ export default {
         // 加载参与活动零售户数
         getActive() {
             this.$request.post('/record/shopKeeper/getShopActiyFamily', this.getParams(), true, (res)=>{
-                // [{"dayPart":"16"}]
                 let datas = res||[];
                 //datas = [{"dayPart":"16"}];
-                if(datas.length>0) {
+                if(datas.length>0&&datas[0]) {
                     this.showNum.active = datas[0].dayPart;
                 }
             });
@@ -237,10 +235,9 @@ export default {
         // 加载新增零售户数
         getNew() {
             this.$request.post('/record/shopKeeper/getShopNewFamily', this.getParams(), true, (res)=>{
-                // [{"dayJoin":3879}]
                 let datas = res||[];
                 //datas = [{"dayJoin":3879}];
-                if(datas.length>0) {
+                if(datas.length>0&&datas[0]) {
                     this.showNum.new = datas[0].dayJoin;
                 }
             });
