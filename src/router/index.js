@@ -24,12 +24,14 @@ import AddAct from '@/pages/Market/ActTpl/AddAct.vue'
 import ActSetConf from '@/pages/Market/ActMgr/ActSetConf.vue'
 import ActPutConf from '@/pages/Market/ActMgr/ActPutConf.vue'
 
+// 数据-零售户-发展情况概况
+import DataSellerOverview from '@/pages/Datas/SellerData/Overview.vue'
 // 数据-零售户-明细查询
-import DataSellerDetail from '../pages/Datas/SellerData/DetailSearch.vue'
+import DataSellerDetail from '@/pages/Datas/SellerData/DetailSearch.vue'
 // 数据-履约报表
-import DataAgree from '../pages/Datas/Agree.vue'
+import DataAgree from '@/pages/Datas/Agree.vue'
 // 数据-回访报表
-import DataVisit from '../pages/Datas/Visit.vue'
+import DataVisit from '@/pages/Datas/Visit.vue'
 
 //产品-产品管理-烟草管理
 import tobacco from '@/pages/Product/ProductManagement/TobaccoMgr'
@@ -124,7 +126,7 @@ export default new Router({
         { path: '/datas/userAnalysis/portraitu', name: '用户画像', component: KPI },
         { path: '/datas/userAnalysis/label', name: '用户标签', component: KPI },
         { path: '/datas/sellerDatas', name: '零售户', redirect: '/datas/sellerDatas/develop' },
-        { path: '/datas/sellerDatas/develop', name: '发展情况概况', component: KPI },
+        { path: '/datas/sellerDatas/develop', name: '发展情况概况', component: DataSellerOverview },
         { path: '/datas/sellerDatas/search', name: '明细查询', component: DataSellerDetail },
         { path: '/datas/operate', name: '运营小工具', redirect: '/datas/operate/steal' },
         { path: '/datas/operate/steal', name: '盗扫明细', component: KPI },

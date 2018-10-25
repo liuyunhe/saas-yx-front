@@ -210,19 +210,6 @@ export default {
             this.$request.post('/record/shopKeeper/getRetailuserDetail', this.form, true, (res)=>{
                 this.loading = false;
                 this.tableList = res || [];
-                this.tableList.push({
-                    bizName: "食杂店",
-                    cityName: "吕梁市",
-                    customerShould: 0,
-                    productBrand: "紫气东来",
-                    productName: "条-紫气东来（祥瑞）",
-                    repeatCustomer: 1,
-                    scanCodeNum: 1,
-                    scanCustomer: 1,
-                    scanSellerNum: 1,
-                    shopName: "中阳县兴明副食店啊",
-                    statTime: "2018-10-23"
-                });
             });
             // 加载列表数据总条数
             //this.$request.post('/record/statistics/feedbackCount', this.form, true, (res)=>{
@@ -242,37 +229,5 @@ export default {
     }
     .el-input, .el-select, .el-upload-list {
         width: 200px;
-    }
-    .el-table img {
-        width: 80px;
-        height: 80px;
-    }
-    .arrow {
-        display: inline-block;
-        width: 0;
-        height: 0;
-        vertical-align: -6px;
-        cursor: pointer;
-        border: 8px solid transparent;
-        border-top: 8px solid #888A88;
-    }
-    ul.oper-list {
-        position: absolute;
-        font-size: 14px;
-        left: 55px;
-        top: 60%;
-        background: #fff;
-        display: none;
-        z-index: 30;
-        box-shadow: 1px 1px 20px #000;
-    }
-    ul.oper-list li {
-        width: 81px;
-        line-height: 28px;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        cursor: pointer;
     }
 </style>

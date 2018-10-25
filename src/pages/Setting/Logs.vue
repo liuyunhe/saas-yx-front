@@ -167,8 +167,4 @@ export default {
   .el-input, .el-select, .el-upload-list {
     width: 200px;
   }
-  .el-table img {
-    width: 80px;
-    height: 80px;
-  }
 </style>
