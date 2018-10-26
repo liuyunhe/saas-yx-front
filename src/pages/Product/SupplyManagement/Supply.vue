@@ -163,6 +163,7 @@
 <style>
   .supply-container .el-table{text-align: center}
   .supply-container .el-table th{text-align: center}
+  .supply-container .el-table td{text-align: center}
 </style>
 
 <script>

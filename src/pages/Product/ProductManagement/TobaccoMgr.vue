@@ -214,6 +214,7 @@
 <style>
   .tobacco-container .el-table{text-align: center}
   .tobacco-container .el-table th{text-align: center}
+  .tobacco-container .el-table td{text-align: center}
 </style>
 <script>
   export default {
