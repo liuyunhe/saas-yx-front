@@ -135,6 +135,11 @@
         this.$request.post('/sc/saotx/mall/bannerTypeMap',{}, true, (res) => {
           if (res.ret == '200000') {
             this.bannerTypeList = res.data
+          }else{
+            this.$message({
+              message:res.message,
+              type: 'warning'
+            })
           }
         })
       },
@@ -161,6 +166,12 @@
             this.pageSize = res.data.page.pageSize
             this.pageNo = res.data.page.pageNo
             this.listLoading = false;
+          }else{
+            this.listLoading = false;
+            this.$message({
+              message:res.message,
+              type: 'warning'
+            })
           }
         })
       },

@@ -18,6 +18,7 @@
           >
             <img v-if="ruleForm.image" width="200" height="125" :src="ruleForm.image" class="avatar">
           </el-upload>
+          <div class="pic-tips">上传图片的最佳尺寸：750像素*468像素；格式png、jpg；大小不超过2M</div>
         </el-form-item>
         <div></div>
         <el-form-item size="small" label="商品类型：" prop="giftType">
@@ -110,6 +111,7 @@
           >
             <img v-if="ruleForm.url" width="200" height="200" :src="ruleForm.url" class="avatar">
           </el-upload>
+          <div class="pic-tips">此图用于商品详情展示；尺寸：宽750像素；格式png、jpg；大小不超过2M</div>
         </el-form-item>
         <div></div>
         <el-form-item label="状态：" prop="status" size="small">
@@ -136,6 +138,9 @@
     .add-product-form-container{
       width: 910px;
       margin: 0 auto;
+      .pic-tips{
+        color: #ccc;
+      }
     }
     .add-product-form-bt{
       margin-top: 30px;

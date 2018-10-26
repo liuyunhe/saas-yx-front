@@ -4,6 +4,7 @@
       <el-button type="primary" size="small fr"  @click="addCategory('1','0')">新建一级分类</el-button>
     </div>
     <el-tree
+        v-loading="listLoading"
         default-expand-all
         :data="queryListTree"
         node-key="id"
@@ -42,6 +43,7 @@
           >
             <img v-if="ruleForm.icon" width="146" height="146" :src="ruleForm.icon" class="avatar">
           </el-upload>
+          <div class="pic-tips">提示：建议尺寸：60像素*60像素；格式png，jpg；大小不超过2M；</div>
         </el-form-item>
         <el-form-item label="状态：" prop="statusType" size="small">
           <el-radio v-model="ruleForm.statusType" label="1">启用</el-radio>
@@ -61,6 +63,9 @@
     name: "SortManage",
     data() {
       return {
+        //载入条
+        listLoading:false,
+
         headers:{
           'loginId':sessionStorage.getItem('access_loginId'),
           'token':sessionStorage.getItem('access_token')
@@ -107,9 +112,17 @@
     methods: {
       //从后台拿取商品分类树
       getQueryListTree(){
+        this.listLoading = true
         this.$request.post('/sc/saotx/mall/cate/queryListTree',{}, true, (res) => {
           if (res.ret == '200000') {
             this.queryListTree = [...res.data]
+            this.listLoading = false
+          }else {
+            this.listLoading = false
+            this.$message({
+              message:res.message,
+              type: 'warning'
+            })
           }
         })
       },
@@ -327,6 +340,9 @@
       width: 0;
       height: 0;
       clear: both;
+    }
+    .pic-tips{
+      color: #ccc;
     }
   }
 </style>
