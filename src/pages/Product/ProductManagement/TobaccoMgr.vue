@@ -14,6 +14,7 @@
                   multiple
                   collapse-tags
                   filterable
+                  style="width: 200px"
                   placeholder="请选择"
                   @change="selectBrand">
                 <el-option
@@ -31,6 +32,7 @@
                   multiple
                   collapse-tags
                   filterable
+                  style="width: 200px"
                   placeholder="请选择">
                 <el-option
                     v-for="item in snList"
@@ -46,6 +48,7 @@
                   multiple
                   collapse-tags
                   filterable
+                  style="width: 200px"
                   placeholder="请选择">
                 <el-option
                     v-for="item in packArrList"
@@ -61,6 +64,7 @@
                   multiple
                   collapse-tags
                   filterable
+                  style="width: 200px"
                   placeholder="请选择">
                 <el-option
                     v-for="item in gradeArrList"
@@ -210,6 +214,7 @@
 <style>
   .tobacco-container .el-table{text-align: center}
   .tobacco-container .el-table th{text-align: center}
+  .tobacco-container .el-table td{text-align: center}
 </style>
 <script>
   export default {

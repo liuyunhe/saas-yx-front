@@ -16,7 +16,7 @@
 			<div class="date" v-show='searchShow=="week"'>
 				查询星期：
 				<el-select v-model="week" placeholder="请选择" size='small' style='width:200px' @change='selectWeek'>
-					<el-option v-for='item in weekList' :label="item.weekNo" :value="item.weekNo"></el-option>
+					<el-option v-for='(item,index) in weekList' :key="index" :label="item.weekNo" :value="item.weekNo"></el-option>
 				</el-select>
 			</div>
 			<div class="date" v-show='searchShow=="month"'>
@@ -26,11 +26,11 @@
 			</div>
 			省份：
 			<el-select v-model="provice" placeholder="请选择省份" size='small' style='width:200px' @change='cityChange'>
-				<el-option v-for='item in proviceList' :label="item.name" :value="item.name"></el-option>
+				<el-option v-for='(item,index) in proviceList' :key="index"  :label="item.name" :value="item.name"></el-option>
 			</el-select>
 			城市：
 			<el-select v-model="city" placeholder="请选择城市" size='small' style='width:200px'>
-				<el-option v-for='item in cityList' :label="item.cityName" :value="item.cityName"></el-option>
+				<el-option v-for='(item,index) in cityList' :key="index" :label="item.cityName" :value="item.cityName"></el-option>
 			</el-select>
 			<div class="input-btns">
 				<el-button type="primary" size='small' class='pri-btn' @click='search'>查询</el-button>
