@@ -233,6 +233,7 @@
 
   .add-commend-container .el-table{text-align: center}
   .add-commend-container .el-table th{text-align: center}
+  .add-commend-container .el-table td{text-align: center}
 </style>
 <script>
   export default {

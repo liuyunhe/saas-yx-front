@@ -276,4 +276,5 @@
 <style>
   .recommend-manage-container .el-table{text-align: center}
   .recommend-manage-container .el-table th{text-align: center}
+  .recommend-manage-container .el-table td{text-align: center}
 </style>

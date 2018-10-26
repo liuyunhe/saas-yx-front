@@ -104,6 +104,7 @@
 <style>
   .banner-manage-container .el-table{text-align: center}
   .banner-manage-container .el-table th{text-align: center}
+  .banner-manage-container .el-table td{text-align: center}
 </style>
 <script>
   export default {

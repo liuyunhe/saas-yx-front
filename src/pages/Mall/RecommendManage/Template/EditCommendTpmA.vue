@@ -232,6 +232,7 @@
   }
 
   .edit-commend-form-bt .el-table{text-align: center}
+  .edit-commend-form-bt .el-table td{text-align: center}
   .edit-commend-form-bt .el-table th{text-align: center}
 </style>
 <script>

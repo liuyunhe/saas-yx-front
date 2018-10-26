@@ -176,6 +176,7 @@
 <style>
   .audit-manage-container .el-table{text-align: center}
   .audit-manage-container .el-table th{text-align: center}
+  .audit-manage-container .el-table td{text-align: center}
   .audit-manage-container .mini .el-form-item__label {width: 40px!important;}
 </style>
 

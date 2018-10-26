@@ -592,5 +592,6 @@
 <style>
   .build-product-container .el-table{text-align: center}
   .build-product-container .el-table th{text-align: center}
+  .build-product-container .el-table td{text-align: center}
   .build-product-container .mini .el-form-item__label {width: 40px!important;}
 </style>
