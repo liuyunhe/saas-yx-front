@@ -22,14 +22,14 @@
           <el-upload
               action="/api/saotx/attach/commonAliUpload"
               list-type="picture-card"
-              class="main-product-img"
+              class="product-img"
               :headers="headers"
               :show-file-list="false"
               :on-success="handleAvatarSuccess1"
           >
-            <img v-if="ruleForm.image1" width="710" height="240" :src="ruleForm.image1" class="avatar">
+            <img v-if="ruleForm.image1" width="200" height="125" :src="ruleForm.image1" class="avatar">
           </el-upload>
-          <div class="pic-tips">上传图片的最佳尺寸：710像素*240像素;格式png，jpg;大小不超过2M</div>
+          <div class="pic-tips">上传图片的最佳尺寸：230像素*144像素;格式png，jpg;大小不超过2M</div>
         </el-form-item>
         <div></div>
 
@@ -98,7 +98,7 @@
 
         <div class="add-commend-form-bt">
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
             <el-button @click="returnRecommend">取消</el-button>
           </el-form-item>
         </div>
@@ -236,6 +236,7 @@
 </style>
 <script>
   export default {
+    props:["id"],
     name: "",
     data() {
       return {
@@ -266,7 +267,7 @@
 
         ruleForm: {
           //推荐位展示类型
-          type:"1",
+          type:"2",
           //推荐位名称
           name: '',
           //排序值
@@ -373,8 +374,24 @@
       this.getOneCategory()
       this.getListJD()
       this.getListZJ()
+      this.getRecommendDetail()
     },
     methods:{
+      getRecommendDetail() {
+        this.$request.post('/sc/saotx/mall/recommend/detail',{id:this.id},true,res => {
+          if (res.ret == '200000') {
+            this.ruleForm.name = res.data.name
+            this.ruleForm.idx = res.data.idx
+            let recommendProducts = res.data.recommendProducts
+            recommendProducts.map((e,i)=>{
+              this.ruleForm['product'+e.idx+'Id'] = e.productId
+              this.ruleForm['product'+e.idx+'Name'] = e.productName
+              this.ruleForm['image'+e.idx] = e.productImage
+            })
+
+          }
+        })
+      },
       //从后台拿取京东商品列表
       getListJD() {
         let params = {
@@ -478,7 +495,8 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let params = {
-              type:1,
+              id:this.id,
+              type:2,
               name:this.ruleForm.name,
               idx:this.ruleForm.idx,
               recommendProducts:[

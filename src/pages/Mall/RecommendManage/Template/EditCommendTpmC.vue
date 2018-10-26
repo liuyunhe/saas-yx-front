@@ -96,6 +96,27 @@
         </el-form-item>
         <div></div>
 
+        <el-form-item label="商品5：" prop="product5Name" size="small">
+          <el-input v-model="ruleForm.product5Name" disabled placeholder="请选择商品" style="width: 200px"></el-input>
+          <el-button type="primary" @click="chooseProduct('5')" style="margin-left: 30px">选择商品</el-button>
+        </el-form-item>
+        <div></div>
+        <el-form-item label="图5：" prop="image5" size="small">
+          <el-input v-model="ruleForm.image5" style="display: none" ></el-input>
+          <el-upload
+              action="/api/saotx/attach/commonAliUpload"
+              list-type="picture-card"
+              class="product-img"
+              :headers="headers"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess5"
+          >
+            <img v-if="ruleForm.image5" width="200" height="125" :src="ruleForm.image5" class="avatar">
+          </el-upload>
+          <div class="pic-tips">上传图片的最佳尺寸：230像素*144像素;格式png，jpg;大小不超过2M</div>
+        </el-form-item>
+        <div></div>
+
         <div class="add-commend-form-bt">
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
@@ -237,6 +258,7 @@
 <script>
   export default {
     name: "",
+    props:["id"],
     data() {
       return {
         //载入条
@@ -266,7 +288,7 @@
 
         ruleForm: {
           //推荐位展示类型
-          type:"1",
+          type:"3",
           //推荐位名称
           name: '',
           //排序值
@@ -289,6 +311,10 @@
           product4Id:'',
           product4Name:'',
           image4:'',
+          //商品5
+          product5Id:'',
+          product5Name:'',
+          image5:'',
 
         },
         rules: {
@@ -332,6 +358,12 @@
           image4: [
             { required: true, message: '请上传图片', trigger: 'change' },
           ],
+          product5Name: [
+            { required: true, message: '请选择商品', trigger: 'change' },
+          ],
+          image5: [
+            { required: true, message: '请上传图片', trigger: 'change' },
+          ],
 
         },
 
@@ -373,8 +405,24 @@
       this.getOneCategory()
       this.getListJD()
       this.getListZJ()
+      this.getRecommendDetail()
     },
     methods:{
+      getRecommendDetail() {
+        this.$request.post('/sc/saotx/mall/recommend/detail',{id:this.id},true,res => {
+          if (res.ret == '200000') {
+            this.ruleForm.name = res.data.name
+            this.ruleForm.idx = res.data.idx
+            let recommendProducts = res.data.recommendProducts
+            recommendProducts.map((e,i)=>{
+              this.ruleForm['product'+e.idx+'Id'] = e.productId
+              this.ruleForm['product'+e.idx+'Name'] = e.productName
+              this.ruleForm['image'+e.idx] = e.productImage
+            })
+
+          }
+        })
+      },
       //从后台拿取京东商品列表
       getListJD() {
         let params = {
@@ -478,7 +526,8 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let params = {
-              type:1,
+              id:this.id,
+              type:3,
               name:this.ruleForm.name,
               idx:this.ruleForm.idx,
               recommendProducts:[
@@ -505,6 +554,12 @@
                   productName:this.ruleForm.product4Name,
                   productImage:this.ruleForm.image4,
                   idx: 4
+                },
+                {
+                  productId: this.ruleForm.product5Id,
+                  productName:this.ruleForm.product5Name,
+                  productImage:this.ruleForm.image5,
+                  idx: 5
                 }
               ]
 
@@ -557,6 +612,11 @@
         var data = res.data || {};
         var imgUrl = data && data.accessUrl;
         this.ruleForm.image4 = imgUrl;
+      },
+      handleAvatarSuccess5(res, file) {
+        var data = res.data || {};
+        var imgUrl = data && data.accessUrl;
+        this.ruleForm.image5 = imgUrl;
       },
 
       returnRecommend(){

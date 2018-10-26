@@ -1,7 +1,7 @@
 <template>
-  <section class="add-commend-container">
+  <section class="edit-commend-form-bt">
     <el-form :model="ruleForm" :inline="true" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-      <div class="add-commend-form-container">
+      <div class="edit-commend-form-container">
         <el-form-item label="推荐位名称：" prop="name" size="small">
           <el-input v-model="ruleForm.name" style="width: 200px"></el-input>
         </el-form-item>
@@ -96,9 +96,9 @@
         </el-form-item>
         <div></div>
 
-        <div class="add-commend-form-bt">
+        <div class="edit-commend-form-bt">
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
             <el-button @click="returnRecommend">取消</el-button>
           </el-form-item>
         </div>
@@ -203,40 +203,41 @@
 </template>
 
 <style lang="scss" scoped>
-  .add-commend-container{
+  .edit-commend-form-bt{
     background-color:   #fff;
     padding: 30px 15px;
-    .add-commend-form-container{
+    .edit-commend-form-container{
       width: 910px;
       margin: 0 auto;
       .pic-tips{
         color: #ccc;
       }
     }
-    .add-commend-form-bt{
+    .edit-commend-form-bt{
       margin-top: 30px;
       text-align: center;
     }
   }
 </style>
 <style>
-  .add-commend-form-container .product-img .el-upload {
+  .edit-commend-form-container .product-img .el-upload {
     width: 202px;
     height: 127px;
 
   }
-  .add-commend-form-container .main-product-img .el-upload {
+  .edit-commend-form-container .main-product-img .el-upload {
     width: 712px;
     height: 242px;
 
   }
 
-  .add-commend-container .el-table{text-align: center}
-  .add-commend-container .el-table th{text-align: center}
+  .edit-commend-form-bt .el-table{text-align: center}
+  .edit-commend-form-bt .el-table th{text-align: center}
 </style>
 <script>
   export default {
     name: "",
+    props:['id'],
     data() {
       return {
         //载入条
@@ -373,8 +374,24 @@
       this.getOneCategory()
       this.getListJD()
       this.getListZJ()
+      this.getRecommendDetail()
     },
     methods:{
+      getRecommendDetail() {
+        this.$request.post('/sc/saotx/mall/recommend/detail',{id:this.id},true,res => {
+          if (res.ret == '200000') {
+            this.ruleForm.name = res.data.name
+            this.ruleForm.idx = res.data.idx
+            let recommendProducts = res.data.recommendProducts
+            recommendProducts.map((e,i)=>{
+              this.ruleForm['product'+e.idx+'Id'] = e.productId
+              this.ruleForm['product'+e.idx+'Name'] = e.productName
+              this.ruleForm['image'+e.idx] = e.productImage
+            })
+
+          }
+        })
+      },
       //从后台拿取京东商品列表
       getListJD() {
         let params = {
@@ -478,6 +495,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let params = {
+              id:this.id,
               type:1,
               name:this.ruleForm.name,
               idx:this.ruleForm.idx,

@@ -22,14 +22,14 @@
           <el-upload
               action="/api/saotx/attach/commonAliUpload"
               list-type="picture-card"
-              class="main-product-img"
+              class="product-img"
               :headers="headers"
               :show-file-list="false"
               :on-success="handleAvatarSuccess1"
           >
-            <img v-if="ruleForm.image1" width="710" height="240" :src="ruleForm.image1" class="avatar">
+            <img v-if="ruleForm.image1" width="200" height="125" :src="ruleForm.image1" class="avatar">
           </el-upload>
-          <div class="pic-tips">上传图片的最佳尺寸：710像素*240像素;格式png，jpg;大小不超过2M</div>
+          <div class="pic-tips">上传图片的最佳尺寸：230像素*144像素;格式png，jpg;大小不超过2M</div>
         </el-form-item>
         <div></div>
 
@@ -266,7 +266,7 @@
 
         ruleForm: {
           //推荐位展示类型
-          type:"1",
+          type:"2",
           //推荐位名称
           name: '',
           //排序值
@@ -478,7 +478,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let params = {
-              type:1,
+              type:2,
               name:this.ruleForm.name,
               idx:this.ruleForm.idx,
               recommendProducts:[

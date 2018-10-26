@@ -180,7 +180,30 @@
         })
       },
       deleteBanner(id){
-        console.log(id)
+        this.$confirm('您确定删除此banner？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let params = {id}
+          this.$request.post('/sc/saotx/mall/banner/remove',params, true, (res) => {
+            if (res.ret == '200000') {
+              this.$message({
+                message:"已删除",
+                type: 'warning'
+              })
+              this.getBannerList()
+            }else{
+              this.$message({
+                message:res.message,
+                type: 'warning'
+              })
+              this.getBannerList()
+            }
+          })
+        }).catch(() => {
+          //
+        });
       },
     },
     created(){

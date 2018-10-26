@@ -152,7 +152,12 @@ export default new Router({
         { path: '/mall/systemLayout', name: '系统配置', component: systemLayout },
         { path: '/mall/category', name: '分类管理', component: sortManage },
         { path: '/mall/recommend', name: '推荐位管理', component: recommendManage },
-        { path: '/mall/addCommendTpmA', name: '新增推荐位模板1', component: addCommendTpmA },
+        { path: '/mall/addCommendTpmA', name: '新增推荐位模板A', component: addCommendTpmA },
+        { path: '/mall/addCommendTpmB', name: '新增推荐位模板B', component: addCommendTpmB },
+        { path: '/mall/addCommendTpmC', name: '新增推荐位模板C', component: addCommendTpmC },
+        { path: '/mall/editCommendTpmA', name: '编辑推荐位模板A', component: editCommendTpmA,props: (route) => ({id:route.query.id})},
+        { path: '/mall/editCommendTpmB', name: '编辑推荐位模板B', component: editCommendTpmB,props: (route) => ({id:route.query.id})},
+        { path: '/mall/editCommendTpmC', name: '编辑推荐位模板C', component: editCommendTpmC,props: (route) => ({id:route.query.id})},
         { path: '/mall/banner', name: 'banner位管理', component: bannerManage},
         { path: '/mall/banner/addBanner', name: '新增banner', component: addBanner},
         { path: '/mall/banner/editBanner', name: '编辑banner', component: editBanner,props: (route) => ({id:route.query.id})},
@@ -415,4 +420,14 @@ import sortManage from '../pages/Mall/SortManage/SortManage'
 import recommendManage from '../pages/Mall/RecommendManage/RecommendManage'
 // 商城-推荐位管理-新增推荐位A
 import addCommendTpmA from '../pages/Mall/RecommendManage/Template/AddCommendTpmA'
+// 商城-推荐位管理-编辑推荐位A
+import editCommendTpmA from '../pages/Mall/RecommendManage/Template/EditCommendTpmA'
+// 商城-推荐位管理-新增推荐位B
+import addCommendTpmB from '../pages/Mall/RecommendManage/Template/AddCommendTpmB'
+// 商城-推荐位管理-编辑推荐位B
+import editCommendTpmB from '../pages/Mall/RecommendManage/Template/EditCommendTpmB'
+// 商城-推荐位管理-新增推荐位C
+import addCommendTpmC from '../pages/Mall/RecommendManage/Template/AddCommendTpmC'
+// 商城-推荐位管理-编辑推荐位C
+import editCommendTpmC from '../pages/Mall/RecommendManage/Template/EditCommendTpmC'
 
