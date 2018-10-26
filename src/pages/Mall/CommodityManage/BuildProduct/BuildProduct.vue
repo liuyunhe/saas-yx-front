@@ -461,20 +461,20 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-        this.$request.post('/sc/saotx/mall/product/remove',params,true,res => {
-          if(res.ret == "200000"){
-            this.$message({
-              message: '操作成功！',
-              type: 'success'
-            });
-            this.getListZJ()
-          }else{
-            this.$message({
-              message: res.message,
-              type: 'warning'
-            });
-          }
-        })
+          this.$request.post('/sc/saotx/mall/product/remove',params,true,res => {
+            if(res.ret == "200000"){
+              this.$message({
+                message: '操作成功！',
+                type: 'success'
+              });
+              this.getListZJ()
+            }else{
+              this.$message({
+                message: res.message,
+                type: 'warning'
+              });
+            }
+          })
         })
       },
       //编辑商品
@@ -535,19 +535,25 @@
       },
       //批量删除
       removeBatch(){
-        this.$request.post('/sc/saotx/mall/product/removeBatch',{ids:this.ids},true,res => {
-          if(res.ret == "200000"){
-            this.$message({
-              message: '操作成功！',
-              type: 'success'
-            });
-            this.getListZJ()
-          }else{
-            this.$message({
-              message: res.message,
-              type: 'warning'
-            });
-          }
+        this.$confirm(`您确定批量刪除商品？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$request.post('/sc/saotx/mall/product/removeBatch',{ids:this.ids},true,res => {
+            if(res.ret == "200000"){
+              this.$message({
+                message: '操作成功！',
+                type: 'success'
+              });
+              this.getListZJ()
+            }else{
+              this.$message({
+                message: res.message,
+                type: 'warning'
+              });
+            }
+          })
         })
       },
       //跳转按钮功能
