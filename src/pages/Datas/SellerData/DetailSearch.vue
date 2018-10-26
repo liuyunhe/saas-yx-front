@@ -4,32 +4,32 @@
         <!-- 数据查询条件 -->
         <el-form :inline="true" :model="form">
             <el-form-item label="品牌" class="ml40">
-                <el-select v-model="form.productBrand" placeholder="全部" @change="brandChange">
+                <el-select size="small" v-model="form.productBrand" placeholder="全部" @change="brandChange">
                     <el-option label="全部" value=""></el-option>
                     <el-option v-for="item in brandList" :key="item.brandCode" :label="item.name" :value="item.name"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="规格">
-                <el-select v-model="form.productSnArr" placeholder="全部" :multiple="true" :collapse-tags="true" @change="snChange">
+                <el-select size="small" v-model="form.productSnArr" placeholder="全部" :multiple="true" :collapse-tags="true" @change="snChange">
                     <el-option label="全部" value="all"></el-option>
                     <el-option v-for="item in snList" :key="item.sn" :label="item.productName" :value="item.sn"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="城市">
-                <el-input v-model="form.cityName"></el-input>
+                <el-input size="small" v-model="form.cityName"></el-input>
             </el-form-item>
             <el-form-item label="业态" class="ml15">
-                <el-select v-model="form.bizCode" placeholder="全部">
+                <el-select size="small" v-model="form.bizCode" placeholder="全部">
                     <el-option label="全部" value=""></el-option>
                     <el-option v-for="item in commercialList" :key="item.bizCode" :label="item.bizName" :value="item.bizCode"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="零售户名称">
-                <el-input v-model="form.shopName"></el-input>
+                <el-input size="small" v-model="form.shopName"></el-input>
             </el-form-item>
             <el-form-item label="时间">
                 <div class="block">
-                    <el-date-picker
+                    <el-date-picker size="small"
                         v-model="form.time"
                         type="daterange"
                         range-separator="至"
@@ -41,8 +41,8 @@
             </el-form-item>
             <div></div>
             <el-form-item>
-                <el-button type="primary" @click="list">查询</el-button>
-                <el-button @click="resetForm">重置</el-button>
+                <el-button size="small" type="primary" @click="list">查询</el-button>
+                <el-button size="small" @click="resetForm">重置</el-button>
             </el-form-item>
         </el-form>
     </el-card>
@@ -221,7 +221,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .ml40 {margin-left:40px;}
     .space {position:relative;width:100%;height:20px;}
     .el-table th>.cell, .el-table {

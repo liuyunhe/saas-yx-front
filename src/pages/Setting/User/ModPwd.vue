@@ -3,16 +3,16 @@
     <el-card class="box-card">
       <el-form :model="form" :rules="rules" ref="form" label-width="120px" status-icon class="mod-pwd">
         <el-form-item label="原密码" prop="oldPwd">
-          <el-input type="password" v-model="form.oldPwd"></el-input>
+          <el-input size="small" type="password" v-model="form.oldPwd"></el-input>
         </el-form-item>
         <el-form-item label="新密码" prop="newPwd">
-          <el-input type="password" v-model="form.newPwd"></el-input>
+          <el-input size="small" type="password" v-model="form.newPwd"></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="checkPass">
-          <el-input type="password" v-model="form.checkPass"></el-input>
+          <el-input size="small" type="password" v-model="form.checkPass"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('form')">确认</el-button>
+          <el-button size="small" type="primary" @click="submitForm('form')">确认</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -95,7 +95,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .mod-pwd .el-input {
         width: 400px;
     }

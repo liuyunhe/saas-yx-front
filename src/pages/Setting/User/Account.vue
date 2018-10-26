@@ -2,22 +2,22 @@
   <div>
     <el-card class="box-card">
       <el-row>
-        <el-button type="primary" @click="mgrForm">新建成员</el-button>
+        <el-button size="small" type="primary" @click="mgrForm">新建成员</el-button>
       </el-row>
       <div class="space"></div>
       <!-- 数据查询条件 -->
       <el-form :inline="true" :model="form">
         <el-form-item label="成员筛选">
-          <el-input v-model="form.keywords" placeholder="姓名/手机号"></el-input>
+          <el-input size="small" v-model="form.keywords" placeholder="姓名/手机号"></el-input>
         </el-form-item>
         <el-form-item label="角色">
-          <el-select v-model="form.roleCode" placeholder="全部">
+          <el-select size="small" v-model="form.roleCode" placeholder="全部">
             <el-option label="全部" value=""></el-option>
             <el-option v-for="item in roleList" :key="item.roleCode" :label="item.roleName" :value="item.roleCode"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="状态">
-          <el-select v-model="form.status" placeholder="全部">
+          <el-select size="small" v-model="form.status" placeholder="全部">
             <el-option label="全部" value=""></el-option>
             <el-option label="已启用" value="1"></el-option>
             <el-option label="已停用" value="0"></el-option>
@@ -26,8 +26,8 @@
         </el-form-item>
         <div></div>
         <el-form-item>
-          <el-button type="primary" @click="list">查询</el-button>
-          <el-button @click="resetForm">重置</el-button>
+          <el-button size="small" type="primary" @click="list">查询</el-button>
+          <el-button size="small" @click="resetForm">重置</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -308,7 +308,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .space {position:relative;width:100%;height:20px;}
   .dialog-footer {
     clear: both;

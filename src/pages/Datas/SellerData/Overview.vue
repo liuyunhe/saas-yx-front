@@ -4,13 +4,13 @@
             <!-- 数据查询条件 -->
             <el-form :inline="true" :model="form">
                 <el-form-item label="类型">
-                    <el-select v-model="form.statType" class="mycust-sel">
+                    <el-select size="small" v-model="form.statType" class="mycust-sel">
                         <el-option v-for="(label, value) in statTypeList" :key="value" :label="label" :value="value"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="查询时间" v-show="form.statType=='day'">
                     <div class="block">
-                        <el-date-picker
+                        <el-date-picker size="small"
                             v-model="form.time"
                             type="daterange"
                             range-separator="至"
@@ -22,25 +22,25 @@
                 </el-form-item>
                 <el-form-item label="查询时间" v-show="form.statType=='week'">
                     <div class="block">
-                        <el-select v-model="form.weekStaTime" class="the-time">
+                        <el-select size="small" v-model="form.weekStaTime" class="the-time">
                             <el-option v-for="item in weeks" :key="item.weekNo" :label="item.weekNo" :value="item.startWeek"></el-option>
                         </el-select>
                         <span class="split">至</span>
-                        <el-select v-model="form.weekEndTime" class="the-time">
+                        <el-select size="small" v-model="form.weekEndTime" class="the-time">
                             <el-option v-for="item in weeks" :key="item.weekNo" :label="item.weekNo" :value="item.endWeek"></el-option>
                         </el-select>
                     </div>
                 </el-form-item>
                 <el-form-item label="查询时间" v-show="form.statType=='month'">
                     <div class="block">
-                        <el-date-picker v-model="form.monStaTime" type="month" value-format="yyyy-MM"></el-date-picker>
+                        <el-date-picker size="small" v-model="form.monStaTime" type="month" value-format="yyyy-MM"></el-date-picker>
                         <span class="split">至</span>
-                        <el-date-picker v-model="form.monEndTime" type="month" value-format="yyyy-MM"></el-date-picker>
+                        <el-date-picker size="small" v-model="form.monEndTime" type="month" value-format="yyyy-MM"></el-date-picker>
                     </div>
                 </el-form-item>
                 <div></div>
                 <el-form-item>
-                    <el-button type="primary" @click="search">查询</el-button>
+                    <el-button size="small" type="primary" @click="search">查询</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
@@ -80,7 +80,7 @@
                     </div>
                     <div class="half-inline">
                         <div class="biz-sel-block">
-                            <el-select v-model="form.bizType" class="mycust-sel biz-sel" @change="loadChart3">
+                            <el-select size="small" v-model="form.bizType" class="mycust-sel biz-sel" @change="loadChart3">
                                 <el-option v-for="item in bizs" :key="item.bizCode" :label="item.bizName" :value="item.bizCode"></el-option>
                             </el-select>
                         </div>
@@ -179,7 +179,7 @@ export default {
         initBizs() {
             this.$request.post('/record/shopKeeper/getShopDownBox', {}, true, (res)=>{
                 this.bizs = res || [];
-                this.bizs = [{"bizCode":"1","bizName":"食杂店"},{"bizCode":"2","bizName":"便利店"},{"bizCode":"3","bizName":"超市"},{"bizCode":"4","bizName":"商场"},{"bizCode":"5","bizName":"酒店服务"},{"bizCode":"6","bizName":"娱乐服务"},{"bizCode":"7","bizName":"其他"}];
+                //this.bizs = [{"bizCode":"1","bizName":"食杂店"},{"bizCode":"2","bizName":"便利店"},{"bizCode":"3","bizName":"超市"},{"bizCode":"4","bizName":"商场"},{"bizCode":"5","bizName":"酒店服务"},{"bizCode":"6","bizName":"娱乐服务"},{"bizCode":"7","bizName":"其他"}];
                 if(this.bizs.length>0) {
                     this.form.bizType = this.bizs[0].bizCode;
                     this.loadChart3();
@@ -424,7 +424,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
     .space {position:relative;width:100%;height:20px;}
     .mycust-sel {
         width: 150px;

@@ -2,7 +2,7 @@
   <div>
     <el-card class="box-card">
       <el-row>
-        <el-button type="primary" @click="materielForm">新建</el-button>
+        <el-button size="small" type="primary" @click="materielForm">新建</el-button>
       </el-row>
       <div class="space"></div>
       <el-tabs type="border-card" @tab-click="changeTab">
@@ -10,24 +10,24 @@
           <!-- 数据查询条件 -->
           <el-form :inline="true" :model="form" class="demo-form-inline">
             <el-form-item label="筛选信息">
-              <el-input v-model="form.keywords" :placeholder="materielName[metraFlag]+'名称'"></el-input>
+              <el-input size="small" v-model="form.keywords" :placeholder="materielName[metraFlag]+'名称'"></el-input>
             </el-form-item>
             <el-form-item label="供应商">
-              <el-select v-model="supplierSel" placeholder="全部">
+              <el-select size="small" v-model="supplierSel" placeholder="全部">
                 <el-option label="全部" value=""></el-option>
                 <el-option v-for="item in supplierList" :key="item.supplierCode" :label="item.name" :value="item.supplierCode"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="使用状态">
-              <el-select v-model="form.status" placeholder="全部">
+              <el-select size="small" v-model="form.status" placeholder="全部">
                 <el-option label="全部" value=""></el-option>
                 <el-option v-for="item in statusList" :key="item.code" :label="item.name" :value="item.code"></el-option>
               </el-select>
             </el-form-item>
             <div></div>
             <el-form-item>
-              <el-button type="primary" @click="listMateriel">查询</el-button>
-              <el-button @click="resetForm">重置</el-button>
+              <el-button size="small" type="primary" @click="listMateriel">查询</el-button>
+              <el-button size="small" @click="resetForm">重置</el-button>
             </el-form-item>
           </el-form>
           <!-- 数据表格 -->
@@ -61,7 +61,7 @@
           </el-table>
           <div class="space"></div>
           <!-- 分页组件 -->
-          <el-pagination background layout="total, prev, pager, next, jumper"
+          <el-pagination :small="false" background layout="total, prev, pager, next, jumper"
             @size-change="sizeChange" @current-change="currentChange"
             :current-page="form.pageNo" :page-size="form.pageSize"
             :total="pagination.total">
@@ -72,24 +72,24 @@
           <!-- 数据查询条件 -->
           <el-form :inline="true" :model="form" class="demo-form-inline">
             <el-form-item label="筛选信息">
-              <el-input v-model="form.keywords" :placeholder="materielName[metraFlag]+'名称'"></el-input>
+              <el-input size="small" v-model="form.keywords" :placeholder="materielName[metraFlag]+'名称'"></el-input>
             </el-form-item>
             <el-form-item label="供应商">
-              <el-select v-model="supplierSel" placeholder="全部">
+              <el-select size="small" v-model="supplierSel" placeholder="全部">
                 <el-option label="全部" value=""></el-option>
                 <el-option v-for="item in supplierList" :key="item.supplierCode" :label="item.name" :value="item.supplierCode"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="动作">
-              <el-select v-model="form.operType" placeholder="全部">
+              <el-select size="small" v-model="form.operType" placeholder="全部">
                 <el-option label="全部" value=""></el-option>
                 <el-option v-for="(label, value) in operTypeList" :key="value" :label="label" :value="value"></el-option>
               </el-select>
             </el-form-item>
             <div></div>
             <el-form-item>
-              <el-button type="primary" @click="listOperLog">查询</el-button>
-              <el-button @click="resetForm">重置</el-button>
+              <el-button size="small" type="primary" @click="listOperLog">查询</el-button>
+              <el-button size="small" @click="resetForm">重置</el-button>
             </el-form-item>
           </el-form>
           <!-- 数据表格 -->
@@ -407,7 +407,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .space {position:relative;width:100%;height:20px;}
   .el-table th>.cell, .el-table {
     text-align: center;
