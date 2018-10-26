@@ -16,7 +16,7 @@
     return fmt;
   }
   
-  // var time1 = new Date().format("yyyy-MM-dd HH:mm:ss");
+  // var time1 = new Date().format("yyyy-MM-dd hh:mm:ss");
   // var time2 = new Date().format("yyyy-MM-dd");
 
   /**

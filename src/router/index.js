@@ -196,13 +196,26 @@ export default new Router({
         { path: '/seller/rebate/mgr', name: '扫码返佣管理', component: KPI },
         // 商城
         { path: '/mall', name: '商城', redirect: '/mall/auth' },
-        { path: '/mall/auth', name: '审核管理', component: KPI },
-        { path: '/mall/category', name: '分类管理', component: KPI },
-        { path: '/mall/recommend', name: '推荐位管理', component: KPI },
-        { path: '/mall/banner', name: 'banner位管理', component: KPI },
+        { path: '/mall/auth', name: '审核管理', component: auditManage },
+        { path: '/mall/systemLayout', name: '系统配置', component: systemLayout },
+        { path: '/mall/category', name: '分类管理', component: sortManage },
+        { path: '/mall/recommend', name: '推荐位管理', component: recommendManage },
+        { path: '/mall/addCommendTpmA', name: '新增推荐位模板A', component: addCommendTpmA },
+        { path: '/mall/addCommendTpmB', name: '新增推荐位模板B', component: addCommendTpmB },
+        { path: '/mall/addCommendTpmC', name: '新增推荐位模板C', component: addCommendTpmC },
+        { path: '/mall/editCommendTpmA', name: '编辑推荐位模板A', component: editCommendTpmA,props: (route) => ({id:route.query.id})},
+        { path: '/mall/editCommendTpmB', name: '编辑推荐位模板B', component: editCommendTpmB,props: (route) => ({id:route.query.id})},
+        { path: '/mall/editCommendTpmC', name: '编辑推荐位模板C', component: editCommendTpmC,props: (route) => ({id:route.query.id})},
+        { path: '/mall/banner', name: 'banner位管理', component: bannerManage},
+        { path: '/mall/banner/addBanner', name: '新增banner', component: addBanner},
+        { path: '/mall/banner/editBanner', name: '编辑banner', component: editBanner,props: (route) => ({id:route.query.id})},
         { path: '/mall/product', name: '商品管理', redirect: '/mall/product/zj' },
-        { path: '/mall/product/zj', name: '自建商品管理', component: KPI },
-        { path: '/mall/product/jd', name: '京东商品管理', component: KPI },
+        { path: '/mall/product/zj', name: '自建商品管理', component: buildProduct},
+        { path: '/mall/product/addProduct', name: '新建自建商品', component: addProduct},
+        { path: '/mall/product/editProduct', name: '编辑自建商品', component: editProduct,props: (route) => ({id:route.query.id})},
+        { path: '/mall/product/jd', name: '京东商品管理', component: JDProduct },
+        { path: '/mall/product/addJDProduct', name: '新建京东商品', component: addJDProduct },
+        { path: '/mall/product/editJDProduct', name: '编辑京东商品', component: editJDProduct,props: (route) => ({id:route.query.id})},
         // 设置
         { path: '/setting', name: '设置', redirect: '/setting/user'},
         { path: '/setting/user', name: '账户设置', redirect: '/setting/user/modPwd' },
@@ -416,88 +429,6 @@ export default new Router({
         // }
       ]
     },
-    // {
-    //   path: '/datas',
-    //   name: '数据',
-    //   // component: DataTransfer,
-    //   redirect: '/datas/kpi',
-    //   children: [
-    //     { path: '/datas/kpi', name: 'kpi', component: KPI }
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: '投放管理',
-    //   component: TopMenu,
-    //   children:[
-    //     {
-    //       path: '/LandingPageSetting',
-    //       name: '落地页设置',
-    //       component: LandingPageSetting,
-    //     },
-    //     {
-    //       path: '/SelectLandingPageTemplate',
-    //       name: '从模板中创建',
-    //       // hidden:true,
-    //       component: SelectLandingPageTemplate,
-    //     },
-
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: '数据分析',
-    //   component: TopMenu,
-    //   children:[
-
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: '客户管理',
-    //   component: TopMenu,
-    //   children:[
-
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: '项目管理',
-    //   component: TopMenu,
-    //   children:[
-
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: '运营助手',
-    //   component: TopMenu,
-    //   children:[
-
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: '系统管理',
-    //   component: TopMenu,
-    //   children:[
-
-    //   ]
-    // },
-    // {
-    //   path: '/product',
-    //   name: '产品',
-    //   leaf:true,    //没有子级菜单的标识
-    //   component: Home,
-    //   redirect: { path: '/product/mgr/tobacco'},
-    //   children:[
-    //     {
-    //       path:'/product/mgr/tobacco',
-    //       name:'烟草管理',
-    //       component: tobacco,
-    //     }
-    //   ]
-    // },
     {
       path:'/404',
       name:'404',
@@ -514,3 +445,37 @@ export default new Router({
     return { x: 0, y: 0 }
   }
 })
+
+// 商城-审核管理
+import auditManage from '../pages/Mall/AuditManage/AuditManage'
+// 商城-系统设置
+import systemLayout from '../pages/Mall/SystemLayout/SystemLayout'
+// 商城-商品管理-自建商品管理
+import buildProduct from '../pages/Mall/CommodityManage/BuildProduct/BuildProduct'
+import addProduct from  '../pages/Mall/CommodityManage/BuildProduct/AddProduct'
+import editProduct from  '../pages/Mall/CommodityManage/BuildProduct/EditProduct'
+// 商城-商品管理-京东商品管理
+import JDProduct from '../pages/Mall/CommodityManage/JDProduct/JDProduct'
+import addJDProduct from '../pages/Mall/CommodityManage/JDProduct/AddJDProduct'
+import editJDProduct from '../pages/Mall/CommodityManage/JDProduct/EditJDProduct'
+// 商城-banner位管理
+import bannerManage from '../pages/Mall/BannerManage/BannerManage'
+import addBanner from '../pages/Mall/BannerManage/AddBanner'
+import editBanner from '../pages/Mall/BannerManage/EditBanner'
+// 商城-分类管理
+import sortManage from '../pages/Mall/SortManage/SortManage'
+// 商城-推荐位管理
+import recommendManage from '../pages/Mall/RecommendManage/RecommendManage'
+// 商城-推荐位管理-新增推荐位A
+import addCommendTpmA from '../pages/Mall/RecommendManage/Template/AddCommendTpmA'
+// 商城-推荐位管理-编辑推荐位A
+import editCommendTpmA from '../pages/Mall/RecommendManage/Template/EditCommendTpmA'
+// 商城-推荐位管理-新增推荐位B
+import addCommendTpmB from '../pages/Mall/RecommendManage/Template/AddCommendTpmB'
+// 商城-推荐位管理-编辑推荐位B
+import editCommendTpmB from '../pages/Mall/RecommendManage/Template/EditCommendTpmB'
+// 商城-推荐位管理-新增推荐位C
+import addCommendTpmC from '../pages/Mall/RecommendManage/Template/AddCommendTpmC'
+// 商城-推荐位管理-编辑推荐位C
+import editCommendTpmC from '../pages/Mall/RecommendManage/Template/EditCommendTpmC'
+

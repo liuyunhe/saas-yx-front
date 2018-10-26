@@ -20,7 +20,8 @@
             <el-form-item :size="'small'" label="状态">
               <el-select
                   v-model="filters.status"
-                  placeholder="请选择">
+                  placeholder="请选择"
+                  style="width: 200px">
                 <el-option
                     v-for="item in dataStatusList"
                     :key="item.code"
@@ -292,7 +293,6 @@
     },
     created(){
      this.getDataStatus()
-
     },
     mounted() {
       this.getSupplyList()
