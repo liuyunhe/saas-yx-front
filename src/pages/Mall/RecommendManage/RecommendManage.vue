@@ -35,7 +35,7 @@
             <template slot-scope="scope">
               <el-button
                   size="mini"
-                  @click="editRecommend(scope.row.id)">
+                  @click="editRecommend(scope.row.id,scope.row.type)">
                 编辑</el-button>
               <el-button
                   size="mini"
@@ -157,14 +157,48 @@
         this.$emit('current-change')
       },
       //编辑
-      editRecommend(id){
-        this.$router.push({
-          path:'/mall/banner/editRecommend?id='+id
-        })
+      editRecommend(id,type){
+        if(type==1){
+          this.$router.push({
+            path:'/mall/editCommendTpmA?id='+id
+          })
+        }else if(type==2){
+          this.$router.push({
+            path:'/mall/editCommendTpmB?id='+id
+          })
+        }else if(type==3){
+          this.$router.push({
+            path:'/mall/editCommendTpmC?id='+id
+          })
+        }
+
       },
       //删除
       deleteRecommend(id){
-        console.log(id)
+        this.$confirm('您确定删除此推荐位？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let params = {id}
+          this.$request.post('/sc/saotx/mall/recommend/remove',params, true, (res) => {
+            if (res.ret == '200000') {
+              this.$message({
+                message:"已删除",
+                type: 'warning'
+              })
+              this.getRecommendList()
+            }else{
+              this.$message({
+                message:res.message,
+                type: 'warning'
+              })
+              this.getRecommendList()
+            }
+          })
+        }).catch(() => {
+          //
+        });
       },
 
       handleClose() {
