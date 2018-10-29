@@ -188,7 +188,8 @@ export default new Router({
         { path: '/Orders/mall/integral', name: '积分活动订单', component: KPI },
         // 零售户
         { path: '/seller', name: '零售户', redirect: '/seller/review' },
-        { path: '/seller/review', name: '审核管理', component: KPI },
+        { path: '/seller/review', name: '审核管理', component: reviewmanage},
+        { path: '/seller/addSeller', name: '新增零售户', component: addSeller},
         { path: '/seller/mgr', name: '零售户管理', component: KPI },
         { path: '/seller/tx', name: '提现审核', component: KPI },
         { path: '/seller/achievement', name: '零售户业绩', component: KPI },
@@ -478,4 +479,9 @@ import editCommendTpmB from '../pages/Mall/RecommendManage/Template/EditCommendT
 import addCommendTpmC from '../pages/Mall/RecommendManage/Template/AddCommendTpmC'
 // 商城-推荐位管理-编辑推荐位C
 import editCommendTpmC from '../pages/Mall/RecommendManage/Template/EditCommendTpmC'
+
+//零售户-审核管理
+import reviewmanage from '../pages/Seller/Reviewmanage/Reviewmanage'
+//零售户-新增零售户
+import addSeller from  '../pages/Seller/AddSeller/AddSeller'
 
