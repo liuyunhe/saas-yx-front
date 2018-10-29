@@ -25,11 +25,11 @@ module.exports = {
           '^/record': ''
         }
       },
-      '/seller': { // SAAS后端零售户接口
+      '/lsh': { // SAAS后端零售户接口
         target: 'http://cs-retailer.saotianxia.com.cn/',
         changeOrigin: true,
         pathRewrite: {
-          '^/seller': ''
+          '^/lsh': ''
         }
       },
       '/sc': { // SAAS后端积分商城接口
