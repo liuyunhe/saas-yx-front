@@ -15,6 +15,8 @@ import IntegralPage from '@/pages/Orders/ACT/IntegralPage.vue'
 import ZjOrderPage from '@/pages/Orders/mall/ZjOrderPage.vue'
 import ZjOrderPageDetail from '@/pages/Orders/mall/ZjOrderPageDetail.vue'
 import JdOrderPage from '@/pages/Orders/mall/JdOrderPage.vue'
+//积分活动订单管理
+import ScoreOrderPage from '@/pages/Orders/mall/ScoreOrderPage.vue'
 //import Multi from '@/pages/Datas/Multi/Multi.vue'
 import NotFound from '@/pages/404.vue'
 // 营销
@@ -185,7 +187,7 @@ export default new Router({
         { path: '/Orders/mall/zj', name: '自建商品订单', component: ZjOrderPage },
         { path: '/Orders/mall/zjOrderPageDetail', name: '自建商品订单详情',  component: ZjOrderPageDetail,props: (route) => ({orderCode:route.query.orderCode})  },
         { path: '/Orders/mall/jd', name: '京东商品订单', component: JdOrderPage },
-        { path: '/Orders/mall/integral', name: '积分活动订单', component: KPI },
+        { path: '/Orders/mall/integral', name: '积分活动订单', component: ScoreOrderPage },
         // 零售户
         { path: '/seller', name: '零售户', redirect: '/seller/review' },
         { path: '/seller/review', name: '审核管理', component: KPI },
