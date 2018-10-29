@@ -75,14 +75,14 @@ import ScanConf from '@/pages/Wplat/ScanConf/ScanConf.vue'
 //平台风格配置
 import StyleConf from '@/pages/Wplat/StyleConf/StyleConf.vue'
 //微平台管理的四个子菜单
-import wplatHome from '../pages/Wplat/WplatConf/WplatHome.vue'
-import Activities from '../pages/Wplat/WplatConf/Activities.vue'
-import Shop from '../pages/Wplat/WplatConf/Shop.vue'
-import Person from '../pages/Wplat/WplatConf/Person.vue'
+import wplatHome from '@/pages/Wplat/WplatConf/WplatHome.vue'
+import Activities from '@/pages/Wplat/WplatConf/Activities.vue'
+import Shop from '@/pages/Wplat/WplatConf/Shop.vue'
+import Person from '@/pages/Wplat/WplatConf/Person.vue'
 //首页主题查询中的地域查询
-import RegionSearch from '../pages/Datas/ThemeSearch/RegionSearch.vue'
+import RegionSearch from '@/pages/Datas/ThemeSearch/RegionSearch.vue'
 //首页主题查询中的规格查询
-import SpecSearch from '../pages/Datas/ThemeSearch/SpecSearch.vue'
+import SpecSearch from '@/pages/Datas/ThemeSearch/SpecSearch.vue'
 Vue.use(Router)
 
 export default new Router({
