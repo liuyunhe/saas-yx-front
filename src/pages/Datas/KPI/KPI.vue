@@ -64,50 +64,50 @@
           <el-table class="kpi-page-table" v-show="!sortTable" border ref="unsortTable" style="width:100%" stripe row-class-name="tableClass" tooltip-effect="dark"
             :span-method="objectSpanMethod" :data="tableDatas" 
             @sort-change="sortDatas" @cell-click="arrowCellClick">
-            <el-table-column label="地域" header-align="center">
-              <el-table-column label="统计" prop="overview" header-align="center"></el-table-column>
-              <el-table-column label="省市" header-align="center">
+            <el-table-column label="地域" align="center">
+              <el-table-column label="统计" prop="overview" align="center"></el-table-column>
+              <el-table-column label="省市" align="center">
                 <template slot-scope="scope">
                     {{scope.row.provOrCity}}
                     <i v-if="scope.row.province?true:false" :class="arrowTop[scope.row.province]?'el-icon-caret-top':'el-icon-caret-bottom'"></i>
                 </template>
               </el-table-column>
             </el-table-column>
-            <el-table-column prop="saleType" label="所属销区" header-align="center" width="280"></el-table-column>
-            <el-table-column prop="scantimes" label="扫码次数" header-align="center" width="180" sortable="custom" :render-header="scantimesHeader"></el-table-column>
-            <el-table-column prop="scanUsers" label="扫码人数" header-align="center" width="180" sortable="custom" :render-header="scanusersHeader"></el-table-column>
-            <el-table-column prop="scanCodes" label="扫码烟包数" header-align="center" width="180" sortable="custom" :render-header="scancodesHeader"></el-table-column>
+            <el-table-column prop="saleType" label="所属销区" align="center" width="280"></el-table-column>
+            <el-table-column prop="scantimes" label="扫码次数" align="center" width="180" sortable="custom" :render-header="scantimesHeader"></el-table-column>
+            <el-table-column prop="scanUsers" label="扫码人数" align="center" width="180" sortable="custom" :render-header="scanusersHeader"></el-table-column>
+            <el-table-column prop="scanCodes" label="扫码烟包数" align="center" width="180" sortable="custom" :render-header="scancodesHeader"></el-table-column>
           </el-table>
           <el-table v-show="sortTable" border ref="areaSortTable" :data="tableSortDatas" style="width:100%" stripe @sort-change="sortDatasChange" @cell-click="sortArrowCellClick">
-            <el-table-column label="省市" header-align="center">
+            <el-table-column label="省市" align="center">
               <template slot-scope="scope">
                   {{scope.row.provOrCity}}
                   <i v-if="scope.row.province?true:false" :class="sortArrowTop[scope.row.province]?'el-icon-caret-top':'el-icon-caret-bottom'"></i>
               </template>
             </el-table-column>
-            <el-table-column prop="saleType" label="所属销区" header-align="center" width="280"></el-table-column>
-            <el-table-column prop="scantimes" label="扫码次数" header-align="center" width="180" sortable="custom"></el-table-column>
-            <el-table-column prop="scanUsers" label="扫码人数" header-align="center" width="180" sortable="custom"></el-table-column>
-            <el-table-column prop="scanCodes" label="扫码烟包数" header-align="center" width="180" sortable="custom"></el-table-column>
+            <el-table-column prop="saleType" label="所属销区" align="center" width="280"></el-table-column>
+            <el-table-column prop="scantimes" label="扫码次数" align="center" width="180" sortable="custom"></el-table-column>
+            <el-table-column prop="scanUsers" label="扫码人数" align="center" width="180" sortable="custom"></el-table-column>
+            <el-table-column prop="scanCodes" label="扫码烟包数" align="center" width="180" sortable="custom"></el-table-column>
           </el-table>
         </el-tab-pane>
         <el-tab-pane label="规格指标" name="second">
           <el-table class="kpi-page-table" v-show="!prodSort" border ref="prodUnsortTable" :span-method="prodSpan" :data="prodTableDatas" style="width:100%" stripe show-summary row-class-name="tableClass" @sort-change="prodSortDatas">
-            <el-table-column label="产品" header-align="center">
-              <el-table-column label="品牌" prop="brand" header-align="center"></el-table-column>
-              <el-table-column label="规格" prop="specification" header-align="center"></el-table-column>
+            <el-table-column label="产品" align="center">
+              <el-table-column label="品牌" prop="brand" align="center"></el-table-column>
+              <el-table-column label="规格" prop="specification" align="center"></el-table-column>
             </el-table-column>
-            <el-table-column prop="scantimes" label="扫码次数" header-align="center" width="180" sortable="custom" :render-header="scantimesHeader"></el-table-column>
-            <el-table-column prop="scanUsers" label="扫码人数" header-align="center" width="180" sortable="custom" :render-header="scanusersHeader"></el-table-column>
-            <el-table-column prop="scanCodes" label="扫码烟包数" header-align="center" width="180" sortable="custom" :render-header="scancodesHeader"></el-table-column>
-            <el-table-column prop="drawTimes" label="抽奖次数" header-align="center" width="180" sortable="custom" :render-header="drawtimesHeader"></el-table-column>
+            <el-table-column prop="scantimes" label="扫码次数" align="center" width="180" sortable="custom" :render-header="scantimesHeader"></el-table-column>
+            <el-table-column prop="scanUsers" label="扫码人数" align="center" width="180" sortable="custom" :render-header="scanusersHeader"></el-table-column>
+            <el-table-column prop="scanCodes" label="扫码烟包数" align="center" width="180" sortable="custom" :render-header="scancodesHeader"></el-table-column>
+            <el-table-column prop="drawTimes" label="抽奖次数" align="center" width="180" sortable="custom" :render-header="drawtimesHeader"></el-table-column>
           </el-table>
           <el-table v-show="prodSort" border ref="prodSortTable" :data="prodTableDatas" style="width:100%" stripe show-summary @sort-change="prodSortDatasChange">
-            <el-table-column prop="specification" label="规格" header-align="center"></el-table-column>
-            <el-table-column prop="scantimes" label="扫码次数" header-align="center" width="180" sortable="custom"></el-table-column>
-            <el-table-column prop="scanUsers" label="扫码人数" header-align="center" width="180" sortable="custom"></el-table-column>
-            <el-table-column prop="scanCodes" label="扫码烟包数" header-align="center" width="180" sortable="custom"></el-table-column>
-            <el-table-column prop="drawTimes" label="抽奖次数" header-align="center" width="180" sortable="custom"></el-table-column>
+            <el-table-column prop="specification" label="规格" align="center"></el-table-column>
+            <el-table-column prop="scantimes" label="扫码次数" align="center" width="180" sortable="custom"></el-table-column>
+            <el-table-column prop="scanUsers" label="扫码人数" align="center" width="180" sortable="custom"></el-table-column>
+            <el-table-column prop="scanCodes" label="扫码烟包数" align="center" width="180" sortable="custom"></el-table-column>
+            <el-table-column prop="drawTimes" label="抽奖次数" align="center" width="180" sortable="custom"></el-table-column>
           </el-table>
         </el-tab-pane>
       </el-tabs>
@@ -564,7 +564,8 @@ export default {
       this.sortTable = true;
       this.$refs.unsortTable.clearSort();
       this.sortInfo = {prop:prop, order:order};
-      //this.$refs.areaSortTable.sort(prop, order);
+      console.log(this.$refs.areaSortTable);
+      this.$refs.areaSortTable.sort(prop, order);
       let sortBy = this.getSortBy(order);
       this.getProvDatas(prop, sortBy);
     },
