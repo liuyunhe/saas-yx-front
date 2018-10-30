@@ -220,7 +220,7 @@
               <el-button
                   type="text"
                   size="mini"
-                  @click="disapproval(scope.row.sellerId)"
+                  @click="disapprovalDialog(scope.row.sellerId)"
               >审核不通过</el-button>
               <el-button
                   type="text"
@@ -240,7 +240,7 @@
             :disabled="batchPass"
             @click="passBatch(ids)"
         >批量通过</el-button>
-        <el-button type="primary" class="btn-jump-to" @click="jumpTo">跳转</el-button>
+        <!--<el-button type="primary" class="btn-jump-to" @click="jumpTo">跳转</el-button>-->
         <el-pagination
             background
             layout="total,prev, pager, next,jumper"
@@ -252,6 +252,25 @@
         </el-pagination>
       </el-col>
     </div>
+    <el-dialog
+        title="请输入不通过理由"
+        :visible.sync="dialogVisible"
+        width="30%"
+        :before-close="handleClose">
+      <el-input
+          type="textarea"
+          :rows="2"
+          placeholder="请输入内容"
+          v-model="failReason">
+      </el-input>
+      <div style="text-align: center;margin-top: 30px">
+        <el-button size="small" @click="cancelDialog">取 消</el-button>
+        <el-button size="small" type="primary" @click="disapproval">确 定</el-button>
+      </div>
+
+    </el-dialog>
+
+
   </div>
 </template>
 
@@ -261,6 +280,7 @@
     data(){
       return{
         listLoading:false,
+
         //状态列表
         authStatusList:[
           {
@@ -365,9 +385,14 @@
         //总条数
         total:0,
 
+        //批量通过
         batchPass : true,
         ids:'',
 
+        //审批不通过原因
+        dialogVisible:false,
+        failReason:'',
+        sellerIds:''
       }
 
     },
@@ -534,8 +559,12 @@
         })
       },
       //审批不通过
-      disapproval(sellerIds){
-        let params = {sellerIds,authResult:2}
+      disapprovalDialog(sellerIds){
+        this.dialogVisible = true
+        this.sellerIds = sellerIds
+      },
+      disapproval(){
+        let params = {sellerIds:this.sellerIds,authResult:2,failReason:this.failReason}
         this.$confirm(`您确定审核不通过此商品？`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -547,15 +576,24 @@
                 message: '操作成功！',
                 type: 'success'
               });
+              this.dialogVisible = false
+              this.failReason = ""
               this.getListNewList()
             }else{
               this.$message({
                 message: res.message,
                 type: 'warning'
               });
+              this.dialogVisible = false
+              this.failReason = ""
+              this.getListNewList()
             }
           })
         })
+      },
+      cancelDialog(){
+        this.dialogVisible = false
+        this.failReason = ""
       },
       //批量通过
       passBatch(){
@@ -595,6 +633,9 @@
         this.currentPage = val
         this.getListNewList()
       },
+      handleClose(){
+
+      }
     }
   }
 </script>
