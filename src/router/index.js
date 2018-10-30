@@ -5,11 +5,18 @@ import Find from '@/pages/Login/Find.vue'
 // import TopMenu from '@/components/TopMenu.vue'  //主体框架头部菜单
 import Home from '@/pages/Home.vue'
 import KPI from '@/pages/Datas/KPI/KPI.vue'
+//活动订单管理
 import ObjectPage from '@/pages/Orders/ACT/ObjectPage.vue'
 import ObjectPageDetail from  '@/pages/Orders/ACT/ObjectPageDetail.vue'
 import VirtualPage from '@/pages/Orders/ACT/VirtualPage.vue'
 import RedpackPage from '@/pages/Orders/ACT/RedpackPage.vue'
 import IntegralPage from '@/pages/Orders/ACT/IntegralPage.vue'
+//商城订单管理
+import ZjOrderPage from '@/pages/Orders/mall/ZjOrderPage.vue'
+import ZjOrderPageDetail from '@/pages/Orders/mall/ZjOrderPageDetail.vue'
+import JdOrderPage from '@/pages/Orders/mall/JdOrderPage.vue'
+//积分活动订单管理
+import ScoreOrderPage from '@/pages/Orders/mall/ScoreOrderPage.vue'
 //import Multi from '@/pages/Datas/Multi/Multi.vue'
 import NotFound from '@/pages/404.vue'
 // 营销
@@ -24,12 +31,14 @@ import AddAct from '@/pages/Market/ActTpl/AddAct.vue'
 import ActSetConf from '@/pages/Market/ActMgr/ActSetConf.vue'
 import ActPutConf from '@/pages/Market/ActMgr/ActPutConf.vue'
 
+// 数据-零售户-发展情况概况
+import DataSellerOverview from '@/pages/Datas/SellerData/Overview.vue'
 // 数据-零售户-明细查询
-import DataSellerDetail from '../pages/Datas/SellerData/DetailSearch.vue'
+import DataSellerDetail from '@/pages/Datas/SellerData/DetailSearch.vue'
 // 数据-履约报表
-import DataAgree from '../pages/Datas/Agree.vue'
+import DataAgree from '@/pages/Datas/Agree.vue'
 // 数据-回访报表
-import DataVisit from '../pages/Datas/Visit.vue'
+import DataVisit from '@/pages/Datas/Visit.vue'
 
 //产品-产品管理-烟草管理
 import tobacco from '@/pages/Product/ProductManagement/TobaccoMgr'
@@ -66,14 +75,14 @@ import ScanConf from '@/pages/Wplat/ScanConf/ScanConf.vue'
 //平台风格配置
 import StyleConf from '@/pages/Wplat/StyleConf/StyleConf.vue'
 //微平台管理的四个子菜单
-import wplatHome from '../pages/Wplat/WplatConf/WplatHome.vue'
-import Activities from '../pages/Wplat/WplatConf/Activities.vue'
-import Shop from '../pages/Wplat/WplatConf/Shop.vue'
-import Person from '../pages/Wplat/WplatConf/Person.vue'
+import wplatHome from '@/pages/Wplat/WplatConf/WplatHome.vue'
+import Activities from '@/pages/Wplat/WplatConf/Activities.vue'
+import Shop from '@/pages/Wplat/WplatConf/Shop.vue'
+import Person from '@/pages/Wplat/WplatConf/Person.vue'
 //首页主题查询中的地域查询
-import RegionSearch from '../pages/Datas/ThemeSearch/RegionSearch.vue'
+import RegionSearch from '@/pages/Datas/ThemeSearch/RegionSearch.vue'
 //首页主题查询中的规格查询
-import SpecSearch from '../pages/Datas/ThemeSearch/SpecSearch.vue'
+import SpecSearch from '@/pages/Datas/ThemeSearch/SpecSearch.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -124,7 +133,7 @@ export default new Router({
         { path: '/datas/userAnalysis/portraitu', name: '用户画像', component: KPI },
         { path: '/datas/userAnalysis/label', name: '用户标签', component: KPI },
         { path: '/datas/sellerDatas', name: '零售户', redirect: '/datas/sellerDatas/develop' },
-        { path: '/datas/sellerDatas/develop', name: '发展情况概况', component: KPI },
+        { path: '/datas/sellerDatas/develop', name: '发展情况概况', component: DataSellerOverview },
         { path: '/datas/sellerDatas/search', name: '明细查询', component: DataSellerDetail },
         { path: '/datas/operate', name: '运营小工具', redirect: '/datas/operate/steal' },
         { path: '/datas/operate/steal', name: '盗扫明细', component: KPI },
@@ -174,10 +183,11 @@ export default new Router({
         { path: '/Orders/ACT/virtual', name: '虚拟领奖明细', component: VirtualPage },
         { path: '/Orders/ACT/redpack', name: '红包领奖明细', component: RedpackPage },
         { path: '/Orders/ACT/integral', name: '积分领奖明细', component: IntegralPage },
-        { path: '/orders/mall', name: '商城订单', redirect: '/orders/mall/zj'},
-        { path: '/orders/mall/zj', name: '自建商品订单', component: KPI },
-        { path: '/orders/mall/jd', name: '京东商品订单', component: KPI },
-        { path: '/orders/mall/integral', name: '积分活动订单', component: KPI },
+        { path: '/Orders/mall', name: '商城订单', redirect: '/Orders/mall/zj'},
+        { path: '/Orders/mall/zj', name: '自建商品订单', component: ZjOrderPage },
+        { path: '/Orders/mall/zjOrderPageDetail', name: '自建商品订单详情',  component: ZjOrderPageDetail,props: (route) => ({orderCode:route.query.orderCode})  },
+        { path: '/Orders/mall/jd', name: '京东商品订单', component: JdOrderPage },
+        { path: '/Orders/mall/integral', name: '积分活动订单', component: ScoreOrderPage },
         // 零售户
         { path: '/seller', name: '零售户', redirect: '/seller/review' },
         { path: '/seller/review', name: '审核管理', component: KPI },
@@ -188,13 +198,26 @@ export default new Router({
         { path: '/seller/rebate/mgr', name: '扫码返佣管理', component: KPI },
         // 商城
         { path: '/mall', name: '商城', redirect: '/mall/auth' },
-        { path: '/mall/auth', name: '审核管理', component: KPI },
-        { path: '/mall/category', name: '分类管理', component: KPI },
-        { path: '/mall/recommend', name: '推荐位管理', component: KPI },
-        { path: '/mall/banner', name: 'banner位管理', component: KPI },
+        { path: '/mall/auth', name: '审核管理', component: auditManage },
+        { path: '/mall/systemLayout', name: '系统配置', component: systemLayout },
+        { path: '/mall/category', name: '分类管理', component: sortManage },
+        { path: '/mall/recommend', name: '推荐位管理', component: recommendManage },
+        { path: '/mall/addCommendTpmA', name: '新增推荐位模板A', component: addCommendTpmA },
+        { path: '/mall/addCommendTpmB', name: '新增推荐位模板B', component: addCommendTpmB },
+        { path: '/mall/addCommendTpmC', name: '新增推荐位模板C', component: addCommendTpmC },
+        { path: '/mall/editCommendTpmA', name: '编辑推荐位模板A', component: editCommendTpmA,props: (route) => ({id:route.query.id})},
+        { path: '/mall/editCommendTpmB', name: '编辑推荐位模板B', component: editCommendTpmB,props: (route) => ({id:route.query.id})},
+        { path: '/mall/editCommendTpmC', name: '编辑推荐位模板C', component: editCommendTpmC,props: (route) => ({id:route.query.id})},
+        { path: '/mall/banner', name: 'banner位管理', component: bannerManage},
+        { path: '/mall/banner/addBanner', name: '新增banner', component: addBanner},
+        { path: '/mall/banner/editBanner', name: '编辑banner', component: editBanner,props: (route) => ({id:route.query.id})},
         { path: '/mall/product', name: '商品管理', redirect: '/mall/product/zj' },
-        { path: '/mall/product/zj', name: '自建商品管理', component: KPI },
-        { path: '/mall/product/jd', name: '京东商品管理', component: KPI },
+        { path: '/mall/product/zj', name: '自建商品管理', component: buildProduct},
+        { path: '/mall/product/addProduct', name: '新建自建商品', component: addProduct},
+        { path: '/mall/product/editProduct', name: '编辑自建商品', component: editProduct,props: (route) => ({id:route.query.id})},
+        { path: '/mall/product/jd', name: '京东商品管理', component: JDProduct },
+        { path: '/mall/product/addJDProduct', name: '新建京东商品', component: addJDProduct },
+        { path: '/mall/product/editJDProduct', name: '编辑京东商品', component: editJDProduct,props: (route) => ({id:route.query.id})},
         // 设置
         { path: '/setting', name: '设置', redirect: '/setting/user'},
         { path: '/setting/user', name: '账户设置', redirect: '/setting/user/modPwd' },
@@ -408,88 +431,6 @@ export default new Router({
         // }
       ]
     },
-    // {
-    //   path: '/datas',
-    //   name: '数据',
-    //   // component: DataTransfer,
-    //   redirect: '/datas/kpi',
-    //   children: [
-    //     { path: '/datas/kpi', name: 'kpi', component: KPI }
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: '投放管理',
-    //   component: TopMenu,
-    //   children:[
-    //     {
-    //       path: '/LandingPageSetting',
-    //       name: '落地页设置',
-    //       component: LandingPageSetting,
-    //     },
-    //     {
-    //       path: '/SelectLandingPageTemplate',
-    //       name: '从模板中创建',
-    //       // hidden:true,
-    //       component: SelectLandingPageTemplate,
-    //     },
-
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: '数据分析',
-    //   component: TopMenu,
-    //   children:[
-
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: '客户管理',
-    //   component: TopMenu,
-    //   children:[
-
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: '项目管理',
-    //   component: TopMenu,
-    //   children:[
-
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: '运营助手',
-    //   component: TopMenu,
-    //   children:[
-
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: '系统管理',
-    //   component: TopMenu,
-    //   children:[
-
-    //   ]
-    // },
-    // {
-    //   path: '/product',
-    //   name: '产品',
-    //   leaf:true,    //没有子级菜单的标识
-    //   component: Home,
-    //   redirect: { path: '/product/mgr/tobacco'},
-    //   children:[
-    //     {
-    //       path:'/product/mgr/tobacco',
-    //       name:'烟草管理',
-    //       component: tobacco,
-    //     }
-    //   ]
-    // },
     {
       path:'/404',
       name:'404',
@@ -506,3 +447,37 @@ export default new Router({
     return { x: 0, y: 0 }
   }
 })
+
+// 商城-审核管理
+import auditManage from '../pages/Mall/AuditManage/AuditManage'
+// 商城-系统设置
+import systemLayout from '../pages/Mall/SystemLayout/SystemLayout'
+// 商城-商品管理-自建商品管理
+import buildProduct from '../pages/Mall/CommodityManage/BuildProduct/BuildProduct'
+import addProduct from  '../pages/Mall/CommodityManage/BuildProduct/AddProduct'
+import editProduct from  '../pages/Mall/CommodityManage/BuildProduct/EditProduct'
+// 商城-商品管理-京东商品管理
+import JDProduct from '../pages/Mall/CommodityManage/JDProduct/JDProduct'
+import addJDProduct from '../pages/Mall/CommodityManage/JDProduct/AddJDProduct'
+import editJDProduct from '../pages/Mall/CommodityManage/JDProduct/EditJDProduct'
+// 商城-banner位管理
+import bannerManage from '../pages/Mall/BannerManage/BannerManage'
+import addBanner from '../pages/Mall/BannerManage/AddBanner'
+import editBanner from '../pages/Mall/BannerManage/EditBanner'
+// 商城-分类管理
+import sortManage from '../pages/Mall/SortManage/SortManage'
+// 商城-推荐位管理
+import recommendManage from '../pages/Mall/RecommendManage/RecommendManage'
+// 商城-推荐位管理-新增推荐位A
+import addCommendTpmA from '../pages/Mall/RecommendManage/Template/AddCommendTpmA'
+// 商城-推荐位管理-编辑推荐位A
+import editCommendTpmA from '../pages/Mall/RecommendManage/Template/EditCommendTpmA'
+// 商城-推荐位管理-新增推荐位B
+import addCommendTpmB from '../pages/Mall/RecommendManage/Template/AddCommendTpmB'
+// 商城-推荐位管理-编辑推荐位B
+import editCommendTpmB from '../pages/Mall/RecommendManage/Template/EditCommendTpmB'
+// 商城-推荐位管理-新增推荐位C
+import addCommendTpmC from '../pages/Mall/RecommendManage/Template/AddCommendTpmC'
+// 商城-推荐位管理-编辑推荐位C
+import editCommendTpmC from '../pages/Mall/RecommendManage/Template/EditCommendTpmC'
+

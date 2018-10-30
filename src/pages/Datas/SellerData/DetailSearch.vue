@@ -4,32 +4,32 @@
         <!-- 数据查询条件 -->
         <el-form :inline="true" :model="form">
             <el-form-item label="品牌" class="ml40">
-                <el-select v-model="form.productBrand" placeholder="全部" @change="brandChange">
+                <el-select size="small" v-model="form.productBrand" placeholder="全部" @change="brandChange">
                     <el-option label="全部" value=""></el-option>
                     <el-option v-for="item in brandList" :key="item.brandCode" :label="item.name" :value="item.name"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="规格">
-                <el-select v-model="form.productSnArr" placeholder="全部" :multiple="true" :collapse-tags="true" @change="snChange">
+                <el-select size="small" v-model="form.productSnArr" placeholder="全部" :multiple="true" :collapse-tags="true" @change="snChange">
                     <el-option label="全部" value="all"></el-option>
                     <el-option v-for="item in snList" :key="item.sn" :label="item.productName" :value="item.sn"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="城市">
-                <el-input v-model="form.cityName"></el-input>
+                <el-input size="small" v-model="form.cityName"></el-input>
             </el-form-item>
             <el-form-item label="业态" class="ml15">
-                <el-select v-model="form.bizCode" placeholder="全部">
+                <el-select size="small" v-model="form.bizCode" placeholder="全部">
                     <el-option label="全部" value=""></el-option>
                     <el-option v-for="item in commercialList" :key="item.bizCode" :label="item.bizName" :value="item.bizCode"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="零售户名称">
-                <el-input v-model="form.shopName"></el-input>
+                <el-input size="small" v-model="form.shopName"></el-input>
             </el-form-item>
             <el-form-item label="时间">
                 <div class="block">
-                    <el-date-picker
+                    <el-date-picker size="small"
                         v-model="form.time"
                         type="daterange"
                         range-separator="至"
@@ -41,8 +41,8 @@
             </el-form-item>
             <div></div>
             <el-form-item>
-                <el-button type="primary" @click="list">查询</el-button>
-                <el-button @click="resetForm">重置</el-button>
+                <el-button size="small" type="primary" @click="list">查询</el-button>
+                <el-button size="small" @click="resetForm">重置</el-button>
             </el-form-item>
         </el-form>
     </el-card>
@@ -210,19 +210,6 @@ export default {
             this.$request.post('/record/shopKeeper/getRetailuserDetail', this.form, true, (res)=>{
                 this.loading = false;
                 this.tableList = res || [];
-                this.tableList.push({
-                    bizName: "食杂店",
-                    cityName: "吕梁市",
-                    customerShould: 0,
-                    productBrand: "紫气东来",
-                    productName: "条-紫气东来（祥瑞）",
-                    repeatCustomer: 1,
-                    scanCodeNum: 1,
-                    scanCustomer: 1,
-                    scanSellerNum: 1,
-                    shopName: "中阳县兴明副食店啊",
-                    statTime: "2018-10-23"
-                });
             });
             // 加载列表数据总条数
             //this.$request.post('/record/statistics/feedbackCount', this.form, true, (res)=>{
@@ -234,7 +221,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .ml40 {margin-left:40px;}
     .space {position:relative;width:100%;height:20px;}
     .el-table th>.cell, .el-table {
@@ -242,37 +229,5 @@ export default {
     }
     .el-input, .el-select, .el-upload-list {
         width: 200px;
-    }
-    .el-table img {
-        width: 80px;
-        height: 80px;
-    }
-    .arrow {
-        display: inline-block;
-        width: 0;
-        height: 0;
-        vertical-align: -6px;
-        cursor: pointer;
-        border: 8px solid transparent;
-        border-top: 8px solid #888A88;
-    }
-    ul.oper-list {
-        position: absolute;
-        font-size: 14px;
-        left: 55px;
-        top: 60%;
-        background: #fff;
-        display: none;
-        z-index: 30;
-        box-shadow: 1px 1px 20px #000;
-    }
-    ul.oper-list li {
-        width: 81px;
-        line-height: 28px;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        cursor: pointer;
     }
 </style>

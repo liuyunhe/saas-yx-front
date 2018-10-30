@@ -3,28 +3,28 @@
     <el-card class="box-card">
       <el-form :model="form" :rules="rules" ref="form" label-width="150px">
         <el-form-item :label="materielName[metraFlag]+'名称'" prop="name">
-          <el-input v-model="form.name"></el-input>
+          <el-input size="small" v-model="form.name"></el-input>
         </el-form-item>
         <!-- 虚拟物料有此项内容 -->
         <el-form-item v-if="metraFlag=='virtual'" label="类型" prop="type">
-          <el-select v-model="form.type" placeholder="请选择分类" @change="getCategories(2, form.type)" class="materiel-type" :disabled="id?true:false">
+          <el-select size="small" v-model="form.type" placeholder="请选择分类" @change="getCategories(2, form.type)" class="materiel-type" :disabled="id?true:false">
             <el-option v-for="item in categoryList" :key="item.code" :label="item.name" :value="item.code"></el-option>
           </el-select>
-          <el-select v-model="form.subType" placeholder="请选择子分类" prop="subType" class="materiel-type" :disabled="id?true:false">
+          <el-select size="small" v-model="form.subType" placeholder="请选择子分类" prop="subType" class="materiel-type" :disabled="id?true:false">
             <el-option v-for="item in categorySubList" :key="item.code" :label="item.name" :value="item.code"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="供应商" prop="supplierCode">
-          <el-select v-model="form.supplierCode" placeholder="请选择供应商" :disabled="id?true:false">
+          <el-select size="small" v-model="form.supplierCode" placeholder="请选择供应商" :disabled="id?true:false">
             <el-option v-for="item in supplierList" :key="item.supplierCode" :label="item.name" :value="item.supplierCode"></el-option>
           </el-select>
         </el-form-item>
         <!-- 实物或虚拟物料有此项内容 -->
         <el-form-item v-if="metraFlag=='object'||metraFlag=='virtual'" label="市场价值（元）" prop="marketMoney">
-          <el-input type="number" v-model="form.marketMoney"></el-input>
+          <el-input size="small" type="number" v-model="form.marketMoney"></el-input>
         </el-form-item>
         <el-form-item label="礼品图片" prop="pic">
-          <el-upload class="avatar-uploader" :disabled="id?true:false"
+          <el-upload class="avatar-uploader" :disabled="id?true:false" size="small"
             action="/api/saotx/attach/commonAliUpload"
             :headers="headers"
             :show-file-list="false"
@@ -35,18 +35,18 @@
           </el-upload>
         </el-form-item>
         <el-form-item :label="'库存（'+materielUnit[metraFlag]+'）'" prop="stock">
-          <el-input type="number" v-model="form.stock" :disabled="id?true:false"></el-input>
+          <el-input size="small" type="number" v-model="form.stock" :disabled="id?true:false"></el-input>
         </el-form-item>
         <el-form-item label="库存阀值" prop="warnValue">
-          <el-input type="number" v-model="form.warnValue"></el-input>
+          <el-input size="small" type="number" v-model="form.warnValue"></el-input>
         </el-form-item>
         <!-- 虚拟物料有此项内容 -->
         <el-form-item v-if="metraFlag=='virtual'" label="链接URL" prop="outUrl">
-          <el-input v-model="form.outUrl"></el-input>
+          <el-input size="small" v-model="form.outUrl"></el-input>
         </el-form-item>
         <!-- 虚拟物料有此项内容 -->
         <el-form-item v-if="metraFlag=='virtual'" label="卡密文件" prop="sourceCode">
-          <el-upload class="upload-demo" :disabled="id?true:false"
+          <el-upload class="upload-demo" :disabled="id?true:false" size="small"
             action="/api/saotx/metra/import"
             :headers="headers"
             :data="form"
@@ -59,11 +59,11 @@
           </el-upload>
         </el-form-item>
         <el-form-item label="描述" prop="note">
-          <el-input type="textarea" v-model="form.note" :autosize="{ minRows: 3, maxRows: 10}"></el-input>
+          <el-input size="small" type="textarea" v-model="form.note" :autosize="{ minRows: 3, maxRows: 10}"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('form')">保存</el-button>
-          <el-button @click="cancelForm('form')">取消</el-button>
+          <el-button size="small" type="primary" @click="submitForm('form')">保存</el-button>
+          <el-button size="small" @click="cancelForm('form')">取消</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -278,7 +278,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .el-input, .el-textarea, .el-upload-list {
     width: 400px;
   }

@@ -4,14 +4,14 @@
         <!-- 数据查询条件 -->
         <el-form :inline="true" :model="form" class="demo-form-inline">
             <el-form-item label="操作类型">
-              <el-select v-model="form.operType" placeholder="全部">
+              <el-select size="small" v-model="form.operType" placeholder="全部">
                 <el-option label="全部" value=""></el-option>
                 <el-option v-for="(label, value) in types" :key="value" :label="label" :value="value"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="时间">
                 <div class="block">
-                    <el-date-picker
+                    <el-date-picker  size="small"
                         v-model="form.time"
                         type="datetimerange"
                         range-separator="至"
@@ -23,12 +23,12 @@
                 </div>
             </el-form-item>
             <el-form-item label="用户名">
-                <el-input v-model="form.userName"></el-input>
+                <el-input size="small" v-model="form.userName"></el-input>
             </el-form-item>
             <div></div>
             <el-form-item>
-                <el-button type="primary" @click="list">查询</el-button>
-                <el-button @click="resetForm">重置</el-button>
+                <el-button size="small" type="primary" @click="list">查询</el-button>
+                <el-button size="small" @click="resetForm">重置</el-button>
             </el-form-item>
         </el-form>
       </el-card>
@@ -128,6 +128,8 @@ export default {
         etime: "", // 结束时间：年-月-日 时:分:秒
         userName: "" // 用户名
       };
+      let _now = new Date();
+      this.form.time = [_now.Format("yyyy-MM-dd")+" 00:00:00", _now];
       this.list();
     },
     // page = {"pageCount":总页数, "count":总数据条数}
@@ -159,16 +161,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .space {position:relative;width:100%;height:20px;}
   .el-table th>.cell, .el-table {
     text-align: center;
   }
   .el-input, .el-select, .el-upload-list {
     width: 200px;
-  }
-  .el-table img {
-    width: 80px;
-    height: 80px;
   }
 </style>

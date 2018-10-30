@@ -48,7 +48,7 @@
                   </el-form-item>
               </el-row>
               <el-form-item>
-                  <el-row><el-button type="primary" v-on:click="queryData">查询</el-button>
+                  <el-row><el-button :size="'small'" type="primary" v-on:click="queryData">查询</el-button>
                       <el-button v-on:click="resetData">重置</el-button>
                       <el-button ><el-upload
                               class="upload-demo"

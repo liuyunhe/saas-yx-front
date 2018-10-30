@@ -91,7 +91,7 @@
                 </el-row>
                 <div class="add-tobaccomgr-form-bt">
                     <el-form-item>
-                        <el-button type="primary" size="small" @click="submitFormSave" :disabled="formDetail.status!=2?true:false">保存</el-button>
+                        <el-button type="primary" :size="'small'" @click="submitFormSave" :disabled="formDetail.status!=2?true:false">保存</el-button>
                         <el-button size="small" @click="returnObjectPage">返回列表</el-button>
                     </el-form-item>
                 </div>

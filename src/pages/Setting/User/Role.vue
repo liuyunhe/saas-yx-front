@@ -2,24 +2,24 @@
   <div>
     <el-card class="box-card">
       <el-row>
-        <el-button type="primary" @click="mgrForm">新建角色</el-button>
+        <el-button size="small" type="primary" @click="mgrForm">新建角色</el-button>
       </el-row>
       <div class="space"></div>
       <!-- 数据查询条件 -->
       <el-form :inline="true" :model="form">
         <el-form-item label="角色名称">
-          <el-input v-model="form.keywords" placeholder="模糊查询角色名称"></el-input>
+          <el-input size="small" v-model="form.keywords" placeholder="模糊查询角色名称"></el-input>
         </el-form-item>
         <el-form-item label="状态">
-          <el-select v-model="form.status" placeholder="全部">
+          <el-select size="small" v-model="form.status" placeholder="全部">
             <el-option label="全部" value=""></el-option>
             <el-option v-for="item in statusList" :key="item.code" :label="item.name" :value="item.code"></el-option>
           </el-select>
         </el-form-item>
         <div></div>
         <el-form-item>
-          <el-button type="primary" @click="list">查询</el-button>
-          <el-button @click="resetForm">重置</el-button>
+          <el-button size="small" type="primary" @click="list">查询</el-button>
+          <el-button size="small" @click="resetForm">重置</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -58,7 +58,7 @@
     <el-dialog title="角色管理" width="550px" center :visible.sync="roleForm.show">
       <el-form :model="roleForm" class="form">
         <el-form-item label="角色名称">
-          <el-input v-model="roleForm.roleName" placeholder="角色名称" :disabled="roleForm.id?true:false"></el-input>
+          <el-input size="small" v-model="roleForm.roleName" placeholder="角色名称" :disabled="roleForm.id?true:false"></el-input>
         </el-form-item>
         <el-form-item>
           <div class="label">权限菜单</div>
@@ -75,8 +75,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="roleForm.show=false">取 消</el-button>
-        <el-button type="primary" @click="roleFormOk">确 定</el-button>
+        <el-button size="small" @click="roleForm.show=false">取 消</el-button>
+        <el-button size="small" type="primary" @click="roleFormOk">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -276,7 +276,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .space {position:relative;width:100%;height:20px;}
   .dialog-footer {
     clear: both;

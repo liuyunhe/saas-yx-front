@@ -4,38 +4,38 @@
         <!-- 数据查询条件 -->
         <el-form :inline="true" :model="form">
             <el-form-item label="奖品">
-                <el-input v-model="form.awardName"></el-input>
+                <el-input size="small" v-model="form.awardName"></el-input>
             </el-form-item>
             <el-form-item label="城市">
-                <el-input v-model="form.cityName"></el-input>
+                <el-input size="small" v-model="form.cityName"></el-input>
             </el-form-item>
             <el-form-item label="手机号">
-                <el-input v-model="form.mobileNo"></el-input>
+                <el-input size="small" v-model="form.mobileNo"></el-input>
             </el-form-item>
             <el-form-item label="订单号">
-                <el-input v-model="form.orderId"></el-input>
+                <el-input size="small" v-model="form.orderId"></el-input>
             </el-form-item>
             <el-form-item label="品牌">
-                <el-select v-model="form.productBrand" placeholder="全部" @change="brandChange">
+                <el-select size="small" v-model="form.productBrand" placeholder="全部" @change="brandChange">
                     <el-option label="全部" value=""></el-option>
                     <el-option v-for="item in brandList" :key="item.brandCode" :label="item.name" :value="item.name"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="规格">
-                <el-select v-model="form.productSn" placeholder="全部">
+                <el-select size="small" v-model="form.productSn" placeholder="全部">
                     <el-option label="全部" value=""></el-option>
                     <el-option v-for="item in snList" :key="item.sn" :label="item.name" :value="item.sn"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="标签" class="ml15">
-                <el-select v-model="form.checkStatus" placeholder="全部">
+                <el-select size="small" v-model="form.checkStatus" placeholder="全部">
                     <el-option label="全部" value=""></el-option>
                     <el-option v-for="(label,code) in visitLabels" :key="code" :label="label" :value="code"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="时间">
                 <div class="block">
-                    <el-date-picker
+                    <el-date-picker size="small"
                         v-model="form.time"
                         type="daterange"
                         range-separator="至"
@@ -47,8 +47,8 @@
             </el-form-item>
             <div></div>
             <el-form-item>
-                <el-button type="primary" @click="list">查询</el-button>
-                <el-button @click="resetForm">重置</el-button>
+                <el-button size="small" type="primary" @click="list">查询</el-button>
+                <el-button size="small" @click="resetForm">重置</el-button>
             </el-form-item>
         </el-form>
     </el-card>
@@ -252,7 +252,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .ml15 {margin-left:15px;}
     .space {position:relative;width:100%;height:20px;}
     .el-table th>.cell, .el-table {
@@ -260,37 +260,5 @@ export default {
     }
     .el-input, .el-select, .el-upload-list {
         width: 200px;
-    }
-    .el-table img {
-        width: 80px;
-        height: 80px;
-    }
-    .arrow {
-        display: inline-block;
-        width: 0;
-        height: 0;
-        vertical-align: -6px;
-        cursor: pointer;
-        border: 8px solid transparent;
-        border-top: 8px solid #888A88;
-    }
-    ul.oper-list {
-        position: absolute;
-        font-size: 14px;
-        left: 55px;
-        top: 60%;
-        background: #fff;
-        display: none;
-        z-index: 30;
-        box-shadow: 1px 1px 20px #000;
-    }
-    ul.oper-list li {
-        width: 81px;
-        line-height: 28px;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        cursor: pointer;
     }
 </style>
