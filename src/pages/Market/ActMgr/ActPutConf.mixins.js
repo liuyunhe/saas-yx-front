@@ -3,42 +3,47 @@ export default {
   data() {
     return {
       act: {
-        id: '',
-        actCode: ''
+        id: null,
+        actCode: '', // 编码
+        status: null, // 活动状态 1-发布 0-未发布
       },
       strategyArr: [{
-        areas: {},
+        areas: {
+          provinceArr: [],
+          cityArr: [],
+          districtArr: []
+        },
         awaeArr: [],
         brandArr: [],
         snArr: [],
-        tfType: ''
+        tfType: '' // 投放策略类型 common常规；special定投；sn_first首扫必中；n_mwin必中
       }],
-      awaeArr: [{
+      normalConf: [{ // 正常选项
         awardPic: '',
-        awardType: '1',
+        awardType: '1', // 奖项类型
         curActive: true,
-        giveScore: 0,
-        guideGzh: 0,
+        giveScore: 0, // 是否赠送积分 0-否 1-是
+        guideGzh: 0, // 是否引导关注公众号 0-否 1-是
         hasPdMaxOut: false,
         hasWarn: false,
-        integral: '',
-        integralPool: '',
-        integralPoolName: '',
-        integralPoolPic: '',
+        integral: null, // 投放积分面额 如果非积分奖，赠送积分时，代表赠送的积分面额
+        integralPool: null, // 赠送积分池主键id
+        integralPoolName: null,
+        integralPoolPic: null,
         isGiveScore: false,
         outNum: '',
-        pdMaxOut: '',
-        poolId: 1,
+        pdMaxOut: '', // 奖项每天最多出奖个数
+        poolId: 1, // 奖项物料池主键id
         poolName: '',
-        prizeName: '',
-        probability: '',
-        redMoney: '',
+        prizeName: '', // 奖项名称
+        probability: '', // 中奖概率
+        redMoney: '', // 投放红包面额
         redTotalMoney: '',
         remainNum: 0,
-        totalNum: '',
-        warnValue: ''
+        totalNum: '', // totalNum
+        warnValue: '' //告警阀值 非空且大于0时为设置告警
       }],
-      defaultAwae: {
+      defaultAwae: { // 给个默认 好复制
         awardPic: '',
         awardType: '1',
         curActive: true,
@@ -63,31 +68,105 @@ export default {
         totalNum: '',
         warnValue: ''
       },
-      editableTabsValue: '1',
-      editableTabs: [{
+      firstScanConf: [{
+        awardPic: '',
+        awardType: '1',
+        curActive: true,
+        giveScore: 0,
+        guideGzh: 0,
+        hasPdMaxOut: false,
+        hasWarn: false,
+        integral: '',
+        integralPool: '',
+        integralPoolName: '',
+        integralPoolPic: '',
+        isGiveScore: false,
+        outNum: '',
+        pdMaxOut: '',
+        poolId: 1,
+        poolName: '',
+        prizeName: '',
+        probability: '',
+        redMoney: '',
+        redTotalMoney: '',
+        remainNum: 0,
+        totalNum: '',
+        warnValue: ''
+      }], // 首扫选项
+      nWinConf: [{
+        awardPic: '',
+        awardType: '1',
+        curActive: true,
+        giveScore: 0,
+        guideGzh: 0,
+        hasPdMaxOut: false,
+        hasWarn: false,
+        integral: '',
+        integralPool: '',
+        integralPoolName: '',
+        integralPoolPic: '',
+        isGiveScore: false,
+        outNum: '',
+        pdMaxOut: '',
+        poolId: 1,
+        poolName: '',
+        prizeName: '',
+        probability: '',
+        redMoney: '',
+        redTotalMoney: '',
+        remainNum: 0,
+        totalNum: '',
+        warnValue: ''
+      }], // n次选项
+      fixationPutConf: [{
+        awardPic: '',
+        awardType: '1',
+        curActive: true,
+        giveScore: 0,
+        guideGzh: 0,
+        hasPdMaxOut: false,
+        hasWarn: false,
+        integral: '',
+        integralPool: '',
+        integralPoolName: '',
+        integralPoolPic: '',
+        isGiveScore: false,
+        outNum: '',
+        pdMaxOut: '',
+        poolId: 1,
+        poolName: '',
+        prizeName: '',
+        probability: '',
+        redMoney: '',
+        redTotalMoney: '',
+        remainNum: 0,
+        totalNum: '',
+        warnValue: ''
+      }], // 定投选项
+      normalTabsValue: '1', // 正常tabs
+      normalTabs: [{
         title: '常规奖项1',
         name: '1'
       }],
-      prizeTypeArr: [
-        [{
-            name: '实物礼品',
-            type: '1'
-          },
-          {
-            name: '虚拟礼品',
-            type: '2'
-          },
-          {
-            name: '红包',
-            type: '3'
-          },
-          {
-            name: '积分',
-            type: '4'
-          }
-        ]
-      ],
-      prizeType: [{
+      firstScanTabsValue: '1', // 首扫
+      firstScanTabs: [{
+        title: '常规奖项1',
+        name: '1'
+      }],
+      nWinTabsValue: '1', // n次
+      nWinTabs: [{
+        title: '常规奖项1',
+        name: '1'
+      }],
+      fixationPutTabsValue: '1', // 定投
+      fixationPutTabs: [{
+        title: '常规奖项1',
+        name: '1'
+      }],
+      tfId: '', // 投放策略主键id
+      tfTimeArr: [], // 投放策略开始/结束时间 0-开始时间 1-结束时间
+      tfDurationArr: [], // 投放策略开始/结束时段(发放时间) 0-开始时间 1-结束时间
+      prizeType: [{ // 类型
           name: '实物礼品',
           type: '1'
         },
@@ -101,29 +180,35 @@ export default {
         },
         {
           name: '积分',
-          type: '4'
+          type: '6'
         }
       ],
-      tabIndex: 1,
-      selectBrand: [],
-      selectSonBrand: [],
-      selectProvList: [],
-      oldSlectProvList: ['1'], // 给个默认值 不然会报错
-      selectCityList: [],
+      normalIndex: 1,
+      firstScanIndex: 1,
+      nWinIndex: 1,
+      fixationPutIndex: 1,
+      selectBrand: [], // 选中的品牌
+      selectSonBrand: [], // 子品牌
+      selectProvList: [], // 省
+      oldSlectProvList: ['1'], // 上次选中的省  给个默认值 不然会报错
+      selectCityList: [], // 市
       oldSelectCityList: ['1'],
-      selectAreaList: [],
+      selectAreaList: [], // 区
       oldSelectAreaList: ['1'],
-      brandList: [],
-      brandSonList: [],
-      provList: [],
-      cityList: [],
-      areaList: [],
-      regionVisible: false,
-      brandVisible: false,
-      specialRuleConfFlag: false,
-      prizeLimitFlag: false,
-      isPut: false,
-      isDisabled: false
+      brandList: [], // 品牌列表
+      brandSonList: [], // 子品牌
+      provList: [], // 省
+      cityList: [], // 市
+      areaList: [], // 区
+      regionVisible: false, // 地区明细窗口
+      brandVisible: false, // 品牌
+      specialRuleConfFlag: false, // 特殊规则开关
+      prizeLimitFlag: false, // 抽奖限制开关
+      firstScanFlag: false,
+      nWinFlag: false,
+      fixationPutFlag: false,
+      isPut: false, // 是否投放
+      isDisabled: false, // 是否禁用
     }
   },
   created() {
@@ -299,39 +384,80 @@ export default {
       }
       this.oldSelectAreaList[1] = this.selectAreaList
     },
-    handleTabsEdit(targetName, action) {
+    normalTabsEdit(targetName, action) {
+      // if (action === 'add') {
+      //   if (this.normalConf.length == 10) return
+      //   // 深拷贝 防止数据相互串通
+      //   let newAwae = JSON.parse(JSON.stringify(this.defaultAwae))
+      //   this.normalConf.push(newAwae)
+      //   let newTabTitle = '常规奖项' + ++this.normalIndex
+      //   this.normalTabs.push({
+      //     title: newTabTitle,
+      //     name: this.normalIndex + ''
+      //   })
+      //   this.normalTabsValue = this.normalIndex + ''
+      // }
+      // if (action === 'remove') {
+      //   if (this.normalConf.length == 1) return
+      //   let tabs = this.normalTabs
+      //   let activeName = this.normalTabsValue
+      //   let removeIndex = tabs.indexOf(activeName)
+      //   this.normalConf.splice(removeIndex, 1)
+      //   if (activeName === targetName) {
+      //     tabs.forEach((tab, index) => {
+      //       if (tab.name === targetName) {
+      //         let nextTab = tabs[index + 1] || tabs[index - 1];
+      //         if (nextTab) {
+      //           activeName = nextTab.name;
+      //         }
+      //       }
+      //     });
+      //   }
+      //   this.normalTabsValue = activeName;
+      //   this.normalTabs = tabs.filter(tab => tab.name !== targetName)
+      // }
+      this.addRoRemove('normal', targetName, action)
+    },
+    firstScanTabsEdit(targetName, action) {
+      this.addRoRemove('firstScan', targetName, action)
+    },
+    nWinTabsEdit(targetName, action) {
+      this.addRoRemove('nWin', targetName, action)
+    },
+    fixationPutTabsEdit(targetName, action) {
+      this.addRoRemove('fixationPut', targetName, action)
+    },
+    addRoRemove(confName, targetName, action) {
       if (action === 'add') {
-        if (this.awaeArr.length == 10) return
+        if (this[confName + 'Conf'].length == 10) return
         // 深拷贝 防止数据相互串通
         let newAwae = JSON.parse(JSON.stringify(this.defaultAwae))
-        this.awaeArr.push(newAwae)
-        this.prizeTypeArr.push(this.prizeTypeArr[0])
-        let newTabTitle = '常规奖项' + ++this.tabIndex
-        this.editableTabs.push({
+        this[confName + 'Conf'].push(newAwae)
+        let newTabTitle = '常规奖项' + ++this[confName + 'Index']
+        this[confName + 'Tabs'].push({
           title: newTabTitle,
-          name: this.tabIndex + ''
+          name: this[confName + 'Index'] + ''
         })
-        this.editableTabsValue = this.tabIndex + ''
+        this[confName + 'TabsValue'] = this[confName + 'Index'] + ''
       }
       if (action === 'remove') {
-        if (this.awaeArr.length == 1) return
-        let tabs = this.editableTabs
-        let activeName = this.editableTabsValue
+        if (this[confName + 'Conf'].length == 1) return
+        let tabs = this[confName + 'Tabs']
+        let activeName = this[confName + 'TabsValue']
         let removeIndex = tabs.indexOf(activeName)
-        this.awaeArr.splice(removeIndex, 1)
-        this.prizeTypeArr.splice(removeIndex, 1)
+        this[confName + 'Conf'].splice(removeIndex, 1)
         if (activeName === targetName) {
           tabs.forEach((tab, index) => {
             if (tab.name === targetName) {
               let nextTab = tabs[index + 1] || tabs[index - 1];
               if (nextTab) {
                 activeName = nextTab.name;
-              }
+              }we
             }
           });
         }
-        this.editableTabsValue = activeName;
-        this.editableTabs = tabs.filter(tab => tab.name !== targetName)
+        this[confName + 'TabsValue'] = activeName;
+        this[confName + 'Tabs'] = tabs.filter(tab => tab.name !== targetName)
       }
     }
   }

@@ -38,7 +38,11 @@
       <el-table v-loading="loading" border :data="actList" style="width: 100%" @select="test(actList)" class="mt20">
         <el-table-column type="index" width="50" align="center"></el-table-column>
         <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="tplCode" label="模板编号" align="center"></el-table-column>
+        <el-table-column prop="tplCode" type="expand" label="模板编号" align="center">{{actList.tplCode}}
+          <template slot-scope="props">
+            {{props.row.tplCode}}
+          </template>
+        </el-table-column>
         <el-table-column prop="name" label="模板名称" align="center"></el-table-column>
         <el-table-column prop="note" label="模板说明" align="center"></el-table-column>
         <el-table-column prop="ctime" label="创建时间" align="center">
@@ -97,6 +101,7 @@ export default {
         pageNo: 1,
         pageSize: 10
       },
+      flag: {},
       total: null,
       actList: [],
       addActDialogVisible: false, // 显示/隐藏新建活动模板弹窗
@@ -218,8 +223,6 @@ export default {
     },
     // 删除模板
     async delAct(id) {
-      // console.log(id)
-      // this.delDialogVisible = true
       let idArr = []
       if (Array.isArray(id)) {
         idArr = id
@@ -288,6 +291,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.mini {
+  width: 200px !important;
+}
 .actTpl-container {
   .search-box {
     margin-top: 20px;

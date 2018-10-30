@@ -49,12 +49,24 @@ a {
   overflow: hidden;
 }
 
+/* 动态添加tabs按钮 */
+.el-tabs__new-tab {
+  margin-right: 10px;
+}
+
 .avatar-uploader .el-upload:hover {
   border-color: #409eff;
 }
+
 .ql-container {
   height: 200px;
 }
+
+/* 分页靠右 */
+.el-pagination {
+  text-align: right;
+}
+
 .clearfix::after,
 .clearfix:before {
   display: block;
@@ -67,12 +79,15 @@ a {
 .ml20 {
   margin-left: 20px;
 }
+
 .mr20 {
   margin-right: 20px;
 }
+
 .mt20 {
   margin-top: 20px;
 }
+
 .mb20 {
   margin-bottom: 20px;
 }
