@@ -76,3 +76,12 @@ a {
 .mb20 {
   margin-bottom: 20px;
 }
+/** kpi首页样式控制 */
+.kpi-page-table .caret-wrapper {
+  top: -15px;
+}
+.mytooltip {
+  font-weight: 300;
+  max-width: 200px;
+  text-align: center;
+}

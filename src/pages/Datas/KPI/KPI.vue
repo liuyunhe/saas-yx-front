@@ -17,36 +17,36 @@
           </div>
           <div class="ui-scan-box">
             <div class="ui-scan-times ui-scan-detail">
-              <el-tooltip popper-class="mytip" content="从当天零点开始到当前时间，总共产生的扫码次数的实时数值，包含重复扫码的情况" placement="top">
+              <el-tooltip popper-class="mytooltip" content="从当天零点开始到当前时间，总共产生的扫码次数的实时数值，包含重复扫码的情况" placement="top">
                 <p>
                   当日扫码总次数：<span id="scan_day">{{timeScanData.scanTimes_of_day}}</span><em>&nbsp;次</em>
                 </p>
               </el-tooltip>
-              <el-tooltip popper-class="mytip" content="从系统有数据记录开始到前一天，总共产生的扫码次数的实时数值，包含重复扫码的情况" placement="top">
+              <el-tooltip popper-class="mytooltip" content="从系统有数据记录开始到前一天，总共产生的扫码次数的实时数值，包含重复扫码的情况" placement="top">
                 <p>
                   历史扫码总次数：<span id="scan_day_rate">{{hisScanData.totalCode}}</span><em>&nbsp;次</em>
                 </p>
               </el-tooltip>
             </div>
             <div class="ui-scan-total ui-scan-detail">
-              <el-tooltip popper-class="mytip" content="从当天零点开始到当前时间，参与扫码活动的总用户数的实时数值，对当天的扫码用户的id进行了去重处理" placement="top">
+              <el-tooltip popper-class="mytooltip" content="从当天零点开始到当前时间，参与扫码活动的总用户数的实时数值，对当天的扫码用户的id进行了去重处理" placement="top">
                 <p>
                   当日扫码总人数：<span id="scan_user">{{timeScanData.scanUsers_of_day}}</span><em>&nbsp;人</em>
                 </p>
               </el-tooltip>
-              <el-tooltip popper-class="mytip" content="从系统有数据记录开始到前一天，参与扫码活动的总用户数的实时数值，对历史所有扫码用户的id进行了去重处理" placement="top">
+              <el-tooltip popper-class="mytooltip" content="从系统有数据记录开始到前一天，参与扫码活动的总用户数的实时数值，对历史所有扫码用户的id进行了去重处理" placement="top">
                 <p>
                   历史扫码总人数：<span id="scan_user_rate">{{hisScanData.totalPv}}</span><em>&nbsp;人</em>
                 </p>
               </el-tooltip>
             </div>
             <div class="ui-scan-rate ui-scan-detail">
-              <el-tooltip popper-class="mytip" content="从当天零点开始到当前时间，总共产生的扫码总烟包数的实时数值，去除当天重复扫码后的扫码数" placement="top">
+              <el-tooltip popper-class="mytooltip" content="从当天零点开始到当前时间，总共产生的扫码总烟包数的实时数值，去除当天重复扫码后的扫码数" placement="top">
                 <p>
                   当日扫码总烟包数：<span id="scan_code">{{timeScanData.scanCodes_of_day}}</span><em>&nbsp;个</em>
                 </p>
               </el-tooltip>
-              <el-tooltip popper-class="mytip" content="从系统有数据记录开始到前一天，总共产生的扫码总烟包数的实时数值，去除历史重复扫码后的扫码数" placement="top">
+              <el-tooltip popper-class="mytooltip" content="从系统有数据记录开始到前一天，总共产生的扫码总烟包数的实时数值，去除历史重复扫码后的扫码数" placement="top">
                 <p>
                   历史扫码总烟包数：<span id="scan_code_rate">{{hisScanData.totalUv}}</span><em>&nbsp;个</em>
                 </p>
@@ -61,7 +61,7 @@
     <el-card>
       <el-tabs v-model="tableActiveTab" @tab-click="tabClick">
         <el-tab-pane label="销区指标" name="first">
-          <el-table v-show="!sortTable" border ref="unsortTable" style="width:100%" stripe row-class-name="tableClass" tooltip-effect="dark"
+          <el-table class="kpi-page-table" v-show="!sortTable" border ref="unsortTable" style="width:100%" stripe row-class-name="tableClass" tooltip-effect="dark"
             :span-method="objectSpanMethod" :data="tableDatas" 
             @sort-change="sortDatas" @cell-click="arrowCellClick">
             <el-table-column label="地域" header-align="center">
@@ -74,9 +74,9 @@
               </el-table-column>
             </el-table-column>
             <el-table-column prop="saleType" label="所属销区" header-align="center" width="280"></el-table-column>
-            <el-table-column prop="scantimes" label="扫码次数" header-align="center" width="180" sortable="custom" tooltip="test"></el-table-column>
-            <el-table-column prop="scanUsers" label="扫码人数" header-align="center" width="180" sortable="custom"></el-table-column>
-            <el-table-column prop="scanCodes" label="扫码烟包数" header-align="center" width="180" sortable="custom"></el-table-column>
+            <el-table-column prop="scantimes" label="扫码次数" header-align="center" width="180" sortable="custom" :render-header="scantimesHeader"></el-table-column>
+            <el-table-column prop="scanUsers" label="扫码人数" header-align="center" width="180" sortable="custom" :render-header="scanusersHeader"></el-table-column>
+            <el-table-column prop="scanCodes" label="扫码烟包数" header-align="center" width="180" sortable="custom" :render-header="scancodesHeader"></el-table-column>
           </el-table>
           <el-table v-show="sortTable" border ref="areaSortTable" :data="tableSortDatas" style="width:100%" stripe @sort-change="sortDatasChange" @cell-click="sortArrowCellClick">
             <el-table-column label="省市" header-align="center">
@@ -92,15 +92,15 @@
           </el-table>
         </el-tab-pane>
         <el-tab-pane label="规格指标" name="second">
-          <el-table v-show="!prodSort" border ref="prodUnsortTable" :span-method="prodSpan" :data="prodTableDatas" style="width:100%" stripe show-summary row-class-name="tableClass" @sort-change="prodSortDatas">
+          <el-table class="kpi-page-table" v-show="!prodSort" border ref="prodUnsortTable" :span-method="prodSpan" :data="prodTableDatas" style="width:100%" stripe show-summary row-class-name="tableClass" @sort-change="prodSortDatas">
             <el-table-column label="产品" header-align="center">
               <el-table-column label="品牌" prop="brand" header-align="center"></el-table-column>
               <el-table-column label="规格" prop="specification" header-align="center"></el-table-column>
             </el-table-column>
-            <el-table-column prop="scantimes" label="扫码次数" header-align="center" width="180" sortable="custom"></el-table-column>
-            <el-table-column prop="scanUsers" label="扫码人数" header-align="center" width="180" sortable="custom"></el-table-column>
-            <el-table-column prop="scanCodes" label="扫码烟包数" header-align="center" width="180" sortable="custom"></el-table-column>
-            <el-table-column prop="drawTimes" label="抽奖次数" header-align="center" width="180" sortable="custom"></el-table-column>
+            <el-table-column prop="scantimes" label="扫码次数" header-align="center" width="180" sortable="custom" :render-header="scantimesHeader"></el-table-column>
+            <el-table-column prop="scanUsers" label="扫码人数" header-align="center" width="180" sortable="custom" :render-header="scanusersHeader"></el-table-column>
+            <el-table-column prop="scanCodes" label="扫码烟包数" header-align="center" width="180" sortable="custom" :render-header="scancodesHeader"></el-table-column>
+            <el-table-column prop="drawTimes" label="抽奖次数" header-align="center" width="180" sortable="custom" :render-header="drawtimesHeader"></el-table-column>
           </el-table>
           <el-table v-show="prodSort" border ref="prodSortTable" :data="prodTableDatas" style="width:100%" stripe show-summary @sort-change="prodSortDatasChange">
             <el-table-column prop="specification" label="规格" header-align="center"></el-table-column>
@@ -337,6 +337,29 @@ export default {
         this.getProdDatas();
       }
     },
+    renderHeaderHandler(h, { column, $index }, index, content) {
+      return h('div', {}, [
+        h('el-tooltip', {
+        	props: {
+            placement:'top',
+            'popper-class': 'mytooltip',
+          	content: content
+           }
+         }, [h('span', {}, column.label)])
+       ]);
+    },
+    scantimesHeader(h, { column, $index },index) {
+      return this.renderHeaderHandler(h, { column, $index }, index, '从当天零点开始到当前，产生的扫码的实时数值，包含重复扫码的情况');
+    },
+    scanusersHeader(h, { column, $index },index) {
+      return this.renderHeaderHandler(h, { column, $index }, index, '从当天零点开始到当前，参与扫码活动用户数的实时数值，对当天的扫码用户的id进行了去重处理');
+    },
+    scancodesHeader(h, { column, $index },index) {
+      return this.renderHeaderHandler(h, { column, $index }, index, '从当天零点开始到当前，产生的扫码总烟包数的实时数值，去除当天重复扫码后的扫码数');
+    },
+    drawtimesHeader(h, { column, $index },index) {
+      return this.renderHeaderHandler(h, { column, $index }, index, '从当天零点开始到当前，参与扫码抽奖活动的总次数');
+    },
     /**
      * 加载底部表格省份数据：[{"provCode":"130000","province":"河北省","saleType":"省内销区","scanCodes":"85626","scanUsers":"55536","scantimes":"102505","type":"1"}]
      */
@@ -512,7 +535,6 @@ export default {
     },
     // 省份箭头的点击事件
     arrowCellClick(row, column, cell, event) {
-      console.log(column);
       let province = row.province;
       if(province&&column.label=='省市') {
         let arrow = this.arrowTop[province];
@@ -649,6 +671,9 @@ export default {
   .space {position:relative;width:100%;height:20px;}
   .el-table th>.cell, .el-table {
     text-align: center;
+  }
+  .el-table .caret-wrapper {
+    top: -15px;
   }
   .mytip {
     font-weight: 300;
