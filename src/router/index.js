@@ -17,6 +17,10 @@ import ZjOrderPageDetail from '@/pages/Orders/mall/ZjOrderPageDetail.vue'
 import JdOrderPage from '@/pages/Orders/mall/JdOrderPage.vue'
 //积分活动订单管理
 import ScoreOrderPage from '@/pages/Orders/mall/ScoreOrderPage.vue'
+//河北固定报表管理
+import HbReportPage from '@/pages/Report/hebei/ReportPage.vue'
+import ScanWeekPage from '@/pages/Report/hebei/ScanWeekPage.vue'
+
 //import Multi from '@/pages/Datas/Multi/Multi.vue'
 import NotFound from '@/pages/404.vue'
 // 营销
@@ -117,7 +121,8 @@ export default new Router({
         { path: '/datas', name: '数据', redirect: '/datas/kpi' },
         { path: '/datas/kpi', name: 'kpi实时播报', component: KPI },
         { path: '/datas/multi', name: '多维查询', component: KPI },
-        { path: '/datas/report', name: '固定报表', component: KPI },
+        { path: '/datas/Report', name: '固定报表', component: HbReportPage },
+        { path: '/datas/Report/ScanWeekPage', name: '扫码数据周报', component: ScanWeekPage },
         { path: '/datas/agree', name: '履约报表', component: DataAgree },
         { path: '/datas/visit', name: '回访报表', component: DataVisit },
         { path: '/datas/theme', name: '主题查询', redirect: '/datas/theme/kpiReview', },
@@ -137,8 +142,8 @@ export default new Router({
         { path: '/datas/sellerDatas/search', name: '明细查询', component: DataSellerDetail },
         { path: '/datas/operate', name: '运营小工具', redirect: '/datas/operate/steal' },
         { path: '/datas/operate/steal', name: '盗扫明细', component: KPI },
-        { path: '/datas/fakeCode', name: '异常码明细', redirect: '/datas/fakeCode/report' },
-        { path: '/datas/fakeCode/report', name: '假码举报', component: KPI },
+        { path: '/datas/fakeCode', name: '异常码明细', redirect: '/datas/fakeCode/Report' },
+        { path: '/datas/fakeCode/Report', name: '假码举报', component: KPI },
         { path: '/datas/fakeCode/qrcodeActive', name: '二维码激活', component: KPI },
         // 微平台
         { path: '/weplat', name: '微平台', redirect: '/weplat/mgr' },
@@ -235,7 +240,7 @@ export default new Router({
         //   children: [
         //     { path: '/datas/kpi', name: 'kpi实时播报', component: KPI },
         //     { path: '/datas/multi', name: '多维查询', component: Multi },
-        //     { path: '/datas/report', name: '固定报表', component: KPI },
+        //     { path: '/datas/Report', name: '固定报表', component: KPI },
         //     { path: '/datas/agree', name: '履约报表', component: KPI },
         //     { path: '/datas/visit', name: '回访报表', component: KPI },
         //     {
@@ -286,9 +291,9 @@ export default new Router({
         //     {
         //       path: '/datas/fakeCode',
         //       name: '异常码明细',
-        //       redirect: '/datas/fakeCode/report',
+        //       redirect: '/datas/fakeCode/Report',
         //       children: [
-        //         { path: '/datas/fakeCode/report', name: '假码举报', component: KPI },
+        //         { path: '/datas/fakeCode/Report', name: '假码举报', component: KPI },
         //         { path: '/datas/fakeCode/qrcodeActive', name: '二维码激活', component: KPI }
         //       ]
         //     }
