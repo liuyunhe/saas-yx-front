@@ -1,5 +1,10 @@
 <template>
   <section class="basic-msg-container">
+    <div class="basic-msg-broad">
+      <div class="basic-msg-item"><span class="title">申请时间：</span>{{ applyTime }}</div>
+      <div class="basic-msg-item"><span class="title">审核通过时间：</span>{{ passTime }}</div>
+
+    </div>
     <el-form :model="ruleForm" :disabled="disabled" :inline="true" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
       <div class="basic-msg-form-container">
         <el-form-item label="门店照片：" prop="headImg" size="small">
@@ -162,6 +167,30 @@
   .basic-msg-container{
     background-color:   #fff;
     padding: 30px 15px;
+    .basic-msg-broad{
+      width: 940px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      color:#606266;
+      margin-top: 30px;
+      margin-bottom: 30px;
+      .basic-msg-item{
+        width: 33.3%;
+        height: 40px;
+        line-height: 40px;
+        overflow: hidden;
+        text-overflow:ellipsis ;
+        white-space: nowrap;
+        .title{
+          display: inline-block;
+          width: 100px;
+          text-align: right;
+          margin-right: 20px;
+        }
+      }
+
+    }
     .basic-msg-form-container{
       width: 940px;
       margin: 0 auto;
@@ -252,6 +281,8 @@
         cateLvl2List:[],
         cateLvl3List:[],
 
+
+
         ruleForm: {
           //门店照片
           headImg:'',
@@ -339,7 +370,10 @@
           ],
 
 
-        }
+        },
+
+        applyTime:'',
+        passTime:'',
       }
     },
     created(){
@@ -367,10 +401,14 @@
       },
       getReviewDetail(){
         this.$request.post('/lsh/seller-manager/seller/select/detail',{sellerId:this.sellerId},false,res => {
-          console.log( res.data.sellerInfo.headImg)
           if (res.ok) {
+
+            this.applyTime = new Date(res.data.sellerInfo.applyTime).Format('yyyy-MM-dd hh:mm:ss')
+            this.passTime = new Date(res.data.sellerInfo.passTime).Format('yyyy-MM-dd hh:mm:ss')
+
             // this.ruleForm.phoneNo = new Date(res.data.createTime).Format('yyyy-MM-dd hh:mm:ss')
 
+            //表单内容
             this.ruleForm.headImg = res.data.sellerInfo.headImg
             this.ruleForm.shopName = res.data.sellerInfo.shopName
             this.ruleForm.ownerName = res.data.sellerInfo.ownerName
