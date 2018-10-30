@@ -189,6 +189,7 @@ export default new Router({
         // 零售户
         { path: '/seller', name: '零售户', redirect: '/seller/review' },
         { path: '/seller/review', name: '审核管理', component: reviewmanage},
+        { path: '/seller/reviewDetail', name: '审核管理', component: reviewDetail,props: (route) => ({sellerId:route.query.sellerId})},
         { path: '/seller/addSeller', name: '新增零售户', component: addSeller},
         { path: '/seller/mgr', name: '零售户管理', component: KPI },
         { path: '/seller/tx', name: '提现审核', component: KPI },
@@ -482,6 +483,8 @@ import editCommendTpmC from '../pages/Mall/RecommendManage/Template/EditCommendT
 
 //零售户-审核管理
 import reviewmanage from '../pages/Seller/Reviewmanage/Reviewmanage'
+//零售户-审核详情
+import reviewDetail from  '../pages/Seller/Reviewmanage/ReviewDetail'
 //零售户-新增零售户
 import addSeller from  '../pages/Seller/AddSeller/AddSeller'
 
