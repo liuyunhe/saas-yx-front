@@ -8,51 +8,51 @@
             <div class="space"></div>
             <el-form :inline="true" :model="form" class="demo-form-inline">
                 <el-row>
-                    <el-form-item label="订单状态:">
+                    <el-form-item label="订单状态:"  size="small" >
                         <el-select v-model="form.status" placeholder="请选择">
                             <el-option v-for="(item,index) in orderStatusData" :key="item.id" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="时间段:" >
+                    <el-form-item label="时间段:"  size="small" >
                         <el-date-picker v-model="form.startTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd hh:mm" value-format="yyyy-MM-dd hh:mm"> </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="至">
+                    <el-form-item label="至" size="small" >
                         <el-date-picker v-model="form.endTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd hh:mm" value-format="yyyy-MM-dd hh:mm"> </el-date-picker>
                     </el-form-item>
 
                 </el-row>
                 <el-row>
-                    <el-form-item label="关键字:">
+                    <el-form-item label="关键字:" size="small" >
                         <el-select v-model="selectallKyeType" placeholder="请选择">
                             <el-option v-for="(item,index) in allKeyWordData" :key="item.id" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item >
+                    <el-form-item  size="small" >
                         <el-input v-model="form.kyeName" placeholder="请输入关键词"></el-input>
                     </el-form-item>
-                    <el-form-item label="商品状态:">
+                    <el-form-item label="商品状态:" size="small" >
                         <el-select v-model="form.giftType" placeholder="请选择">
                             <el-option v-for="(item,index) in allGiftTypeData" :key="item.id" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-row>
                 <el-row>
-                    <el-form-item label="分类">
+                    <el-form-item label="分类" size="small" >
                         <el-select v-model="selectallOneCate" placeholder="请选择">
                             <el-option v-for="(item,index) in allOneCateData" :key="item.id" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item >
+                    <el-form-item  size="small" >
                         <el-select v-model="selectallTwoCate" placeholder="请选择" :disabled="idtwo?true:false" :clearable="idtwo?true:false"   >
                             <el-option v-for="(item,index) in allTwoCateData" :key="item.id" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item >
+                    <el-form-item  size="small" >
                         <el-select v-model="selectallThrCate" placeholder="请选择" :disabled="idthr?true:false" :clearable="idthr?true:false"   >
                             <el-option v-for="(item,index) in allThrCateData" :key="item.id" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item >
+                    <el-form-item  size="small" >
                         <el-select v-model="selectallFroCate" placeholder="请选择" :disabled="idfro?true:false" :clearable="idfro?true:false"   >
                             <el-option v-for="(item,index) in allFroCateData" :key="item.id" :label="item.name" :value="item.id"></el-option>
                         </el-select>

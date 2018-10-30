@@ -20,6 +20,13 @@ import ScoreOrderPage from '@/pages/Orders/mall/ScoreOrderPage.vue'
 //河北固定报表管理
 import HbReportPage from '@/pages/Report/hebei/ReportPage.vue'
 import ScanWeekPage from '@/pages/Report/hebei/ScanWeekPage.vue'
+import ScanMonthPage from '@/pages/Report/hebei/ScanMonthPage.vue'
+import RedPacketWeekPage from '@/pages/Report/hebei/RedPacketWeekPage.vue'
+import RedPacketMonthPage from '@/pages/Report/hebei/RedPacketMonthPage.vue'
+import CountyWeekPage from '@/pages/Report/hebei/CountyWeekPage.vue'
+import CountyMonthPage from '@/pages/Report/hebei/CountyMonthPage.vue'
+
+
 
 //import Multi from '@/pages/Datas/Multi/Multi.vue'
 import NotFound from '@/pages/404.vue'
@@ -123,6 +130,11 @@ export default new Router({
         { path: '/datas/multi', name: '多维查询', component: KPI },
         { path: '/datas/Report', name: '固定报表', component: HbReportPage },
         { path: '/datas/Report/ScanWeekPage', name: '扫码数据周报', component: ScanWeekPage },
+        { path: '/datas/Report/ScanMonthPage', name: '扫码数据月报', component: ScanMonthPage },
+        { path: '/datas/Report/RedPacketWeekPage', name: '红包投入数据周报', component: RedPacketWeekPage },
+        { path: '/datas/Report/RedPacketMonthPage', name: '红包投入数据周报', component: RedPacketMonthPage },
+        { path: '/datas/Report/CountyWeekPage', name: '红包投入数据周报', component: CountyWeekPage },
+        { path: '/datas/Report/CountyMonthPage', name: '红包投入数据月报', component: CountyMonthPage },
         { path: '/datas/agree', name: '履约报表', component: DataAgree },
         { path: '/datas/visit', name: '回访报表', component: DataVisit },
         { path: '/datas/theme', name: '主题查询', redirect: '/datas/theme/kpiReview', },

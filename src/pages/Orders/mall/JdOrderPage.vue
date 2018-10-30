@@ -8,21 +8,21 @@
             <div class="space"></div>
             <el-form :inline="true" :model="form" class="demo-form-inline">
                 <el-row>
-                    <el-form-item label="商品类型:">
+                    <el-form-item label="商品类型:" size="small" >
                         <el-select v-model="form.giftType" placeholder="请选择">
                             <el-option v-for="(item,index) in allGiftTypeData" :key="item.id" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="时间段:" >
+                    <el-form-item label="时间段:"  size="small" >
                         <el-date-picker v-model="form.startTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd hh:mm" value-format="yyyy-MM-dd hh:mm"> </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="至">
+                    <el-form-item label="至" size="small" >
                         <el-date-picker v-model="form.endTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd hh:mm" value-format="yyyy-MM-dd hh:mm"> </el-date-picker>
                     </el-form-item>
 
                 </el-row>
                 <el-row>
-                    <el-form-item label="关键字:">
+                    <el-form-item label="关键字:" size="small" >
                         <el-select v-model="selectallKyeType" placeholder="请选择">
                             <el-option v-for="(item,index) in allKeyWordData" :key="item.id" :label="item.name" :value="item.id"></el-option>
                         </el-select>
@@ -33,31 +33,32 @@
 
                 </el-row>
                 <el-row>
-                    <el-form-item label="分类">
+                    <el-form-item label="分类" size="small" >
                         <el-select v-model="selectallOneCate" placeholder="请选择">
                             <el-option v-for="(item,index) in allOneCateData" :key="item.id" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item >
+                    <el-form-item  size="small" >
                         <el-select v-model="selectallTwoCate" placeholder="请选择" :disabled="idtwo?true:false" :clearable="idtwo?true:false"   >
                             <el-option v-for="(item,index) in allTwoCateData" :key="item.id" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item >
+                    <el-form-item  size="small" >
                         <el-select v-model="selectallThrCate" placeholder="请选择" :disabled="idthr?true:false" :clearable="idthr?true:false"   >
                             <el-option v-for="(item,index) in allThrCateData" :key="item.id" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item >
+                    <el-form-item  size="small" >
                         <el-select v-model="selectallFroCate" placeholder="请选择" :disabled="idfro?true:false" :clearable="idfro?true:false"   >
                             <el-option v-for="(item,index) in allFroCateData" :key="item.id" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-row>
                 <el-form-item>
-                    <el-row><el-button type="primary" v-on:click="queryData">查询</el-button>
-                        <el-button v-on:click="resetData">重置</el-button>
-                        <el-button plain  v-on:click="exportData" >导出搜索结果</el-button>
+                    <el-row>
+                        <el-button  size="small" type="primary" v-on:click="queryData">查询</el-button>
+                        <el-button  size="small"  v-on:click="resetData">重置</el-button>
+                        <el-button  size="small" plain  v-on:click="exportData" >导出搜索结果</el-button>
                     </el-row>
                 </el-form-item>
             </el-form>

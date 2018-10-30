@@ -3,7 +3,7 @@
     <div>
         <el-card>
             <el-row :gutter="20">
-                <el-col :span="16"><div class="grid-content bg-purple">扫码数据周报</div></el-col>
+                <el-col :span="16"><div class="grid-content bg-purple">红包投入数据周报</div></el-col>
                 <el-button size="small" type="primary" v-on:click="rollBak"> >返回</el-button>
             </el-row>
             <div class="space"></div>
@@ -15,12 +15,12 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="品牌选择" size="small">
-                        <el-select  v-model="selectAllBrands" placeholder="全部" :multiple="true" >
+                        <el-select  v-model="selectAllBrands" placeholder="全部"  :multiple="true" >
                             <el-option v-for="item in allBrandsData" :key="item.productBrand" :label="item.productBrandName" :value="item.productBrand"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="规格选择" size="small">
-                        <el-select  v-model="selectSpeciSns" placeholder="全部" :disabled="id?true:false" :clearable="id?true:false" :multiple="true"  >
+                        <el-select v-model="selectSpeciSns" placeholder="全部" :disabled="id?true:false" :clearable="id?true:false" :multiple="true"  >
                             <el-option v-for="item in allSpecisData" :key="item.productSn" :label="item.productName" :value="item.productSn"></el-option>
                         </el-select>
                     </el-form-item>
@@ -33,19 +33,14 @@
                 </el-form-item>
             </el-form>
             <el-table :data="listData" style="width: 100%" border>
-                <el-table-column align="center" :label="'扫码数据周报('+statTimeName+')'">
+                <el-table-column align="center" :label="'红包投入数据周报('+statTimeName+')'">
                     <el-table-column prop="col0" label="规格" ></el-table-column>
                     <el-table-column prop="col1" label="销区" ></el-table-column>
                     <el-table-column prop="col2" label="省份"></el-table-column>
                     <el-table-column prop="col3" label="地市"></el-table-column>
-                    <el-table-column prop="col4" label="本周通过GPS定位的扫码量"></el-table-column>
-                    <el-table-column prop="col5" label="本周扫码量"></el-table-column>
-                    <el-table-column prop="col6" label="上周扫码量"></el-table-column>
-                    <el-table-column prop="col7" label="截至本周末历史累计扫码量"></el-table-column>
-                    <el-table-column prop="col8" label="	本周通过GPS定位的扫码烟包数"></el-table-column>
-                    <el-table-column prop="col9" label="本周扫码烟包数"></el-table-column>
-                    <el-table-column prop="col10" label="上周扫码烟包数"></el-table-column>
-                    <el-table-column prop="col11" label="截至本周末历史累计扫码烟包数"></el-table-column>
+                    <el-table-column prop="col4" label="本周红包投入（元）"></el-table-column>
+                    <el-table-column prop="col5" label="上周红包投入（元）"></el-table-column>
+                    <el-table-column prop="col6" label="截至本周末历史累计红包投入（元）"></el-table-column>
                 </el-table-column>
             </el-table>
 
@@ -140,7 +135,7 @@
                     }
             },
             allTableDataList(){
-                this.$request.post(`/record/fixatreport/rptScanNumDateWeek`,this.form,true,res => {
+                this.$request.post(`/record/fixatreport/rptScanRedDateWeek`,this.form,true,res => {
                         let datas = res || [];
                         this.listData = datas;
                     }
@@ -154,7 +149,7 @@
                 this.allTableDataList();
             },
             exportData(){
-                var url = "/record/fixatreport/getRptScanNumDateWeekExcel";
+                var url = "/record/fixatreport/getRptScanRedDateWeekExcel";
                 var xhr = new XMLHttpRequest();
                 var formData = new FormData();
                 for(var attr in this.form) {
@@ -183,6 +178,9 @@
                     }
                 }
                 xhr.send(formData);
+            },
+            rollBak(){
+                this.$router.push({path:'/datas/Report'})
             }
         }
     }
