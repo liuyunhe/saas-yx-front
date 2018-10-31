@@ -39,48 +39,6 @@
             <el-tabs v-model="normalTabsValue" type="card" editable @edit="normalTabsEdit">
               <el-tab-pane :key="item.name" v-for="(item, index) in normalTabs" :label="item.title" :name="item.name">
                 <pond-conf :awae="normalConf[index]" :prizeType="prizeType"></pond-conf>
-                <!-- <el-form ref="form" :model="strategyArr[0].awaeArr[0]" label-width="100px">
-                  <el-form-item label="奖品类型:">
-                    <el-select size="medium" v-model="strategyArr[0].tfType" multiple placeholder="请选择">
-                      <el-option v-for="item in prizeType" :key="item.name" :label="item.name" :value="item.name">
-                      </el-option>
-                    </el-select>
-                  </el-form-item>
-                  <el-form-item label="奖品名称:">
-                    <el-col :span="10">
-                      <el-input size="medium" v-model="strategyArr[0].awaeArr.prizeName" placeholder="请输入奖品名称"></el-input>
-                    </el-col>
-                  </el-form-item>
-                  <el-form-item label="选择物品:">
-                    <el-button size="medium">选择</el-button>
-                  </el-form-item>
-                  <el-form-item label="投放数量:">
-                    <el-input-number size="small" v-model="strategyArr[0].awaeArr.remainNum" :min="0" controls-position="right"></el-input-number> 个
-                  </el-form-item>
-                  <el-form-item label="中奖概率:">
-                    <el-input-number size="small" v-model="strategyArr[0].awaeArr.remainNum" :min="0" :max="100" controls-position="right"></el-input-number> %
-                  </el-form-item>
-                  <el-form-item>
-                    <el-checkbox v-model="strategyArr[0].awaeArr.hasWarn">阈值预警</el-checkbox>
-                    <span v-if="strategyArr[0].awaeArr.hasWarn">
-                      <el-input-number size="small" v-model="strategyArr[0].awaeArr.remainNum" :min="0" controls-position="right"></el-input-number> 个
-                    </span>
-                  </el-form-item>
-                  <el-form-item>
-                    <el-checkbox v-model="strategyArr[0].awaeArr.isGiveScore">同时送积分</el-checkbox>
-                    <span v-if="strategyArr[0].awaeArr.isGiveScore">
-                      <el-button size="medium" class="ml20 mr20">选择</el-button>
-                      <el-input-number size="small" v-model="strategyArr[0].awaeArr.remainNum" :min="0" controls-position="right"></el-input-number> 积分
-                    </span>
-                  </el-form-item>
-                  <el-form-item>
-                    <el-checkbox v-model="strategyArr[0].awaeArr.isGiveScore">中奖后引导关注公众号</el-checkbox>
-                    <el-checkbox v-model="strategyArr[0].awaeArr.hasPdMaxOut">每天出奖总次数限制</el-checkbox>
-                    <span v-if="strategyArr[0].awaeArr.hasPdMaxOut">
-                      <el-input-number size="small" v-model="strategyArr[0].awaeArr.remainNum" :min="0" controls-position="right"></el-input-number> 次
-                    </span>
-                  </el-form-item>
-                </el-form> -->
               </el-tab-pane>
             </el-tabs>
           </div>
@@ -108,7 +66,7 @@
                 <div class="conf" v-if="nWinFlag">
                   <el-tabs v-model="nWinTabsValue" type="card" editable @edit="nWinTabsEdit">
                     <el-tab-pane :key="item.name" v-for="(item, index) in nWinTabs" :label="item.title" :name="item.name">
-                      <pond-conf :awae="nWinConf[index]" :prizeType="prizeType"></pond-conf>
+                      <pond-conf :awae="nWinConf[index]" :prizeType="prizeType" :nWin="true"></pond-conf>
                     </el-tab-pane>
                   </el-tabs>
                 </div>
@@ -173,7 +131,7 @@
             <div class="con" v-if="prizeLimitFlag">
               <el-row>
                 <el-col :span="6" class="label">每日中奖机会限制:</el-col>
-                每人每日<el-input-number size="small" v-model="strategyArr[0].awaeArr.remainNum" :min="0" controls-position="right"></el-input-number>
+                每人每日<el-input-number size="small" v-model="act.dwnum" :min="0" controls-position="right"></el-input-number>
                 次抽奖后，不再有中奖机会
               </el-row>
             </div>
@@ -181,7 +139,7 @@
         </el-form-item>
         <el-form-item>
           是否立即发布
-          <el-switch class="ml20" v-model="isPut">
+          <el-switch class="ml20" v-model="act.status">
           </el-switch>
           <el-row class="mt20">
             <el-button type="primary">保存</el-button>

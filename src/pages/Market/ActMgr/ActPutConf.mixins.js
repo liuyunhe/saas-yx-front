@@ -5,6 +5,7 @@ export default {
       act: {
         id: null,
         actCode: '', // 编码
+        dwnum: '',
         status: null, // 活动状态 1-发布 0-未发布
       },
       strategyArr: [{
@@ -31,6 +32,9 @@ export default {
         integralPoolName: null,
         integralPoolPic: null,
         isGiveScore: false,
+        isGuideGzh: false,
+        isPdMaxOut: false,
+        isWarn: false,
         outNum: '',
         pdMaxOut: '', // 奖项每天最多出奖个数
         poolId: 1, // 奖项物料池主键id
@@ -256,7 +260,7 @@ export default {
         if (res.ret === '200000') {
           this.provList = res.data
           this.provList.unshift({
-            code: 'all',
+            code: '000000',
             name: '全部'
           })
           return
@@ -278,20 +282,20 @@ export default {
        * Array.includes()
        * ES6方法 用于判断是否包含某一元素 返回布尔值
        */
-      if (val.includes('all')) this.selectProvList = allValue
+      if (val.includes('000000')) this.selectProvList = allValue
       // 取消全部选择
-      if (oldVal.includes('all') && !val.includes('all')) this.selectProvList = []
+      if (oldVal.includes('000000') && !val.includes('000000')) this.selectProvList = []
       // 全选之后取消单个
-      if (oldVal.includes('all') && val.includes('all')) {
+      if (oldVal.includes('000000') && val.includes('000000')) {
         // 全选也跟着取消
-        const index = val.indexOf('all')
+        const index = val.indexOf('000000')
         val.splice(index, 1)
         this.selectProvList = val
       }
       // 全选未选 其它全部选上 则全选选上(上次和当前都没有全选)
-      if (!oldVal.includes('all') && !val.includes('all')) {
+      if (!oldVal.includes('000000') && !val.includes('000000')) {
         if (val.length === allValue.length - 1) {
-          this.selectProvList = ['all'].concat(val)
+          this.selectProvList = ['000000'].concat(val)
         }
       }
       this.oldSlectProvList[1] = this.selectProvList
@@ -311,7 +315,7 @@ export default {
           if (res.ret === '200000') {
             this.cityList = res.data
             this.cityList.unshift({
-              code: 'all',
+              code: '000000',
               name: '全部'
             })
             return
@@ -327,16 +331,16 @@ export default {
         allValue.push(item.code)
       }
       const oldVal = this.oldSelectCityList.length === 1 ? [] : this.oldSelectCityList[1]
-      if (val.includes('all')) this.selectCityList = allValue
-      if (oldVal.includes('all') && !val.includes('all')) this.selectCityList = []
-      if (oldVal.includes('all') && val.includes('all')) {
-        const index = val.indexOf('all')
+      if (val.includes('000000')) this.selectCityList = allValue
+      if (oldVal.includes('000000') && !val.includes('000000')) this.selectCityList = []
+      if (oldVal.includes('000000') && val.includes('000000')) {
+        const index = val.indexOf('000000')
         val.splice(index, 1)
         this.selectCityList = val
       }
-      if (!oldVal.includes('all') && !val.includes('all')) {
+      if (!oldVal.includes('000000') && !val.includes('000000')) {
         if (val.length === allValue.length - 1) {
-          this.selectCityList = ['all'].concat(val)
+          this.selectCityList = ['000000'].concat(val)
         }
       }
       this.oldSelectCityList[1] = this.selectCityList
@@ -354,7 +358,7 @@ export default {
           if (res.ret === '200000') {
             this.areaList = res.data
             this.areaList.unshift({
-              code: 'all',
+              code: '000000',
               name: '全部'
             })
             return
@@ -370,16 +374,16 @@ export default {
         allValue.push(item.code)
       }
       const oldVal = this.oldSelectAreaList.length === 1 ? [] : this.oldSelectAreaList[1]
-      if (val.includes('all')) this.selectAreaList = allValue
-      if (oldVal.includes('all') && !val.includes('all')) this.selectAreaList = []
-      if (oldVal.includes('all') && val.includes('all')) {
-        const index = val.indexOf('all')
+      if (val.includes('000000')) this.selectAreaList = allValue
+      if (oldVal.includes('000000') && !val.includes('000000')) this.selectAreaList = []
+      if (oldVal.includes('000000') && val.includes('000000')) {
+        const index = val.indexOf('000000')
         val.splice(index, 1)
         this.selectAreaList = val
       }
-      if (!oldVal.includes('all') && !val.includes('all')) {
+      if (!oldVal.includes('000000') && !val.includes('000000')) {
         if (val.length === allValue.length - 1) {
-          this.selectAreaList = ['all'].concat(val)
+          this.selectAreaList = ['000000'].concat(val)
         }
       }
       this.oldSelectAreaList[1] = this.selectAreaList

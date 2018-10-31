@@ -38,11 +38,7 @@
       <el-table v-loading="loading" border :data="actList" style="width: 100%" @select="test(actList)" class="mt20">
         <el-table-column type="index" width="50" align="center"></el-table-column>
         <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="tplCode" type="expand" label="模板编号" align="center">{{actList.tplCode}}
-          <template slot-scope="props">
-            {{props.row.tplCode}}
-          </template>
-        </el-table-column>
+        <el-table-column prop="tplCode" label="模板编号" align="center"></el-table-column>
         <el-table-column prop="name" label="模板名称" align="center"></el-table-column>
         <el-table-column prop="note" label="模板说明" align="center"></el-table-column>
         <el-table-column prop="ctime" label="创建时间" align="center">
@@ -80,7 +76,7 @@
           <div v-else>暂无</div>
         </div>
         <el-col :span="24" v-if="actForms">
-          <el-pagination background @size-change="actHandleSizeChange" @current-change="actHandleCurrentChange" :current-page="actParams.pageNo" layout="total, prev, pager, next, jumper" :total="actTotal">
+          <el-pagination background @size-change="actHandleSizeChange" @current-change="actHandleCurrentChange" :current-page="actParams.pageNo" :page-size="actParams.pageSize" layout="total, prev, pager, next, jumper" :total="actTotal">
           </el-pagination>
         </el-col>
         <div style="clear: both"></div>
@@ -291,9 +287,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mini {
-  width: 200px !important;
-}
 .actTpl-container {
   .search-box {
     margin-top: 20px;
@@ -333,11 +326,12 @@ export default {
   }
   .act-item {
     float: left;
-    width: 200px;
+    width: 185px;
     border: 1px solid #e5e5e5;
     border-radius: 5px;
     padding: 8px 12px 10px 11px;
     margin: 0px 15px 0px 0px;
+    box-sizing: border-box;
     img {
       width: 100%;
     }
