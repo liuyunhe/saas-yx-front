@@ -1,27 +1,24 @@
 <template>
-
     <div>
         <el-card>
             <el-row :gutter="20">
-                <el-col :span="16"><div class="grid-content bg-purple">扫码数据周报</div></el-col>
+                <el-col :span="16"><div class="grid-content bg-purple">现金红包中奖统计日报</div></el-col>
                 <el-button size="small" type="primary" v-on:click="rollBak"> >返回</el-button>
             </el-row>
             <div class="space"></div>
             <el-form :inline="true" :model="form" class="demo-form-inline">
                 <el-row>
                     <el-form-item label="查询时间" size="small">
-                        <el-select  v-model="form.statTime" placeholder="请选择">
-                            <el-option v-for="item in weekData" :key="item.weekId" :label="item.weekNo" :value="item.weekId"></el-option>
-                        </el-select>
+                        <el-date-picker  v-model="form.dt" type="date" placeholder="选择日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd"> </el-date-picker>
                     </el-form-item>
                     <el-form-item label="品牌选择" size="small">
-                        <el-select  v-model="selectAllBrands" placeholder="全部" :multiple="true" >
-                            <el-option v-for="item in allBrandsData" :key="item.productBrand" :label="item.productBrandName" :value="item.productBrand"></el-option>
+                        <el-select  v-model="selectAllBrands" placeholder="全部">
+                            <el-option v-for="item in allBrandsData" :key="item.brandCode" :label="item.name" :value="item.name" ></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="规格选择" size="small">
-                        <el-select  v-model="selectSpeciSns" placeholder="全部" :disabled="id?true:false" :clearable="id?true:false" :multiple="true"  >
-                            <el-option v-for="item in allSpecisData" :key="item.productSn" :label="item.productName" :value="item.productSn"></el-option>
+                        <el-select v-model="selectSpeciSns" placeholder="全部"  >
+                            <el-option v-for="item in allSpecisData" :key="item.sn" :label="item.name" :value="item.sn"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-row>
@@ -33,19 +30,14 @@
                 </el-form-item>
             </el-form>
             <el-table :data="listData" style="width: 100%" border>
-                <el-table-column align="center" :label="'扫码数据周报('+statTimeName+')'">
-                    <el-table-column prop="col0" label="规格" ></el-table-column>
-                    <el-table-column prop="col1" label="销区" ></el-table-column>
-                    <el-table-column prop="col2" label="省份"></el-table-column>
-                    <el-table-column prop="col3" label="地市"></el-table-column>
-                    <el-table-column prop="col4" label="本周通过GPS定位的扫码量"></el-table-column>
-                    <el-table-column prop="col5" label="本周扫码量"></el-table-column>
-                    <el-table-column prop="col6" label="上周扫码量"></el-table-column>
-                    <el-table-column prop="col7" label="截至本周末历史累计扫码量"></el-table-column>
-                    <el-table-column prop="col8" label="	本周通过GPS定位的扫码烟包数"></el-table-column>
-                    <el-table-column prop="col9" label="本周扫码烟包数"></el-table-column>
-                    <el-table-column prop="col10" label="上周扫码烟包数"></el-table-column>
-                    <el-table-column prop="col11" label="截至本周末历史累计扫码烟包数"></el-table-column>
+                <el-table-column align="center" :label="'规格('+this.selectSpeciName+ form.dt+')'">
+                    <el-table-column prop="cityName" label="地市"></el-table-column>
+                    <el-table-column prop="awardName" label="奖品名称"></el-table-column>
+                    <el-table-column prop="awardPrice" label="单价"></el-table-column>
+                    <el-table-column prop="drawPv" label="本期中奖数量	"></el-table-column>
+                    <el-table-column prop="drawFee" label="本期中奖金额"></el-table-column>
+                    <el-table-column prop="yearDrawPv" label="本年累计中奖数量"></el-table-column>
+                    <el-table-column prop="yearDrawFee" label="本年累计中奖金额"></el-table-column>
                 </el-table-column>
             </el-table>
 
@@ -59,68 +51,60 @@
         components: {
             draggable
         },
-        name: "ScanWeekPage",
+        name: "CashRedPackDayPage",
         data(){
             return{
-                id:'',
                 listData:[],
-                weekData:[],
                 allBrandsData:[],
                 allSpecisData:[],
                 selectAllBrands:'',
                 selectSpeciSns:'',
-                statTimeName:'',
+                selectSpeciName:'盒-黄金叶（爱尚）',
                 form:{
-                     statTime:'',
-                     productBrand:'',
-                     productSn:'P001,P002,P003,P004,P005,P006,P007,P008,P009,P010,P011',
-                     staType:'week'
+                    dt:this.Format("yyyy-MM-dd"),
+                    productBrand:'黄金叶',
+                    productSn:'6901028165242'
                 }
             }
         },
         created(){
-            this.init()
+            this.init();
         },
-        watch:{//监听品牌，规格，地域
+        watch:{
             selectAllBrands(nval, oval){
                 if(nval&&nval!=oval) {
                     this.form.productBrand  = '';
-                    this.form.productBrand = nval.join(',');
-                    this.id='';
+                    this.form.productBrand = nval;
                     this.allSpecisList(this.form.productBrand);
                 }
             },
             selectSpeciSns(nval, oval){
                 if(nval&&nval!=oval) {
-                    this.form.productSn  = '';
-                    this.form.productSn = nval.join(',');//数组转字符串
+                    if(this.allSpecisData.length>0){
+                        for(var i=0;i<this.allSpecisData.length;i++){
+                            if(nval==this.allSpecisData[i].sn){
+                                this.selectSpeciName=this.allSpecisData[i].name;
+                            }
+                        }
+                    }
                 }
             }
+
         },
         methods:{
             init(){
-                this.allWeekList();
                 this.allBrandsList();
-             //   this.allTableDataList();
+                this.allTableDataList();
             },
-            allWeekList(){//周
-                this.$request.post(`/record/statistics/getWeeks`,{ },true,res => {
+            allBrandsList(){
+                this.$request.post(`/record/public/getUserBrandByUserId`,{ },true,res => {
                         let datas = res || [];
-                        this.weekData = datas;
-                        this.form.statTime=datas[0].weekId;
-                        this.statTimeName=datas[0].weekNo
-                        this.allTableDataList();
-                    }
-                ),
-                    err => {
-                        console.log(err)
-                    }
-            },
-            allBrandsList(){//所有品牌
-                this.$request.post(`/record/fixatreport/getProductBrandDown`,{ },true,res => {
-                    let datas = res || [];
-                    this.allBrandsData = datas;
-                    // this.selectAllBrands = datas[0].productBrand;
+                        datas=[{"brandCode":"0f01c777243143bbb1928f8ea86f07d8","name":"黄金叶"},{"brandCode":"83fb28434f97455f8cba3d509b047f94","name":"帝豪"},{"brandCode":"b7dc34c1422a4bf6bad77772d997bbae","name":"红旗渠"}];
+                        this.allBrandsData = datas;
+                        if(datas.length>0){
+                            this.selectAllBrands=datas[0].name;
+                            this.form.productBrand=this.selectAllBrands;
+                        }
                     }
                 ),
                     err => {
@@ -128,11 +112,16 @@
                     }
             },
             allSpecisList(nval){//所有规格
-                this.$request.post(`/record/fixatreport/getProductSnDown`,{
-                    productBrand:nval
+                this.$request.post(`/record/statistics/getProduct`,{
+                        productBrand:nval
                     },true,res => {
                         let datas = res || [];
+                        datas = [{"name":"盒-黄金叶（爱尚）","sn":"6901028165235"},{"name":"盒-爱尚测试","sn":"1234567891234"},{"name":"条-黄金叶（爱尚）","sn":"6901028165242"},{"name":"条-爱尚测试","sn":"1234567890123"}]
                         this.allSpecisData = datas;
+                        if(datas.length>0){
+                            this.selectSpeciSns=datas[0].sn;
+                            this.form.productSn=this.selectSpeciSns;
+                        }
                     }
                 ),
                     err => {
@@ -140,7 +129,7 @@
                     }
             },
             allTableDataList(){
-                this.$request.post(`/record/fixatreport/rptScanNumDateWeek`,this.form,true,res => {
+                this.$request.post(`/record/henanreport/getRedPacketReportData`,this.form,true,res => {
                         let datas = res || [];
                         this.listData = datas;
                     }
@@ -149,12 +138,11 @@
                         console.log(err)
                     }
             },
-
             queryData(){
                 this.allTableDataList();
             },
             exportData(){
-                var url = "/record/fixatreport/getRptScanNumDateWeekExcel";
+                var url = "/record/henanreport/importRedPacketReportData";
                 var xhr = new XMLHttpRequest();
                 var formData = new FormData();
                 for(var attr in this.form) {
@@ -184,9 +172,26 @@
                 }
                 xhr.send(formData);
             },
+            Format(fmt) { //author: meizz
+                var da = new Date();
+                var o = {
+                    "M+": da.getMonth() + 1, //月份
+                    "d+": da.getDate(), //日
+                    "h+": da.getHours(), //小时
+                    "m+": da.getMinutes(), //分
+                    "s+": da.getSeconds(), //秒
+                    "q+": Math.floor((da.getMonth() + 3) / 3), //季度
+                    "S": da.getMilliseconds() //毫秒
+                };
+                if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (da.getFullYear() + "").substr(4 - RegExp.$1.length));
+                for (var k in o)
+                    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+                return fmt;
+            },
             rollBak(){
                 this.$router.push({path:'/datas/Report'})
             }
+
         }
     }
 </script>
