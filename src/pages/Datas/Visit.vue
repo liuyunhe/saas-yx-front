@@ -128,7 +128,7 @@ export default {
                 productBrand: "",
                 productSn: "",
                 checkStatus: "",
-                time: ['2018-03-01', '2018-03-31'], // 查询时间
+                time: [], // 查询时间
                 startTime: "", // 开始时间：年-月-日
                 endTime: "" // 结束时间：年-月-日
             },

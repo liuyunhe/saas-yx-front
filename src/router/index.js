@@ -51,6 +51,11 @@ import DataAgree from '@/pages/Datas/Agree.vue'
 // 数据-回访报表
 import DataVisit from '@/pages/Datas/Visit.vue'
 
+// 数据-运营小工具-盗扫明细
+import DataOperateSteal from '@/pages/Datas/Operate/Steal.vue'
+// 数据-异常码管理-假码举报
+import DataFakeCodeReport from '@/pages/Datas/FakeCode/Report.vue'
+
 //产品-产品管理-烟草管理
 import tobacco from '@/pages/Product/ProductManagement/TobaccoMgr'
 import addTobaccoMr from '@/pages/Product/ProductManagement/AddTobaccoMgr'
@@ -153,9 +158,9 @@ export default new Router({
         { path: '/datas/sellerDatas/develop', name: '发展情况概况', component: DataSellerOverview },
         { path: '/datas/sellerDatas/search', name: '明细查询', component: DataSellerDetail },
         { path: '/datas/operate', name: '运营小工具', redirect: '/datas/operate/steal' },
-        { path: '/datas/operate/steal', name: '盗扫明细', component: KPI },
+        { path: '/datas/operate/steal', name: '盗扫明细', component: DataOperateSteal },
         { path: '/datas/fakeCode', name: '异常码明细', redirect: '/datas/fakeCode/Report' },
-        { path: '/datas/fakeCode/Report', name: '假码举报', component: KPI },
+        { path: '/datas/fakeCode/Report', name: '假码举报', component: DataFakeCodeReport },
         { path: '/datas/fakeCode/qrcodeActive', name: '二维码激活', component: KPI },
         // 微平台
         { path: '/weplat', name: '微平台', redirect: '/weplat/mgr' },
