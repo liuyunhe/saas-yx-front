@@ -8,7 +8,7 @@ export default {
         dwnum: '',
         status: null, // 活动状态 1-发布 0-未发布
       },
-      strategyArr: [{
+      strategy: {
         areas: {
           provinceArr: [],
           cityArr: [],
@@ -18,7 +18,12 @@ export default {
         brandArr: [],
         snArr: [],
         tfType: '' // 投放策略类型 common常规；special定投；sn_first首扫必中；n_mwin必中
-      }],
+      },
+      specialAreas: {
+        provinceArr: [],
+        cityArr: [],
+        districtArr: []
+      },
       normalConf: [{ // 正常选项
         awardPic: '',
         awardType: '1', // 奖项类型
@@ -204,6 +209,9 @@ export default {
       provList: [], // 省
       cityList: [], // 市
       areaList: [], // 区
+      specialProvList: [], // 定投地区
+      specialCityList: [],
+      specialAreaList: [],
       regionVisible: false, // 地区明细窗口
       brandVisible: false, // 品牌
       specialRuleConfFlag: false, // 特殊规则开关
@@ -227,6 +235,29 @@ export default {
     //     regionStr += item
     //   })
     // }
+  },
+  watch: {
+    isDisabled: function (val) {
+      // console.log(val)
+      if (val) {
+        this.selectProvList == ['000000']
+        this.selectCityList == ['000000']
+        this.selectAreaList == ['000000']
+      } else {
+        this.selectProvList == []
+        this.selectCityList == []
+        this.selectAreaList == []
+      }
+    },
+    fixationPutFlag: function (val) {
+      if (val) {
+        this.restrictArea()
+      } else {
+        this.selectProvList == []
+        this.selectCityList == []
+        this.selectAreaList == []
+      }
+    }
   },
   methods: {
     // 获取品牌列表
@@ -263,6 +294,8 @@ export default {
             code: '000000',
             name: '全部'
           })
+          // 定点投放地区限制
+          this.restrictArea()
           return
         }
         this.$message.error(res.message)
@@ -318,6 +351,8 @@ export default {
               code: '000000',
               name: '全部'
             })
+            // 定点投放地区限制
+            this.restrictArea()
             return
           }
           this.message.error(res.message)
@@ -361,6 +396,8 @@ export default {
               code: '000000',
               name: '全部'
             })
+            // 定点投放地区限制
+            this.restrictArea()
             return
           }
           this.$message.error(res.message)
@@ -388,6 +425,56 @@ export default {
       }
       this.oldSelectAreaList[1] = this.selectAreaList
     },
+
+    // 保存
+    save() {
+      if (this.selectBrand == [] || this.selectSonBrand == []) return this.$message.error('请选择品牌规格')
+      if (this.selectProvList == [] || this.selectCityList == [] || this.selectAreaList == []) return this.$message.error('请选择地区')
+      this.act.id = this.id
+      this.act.actCode = this.actCode
+      this.no
+      let data = {
+        act: {},
+        strategyArr: []
+      }
+      data.act = this.act
+      data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
+      data.strategyArr[0].awardArr = this.normalConf
+      data.strategyArr[0].areas.cityArr = this.selectCityList
+      data.strategyArr[0].areas.disrictArr = this.selectAreaList
+      data.strategyArr[0].areas.provinceArr = this.selectProvList
+      data.strategyArr[0].brandArr = this.selectBrand
+      data.strategyArr[0].snArr = this.selectSonBrand
+      data.strategyArr[0].tfType = 'common'
+      if (this.firstScanFlag) {
+        data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
+        let index = data.strategyArr.length
+        data.strategyArr[index - 1].awardArr = this.firstScanConf
+        data.strategyArr[index - 1].confOpen = true
+        data.strategyArr[index - 1].tfType = 'sn_first'
+      }
+      if (this.nWinFlag) {
+        data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
+        index = data.strategyArr.length
+        data.strategyArr[index - 1].awardArr = this.nWinConf
+        data.strategyArr[index - 1].confOpen = true
+        data.strategyArr[index - 1].tfType = 'n_mwin'
+      }
+      if (this.fixationPutFlag) {
+        data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
+        index = data.strategyArr.length
+        data.strategyArr[index - 1].areas.cityArr = this.selectCityList
+        data.strategyArr[index - 1].areas.disrictArr = this.selectAreaList
+        data.strategyArr[index - 1].areas.provinceArr = this.selectProvList
+        data.strategyArr[index - 1].awardArr = this.fixationPutConf
+        data.strategyArr[index - 1].confOpen = true
+        data.strategyArr[index - 1].brandArr = true
+        data.strategyArr[index - 1].snArr = true
+        data.strategyArr[index - 1].tf = true
+        data.strategyArr[index - 1].tfType = 'special'
+      }
+    },
+
     normalTabsEdit(targetName, action) {
       // if (action === 'add') {
       //   if (this.normalConf.length == 10) return
@@ -456,13 +543,43 @@ export default {
               let nextTab = tabs[index + 1] || tabs[index - 1];
               if (nextTab) {
                 activeName = nextTab.name;
-              }we
+              }
             }
           });
         }
         this[confName + 'TabsValue'] = activeName;
         this[confName + 'Tabs'] = tabs.filter(tab => tab.name !== targetName)
       }
+    },
+    // 定点投放地区限制
+    restrictArea() {
+      this.specialProvList = JSON.parse(JSON.stringify(this.provList))
+      this.specialProvList.forEach(speciaItem => {
+        speciaItem['disabled'] = true
+        this.selectProvList.forEach(item => {
+          if (speciaItem.code == item) {
+            speciaItem['disabled'] = false
+          }
+        })
+      })
+      this.specialCityList = JSON.parse(JSON.stringify(this.cityList))
+      this.specialCityList.forEach(speciaItem => {
+        speciaItem['disabled'] = true
+        this.specialCityList.forEach(item => {
+          if (speciaItem.code == item) {
+            speciaItem['disabled'] = false
+          }
+        })
+      })
+      this.specialAreaList = JSON.parse(JSON.stringify(this.areaList))
+      this.specialAreaList.forEach(speciaItem => {
+        speciaItem['disabled'] = true
+        this.selectProvList.forEach(item => {
+          if (speciaItem.code == item) {
+            speciaItem['disabled'] = false
+          }
+        })
+      })
     }
   }
 }

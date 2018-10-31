@@ -126,6 +126,16 @@ export default {
     this.getActList()
     this.getActType()
   },
+  // 进入路由之前执行的函数
+  beforeRouteEnter(to, from, next) {
+    console.log(to.path)
+    next()
+  },
+  // 离开路由之前执行的函数
+  beforeRouteLeave(to, from, next) {
+    console.log(to.path)
+    next()
+  },
   methods: {
     getActList() {
       this.$request.post(

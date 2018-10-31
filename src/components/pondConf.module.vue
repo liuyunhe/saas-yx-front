@@ -1,7 +1,7 @@
 <template>
   <div class="pond">
     <el-form ref="form" :model="pondConf" label-width="100px">
-      <el-form-item label="N次必中:" v-if="nWin">
+      <el-form-item label="N次必中:" v-if="nWin" prop="nNum">
         用户第 <el-input-number size="small" v-model="pondConf.totalNum" :min="0" controls-position="right"></el-input-number> 个抽奖必中
       </el-form-item>
       <el-form-item label="奖品类型:">
@@ -253,48 +253,65 @@
 export default {
   props: ['awae', 'prizeType', 'nWin'],
   data() {
+    var validateImgUrl = (rule, value, callback) => {
+      if (this.pondConf.awardPic) {
+        callback()
+      } else {
+        callback(new Error('请选择奖品'))
+      }
+    }
     return {
       pondConf: this.awae,
       prizeList: this.prizeType,
-      entityVisible: false,
-      entityList: [],
-      entityParams: {
-        metraFlag: 'object',
-        pageNo: 1,
-        pageSize: 10,
-        status: 1
+      pondRules: {
+        // nNum: [{required: true, message: '请输入多少次必中', trigger: 'blur'}],
+        // type: [{required: true, message: '请选择奖品类型', trigger: 'blur'}],
+        // name: [{required: true, message: '请输入奖品名称', trigger: 'blur'}],
+        // prize: [{required: true, validator: validateImgUrl}],
+        // putNum: [{required: true, message: '请选择投放数量', trigger: 'blur'}],
+        // probability: [{required: true, message: '请选择中奖概率', trigger: 'blur'}],
+        // redMoney: [{required: true, message: '请选择红包面额', trigger: 'blur'}],
+        // remainNum: [{required: true, message: '请选择积分面额', trigger: 'blur'}]
       },
-      entityTotal: 0,
+      // entityVisible: false,
+      // entityList: [],
+      // entityParams: {
+      //   metraFlag: 'object',
+      //   pageNo: 1,
+      //   pageSize: 10,
+      //   status: 1
+      // },
+      // entityTotal: 0,
       
-      virtualVisible: false,
-      virtualList: [],
-      virtualParams: {
-        metraFlag: 'virtual',
-        pageNo: 1,
-        pageSize: 10,
-        status: 1
-      },
-      virtualTotal: 0,
+      // virtualVisible: false,
+      // virtualList: [],
+      // virtualParams: {
+      //   metraFlag: 'virtual',
+      //   pageNo: 1,
+      //   pageSize: 10,
+      //   status: 1
+      // },
+      // virtualTotal: 0,
 
-      redpackVisible: false,
-      redpackList: [],
-      redpackParams: {
-        metraFlag: 'redpack',
-        pageNo: 1,
-        pageSize: 10,
-        status: 1
-      },
-      redpackTotal: 0,
+      // redpackVisible: false,
+      // redpackList: [],
+      // redpackParams: {
+      //   metraFlag: 'redpack',
+      //   pageNo: 1,
+      //   pageSize: 10,
+      //   status: 1
+      // },
+      // redpackTotal: 0,
 
-      integralVisible: false,
-      integralList: [],
-      integralParams: {
-        metraFlag: 'integral',
-        pageNo: 1,
-        pageSize: 10,
-        status: 1
-      },
-      integralTotal: 0,
+      // integralVisible: false,
+      // integralList: [],
+      // integralParams: {
+      //   metraFlag: 'integral',
+      //   pageNo: 1,
+      //   pageSize: 10,
+      //   status: 1
+      // },
+      // integralTotal: 0,
 
 
       title: '选择物品',
@@ -482,9 +499,9 @@ export default {
 .el-pagination {
   margin-top: 20px;
 }
-.el-form-item {
-  margin-bottom: 10px;
-}
+// .el-form-item {
+//   margin-bottom: 10px;
+// }
 img {
   width: 120px;
   height: 90px;

@@ -5,7 +5,7 @@
       <el-breadcrumb-item>投放设置</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
-      <el-form ref="form" :model="strategyArr[0].awaeArr[0]" label-width="100px">
+      <el-form ref="form" :model="strategy" label-width="100px">
         <el-form-item label="品牌规格：">
           <el-select v-model="selectBrand" multiple placeholder="请选择" @change="getBrandSonList">
             <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
@@ -36,7 +36,7 @@
         <el-form-item>
           <div class="prize-conf">
             <div class="title">常规奖池</div>
-            <el-tabs v-model="normalTabsValue" type="card" editable @edit="normalTabsEdit">
+            <el-tabs v-model="normalTabsValue" type="card" editable @edit="normalTabsEdit" class="put-conf">
               <el-tab-pane :key="item.name" v-for="(item, index) in normalTabs" :label="item.title" :name="item.name">
                 <pond-conf :awae="normalConf[index]" :prizeType="prizeType"></pond-conf>
               </el-tab-pane>
@@ -74,32 +74,32 @@
               <el-row>
                 <el-checkbox v-model="fixationPutFlag">定点投放奖</el-checkbox>
                 <div class="conf" v-if="fixationPutFlag">
-                  <el-form :model="strategyArr[0].awaeArr[0]" label-width="100px" class="mb20">
+                  <el-form :model="specialAreas" label-width="100px" class="mb20">
                     <el-form-item label="品牌规格：">
-                      <el-select v-model="selectBrand" multiple size="mini" placeholder="请选择" @change="getBrandSonList">
+                      <el-select v-model="specialAreas.provinceArr" multiple size="mini" placeholder="请选择" @change="getBrandSonList">
                         <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
                         </el-option>
                       </el-select>
-                      <el-select v-model="selectSonBrand" multiple size="mini" placeholder="请选择">
+                      <el-select v-model="specialAreas.provinceArr" multiple size="mini" placeholder="请选择">
                         <el-option v-if="brandSonList" v-for="item in brandSonList" :key="item.id" :label="item.name" :value="item.brandCode">
                         </el-option>
                       </el-select>
                       <el-button type="primary" size="mini" @click="brandVisible = true" class="ml20">已选明细</el-button>
                     </el-form-item>
                     <el-form-item label="地区：">
-                      <el-select v-model="selectProvList" :disabled="isDisabled" size="mini" multiple collapse-tags filterable placeholder="请选择" @change="getCityList">
-                        <el-option v-for="item in provList" :key="item.code" :label="item.name" :value="item.code">
+                      <el-select v-model="specialAreas.provinceArr" :disabled="isDisabled" size="mini" multiple collapse-tags filterable placeholder="请选择">
+                        <el-option v-for="item in specialProvList" :key="item.code" :disabled="item.disabled" :label="item.name" :value="item.code">
                         </el-option>
                       </el-select>
-                      <el-select v-model="selectCityList" :disabled="isDisabled" size="mini" multiple collapse-tags filterable placeholder="请选择" @change="getAreaList">
-                        <el-option v-if="cityList" v-for="item in cityList" :key="item.code" :label="item.name" :value="item.code">
+                      <el-select v-model="specialAreas.cityArr" :disabled="isDisabled" size="mini" multiple collapse-tags filterable placeholder="请选择">
+                        <el-option v-if="cityList" v-for="item in specialCityList" :key="item.code" :label="item.name" :value="item.code">
                         </el-option>
                       </el-select>
-                      <el-select v-model="selectAreaList" :disabled="isDisabled" size="mini" multiple collapse-tags filterable placeholder="请选择" @change="selectAll">
-                        <el-option v-if="areaList" v-for="item in areaList" :key="item.code" :label="item.name" :value="item.code">
+                      <el-select v-model="specialAreas.districtArr" :disabled="isDisabled" size="mini" multiple collapse-tags filterable placeholder="请选择">
+                        <el-option v-if="areaList" v-for="item in specialAreaList" :key="item.code" :label="item.name" :value="item.code">
                         </el-option>
                       </el-select>
-                      <el-checkbox v-model="isDisabled" label="全部地区" size="mini" border></el-checkbox>
+                      <!-- <el-checkbox v-model="isDisabled" label="全部地区" size="mini" border></el-checkbox> -->
                       <el-button type="primary" @click="regionVisible = true" size="mini" class="ml20">已选明细</el-button>
                     </el-form-item>
                     <el-form-item label="投放时间:">
@@ -142,7 +142,7 @@
           <el-switch class="ml20" v-model="act.status">
           </el-switch>
           <el-row class="mt20">
-            <el-button type="primary">保存</el-button>
+            <el-button type="primary" @click="save">保存</el-button>
             <el-button>返回列表</el-button>
           </el-row>
         </el-form-item>

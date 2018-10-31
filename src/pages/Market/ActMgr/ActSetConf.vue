@@ -23,7 +23,7 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="活动图片" prop="banner">
-          <el-upload :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
+          <el-upload class="act-set" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
             <img v-if="confData.banner" :src="confData.banner" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*270像素；格式png、jpg；大小不超过2M</div>
@@ -112,8 +112,8 @@ export default {
         note: [{ required: true, message: '请输入活动描述', trigger: 'blur' }],
         date: [{ required: true, validator: validateDate, trigger: 'change' }],
         idx: [{ required: true, validator: validateIdx, trigger: 'change' }],
-        banner: [{ required: true, validator: validateBanner}],
-        desc: [{ required: true, validator: validateDesc}]
+        banner: [{ required: true, validator: validateBanner }],
+        desc: [{ required: true, validator: validateDesc }]
       },
       actTime: [],
       uploadURL: '/api/saotx/attach/commonAliUpload',
@@ -165,7 +165,10 @@ export default {
         this.confData.form = this.form
         this.confData.tplCode = this.tplCode
         this.$request.post('/api/saotx/act/saveOrModify', this.confData, true, res => {
-          if (res.ret === '200000') return this.$router.push('/market/actTpl/actPutConf?id=' + res.data.id + '&actCode=' + 'res.data.actCode')
+          if (res.ret === '200000')
+            return this.$router.push(
+              '/market/actTpl/actPutConf?id=' + res.data.id + '&actCode=' + 'res.data.actCode'
+            )
           this.$message.error(res.message)
         })
       })
@@ -177,6 +180,16 @@ export default {
 .el-input,
 .el-textarea {
   width: 300px;
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
 }
 .avatar-uploader-icon {
   font-size: 28px;

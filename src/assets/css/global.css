@@ -43,22 +43,9 @@ a {
   background: #f5f5f5;
 } */
 
-/* 上传图片样式 */
-.avatar-uploader .el-upload {
-  border: 1px dashed #dcdfe6;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-
 /* 动态添加tabs按钮 */
-.el-tabs__new-tab {
+.put-conf .el-tabs__new-tab {
   margin-right: 10px;
-}
-
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
 }
 
 .ql-container {
