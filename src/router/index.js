@@ -18,13 +18,21 @@ import JdOrderPage from '@/pages/Orders/mall/JdOrderPage.vue'
 //积分活动订单管理
 import ScoreOrderPage from '@/pages/Orders/mall/ScoreOrderPage.vue'
 //河北固定报表管理
-import HbReportPage from '@/pages/Report/hebei/ReportPage.vue'
+import HbReportPage from '@/pages/Report/ReportPage.vue'
 import ScanWeekPage from '@/pages/Report/hebei/ScanWeekPage.vue'
 import ScanMonthPage from '@/pages/Report/hebei/ScanMonthPage.vue'
 import RedPacketWeekPage from '@/pages/Report/hebei/RedPacketWeekPage.vue'
 import RedPacketMonthPage from '@/pages/Report/hebei/RedPacketMonthPage.vue'
 import CountyWeekPage from '@/pages/Report/hebei/CountyWeekPage.vue'
 import CountyMonthPage from '@/pages/Report/hebei/CountyMonthPage.vue'
+//河南固定报表管理
+import KpiProDayPage from '@/pages/Report/henan/KpiProDayPage.vue'
+import ActDrawDayPage from '@/pages/Report/henan/ActDrawDayPage.vue'
+import CashRedPackDayPage from '@/pages/Report/henan/CashRedPackDayPage.vue'
+import RealDrawDayPage from '@/pages/Report/henan/RealDrawDayPage.vue'
+import IntegralOperDayPage from '@/pages/Report/henan/IntegralOperDayPage.vue'
+import IntegralExchDayPage from '@/pages/Report/henan/IntegralExchDayPage.vue'
+
 
 
 
@@ -140,6 +148,12 @@ export default new Router({
         { path: '/datas/Report/RedPacketMonthPage', name: '红包投入数据周报', component: RedPacketMonthPage },
         { path: '/datas/Report/CountyWeekPage', name: '红包投入数据周报', component: CountyWeekPage },
         { path: '/datas/Report/CountyMonthPage', name: '红包投入数据月报', component: CountyMonthPage },
+        { path: '/datas/Report/KpiProDayPage', name: 'KPI数据分省统计日报', component: KpiProDayPage },
+        { path: '/datas/Report/ActDrawDayPage', name: '活动中奖统计日报', component: ActDrawDayPage },
+        { path: '/datas/Report/CashRedPackDayPage', name: '活动中奖统计日报', component: CashRedPackDayPage },
+        { path: '/datas/Report/RealDrawDayPage', name: '实物奖品中奖统计日报', component: RealDrawDayPage },
+        { path: '/datas/Report/IntegralOperDayPage', name: '积分操作情况统计日报', component: IntegralOperDayPage },
+        { path: '/datas/Report/IntegralExchDayPage', name: '积分操作情况统计日报', component: IntegralExchDayPage },
         { path: '/datas/agree', name: '履约报表', component: DataAgree },
         { path: '/datas/visit', name: '回访报表', component: DataVisit },
         { path: '/datas/theme', name: '主题查询', redirect: '/datas/theme/kpiReview', },

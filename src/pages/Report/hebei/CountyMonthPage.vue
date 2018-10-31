@@ -102,7 +102,6 @@
             },
             selectProvince(nval, oval){
                 if(nval&&nval!=oval) {
-                    alert(nval)
                     var curWeekPro = {
                         name : [],
                         code : []
