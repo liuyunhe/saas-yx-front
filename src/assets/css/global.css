@@ -51,26 +51,18 @@ a {
   position: relative;
   overflow: hidden;
 }
-<<<<<<< HEAD
 
 /* 动态添加tabs按钮 */
 .el-tabs__new-tab {
   margin-right: 10px;
 }
 
-=======
->>>>>>> master
 .avatar-uploader .el-upload:hover {
   border-color: #409eff;
 }
 
 .ql-container {
   height: 200px;
-}
-
-/* 分页靠右 */
-.el-pagination {
-  text-align: right;
 }
 
 .clearfix::after,
@@ -96,8 +88,6 @@ a {
 
 .mb20 {
   margin-bottom: 20px;
-<<<<<<< HEAD
-=======
 }
 /** kpi首页样式控制 */
 .kpi-page-table .caret-wrapper {
@@ -107,5 +97,4 @@ a {
   font-weight: 300;
   max-width: 200px;
   text-align: center;
->>>>>>> master
 }
