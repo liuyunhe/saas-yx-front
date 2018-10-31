@@ -50,23 +50,23 @@
     <el-card class="box-card">
         <!-- 数据表格 -->
         <el-table v-loading="loading" :data="tableList" style="width: 100%">
-            <el-table-column label="序号" type="index" width="50">
+            <el-table-column label="序号" type="index" align="center" width="50">
                 <template slot-scope="scope">
                     <!-- {{ (form.page-1)*form.pageSize + scope.$index + 1 }} -->
                     {{ scope.$index + 1 }}
                 </template>
             </el-table-column>
-            <el-table-column prop="statTime" label="日期" width="100"></el-table-column>
-            <el-table-column prop="shopName" label="名称" width="150"></el-table-column>
-            <el-table-column prop="bizName" label="零售户类型" width="100"></el-table-column>
-            <el-table-column prop="cityName" label="城市" width="130"></el-table-column>
-            <el-table-column prop="productBrand" label="品牌" width="100"></el-table-column>
-            <el-table-column prop="productName" label="规格" width="160"></el-table-column>
-            <el-table-column prop="customerShould" label="返回金额" width="80"></el-table-column>
-            <el-table-column prop="scanCustomer" label="扫码人数" width="80"></el-table-column>
-            <el-table-column prop="repeatCustomer" label="复购人数" width="80"></el-table-column>
-            <el-table-column prop="scanCodeNum" label="烟码扫码数量" width="110"></el-table-column>
-            <el-table-column prop="scanSellerNum" label="店码扫码总数" width="110"></el-table-column>
+            <el-table-column prop="statTime" label="日期" align="center" width="100"></el-table-column>
+            <el-table-column prop="shopName" label="名称" align="center" width="150"></el-table-column>
+            <el-table-column prop="bizName" label="零售户类型" align="center" width="100"></el-table-column>
+            <el-table-column prop="cityName" label="城市" align="center" width="130"></el-table-column>
+            <el-table-column prop="productBrand" label="品牌" align="center" width="100"></el-table-column>
+            <el-table-column prop="productName" label="规格" align="center" width="160"></el-table-column>
+            <el-table-column prop="customerShould" label="返回金额" align="center" width="80"></el-table-column>
+            <el-table-column prop="scanCustomer" label="扫码人数" align="center" width="80"></el-table-column>
+            <el-table-column prop="repeatCustomer" label="复购人数" align="center" width="80"></el-table-column>
+            <el-table-column prop="scanCodeNum" label="烟码扫码数量" align="center" width="110"></el-table-column>
+            <el-table-column prop="scanSellerNum" label="店码扫码总数" align="center" width="110"></el-table-column>
         </el-table>
         <div class="space"></div>
         <!-- 分页组件 -->
@@ -224,10 +224,7 @@ export default {
 <style scoped>
     .ml40 {margin-left:40px;}
     .space {position:relative;width:100%;height:20px;}
-    .el-table th>.cell, .el-table {
-        text-align: center;
-    }
-    .el-input, .el-select, .el-upload-list {
+    .el-input, .el-select {
         width: 200px;
     }
 </style>

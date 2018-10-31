@@ -32,25 +32,25 @@
           </el-form>
           <!-- 数据表格 -->
           <el-table :data="materielDatas" style="width: 100%">
-            <el-table-column label="序号" type="index">
+            <el-table-column label="序号" type="index" align="center">
               <template slot-scope="scope">
                 {{ (form.pageNo-1)*form.pageSize + scope.$index + 1 }}
               </template>
             </el-table-column>
-            <el-table-column prop="name" :label="materielName[metraFlag]+'名称'" width="180"></el-table-column>
-            <el-table-column label="礼品图片">
+            <el-table-column prop="name" :label="materielName[metraFlag]+'名称'" align="center" width="180"></el-table-column>
+            <el-table-column label="礼品图片" align="center">
               <template slot-scope="scope">
                 <img v-if="scope.row.pic" :src="scope.row.pic" />
               </template>
             </el-table-column>
-            <el-table-column prop="supplierName" label="供应商"></el-table-column>
-            <el-table-column prop="stock" :label="'剩余库存('+materielUnit[metraFlag]+')'"></el-table-column>
-            <el-table-column prop="status" label="使用状态">
+            <el-table-column prop="supplierName" label="供应商" align="center"></el-table-column>
+            <el-table-column prop="stock" :label="'剩余库存('+materielUnit[metraFlag]+')'" align="center"></el-table-column>
+            <el-table-column prop="status" label="使用状态" align="center">
               <template slot-scope="scope">
                 {{scope.row.status==1?"已启用":"已停用"}}
               </template>
             </el-table-column>
-            <el-table-column label="操作" width="220">
+            <el-table-column label="操作" align="center" width="220">
               <template slot-scope="scope">
                 <el-button v-if="scope.row.status==1" size="mini" @click="materielForm(scope.$index, scope.row)">编辑</el-button>
                 <el-button v-if="scope.row.status==1" size="mini" @click="handleAddPool(scope.$index, scope.row)">增库</el-button>
@@ -94,22 +94,22 @@
           </el-form>
           <!-- 数据表格 -->
           <el-table :data="operLogDatas" style="width: 100%">
-            <el-table-column label="序号" type="index">
+            <el-table-column label="序号" type="index" align="center">
               <template slot-scope="scope">
                 {{ (form.pageNo-1)*form.pageSize + scope.$index + 1 }}
               </template>
             </el-table-column>
-            <el-table-column prop="poolName" :label="materielName[metraFlag]+'名称'" width="180"></el-table-column>
-            <el-table-column prop="supplierName" label="供应商"></el-table-column>
-            <el-table-column prop="operName" label="动作"></el-table-column>
-            <el-table-column prop="actName" label="活动名称"></el-table-column>
-            <el-table-column prop="operNum" :label="'操作数量('+materielUnit[metraFlag]+')'"></el-table-column>
-            <el-table-column label="操作时间" width="160">
+            <el-table-column prop="poolName" :label="materielName[metraFlag]+'名称'" align="center" width="180"></el-table-column>
+            <el-table-column prop="supplierName" label="供应商" align="center"></el-table-column>
+            <el-table-column prop="operName" label="动作" align="center"></el-table-column>
+            <el-table-column prop="actName" label="活动名称" align="center"></el-table-column>
+            <el-table-column prop="operNum" :label="'操作数量('+materielUnit[metraFlag]+')'" align="center"></el-table-column>
+            <el-table-column label="操作时间" align="center" width="160">
               <template slot-scope="scope">
                 {{new Date(scope.row.ctime).Format("yyyy-MM-dd hh:mm:ss")}}
               </template>
             </el-table-column>
-            <el-table-column prop="creatorName" label="操作人"></el-table-column>
+            <el-table-column prop="creatorName" label="操作人" align="center"></el-table-column>
           </el-table>
           <div class="space"></div>
           <!-- 分页组件 -->
@@ -124,11 +124,11 @@
     <el-dialog title="增库" width="30%" :visible.sync="addPool.show">
       <el-form ref="addPool" label-width="100px">
         <el-form-item label="增加库存" prop="stock">
-          <el-input type="number" v-model="addPool.num"></el-input>
+          <el-input size="small" type="number" v-model="addPool.num"></el-input>
         </el-form-item>
         <!-- 虚拟物料有此项内容 -->
         <el-form-item v-if="metraFlag=='virtual'" label="卡密文件">
-          <el-upload class="upload-demo"
+          <el-upload size="small" class="upload-demo"
             action="/api/saotx/metra/import"
             :headers="headers"
             :data="addPool"
@@ -136,14 +136,14 @@
             :on-success="handleSourceFileSuccess"
             :on-remove="handleSourceFileRemove"
             :file-list="sourceFiles">
-            <el-button type="primary">点击上传</el-button>
+            <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传csv/excel文件</div>
           </el-upload>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="addPool.show=false">取 消</el-button>
-        <el-button type="primary" @click="confirmAddPool">确 定</el-button>
+        <el-button size="small" @click="addPool.show=false">取 消</el-button>
+        <el-button size="small" type="primary" @click="confirmAddPool">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -218,17 +218,20 @@ export default {
   },
   methods: {
     currentChange(pageNo) {
-      this.form.pageNo = pageNo;
       // 分页pageNo变更监听
       if(this.tabIdx==0) {
-        this.listMateriel();
+        this.listMateriel(event, pageNo);
       } else if(this.tabIdx==1) {
-        this.listOperLog();
+        this.listOperLog(event, pageNo);
       }
     },
     sizeChange(pageSize) {
-      // 分页pageSize变更监听
-      this.form.pageSize = pageSize;
+      // 分页pageNo变更监听
+      if(this.tabIdx==0) {
+        this.listMateriel(event, null, pageSize);
+      } else if(this.tabIdx==1) {
+        this.listOperLog(event, null, pageSize);
+      }
     },
     // 查询所有的供应商数据
     getSuppliers() {
@@ -286,7 +289,17 @@ export default {
       this.$router.push({path:_path});
     },
     // 查询礼品库列表数据
-    listMateriel() {
+    listMateriel(_event, pageNo, pageSize) {
+      if(pageNo) {
+        this.form.pageNo = pageNo;
+      } else {
+        this.form.pageNo = 1;
+      }
+      if(pageSize) {
+        this.form.pageSize = pageSize;
+      } else {
+        this.form.pageSize = 10;
+      }
       this.$request.post('/api/saotx/metra/list', this.form, true, (res)=>{
         if (res.ret == '200000') {
           this.materielDatas = res.data.list || [];
@@ -295,7 +308,17 @@ export default {
       });
     },
     // 查询物料池流水列表数据
-    listOperLog() {
+    listOperLog(_event, pageNo, pageSize) {
+      if(pageNo) {
+        this.form.pageNo = pageNo;
+      } else {
+        this.form.pageNo = 1;
+      }
+      if(pageSize) {
+        this.form.pageSize = pageSize;
+      } else {
+        this.form.pageSize = 10;
+      }
       this.$request.post('/api/saotx/metra/operList', this.form, true, (res)=>{
         if (res.ret == '200000') {
           this.operLogDatas = res.data.list || [];
@@ -409,9 +432,6 @@ export default {
 
 <style scoped>
   .space {position:relative;width:100%;height:20px;}
-  .el-table th>.cell, .el-table {
-    text-align: center;
-  }
   .el-input, .el-select, .el-upload-list {
     width: 200px;
   }

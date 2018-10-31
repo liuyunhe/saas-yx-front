@@ -7,25 +7,25 @@
             <div class="space"></div>
             <el-form :inline="true" :model="form" class="demo-form-inline">
                 <el-row>
-                    <el-form-item label="活动编号">
+                    <el-form-item label="活动编号" size="small" >
                         <el-input v-model="form.hdCode" placeholder="请输入活动编号"></el-input>
                     </el-form-item>
-                    <el-form-item label="品牌选择">
+                    <el-form-item label="品牌选择" size="small" >
                         <el-select v-model="selectAllBrands" placeholder="请选择">
                             <el-option v-for="(item,index) in allBrandsData" :key="item.brandCode" :label="item.name" :value="item.brandCode"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="规格选择">
+                    <el-form-item label="规格选择" size="small" >
                         <el-select v-model="selectSpeciSns" placeholder="请选择" :disabled="id?true:false" :clearable="id?true:false"   >
                             <el-option v-for="(item,index) in allSpecisData" :key="item.product.sn" :label="item.product.allName" :value="item.product.sn"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-row>
                 <el-row>
-                    <el-form-item label="订单号">
+                    <el-form-item label="订单号" size="small" >
                         <el-input v-model="form.orderCode" placeholder="请输入订单号"></el-input>
                     </el-form-item>
-                    <el-form-item label="中奖地区">
+                    <el-form-item label="中奖地区" size="small" >
                         <el-select v-model="selectAllarea" placeholder="请选择">
                             <!--  <el-option v-for="item in allareaData" :key="item.code" :label="item.name" :value="item.code"></el-option>-->
                             <el-option-group v-for="group in allareaData":key="group.value":label="group.label">
@@ -35,17 +35,17 @@
                     </el-form-item>
                 </el-row>
                 <el-row>
-                    <el-form-item label="领奖时段" >
+                    <el-form-item label="领奖时段" size="small"  >
                         <el-date-picker v-model="form.stime" type="date" placeholder="选择日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd"> </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="至">
+                    <el-form-item label="至" size="small" >
                         <el-date-picker v-model="form.etime" type="date" placeholder="选择日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd"> </el-date-picker>
                     </el-form-item>
                 </el-row>
                 <el-form-item>
-                    <el-row><el-button type="primary" v-on:click="queryData">查询</el-button>
-                        <el-button v-on:click="resetData">重置</el-button>
-                        <el-button plain  v-on:click="exportData" >导出搜索结果</el-button>
+                    <el-row><el-button size="small" type="primary" v-on:click="queryData">查询</el-button>
+                        <el-button size="small" v-on:click="resetData">重置</el-button>
+                        <el-button size="small" plain  v-on:click="exportData" >导出搜索结果</el-button>
                     </el-row>
                 </el-form-item>
             </el-form>

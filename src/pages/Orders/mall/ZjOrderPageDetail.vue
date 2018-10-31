@@ -8,48 +8,48 @@
             <div><h1>订单信息</h1></div>
             <el-form :inline="true" :model="formDetail" class="demo-form-inline">
                 <el-row>
-                    <el-form-item :size="'small'"  label="订单号:">
+                    <el-form-item size="small"  label="订单号:">
                         <el-input class="tobacco-input" disabled  v-model="formDetail.orderId" ></el-input>
                     </el-form-item>
-                    <el-form-item :size="'small'"  label="下单时间:">
+                    <el-form-item size="small"  label="下单时间:">
                         <el-input class="tobacco-input" disabled  v-model="formDetail.create_time" ></el-input>
                     </el-form-item>
-                    <el-form-item :size="'small'" label="商品名称:">
+                    <el-form-item size="small" label="商品名称:">
                         <el-input class="tobacco-input" disabled  v-model="formDetail.awardName" ></el-input>
                     </el-form-item>
-                    <el-form-item :size="'small'" label="分类:">
+                    <el-form-item size="small" label="分类:">
                         <el-input class="tobacco-input" disabled  v-model="formDetail.category" ></el-input>
                     </el-form-item>
-                    <el-form-item :size="'small'" label="兑换值:">
+                    <el-form-item size="small" label="兑换值:">
                         <el-input class="tobacco-input" disabled  v-model="formDetail.score" ></el-input>
                     </el-form-item>
                 </el-row>
                 <div><h1>收货人信息</h1></div>
                 <el-row>
-                    <el-form-item :size="'small'" label="联系人姓名:">
+                    <el-form-item size="small" label="联系人姓名:">
                         <el-input class="tobacco-input" :disabled="formDetail.status!=0?true:false"  v-model="formDetail.username" placeholder="请输入内容"></el-input>
                     </el-form-item>
                 </el-row>
                 <el-row>
-                    <el-form-item :size="'small'" label="联系人电话:">
+                    <el-form-item size="small" label="联系人电话:">
                         <el-input class="tobacco-input" :disabled="formDetail.status!=0?true:false"  v-model="formDetail.mobile" placeholder="请输入内容"></el-input>
                     </el-form-item>
                 </el-row>
                 <el-row>
-                    <el-form-item :size="'small'" label="收货地址:省:">
+                    <el-form-item size="small" label="收货地址:省:">
                         <el-select v-model="selectallPro" placeholder="请选择" :disabled="formDetail.status!=0?true:false"    >
                             <el-option v-for="(item,index) in allProvinceData" :key="item.code" :label="item.name" :value="item.code"></el-option>
                         </el-select>
                         <!--<el-input class="tobacco-input" :disabled="formDetail.status!=0?true:false"  v-model="formDetail.province" placeholder="请输入内容"></el-input>-->
                     </el-form-item>
 
-                    <el-form-item :size="'small'" label="市:">
+                    <el-form-item size="small" label="市:">
                         <el-select v-model="selectallCity" placeholder="请选择" :disabled="formDetail.status!=0?true:false"  >
                             <el-option v-for="(item,index) in allCityData" :key="item.code" :label="item.name" :value="item.code"></el-option>
                         </el-select>
                         <!--<el-input class="tobacco-input" :disabled="formDetail.status!=0?true:false"  v-model="formDetail.city" placeholder="请输入内容"></el-input>-->
                     </el-form-item>
-                    <el-form-item :size="'small'" label="区:">
+                    <el-form-item size="small" label="区:">
                         <el-select v-model="selectallDistrict" placeholder="请选择" :disabled="formDetail.status!=0?true:false"    >
                             <el-option v-for="(item,index) in allDistrictData" :key="item.code" :label="item.name" :value="item.code"></el-option>
                         </el-select>
@@ -57,41 +57,41 @@
                     </el-form-item>
                 </el-row>
                 <el-row>
-                    <el-form-item :size="'small'" label="详细地址:">
+                    <el-form-item size="small" label="详细地址:">
                         <el-input class="tobacco-input" :disabled="formDetail.status!=0?true:false"  v-model="formDetail.address" placeholder="请输入内容"></el-input>
                     </el-form-item>
                 </el-row>
                 <div><h1>订单跟踪</h1></div>
                 <el-row>
-                    <el-form-item :size="'small'" label="下单时间:">
+                    <el-form-item size="small" label="下单时间:">
                         <el-input class="tobacco-input" disabled  v-model="formDetail.ctime" ></el-input>
                     </el-form-item>
-                    <el-form-item :size="'small'" label="订单状态:">
+                    <el-form-item size="small" label="订单状态:">
                         <el-input class="tobacco-input" disabled  v-model="formDetail.orderStatus"></el-input>
                     </el-form-item>
                 </el-row>
                 <el-row>
-                    <el-form-item :size="'small'" label="发货时间:">
+                    <el-form-item size="small" label="发货时间:">
                         <el-input class="tobacco-input" disabled  v-model="formDetail.create_time" ></el-input>
                     </el-form-item>
-                    <el-form-item :size="'small'" label="订单状态:">
+                    <el-form-item size="small" label="订单状态:">
                         <el-input class="tobacco-input" disabled  v-model="formDetail.orderWLoad" ></el-input>
                     </el-form-item>
-                    <el-form-item :size="'small'" label="物流号:">
+                    <el-form-item size="small" label="物流号:">
                         <el-input class="tobacco-input" disabled  v-model="formDetail.waybill" ></el-input>
                     </el-form-item>
                 </el-row>
                 <el-row>
-                    <el-form-item :size="'small'" label="收货时间:">
+                    <el-form-item size="small" label="收货时间:">
                         <el-input class="tobacco-input" disabled  v-model="formDetail.finish_time" ></el-input>
                     </el-form-item>
-                    <el-form-item :size="'small'" label="订单状态:">
+                    <el-form-item size="small" label="订单状态:">
                         <el-input class="tobacco-input" disabled  v-model="formDetail.orderFLoad"></el-input>
                     </el-form-item>
                 </el-row>
                 <div class="add-tobaccomgr-form-bt">
                     <el-form-item>
-                        <el-button type="primary" size="small" @click="submitFormSave" :disabled="formDetail.status!=0?true:false">保存</el-button>
+                        <el-button  size="small" type="primary"  @click="submitFormSave" :disabled="formDetail.status!=0?true:false">保存</el-button>
                         <el-button size="small" @click="returnObjectPage">返回列表</el-button>
                     </el-form-item>
                 </div>
