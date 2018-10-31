@@ -56,18 +56,18 @@
     <el-card class="box-card">
         <!-- 数据表格 -->
         <el-table v-loading="loading" :data="tableList" style="width: 100%">
-            <el-table-column label="序号" type="index" width="60">
+            <el-table-column label="序号" type="index" align="center" width="60">
                 <template slot-scope="scope">
                     {{ (form.page-1)*form.pageSize + scope.$index + 1 }}
                 </template>
             </el-table-column>
-            <el-table-column prop="mobile" label="手机号" width="120"></el-table-column>
-            <el-table-column prop="orderId" label="订单号" width="300"></el-table-column>
-            <el-table-column prop="wechatName" label="微信昵称"></el-table-column>
-            <el-table-column prop="statTime" label="领奖时间" width="160"></el-table-column>
-            <el-table-column prop="cityName" label="城市" width="130"></el-table-column>
-            <el-table-column prop="awardName" label="奖品（金额）" width="120"></el-table-column>
-            <el-table-column label="标签">
+            <el-table-column prop="mobile" label="手机号" align="center" width="120"></el-table-column>
+            <el-table-column prop="orderId" label="订单号" align="center" width="300"></el-table-column>
+            <el-table-column prop="wechatName" label="微信昵称" align="center" ></el-table-column>
+            <el-table-column prop="statTime" label="领奖时间" align="center" width="160"></el-table-column>
+            <el-table-column prop="cityName" label="城市" align="center" width="130"></el-table-column>
+            <el-table-column prop="awardName" label="奖品（金额）" align="center" width="120"></el-table-column>
+            <el-table-column label="标签" align="center" >
                 <template slot-scope="scope">
                     {{visitLabels[scope.row.feedbackStatus]}}
                     <el-dropdown v-if="scope.row.feedbackStatus==1" trigger="click" :hide-on-click="false" @command="handleCommand">
@@ -161,13 +161,12 @@ export default {
             sessionStorage.removeItem("access_loginId");
         },
         currentChange(pageNo) {
-            this.form.page = pageNo;
             // 分页pageNo变更监听
-            this.list();
+            this.list(event, pageNo);
         },
         sizeChange(pageSize) {
             // 分页pageSize变更监听
-            this.form.pageSize = pageSize;
+            this.list(event, null, pageSize);
         },
         // 查询所有的品牌
         getBrandList() {
@@ -209,8 +208,18 @@ export default {
             }
         },
         // 查询列表数据
-        list() {
+        list(_event, pageNo, pageSize) {
             this.loading = true;
+            if(pageNo) {
+                this.form.pageNo = pageNo;
+            } else {
+                this.form.pageNo = 1;
+            }
+            if(pageSize) {
+                this.form.pageSize = pageSize;
+            } else {
+                this.form.pageSize = 10;
+            }
             if(this.form.time&&this.form.time.length==2) {
                 this.form.startTime = new Date(this.form.time[0]).Format("yyyy-MM-dd");
                 this.form.endTime = new Date(this.form.time[1]).Format("yyyy-MM-dd");
@@ -255,10 +264,7 @@ export default {
 <style scoped>
     .ml15 {margin-left:15px;}
     .space {position:relative;width:100%;height:20px;}
-    .el-table th>.cell, .el-table {
-        text-align: center;
-    }
-    .el-input, .el-select, .el-upload-list {
+    .el-input, .el-select {
         width: 200px;
     }
 </style>

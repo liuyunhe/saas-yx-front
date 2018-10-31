@@ -66,14 +66,14 @@
             @sort-change="sortDatas" @cell-click="arrowCellClick">
             <el-table-column label="地域" align="center">
               <el-table-column label="统计" prop="overview" align="center"></el-table-column>
-              <el-table-column label="省市" align="center">
+              <el-table-column label="省市" align="center" width="200">
                 <template slot-scope="scope">
                     {{scope.row.provOrCity}}
                     <i v-if="scope.row.province?true:false" :class="arrowTop[scope.row.province]?'el-icon-caret-top':'el-icon-caret-bottom'"></i>
                 </template>
               </el-table-column>
             </el-table-column>
-            <el-table-column prop="saleType" label="所属销区" align="center" width="280"></el-table-column>
+            <el-table-column prop="saleType" label="所属销区" align="center" width="240"></el-table-column>
             <el-table-column prop="scantimes" label="扫码次数" align="center" width="180" sortable="custom" :render-header="scantimesHeader"></el-table-column>
             <el-table-column prop="scanUsers" label="扫码人数" align="center" width="180" sortable="custom" :render-header="scanusersHeader"></el-table-column>
             <el-table-column prop="scanCodes" label="扫码烟包数" align="center" width="180" sortable="custom" :render-header="scancodesHeader"></el-table-column>
@@ -311,10 +311,15 @@ export default {
       });
       // top排名
       this.$request.post('/record/data/topTen', {}, true, (res)=>{
+        this.tops = "";
         let datas = res || [];
         //datas = ["石家庄市","邢台市","邯郸市","张家口市","保定市","唐山市","null","沧州市","衡水市","北京市"];
         if(datas.length>0) {
-          this.tops = datas.join("、");
+          for(let i=0;i<datas.length;i++) {
+            if(datas[i]) {
+              this.tops += (this.tops?"、":"") + datas[i];
+            }
+          }
         }
       });
     },
@@ -564,10 +569,9 @@ export default {
       this.sortTable = true;
       this.$refs.unsortTable.clearSort();
       this.sortInfo = {prop:prop, order:order};
-      console.log(this.$refs.areaSortTable);
       this.$refs.areaSortTable.sort(prop, order);
-      let sortBy = this.getSortBy(order);
-      this.getProvDatas(prop, sortBy);
+      //let sortBy = this.getSortBy(order);
+      //this.getProvDatas(prop, sortBy);
     },
     // 排序表格中省份箭头的点击事件
     sortArrowCellClick(row, column, cell, event) {
@@ -652,10 +656,10 @@ export default {
     prodSortDatas({column, prop, order}) {
       this.prodSort = true;
       this.$refs.prodUnsortTable.clearSort();
-      //this.$refs.prodSortTable.sort(prop, order);
+      this.$refs.prodSortTable.sort(prop, order);
       this.prodSortInfo = {prop:prop, order:order};
-      let sortBy = this.getSortBy(order);
-      this.getProdDatas(prop, sortBy);
+      //let sortBy = this.getSortBy(order);
+      //this.getProdDatas(prop, sortBy);
     },
     prodSortDatasChange({column, prop, order}) {
       this.prodSortInfo = {prop:prop, order:order};
@@ -670,9 +674,6 @@ export default {
     font-weight: 300;
   }
   .space {position:relative;width:100%;height:20px;}
-  .el-table th>.cell, .el-table {
-    text-align: center;
-  }
   .el-table .caret-wrapper {
     top: -15px;
   }
@@ -724,6 +725,8 @@ export default {
     margin-bottom: 2px;
   }
   .ui-scan-hot-city {
+    height: 20px;
+    line-height: 20px;
     font-size: 12px;
     color: #707478;
     margin-bottom: 2px;

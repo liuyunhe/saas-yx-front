@@ -22,7 +22,10 @@ a {
   text-decoration: none;
   color: #333;
 }
-
+/* 表格底部分页组件内容统一靠右展示 */
+.el-pagination {
+  text-align: right;
+}
 /* 覆盖默认卡片视图的阴影效果 */
 .el-card {
   /* margin-top: 15px; */
@@ -48,7 +51,6 @@ a {
   position: relative;
   overflow: hidden;
 }
-
 .avatar-uploader .el-upload:hover {
   border-color: #409eff;
 }

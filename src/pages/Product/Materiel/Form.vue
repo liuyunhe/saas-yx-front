@@ -54,7 +54,7 @@
             :on-success="handleSourceFileSuccess"
             :on-remove="handleSourceFileRemove"
             :file-list="sourceFiles">
-            <el-button type="primary">点击上传</el-button>
+            <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传csv/excel文件</div>
           </el-upload>
         </el-form-item>
@@ -279,10 +279,10 @@ export default {
 </script>
 
 <style scoped>
-  .el-input, .el-textarea, .el-upload-list {
+  .el-input, .el-select, .el-textarea, .el-upload-list {
     width: 400px;
   }
-  .materiel-type .el-input {
+  .el-select.materiel-type {
     width: 200px;
   }
   .avatar-uploader .el-upload {

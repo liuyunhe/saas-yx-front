@@ -35,21 +35,21 @@
     <el-card class="box-card">
       <!-- 数据表格 -->
       <el-table :data="tableList" style="width: 100%">
-        <el-table-column label="序号" type="index">
+        <el-table-column label="序号" type="index" align="center">
           <template slot-scope="scope">
             {{ (form.pageNo-1)*form.pageSize + scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="姓名"></el-table-column>
-        <el-table-column prop="roleName" label="角色"></el-table-column>
-        <el-table-column prop="orgName" label="单位"></el-table-column>
-        <el-table-column prop="mobile" label="手机号"></el-table-column>
-        <el-table-column prop="status" label="状态">
+        <el-table-column prop="name" label="姓名" align="center"></el-table-column>
+        <el-table-column prop="roleName" label="角色" align="center"></el-table-column>
+        <el-table-column prop="orgName" label="单位" align="center"></el-table-column>
+        <el-table-column prop="mobile" label="手机号" align="center"></el-table-column>
+        <el-table-column prop="status" label="状态" align="center">
           <template slot-scope="scope">
             {{scope.row.status==1?"已启用":scope.row.status==2?"已锁定":"已停用"}}
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="160">
+        <el-table-column label="操作" align="center" width="160">
           <template slot-scope="scope">
             <el-button v-if="scope.row.status==1" size="mini" @click="mgrForm(scope.$index, scope.row)">编辑</el-button>
             <el-button v-if="scope.row.status==1" size="mini" @click="handleDelete(scope.$index, scope.row)" type="danger">停用</el-button>
@@ -69,36 +69,36 @@
     <el-dialog title="成员管理" width="550px" center :visible.sync="userForm.show" :show-close="userForm.showClose">
       <el-form :model="userForm" :rules="userFormRules" ref="userForm" class="form" label-width="80px">
         <el-form-item label="公司">
-          <el-input v-model="cluser.orgName" disabled></el-input>
+          <el-input size="small" v-model="cluser.orgName" disabled></el-input>
         </el-form-item>
-        <el-form-item label="账号" prop="id" v-show="false">
-          <el-input v-model="userForm.id"></el-input>
+        <el-form-item label="账号id" prop="id" v-show="false">
+          <el-input size="small" v-model="userForm.id"></el-input>
         </el-form-item>
         <el-form-item label="账号" prop="account">
-          <el-input v-model="userForm.account" placeholder="登录账号" :disabled="userForm.id?true:false"></el-input>
+          <el-input size="small" v-model="userForm.account" placeholder="登录账号" :disabled="userForm.id?true:false"></el-input>
         </el-form-item>
         <el-form-item label="昵称" prop="name">
-          <el-input v-model="userForm.name" placeholder="账号昵称" :disabled="userForm.id?true:false"></el-input>
+          <el-input size="small" v-model="userForm.name" placeholder="账号昵称" :disabled="userForm.id?true:false"></el-input>
         </el-form-item>
         <el-form-item label="手机号" prop="mobile">
-          <el-input v-model="userForm.mobile" placeholder="账号绑定手机号"></el-input>
+          <el-input size="small" v-model="userForm.mobile" placeholder="账号绑定手机号"></el-input>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
-          <el-input v-model="userForm.email" placeholder="常用邮箱"></el-input>
+          <el-input size="small" v-model="userForm.email" placeholder="常用邮箱"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="pwd" v-if="userForm.id?false:true">
-          <el-input type="password" v-model="userForm.pwd" placeholder="8-16位字符(至少包含字母、数字、符号中的两种形式)"></el-input>
+          <el-input size="small" type="password" v-model="userForm.pwd" placeholder="8-16位字符(至少包含字母、数字、符号中的两种形式)"></el-input>
         </el-form-item>
         <el-form-item label="角色" prop="roleCode">
-          <el-select v-model="userForm.roleCode" placeholder="全部">
+          <el-select size="small" v-model="userForm.roleCode" placeholder="全部">
             <el-option label="全部" value=""></el-option>
             <el-option v-for="item in roleList" :key="item.roleCode" :label="item.roleName" :value="item.roleCode"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="userFormCancel('userForm')">取 消</el-button>
-        <el-button type="primary" @click="userFormOk('userForm')">确 定</el-button>
+        <el-button size="small" @click="userFormCancel('userForm')">取 消</el-button>
+        <el-button size="small" type="primary" @click="userFormOk('userForm')">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -196,13 +196,12 @@ export default {
       sessionStorage.removeItem("access_loginId");
     },
     currentChange(pageNo) {
-      this.form.pageNo = pageNo;
       // 分页pageNo变更监听
-      this.list();
+      this.list(event, pageNo);
     },
     sizeChange(pageSize) {
       // 分页pageSize变更监听
-      this.form.pageSize = pageSize;
+      this.list(event, null, pageSize);
     },
     // 查询所有数据状态
     getRoleList() {
@@ -224,7 +223,17 @@ export default {
       this.list();
     },
     // 查询表格列表数据
-    list() {
+    list(_event, pageNo, pageSize) {
+      if(pageNo) {
+        this.form.pageNo = pageNo;
+      } else {
+        this.form.pageNo = 1;
+      }
+      if(pageSize) {
+        this.form.pageSize = pageSize;
+      } else {
+        this.form.pageSize = 10;
+      }
       this.$request.post('/api/saotx/user/list', this.form, true, (res)=>{
         if (res.ret == '200000') {
           this.tableList = res.data.list || [];
@@ -313,31 +322,14 @@ export default {
   .dialog-footer {
     clear: both;
   }
-  .el-table th>.cell, .el-table {
-    text-align: center;
-  }
-  .el-input, .el-select, .el-upload-list {
+  .el-input, .el-select {
     width: 200px;
-  }
-  .el-table img {
-    width: 80px;
-    height: 80px;
   }
   .form {
     width: 100%;
     overflow: hidden;
   }
-  .form .label {
-    float: left;
-    width: 70px;
-  }
-  .form .menu-tree {
-    float: left;
-    width: 400px;
-    height: 240px;
-    overflow: auto;
-  }
-  .form .el-input {
-    width: 400px;
+  .form .el-input, .form .el-select {
+    width: 380px;
   }
 </style>

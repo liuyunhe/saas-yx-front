@@ -27,18 +27,18 @@
     <el-card class="box-card">
       <!-- 数据表格 -->
       <el-table :data="tableList" style="width: 100%">
-        <el-table-column label="序号" type="index">
+        <el-table-column label="序号" type="index" align="center">
           <template slot-scope="scope">
             {{ (form.pageNo-1)*form.pageSize + scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column prop="roleName" label="角色"></el-table-column>
-        <el-table-column prop="status" label="状态">
+        <el-table-column prop="roleName" label="角色" align="center"></el-table-column>
+        <el-table-column prop="status" label="状态" align="center">
           <template slot-scope="scope">
             {{scope.row.status==1?"已启用":"已停用"}}
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="160">
+        <el-table-column label="操作" align="center" width="160">
           <template slot-scope="scope">
             <el-button v-if="scope.row.status==1" size="mini" @click="mgrForm(scope.$index, scope.row)">编辑</el-button>
             <el-button v-if="scope.row.status==1" size="mini" @click="handleDelete(scope.$index, scope.row)" type="danger">停用</el-button>
@@ -121,13 +121,12 @@ export default {
   },
   methods: {
     currentChange(pageNo) {
-      this.form.pageNo = pageNo;
       // 分页pageNo变更监听
-      this.list();
+      this.list(event, pageNo);
     },
     sizeChange(pageSize) {
       // 分页pageSize变更监听
-      this.form.pageSize = pageSize;
+      this.list(event, null, pageSize);
     },
     // 查询所有数据状态
     getStatus() {
@@ -148,7 +147,17 @@ export default {
       this.list();
     },
     // 查询表格列表数据
-    list() {
+    list(_event, pageNo, pageSize) {
+      if(pageNo) {
+        this.form.pageNo = pageNo;
+      } else {
+        this.form.pageNo = 1;
+      }
+      if(pageSize) {
+        this.form.pageSize = pageSize;
+      } else {
+        this.form.pageSize = 10;
+      }
       this.$request.post('/api/saotx/role/list', this.form, true, (res)=>{
         if (res.ret == '200000') {
           this.tableList = res.data.list || [];
@@ -281,15 +290,8 @@ export default {
   .dialog-footer {
     clear: both;
   }
-  .el-table th>.cell, .el-table {
-    text-align: center;
-  }
-  .el-input, .el-select, .el-upload-list {
+  .el-input, .el-select {
     width: 200px;
-  }
-  .el-table img {
-    width: 80px;
-    height: 80px;
   }
   .form {
     width: 100%;

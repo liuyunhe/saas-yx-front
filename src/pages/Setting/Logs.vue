@@ -36,21 +36,21 @@
       <el-card class="box-card">
         <!-- 数据表格 -->
         <el-table v-loading="loading" :data="tableList" style="width: 100%">
-          <el-table-column label="序号" type="index">
+          <el-table-column label="序号" type="index" align="center">
             <template slot-scope="scope">
               {{ (form.pageNo-1)*form.pageSize + scope.$index + 1 }}
             </template>
           </el-table-column>
-          <el-table-column prop="operUsername" label="用户名" width="140"></el-table-column>
-          <el-table-column label="时间" width="160">
+          <el-table-column prop="operUsername" label="用户名" align="center" width="140"></el-table-column>
+          <el-table-column label="时间" align="center" width="160">
             <template slot-scope="scope">
               {{new Date(scope.row.operTime).Format("yyyy-MM-dd hh:mm:ss")}}
             </template>
           </el-table-column>
-          <el-table-column prop="clientIp" label="IP" width="130"></el-table-column>
-          <el-table-column prop="operName" label="操作类型" width="80"></el-table-column>
-          <el-table-column prop="operBusiness" label="模块" width="120"></el-table-column>
-          <el-table-column prop="operContent" label="操作详情"></el-table-column>
+          <el-table-column prop="clientIp" label="IP" align="center" width="130"></el-table-column>
+          <el-table-column prop="operName" label="操作类型" align="center" width="80"></el-table-column>
+          <el-table-column prop="operBusiness" label="模块" align="center" width="120"></el-table-column>
+          <el-table-column prop="operContent" label="操作详情" align="center"></el-table-column>
         </el-table>
         <div class="space"></div>
         <!-- 分页组件 -->
@@ -102,13 +102,12 @@ export default {
   },
   methods: {
     currentChange(pageNo) {
-      this.form.pageNo = pageNo;
       // 分页pageNo变更监听
-      this.list();
+      this.list(event, pageNo);
     },
     sizeChange(pageSize) {
       // 分页pageSize变更监听
-      this.form.pageSize = pageSize;
+      this.list(event, null, pageSize);
     },
     // 查询所有的操作类型
     getTypes() {
@@ -139,23 +138,34 @@ export default {
       }
     },
     // 查询礼品库列表数据
-    list() {
-        this.loading = true;
-        if(this.form.time&&this.form.time.length==2) {
-            this.form.stime = new Date(this.form.time[0]).Format("yyyy-MM-dd hh:mm:ss");
-            this.form.etime = new Date(this.form.time[1]).Format("yyyy-MM-dd hh:mm:ss");
-        } else {
-            this.form.stime = this.form.etime = "";
-        }
-        this.$request.post('/api/saotx/log/list', this.form, true, (res)=>{
-            this.loading = false;
-            if (res.ret == '200000') {
-                this.tableList = res.data.list || [];
-                this.initPagination(res.data.page||{});
-            } else {
-                this.$message.error(res.message);
-            }
-        });
+    list(_event, pageNo, pageSize) {
+      if(pageNo) {
+        this.form.pageNo = pageNo;
+      } else {
+        this.form.pageNo = 1;
+      }
+      if(pageSize) {
+        this.form.pageSize = pageSize;
+      } else {
+        this.form.pageSize = 10;
+      }
+
+      this.loading = true;
+      if(this.form.time&&this.form.time.length==2) {
+          this.form.stime = new Date(this.form.time[0]).Format("yyyy-MM-dd hh:mm:ss");
+          this.form.etime = new Date(this.form.time[1]).Format("yyyy-MM-dd hh:mm:ss");
+      } else {
+          this.form.stime = this.form.etime = "";
+      }
+      this.$request.post('/api/saotx/log/list', this.form, true, (res)=>{
+          this.loading = false;
+          if (res.ret == '200000') {
+              this.tableList = res.data.list || [];
+              this.initPagination(res.data.page||{});
+          } else {
+              this.$message.error(res.message);
+          }
+      });
     }
   }
 }
@@ -163,10 +173,7 @@ export default {
 
 <style scoped>
   .space {position:relative;width:100%;height:20px;}
-  .el-table th>.cell, .el-table {
-    text-align: center;
-  }
-  .el-input, .el-select, .el-upload-list {
+  .el-input, .el-select {
     width: 200px;
   }
 </style>

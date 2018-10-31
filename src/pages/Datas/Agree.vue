@@ -43,31 +43,31 @@
     <el-card class="box-card">
         <!-- 数据表格 -->
         <el-table v-loading="loading" :data="tableList" style="width: 100%">
-            <el-table-column label="序号" type="index" width="60">
+            <el-table-column label="序号" type="index" align="center" width="60">
                 <template slot-scope="scope">
                     {{ (form.page-1)*form.pageSize + scope.$index + 1 }}
                 </template>
             </el-table-column>
-            <el-table-column prop="orderId" label="订单号" width="300"></el-table-column>
-            <el-table-column prop="activityName" label="活动名称" width="200"></el-table-column>
-            <el-table-column prop="productName" label="产品规格" width="150"></el-table-column>
-            <el-table-column prop="awardType" label="奖品类别" width="80"></el-table-column>
-            <el-table-column prop="awardName" label="奖品名称" width="120"></el-table-column>
-            <el-table-column prop="awardCnt" label="数量" width="50"></el-table-column>
-            <el-table-column prop="awardFee" label="小计金额" width="100"></el-table-column>
-            <el-table-column prop="userId" label="会员ID" width="280"></el-table-column>
-            <el-table-column prop="mobileNo" label="手机号" width="120"></el-table-column>
-            <el-table-column prop="openId" label="第三方ID" width="280"></el-table-column>
-            <el-table-column prop="cityName" label="用户所属地区" width="130"></el-table-column>
-            <el-table-column prop="acceptTime" label="领奖时间" width="160"></el-table-column>
-            <el-table-column prop="orderStatus" label="订单状态" width="120"></el-table-column>
-            <el-table-column prop="checkStatus" label="抽检状态" width="100">
+            <el-table-column prop="orderId" label="订单号" align="center" width="300"></el-table-column>
+            <el-table-column prop="activityName" label="活动名称" align="center" width="200"></el-table-column>
+            <el-table-column prop="productName" label="产品规格" align="center" width="150"></el-table-column>
+            <el-table-column prop="awardType" label="奖品类别" align="center" width="80"></el-table-column>
+            <el-table-column prop="awardName" label="奖品名称" align="center" width="120"></el-table-column>
+            <el-table-column prop="awardCnt" label="数量" align="center" width="50"></el-table-column>
+            <el-table-column prop="awardFee" label="小计金额" align="center" width="100"></el-table-column>
+            <el-table-column prop="userId" label="会员ID" align="center" width="280"></el-table-column>
+            <el-table-column prop="mobileNo" label="手机号" align="center" width="120"></el-table-column>
+            <el-table-column prop="openId" label="第三方ID" align="center" width="280"></el-table-column>
+            <el-table-column prop="cityName" label="用户所属地区" align="center" width="130"></el-table-column>
+            <el-table-column prop="acceptTime" label="领奖时间" align="center" width="160"></el-table-column>
+            <el-table-column prop="orderStatus" label="订单状态" align="center" width="120"></el-table-column>
+            <el-table-column prop="checkStatus" label="抽检状态" align="center" width="100">
                 <template slot-scope="scope">
                     {{visitLabels[scope.row.checkStatus]}}
                 </template>
             </el-table-column>
-            <el-table-column prop="checkTime" label="抽检时间" width="160"></el-table-column>
-            <el-table-column prop="checkPerson" label="抽检人" width="150"></el-table-column>
+            <el-table-column prop="checkTime" label="抽检时间" align="center" width="160"></el-table-column>
+            <el-table-column prop="checkPerson" label="抽检人" align="center" width="150"></el-table-column>
         </el-table>
         <div class="space"></div>
         <!-- 分页组件 -->
@@ -212,10 +212,7 @@ export default {
 <style scoped>
     .ml15 {margin-left:15px;}
     .space {position:relative;width:100%;height:20px;}
-    .el-table th>.cell, .el-table {
-        text-align: center;
-    }
-    .el-input, .el-select, .el-upload-list {
+    .el-input, .el-select {
         width: 200px;
     }
 </style>
