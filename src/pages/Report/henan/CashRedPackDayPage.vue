@@ -99,7 +99,7 @@
             allBrandsList(){
                 this.$request.post(`/record/public/getUserBrandByUserId`,{ },true,res => {
                         let datas = res || [];
-                        datas=[{"brandCode":"0f01c777243143bbb1928f8ea86f07d8","name":"黄金叶"},{"brandCode":"83fb28434f97455f8cba3d509b047f94","name":"帝豪"},{"brandCode":"b7dc34c1422a4bf6bad77772d997bbae","name":"红旗渠"}];
+                        // datas=[{"brandCode":"0f01c777243143bbb1928f8ea86f07d8","name":"黄金叶"},{"brandCode":"83fb28434f97455f8cba3d509b047f94","name":"帝豪"},{"brandCode":"b7dc34c1422a4bf6bad77772d997bbae","name":"红旗渠"}];
                         this.allBrandsData = datas;
                         if(datas.length>0){
                             this.selectAllBrands=datas[0].name;
@@ -116,7 +116,7 @@
                         productBrand:nval
                     },true,res => {
                         let datas = res || [];
-                        datas = [{"name":"盒-黄金叶（爱尚）","sn":"6901028165235"},{"name":"盒-爱尚测试","sn":"1234567891234"},{"name":"条-黄金叶（爱尚）","sn":"6901028165242"},{"name":"条-爱尚测试","sn":"1234567890123"}]
+                        // datas = [{"name":"盒-黄金叶（爱尚）","sn":"6901028165235"},{"name":"盒-爱尚测试","sn":"1234567891234"},{"name":"条-黄金叶（爱尚）","sn":"6901028165242"},{"name":"条-爱尚测试","sn":"1234567890123"}]
                         this.allSpecisData = datas;
                         if(datas.length>0){
                             this.selectSpeciSns=datas[0].sn;

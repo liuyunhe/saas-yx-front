@@ -86,7 +86,7 @@
             allActList(){
                 this.$request.post(`/record/actAnalysis/getActyDownBox`,{ },true,res => {
                         let datas = res || [];
-                        datas=[{"activityId":"08e8736932104925be739eb49ccb9ade","activityName":"爱”尚“翻牌子--黄金叶（爱尚）条","sn":"6901028165242"},{"activityId":"2cdecc75576b41169601c08ddba06da0","activityName":"爱”尚“翻牌子--黄金叶（爱尚）条","sn":"6901028165242"},{"activityId":"a4ca964f6cf149389f0ae9932c3ac739","activityName":"爱”尚“翻牌子--黄金叶（爱尚）条","sn":"6901028165242"},{"activityId":"5e8fe02c9740430494714393f327c892","activityName":"爱”尚“翻牌子--黄金叶（爱尚）盒","sn":"6901028165235"},{"activityId":"a154acdd2bd6429eb08d9b4b5111e898","activityName":"爱”尚“翻牌子--黄金叶（爱尚）盒","sn":"6901028165235"},{"activityId":"bd227e13de6d4dc49db1a2e79ffe9408","activityName":"爱”尚“翻牌子--黄金叶（爱尚）盒","sn":"6901028165235"},{"activityId":"6a38a42e4c9f406884a6c07c3c55485a","activityName":"爱尚音乐节，圣诞砸金蛋--黄金叶（爱尚）盒","sn":"6901028165235"},{"activityId":"8d50e78af6664e87a18bc0f70b1717c5","activityName":"验真砸金蛋--黄金叶（爱尚）盒","sn":"6901028165235"}];
+                        // datas=[{"activityId":"08e8736932104925be739eb49ccb9ade","activityName":"爱”尚“翻牌子--黄金叶（爱尚）条","sn":"6901028165242"},{"activityId":"2cdecc75576b41169601c08ddba06da0","activityName":"爱”尚“翻牌子--黄金叶（爱尚）条","sn":"6901028165242"},{"activityId":"a4ca964f6cf149389f0ae9932c3ac739","activityName":"爱”尚“翻牌子--黄金叶（爱尚）条","sn":"6901028165242"},{"activityId":"5e8fe02c9740430494714393f327c892","activityName":"爱”尚“翻牌子--黄金叶（爱尚）盒","sn":"6901028165235"},{"activityId":"a154acdd2bd6429eb08d9b4b5111e898","activityName":"爱”尚“翻牌子--黄金叶（爱尚）盒","sn":"6901028165235"},{"activityId":"bd227e13de6d4dc49db1a2e79ffe9408","activityName":"爱”尚“翻牌子--黄金叶（爱尚）盒","sn":"6901028165235"},{"activityId":"6a38a42e4c9f406884a6c07c3c55485a","activityName":"爱尚音乐节，圣诞砸金蛋--黄金叶（爱尚）盒","sn":"6901028165235"},{"activityId":"8d50e78af6664e87a18bc0f70b1717c5","activityName":"验真砸金蛋--黄金叶（爱尚）盒","sn":"6901028165235"}];
                         this.allActData = datas;
                         if(datas.length>0){
                             this.selectAllAct=datas[0].activityId;
@@ -119,8 +119,6 @@
                     formData.append(attr, this.form[attr]);
                 }
                 xhr.overrideMimeType("text/plain; charset=x-user-defined");
-                xhr.open('POST', url, true);
-                xhr.responseType = "blob";
                 xhr.responseType = "arraybuffer"
                 xhr.setRequestHeader("token", sessionStorage.getItem('access_token'));
                 xhr.setRequestHeader("loginId", sessionStorage.getItem('access_loginId'));
@@ -129,6 +127,8 @@
                         var blob = new Blob([this.response], {type: 'application/vnd.ms-excel'});
                         var respHeader = xhr.getResponseHeader("Content-Disposition");
                         var fileName = decodeURI(respHeader.match(/filename=(.*?)(;|$)/)[1]);
+                        xhr.open('POST', url, true);
+                xhr.responseType = "blob";
                         if (window.navigator.msSaveOrOpenBlob) {
                             navigator.msSaveBlob(blob, fileName);
                         } else {

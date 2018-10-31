@@ -71,6 +71,8 @@
         name: "KpiProDayPage",
         data(){
             return{
+                flagA:false,
+                flagB:false,
                 listData:[],
                 allBrandsData:[],
                 allSpecisData:[],
@@ -84,8 +86,8 @@
                 form:{
                     dt:this.Format("yyyy-MM-dd"),
                     cityName:'',
-                    productBrand:'黄金叶',
-                    productSn:'6901028165242',
+                    productBrand:'',
+                    productSn:'',
                     provinceName:''
                 }
             }
@@ -131,7 +133,7 @@
             init(){
                 this.allBrandsList();
                 this.allProvinceList();
-                this.allTableDataList();
+               // this.allTableDataList();
             },
             allBrandsList(){
                 this.$request.post(`/record/public/getUserBrandByUserId`,{ },true,res => {
@@ -141,6 +143,8 @@
                         if(datas.length>0){
                             this.selectAllBrands=datas[0].name;
                             this.form.productBrand=this.selectAllBrands;
+                            this.flagA=true;
+                            this.allTableDataList(this.flagA,this.flagB);
                         }
                     }
                 ),
@@ -153,11 +157,13 @@
                         productBrand:nval
                     },true,res => {
                         let datas = res || [];
-                        datas = [{"name":"盒-黄金叶（爱尚）","sn":"6901028165235"},{"name":"盒-爱尚测试","sn":"1234567891234"},{"name":"条-黄金叶（爱尚）","sn":"6901028165242"},{"name":"条-爱尚测试","sn":"1234567890123"}]
+                        // datas = [{"name":"盒-黄金叶（爱尚）","sn":"6901028165235"},{"name":"盒-爱尚测试","sn":"1234567891234"},{"name":"条-黄金叶（爱尚）","sn":"6901028165242"},{"name":"条-爱尚测试","sn":"1234567890123"}]
                         this.allSpecisData = datas;
                         if(datas.length>0){
                             this.selectSpeciSns=datas[0].sn;
                             this.form.productSn=this.selectSpeciSns;
+                            this.flagB=true;
+                            this.allTableDataList(this.flagA,this.flagB);
                         }
                     }
                 ),
@@ -168,7 +174,7 @@
             allProvinceList(){
                 this.$request.post(`/record/public/getUserProvByUserId`,{ },true,res => {
                         let datas = res || [];
-                        datas = [{"code":"110000","name":"北京市"},{"code":"120000","name":"天津市"},{"code":"130000","name":"河北省"},{"code":"140000","name":"山西省"},{"code":"150000","name":"内蒙古"},{"code":"210000","name":"辽宁省"},{"code":"220000","name":"吉林省"},{"code":"230000","name":"黑龙江"},{"code":"310000","name":"上海市"},{"code":"320000","name":"江苏省"},{"code":"330000","name":"浙江省"},{"code":"340000","name":"安徽省"},{"code":"350000","name":"福建省"},{"code":"360000","name":"江西省"},{"code":"370000","name":"山东省"},{"code":"410000","name":"河南省"},{"code":"420000","name":"湖北省"},{"code":"430000","name":"湖南省"},{"code":"440000","name":"广东省"},{"code":"450000","name":"广西区"},{"code":"460000","name":"海南省"},{"code":"500000","name":"重庆市"},{"code":"510000","name":"四川省"},{"code":"520000","name":"贵州省"},{"code":"530000","name":"云南省"},{"code":"540000","name":"西藏区"},{"code":"610000","name":"陕西省"},{"code":"620000","name":"甘肃省"},{"code":"630000","name":"青海省"},{"code":"640000","name":"宁夏区"},{"code":"650000","name":"新疆区"}]
+                        // datas = [{"code":"110000","name":"北京市"},{"code":"120000","name":"天津市"},{"code":"130000","name":"河北省"},{"code":"140000","name":"山西省"},{"code":"150000","name":"内蒙古"},{"code":"210000","name":"辽宁省"},{"code":"220000","name":"吉林省"},{"code":"230000","name":"黑龙江"},{"code":"310000","name":"上海市"},{"code":"320000","name":"江苏省"},{"code":"330000","name":"浙江省"},{"code":"340000","name":"安徽省"},{"code":"350000","name":"福建省"},{"code":"360000","name":"江西省"},{"code":"370000","name":"山东省"},{"code":"410000","name":"河南省"},{"code":"420000","name":"湖北省"},{"code":"430000","name":"湖南省"},{"code":"440000","name":"广东省"},{"code":"450000","name":"广西区"},{"code":"460000","name":"海南省"},{"code":"500000","name":"重庆市"},{"code":"510000","name":"四川省"},{"code":"520000","name":"贵州省"},{"code":"530000","name":"云南省"},{"code":"540000","name":"西藏区"},{"code":"610000","name":"陕西省"},{"code":"620000","name":"甘肃省"},{"code":"630000","name":"青海省"},{"code":"640000","name":"宁夏区"},{"code":"650000","name":"新疆区"}]
                         this.allProvinceData = datas;
                     }
                 ),
@@ -179,7 +185,7 @@
             allCityList(provinceName){//所有市
                 this.$request.post(`/record/statistics/getCitysByProvince`,{provinceName:provinceName },true,res => {
                         let datas = res || [];
-                        datas = [{"cityId":"141000","cityName":"临汾市"},{"cityId":"130600","cityName":"保定市"},{"cityId":"141100","cityName":"吕梁市"},{"cityId":"130200","cityName":"唐山市"},{"cityId":"140200","cityName":"大同市"},{"cityId":"120100","cityName":"天津市"},{"cityId":"140100","cityName":"太原市"},{"cityId":"131000","cityName":"廊坊市"},{"cityId":"130700","cityName":"张家口市"},{"cityId":"140900","cityName":"忻州市"},{"cityId":"130800","cityName":"承德市"},{"cityId":"140700","cityName":"晋中市"},{"cityId":"140500","cityName":"晋城市"},{"cityId":"140600","cityName":"朔州市"},{"cityId":"130900","cityName":"沧州市"},{"cityId":"130100","cityName":"石家庄市"},{"cityId":"130300","cityName":"秦皇岛市"},{"cityId":"131100","cityName":"衡水市"},{"cityId":"140800","cityName":"运城市"},{"cityId":"130500","cityName":"邢台市"},{"cityId":"130400","cityName":"邯郸市"},{"cityId":"140400","cityName":"长治市"},{"cityId":"140300","cityName":"阳泉市"}]
+                        // datas = [{"cityId":"141000","cityName":"临汾市"},{"cityId":"130600","cityName":"保定市"},{"cityId":"141100","cityName":"吕梁市"},{"cityId":"130200","cityName":"唐山市"},{"cityId":"140200","cityName":"大同市"},{"cityId":"120100","cityName":"天津市"},{"cityId":"140100","cityName":"太原市"},{"cityId":"131000","cityName":"廊坊市"},{"cityId":"130700","cityName":"张家口市"},{"cityId":"140900","cityName":"忻州市"},{"cityId":"130800","cityName":"承德市"},{"cityId":"140700","cityName":"晋中市"},{"cityId":"140500","cityName":"晋城市"},{"cityId":"140600","cityName":"朔州市"},{"cityId":"130900","cityName":"沧州市"},{"cityId":"130100","cityName":"石家庄市"},{"cityId":"130300","cityName":"秦皇岛市"},{"cityId":"131100","cityName":"衡水市"},{"cityId":"140800","cityName":"运城市"},{"cityId":"130500","cityName":"邢台市"},{"cityId":"130400","cityName":"邯郸市"},{"cityId":"140400","cityName":"长治市"},{"cityId":"140300","cityName":"阳泉市"}]
                         this.allCityData = datas;
                     }
                 ),
@@ -187,18 +193,20 @@
                         console.log(err)
                     }
             },
-            allTableDataList(){
-                this.$request.post(`/record/henanreport/getProvReportData`,this.form,true,res => {
-                        let datas = res || [];
-                        this.listData = datas;
-                    }
-                ),
-                    err => {
-                        console.log(err)
-                    }
+            allTableDataList(A,B){
+                if(A&&B){
+                    this.$request.post(`/record/henanreport/getProvReportData`,this.form,true,res => {
+                            let datas = res || [];
+                            this.listData = datas;
+                        }
+                    ),
+                        err => {
+                            console.log(err)
+                        }
+                }
             },
             queryData(){
-                this.allTableDataList();
+                this.allTableDataList(this.flagA,this.flagB);
             },
             exportData(){
                 var url = "/record/henanreport/importProvReportData";
