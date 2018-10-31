@@ -137,18 +137,17 @@
         </el-form-item>
         <div></div>
 
-        <el-form-item label="状态：" prop="status" size="small">
-          <el-radio v-model="ruleForm.status" label="1">上架</el-radio>
-          <el-radio v-model="ruleForm.status" label="-1">下架</el-radio>
-        </el-form-item>
-        <div></div>
+        <!--<el-form-item label="状态：" prop="status" size="small">-->
+          <!--<el-radio v-model="ruleForm.status" label="1">上架</el-radio>-->
+          <!--<el-radio v-model="ruleForm.status" label="-1">下架</el-radio>-->
+        <!--</el-form-item>-->
+        <!--<div></div>-->
         <div class="add-seller-form-bt">
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
             <el-button @click="returnMgr">取消</el-button>
           </el-form-item>
         </div>
-
       </div>
     </el-form>
   </section>
@@ -276,7 +275,7 @@
           //联系人电话
           contactPhone:'',
           //状态
-          status:'1',
+          // status:'1',
         },
         rules: {
           headImg: [
@@ -344,9 +343,7 @@
       //从后台拿取商品分类1
       getOneCategory(){
         this.$request.post('/lsh/seller-manager/region/province',{}, true, (res) => {
-          if (res.ret == '200000') {
-            this.cateLvl1List = [...res.data]
-          }
+          this.cateLvl1List = [...res]
         })
       },
       selectBrand1(){
@@ -360,9 +357,7 @@
       getTwoCategory(){
         if(this.ruleForm.addrProvince  == '')return
         this.$request.post('/lsh/seller-manager/region/newCity',{parentCode:this.ruleForm.addrProvince}, true, (res) => {
-          if (res.ret == '200000') {
-            this.cateLvl2List = [...res.data]
-          }
+          this.cateLvl2List = [...res]
         })
       },
       selectBrand2(){
@@ -374,9 +369,7 @@
       getThreeCategory(){
         if(this.ruleForm.addrCity == '')return
         this.$request.post('/lsh/seller-manager/region/newDistrict',{parentCode:this.ruleForm.addrCity}, true, (res) => {
-          if (res.ret == '200000') {
-            this.cateLvl3List = [...res.data]
-          }
+          this.cateLvl3List = [...res]
         })
       },
 
@@ -401,7 +394,7 @@
               salesManNames:this.ruleForm.salesManNames,
               contactName:this.ruleForm.contactName,
               contactPhone:this.ruleForm.contactPhone,
-              status:this.ruleForm.status
+              // status:this.ruleForm.status
 
             }
             this.postParams(params)
@@ -412,8 +405,8 @@
         });
       },
       postParams(params){
-        this.$request.post('/lsh/seller-manager/seller/saveOrUpdateSeller',params,true,res => {
-          if(res.ret == '200000'){
+        this.$request.post('/lsh/seller-manager/seller/saveOrUpdateSeller',params,false,res => {
+          if(res.ok){
             this.$message({
               message: '保存成功！',
               type: 'success'
