@@ -196,7 +196,7 @@ export default new Router({
         { path: '/seller/tx', name: '提现审核', component: amountExamine},
         { path: '/seller/achievement', name: '零售户业绩', component: KPI },
         { path: '/seller/rebate', name: '返佣管理', redirect: '/seller/rebate/mgr' },
-        { path: '/seller/rebate/mgr', name: '扫码返佣管理', component: KPI },
+        { path: '/seller/rebate/mgr', name: '扫码返佣管理', component: rebateManage },
         // 商城
         { path: '/mall', name: '商城', redirect: '/mall/auth' },
         { path: '/mall/auth', name: '审核管理', component: auditManage },
@@ -494,3 +494,5 @@ import sellerManage from '../pages/Seller/SellerManage/SellerManage'
 import sellerDetail from '../pages/Seller/SellerManage/SelllerDetail'
 //零售户-提现审核
 import amountExamine from '../pages/Seller/AmountExamine/AmountExamine'
+//零售户-返佣管理-扫码返佣管理
+import rebateManage from '../pages/Seller/RebateManage/RebateManage'
