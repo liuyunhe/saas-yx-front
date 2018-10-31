@@ -658,9 +658,6 @@
         this.currentPage = val
         this.getListNewList()
       },
-      handleClose(){
-
-      }
     }
   }
 </script>

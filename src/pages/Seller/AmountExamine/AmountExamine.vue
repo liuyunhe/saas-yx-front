@@ -203,7 +203,7 @@
         title="请输入不通过理由"
         :visible.sync="dialogVisible"
         width="30%"
-        :before-close="handleClose">
+        :before-close="cancelDialog">
       <el-input
           type="textarea"
           :rows="2"
@@ -480,9 +480,6 @@
         this.currentPage = val
         this.getListTx()
       },
-      handleClose(){
-
-      }
     }
   }
 </script>
