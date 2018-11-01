@@ -84,7 +84,8 @@ import RegionSearch from '@/pages/Datas/ThemeSearch/RegionSearch.vue'
 //首页主题查询中的规格查询
 import SpecSearch from '@/pages/Datas/ThemeSearch/SpecSearch.vue'
 Vue.use(Router)
-
+//多维查询
+import MultiSearch from '@/pages/Datas/MultiSearch/MultiSearch.vue'
 export default new Router({
   mode: 'history',
   routes: [
@@ -116,7 +117,7 @@ export default new Router({
         // 数据
         { path: '/datas', name: '数据', redirect: '/datas/kpi' },
         { path: '/datas/kpi', name: 'kpi实时播报', component: KPI },
-        { path: '/datas/multi', name: '多维查询', component: KPI },
+        { path: '/datas/multi', name: '多维查询', component: MultiSearch },
         { path: '/datas/report', name: '固定报表', component: KPI },
         { path: '/datas/agree', name: '履约报表', component: DataAgree },
         { path: '/datas/visit', name: '回访报表', component: DataVisit },
