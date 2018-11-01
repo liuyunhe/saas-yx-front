@@ -2,14 +2,14 @@
 	<div class="wplat-root">
 		<el-tabs v-model="activeName" @tab-click="handleClick">
 			<el-tab-pane label="扫码验证完成页面" name="first">
-				<first>
+				<div>
 					<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/has.png" alt="" />
-				</first>
+				</div>
 			</el-tab-pane>
 			<el-tab-pane label="未扫码页面" name="second">
-				<second>
+				<div>
 					<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/not.png" alt="" />
-				</second>
+				</div>
 			</el-tab-pane>
 		</el-tabs>
 	</div>

@@ -1,3 +1,6 @@
+p {
+    margin: 0;
+}
 .title-info,.not-title {
     label {
         text-align: left;
@@ -317,6 +320,7 @@
                     padding-left: 70px;
                     padding-top: 10px;
                     position: relative;
+                    box-sizing: border-box;
                     span {
                         position: absolute;
                         right:10px;

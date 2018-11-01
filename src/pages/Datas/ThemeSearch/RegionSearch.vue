@@ -150,9 +150,10 @@
 		created() {
 			this.getDefaultPro(this.getProvice);
 		},
-		watch: {
-			provice(n, o) {
-				if(n != '') {
+		mounted() {
+			var that=this;
+			var inter=setInterval(()=>{
+				if(that.provice){
 					this.drawyibiao();
 					this.drawScanTime();
 					this.drawScanDate();
@@ -161,8 +162,10 @@
 					this.drawRange();
 					this.getCityItems('pv');
 					this.cityChange()
+					clearInterval(inter);
+					inter=null;
 				}
-			}
+			},10)
 		},
 		methods: {
 			//			获取省份
@@ -194,7 +197,9 @@
 					true,
 					res => {
 						var data = res || [];
-						var proviceId = data[0].orgRegion;
+						if(data.length!=0){
+							var proviceId = data[0].orgRegion;
+						}					
 						if(typeof fn == 'function') {
 							fn(proviceId)
 						}
@@ -228,7 +233,7 @@
 
 			},
 			selectDay(day) {
-				this.startTime = day;
+				this.startTime = day.Format('yyyy-MM-dd');
 			},
 			selectWeek(week) {
 				var index = week.indexOf('(');
@@ -237,10 +242,11 @@
 				this.startTime = week;
 			},
 			selectMonth(month) {
-				this.startTime = month;
+				this.startTime = month.Format('yyyy-MM');;
 			},
 			cityChange() {
 				var that = this;
+				this.city='';
 				this.$request.post(
 					'/record/statistics/getCitysByProvince', {
 						provinceName: that.provice
@@ -853,7 +859,7 @@
 						    ],
 						    series : [
 						        {
-						            name:'直接访问',
+						            name:'扫码次数',
 						            type:'bar',
 						            barWidth: '60%',
 						            data:scanPvArr

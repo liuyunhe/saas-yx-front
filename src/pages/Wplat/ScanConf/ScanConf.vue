@@ -46,7 +46,7 @@
 					<br />
 					<el-button type="primary" @click='removeMul' size='small'>批量删除</el-button>
 					<div class="itemDec">当前第{{page}}页，本页{{max}}条记录，总共{{total}}条记录</div>
-					<el-pagination layout="prev, pager, next" background :total="total" @current-change="myCallback" :page-size="max" class="pagination-css">
+					<el-pagination layout="total,prev, pager, next,jumper" background :total="total" @current-change="myCallback" :page-size="max" class="pagination-css">
 					</el-pagination>
 				</div>
 
@@ -66,8 +66,8 @@
 			<span @click='backMain' class='backMain'>返回</span>
 			<div class="title">扫码验真页配置</div>
 			<el-tabs v-model="activeName" @tab-click="tabPartClick">
-				<el-tab-pane label="扫码验真完成页面" name="first"slot='second'>
-					<first class='has clearfix'>
+				<el-tab-pane label="扫码验真完成页面" name="first">
+					<div class='has clearfix'>
 						<div class="phone">
 							<div class="phone-top">
 								<div class="title">
@@ -201,11 +201,11 @@
 								</el-option>
 							</el-select>
 						</div>
-					</first>
+					</div>
 				</el-tab-pane>
 
-				<el-tab-pane label="未扫码页面" name="second"slot='second'>
-					<second class='not'>
+				<el-tab-pane label="未扫码页面" name="second">
+					<div class='not'>
 						<div class="phone">
 							<div class="phone-top">
 								<div class="not-title">
@@ -314,7 +314,7 @@
 								</el-option>
 							</el-select>
 						</div>
-					</second>
+					</div>
 				</el-tab-pane>
 			</el-tabs>
 			<div class="save">
