@@ -133,6 +133,7 @@
             <el-button type="primary" size="small" @click="getListNewList(2)">按粉丝数排序</el-button>
             <el-button type="primary" size="small" @click="getListNewList(3)">按业绩排序</el-button>
             <el-button type="primary" size="small" @click="getListNewList(5)">按积分排序</el-button>
+            <el-button type="primary" size="small" @click="exportSeller">导出零售户</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -502,7 +503,7 @@
 
           searchType:this.filters.searchType,
           //关键词
-          keywords:this.filters.keywords,
+          // keywords:this.filters.keywords,
 
           //地区
           addrProvince: this.filters.addrProvince,
@@ -534,6 +535,19 @@
           params.authStatus = this.filters.authStatus
         }else{
           params.status = this.filters.status
+        }
+
+        // 根据关键词搜索条件，传不同数据
+        if(this.filters.searchType == '3') {
+          params.licenceNo = this.filters.keywords || ''; // 烟草证号
+        } else if(this.filters.searchType == '1') {
+          params.ownerName = this.filters.keywords || ''; // 联系人信息
+        } else if(this.filters.searchType == '2') {
+          params.phoneNo = this.filters.keywords || ''; // 联系人手机号
+        } else if(this.filters.searchType == '4') {
+          params.shopName = this.filters.keywords || ''; // 门店名称
+        } else if(this.filters.searchType == '5') {
+          params.salesmanName = this.filters.keywords || ''; // 业务员
         }
 
         this.postSearch(params)
@@ -583,8 +597,6 @@
 
         this.filters.status = '1'
         this.filters.isPrint = ''
-
-
 
         this.pageNo = 1
         this.currentPage = 1
@@ -658,6 +670,77 @@
         this.currentPage = val
         this.getListNewList()
       },
+      exportSeller(){
+        // var url = `api/private/1.0/deliveryStatistics/importExcle?type=${res.data.data.type}&name=${res.data.data.name}`
+        // window.location.href = _this.GLOBAL.config.exportH+url;
+        let params = {
+          //业态
+          commercial:this.filters.commercial,
+          //地区
+          district:this.filters.district,
+
+          searchType:this.filters.searchType,
+          //关键词
+          // keywords:this.filters.keywords,
+
+          //地区
+          addrProvince: this.filters.addrProvince,
+          addrCity: this.filters.addrCity,
+          addrArea: this.filters.addrArea,
+          //时间
+          appStartTime: this.filters.time?this.filters.time[0]?this.filters.time[0]:'':'',
+          appEndTime: this.filters.time?this.filters.time[1]?this.filters.time[1]:'':'',
+
+          isPrint:this.filters.isPrint,
+          //排序
+          sortType: 1,
+          sortValue: this.filters.sortValue,
+
+          pageNo: this.pageNo,
+          pageSize: 10,
+        };
+        // 根据关键词搜索条件，传不同数据
+        if(this.filters.searchType == '3') {
+          params.licenceNo = this.filters.keywords || ''; // 烟草证号
+        } else if(this.filters.searchType == '1') {
+          params.ownerName = this.filters.keywords || ''; // 联系人信息
+        } else if(this.filters.searchType == '2') {
+          params.phoneNo = this.filters.keywords || ''; // 联系人手机号
+        } else if(this.filters.searchType == '4') {
+          params.shopName = this.filters.keywords || ''; // 门店名称
+        } else if(this.filters.searchType == '5') {
+          params.salesmanName = this.filters.keywords || ''; // 业务员
+        }
+
+
+        var xhr = new XMLHttpRequest();
+        var formData = new FormData();
+        for(var attr in params) {
+          formData.append(attr, params[attr]);
+        }
+        xhr.overrideMimeType("text/plain; charset=x-user-defined");
+        xhr.open('POST', '/lsh/seller-manager/seller/exportDatas', true);
+        xhr.responseType = "arraybuffer";
+        xhr.setRequestHeader("token", sessionStorage.getItem('access_token'));
+        xhr.setRequestHeader("loginId", sessionStorage.getItem('access_loginId'));
+        xhr.onload = function(res) {
+          if (this.status == 200) {
+            var blob = new Blob([this.response], {type: 'application/vnd.ms-excel'});
+            var respHeader = xhr.getResponseHeader("Content-Disposition");
+            var fileName = decodeURI(respHeader.match(/filename=(.*?)(;|$)/)[1]);
+            if (window.navigator.msSaveOrOpenBlob) {
+              navigator.msSaveBlob(blob, fileName);
+            } else {
+              var link = document.createElement('a');
+              link.href = window.URL.createObjectURL(blob);
+              link.download = fileName;
+              link.click();
+              window.URL.revokeObjectURL(link.href);
+            }
+          }
+        }
+        return xhr.send(formData);
+      }
     }
   }
 </script>

@@ -450,7 +450,7 @@
 
           searchType:this.filters.searchType,
           //关键词
-          keywords:this.filters.keywords,
+          // keywords:this.filters.keywords,
 
           //地区
           addrProvince: this.filters.addrProvince,
@@ -467,7 +467,18 @@
           pageSize: 10,
 
         };
-
+        // 根据关键词搜索条件，传不同数据
+        if(this.filters.searchType == '3') {
+          params.licenceNo = this.filters.keywords || ''; // 烟草证号
+        } else if(this.filters.searchType == '1') {
+          params.ownerName = this.filters.keywords || ''; // 联系人信息
+        } else if(this.filters.searchType == '2') {
+          params.phoneNo = this.filters.keywords || ''; // 联系人手机号
+        } else if(this.filters.searchType == '4') {
+          params.shopName = this.filters.keywords || ''; // 门店名称
+        } else if(this.filters.searchType == '5') {
+          params.salesmanName = this.filters.keywords || ''; // 业务员
+        }
         this.postSearch(params)
       },
       postSearch(params) {
