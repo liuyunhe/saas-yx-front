@@ -92,6 +92,8 @@ import ModPwd from '@/pages/Setting/User/ModPwd.vue'
 import SettingAccount from '@/pages/Setting/User/Account.vue'
 // 设置-账号管理-角色管理
 import SettingRole from '@/pages/Setting/User/Role.vue'
+// 设置-账号管理-角色管理
+import SettingSeller from '@/pages/Setting/Seller.vue'
 //菜单配置
 import MenuConf from '@/pages/Wplat/MenuConf/MenuConf.vue'
 //扫码落地页配置
@@ -103,6 +105,8 @@ import wplatHome from '@/pages/Wplat/WplatConf/WplatHome.vue'
 import Activities from '@/pages/Wplat/WplatConf/Activities.vue'
 import Shop from '@/pages/Wplat/WplatConf/Shop.vue'
 import Person from '@/pages/Wplat/WplatConf/Person.vue'
+// 数据-主题查询-KPI指标总览
+import DataThemeReview from '@/pages/Datas/ThemeSearch/Review.vue'
 //首页主题查询中的地域查询
 import RegionSearch from '@/pages/Datas/ThemeSearch/RegionSearch.vue'
 //首页主题查询中的规格查询
@@ -157,7 +161,7 @@ export default new Router({
         { path: '/datas/agree', name: '履约报表', component: DataAgree },
         { path: '/datas/visit', name: '回访报表', component: DataVisit },
         { path: '/datas/theme', name: '主题查询', redirect: '/datas/theme/kpiReview', },
-        { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: KPI },
+        { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: DataThemeReview },
         { path: '/datas/theme/region', name: '地域查询', component: RegionSearch },
         { path: '/datas/theme/spec', name: '规格查询', component: SpecSearch },
         { path: '/datas/track', name: '活动追踪', redirect: '/datas/track/realtime' },
@@ -261,7 +265,7 @@ export default new Router({
         { path: '/setting/user/account', name: '成员管理', component: SettingAccount },
         { path: '/setting/user/role', name: '角色管理', component: SettingRole },
         { path: '/setting/logs', name: '日志管理', component: SettingLogs },
-        { path: '/setting/seller', name: '零售户管理', component: KPI },
+        { path: '/setting/seller', name: '零售户管理', component: SettingSeller },
         { path: '/setting/mall', name: '积分设置', component: KPI }
         // {
         //   path: 'datas',
