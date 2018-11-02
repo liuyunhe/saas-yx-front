@@ -63,6 +63,9 @@ import DataVisit from '@/pages/Datas/Visit.vue'
 import DataOperateSteal from '@/pages/Datas/Operate/Steal.vue'
 // 数据-异常码管理-假码举报
 import DataFakeCodeReport from '@/pages/Datas/FakeCode/Report.vue'
+// 数据-异常码管理-二维码激活
+import DataQrcodeActive from '@/pages/Datas/FakeCode/QrcodeActive.vue'
+
 
 //产品-产品管理-烟草管理
 import tobacco from '@/pages/Product/ProductManagement/TobaccoMgr'
@@ -112,7 +115,8 @@ import RegionSearch from '@/pages/Datas/ThemeSearch/RegionSearch.vue'
 //首页主题查询中的规格查询
 import SpecSearch from '@/pages/Datas/ThemeSearch/SpecSearch.vue'
 Vue.use(Router)
-
+//多维查询
+import MultiSearch from '@/pages/Datas/MultiSearch/MultiSearch.vue'
 export default new Router({
   mode: 'history',
   routes: [
@@ -144,7 +148,7 @@ export default new Router({
         // 数据
         { path: '/datas', name: '数据', redirect: '/datas/kpi' },
         { path: '/datas/kpi', name: 'kpi实时播报', component: KPI },
-        { path: '/datas/multi', name: '多维查询', component: KPI },
+        { path: '/datas/multi', name: '多维查询', component: MultiSearch },
         { path: '/datas/Report', name: '固定报表', component: HbReportPage },
         { path: '/datas/Report/ScanWeekPage', name: '扫码数据周报', component: ScanWeekPage },
         { path: '/datas/Report/ScanMonthPage', name: '扫码数据月报', component: ScanMonthPage },
@@ -179,7 +183,7 @@ export default new Router({
         { path: '/datas/operate/steal', name: '盗扫明细', component: DataOperateSteal },
         { path: '/datas/fakeCode', name: '异常码明细', redirect: '/datas/fakeCode/Report' },
         { path: '/datas/fakeCode/Report', name: '假码举报', component: DataFakeCodeReport },
-        { path: '/datas/fakeCode/qrcodeActive', name: '二维码激活', component: KPI },
+        { path: '/datas/fakeCode/qrcodeActive', name: '二维码激活', component: DataQrcodeActive },
         // 微平台
         { path: '/weplat', name: '微平台', redirect: '/weplat/mgr' },
         { path: '/weplat/down', name: '扫码落地页', component: ScanConf },

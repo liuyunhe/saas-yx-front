@@ -121,9 +121,10 @@
 				this.getBrand();
 				this.specChange()
 		},
-		watch: {
-			spec(n, o) {
-				if(n != '') {
+		mounted(){
+			var that=this;
+			var inter=setInterval(()=>{
+				if(that.spec){
 					this.getBrief();
 					this.drawScanTime();
 					this.drawScanDate();
@@ -134,9 +135,10 @@
 					this.drawScanAllRange();
 					this.drawMoney();
 					this.drawProduct();
-					
+					clearInterval(inter);
+					inter=null;
 				}
-			}
+			},10)
 		},
 		methods: {
 			//			获取省份
@@ -148,7 +150,10 @@
 					res => {
 						var data = res || [];
 						that.brandList = data;
-						that.brand=data[0].name;
+						if(data.length!=0){
+							that.brand=data[0].name;
+						}
+						
 					},
 					err => {
 						console.log(err)
@@ -179,7 +184,7 @@
 
 			},
 			selectDay(day) {
-				this.startTime = day;
+				this.startTime = day.Format('yyyy-MM-dd');
 			},
 			selectWeek(week) {
 				var index = week.indexOf('(');
@@ -188,9 +193,10 @@
 				this.startTime = week;
 			},
 			selectMonth(month) {
-				this.startTime = month;
+				this.startTime = month.Format('yyyy-MM');
 			},
 			specChange() {
+				this.spec='';
 				var that = this;
 				this.$request.post(
 					'/record/statistics/getProduct', {
@@ -200,7 +206,10 @@
 					res => {
 						var data = res || [];
 						that.specList = data;
-						that.spec=data[0].sn;
+						if(data.length!=0){
+							that.spec=data[0].sn;
+						}
+						
 					},
 					err => {
 						console.log(err)
@@ -215,13 +224,19 @@
 				this.loading5=true;
 				this.loading6=true;
 				this.loading7=true;
-				this.drawyibiao();
+				this.loading8=true;
+				this.loading9=true;
+				this.loading10=true;
+				this.getBrief();
 				this.drawScanTime();
 				this.drawScanDate();
 				this.drawScanResult();
 				this.drawNumTime();
-				this.drawRange();
-				this.getCityItems('pv');
+				this.drawmapTime();
+				this.drawmapRange();
+				this.drawScanAllRange();
+				this.drawMoney();
+				this.drawProduct();
 			},
 			resetSearch() {
 				if(this.type1=='month'){
