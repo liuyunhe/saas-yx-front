@@ -234,12 +234,15 @@ export default new Router({
         { path: '/Orders/mall/integral', name: '积分活动订单', component: ScoreOrderPage },
         // 零售户
         { path: '/seller', name: '零售户', redirect: '/seller/review' },
-        { path: '/seller/review', name: '审核管理', component: KPI },
-        { path: '/seller/mgr', name: '零售户管理', component: KPI },
-        { path: '/seller/tx', name: '提现审核', component: KPI },
+        { path: '/seller/review', name: '审核管理', component: reviewmanage},
+        { path: '/seller/reviewDetail', name: '审核管理', component: reviewDetail,props: (route) => ({sellerId:route.query.sellerId})},
+        { path: '/seller/addSeller', name: '新增零售户', component: addSeller},
+        { path: '/seller/mgr', name: '零售户管理', component: sellerManage},
+        { path: '/seller/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
+        { path: '/seller/tx', name: '提现审核', component: amountExamine},
         { path: '/seller/achievement', name: '零售户业绩', component: KPI },
         { path: '/seller/rebate', name: '返佣管理', redirect: '/seller/rebate/mgr' },
-        { path: '/seller/rebate/mgr', name: '扫码返佣管理', component: KPI },
+        { path: '/seller/rebate/mgr', name: '扫码返佣管理', component: rebateManage },
         // 商城
         { path: '/mall', name: '商城', redirect: '/mall/auth' },
         { path: '/mall/auth', name: '审核管理', component: auditManage },
@@ -525,3 +528,17 @@ import addCommendTpmC from '../pages/Mall/RecommendManage/Template/AddCommendTpm
 // 商城-推荐位管理-编辑推荐位C
 import editCommendTpmC from '../pages/Mall/RecommendManage/Template/EditCommendTpmC'
 
+//零售户-审核管理
+import reviewmanage from '../pages/Seller/Reviewmanage/ReviewManage'
+//零售户-审核详情
+import reviewDetail from  '../pages/Seller/Reviewmanage/ReviewDetail'
+//零售户-新增零售户
+import addSeller from  '../pages/Seller/AddSeller/AddSeller'
+//零售户-零售户管理
+import sellerManage from '../pages/Seller/SellerManage/SellerManage'
+//零售户-零售户管理-详情
+import sellerDetail from '../pages/Seller/SellerManage/SelllerDetail'
+//零售户-提现审核
+import amountExamine from '../pages/Seller/AmountExamine/AmountExamine'
+//零售户-返佣管理-扫码返佣管理
+import rebateManage from '../pages/Seller/RebateManage/RebateManage'

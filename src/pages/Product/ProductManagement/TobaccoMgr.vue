@@ -284,7 +284,7 @@
           }
         })
       },
-      //从后台拿取规格1列表listBrand
+      //从后台拿取规格列表snList
       getListSN(){
         this.$request.post('/api/saotx/prod/list',{"brandCodeArr":this.filters.brandCodeArr}, true, (res) => {
           if (res.ret == '200000') {
