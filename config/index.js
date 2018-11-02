@@ -26,7 +26,7 @@ module.exports = {
         }
       },
       '/lsh': { // SAAS后端零售户接口
-        target: 'http://cs-retailer.saotianxia.com.cn/',
+        target: 'http://cs-seller.saotianxia.vip/',
         changeOrigin: true,
         pathRewrite: {
           '^/lsh': ''
