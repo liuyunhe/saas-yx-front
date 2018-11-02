@@ -671,8 +671,6 @@
         this.getListNewList()
       },
       exportSeller(){
-        // var url = `api/private/1.0/deliveryStatistics/importExcle?type=${res.data.data.type}&name=${res.data.data.name}`
-        // window.location.href = _this.GLOBAL.config.exportH+url;
         let params = {
           //业态
           commercial:this.filters.commercial,
