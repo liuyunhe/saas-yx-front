@@ -109,7 +109,7 @@ import Activities from '@/pages/Wplat/WplatConf/Activities.vue'
 import Shop from '@/pages/Wplat/WplatConf/Shop.vue'
 import Person from '@/pages/Wplat/WplatConf/Person.vue'
 // 数据-主题查询-KPI指标总览
-import DataThemeReview from '@/pages/Datas/ThemeSearch/Review.vue'
+// import DataThemeReview from '@/pages/Datas/ThemeSearch/Review.vue'
 //首页主题查询中的地域查询
 import RegionSearch from '@/pages/Datas/ThemeSearch/RegionSearch.vue'
 //首页主题查询中的规格查询
@@ -165,7 +165,7 @@ export default new Router({
         { path: '/datas/agree', name: '履约报表', component: DataAgree },
         { path: '/datas/visit', name: '回访报表', component: DataVisit },
         { path: '/datas/theme', name: '主题查询', redirect: '/datas/theme/kpiReview', },
-        { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: DataThemeReview },
+        // { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: DataThemeReview },
         { path: '/datas/theme/region', name: '地域查询', component: RegionSearch },
         { path: '/datas/theme/spec', name: '规格查询', component: SpecSearch },
         { path: '/datas/track', name: '活动追踪', redirect: '/datas/track/realtime' },
