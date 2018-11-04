@@ -43,6 +43,17 @@ a {
   background: #f5f5f5;
 } */
 
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+
 /* 动态添加tabs按钮 */
 .put-conf .el-tabs__new-tab {
   margin-right: 10px;

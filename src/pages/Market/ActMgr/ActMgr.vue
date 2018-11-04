@@ -41,7 +41,7 @@
                 <el-option v-for="item in provList" :key="item.code" :label="item.name" :value="item.code">
                 </el-option>
               </el-select>
-              <el-select :disabled="isDisabled" v-model="selectCityList" multiple collapse-tags placeholder="请选择">
+              <el-select :disabled="isDisabled" v-model="selectCityList" multiple collapse-tags placeholder="请选择" @change="selectArea">
                 <el-option v-if="cityList" v-for="item in cityList" :key="item.code" :label="item.name" :value="item.code">
                 </el-option>
               </el-select>
@@ -57,8 +57,8 @@
             </el-form-item>
           </el-col>
           <el-col>
-            <el-button type="primary">查询</el-button>
-            <el-button type="primary">重置</el-button>
+            <el-button type="primary" @click="getActList">查询</el-button>
+            <el-button type="primary" @click="resetForm">重置</el-button>
           </el-col>
         </el-row>
       </el-form>
@@ -78,21 +78,39 @@
         </el-table-column>
         <el-table-column label="操作" align="center" width="260px">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini">编辑</el-button>
-            <el-button type="primary" size="mini">复制</el-button>
-            <el-dropdown>
-              <el-button type="primary" size="mini" style="margin-left: 10px;">
+            <!-- <el-button plain size="mini" v-if="scope.row.status != 4">编辑</el-button>
+            <el-button plain size="mini" v-if="scope.row.status == 2">发布</el-button>
+            <el-button plain size="mini" v-if="scope.row.status == 3">发布</el-button>
+            <el-button plain size="mini">复制</el-button>
+            <el-button plain size="mini">投放日志</el-button>
+            <el-button plain size="mini" v-if="scope.row.status == 1">暂停</el-button>
+            <el-button plain size="mini" v-if="scope.row.status == 1">结束</el-button>
+            <el-button plain size="mini" v-if="scope.row.status == 4">删除</el-button> -->
+            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status != 4" @click="edit(scope.row.id)">编辑</a>
+            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 2" @click="post(scope.row.id)">发布</a>
+            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 3" @click="post(scope.row.id)">发布</a>
+            <a style="color: #347ab7" href="javascript:;" @click="clone(scope.row.id)">复制</a>
+            <a style="color: #347ab7" href="javascript:;" @click="getLogList(scope.row.actCode)">投放日志</a>
+            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="stop(scope.row.id)">暂停</a>
+            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="over(scope.row.id)">结束</a>
+            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 4" @click="del(scope.row.id)">删除</a>
+            <!-- <el-dropdown>
+              <el-button plain size="mini" style="margin-left: 10px;">
                 更多<i class="el-icon-arrow-down el-icon--right"></i>
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>投放日志</el-dropdown-item>
+                <el-dropdown-item @click="putLog(scope.row.actCode)">投放日志</el-dropdown-item>
                 <el-dropdown-item>暂停</el-dropdown-item>
                 <el-dropdown-item>结束</el-dropdown-item>
               </el-dropdown-menu>
-            </el-dropdown>
+            </el-dropdown> -->
           </template>
         </el-table-column>
       </el-table>
+      <el-col :span="24" v-show="actForms">
+        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryActParams.pageNo" :page-size="queryActParams.pageSize" layout="total, prev, pager, next, jumper" :total="actListTotal">
+        </el-pagination>
+      </el-col>
     </el-card>
     <!-- 新建活动弹框 -->
     <el-dialog :visible.sync="addActDialogVisible" width="900px" :close-on-click-modal="false">
@@ -106,16 +124,127 @@
         <div v-if="actForms">
           <div class="act-item" v-for="item in actForms" :key="item.id">
             <img :src="item.extUrl" :alt="item.name">
-            <p>{{item.name}}<i class="el-icon-circle-plus" @click="goAddActTpl()"></i></p>
+            <p>{{item.name}}</p>
+            <div class="btn">
+              <el-button type="primary" size="small">预览</el-button>
+              <el-button type="primary" size="small" @click="goPut(item)">投放</el-button>
+            </div>
           </div>
         </div>
         <div v-else>暂无</div>
       </div>
-      <el-col :span="24" v-if="actForms">
+      <el-col :span="24" v-show="actForms">
         <el-pagination background @size-change="actHandleSizeChange" @current-change="actHandleCurrentChange" :current-page="actParams.pageNo" :page-size="actParams.pageSize" layout="total, prev, pager, next, jumper" :total="actTotal">
         </el-pagination>
       </el-col>
       <div style="clear: both"></div>
+    </el-dialog>
+    <!-- 日志弹窗 -->
+    <el-dialog :visible.sync="putLogVisible" width="900px" :close-on-click-modal="false">
+      <el-row>
+        <el-col :span="8">
+          投放时间
+          <el-select v-model="putLogTime" placeholder="请选择" @change="logDetail(this.nowActCode, this.putLogTime)">
+            <el-option v-for="(item, index) in putTimeList" :key="index" :label="new Date(item.time).Format('yyyy-MM-dd hh:mm:ss')" :value="item.version">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="12" :offset="3">
+          投放日志
+        </el-col>
+      </el-row>
+      <div>
+        <div class="mt20">常规奖池</div>
+        <el-table :data="normalLogList" border style="width: 100%">
+          <el-table-column type="index" width="50" label="序号">
+          </el-table-column>
+          <el-table-column prop="awardName" label="奖项名称">
+          </el-table-column>
+          <el-table-column prop="totalNum" label="奖品数量">
+          </el-table-column>
+          <el-table-column prop="outNum" label="已发数量">
+          </el-table-column>
+          <el-table-column label="剩余数量">
+            <template slot-scope="scope">
+              {{scope.row.totalNum - scope.row.outNum}}
+            </template>
+          </el-table-column>
+          <el-table-column label="中奖概率">
+            <template slot-scope="scope">
+              {{scope.row.probability + '%'}}
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div v-if="firstScanLogList.length != 0">
+        <div class="mt20">首扫奖池</div>
+        <el-table :data="normalLogList" border style="width: 100%">
+          <el-table-column type="index" width="50" label="序号">
+          </el-table-column>
+          <el-table-column prop="awardName" label="奖项名称">
+          </el-table-column>
+          <el-table-column prop="totalNum" label="奖品数量">
+          </el-table-column>
+          <el-table-column prop="outNum" label="已发数量">
+          </el-table-column>
+          <el-table-column label="剩余数量">
+            <template slot-scope="scope">
+              {{scope.row.totalNum - scope.row.outNum}}
+            </template>
+          </el-table-column>
+          <el-table-column label="中奖概率">
+            <template slot-scope="scope">
+              {{scope.row.probability + '%'}}
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div v-if="nWinLogList.length != 0">
+        <div class="mt20">n次必中奖池</div>
+        <el-table :data="normalLogList" border style="width: 100%">
+          <el-table-column type="index" width="50" label="序号">
+          </el-table-column>
+          <el-table-column prop="awardName" label="奖项名称">
+          </el-table-column>
+          <el-table-column prop="totalNum" label="奖品数量">
+          </el-table-column>
+          <el-table-column prop="outNum" label="已发数量">
+          </el-table-column>
+          <el-table-column label="剩余数量">
+            <template slot-scope="scope">
+              {{scope.row.totalNum - scope.row.outNum}}
+            </template>
+          </el-table-column>
+          <el-table-column label="中奖概率">
+            <template slot-scope="scope">
+              {{scope.row.probability + '%'}}
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div v-if="fixationLogList.length != 0">
+        <div class="mt20">定投奖池</div>
+        <el-table :data="normalLogList" border style="width: 100%">
+          <el-table-column type="index" width="50" label="序号">
+          </el-table-column>
+          <el-table-column prop="awardName" label="奖项名称">
+          </el-table-column>
+          <el-table-column prop="totalNum" label="奖品数量">
+          </el-table-column>
+          <el-table-column prop="outNum" label="已发数量">
+          </el-table-column>
+          <el-table-column label="剩余数量">
+            <template slot-scope="scope">
+              {{scope.row.totalNum - scope.row.outNum}}
+            </template>
+          </el-table-column>
+          <el-table-column label="中奖概率">
+            <template slot-scope="scope">
+              {{scope.row.probability + '%'}}
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -135,12 +264,13 @@ export default {
         pageSize: 10,
         provinceCodeArr: [],
         snArr: [],
-        status: '0',
+        status: '',
         stime: ''
       },
+      actListTotal: 0,
       addActDialogVisible: false,
       actFormName: [
-        { name: '全部', code: '' },
+        { name: '全部', code: '' }
         // { name: '抽奖活动' },
         // { name: '集道具活动' },
         // { name: '红包雨活动' },
@@ -166,7 +296,15 @@ export default {
       selectCityList: [],
       isDisabled: false,
       value: '',
-      actTime: ''
+      actTime: '',
+      nowActCode: '', // 当前活动code
+      putLogVisible: false,
+      putTimeList: [],
+      putLogTime: '',
+      normalLogList: [],
+      firstScanLogList: [],
+      nWinLogList: [],
+      fixationLogList: []
     }
   },
   created() {
@@ -177,6 +315,17 @@ export default {
       if (newQuestion) {
         this.selectProvList = []
         this.selectCityList = []
+        this.queryActParams.provinceCodeArr = ['000000']
+        this.queryActParams.cityCodeArr = ['000000']
+      }
+    },
+    actTime: function(val) {
+      if (val && val.length === 2) {
+        this.queryActParams.stime = this.actTime[0]
+        this.queryActParams.etime = this.actTime[1]
+      } else {
+        this.queryActParams.stime = ''
+        this.queryActParams.etime = ''
       }
     }
   },
@@ -191,8 +340,13 @@ export default {
     },
     // 获取活动列表
     getActList() {
+      // if (this.queryActParams.status == '0') this.queryActParams.status = ''
       this.$request.post('/api/saotx/act/list', this.queryActParams, true, res => {
-        if (res.ret === '200000') return (this.actList = res.data.list)
+        if (res.ret === '200000') {
+          this.actList = res.data.list
+          this.actListTotal = res.data.page.count
+          return
+        }
         this.$message.error(res.message)
       })
     },
@@ -201,11 +355,14 @@ export default {
       this.$request.post('/api/saotx/act/statusSelect', {}, true, res => {
         if (res.ret === '200000') {
           this.actStatusObj = res.data
-          this.actStatusObj['0'] = '全部'
           return
         }
         this.$message.error(res.message)
       })
+    },
+    selectArea() {
+      this.queryActParams.provinceCodeArr = this.selectProvList
+      this.queryActParams.cityCodeArr = this.selectCityList
     },
     // 获取品牌列表
     getBrandList() {
@@ -266,6 +423,7 @@ export default {
       this.nowActiveIndex = 0
       this.getAct()
     },
+    // 新建活动tab切换
     getCheckedAct(item, index) {
       this.nowActiveIndex = index
       this.actParams.pcode = item.code
@@ -278,18 +436,23 @@ export default {
     },
     // 获取活动名称列表
     getActCodeList() {
-      this.$request.post('/api/saotx/act/formByPCode', {
-        pCode: '',
-        pageNo: 1,
-        pageSize: -1
-      }, true, res => {
-        if (res.ret == '200000') {
+      this.$request.post(
+        '/api/saotx/act/formByPCode',
+        {
+          pCode: '',
+          pageNo: 1,
+          pageSize: -1
+        },
+        true,
+        res => {
+          if (res.ret == '200000') {
             this.actFormName.push(...res.data.list)
             this.getAct()
           } else {
             this.$message.error(res.message)
           }
-      })
+        }
+      )
     },
     // 查询当前活动
     getAct() {
@@ -310,6 +473,75 @@ export default {
         }
       )
     },
+    // 重置
+    resetForm() {
+      this.queryActParams.keywords = ''
+      this.queryActParams.brandCodeArr = []
+      this.queryActParams.snArr = []
+      this.queryActParams.status = ''
+      this.queryActParams.stime = ''
+      this.selectProvList = []
+      this.selectCityList = []
+      this.queryActParams.provinceCodeArr = []
+      this.queryActParams.cityCodeArr = []
+      this.actTime = []
+      this.getActList()
+    },
+    // 投放日志
+    getLogList(code) {
+      this.$request.post('/api/saotx/act/hisVers', { actCode: code }, true, res => {
+        if (res.ret == '200000') {
+          this.putLogVisible = true
+          this.normalLogList = []
+          this.firstScanLogList = []
+          this.nWinLogList = []
+          this.fixationLogList = []
+          this.putTimeList = []
+          this.putLogTime = ''
+          if (res.data.length > 0) {
+            this.nowActCode = code
+            this.putTimeList = res.data
+            this.putLogTime = res.data[0].version
+            this.logDetail(code, this.putLogTime)
+          }
+          return
+        }
+        this.$message.error(res.message)
+      })
+    },
+    // 日志详情
+    logDetail(code, time) {
+      this.$request.post(
+        '/api/saotx/act/hisDetail',
+        {
+          actCode: code,
+          version: time
+        },
+        true,
+        res => {
+          if (res.ret === '200000') {
+            res.data.strategyArr.forEach(item => {
+              if (item.tfType == 'common') this.normalLogList = item.awardArr
+              if (item.tfType == 'sn_first') this.firstScanLogList = item.awardArr
+              if (item.tfType == 'n_mwin') this.nWinLogList = item.awardArr
+              if (item.tfType == 'special') this.fixationLogList = item.awardArr
+            })
+            return
+          }
+          this.$message.error(res.message)
+        }
+      )
+    },
+    // 活动列表分页
+    handleSizeChange(newSize) {
+      this.queryActParams.pagesize = newSize
+      this.getActList()
+    },
+    // 活动列表分页
+    handleCurrentChange(newPage) {
+      this.queryActParams.pageNo = newPage
+      this.getActList()
+    },
     // 活动弹窗分页
     actHandleSizeChange(newSize) {
       this.actParams.pagesize = newSize
@@ -319,6 +551,122 @@ export default {
     actHandleCurrentChange(newPage) {
       this.actParams.pageNo = newPage
       this.getAct()
+    },
+    // 投放
+    goPut(item) {
+      this.$router.push(
+        '/market/actTpl/actSetConf?id=' +
+          item.id +
+          '&form=' +
+          item.form +
+          '&tplCode=' +
+          item.tplCode
+      )
+    },
+
+    // 编辑
+    edit(id) {
+      this.$router.push('/market/actTpl/actSetConf?id=' + id)
+    },
+    // 复制
+    clone(id) {
+      this.$router.push('/market/actTpl/actSetConf?id=' + id + '&clone=1')
+    },
+    // 发布
+    async post(id) {
+      const confirmResult = await this.$confirm('确定发布此活动吗？', '发布提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return this.$message({
+          type: 'info',
+          message: '已取消发布'
+        })
+      }
+      this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 1 }, true, res => {
+        if (res.ret == '200000') {
+          this.$message.success('发布成功')
+          this.actList()
+          return
+        }
+        this.$message.error(res.message)
+      })
+    },
+    // 结束
+    async over(id) {
+      const confirmResult = await this.$confirm(
+        '确定要结束此活动吗？结束后活动将会下线哦！',
+        '结束提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      }
+      this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 4 }, true, res => {
+        if (res.ret == '200000') {
+          this.$message.success('已结束')
+          this.actList()
+          return
+        }
+        this.$message.error(res.message)
+      })
+    },
+    // 暂停
+    async stop(id) {
+      const confirmResult = await this.$confirm(
+        '确定要暂停此活动吗？暂停后活动将会下线哦！',
+        '暂停提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      }
+      this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 4 }, true, res => {
+        if (res.ret == '200000') {
+          this.$message.success('已暂停')
+          this.actList()
+          return
+        }
+        this.$message.error(res.message)
+      })
+    },
+    // 删除
+    async del(id) {
+      const confirmResult = await this.$confirm('您确定删除这些模板？', '删除提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      }
+      this.$request.post('/api/saotx/act/remBatch', { id: [id] }, true, res => {
+        if (res.ret == '200000') {
+          this.$message.success('删除成功')
+          this.actList()
+          return
+        }
+        this.$message.error(res.message)
+      })
     }
   }
 }
@@ -350,7 +698,8 @@ export default {
 }
 .act-item {
   float: left;
-  width: 185px;
+  width: 200px;
+  text-align: center;
   border: 1px solid #e5e5e5;
   border-radius: 5px;
   padding: 8px 12px 10px 11px;
@@ -368,5 +717,8 @@ export default {
       margin-top: 5px;
     }
   }
+}
+.el-pagination {
+  margin-top: 20px;
 }
 </style>

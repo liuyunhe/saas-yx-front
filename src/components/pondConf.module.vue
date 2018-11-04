@@ -1,8 +1,13 @@
 <template>
+  <!-- 
+  Author: chenxin
+  Create Date: 2018-10-18
+  Description: 活动投放设置组件
+  -->
   <div class="pond">
     <el-form ref="form" :model="pondConf" label-width="100px">
-      <el-form-item label="N次必中:" v-if="nWin" prop="nNum">
-        用户第 <el-input-number size="small" v-model="pondConf.totalNum" :min="0" controls-position="right"></el-input-number> 个抽奖必中
+      <el-form-item label="N次必中:" v-if="nWin">
+        用户第 <el-input-number size="small" v-model="pondConf.n" :min="0" controls-position="right"></el-input-number> 个抽奖必中
       </el-form-item>
       <el-form-item label="奖品类型:">
         <el-select size="medium" v-model="pondConf.awardType" placeholder="请选择" @change="resetPrize">
@@ -336,6 +341,7 @@ export default {
     selectPrize(obj) {
       this.pondConf.awardPic = obj.pic
       this.pondConf.poolName = obj.name
+      this.pondConf.poolId = obj.id
       this.listVisible = false
     },
     // 重置奖品

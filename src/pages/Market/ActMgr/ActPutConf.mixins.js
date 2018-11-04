@@ -8,13 +8,16 @@ export default {
         dwnum: '',
         status: null, // 活动状态 1-发布 0-未发布
       },
+      status: false,
+      actSTime: '', // 活动开始时间
+      actETime: '', // 结束
       strategy: {
         areas: {
           provinceArr: [],
           cityArr: [],
           districtArr: []
         },
-        awaeArr: [],
+        awardArr: [],
         brandArr: [],
         snArr: [],
         tfType: '' // 投放策略类型 common常规；special定投；sn_first首扫必中；n_mwin必中
@@ -23,6 +26,10 @@ export default {
         provinceArr: [],
         cityArr: [],
         districtArr: []
+      },
+      specialBrand: {
+        brandArr: [],
+        snArr: []
       },
       normalConf: [{ // 正常选项
         awardPic: '',
@@ -54,28 +61,32 @@ export default {
       }],
       defaultAwae: { // 给个默认 好复制
         awardPic: '',
-        awardType: '1',
+        awardType: '1', // 奖项类型
         curActive: true,
-        giveScore: 0,
-        guideGzh: 0,
+        giveScore: 0, // 是否赠送积分 0-否 1-是
+        guideGzh: 0, // 是否引导关注公众号 0-否 1-是
         hasPdMaxOut: false,
         hasWarn: false,
-        integral: '',
-        integralPool: '',
-        integralPoolName: '',
-        integralPoolPic: '',
+        integral: null, // 投放积分面额 如果非积分奖，赠送积分时，代表赠送的积分面额
+        integralPool: null, // 赠送积分池主键id
+        integralPoolName: null,
+        integralPoolPic: null,
         isGiveScore: false,
+        isGuideGzh: false,
+        isPdMaxOut: false,
+        isWarn: false,
+        n: '',
         outNum: '',
-        pdMaxOut: '',
-        poolId: 1,
+        pdMaxOut: '', // 奖项每天最多出奖个数
+        poolId: 1, // 奖项物料池主键id
         poolName: '',
-        prizeName: '',
-        probability: '',
-        redMoney: '',
+        prizeName: '', // 奖项名称
+        probability: '', // 中奖概率
+        redMoney: '', // 投放红包面额
         redTotalMoney: '',
         remainNum: 0,
-        totalNum: '',
-        warnValue: ''
+        totalNum: '', // totalNum
+        warnValue: '' //告警阀值 非空且大于0时为设置告警
       },
       firstScanConf: [{
         awardPic: '',
@@ -115,6 +126,7 @@ export default {
         integralPoolName: '',
         integralPoolPic: '',
         isGiveScore: false,
+        n: '',
         outNum: '',
         pdMaxOut: '',
         poolId: 1,
@@ -206,6 +218,8 @@ export default {
       oldSelectAreaList: ['1'],
       brandList: [], // 品牌列表
       brandSonList: [], // 子品牌
+      specialBrandList: [], // 定投品牌
+      specialBrandSonList: [],
       provList: [], // 省
       cityList: [], // 市
       areaList: [], // 区
@@ -221,9 +235,16 @@ export default {
       fixationPutFlag: false,
       isPut: false, // 是否投放
       isDisabled: false, // 是否禁用
+      // 时间限制
+      pickerOptions: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date(this.actSTime).getTime() || time.getTime() > new Date(this.actETime).getTime()
+        }
+      },
     }
   },
   created() {
+    this.getActDetail()
     this.getBrandList()
     this.getProvList()
   },
@@ -237,6 +258,13 @@ export default {
     // }
   },
   watch: {
+    status: function (val) {
+      if (val) {
+        this.act.status = 1
+      } else {
+        this.act.status = 2
+      }
+    },
     isDisabled: function (val) {
       // console.log(val)
       if (val) {
@@ -260,17 +288,120 @@ export default {
     }
   },
   methods: {
+    // 获取活动详情
+    getActDetail() {
+      if (this.id) {
+        this.$request.post('/api/saotx/act/detail', {
+          id: this.id
+        }, true, res => {
+          this.actSTime = res.data.act.stimeStr
+          this.actETime = res.data.act.etimeStr
+          if (res.data.strategyArr.length != 0) {
+            res.data.strategyArr.forEach((item, index) => {
+              if (item.tfType == 'common') {
+                // let data = item.awardArr
+                item.awardArr.forEach((item, index) => {
+                  if (index != 0) {
+                    this.normalTabs.push({
+                      title: '常规奖项' + (index + 1),
+                      name: '' + (index + 1)
+                    })
+                  }
+                  for (let k in item) {
+                    this.normalConf[index][k] = item[k]
+                  }
+                })
+                // this.normalConf = item.awardArr
+
+                console.log(this.normalConf)
+                this.selectProvList = item.areas.provinceArr
+                this.selectCityList = item.areas.cityArr
+                this.getCityList(this.selectProvList)
+                // this.getAreaList(this.selectCityList)
+                this.selectAreaList = item.areas.districtArr
+                this.selectBrand = item.brandArr
+                this.getBrandSonList()
+                this.selectSonBrand = item.snArr
+              }
+              if (item.tfType == 'sn_first') {
+                item.awardArr.forEach((item, index) => {
+                  if (index != 0) {
+                    this.firstScanTabs.push({
+                      title: '常规奖项' + (index + 1),
+                      name: '' + (index + 1)
+                    })
+                  }
+                  for (let k in item) {
+                    this.firstScanTabs[index][k] = item[k]
+                  }
+                })
+                this.specialRuleConfFlag = true
+                this.firstScanFlag = true
+                this.firstScanConf = item.awardArr
+              }
+              if (item.tfType == 'n_mwin') {
+                item.awardArr.forEach((item, index) => {
+                  if (index != 0) {
+                    this.nWinTabs.push({
+                      title: '常规奖项' + (index + 1),
+                      name: '' + (index + 1)
+                    })
+                  }
+                  for (let k in item) {
+                    this.nWinTabs[index][k] = item[k]
+                  }
+                })
+                this.specialRuleConfFlag = true
+                this.nWinFlag = true
+                this.nWinConf = item.awardArr
+              }
+              if (item.tfType == 'special') {
+                item.awardArr.forEach((item, index) => {
+                  if (index != 0) {
+                    this.fixationPutTabs.push({
+                      title: '常规奖项' + (index + 1),
+                      name: '' + (index + 1)
+                    })
+                  }
+                  for (let k in item) {
+                    console.log(this.normalConf[index][k])
+                    this.fixationPutTabs[index][k] = item[k]
+                  }
+                })
+                this.specialRuleConfFlag = true
+                this.fixationPutFlag = true
+                this.fixationPutConf = item.awardArr
+                this.specialAreas = item.areas
+                this.specialBrand.brandArr = item.brandArr
+                this.specialBrand.snArr = item.snArr
+                this.tfDurationArr.push(item.tf.sduration)
+                this.tfDurationArr.push(item.tf.eduration)
+                this.tfTimeArr.push(item.tf.stimeStr)
+                this.tfTimeArr.push(item.tf.etimeStr)
+              }
+            })
+          }
+        })
+      } else {
+        this.$router.push('/market/actMgr')
+      }
+    },
     // 获取品牌列表
     getBrandList() {
       this.$request.post('/api/saotx/prod/listBrand', {
         pageSize: '-1'
       }, true, res => {
-        if (res.ret === '200000') return (this.brandList = res.data.list)
+        if (res.ret === '200000') {
+          this.brandList = res.data.list
+          return
+        }
         this.$message.error(res.message)
       })
     },
     // 获取子品牌列表
     getBrandSonList() {
+      // 定投限制品牌
+      this.restrictBrand()
       this.$request.post(
         '/api/saotx/prod/list', {
           brandCodeArr: this.selectBrand,
@@ -294,8 +425,6 @@ export default {
             code: '000000',
             name: '全部'
           })
-          // 定点投放地区限制
-          this.restrictArea()
           return
         }
         this.$message.error(res.message)
@@ -303,6 +432,8 @@ export default {
     },
     // 获取市
     getCityList(val) {
+      // 定点投放地区限制
+      this.restrictProv()
       let allValue = []
       // 保存所有的值
       for (let item of this.provList) {
@@ -351,8 +482,6 @@ export default {
               code: '000000',
               name: '全部'
             })
-            // 定点投放地区限制
-            this.restrictArea()
             return
           }
           this.message.error(res.message)
@@ -361,6 +490,8 @@ export default {
     },
     // 获取区
     getAreaList(val) {
+      // 定点投放地区限制
+      this.restrictCity()
       let allValue = []
       for (let item of this.cityList) {
         allValue.push(item.code)
@@ -396,8 +527,6 @@ export default {
               code: '000000',
               name: '全部'
             })
-            // 定点投放地区限制
-            this.restrictArea()
             return
           }
           this.$message.error(res.message)
@@ -406,6 +535,7 @@ export default {
     },
     // 选择区
     selectAll(val) {
+      this.restrictArea()
       let allValue = []
       for (let item of this.areaList) {
         allValue.push(item.code)
@@ -428,8 +558,9 @@ export default {
 
     // 保存
     save() {
-      if (this.selectBrand == [] || this.selectSonBrand == []) return this.$message.error('请选择品牌规格')
-      if (this.selectProvList == [] || this.selectCityList == [] || this.selectAreaList == []) return this.$message.error('请选择地区')
+      // console.log(this.normalConf)
+      if (this.selectBrand.length == 0 || this.selectSonBrand.length == 0) return this.$message.error('请选择品牌规格')
+      if (this.selectProvList.length == 0 || this.selectCityList.length == 0 || this.selectAreaList.length == 0) return this.$message.error('请选择地区')
       this.act.id = this.id
       this.act.actCode = this.actCode
       this.no
@@ -441,14 +572,15 @@ export default {
       data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
       data.strategyArr[0].awardArr = this.normalConf
       data.strategyArr[0].areas.cityArr = this.selectCityList
-      data.strategyArr[0].areas.disrictArr = this.selectAreaList
+      data.strategyArr[0].areas.districtArr = this.selectAreaList
       data.strategyArr[0].areas.provinceArr = this.selectProvList
       data.strategyArr[0].brandArr = this.selectBrand
       data.strategyArr[0].snArr = this.selectSonBrand
       data.strategyArr[0].tfType = 'common'
+      let index = 0
       if (this.firstScanFlag) {
         data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
-        let index = data.strategyArr.length
+        index = data.strategyArr.length
         data.strategyArr[index - 1].awardArr = this.firstScanConf
         data.strategyArr[index - 1].confOpen = true
         data.strategyArr[index - 1].tfType = 'sn_first'
@@ -463,16 +595,25 @@ export default {
       if (this.fixationPutFlag) {
         data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
         index = data.strategyArr.length
-        data.strategyArr[index - 1].areas.cityArr = this.selectCityList
-        data.strategyArr[index - 1].areas.disrictArr = this.selectAreaList
-        data.strategyArr[index - 1].areas.provinceArr = this.selectProvList
+        data.strategyArr[index - 1].areas = this.specialAreas
         data.strategyArr[index - 1].awardArr = this.fixationPutConf
         data.strategyArr[index - 1].confOpen = true
-        data.strategyArr[index - 1].brandArr = true
-        data.strategyArr[index - 1].snArr = true
-        data.strategyArr[index - 1].tf = true
+        data.strategyArr[index - 1].brandArr = this.specialBrand.brandArr
+        data.strategyArr[index - 1].snArr = this.specialBrand.snArr
+        data.strategyArr[index - 1].tf['sduration'] = this.tfDurationArr[0]
+        data.strategyArr[index - 1].tf['eduration'] = this.tfDurationArr[1]
+        data.strategyArr[index - 1].tf['stimeStr'] = this.tfTimeArr[0]
+        data.strategyArr[index - 1].tf['etimeStr'] = this.tfTimeArr[1]
         data.strategyArr[index - 1].tfType = 'special'
       }
+      this.$request.post('/api/saotx/act/somtf', data, true, res => {
+        if (res.ret === '200000') {
+          this.$message.success('保存成功')
+          this.$router.push('/market/actMgr')
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
 
     normalTabsEdit(targetName, action) {
@@ -552,7 +693,7 @@ export default {
       }
     },
     // 定点投放地区限制
-    restrictArea() {
+    restrictProv() {
       this.specialProvList = JSON.parse(JSON.stringify(this.provList))
       this.specialProvList.forEach(speciaItem => {
         speciaItem['disabled'] = true
@@ -562,24 +703,52 @@ export default {
           }
         })
       })
+    },
+    restrictCity() {
       this.specialCityList = JSON.parse(JSON.stringify(this.cityList))
       this.specialCityList.forEach(speciaItem => {
         speciaItem['disabled'] = true
-        this.specialCityList.forEach(item => {
+        this.selectCityList.forEach(item => {
           if (speciaItem.code == item) {
             speciaItem['disabled'] = false
           }
         })
       })
+    },
+    restrictArea() {
       this.specialAreaList = JSON.parse(JSON.stringify(this.areaList))
       this.specialAreaList.forEach(speciaItem => {
         speciaItem['disabled'] = true
-        this.selectProvList.forEach(item => {
+        this.selectAreaList.forEach(item => {
           if (speciaItem.code == item) {
+            speciaItem['disabled'] = false
+          }
+        })
+      })
+    },
+    // 定点投放品牌限制
+    restrictBrand() {
+      this.specialBrandList = JSON.parse(JSON.stringify(this.brandList))
+      this.specialBrandList.forEach(speciaItem => {
+        speciaItem['disabled'] = true
+        this.selectBrand.forEach(item => {
+          if (speciaItem.brandCode == item) {
+            speciaItem['disabled'] = false
+          }
+        })
+      })
+    },
+    restrictSonBrand() {
+      this.specialBrandSonList = JSON.parse(JSON.stringify(this.brandSonList))
+      this.specialBrandSonList.forEach(speciaItem => {
+        speciaItem['disabled'] = true
+        this.selectSonBrand.forEach(item => {
+          if (speciaItem.brandCode == item) {
             speciaItem['disabled'] = false
           }
         })
       })
     }
+
   }
 }

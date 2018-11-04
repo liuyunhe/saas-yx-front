@@ -1,4 +1,9 @@
 <template>
+  <!-- 
+  Author: chenxin
+  Create Date: 2018-10-18
+  Description: 活动投放设置
+  -->
   <div class="actPutConf-container">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>活动管理</el-breadcrumb-item>
@@ -11,8 +16,8 @@
             <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
             </el-option>
           </el-select>
-          <el-select v-model="selectSonBrand" multiple placeholder="请选择">
-            <el-option v-if="brandSonList" v-for="item in brandSonList" :key="item.id" :label="item.name" :value="item.brandCode">
+          <el-select v-model="selectSonBrand" multiple placeholder="请选择" @change="restrictSonBrand">
+            <el-option v-if="brandSonList" v-for="item in brandSonList" :key="item.id" :label="item.name" :value="item.sn">
             </el-option>
           </el-select>
           <el-button type="primary" @click="brandVisible = true" class="ml20">已选明细</el-button>
@@ -76,12 +81,12 @@
                 <div class="conf" v-if="fixationPutFlag">
                   <el-form :model="specialAreas" label-width="100px" class="mb20">
                     <el-form-item label="品牌规格：">
-                      <el-select v-model="specialAreas.provinceArr" multiple size="mini" placeholder="请选择" @change="getBrandSonList">
-                        <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
+                      <el-select v-model="specialBrand.brandArr" multiple size="mini" placeholder="请选择">
+                        <el-option v-for="item in specialBrandList" :key="item.id" :disabled="item.disabled" :label="item.name" :value="item.brandCode">
                         </el-option>
                       </el-select>
-                      <el-select v-model="specialAreas.provinceArr" multiple size="mini" placeholder="请选择">
-                        <el-option v-if="brandSonList" v-for="item in brandSonList" :key="item.id" :label="item.name" :value="item.brandCode">
+                      <el-select v-model="specialBrand.snArr" multiple size="mini" placeholder="请选择">
+                        <el-option v-if="brandSonList" v-for="item in specialBrandSonList" :disabled="item.disabled" :key="item.id" :label="item.name" :value="item.sn">
                         </el-option>
                       </el-select>
                       <el-button type="primary" size="mini" @click="brandVisible = true" class="ml20">已选明细</el-button>
@@ -92,18 +97,18 @@
                         </el-option>
                       </el-select>
                       <el-select v-model="specialAreas.cityArr" :disabled="isDisabled" size="mini" multiple collapse-tags filterable placeholder="请选择">
-                        <el-option v-if="cityList" v-for="item in specialCityList" :key="item.code" :label="item.name" :value="item.code">
+                        <el-option v-if="cityList" v-for="item in specialCityList" :key="item.code" :disabled="item.disabled" :label="item.name" :value="item.code">
                         </el-option>
                       </el-select>
                       <el-select v-model="specialAreas.districtArr" :disabled="isDisabled" size="mini" multiple collapse-tags filterable placeholder="请选择">
-                        <el-option v-if="areaList" v-for="item in specialAreaList" :key="item.code" :label="item.name" :value="item.code">
+                        <el-option v-if="areaList" v-for="item in specialAreaList" :key="item.code" :disabled="item.disabled" :label="item.name" :value="item.code">
                         </el-option>
                       </el-select>
                       <!-- <el-checkbox v-model="isDisabled" label="全部地区" size="mini" border></el-checkbox> -->
                       <el-button type="primary" @click="regionVisible = true" size="mini" class="ml20">已选明细</el-button>
                     </el-form-item>
                     <el-form-item label="投放时间:">
-                      <el-date-picker v-model="tfTimeArr" size="mini" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                      <el-date-picker v-model="tfTimeArr" size="mini" :picker-options="pickerOptions" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
                       </el-date-picker>
                     </el-form-item>
                     <el-form-item label="发放时间:">
@@ -139,11 +144,11 @@
         </el-form-item>
         <el-form-item>
           是否立即发布
-          <el-switch class="ml20" v-model="act.status">
+          <el-switch class="ml20" v-model="status">
           </el-switch>
           <el-row class="mt20">
             <el-button type="primary" @click="save">保存</el-button>
-            <el-button>返回列表</el-button>
+            <el-button @click="$router.push('/market/actMgr')">返回列表</el-button>
           </el-row>
         </el-form-item>
       </el-form>

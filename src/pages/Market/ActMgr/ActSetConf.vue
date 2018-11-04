@@ -1,4 +1,9 @@
 <template>
+  <!-- 
+  Author: chenxin
+  Create Date: 2018-10-18
+  Description: 活动基础设置
+  -->
   <div class="actSetConf-container">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>活动管理</el-breadcrumb-item>
@@ -6,7 +11,7 @@
     </el-breadcrumb>
     <el-card>
       <el-form ref="actSetConfRef" :model="confData" label-width="150px" :rules="confRules">
-        <el-form-item label="活动名称" prop="name">
+        <el-form-item label="活动名称" prop="actName">
           <el-input v-model="confData.actName"></el-input>
         </el-form-item>
         <el-form-item label="活动描述" prop="note">
@@ -23,10 +28,10 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="活动图片" prop="banner">
-          <el-upload class="act-set" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
+          <el-upload class="avatar-uploader" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
             <img v-if="confData.banner" :src="confData.banner" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*270像素；格式png、jpg；大小不超过2M</div>
+            <!-- <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*270像素；格式png、jpg；大小不超过2M</div> -->
           </el-upload>
         </el-form-item>
         <el-form-item label="活动说明" prop="desc">
@@ -48,7 +53,7 @@
 <script>
 import { quillEditor } from 'vue-quill-editor'
 export default {
-  props: ['form', 'tplCode'],
+  props: ['form', 'tplCode', 'id', 'clone'],
   components: {
     quillEditor
   },
@@ -108,7 +113,7 @@ export default {
         tplCode: ''
       },
       confRules: {
-        name: [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
+        actName: [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
         note: [{ required: true, message: '请输入活动描述', trigger: 'blur' }],
         date: [{ required: true, validator: validateDate, trigger: 'change' }],
         idx: [{ required: true, validator: validateIdx, trigger: 'change' }],
@@ -136,13 +141,23 @@ export default {
     }
   },
   created() {
-    // console.log(this.form)
-    // console.log(this.tplCode)
+    this.getDetail()
+    this.getIdxSelect()
   },
   methods: {
+    getDetail() {
+      if (!this.id) return
+      this.$request.post('/api/saotx/act/detail', { id: this.id }, true, res => {
+        if (res.ret == '200000') {
+          this.confData = res.data.act
+          this.actTime.push(this.confData.stimeStr)
+          this.actTime.push(this.confData.etimeStr)
+        }
+      })
+    },
     // 获取优先级
     getIdxSelect() {
-      this.$router.post('/api//saotx/act/idxSelect', {}, true, res => {
+      this.$request.post('/api/saotx/act/idxSelect', {}, true, res => {
         if (res.ret === '200000') return
       })
     },
@@ -164,11 +179,13 @@ export default {
         if (!valid) return this.$message.error('请完善表单数据!')
         this.confData.form = this.form
         this.confData.tplCode = this.tplCode
+        if (!this.clone || this.clone != '1') this.confData['id'] = this.id
         this.$request.post('/api/saotx/act/saveOrModify', this.confData, true, res => {
-          if (res.ret === '200000')
+          if (res.ret === '200000') {
             return this.$router.push(
-              '/market/actTpl/actPutConf?id=' + res.data.id + '&actCode=' + 'res.data.actCode'
+              '/market/actTpl/actPutConf?id=' + res.data.id + '&actCode=' + res.data.actCode
             )
+          }
           this.$message.error(res.message)
         })
       })
@@ -180,16 +197,6 @@ export default {
 .el-input,
 .el-textarea {
   width: 300px;
-}
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
 }
 .avatar-uploader-icon {
   font-size: 28px;

@@ -1,4 +1,9 @@
 <template>
+  <!-- 
+  Author: chenxin
+  Create Date: 2018-10-18
+  Description: 新建活动模板
+  -->
   <div class="addActTamConf-container">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>活动</el-breadcrumb-item>
