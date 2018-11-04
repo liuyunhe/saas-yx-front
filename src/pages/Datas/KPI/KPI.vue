@@ -12,7 +12,7 @@
           <div class="ui-real-time">
             <p>实时数据</p>
             <ul class="ui-real-time-data" id="scroll_data">
-              <li v-for="item in rollDatas" :key="item">{{item}}</li>
+              <li v-for="(item,index) in rollDatas" :key="index">{{item}}</li>
             </ul>
           </div>
           <div class="ui-scan-box">
@@ -119,9 +119,17 @@ import ChinaMapEcharts from './ChinaMapEcharts'
 export default {
   data() {
     return {
-      loadDuration: 10000, // n秒加载一次页面地图及扫码数据
+      intervalLoad: true, // 开发时使用，是否开启每隔指定时间进行动态加载数据
+      loadDuration: 3000, // n秒加载一次页面地图及扫码数据
       scrollLoadDuration: 9000, // n秒加载一次实时滚动列表数据
       tableLoadDuration: 60*60*1000, // n秒加载一次表格数据
+      // 页面中定时调度句柄监控
+      intervalHandle: {
+        topDatasHandle: "", // 定时加载地图部分数据的句柄
+        rollHandle: "", // 定时加载实时数据部分数据的句柄
+        rollScrollHandle: "", // 实时数据滚动句柄
+        bottomTableHandle: "" // 定时加载底部表格数据的句柄
+      },
       chinaJson: {},
       echartsConf: {},
       latlngJson: {},
@@ -171,13 +179,38 @@ export default {
     }
   },
   created() {
-    this.loadJsonDatas();
+    let _this = this;
+    _this.loadJsonDatas();
 
     // 下面开始为循环加载
-    this.getPageTopDatas();
-    this.getRollData();
+    _this.getPageTopDatas();
+    _this.getRollData();
+    _this.getProvDatas();
 
-    this.getProvDatas();
+    if(_this.intervalLoad) {
+      // 页面定时调度加载上面地图数据
+      _this.intervalHandle.topDatasHandle = setInterval(function() {
+        _this.getPageTopDatas();
+      }, _this.loadDuration);
+      // 页面定时调度加载上面实时数据块
+      _this.intervalHandle.rollHandle = setInterval(function() {
+        _this.getRollData();
+      }, _this.scrollLoadDuration);
+      // 页面定时调度加载底部表格数据
+      _this.intervalHandle.bottomTableHandle = setInterval(function() {
+        _this.getProvDatas();
+      }, _this.tableLoadDuration);
+    }
+  },
+  // 路由离开当前页之前执行的函数
+  beforeRouteLeave(to, from, next) {
+    if(this.intervalLoad) {
+      clearInterval( this.intervalHandle.topDatasHandle );
+      clearInterval( this.intervalHandle.rollHandle );
+      clearInterval( this.intervalHandle.bottomTableHandle );
+    }
+    clearInterval( this.intervalHandle.rollScrollHandle );
+    next();
   },
   methods: {
     // 加载json数据
@@ -325,9 +358,19 @@ export default {
     },
     // 实时滚动数据
     getRollData() {
+      clearInterval( this.intervalHandle.rollScrollHandle );
       this.$request.post('/record/data/rollingData', {}, true, (res)=>{
-        this.rollDatas = res || [];
-        //this.rollDatas = ["河北省石家庄市用户正在访问: 钻石（绿石2代）的扫码验真页面 16:08:07","河北省唐山市用户正在参与: 钻石（细支尚风）的抽奖活动 16:08:06","河北省石家庄市用户正在访问: 钻石（硬玫瑰紫）的扫码验真页面 16:08:06"];
+        let datas = res || [];
+        //datas = ["河北省石家庄市用户正在访问: 钻石（绿石2代）的扫码验真页面 16:08:07","河北省唐山市用户正在参与: 钻石（细支尚风）的抽奖活动 16:08:06","河北省石家庄市用户正在访问: 钻石（硬玫瑰紫）的扫码验真页面 16:08:06"];
+        let _this = this;
+        _this.rollDatas = datas;
+        if(datas.length>0) {
+          _this.intervalHandle.rollScrollHandle = setInterval(function() {
+            datas.push(datas[0]);
+            datas.splice(0, 1);
+            _this.rollDatas = datas;
+          }, 3000);
+        }
       });
     },
 
@@ -342,6 +385,7 @@ export default {
         this.getProdDatas();
       }
     },
+    // el-table表格中表头鼠标悬浮展示内容
     renderHeaderHandler(h, { column, $index }, index, content) {
       return h('div', {}, [
         h('el-tooltip', {
@@ -353,15 +397,19 @@ export default {
          }, [h('span', {}, column.label)])
        ]);
     },
+    // el-table表格中扫码次数表头鼠标悬浮展示内容
     scantimesHeader(h, { column, $index },index) {
       return this.renderHeaderHandler(h, { column, $index }, index, '从当天零点开始到当前，产生的扫码的实时数值，包含重复扫码的情况');
     },
+    // el-table表格中扫码人数表头鼠标悬浮展示内容
     scanusersHeader(h, { column, $index },index) {
       return this.renderHeaderHandler(h, { column, $index }, index, '从当天零点开始到当前，参与扫码活动用户数的实时数值，对当天的扫码用户的id进行了去重处理');
     },
+    // el-table表格中扫码烟包数表头鼠标悬浮展示内容
     scancodesHeader(h, { column, $index },index) {
       return this.renderHeaderHandler(h, { column, $index }, index, '从当天零点开始到当前，产生的扫码总烟包数的实时数值，去除当天重复扫码后的扫码数');
     },
+    // el-table表格中抽奖次数表头鼠标悬浮展示内容
     drawtimesHeader(h, { column, $index },index) {
       return this.renderHeaderHandler(h, { column, $index }, index, '从当天零点开始到当前，参与扫码抽奖活动的总次数');
     },
@@ -428,6 +476,7 @@ export default {
         }
       });
     },
+    // 表格中合起省份对应的城市数据
     removeCityDatas(provCode) {
       let newTable = [];
       let datasource = this.tableDatas;

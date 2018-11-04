@@ -56,7 +56,6 @@
                     }
             },
             handleClick(url){
-                alert(url);
                 this.$router.push({path:url});
             }
         }

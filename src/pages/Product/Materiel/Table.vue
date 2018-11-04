@@ -290,16 +290,13 @@ export default {
     },
     // 查询礼品库列表数据
     listMateriel(_event, pageNo, pageSize) {
-      if(pageNo) {
-        this.form.pageNo = pageNo;
-      } else {
-        this.form.pageNo = 1;
-      }
-      if(pageSize) {
-        this.form.pageSize = pageSize;
-      } else {
-        this.form.pageSize = 10;
-      }
+      let _pageNo = 1;
+      if(pageNo) _pageNo = pageNo;
+      this.form.pageNo = _pageNo;
+      let _pageSize = 10;
+      if(pageSize) _pageSize = pageSize;
+      this.form.pageNo = _pageSize;
+      
       this.$request.post('/api/saotx/metra/list', this.form, true, (res)=>{
         if (res.ret == '200000') {
           this.materielDatas = res.data.list || [];
