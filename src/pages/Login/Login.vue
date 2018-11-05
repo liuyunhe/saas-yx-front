@@ -99,22 +99,21 @@
 				this.errorTip = '用户名不能为空!';
 				this.error = false;
 				this.$request.post('/api/sys/login/verification',postData,true,function(res){
-					console.log(res)
 					if (res.ret == '200000') {
 						
                         var data = res.data || {};
                         sessionStorage.setItem('access_token', data.token);
                         sessionStorage.setItem('access_loginId', data.loginId);
                         that.$router.replace({
-                        	name:'kpi实时播报'
+                        	name:'数据'
                         })
                     } else if (res.ret == '100409') {
-                        alert(res.message);
+                        this.$message.error(res.message);
                         that.$router.push({
                         	name:'Find'
                         })
                     } else {
-                        alert(res.message);
+                    	this.$message.error(res.message);
                         that.srcClick();
                     }
 				})
