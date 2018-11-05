@@ -110,6 +110,8 @@ import SpecSearch from '@/pages/Datas/ThemeSearch/SpecSearch.vue'
 Vue.use(Router)
 //多维查询
 import MultiSearch from '@/pages/Datas/MultiSearch/MultiSearch.vue'
+//用户分析---画像
+import UserPortrait from '@/pages/Datas/UserAnalysis/UserPortrait.vue'
 export default new Router({
   mode: 'history',
   routes: [
@@ -167,7 +169,7 @@ export default new Router({
         { path: '/datas/track/pathdetail', name: '页面路径转化信息', component: KPI },
         { path: '/datas/userAnalysis', name: '用户分析', redirect: '/datas/userAnalysis/analysis' },
         { path: '/datas/userAnalysis/analysis', name: '用户分析', component: KPI },
-        { path: '/datas/userAnalysis/portraitu', name: '用户画像', component: KPI },
+        { path: '/datas/userAnalysis/portraitu', name: '用户画像', component: UserPortrait },
         { path: '/datas/userAnalysis/label', name: '用户标签', component: KPI },
         { path: '/datas/sellerDatas', name: '零售户', redirect: '/datas/sellerDatas/develop' },
         { path: '/datas/sellerDatas/develop', name: '发展情况概况', component: DataSellerOverview },
