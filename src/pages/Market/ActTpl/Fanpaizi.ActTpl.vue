@@ -1,5 +1,5 @@
 <template>
-    <div class="root">
+    <div id="root">
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item>活动管理</el-breadcrumb-item>
             <el-breadcrumb-item>新建活动</el-breadcrumb-item>
@@ -12,14 +12,14 @@
             <el-menu-item index="4">中奖页</el-menu-item>
             <el-menu-item index="5">未中奖页</el-menu-item>
         </el-menu>
-        <el-card>
+        <el-card :body-style="{padding:'40px'}">
             <el-row>
                 <el-col :span="8">
-                    <phone-model :title="title"></phone-model>
+                    <phone-model :title="conf.title" :titleLength="30"></phone-model>
                 </el-col>
                 <el-col :span="14">
-                    <activity-info @titleInput="titleInput"></activity-info>
-                    <activity-image-editor></activity-image-editor>
+                    <activity-info @titleInput="titleInput" @descInput="descInput"></activity-info>
+                    <activity-image-editor :picData="conf.pic"></activity-image-editor>
                 </el-col>
             </el-row>
         </el-card>
@@ -34,7 +34,16 @@ export default {
   data() {
     return {
       defaultActive: "1",
-      title: '活动标题'
+      imgConf: {
+          oldBase: "https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/",
+          newBase: "https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/", //title, bg, bg1, tip, item, award, noaward, btn
+          imgSize: []
+      },
+      conf : {
+          title: '活动标题',
+          desc: '',
+          pic: {}
+      }
     };
   },
   components: {
@@ -47,7 +56,11 @@ export default {
     },
     titleInput(e) {
         let value = e.value;
-        e.value ? this.title = e.value : this.title = "活动标题";
+        e.value ? this.conf.title = e.value : this.title = "活动标题";
+    },
+    descInput (e) {
+        let value = e.value;
+        e.value ? this.conf.desc = e.value : this.desc = '';
     }
   }
 };
