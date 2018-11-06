@@ -11,16 +11,69 @@ import App from './App'
 import router from './router'
 import store from './store'
 //引入ElementUI
-import './assets/theme/theme-crm/index.css'
-import ElementUI from 'element-ui'
+// import './assets/theme/theme-crm/index.css'
+// import ElementUI from 'element-ui'
 //引入api配置文件
 import request from "./api/axios"
 import md5 from 'js-md5'
 import VueCookies from 'vue-cookies'
 // import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
-import "./common/js/dateFormat"  //  时间类型格式化组件
+// import 'nprogress/nprogress.css'
+import "./common/js/dateFormat" //  时间类型格式化组件
 import echarts from 'echarts'
+
+import {
+  Pagination,
+  Dialog,
+  Menu,
+  Submenu,
+  MenuItem,
+  Input,
+  Checkbox,
+  CheckboxGroup,
+  Switch,
+  Select,
+  Option,
+  Button,
+  Table,
+  TableColumn,
+  Tooltip,
+  TimeSelect,
+  Breadcrumb,
+  BreadcrumbItem,
+  Form,
+  FormItem,
+  Tabs,
+  TabPane,
+  Tag,
+  Tree,
+  Alert,
+  Icon,
+  Row,
+  Col,
+  Upload,
+  Card,
+  Steps,
+  Step,
+  Cascader,
+  Container,
+  Header,
+  Aside,
+  Main,
+  Popover,
+  Loading,
+  MessageBox,
+  Message,
+  ColorPicker,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+  DatePicker,
+  InputNumber,
+  OptionGroup,
+  Radio,
+  TimePicker
+} from 'element-ui'
 
 
 
@@ -32,7 +85,7 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 // import Mock from './mock'
 // Mock.bootstrap();
-import 'element-ui/lib/theme-chalk/index.css';
+// import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/global.css'
 
 Vue.config.productionTip = false
@@ -45,11 +98,62 @@ Vue.use(VueQuillEditor)
 
 Vue.use(VueCookies)
 
-Vue.use(ElementUI);
+Vue.use(Pagination)
+Vue.use(TimeSelect)
+Vue.use(TimePicker)
+Vue.use(OptionGroup)
+Vue.use(InputNumber)
+Vue.use(Radio)
+Vue.use(DatePicker)
+Vue.use(Dropdown)
+Vue.use(DropdownMenu)
+Vue.use(DropdownItem)
+Vue.use(Popover)
+Vue.use(Dialog)
+Vue.use(Menu)
+Vue.use(Submenu)
+Vue.use(MenuItem)
+Vue.use(Input)
+Vue.use(Checkbox)
+Vue.use(CheckboxGroup)
+Vue.use(Switch)
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(Button)
+Vue.use(Table)
+Vue.use(ColorPicker)
+Vue.use(TableColumn)
+Vue.use(Tooltip)
+Vue.use(Breadcrumb)
+Vue.use(BreadcrumbItem)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Tabs)
+Vue.use(TabPane)
+Vue.use(Tag)
+Vue.use(Tree)
+Vue.use(Alert)
+Vue.use(Icon)
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Upload)
+Vue.use(Card)
+Vue.use(Steps)
+Vue.use(Step)
+Vue.use(Cascader)
+Vue.use(Container)
+Vue.use(Header)
+Vue.use(Aside)
+Vue.use(Main)
+Vue.use(Loading.directive)
+
+Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$message = Message
+// Vue.use(ElementUI);
 
 router.beforeEach((to, from, next) => {
   //登录规则
-  if (to.path === '/login' || to.path === '/find'){
+  if (to.path === '/login' || to.path === '/find') {
     sessionStorage.removeItem('access_token');
     return next()
   }
@@ -63,8 +167,13 @@ new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })
 
-export {router,store}
+export {
+  router,
+  store
+}
