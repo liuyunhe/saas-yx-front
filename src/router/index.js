@@ -121,7 +121,7 @@ Vue.use(Router)
 //多维查询
 import MultiSearch from '@/pages/Datas/MultiSearch/MultiSearch.vue'
 export default new Router({
-  mode: 'history',
+  //mode: 'history',
   routes: [
     {
       path: '/login',
