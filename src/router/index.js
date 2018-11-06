@@ -223,6 +223,7 @@ export default new Router({
         { path: '/market/actMgr', name: '活动管理', component: ActMgc },
         { path: '/market/actTpl/addAct', name: '新建活动模板配置', component: AddAct, props: (router) => ({id: router.query.id})},
 <<<<<<< HEAD
+<<<<<<< HEAD
         { path: '/market/actTpl/fanpaizi', name: '新建活动模板配置', component: Fanpaizi, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/actSetConf', name: '基础设置', component: ActSetConf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode}) },
         { path: '/market/actTpl/actPutConf', name: '投放设置', component: ActPutConf, props: (router) => ({id: router.query.form, actCode: router.query.actCode}) },
@@ -230,6 +231,11 @@ export default new Router({
         { path: '/market/actTpl/actSetConf', name: '基础设置', component: ActSetConf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode, id: router.query.id, clone: router.query.clone,}) },
         { path: '/market/actTpl/actPutConf', name: '投放设置', component: ActPutConf, props: (router) => ({id: router.query.id, actCode: router.query.actCode}) },
 >>>>>>> d046d9a73ea1690e5123c50bf13e3c790cce52cc
+=======
+        { path: '/market/actTpl/fanpaizi', name: '新建活动模板配置', component: Fanpaizi, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/actSetConf', name: '基础设置', component: ActSetConf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode}) },
+        { path: '/market/actTpl/actPutConf', name: '投放设置', component: ActPutConf, props: (router) => ({id: router.query.form, actCode: router.query.actCode}) },
+>>>>>>> dca1f2eefb9b148190db638bbd7ad8022c047c72
         { path: '/orders', name: '订单', redirect: '/orders/act' },
         { path: '/orders/seller', name: '零售户订单', component: KPI },
         { path: '/orders/member', name: '权益订单', component: KPI },
