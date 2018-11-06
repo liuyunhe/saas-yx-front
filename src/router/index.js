@@ -123,7 +123,7 @@ import MultiSearch from '@/pages/Datas/MultiSearch/MultiSearch.vue'
 //用户分析---画像
 import UserPortrait from '@/pages/Datas/UserAnalysis/UserPortrait.vue'
 export default new Router({
-  mode: 'history',
+  //mode: 'history',
   routes: [
     {
       path: '/login',
