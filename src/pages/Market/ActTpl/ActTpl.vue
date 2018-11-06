@@ -6,12 +6,12 @@
   -->
   <div class="actTpl-container" v-cloak>
     <el-card>
-      <el-button type="primary" size="medium" @click="addAct()">新建活动模板</el-button>
+      <el-button type="primary" size="small" @click="addAct()">新建活动模板</el-button>
       <el-form ref="form" :model="actListParams" label-width="80px">
         <el-row>
           <el-col :span="7">
             <el-form-item label="模板类型">
-              <el-select v-model="actListParams.form">
+              <el-select size="small" v-model="actListParams.form">
                 <el-option v-for="item in selectOption" :key="item.form" :label="item.name" :value="item.form"></el-option>
               </el-select>
             </el-form-item>
@@ -19,19 +19,19 @@
           <el-col :span="7">
             <el-form-item label="时间段">
               <el-col>
-                <el-date-picker type="date" placeholder="开始时间" v-model="actListParams.ctime" style="width: 100%;"></el-date-picker>
+                <el-date-picker size="small" type="date" placeholder="开始时间" v-model="actListParams.ctime" style="width: 100%;"></el-date-picker>
               </el-col>
             </el-form-item>
           </el-col>
           <el-col :span="7">
             <el-form-item label="关键词">
-              <el-input v-model="actListParams.keyword" placeholder="请输入关键词"></el-input>
+              <el-input size="small" v-model="actListParams.keyword" placeholder="请输入关键词"></el-input>
             </el-form-item>
           </el-col>
           <el-col>
             <!-- 按钮 -->
-            <el-button type="primary" @click="getActList()">查询</el-button>
-            <el-button type="primary" @click="resetSearch()">重置</el-button>
+            <el-button type="primary" size="small" @click="getActList()">查询</el-button>
+            <el-button type="primary" size="small" @click="resetSearch()">重置</el-button>
           </el-col>
         </el-row>
       </el-form>
@@ -76,7 +76,7 @@
           <div v-else>暂无</div>
         </div>
         <el-col :span="24" v-if="actForms">
-          <el-pagination background @size-change="actHandleSizeChange" @current-change="actHandleCurrentChange" :current-page="actParams.pageNo" layout="total, prev, pager, next, jumper" :total="actTotal">
+          <el-pagination background @size-change="actHandleSizeChange" @current-change="actHandleCurrentChange" :current-page="actParams.pageNo" :page-size="actParams.pageSize" layout="total, prev, pager, next, jumper" :total="actTotal">
           </el-pagination>
         </el-col>
         <div style="clear: both"></div>
@@ -97,6 +97,7 @@ export default {
         pageNo: 1,
         pageSize: 10
       },
+      flag: {},
       total: null,
       actList: [],
       addActDialogVisible: false, // 显示/隐藏新建活动模板弹窗
@@ -124,6 +125,16 @@ export default {
   created() {
     this.getActList()
     this.getActType()
+  },
+  // 进入路由之前执行的函数
+  beforeRouteEnter(to, from, next) {
+    console.log(to.path)
+    next()
+  },
+  // 离开路由之前执行的函数
+  beforeRouteLeave(to, from, next) {
+    console.log(to.path)
+    next()
   },
   methods: {
     getActList() {
@@ -218,8 +229,6 @@ export default {
     },
     // 删除模板
     async delAct(id) {
-      // console.log(id)
-      // this.delDialogVisible = true
       let idArr = []
       if (Array.isArray(id)) {
         idArr = id
@@ -327,11 +336,12 @@ export default {
   }
   .act-item {
     float: left;
-    width: 200px;
+    width: 185px;
     border: 1px solid #e5e5e5;
     border-radius: 5px;
     padding: 8px 12px 10px 11px;
     margin: 0px 15px 0px 0px;
+    box-sizing: border-box;
     img {
       width: 100%;
     }

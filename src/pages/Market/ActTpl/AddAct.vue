@@ -1,4 +1,9 @@
 <template>
+  <!-- 
+  Author: chenxin
+  Create Date: 2018-10-18
+  Description: 新建活动模板
+  -->
   <div class="addActTamConf-container">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>活动</el-breadcrumb-item>
@@ -175,7 +180,7 @@
           <p>是否投放: <el-switch v-model="isPut">
             </el-switch>
           </p>
-          <el-button type="primary" @click="saveActTpl">保存</el-button>
+          <el-button size="small" type="primary" @click="saveActTpl">保存</el-button>
         </div>
       </el-tabs>
     </el-card>

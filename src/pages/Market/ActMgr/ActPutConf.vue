@@ -1,18 +1,23 @@
 <template>
+  <!-- 
+  Author: chenxin
+  Create Date: 2018-10-18
+  Description: 活动投放设置
+  -->
   <div class="actPutConf-container">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>活动管理</el-breadcrumb-item>
       <el-breadcrumb-item>投放设置</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
-      <el-form ref="form" :model="strategyArr[0].awaeArr[0]" label-width="100px">
+      <el-form ref="form" :model="strategy" label-width="100px">
         <el-form-item label="品牌规格：">
           <el-select v-model="selectBrand" multiple placeholder="请选择" @change="getBrandSonList">
             <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
             </el-option>
           </el-select>
-          <el-select v-model="selectSonBrand" multiple placeholder="请选择">
-            <el-option v-if="brandSonList" v-for="item in brandSonList" :key="item.id" :label="item.name" :value="item.brandCode">
+          <el-select v-model="selectSonBrand" multiple placeholder="请选择" @change="restrictSonBrand">
+            <el-option v-if="brandSonList" v-for="item in brandSonList" :key="item.id" :label="item.name" :value="item.sn">
             </el-option>
           </el-select>
           <el-button type="primary" @click="brandVisible = true" class="ml20">已选明细</el-button>
@@ -36,51 +41,9 @@
         <el-form-item>
           <div class="prize-conf">
             <div class="title">常规奖池</div>
-            <el-tabs v-model="editableTabsValue" type="card" editable @edit="handleTabsEdit">
-              <el-tab-pane :key="item.name" v-for="(item, index) in editableTabs" :label="item.title" :name="item.name">
-                <pond-conf :awae="awaeArr[index]" :prizeType="prizeType"></pond-conf>
-                <!-- <el-form ref="form" :model="strategyArr[0].awaeArr[0]" label-width="100px">
-                  <el-form-item label="奖品类型:">
-                    <el-select size="medium" v-model="strategyArr[0].tfType" multiple placeholder="请选择">
-                      <el-option v-for="item in prizeType" :key="item.name" :label="item.name" :value="item.name">
-                      </el-option>
-                    </el-select>
-                  </el-form-item>
-                  <el-form-item label="奖品名称:">
-                    <el-col :span="10">
-                      <el-input size="medium" v-model="strategyArr[0].awaeArr.prizeName" placeholder="请输入奖品名称"></el-input>
-                    </el-col>
-                  </el-form-item>
-                  <el-form-item label="选择物品:">
-                    <el-button size="medium">选择</el-button>
-                  </el-form-item>
-                  <el-form-item label="投放数量:">
-                    <el-input-number size="small" v-model="strategyArr[0].awaeArr.remainNum" :min="0" controls-position="right"></el-input-number> 个
-                  </el-form-item>
-                  <el-form-item label="中奖概率:">
-                    <el-input-number size="small" v-model="strategyArr[0].awaeArr.remainNum" :min="0" :max="100" controls-position="right"></el-input-number> %
-                  </el-form-item>
-                  <el-form-item>
-                    <el-checkbox v-model="strategyArr[0].awaeArr.hasWarn">阈值预警</el-checkbox>
-                    <span v-if="strategyArr[0].awaeArr.hasWarn">
-                      <el-input-number size="small" v-model="strategyArr[0].awaeArr.remainNum" :min="0" controls-position="right"></el-input-number> 个
-                    </span>
-                  </el-form-item>
-                  <el-form-item>
-                    <el-checkbox v-model="strategyArr[0].awaeArr.isGiveScore">同时送积分</el-checkbox>
-                    <span v-if="strategyArr[0].awaeArr.isGiveScore">
-                      <el-button size="medium" class="ml20 mr20">选择</el-button>
-                      <el-input-number size="small" v-model="strategyArr[0].awaeArr.remainNum" :min="0" controls-position="right"></el-input-number> 积分
-                    </span>
-                  </el-form-item>
-                  <el-form-item>
-                    <el-checkbox v-model="strategyArr[0].awaeArr.isGiveScore">中奖后引导关注公众号</el-checkbox>
-                    <el-checkbox v-model="strategyArr[0].awaeArr.hasPdMaxOut">每天出奖总次数限制</el-checkbox>
-                    <span v-if="strategyArr[0].awaeArr.hasPdMaxOut">
-                      <el-input-number size="small" v-model="strategyArr[0].awaeArr.remainNum" :min="0" controls-position="right"></el-input-number> 次
-                    </span>
-                  </el-form-item>
-                </el-form> -->
+            <el-tabs v-model="normalTabsValue" type="card" editable @edit="normalTabsEdit" class="put-conf">
+              <el-tab-pane :key="item.name" v-for="(item, index) in normalTabs" :label="item.title" :name="item.name">
+                <pond-conf :awae="normalConf[index]" :prizeType="prizeType"></pond-conf>
               </el-tab-pane>
             </el-tabs>
           </div>
@@ -94,16 +57,71 @@
             </div>
             <div class="con" v-if="specialRuleConfFlag">
               <el-row>
-                <el-checkbox v-model="strategyArr[0].awaeArr.isGiveScore">首扫必中奖</el-checkbox>
-                <div class="conf" v-if="strategyArr[0].awaeArr.isGiveScore">
-                  配置
+                <el-checkbox v-model="firstScanFlag">首扫必中奖</el-checkbox>
+                <div class="conf" v-if="firstScanFlag">
+                  <el-tabs v-model="firstScanTabsValue" type="card" editable @edit="firstScanTabsEdit">
+                    <el-tab-pane :key="item.name" v-for="(item, index) in firstScanTabs" :label="item.title" :name="item.name">
+                      <pond-conf :awae="firstScanConf[index]" :prizeType="prizeType"></pond-conf>
+                    </el-tab-pane>
+                  </el-tabs>
                 </div>
               </el-row>
               <el-row>
-                <el-checkbox v-model="strategyArr[0].awaeArr.isGiveScore">N次必中奖</el-checkbox>
+                <el-checkbox v-model="nWinFlag">N次必中奖</el-checkbox>
+                <div class="conf" v-if="nWinFlag">
+                  <el-tabs v-model="nWinTabsValue" type="card" editable @edit="nWinTabsEdit">
+                    <el-tab-pane :key="item.name" v-for="(item, index) in nWinTabs" :label="item.title" :name="item.name">
+                      <pond-conf :awae="nWinConf[index]" :prizeType="prizeType" :nWin="true"></pond-conf>
+                    </el-tab-pane>
+                  </el-tabs>
+                </div>
               </el-row>
               <el-row>
-                <el-checkbox v-model="strategyArr[0].awaeArr.isGiveScore">定点投放奖</el-checkbox>
+                <el-checkbox v-model="fixationPutFlag">定点投放奖</el-checkbox>
+                <div class="conf" v-if="fixationPutFlag">
+                  <el-form :model="specialAreas" label-width="100px" class="mb20">
+                    <el-form-item label="品牌规格：">
+                      <el-select v-model="specialBrand.brandArr" multiple size="mini" placeholder="请选择">
+                        <el-option v-for="item in specialBrandList" :key="item.id" :disabled="item.disabled" :label="item.name" :value="item.brandCode">
+                        </el-option>
+                      </el-select>
+                      <el-select v-model="specialBrand.snArr" multiple size="mini" placeholder="请选择">
+                        <el-option v-if="brandSonList" v-for="item in specialBrandSonList" :disabled="item.disabled" :key="item.id" :label="item.name" :value="item.sn">
+                        </el-option>
+                      </el-select>
+                      <el-button type="primary" size="mini" @click="brandVisible = true" class="ml20">已选明细</el-button>
+                    </el-form-item>
+                    <el-form-item label="地区：">
+                      <el-select v-model="specialAreas.provinceArr" :disabled="isDisabled" size="mini" multiple collapse-tags filterable placeholder="请选择">
+                        <el-option v-for="item in specialProvList" :key="item.code" :disabled="item.disabled" :label="item.name" :value="item.code">
+                        </el-option>
+                      </el-select>
+                      <el-select v-model="specialAreas.cityArr" :disabled="isDisabled" size="mini" multiple collapse-tags filterable placeholder="请选择">
+                        <el-option v-if="cityList" v-for="item in specialCityList" :key="item.code" :disabled="item.disabled" :label="item.name" :value="item.code">
+                        </el-option>
+                      </el-select>
+                      <el-select v-model="specialAreas.districtArr" :disabled="isDisabled" size="mini" multiple collapse-tags filterable placeholder="请选择">
+                        <el-option v-if="areaList" v-for="item in specialAreaList" :key="item.code" :disabled="item.disabled" :label="item.name" :value="item.code">
+                        </el-option>
+                      </el-select>
+                      <!-- <el-checkbox v-model="isDisabled" label="全部地区" size="mini" border></el-checkbox> -->
+                      <el-button type="primary" @click="regionVisible = true" size="mini" class="ml20">已选明细</el-button>
+                    </el-form-item>
+                    <el-form-item label="投放时间:">
+                      <el-date-picker v-model="tfTimeArr" size="mini" :picker-options="pickerOptions" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                      </el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="发放时间:">
+                      <el-time-picker is-range v-model="tfDurationArr" size="mini" format="HH:mm" value-format="HH:mm" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围">
+                      </el-time-picker>
+                    </el-form-item>
+                  </el-form>
+                  <el-tabs v-model="fixationPutTabsValue" type="card" editable @edit="fixationPutTabsEdit">
+                    <el-tab-pane :key="item.name" v-for="(item, index) in fixationPutTabs" :label="item.title" :name="item.name">
+                      <pond-conf :awae="fixationPutConf[index]" :prizeType="prizeType"></pond-conf>
+                    </el-tab-pane>
+                  </el-tabs>
+                </div>
               </el-row>
             </div>
           </div>
@@ -118,7 +136,7 @@
             <div class="con" v-if="prizeLimitFlag">
               <el-row>
                 <el-col :span="6" class="label">每日中奖机会限制:</el-col>
-                每人每日<el-input-number size="small" v-model="strategyArr[0].awaeArr.remainNum" :min="0" controls-position="right"></el-input-number>
+                每人每日<el-input-number size="small" v-model="act.dwnum" :min="0" controls-position="right"></el-input-number>
                 次抽奖后，不再有中奖机会
               </el-row>
             </div>
@@ -126,11 +144,11 @@
         </el-form-item>
         <el-form-item>
           是否立即发布
-          <el-switch class="ml20" v-model="isPut">
+          <el-switch class="ml20" v-model="status">
           </el-switch>
           <el-row class="mt20">
-            <el-button type="primary">保存</el-button>
-            <el-button>返回列表</el-button>
+            <el-button type="primary" @click="save">保存</el-button>
+            <el-button @click="$router.push('/market/actMgr')">返回列表</el-button>
           </el-row>
         </el-form-item>
       </el-form>
@@ -171,6 +189,9 @@ export default {
       padding: 0 30px;
     }
   }
+}
+.conf {
+  background-color: #fff;
 }
 .special-rule-conf,
 .prize-limit {

@@ -3,91 +3,191 @@ export default {
   data() {
     return {
       act: {
-        id: '',
-        actCode: ''
+        id: null,
+        actCode: '', // 编码
+        dwnum: '',
+        status: null, // 活动状态 1-发布 0-未发布
       },
-      strategyArr: [{
-        areas: {},
-        awaeArr: [],
+      status: false,
+      actSTime: '', // 活动开始时间
+      actETime: '', // 结束
+      strategy: {
+        areas: {
+          provinceArr: [],
+          cityArr: [],
+          districtArr: []
+        },
+        awardArr: [],
         brandArr: [],
         snArr: [],
-        tfType: ''
-      }],
-      awaeArr: [{
-        awardPic: '',
-        awardType: '1',
-        curActive: true,
-        giveScore: 0,
-        guideGzh: 0,
-        hasPdMaxOut: false,
-        hasWarn: false,
-        integral: '',
-        integralPool: '',
-        integralPoolName: '',
-        integralPoolPic: '',
-        isGiveScore: false,
-        outNum: '',
-        pdMaxOut: '',
-        poolId: 1,
-        poolName: '',
-        prizeName: '',
-        probability: '',
-        redMoney: '',
-        redTotalMoney: '',
-        remainNum: 0,
-        totalNum: '',
-        warnValue: ''
-      }],
-      defaultAwae: {
-        awardPic: '',
-        awardType: '1',
-        curActive: true,
-        giveScore: 0,
-        guideGzh: 0,
-        hasPdMaxOut: false,
-        hasWarn: false,
-        integral: '',
-        integralPool: '',
-        integralPoolName: '',
-        integralPoolPic: '',
-        isGiveScore: false,
-        outNum: '',
-        pdMaxOut: '',
-        poolId: 1,
-        poolName: '',
-        prizeName: '',
-        probability: '',
-        redMoney: '',
-        redTotalMoney: '',
-        remainNum: 0,
-        totalNum: '',
-        warnValue: ''
+        tfType: '' // 投放策略类型 common常规；special定投；sn_first首扫必中；n_mwin必中
       },
-      editableTabsValue: '1',
-      editableTabs: [{
+      specialAreas: {
+        provinceArr: [],
+        cityArr: [],
+        districtArr: []
+      },
+      specialBrand: {
+        brandArr: [],
+        snArr: []
+      },
+      normalConf: [{ // 正常选项
+        awardPic: '',
+        awardType: '1', // 奖项类型
+        curActive: true,
+        giveScore: 0, // 是否赠送积分 0-否 1-是
+        guideGzh: 0, // 是否引导关注公众号 0-否 1-是
+        hasPdMaxOut: false,
+        hasWarn: false,
+        integral: null, // 投放积分面额 如果非积分奖，赠送积分时，代表赠送的积分面额
+        integralPool: null, // 赠送积分池主键id
+        integralPoolName: null,
+        integralPoolPic: null,
+        isGiveScore: false,
+        isGuideGzh: false,
+        isPdMaxOut: false,
+        isWarn: false,
+        outNum: '',
+        pdMaxOut: '', // 奖项每天最多出奖个数
+        poolId: 1, // 奖项物料池主键id
+        poolName: '',
+        prizeName: '', // 奖项名称
+        probability: '', // 中奖概率
+        redMoney: '', // 投放红包面额
+        redTotalMoney: '',
+        remainNum: 0,
+        totalNum: '', // totalNum
+        warnValue: '' //告警阀值 非空且大于0时为设置告警
+      }],
+      defaultAwae: { // 给个默认 好复制
+        awardPic: '',
+        awardType: '1', // 奖项类型
+        curActive: true,
+        giveScore: 0, // 是否赠送积分 0-否 1-是
+        guideGzh: 0, // 是否引导关注公众号 0-否 1-是
+        hasPdMaxOut: false,
+        hasWarn: false,
+        integral: null, // 投放积分面额 如果非积分奖，赠送积分时，代表赠送的积分面额
+        integralPool: null, // 赠送积分池主键id
+        integralPoolName: null,
+        integralPoolPic: null,
+        isGiveScore: false,
+        isGuideGzh: false,
+        isPdMaxOut: false,
+        isWarn: false,
+        n: '',
+        outNum: '',
+        pdMaxOut: '', // 奖项每天最多出奖个数
+        poolId: 1, // 奖项物料池主键id
+        poolName: '',
+        prizeName: '', // 奖项名称
+        probability: '', // 中奖概率
+        redMoney: '', // 投放红包面额
+        redTotalMoney: '',
+        remainNum: 0,
+        totalNum: '', // totalNum
+        warnValue: '' //告警阀值 非空且大于0时为设置告警
+      },
+      firstScanConf: [{
+        awardPic: '',
+        awardType: '1',
+        curActive: true,
+        giveScore: 0,
+        guideGzh: 0,
+        hasPdMaxOut: false,
+        hasWarn: false,
+        integral: '',
+        integralPool: '',
+        integralPoolName: '',
+        integralPoolPic: '',
+        isGiveScore: false,
+        outNum: '',
+        pdMaxOut: '',
+        poolId: 1,
+        poolName: '',
+        prizeName: '',
+        probability: '',
+        redMoney: '',
+        redTotalMoney: '',
+        remainNum: 0,
+        totalNum: '',
+        warnValue: ''
+      }], // 首扫选项
+      nWinConf: [{
+        awardPic: '',
+        awardType: '1',
+        curActive: true,
+        giveScore: 0,
+        guideGzh: 0,
+        hasPdMaxOut: false,
+        hasWarn: false,
+        integral: '',
+        integralPool: '',
+        integralPoolName: '',
+        integralPoolPic: '',
+        isGiveScore: false,
+        n: '',
+        outNum: '',
+        pdMaxOut: '',
+        poolId: 1,
+        poolName: '',
+        prizeName: '',
+        probability: '',
+        redMoney: '',
+        redTotalMoney: '',
+        remainNum: 0,
+        totalNum: '',
+        warnValue: ''
+      }], // n次选项
+      fixationPutConf: [{
+        awardPic: '',
+        awardType: '1',
+        curActive: true,
+        giveScore: 0,
+        guideGzh: 0,
+        hasPdMaxOut: false,
+        hasWarn: false,
+        integral: '',
+        integralPool: '',
+        integralPoolName: '',
+        integralPoolPic: '',
+        isGiveScore: false,
+        outNum: '',
+        pdMaxOut: '',
+        poolId: 1,
+        poolName: '',
+        prizeName: '',
+        probability: '',
+        redMoney: '',
+        redTotalMoney: '',
+        remainNum: 0,
+        totalNum: '',
+        warnValue: ''
+      }], // 定投选项
+      normalTabsValue: '1', // 正常tabs
+      normalTabs: [{
         title: '常规奖项1',
         name: '1'
       }],
-      prizeTypeArr: [
-        [{
-            name: '实物礼品',
-            type: '1'
-          },
-          {
-            name: '虚拟礼品',
-            type: '2'
-          },
-          {
-            name: '红包',
-            type: '3'
-          },
-          {
-            name: '积分',
-            type: '4'
-          }
-        ]
-      ],
-      prizeType: [{
+      firstScanTabsValue: '1', // 首扫
+      firstScanTabs: [{
+        title: '常规奖项1',
+        name: '1'
+      }],
+      nWinTabsValue: '1', // n次
+      nWinTabs: [{
+        title: '常规奖项1',
+        name: '1'
+      }],
+      fixationPutTabsValue: '1', // 定投
+      fixationPutTabs: [{
+        title: '常规奖项1',
+        name: '1'
+      }],
+      tfId: '', // 投放策略主键id
+      tfTimeArr: [], // 投放策略开始/结束时间 0-开始时间 1-结束时间
+      tfDurationArr: [], // 投放策略开始/结束时段(发放时间) 0-开始时间 1-结束时间
+      prizeType: [{ // 类型
           name: '实物礼品',
           type: '1'
         },
@@ -101,32 +201,50 @@ export default {
         },
         {
           name: '积分',
-          type: '4'
+          type: '6'
         }
       ],
-      tabIndex: 1,
-      selectBrand: [],
-      selectSonBrand: [],
-      selectProvList: [],
-      oldSlectProvList: ['1'], // 给个默认值 不然会报错
-      selectCityList: [],
+      normalIndex: 1,
+      firstScanIndex: 1,
+      nWinIndex: 1,
+      fixationPutIndex: 1,
+      selectBrand: [], // 选中的品牌
+      selectSonBrand: [], // 子品牌
+      selectProvList: [], // 省
+      oldSlectProvList: ['1'], // 上次选中的省  给个默认值 不然会报错
+      selectCityList: [], // 市
       oldSelectCityList: ['1'],
-      selectAreaList: [],
+      selectAreaList: [], // 区
       oldSelectAreaList: ['1'],
-      brandList: [],
-      brandSonList: [],
-      provList: [],
-      cityList: [],
-      areaList: [],
-      regionVisible: false,
-      brandVisible: false,
-      specialRuleConfFlag: false,
-      prizeLimitFlag: false,
-      isPut: false,
-      isDisabled: false
+      brandList: [], // 品牌列表
+      brandSonList: [], // 子品牌
+      specialBrandList: [], // 定投品牌
+      specialBrandSonList: [],
+      provList: [], // 省
+      cityList: [], // 市
+      areaList: [], // 区
+      specialProvList: [], // 定投地区
+      specialCityList: [],
+      specialAreaList: [],
+      regionVisible: false, // 地区明细窗口
+      brandVisible: false, // 品牌
+      specialRuleConfFlag: false, // 特殊规则开关
+      prizeLimitFlag: false, // 抽奖限制开关
+      firstScanFlag: false,
+      nWinFlag: false,
+      fixationPutFlag: false,
+      isPut: false, // 是否投放
+      isDisabled: false, // 是否禁用
+      // 时间限制
+      pickerOptions: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date(this.actSTime).getTime() || time.getTime() > new Date(this.actETime).getTime()
+        }
+      },
     }
   },
   created() {
+    this.getActDetail()
     this.getBrandList()
     this.getProvList()
   },
@@ -139,18 +257,151 @@ export default {
     //   })
     // }
   },
+  watch: {
+    status: function (val) {
+      if (val) {
+        this.act.status = 1
+      } else {
+        this.act.status = 2
+      }
+    },
+    isDisabled: function (val) {
+      // console.log(val)
+      if (val) {
+        this.selectProvList == ['000000']
+        this.selectCityList == ['000000']
+        this.selectAreaList == ['000000']
+      } else {
+        this.selectProvList == []
+        this.selectCityList == []
+        this.selectAreaList == []
+      }
+    },
+    fixationPutFlag: function (val) {
+      if (val) {
+        this.restrictArea()
+      } else {
+        this.selectProvList == []
+        this.selectCityList == []
+        this.selectAreaList == []
+      }
+    }
+  },
   methods: {
+    // 获取活动详情
+    getActDetail() {
+      if (this.id) {
+        this.$request.post('/api/saotx/act/detail', {
+          id: this.id
+        }, true, res => {
+          this.actSTime = res.data.act.stimeStr
+          this.actETime = res.data.act.etimeStr
+          if (res.data.strategyArr.length != 0) {
+            res.data.strategyArr.forEach((item, index) => {
+              if (item.tfType == 'common') {
+                // let data = item.awardArr
+                item.awardArr.forEach((item, index) => {
+                  if (index != 0) {
+                    this.normalTabs.push({
+                      title: '常规奖项' + (index + 1),
+                      name: '' + (index + 1)
+                    })
+                  }
+                  for (let k in item) {
+                    this.normalConf[index][k] = item[k]
+                  }
+                })
+                // this.normalConf = item.awardArr
+
+                console.log(this.normalConf)
+                this.selectProvList = item.areas.provinceArr
+                this.selectCityList = item.areas.cityArr
+                this.getCityList(this.selectProvList)
+                // this.getAreaList(this.selectCityList)
+                this.selectAreaList = item.areas.districtArr
+                this.selectBrand = item.brandArr
+                this.getBrandSonList()
+                this.selectSonBrand = item.snArr
+              }
+              if (item.tfType == 'sn_first') {
+                item.awardArr.forEach((item, index) => {
+                  if (index != 0) {
+                    this.firstScanTabs.push({
+                      title: '常规奖项' + (index + 1),
+                      name: '' + (index + 1)
+                    })
+                  }
+                  for (let k in item) {
+                    this.firstScanTabs[index][k] = item[k]
+                  }
+                })
+                this.specialRuleConfFlag = true
+                this.firstScanFlag = true
+                this.firstScanConf = item.awardArr
+              }
+              if (item.tfType == 'n_mwin') {
+                item.awardArr.forEach((item, index) => {
+                  if (index != 0) {
+                    this.nWinTabs.push({
+                      title: '常规奖项' + (index + 1),
+                      name: '' + (index + 1)
+                    })
+                  }
+                  for (let k in item) {
+                    this.nWinTabs[index][k] = item[k]
+                  }
+                })
+                this.specialRuleConfFlag = true
+                this.nWinFlag = true
+                this.nWinConf = item.awardArr
+              }
+              if (item.tfType == 'special') {
+                item.awardArr.forEach((item, index) => {
+                  if (index != 0) {
+                    this.fixationPutTabs.push({
+                      title: '常规奖项' + (index + 1),
+                      name: '' + (index + 1)
+                    })
+                  }
+                  for (let k in item) {
+                    console.log(this.normalConf[index][k])
+                    this.fixationPutTabs[index][k] = item[k]
+                  }
+                })
+                this.specialRuleConfFlag = true
+                this.fixationPutFlag = true
+                this.fixationPutConf = item.awardArr
+                this.specialAreas = item.areas
+                this.specialBrand.brandArr = item.brandArr
+                this.specialBrand.snArr = item.snArr
+                this.tfDurationArr.push(item.tf.sduration)
+                this.tfDurationArr.push(item.tf.eduration)
+                this.tfTimeArr.push(item.tf.stimeStr)
+                this.tfTimeArr.push(item.tf.etimeStr)
+              }
+            })
+          }
+        })
+      } else {
+        this.$router.push('/market/actMgr')
+      }
+    },
     // 获取品牌列表
     getBrandList() {
       this.$request.post('/api/saotx/prod/listBrand', {
         pageSize: '-1'
       }, true, res => {
-        if (res.ret === '200000') return (this.brandList = res.data.list)
+        if (res.ret === '200000') {
+          this.brandList = res.data.list
+          return
+        }
         this.$message.error(res.message)
       })
     },
     // 获取子品牌列表
     getBrandSonList() {
+      // 定投限制品牌
+      this.restrictBrand()
       this.$request.post(
         '/api/saotx/prod/list', {
           brandCodeArr: this.selectBrand,
@@ -171,7 +422,7 @@ export default {
         if (res.ret === '200000') {
           this.provList = res.data
           this.provList.unshift({
-            code: 'all',
+            code: '000000',
             name: '全部'
           })
           return
@@ -181,6 +432,8 @@ export default {
     },
     // 获取市
     getCityList(val) {
+      // 定点投放地区限制
+      this.restrictProv()
       let allValue = []
       // 保存所有的值
       for (let item of this.provList) {
@@ -193,20 +446,20 @@ export default {
        * Array.includes()
        * ES6方法 用于判断是否包含某一元素 返回布尔值
        */
-      if (val.includes('all')) this.selectProvList = allValue
+      if (val.includes('000000')) this.selectProvList = allValue
       // 取消全部选择
-      if (oldVal.includes('all') && !val.includes('all')) this.selectProvList = []
+      if (oldVal.includes('000000') && !val.includes('000000')) this.selectProvList = []
       // 全选之后取消单个
-      if (oldVal.includes('all') && val.includes('all')) {
+      if (oldVal.includes('000000') && val.includes('000000')) {
         // 全选也跟着取消
-        const index = val.indexOf('all')
+        const index = val.indexOf('000000')
         val.splice(index, 1)
         this.selectProvList = val
       }
       // 全选未选 其它全部选上 则全选选上(上次和当前都没有全选)
-      if (!oldVal.includes('all') && !val.includes('all')) {
+      if (!oldVal.includes('000000') && !val.includes('000000')) {
         if (val.length === allValue.length - 1) {
-          this.selectProvList = ['all'].concat(val)
+          this.selectProvList = ['000000'].concat(val)
         }
       }
       this.oldSlectProvList[1] = this.selectProvList
@@ -226,7 +479,7 @@ export default {
           if (res.ret === '200000') {
             this.cityList = res.data
             this.cityList.unshift({
-              code: 'all',
+              code: '000000',
               name: '全部'
             })
             return
@@ -237,21 +490,23 @@ export default {
     },
     // 获取区
     getAreaList(val) {
+      // 定点投放地区限制
+      this.restrictCity()
       let allValue = []
       for (let item of this.cityList) {
         allValue.push(item.code)
       }
       const oldVal = this.oldSelectCityList.length === 1 ? [] : this.oldSelectCityList[1]
-      if (val.includes('all')) this.selectCityList = allValue
-      if (oldVal.includes('all') && !val.includes('all')) this.selectCityList = []
-      if (oldVal.includes('all') && val.includes('all')) {
-        const index = val.indexOf('all')
+      if (val.includes('000000')) this.selectCityList = allValue
+      if (oldVal.includes('000000') && !val.includes('000000')) this.selectCityList = []
+      if (oldVal.includes('000000') && val.includes('000000')) {
+        const index = val.indexOf('000000')
         val.splice(index, 1)
         this.selectCityList = val
       }
-      if (!oldVal.includes('all') && !val.includes('all')) {
+      if (!oldVal.includes('000000') && !val.includes('000000')) {
         if (val.length === allValue.length - 1) {
-          this.selectCityList = ['all'].concat(val)
+          this.selectCityList = ['000000'].concat(val)
         }
       }
       this.oldSelectCityList[1] = this.selectCityList
@@ -269,7 +524,7 @@ export default {
           if (res.ret === '200000') {
             this.areaList = res.data
             this.areaList.unshift({
-              code: 'all',
+              code: '000000',
               name: '全部'
             })
             return
@@ -280,46 +535,149 @@ export default {
     },
     // 选择区
     selectAll(val) {
+      this.restrictArea()
       let allValue = []
       for (let item of this.areaList) {
         allValue.push(item.code)
       }
       const oldVal = this.oldSelectAreaList.length === 1 ? [] : this.oldSelectAreaList[1]
-      if (val.includes('all')) this.selectAreaList = allValue
-      if (oldVal.includes('all') && !val.includes('all')) this.selectAreaList = []
-      if (oldVal.includes('all') && val.includes('all')) {
-        const index = val.indexOf('all')
+      if (val.includes('000000')) this.selectAreaList = allValue
+      if (oldVal.includes('000000') && !val.includes('000000')) this.selectAreaList = []
+      if (oldVal.includes('000000') && val.includes('000000')) {
+        const index = val.indexOf('000000')
         val.splice(index, 1)
         this.selectAreaList = val
       }
-      if (!oldVal.includes('all') && !val.includes('all')) {
+      if (!oldVal.includes('000000') && !val.includes('000000')) {
         if (val.length === allValue.length - 1) {
-          this.selectAreaList = ['all'].concat(val)
+          this.selectAreaList = ['000000'].concat(val)
         }
       }
       this.oldSelectAreaList[1] = this.selectAreaList
     },
-    handleTabsEdit(targetName, action) {
+
+    // 保存
+    save() {
+      // console.log(this.normalConf)
+      if (this.selectBrand.length == 0 || this.selectSonBrand.length == 0) return this.$message.error('请选择品牌规格')
+      if (this.selectProvList.length == 0 || this.selectCityList.length == 0 || this.selectAreaList.length == 0) return this.$message.error('请选择地区')
+      this.act.id = this.id
+      this.act.actCode = this.actCode
+      this.no
+      let data = {
+        act: {},
+        strategyArr: []
+      }
+      data.act = this.act
+      data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
+      data.strategyArr[0].awardArr = this.normalConf
+      data.strategyArr[0].areas.cityArr = this.selectCityList
+      data.strategyArr[0].areas.districtArr = this.selectAreaList
+      data.strategyArr[0].areas.provinceArr = this.selectProvList
+      data.strategyArr[0].brandArr = this.selectBrand
+      data.strategyArr[0].snArr = this.selectSonBrand
+      data.strategyArr[0].tfType = 'common'
+      let index = 0
+      if (this.firstScanFlag) {
+        data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
+        index = data.strategyArr.length
+        data.strategyArr[index - 1].awardArr = this.firstScanConf
+        data.strategyArr[index - 1].confOpen = true
+        data.strategyArr[index - 1].tfType = 'sn_first'
+      }
+      if (this.nWinFlag) {
+        data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
+        index = data.strategyArr.length
+        data.strategyArr[index - 1].awardArr = this.nWinConf
+        data.strategyArr[index - 1].confOpen = true
+        data.strategyArr[index - 1].tfType = 'n_mwin'
+      }
+      if (this.fixationPutFlag) {
+        data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
+        index = data.strategyArr.length
+        data.strategyArr[index - 1].areas = this.specialAreas
+        data.strategyArr[index - 1].awardArr = this.fixationPutConf
+        data.strategyArr[index - 1].confOpen = true
+        data.strategyArr[index - 1].brandArr = this.specialBrand.brandArr
+        data.strategyArr[index - 1].snArr = this.specialBrand.snArr
+        data.strategyArr[index - 1].tf['sduration'] = this.tfDurationArr[0]
+        data.strategyArr[index - 1].tf['eduration'] = this.tfDurationArr[1]
+        data.strategyArr[index - 1].tf['stimeStr'] = this.tfTimeArr[0]
+        data.strategyArr[index - 1].tf['etimeStr'] = this.tfTimeArr[1]
+        data.strategyArr[index - 1].tfType = 'special'
+      }
+      this.$request.post('/api/saotx/act/somtf', data, true, res => {
+        if (res.ret === '200000') {
+          this.$message.success('保存成功')
+          this.$router.push('/market/actMgr')
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+
+    normalTabsEdit(targetName, action) {
+      // if (action === 'add') {
+      //   if (this.normalConf.length == 10) return
+      //   // 深拷贝 防止数据相互串通
+      //   let newAwae = JSON.parse(JSON.stringify(this.defaultAwae))
+      //   this.normalConf.push(newAwae)
+      //   let newTabTitle = '常规奖项' + ++this.normalIndex
+      //   this.normalTabs.push({
+      //     title: newTabTitle,
+      //     name: this.normalIndex + ''
+      //   })
+      //   this.normalTabsValue = this.normalIndex + ''
+      // }
+      // if (action === 'remove') {
+      //   if (this.normalConf.length == 1) return
+      //   let tabs = this.normalTabs
+      //   let activeName = this.normalTabsValue
+      //   let removeIndex = tabs.indexOf(activeName)
+      //   this.normalConf.splice(removeIndex, 1)
+      //   if (activeName === targetName) {
+      //     tabs.forEach((tab, index) => {
+      //       if (tab.name === targetName) {
+      //         let nextTab = tabs[index + 1] || tabs[index - 1];
+      //         if (nextTab) {
+      //           activeName = nextTab.name;
+      //         }
+      //       }
+      //     });
+      //   }
+      //   this.normalTabsValue = activeName;
+      //   this.normalTabs = tabs.filter(tab => tab.name !== targetName)
+      // }
+      this.addRoRemove('normal', targetName, action)
+    },
+    firstScanTabsEdit(targetName, action) {
+      this.addRoRemove('firstScan', targetName, action)
+    },
+    nWinTabsEdit(targetName, action) {
+      this.addRoRemove('nWin', targetName, action)
+    },
+    fixationPutTabsEdit(targetName, action) {
+      this.addRoRemove('fixationPut', targetName, action)
+    },
+    addRoRemove(confName, targetName, action) {
       if (action === 'add') {
-        if (this.awaeArr.length == 10) return
+        if (this[confName + 'Conf'].length == 10) return
         // 深拷贝 防止数据相互串通
         let newAwae = JSON.parse(JSON.stringify(this.defaultAwae))
-        this.awaeArr.push(newAwae)
-        this.prizeTypeArr.push(this.prizeTypeArr[0])
-        let newTabTitle = '常规奖项' + ++this.tabIndex
-        this.editableTabs.push({
+        this[confName + 'Conf'].push(newAwae)
+        let newTabTitle = '常规奖项' + ++this[confName + 'Index']
+        this[confName + 'Tabs'].push({
           title: newTabTitle,
-          name: this.tabIndex + ''
+          name: this[confName + 'Index'] + ''
         })
-        this.editableTabsValue = this.tabIndex + ''
+        this[confName + 'TabsValue'] = this[confName + 'Index'] + ''
       }
       if (action === 'remove') {
-        if (this.awaeArr.length == 1) return
-        let tabs = this.editableTabs
-        let activeName = this.editableTabsValue
+        if (this[confName + 'Conf'].length == 1) return
+        let tabs = this[confName + 'Tabs']
+        let activeName = this[confName + 'TabsValue']
         let removeIndex = tabs.indexOf(activeName)
-        this.awaeArr.splice(removeIndex, 1)
-        this.prizeTypeArr.splice(removeIndex, 1)
+        this[confName + 'Conf'].splice(removeIndex, 1)
         if (activeName === targetName) {
           tabs.forEach((tab, index) => {
             if (tab.name === targetName) {
@@ -330,9 +688,67 @@ export default {
             }
           });
         }
-        this.editableTabsValue = activeName;
-        this.editableTabs = tabs.filter(tab => tab.name !== targetName)
+        this[confName + 'TabsValue'] = activeName;
+        this[confName + 'Tabs'] = tabs.filter(tab => tab.name !== targetName)
       }
+    },
+    // 定点投放地区限制
+    restrictProv() {
+      this.specialProvList = JSON.parse(JSON.stringify(this.provList))
+      this.specialProvList.forEach(speciaItem => {
+        speciaItem['disabled'] = true
+        this.selectProvList.forEach(item => {
+          if (speciaItem.code == item) {
+            speciaItem['disabled'] = false
+          }
+        })
+      })
+    },
+    restrictCity() {
+      this.specialCityList = JSON.parse(JSON.stringify(this.cityList))
+      this.specialCityList.forEach(speciaItem => {
+        speciaItem['disabled'] = true
+        this.selectCityList.forEach(item => {
+          if (speciaItem.code == item) {
+            speciaItem['disabled'] = false
+          }
+        })
+      })
+    },
+    restrictArea() {
+      this.specialAreaList = JSON.parse(JSON.stringify(this.areaList))
+      this.specialAreaList.forEach(speciaItem => {
+        speciaItem['disabled'] = true
+        this.selectAreaList.forEach(item => {
+          if (speciaItem.code == item) {
+            speciaItem['disabled'] = false
+          }
+        })
+      })
+    },
+    // 定点投放品牌限制
+    restrictBrand() {
+      this.specialBrandList = JSON.parse(JSON.stringify(this.brandList))
+      this.specialBrandList.forEach(speciaItem => {
+        speciaItem['disabled'] = true
+        this.selectBrand.forEach(item => {
+          if (speciaItem.brandCode == item) {
+            speciaItem['disabled'] = false
+          }
+        })
+      })
+    },
+    restrictSonBrand() {
+      this.specialBrandSonList = JSON.parse(JSON.stringify(this.brandSonList))
+      this.specialBrandSonList.forEach(speciaItem => {
+        speciaItem['disabled'] = true
+        this.selectSonBrand.forEach(item => {
+          if (speciaItem.brandCode == item) {
+            speciaItem['disabled'] = false
+          }
+        })
+      })
     }
+
   }
 }

@@ -32,6 +32,9 @@ import CashRedPackDayPage from '@/pages/Report/henan/CashRedPackDayPage.vue'
 import RealDrawDayPage from '@/pages/Report/henan/RealDrawDayPage.vue'
 import IntegralOperDayPage from '@/pages/Report/henan/IntegralOperDayPage.vue'
 import IntegralExchDayPage from '@/pages/Report/henan/IntegralExchDayPage.vue'
+//用户分析-用户群体分析
+import AnalysisPage from '@/pages/UserAnalysis/AnalysisPage.vue'
+
 
 
 
@@ -64,6 +67,9 @@ import DataVisit from '@/pages/Datas/Visit.vue'
 import DataOperateSteal from '@/pages/Datas/Operate/Steal.vue'
 // 数据-异常码管理-假码举报
 import DataFakeCodeReport from '@/pages/Datas/FakeCode/Report.vue'
+// 数据-异常码管理-二维码激活
+import DataQrcodeActive from '@/pages/Datas/FakeCode/QrcodeActive.vue'
+
 
 //产品-产品管理-烟草管理
 import tobacco from '@/pages/Product/ProductManagement/TobaccoMgr'
@@ -93,6 +99,8 @@ import ModPwd from '@/pages/Setting/User/ModPwd.vue'
 import SettingAccount from '@/pages/Setting/User/Account.vue'
 // 设置-账号管理-角色管理
 import SettingRole from '@/pages/Setting/User/Role.vue'
+// 设置-账号管理-角色管理
+import SettingSeller from '@/pages/Setting/Seller.vue'
 //菜单配置
 import MenuConf from '@/pages/Wplat/MenuConf/MenuConf.vue'
 //扫码落地页配置
@@ -104,6 +112,8 @@ import wplatHome from '@/pages/Wplat/WplatConf/WplatHome.vue'
 import Activities from '@/pages/Wplat/WplatConf/Activities.vue'
 import Shop from '@/pages/Wplat/WplatConf/Shop.vue'
 import Person from '@/pages/Wplat/WplatConf/Person.vue'
+// 数据-主题查询-KPI指标总览
+import DataThemeReview from '@/pages/Datas/ThemeSearch/Review.vue'
 //首页主题查询中的地域查询
 import RegionSearch from '@/pages/Datas/ThemeSearch/RegionSearch.vue'
 //首页主题查询中的规格查询
@@ -111,8 +121,10 @@ import SpecSearch from '@/pages/Datas/ThemeSearch/SpecSearch.vue'
 Vue.use(Router)
 //多维查询
 import MultiSearch from '@/pages/Datas/MultiSearch/MultiSearch.vue'
+//用户分析---画像
+import UserPortrait from '@/pages/Datas/UserAnalysis/UserPortrait.vue'
 export default new Router({
-  mode: 'history',
+  //mode: 'history',
   routes: [
     {
       path: '/login',
@@ -159,7 +171,7 @@ export default new Router({
         { path: '/datas/agree', name: '履约报表', component: DataAgree },
         { path: '/datas/visit', name: '回访报表', component: DataVisit },
         { path: '/datas/theme', name: '主题查询', redirect: '/datas/theme/kpiReview', },
-        { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: KPI },
+        { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: DataThemeReview },
         { path: '/datas/theme/region', name: '地域查询', component: RegionSearch },
         { path: '/datas/theme/spec', name: '规格查询', component: SpecSearch },
         { path: '/datas/track', name: '活动追踪', redirect: '/datas/track/realtime' },
@@ -167,8 +179,8 @@ export default new Router({
         { path: '/datas/track/dayanalysis', name: '活动日常分析', component: KPI },
         { path: '/datas/track/pathdetail', name: '页面路径转化信息', component: KPI },
         { path: '/datas/userAnalysis', name: '用户分析', redirect: '/datas/userAnalysis/analysis' },
-        { path: '/datas/userAnalysis/analysis', name: '用户分析', component: KPI },
-        { path: '/datas/userAnalysis/portraitu', name: '用户画像', component: KPI },
+        { path: '/datas/userAnalysis/analysis', name: '用户分析', component: AnalysisPage },
+        { path: '/datas/userAnalysis/portraitu', name: '用户画像', component: UserPortrait },
         { path: '/datas/userAnalysis/label', name: '用户标签', component: KPI },
         { path: '/datas/sellerDatas', name: '零售户', redirect: '/datas/sellerDatas/develop' },
         { path: '/datas/sellerDatas/develop', name: '发展情况概况', component: DataSellerOverview },
@@ -177,7 +189,7 @@ export default new Router({
         { path: '/datas/operate/steal', name: '盗扫明细', component: DataOperateSteal },
         { path: '/datas/fakeCode', name: '异常码明细', redirect: '/datas/fakeCode/Report' },
         { path: '/datas/fakeCode/Report', name: '假码举报', component: DataFakeCodeReport },
-        { path: '/datas/fakeCode/qrcodeActive', name: '二维码激活', component: KPI },
+        { path: '/datas/fakeCode/qrcodeActive', name: '二维码激活', component: DataQrcodeActive },
         // 微平台
         { path: '/weplat', name: '微平台', redirect: '/weplat/mgr' },
         { path: '/weplat/down', name: '扫码落地页', component: ScanConf },
@@ -210,9 +222,14 @@ export default new Router({
         { path: '/market/actTpl', name: '活动模板', component: ActTpl },
         { path: '/market/actMgr', name: '活动管理', component: ActMgc },
         { path: '/market/actTpl/addAct', name: '新建活动模板配置', component: AddAct, props: (router) => ({id: router.query.id})},
+<<<<<<< HEAD
         { path: '/market/actTpl/fanpaizi', name: '新建活动模板配置', component: Fanpaizi, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/actSetConf', name: '基础设置', component: ActSetConf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode}) },
         { path: '/market/actTpl/actPutConf', name: '投放设置', component: ActPutConf, props: (router) => ({id: router.query.form, actCode: router.query.actCode}) },
+=======
+        { path: '/market/actTpl/actSetConf', name: '基础设置', component: ActSetConf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode, id: router.query.id, clone: router.query.clone,}) },
+        { path: '/market/actTpl/actPutConf', name: '投放设置', component: ActPutConf, props: (router) => ({id: router.query.id, actCode: router.query.actCode}) },
+>>>>>>> d046d9a73ea1690e5123c50bf13e3c790cce52cc
         { path: '/orders', name: '订单', redirect: '/orders/act' },
         { path: '/orders/seller', name: '零售户订单', component: KPI },
         { path: '/orders/member', name: '权益订单', component: KPI },
@@ -229,12 +246,15 @@ export default new Router({
         { path: '/Orders/mall/integral', name: '积分活动订单', component: ScoreOrderPage },
         // 零售户
         { path: '/seller', name: '零售户', redirect: '/seller/review' },
-        { path: '/seller/review', name: '审核管理', component: KPI },
-        { path: '/seller/mgr', name: '零售户管理', component: KPI },
-        { path: '/seller/tx', name: '提现审核', component: KPI },
+        { path: '/seller/review', name: '审核管理', component: reviewmanage},
+        { path: '/seller/reviewDetail', name: '审核管理', component: reviewDetail,props: (route) => ({sellerId:route.query.sellerId})},
+        { path: '/seller/addSeller', name: '新增零售户', component: addSeller},
+        { path: '/seller/mgr', name: '零售户管理', component: sellerManage},
+        { path: '/seller/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
+        { path: '/seller/tx', name: '提现审核', component: amountExamine},
         { path: '/seller/achievement', name: '零售户业绩', component: KPI },
         { path: '/seller/rebate', name: '返佣管理', redirect: '/seller/rebate/mgr' },
-        { path: '/seller/rebate/mgr', name: '扫码返佣管理', component: KPI },
+        { path: '/seller/rebate/mgr', name: '扫码返佣管理', component: rebateManage },
         // 商城
         { path: '/mall', name: '商城', redirect: '/mall/auth' },
         { path: '/mall/auth', name: '审核管理', component: auditManage },
@@ -264,7 +284,7 @@ export default new Router({
         { path: '/setting/user/account', name: '成员管理', component: SettingAccount },
         { path: '/setting/user/role', name: '角色管理', component: SettingRole },
         { path: '/setting/logs', name: '日志管理', component: SettingLogs },
-        { path: '/setting/seller', name: '零售户管理', component: KPI },
+        { path: '/setting/seller', name: '零售户管理', component: SettingSeller },
         { path: '/setting/mall', name: '积分设置', component: KPI }
         // {
         //   path: 'datas',
@@ -520,3 +540,17 @@ import addCommendTpmC from '../pages/Mall/RecommendManage/Template/AddCommendTpm
 // 商城-推荐位管理-编辑推荐位C
 import editCommendTpmC from '../pages/Mall/RecommendManage/Template/EditCommendTpmC'
 
+//零售户-审核管理
+import reviewmanage from '../pages/Seller/Reviewmanage/ReviewManage'
+//零售户-审核详情
+import reviewDetail from  '../pages/Seller/Reviewmanage/ReviewDetail'
+//零售户-新增零售户
+import addSeller from  '../pages/Seller/AddSeller/AddSeller'
+//零售户-零售户管理
+import sellerManage from '../pages/Seller/SellerManage/SellerManage'
+//零售户-零售户管理-详情
+import sellerDetail from '../pages/Seller/SellerManage/SelllerDetail'
+//零售户-提现审核
+import amountExamine from '../pages/Seller/AmountExamine/AmountExamine'
+//零售户-返佣管理-扫码返佣管理
+import rebateManage from '../pages/Seller/RebateManage/RebateManage'

@@ -22,7 +22,7 @@
                 v-model="filters.startTime"
                 type="datetime"
                 placeholder="选择日期时间"
-                value-format="yyyy-MM-dd hh:ss"
+                value-format="yyyy-MM-dd HH:mm"
                 style="width: 200px">
             </el-date-picker>
           </el-form-item>
@@ -31,7 +31,7 @@
                 v-model="filters.endTime"
                 type="datetime"
                 placeholder="选择日期时间"
-                value-format="yyyy-MM-dd hh:ss"
+                value-format="yyyy-MM-dd HH:mm"
                 style="width: 200px">
             </el-date-picker>
           </el-form-item>
