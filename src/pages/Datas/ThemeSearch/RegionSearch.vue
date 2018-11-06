@@ -543,7 +543,7 @@
 					res => {
 						that.loading2=false;
 						var data = res || [];
-						data=DATA.no1;
+//						data=DATA.no1;
 						var showArr=[];
 						if(data.length != 0) {
 							data.forEach(item=>{
@@ -588,7 +588,7 @@
 					res => {
 						that.loading3=false;
 						var data = res || [];
-						data=DATA.no2;
+//						data=DATA.no2;
 						var showDateArr=[];
 						var scanPvArr=[];
 						var scanCodeArr=[];
@@ -663,7 +663,7 @@
 					res => {
 						that.loading4=false;
 						var data = res || [];
-						data=DATA.no3;
+//						data=DATA.no3;
 						var awardPayPvArr=[];
 						var awardPutPvArr=[];
 						var drawPvArr=[];
@@ -745,7 +745,7 @@
 					res => {
 						that.loading5=false;
 						var data = res || [];
-						data=DATA.no4;
+//						data=DATA.no4;
 						var scanCodeArr=[];
 						var scanPairArr=[];
 						var showX=[];
@@ -813,7 +813,7 @@
 					res => {
 						that.loading6=false;
 						var data = res || [];
-						data=DATA.no5;
+//						data=DATA.no5;
 						var scanPvArr=[];
 						var showX=[];
 						if(data.length != 0) {
@@ -886,7 +886,7 @@
 					res => {
 						that.loading7=false;
 						var data = res || [];
-						data=DATA.no6;
+//						data=DATA.no6;
 						var allDataArr=[];
 						if(data.length != 0) {
 							data.forEach(item=>{

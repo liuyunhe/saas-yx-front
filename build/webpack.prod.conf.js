@@ -23,9 +23,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     })
   },
   externals: {
-    vue: 'Vue',
     axios: 'axios',
-    // 'vue-router': 'Router',
     lodash: '_',
     nprogress: 'NProgress',
     echarts: 'echarts'
@@ -33,6 +31,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
   output: {
     path: config.build.assetsRoot,
+    publicPath: './',
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },

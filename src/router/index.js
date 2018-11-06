@@ -102,6 +102,14 @@ const RegionSearch = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas
 const SpecSearch = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/ThemeSearch/SpecSearch.vue')
 const MultiSearch = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/MultiSearch/MultiSearch.vue')
 const KPI = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/KPI/KPI.vue')
+//用户分析---画像
+const UserPortrait = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/UserAnalysis/UserPortrait.vue')
+//用户分析-用户群体分析
+const AnalysisPage = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/UserAnalysis/AnalysisPage.vue')
+// //用户分析---画像
+// import UserPortrait from '@/pages/Datas/UserAnalysis/UserPortrait.vue'
+// //用户分析-用户群体分析
+// import AnalysisPage from '@/pages/Datas/UserAnalysis/AnalysisPage.vue'
 
 // 数据-零售户-发展情况概况
 // import DataSellerOverview from '@/pages/Datas/SellerData/Overview.vue'
@@ -361,8 +369,8 @@ export default new Router({
         { path: '/datas/track/dayanalysis', name: '活动日常分析', component: KPI },
         { path: '/datas/track/pathdetail', name: '页面路径转化信息', component: KPI },
         { path: '/datas/userAnalysis', name: '用户分析', redirect: '/datas/userAnalysis/analysis' },
-        { path: '/datas/userAnalysis/analysis', name: '用户分析', component: KPI },
-        { path: '/datas/userAnalysis/portraitu', name: '用户画像', component: KPI },
+        { path: '/datas/userAnalysis/analysis', name: '用户分析', component: AnalysisPage },
+        { path: '/datas/userAnalysis/portraitu', name: '用户画像', component: UserPortrait ,props: (route) => ({mobileNo:route.query.mobileNo})},
         { path: '/datas/userAnalysis/label', name: '用户标签', component: KPI },
         { path: '/datas/sellerDatas', name: '零售户', redirect: '/datas/sellerDatas/develop' },
         { path: '/datas/sellerDatas/develop', name: '发展情况概况', component: DataSellerOverview },
