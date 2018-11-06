@@ -23,10 +23,10 @@ const webpackConfig = merge(baseWebpackConfig, {
     })
   },
   externals: {
-    axios: 'axios',
-    lodash: '_',
-    nprogress: 'NProgress',
-    echarts: 'echarts'
+    // axios: 'axios',
+    // lodash: '_',
+    // nprogress: 'NProgress',
+    // echarts: 'echarts'
   },
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
   output: {
