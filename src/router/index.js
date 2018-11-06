@@ -33,7 +33,7 @@ import RealDrawDayPage from '@/pages/Report/henan/RealDrawDayPage.vue'
 import IntegralOperDayPage from '@/pages/Report/henan/IntegralOperDayPage.vue'
 import IntegralExchDayPage from '@/pages/Report/henan/IntegralExchDayPage.vue'
 //用户分析-用户群体分析
-import AnalysisPage from '@/pages/UserAnalysis/AnalysisPage.vue'
+import AnalysisPage from '@/pages/Datas/UserAnalysis/AnalysisPage.vue'
 
 
 
@@ -179,7 +179,7 @@ export default new Router({
         { path: '/datas/track/pathdetail', name: '页面路径转化信息', component: KPI },
         { path: '/datas/userAnalysis', name: '用户分析', redirect: '/datas/userAnalysis/analysis' },
         { path: '/datas/userAnalysis/analysis', name: '用户分析', component: AnalysisPage },
-        { path: '/datas/userAnalysis/portraitu', name: '用户画像', component: UserPortrait },
+        { path: '/datas/userAnalysis/portraitu', name: '用户画像', component: UserPortrait ,props: (route) => ({mobileNo:route.query.mobileNo})},
         { path: '/datas/userAnalysis/label', name: '用户标签', component: KPI },
         { path: '/datas/sellerDatas', name: '零售户', redirect: '/datas/sellerDatas/develop' },
         { path: '/datas/sellerDatas/develop', name: '发展情况概况', component: DataSellerOverview },
