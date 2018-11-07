@@ -1,12 +1,12 @@
 <template>
   <div class="actMgr-container">
     <el-card>
-      <el-button type="primary" class="ml20" @click="addAct">新建活动</el-button>
+      <el-button type="primary" size="small" class="ml20" @click="addAct">新建活动</el-button>
       <el-form label-width="80px" label-position="left">
         <el-row :gutter="30">
           <el-col :span="8">
             <el-form-item label="选择品牌:">
-              <el-select v-model="queryActParams.brandCodeArr" multiple placeholder="请选择" @change="getSonBrandList">
+              <el-select size="small" v-model="queryActParams.brandCodeArr" multiple placeholder="请选择" @change="getSonBrandList">
                 <el-option v-for="item in brandList" :key="item.brandCode" :label="item.name" :value="item.brandCode">
                 </el-option>
               </el-select>
@@ -14,7 +14,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="选择规格:">
-              <el-select v-model="queryActParams.snArr" multiple placeholder="请选择">
+              <el-select size="small" v-model="queryActParams.snArr" multiple placeholder="请选择">
                 <el-option v-for="item in sonBrandList" :key="item.brandCode" :label="item.name" :value="item.brandCode">
                 </el-option>
               </el-select>
@@ -22,7 +22,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="活动状态:">
-              <el-select v-model="queryActParams.status" placeholder="请选择">
+              <el-select size="small" v-model="queryActParams.status" placeholder="请选择">
                 <el-option v-for="(value, key) in actStatusObj" :key="key" :label="value" :value="key">
                 </el-option>
               </el-select>
@@ -32,37 +32,37 @@
         <el-row :gutter="30">
           <el-col :span="6">
             <el-form-item label="关键词:">
-              <el-input v-model="queryActParams.keywords" placeholder="请输入关键词"></el-input>
+              <el-input size="small" v-model="queryActParams.keywords" placeholder="请输入关键词"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="16" :offset="2">
             <el-form-item label="地区:">
-              <el-select :disabled="isDisabled" v-model="selectProvList" multiple collapse-tags placeholder="请选择" @change="getCityList">
+              <el-select size="small" :disabled="isDisabled" v-model="selectProvList" multiple collapse-tags placeholder="请选择" @change="getCityList">
                 <el-option v-for="item in provList" :key="item.code" :label="item.name" :value="item.code">
                 </el-option>
               </el-select>
-              <el-select :disabled="isDisabled" v-model="selectCityList" multiple collapse-tags placeholder="请选择" @change="selectArea">
+              <el-select size="small" :disabled="isDisabled" v-model="selectCityList" multiple collapse-tags placeholder="请选择" @change="selectArea">
                 <el-option v-if="cityList" v-for="item in cityList" :key="item.code" :label="item.name" :value="item.code">
                 </el-option>
               </el-select>
-              <el-checkbox v-model="isDisabled" label="全部地区" border></el-checkbox>
+              <el-checkbox size="small" v-model="isDisabled" label="全部地区" border></el-checkbox>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="30">
           <el-col :span="10">
             <el-form-item label="时间段:">
-              <el-date-picker v-model="actTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="datetimerange" :editable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+              <el-date-picker size="small" v-model="actTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="datetimerange" :editable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
               </el-date-picker>
             </el-form-item>
           </el-col>
           <el-col>
-            <el-button type="primary" @click="getActList">查询</el-button>
-            <el-button type="primary" @click="resetForm">重置</el-button>
+            <el-button type="primary" size="small" @click="getActList">查询</el-button>
+            <el-button type="primary" size="small" @click="resetForm">重置</el-button>
           </el-col>
         </el-row>
       </el-form>
-      <el-table :data="actList" border style="width: 100%" :stripe="true">
+      <el-table v-loading="loading" :data="actList" border style="width: 100%" :stripe="true">
         <el-table-column type="index" width="50" label="序号" align="center">
         </el-table-column>
         <el-table-column property="hdCode" label="活动编号" align="center" width="180px">
@@ -304,7 +304,8 @@ export default {
       normalLogList: [],
       firstScanLogList: [],
       nWinLogList: [],
-      fixationLogList: []
+      fixationLogList: [],
+      loading: true
     }
   },
   created() {
@@ -345,6 +346,7 @@ export default {
         if (res.ret === '200000') {
           this.actList = res.data.list
           this.actListTotal = res.data.page.count
+          this.loading = false
           return
         }
         this.$message.error(res.message)

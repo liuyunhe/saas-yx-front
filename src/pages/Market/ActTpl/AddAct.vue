@@ -180,7 +180,7 @@
           <p>是否投放: <el-switch v-model="isPut">
             </el-switch>
           </p>
-          <el-button type="primary" @click="saveActTpl">保存</el-button>
+          <el-button size="small" type="primary" @click="saveActTpl">保存</el-button>
         </div>
       </el-tabs>
     </el-card>

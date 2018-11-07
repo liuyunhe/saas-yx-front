@@ -6,12 +6,12 @@
   -->
   <div class="actTpl-container" v-cloak>
     <el-card>
-      <el-button type="primary" size="medium" @click="addAct()">新建活动模板</el-button>
+      <el-button type="primary" size="small" @click="addAct()">新建活动模板</el-button>
       <el-form ref="form" :model="actListParams" label-width="80px">
         <el-row>
           <el-col :span="7">
             <el-form-item label="模板类型">
-              <el-select v-model="actListParams.form">
+              <el-select size="small" v-model="actListParams.form">
                 <el-option v-for="item in selectOption" :key="item.form" :label="item.name" :value="item.form"></el-option>
               </el-select>
             </el-form-item>
@@ -19,19 +19,19 @@
           <el-col :span="7">
             <el-form-item label="时间段">
               <el-col>
-                <el-date-picker type="date" placeholder="开始时间" v-model="actListParams.ctime" style="width: 100%;"></el-date-picker>
+                <el-date-picker size="small" type="date" placeholder="开始时间" v-model="actListParams.ctime" style="width: 100%;"></el-date-picker>
               </el-col>
             </el-form-item>
           </el-col>
           <el-col :span="7">
             <el-form-item label="关键词">
-              <el-input v-model="actListParams.keyword" placeholder="请输入关键词"></el-input>
+              <el-input size="small" v-model="actListParams.keyword" placeholder="请输入关键词"></el-input>
             </el-form-item>
           </el-col>
           <el-col>
             <!-- 按钮 -->
-            <el-button type="primary" @click="getActList()">查询</el-button>
-            <el-button type="primary" @click="resetSearch()">重置</el-button>
+            <el-button type="primary" size="small" @click="getActList()">查询</el-button>
+            <el-button type="primary" size="small" @click="resetSearch()">重置</el-button>
           </el-col>
         </el-row>
       </el-form>

@@ -1,37 +1,67 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import Login from '@/pages/Login/Login.vue'
 import Find from '@/pages/Login/Find.vue'
 // import TopMenu from '@/components/TopMenu.vue'  //主体框架头部菜单
 import Home from '@/pages/Home.vue'
-import KPI from '@/pages/Datas/KPI/KPI.vue'
+// import KPI from '@/pages/Datas/KPI/KPI.vue'
 //活动订单管理
-import ObjectPage from '@/pages/Orders/ACT/ObjectPage.vue'
-import ObjectPageDetail from  '@/pages/Orders/ACT/ObjectPageDetail.vue'
-import VirtualPage from '@/pages/Orders/ACT/VirtualPage.vue'
-import RedpackPage from '@/pages/Orders/ACT/RedpackPage.vue'
-import IntegralPage from '@/pages/Orders/ACT/IntegralPage.vue'
+const ObjectPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/ACT/ObjectPage.vue')
+const ObjectPageDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/ACT/ObjectPageDetail.vue')
+const VirtualPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/ACT/VirtualPage.vue')
+const RedpackPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/ACT/RedpackPage.vue')
+const IntegralPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/ACT/IntegralPage.vue')
 //商城订单管理
-import ZjOrderPage from '@/pages/Orders/mall/ZjOrderPage.vue'
-import ZjOrderPageDetail from '@/pages/Orders/mall/ZjOrderPageDetail.vue'
-import JdOrderPage from '@/pages/Orders/mall/JdOrderPage.vue'
+const ZjOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ZjOrderPage.vue')
+const ZjOrderPageDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ZjOrderPageDetail.vue')
+const JdOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/JdOrderPage.vue')
 //积分活动订单管理
-import ScoreOrderPage from '@/pages/Orders/mall/ScoreOrderPage.vue'
+const ScoreOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ScoreOrderPage.vue')
+// //活动订单管理
+// import ObjectPage from '@/pages/Orders/ACT/ObjectPage.vue'
+// import ObjectPageDetail from  '@/pages/Orders/ACT/ObjectPageDetail.vue'
+// import VirtualPage from '@/pages/Orders/ACT/VirtualPage.vue'
+// import RedpackPage from '@/pages/Orders/ACT/RedpackPage.vue'
+// import IntegralPage from '@/pages/Orders/ACT/IntegralPage.vue'
+// //商城订单管理
+// import ZjOrderPage from '@/pages/Orders/mall/ZjOrderPage.vue'
+// import ZjOrderPageDetail from '@/pages/Orders/mall/ZjOrderPageDetail.vue'
+// import JdOrderPage from '@/pages/Orders/mall/JdOrderPage.vue'
+// //积分活动订单管理
+// import ScoreOrderPage from '@/pages/Orders/mall/ScoreOrderPage.vue'
+
 //河北固定报表管理
-import HbReportPage from '@/pages/Report/ReportPage.vue'
-import ScanWeekPage from '@/pages/Report/hebei/ScanWeekPage.vue'
-import ScanMonthPage from '@/pages/Report/hebei/ScanMonthPage.vue'
-import RedPacketWeekPage from '@/pages/Report/hebei/RedPacketWeekPage.vue'
-import RedPacketMonthPage from '@/pages/Report/hebei/RedPacketMonthPage.vue'
-import CountyWeekPage from '@/pages/Report/hebei/CountyWeekPage.vue'
-import CountyMonthPage from '@/pages/Report/hebei/CountyMonthPage.vue'
+const HbReportPage = () => import(/* webpackChunkName: "hebeiReport" */ '@/pages/Report/ReportPage.vue')
+const ScanWeekPage = () => import(/* webpackChunkName: "hebeiReport" */ '@/pages/Report/hebei/ScanWeekPage.vue')
+const ScanMonthPage = () => import(/* webpackChunkName: "hebeiReport" */ '@/pages/Report/hebei/ScanMonthPage.vue')
+const RedPacketWeekPage = () => import(/* webpackChunkName: "hebeiReport" */ '@/pages/Report/hebei/RedPacketWeekPage.vue')
+const RedPacketMonthPage = () => import(/* webpackChunkName: "hebeiReport" */ '@/pages/Report/hebei/RedPacketMonthPage.vue')
+const CountyWeekPage = () => import(/* webpackChunkName: "hebeiReport" */ '@/pages/Report/hebei/CountyWeekPage.vue')
+const CountyMonthPage = () => import(/* webpackChunkName: "hebeiReport" */ '@/pages/Report/hebei/CountyMonthPage.vue')
 //河南固定报表管理
-import KpiProDayPage from '@/pages/Report/henan/KpiProDayPage.vue'
-import ActDrawDayPage from '@/pages/Report/henan/ActDrawDayPage.vue'
-import CashRedPackDayPage from '@/pages/Report/henan/CashRedPackDayPage.vue'
-import RealDrawDayPage from '@/pages/Report/henan/RealDrawDayPage.vue'
-import IntegralOperDayPage from '@/pages/Report/henan/IntegralOperDayPage.vue'
-import IntegralExchDayPage from '@/pages/Report/henan/IntegralExchDayPage.vue'
+const KpiProDayPage = () => import(/* webpackChunkName: "henanReport" */ '@/pages/Report/henan/KpiProDayPage.vue')
+const ActDrawDayPage = () => import(/* webpackChunkName: "henanReport" */ '@/pages/Report/henan/ActDrawDayPage.vue')
+const CashRedPackDayPage = () => import(/* webpackChunkName: "henanReport" */ '@/pages/Report/henan/CashRedPackDayPage.vue')
+const RealDrawDayPage = () => import(/* webpackChunkName: "henanReport" */ '@/pages/Report/henan/RealDrawDayPage.vue')
+const IntegralOperDayPage = () => import(/* webpackChunkName: "henanReport" */ '@/pages/Report/henan/IntegralOperDayPage.vue')
+const IntegralExchDayPage = () => import(/* webpackChunkName: "henanReport" */ '@/pages/Report/henan/IntegralExchDayPage.vue')
+
+// //河北固定报表管理
+// import HbReportPage from '@/pages/Report/ReportPage.vue'
+// import ScanWeekPage from '@/pages/Report/hebei/ScanWeekPage.vue'
+// import ScanMonthPage from '@/pages/Report/hebei/ScanMonthPage.vue'
+// import RedPacketWeekPage from '@/pages/Report/hebei/RedPacketWeekPage.vue'
+// import RedPacketMonthPage from '@/pages/Report/hebei/RedPacketMonthPage.vue'
+// import CountyWeekPage from '@/pages/Report/hebei/CountyWeekPage.vue'
+// import CountyMonthPage from '@/pages/Report/hebei/CountyMonthPage.vue'
+// //河南固定报表管理
+// import KpiProDayPage from '@/pages/Report/henan/KpiProDayPage.vue'
+// import ActDrawDayPage from '@/pages/Report/henan/ActDrawDayPage.vue'
+// import CashRedPackDayPage from '@/pages/Report/henan/CashRedPackDayPage.vue'
+// import RealDrawDayPage from '@/pages/Report/henan/RealDrawDayPage.vue'
+// import IntegralOperDayPage from '@/pages/Report/henan/IntegralOperDayPage.vue'
+// import IntegralExchDayPage from '@/pages/Report/henan/IntegralExchDayPage.vue'
 
 
 
@@ -39,87 +69,252 @@ import IntegralExchDayPage from '@/pages/Report/henan/IntegralExchDayPage.vue'
 //import Multi from '@/pages/Datas/Multi/Multi.vue'
 import NotFound from '@/pages/404.vue'
 // 营销
-// const ActTpl = () => import(/* webpackChunkName: "login_home" */ '@/pages/Market/ActTpl/ActTpl')
-// const ActMgc = () => import(/* webpackChunkName: "login_home" */ '@/pages/Market/ActMgr/ActMgr')
-// const AddAct = () => import(/* webpackChunkName: "login_home" */ '@/pages/Market/ActTpl/AddAct')
-// const ActSetConf = () => import(/* webpackChunkName: "login_home" */ '@/pages/Market/ActMgr/ActSetConf')
-// const ActPutConf = () => import(/* webpackChunkName: "login_home" */ '@/pages/Market/ActMgr/ActPutConf')
-import ActTpl from '@/pages/Market/ActTpl/ActTpl.vue'
-import ActMgc from '@/pages/Market/ActMgr/ActMgr.vue'
-import AddAct from '@/pages/Market/ActTpl/AddAct.vue'
-import Fanpaizi from '@/pages/Market/ActTpl/Fanpaizi.ActTpl.vue'
-import ActSetConf from '@/pages/Market/ActMgr/ActSetConf.vue'
-import ActPutConf from '@/pages/Market/ActMgr/ActPutConf.vue'
+const ActTpl = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/ActTpl')
+const ActMgc = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActMgr')
+const AddAct = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddAct')
+const ActSetConf = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActSetConf')
+const ActPutConf = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActPutConf')
+// import ActTpl from '@/pages/Market/ActTpl/ActTpl.vue'
+// import ActMgc from '@/pages/Market/ActMgr/ActMgr.vue'
+// import AddAct from '@/pages/Market/ActTpl/AddAct.vue'
+// import ActSetConf from '@/pages/Market/ActMgr/ActSetConf.vue'
+// import ActPutConf from '@/pages/Market/ActMgr/ActPutConf.vue'
 
 // 数据-零售户-发展情况概况
-import DataSellerOverview from '@/pages/Datas/SellerData/Overview.vue'
+const DataSellerOverview = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/SellerData/Overview.vue')
 // 数据-零售户-明细查询
-import DataSellerDetail from '@/pages/Datas/SellerData/DetailSearch.vue'
+const DataSellerDetail = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/SellerData/DetailSearch.vue')
 // 数据-履约报表
-import DataAgree from '@/pages/Datas/Agree.vue'
+const DataAgree = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/Agree.vue')
 // 数据-回访报表
-import DataVisit from '@/pages/Datas/Visit.vue'
-
+const DataVisit = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/Visit.vue')
 // 数据-运营小工具-盗扫明细
-import DataOperateSteal from '@/pages/Datas/Operate/Steal.vue'
+const DataOperateSteal = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/Operate/Steal.vue')
 // 数据-异常码管理-假码举报
-import DataFakeCodeReport from '@/pages/Datas/FakeCode/Report.vue'
+const DataFakeCodeReport = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/FakeCode/Report.vue')
 // 数据-异常码管理-二维码激活
-import DataQrcodeActive from '@/pages/Datas/FakeCode/QrcodeActive.vue'
+const DataQrcodeActive = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/FakeCode/QrcodeActive.vue')
+// 数据-主题查询-KPI指标总览
+const DataThemeReview = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/ThemeSearch/Review.vue')
+//首页主题查询中的地域查询
+const RegionSearch = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/ThemeSearch/RegionSearch.vue')
+//首页主题查询中的规格查询
+const SpecSearch = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/ThemeSearch/SpecSearch.vue')
+const MultiSearch = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/MultiSearch/MultiSearch.vue')
+const KPI = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/KPI/KPI.vue')
+//用户分析---画像
+const UserPortrait = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/UserAnalysis/UserPortrait.vue')
+//用户分析-用户群体分析
+const AnalysisPage = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/UserAnalysis/AnalysisPage.vue')
+// //用户分析---画像
+// import UserPortrait from '@/pages/Datas/UserAnalysis/UserPortrait.vue'
+// //用户分析-用户群体分析
+// import AnalysisPage from '@/pages/Datas/UserAnalysis/AnalysisPage.vue'
+
+// 数据-零售户-发展情况概况
+// import DataSellerOverview from '@/pages/Datas/SellerData/Overview.vue'
+// import DataSellerDetail from '@/pages/Datas/SellerData/DetailSearch.vue'
+// import DataAgree from '@/pages/Datas/Agree.vue'
+// import DataVisit from '@/pages/Datas/Visit.vue'
+// import DataOperateSteal from '@/pages/Datas/Operate/Steal.vue'
+// import DataFakeCodeReport from '@/pages/Datas/FakeCode/Report.vue'
+// import DataQrcodeActive from '@/pages/Datas/FakeCode/QrcodeActive.vue'
+
+// import DataThemeReview from '@/pages/Datas/ThemeSearch/Review.vue'
+
+// import RegionSearch from '@/pages/Datas/ThemeSearch/RegionSearch.vue'
+
+// import SpecSearch from '@/pages/Datas/ThemeSearch/SpecSearch.vue'
+//多维查询
+// import MultiSearch from '@/pages/Datas/MultiSearch/MultiSearch.vue'
 
 
 //产品-产品管理-烟草管理
-import tobacco from '@/pages/Product/ProductManagement/TobaccoMgr'
-import addTobaccoMr from '@/pages/Product/ProductManagement/AddTobaccoMgr'
-import editTobaccoMr from '@/pages/Product/ProductManagement/EditTobaccoMgr'
+const tobacco = () => import(/* webpackChunkName: "product" */ '@/pages/Product/ProductManagement/TobaccoMgr')
+const addTobaccoMr = () => import(/* webpackChunkName: "product" */ '@/pages/Product/ProductManagement/AddTobaccoMgr')
+const editTobaccoMr = () => import(/* webpackChunkName: "product" */ '@/pages/Product/ProductManagement/EditTobaccoMgr')
 //产品-供应商管理
-import supply from '@/pages/Product/SupplyManagement/Supply'
-import addSupplier from '@/pages/Product/SupplyManagement/AddSupplier'
-import editSupplier from '@/pages/Product/SupplyManagement/EditSupplier'
+const supply = () => import(/* webpackChunkName: "product" */ '@/pages/Product/SupplyManagement/Supply')
+const addSupplier = () => import(/* webpackChunkName: "product" */ '@/pages/Product/SupplyManagement/AddSupplier')
+const editSupplier = () => import(/* webpackChunkName: "product" */ '@/pages/Product/SupplyManagement/EditSupplier')
 // 产品-物料管理-实物礼品
-import MaterielObject from '@/pages/Product/Materiel/Object.vue'
+const MaterielObject = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Object.vue')
 // 产品-物料管理-虚拟礼品
-import MaterielVirtual from '@/pages/Product/Materiel/Virtual.vue'
+const MaterielVirtual = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Virtual.vue')
 // 产品-物料管理-红包礼品
-import MaterielRedpack from '@/pages/Product/Materiel/Redpack.vue'
+const MaterielRedpack = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Redpack.vue')
 // 产品-物料管理-积分礼品
-import MaterielIntegral from '@/pages/Product/Materiel/Integral.vue'
+const MaterielIntegral = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Integral.vue')
 // 产品-物料管理-实物、虚拟、红包、积分表格展示公共页
-import MaterielTable from '@/pages/Product/Materiel/Table.vue'
-import MaterielForm from '@/pages/Product/Materiel/Form.vue'
+const MaterielTable = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Table.vue')
+const MaterielForm = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Form.vue')
+
+// import tobacco from '@/pages/Product/ProductManagement/TobaccoMgr'
+// import addTobaccoMr from '@/pages/Product/ProductManagement/AddTobaccoMgr'
+// import editTobaccoMr from '@/pages/Product/ProductManagement/EditTobaccoMgr'
+
+// import supply from '@/pages/Product/SupplyManagement/Supply'
+// import addSupplier from '@/pages/Product/SupplyManagement/AddSupplier'
+// import editSupplier from '@/pages/Product/SupplyManagement/EditSupplier'
+
+// import MaterielObject from '@/pages/Product/Materiel/Object.vue'
+
+// import MaterielVirtual from '@/pages/Product/Materiel/Virtual.vue'
+
+// import MaterielRedpack from '@/pages/Product/Materiel/Redpack.vue'
+
+// import MaterielIntegral from '@/pages/Product/Materiel/Integral.vue'
+
+// import MaterielTable from '@/pages/Product/Materiel/Table.vue'
+// import MaterielForm from '@/pages/Product/Materiel/Form.vue'
+
 
 // 设置-日志管理
-import SettingLogs from '@/pages/Setting/Logs.vue'
+const SettingLogs = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Logs.vue')
 // 设置-账号管理-修改密码
-import ModPwd from '@/pages/Setting/User/ModPwd.vue'
+const ModPwd = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/User/ModPwd.vue')
 // 设置-账号管理-成员管理
-import SettingAccount from '@/pages/Setting/User/Account.vue'
+const SettingAccount = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/User/Account.vue')
 // 设置-账号管理-角色管理
-import SettingRole from '@/pages/Setting/User/Role.vue'
+const SettingRole = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/User/Role.vue')
 // 设置-账号管理-角色管理
-import SettingSeller from '@/pages/Setting/Seller.vue'
+const SettingSeller = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Seller.vue')
+
+// import SettingLogs from '@/pages/Setting/Logs.vue'
+
+// import ModPwd from '@/pages/Setting/User/ModPwd.vue'
+
+// import SettingAccount from '@/pages/Setting/User/Account.vue'
+
+// import SettingRole from '@/pages/Setting/User/Role.vue'
+
+// import SettingSeller from '@/pages/Setting/Seller.vue'
+
+
 //菜单配置
-import MenuConf from '@/pages/Wplat/MenuConf/MenuConf.vue'
+const MenuConf = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/MenuConf/MenuConf.vue')
 //扫码落地页配置
-import ScanConf from '@/pages/Wplat/ScanConf/ScanConf.vue'
+const ScanConf = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/ScanConf/ScanConf.vue')
 //平台风格配置
-import StyleConf from '@/pages/Wplat/StyleConf/StyleConf.vue'
+const StyleConf = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/StyleConf/StyleConf.vue')
 //微平台管理的四个子菜单
-import wplatHome from '@/pages/Wplat/WplatConf/WplatHome.vue'
-import Activities from '@/pages/Wplat/WplatConf/Activities.vue'
-import Shop from '@/pages/Wplat/WplatConf/Shop.vue'
-import Person from '@/pages/Wplat/WplatConf/Person.vue'
-// 数据-主题查询-KPI指标总览
-import DataThemeReview from '@/pages/Datas/ThemeSearch/Review.vue'
-//首页主题查询中的地域查询
-import RegionSearch from '@/pages/Datas/ThemeSearch/RegionSearch.vue'
-//首页主题查询中的规格查询
-import SpecSearch from '@/pages/Datas/ThemeSearch/SpecSearch.vue'
+const wplatHome = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/WplatConf/WplatHome.vue')
+const Activities = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/WplatConf/Activities.vue')
+const Shop = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/WplatConf/Shop.vue')
+const Person = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/WplatConf/Person.vue')
+// //菜单配置
+// import MenuConf from '@/pages/Wplat/MenuConf/MenuConf.vue'
+// //扫码落地页配置
+// import ScanConf from '@/pages/Wplat/ScanConf/ScanConf.vue'
+// //平台风格配置
+// import StyleConf from '@/pages/Wplat/StyleConf/StyleConf.vue'
+// //微平台管理的四个子菜单
+// import wplatHome from '@/pages/Wplat/WplatConf/WplatHome.vue'
+// import Activities from '@/pages/Wplat/WplatConf/Activities.vue'
+// import Shop from '@/pages/Wplat/WplatConf/Shop.vue'
+// import Person from '@/pages/Wplat/WplatConf/Person.vue'
+
+
+
+// 商城-审核管理
+const auditManage = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/AuditManage/AuditManage')
+// 商城-系统设置
+const systemLayout = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/SystemLayout/SystemLayout')
+// 商城-商品管理-自建商品管理
+const buildProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/BuildProduct/BuildProduct')
+const addProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/BuildProduct/AddProduct')
+const editProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/BuildProduct/EditProduct')
+// 商城-商品管理-京东商品管理
+const JDProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/JDProduct/JDProduct')
+const addJDProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/JDProduct/AddJDProduct')
+const editJDProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/JDProduct/EditJDProduct')
+// 商城-banner位管理
+const bannerManage = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/BannerManage/BannerManage')
+const addBanner = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/BannerManage/AddBanner')
+const editBanner = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/BannerManage/EditBanner')
+// 商城-分类管理
+const sortManage = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/SortManage/SortManage')
+// 商城-推荐位管理
+const recommendManage = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/RecommendManage')
+// 商城-推荐位管理-新增推荐位A
+const addCommendTpmA = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/AddCommendTpmA')
+// 商城-推荐位管理-编辑推荐位A
+const editCommendTpmA = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/EditCommendTpmA')
+// 商城-推荐位管理-新增推荐位B
+const addCommendTpmB = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/AddCommendTpmB')
+// 商城-推荐位管理-编辑推荐位B
+const editCommendTpmB = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/EditCommendTpmB')
+// 商城-推荐位管理-新增推荐位C
+const addCommendTpmC = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/AddCommendTpmC')
+// 商城-推荐位管理-编辑推荐位C
+const editCommendTpmC = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/EditCommendTpmC')
+
+// // 商城-审核管理
+// import auditManage from '../pages/Mall/AuditManage/AuditManage'
+// // 商城-系统设置
+// import systemLayout from '../pages/Mall/SystemLayout/SystemLayout'
+// // 商城-商品管理-自建商品管理
+// import buildProduct from '../pages/Mall/CommodityManage/BuildProduct/BuildProduct'
+// import addProduct from  '../pages/Mall/CommodityManage/BuildProduct/AddProduct'
+// import editProduct from  '../pages/Mall/CommodityManage/BuildProduct/EditProduct'
+// // 商城-商品管理-京东商品管理
+// import JDProduct from '../pages/Mall/CommodityManage/JDProduct/JDProduct'
+// import addJDProduct from '../pages/Mall/CommodityManage/JDProduct/AddJDProduct'
+// import editJDProduct from '../pages/Mall/CommodityManage/JDProduct/EditJDProduct'
+// // 商城-banner位管理
+// import bannerManage from '../pages/Mall/BannerManage/BannerManage'
+// import addBanner from '../pages/Mall/BannerManage/AddBanner'
+// import editBanner from '../pages/Mall/BannerManage/EditBanner'
+// // 商城-分类管理
+// import sortManage from '../pages/Mall/SortManage/SortManage'
+// // 商城-推荐位管理
+// import recommendManage from '../pages/Mall/RecommendManage/RecommendManage'
+// // 商城-推荐位管理-新增推荐位A
+// import addCommendTpmA from '../pages/Mall/RecommendManage/Template/AddCommendTpmA'
+// // 商城-推荐位管理-编辑推荐位A
+// import editCommendTpmA from '../pages/Mall/RecommendManage/Template/EditCommendTpmA'
+// // 商城-推荐位管理-新增推荐位B
+// import addCommendTpmB from '../pages/Mall/RecommendManage/Template/AddCommendTpmB'
+// // 商城-推荐位管理-编辑推荐位B
+// import editCommendTpmB from '../pages/Mall/RecommendManage/Template/EditCommendTpmB'
+// // 商城-推荐位管理-新增推荐位C
+// import addCommendTpmC from '../pages/Mall/RecommendManage/Template/AddCommendTpmC'
+// // 商城-推荐位管理-编辑推荐位C
+// import editCommendTpmC from '../pages/Mall/RecommendManage/Template/EditCommendTpmC'
+
+//零售户-审核管理
+const reviewmanage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/Reviewmanage/ReviewManage')
+//零售户-审核详情
+const reviewDetail = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/Reviewmanage/ReviewDetail')
+//零售户-零售户管理
+const addSeller = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/AddSeller/AddSeller')
+//零售户-零售户管理
+const sellerManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/SellerManage/SellerManage')
+//零售户-零售户管理-详情
+const sellerDetail = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/SellerManage/SelllerDetail')
+//零售户-提现审核
+const amountExamine = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/AmountExamine/AmountExamine')
+//零售户-返佣管理-扫码返佣管理
+const rebateManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/RebateManage/RebateManage')
+// //零售户-审核管理
+// import reviewmanage from '../pages/Seller/Reviewmanage/ReviewManage'
+// //零售户-审核详情
+// import reviewDetail from  '../pages/Seller/Reviewmanage/ReviewDetail'
+// //零售户-新增零售户
+// import addSeller from  '../pages/Seller/AddSeller/AddSeller'
+// //零售户-零售户管理
+// import sellerManage from '../pages/Seller/SellerManage/SellerManage'
+// //零售户-零售户管理-详情
+// import sellerDetail from '../pages/Seller/SellerManage/SelllerDetail'
+// //零售户-提现审核
+// import amountExamine from '../pages/Seller/AmountExamine/AmountExamine'
+// //零售户-返佣管理-扫码返佣管理
+// import rebateManage from '../pages/Seller/RebateManage/RebateManage'
+
 Vue.use(Router)
-//多维查询
-import MultiSearch from '@/pages/Datas/MultiSearch/MultiSearch.vue'
+
 export default new Router({
-  mode: 'history',
+  // mode: 'history',
   routes: [
     {
       path: '/login',
@@ -174,8 +369,8 @@ export default new Router({
         { path: '/datas/track/dayanalysis', name: '活动日常分析', component: KPI },
         { path: '/datas/track/pathdetail', name: '页面路径转化信息', component: KPI },
         { path: '/datas/userAnalysis', name: '用户分析', redirect: '/datas/userAnalysis/analysis' },
-        { path: '/datas/userAnalysis/analysis', name: '用户分析', component: KPI },
-        { path: '/datas/userAnalysis/portraitu', name: '用户画像', component: KPI },
+        { path: '/datas/userAnalysis/analysis', name: '用户分析', component: AnalysisPage },
+        { path: '/datas/userAnalysis/portraitu', name: '用户画像', component: UserPortrait ,props: (route) => ({mobileNo:route.query.mobileNo})},
         { path: '/datas/userAnalysis/label', name: '用户标签', component: KPI },
         { path: '/datas/sellerDatas', name: '零售户', redirect: '/datas/sellerDatas/develop' },
         { path: '/datas/sellerDatas/develop', name: '发展情况概况', component: DataSellerOverview },
@@ -497,50 +692,5 @@ export default new Router({
   }
 })
 
-// 商城-审核管理
-import auditManage from '../pages/Mall/AuditManage/AuditManage'
-// 商城-系统设置
-import systemLayout from '../pages/Mall/SystemLayout/SystemLayout'
-// 商城-商品管理-自建商品管理
-import buildProduct from '../pages/Mall/CommodityManage/BuildProduct/BuildProduct'
-import addProduct from  '../pages/Mall/CommodityManage/BuildProduct/AddProduct'
-import editProduct from  '../pages/Mall/CommodityManage/BuildProduct/EditProduct'
-// 商城-商品管理-京东商品管理
-import JDProduct from '../pages/Mall/CommodityManage/JDProduct/JDProduct'
-import addJDProduct from '../pages/Mall/CommodityManage/JDProduct/AddJDProduct'
-import editJDProduct from '../pages/Mall/CommodityManage/JDProduct/EditJDProduct'
-// 商城-banner位管理
-import bannerManage from '../pages/Mall/BannerManage/BannerManage'
-import addBanner from '../pages/Mall/BannerManage/AddBanner'
-import editBanner from '../pages/Mall/BannerManage/EditBanner'
-// 商城-分类管理
-import sortManage from '../pages/Mall/SortManage/SortManage'
-// 商城-推荐位管理
-import recommendManage from '../pages/Mall/RecommendManage/RecommendManage'
-// 商城-推荐位管理-新增推荐位A
-import addCommendTpmA from '../pages/Mall/RecommendManage/Template/AddCommendTpmA'
-// 商城-推荐位管理-编辑推荐位A
-import editCommendTpmA from '../pages/Mall/RecommendManage/Template/EditCommendTpmA'
-// 商城-推荐位管理-新增推荐位B
-import addCommendTpmB from '../pages/Mall/RecommendManage/Template/AddCommendTpmB'
-// 商城-推荐位管理-编辑推荐位B
-import editCommendTpmB from '../pages/Mall/RecommendManage/Template/EditCommendTpmB'
-// 商城-推荐位管理-新增推荐位C
-import addCommendTpmC from '../pages/Mall/RecommendManage/Template/AddCommendTpmC'
-// 商城-推荐位管理-编辑推荐位C
-import editCommendTpmC from '../pages/Mall/RecommendManage/Template/EditCommendTpmC'
 
-//零售户-审核管理
-import reviewmanage from '../pages/Seller/Reviewmanage/ReviewManage'
-//零售户-审核详情
-import reviewDetail from  '../pages/Seller/Reviewmanage/ReviewDetail'
-//零售户-新增零售户
-import addSeller from  '../pages/Seller/AddSeller/AddSeller'
-//零售户-零售户管理
-import sellerManage from '../pages/Seller/SellerManage/SellerManage'
-//零售户-零售户管理-详情
-import sellerDetail from '../pages/Seller/SellerManage/SelllerDetail'
-//零售户-提现审核
-import amountExamine from '../pages/Seller/AmountExamine/AmountExamine'
-//零售户-返佣管理-扫码返佣管理
-import rebateManage from '../pages/Seller/RebateManage/RebateManage'
+
