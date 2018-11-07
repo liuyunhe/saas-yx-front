@@ -361,7 +361,7 @@ export default new Router({
         { path: '/datas/agree', name: '履约报表', component: DataAgree },
         { path: '/datas/visit', name: '回访报表', component: DataVisit },
         { path: '/datas/theme', name: '主题查询', redirect: '/datas/theme/kpiReview', },
-        { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: DataThemeReview },
+        { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: KPI },
         { path: '/datas/theme/region', name: '地域查询', component: RegionSearch },
         { path: '/datas/theme/spec', name: '规格查询', component: SpecSearch },
         { path: '/datas/track', name: '活动追踪', redirect: '/datas/track/realtime' },
@@ -379,7 +379,7 @@ export default new Router({
         { path: '/datas/operate/steal', name: '盗扫明细', component: DataOperateSteal },
         { path: '/datas/fakeCode', name: '异常码明细', redirect: '/datas/fakeCode/Report' },
         { path: '/datas/fakeCode/Report', name: '假码举报', component: DataFakeCodeReport },
-        { path: '/datas/fakeCode/qrcodeActive', name: '二维码激活', component: DataQrcodeActive },
+        { path: '/datas/fakeCode/qrcodeActive', name: '二维码激活', component: KPI },
         // 微平台
         { path: '/weplat', name: '微平台', redirect: '/weplat/mgr' },
         { path: '/weplat/down', name: '扫码落地页', component: ScanConf },
@@ -431,15 +431,12 @@ export default new Router({
         { path: '/Orders/mall/integral', name: '积分活动订单', component: ScoreOrderPage },
         // 零售户
         { path: '/seller', name: '零售户', redirect: '/seller/review' },
-        { path: '/seller/review', name: '审核管理', component: reviewmanage},
-        { path: '/seller/reviewDetail', name: '审核管理', component: reviewDetail,props: (route) => ({sellerId:route.query.sellerId})},
-        { path: '/seller/addSeller', name: '新增零售户', component: addSeller},
-        { path: '/seller/mgr', name: '零售户管理', component: sellerManage},
-        { path: '/seller/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
-        { path: '/seller/tx', name: '提现审核', component: amountExamine},
+        { path: '/seller/review', name: '审核管理', component: KPI },
+        { path: '/seller/mgr', name: '零售户管理', component: KPI },
+        { path: '/seller/tx', name: '提现审核', component: KPI },
         { path: '/seller/achievement', name: '零售户业绩', component: KPI },
         { path: '/seller/rebate', name: '返佣管理', redirect: '/seller/rebate/mgr' },
-        { path: '/seller/rebate/mgr', name: '扫码返佣管理', component: rebateManage },
+        { path: '/seller/rebate/mgr', name: '扫码返佣管理', component: KPI },
         // 商城
         { path: '/mall', name: '商城', redirect: '/mall/auth' },
         { path: '/mall/auth', name: '审核管理', component: auditManage },
@@ -469,7 +466,7 @@ export default new Router({
         { path: '/setting/user/account', name: '成员管理', component: SettingAccount },
         { path: '/setting/user/role', name: '角色管理', component: SettingRole },
         { path: '/setting/logs', name: '日志管理', component: SettingLogs },
-        { path: '/setting/seller', name: '零售户管理', component: SettingSeller },
+        { path: '/setting/seller', name: '零售户管理', component: KPI },
         { path: '/setting/mall', name: '积分设置', component: KPI }
         // {
         //   path: 'datas',
@@ -691,6 +688,5 @@ export default new Router({
     return { x: 0, y: 0 }
   }
 })
-
 
 
