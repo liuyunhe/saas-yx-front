@@ -37,7 +37,12 @@ export default {
       imgConf: {
           oldBase: "https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/",
           newBase: "https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/", //title, bg, bg1, tip, item, award, noaward, btn
-          imgSize: []
+          title: {
+              name: 'title',
+              url: this.getImage({name: 'fanpaizi-bg1', type: 2}),
+              pos: [100, 100],
+              size: [100, 100]
+          }
       },
       conf : {
           title: '活动标题',
@@ -51,6 +56,15 @@ export default {
     activityInfo,
     activityImageEditor
   },
+  created () {
+    //   console.log(this.conf.pic)
+  },
+  mounted () {
+    //   console.log(this.conf.pic)
+  },
+  computed: {
+
+  },
   methods: {
     switchMenu(key, keyPath) {
     },
@@ -61,6 +75,13 @@ export default {
     descInput (e) {
         let value = e.value;
         e.value ? this.conf.desc = e.value : this.desc = '';
+    },
+    getImage (args) {
+        let oldBase = 'https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/';
+        let newBase = "https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/";
+        let suffix = args.suffix || '.png';
+        let url = args.type == 1 ? oldBase + args.name + suffix : newBase + args.name + suffix;
+        return url;
     }
   }
 };
