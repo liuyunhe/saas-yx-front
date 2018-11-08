@@ -5,6 +5,7 @@
                 <h4>{{title}}</h4>
             </div>
             <div class="phone-body">
+                <div class="cover" v-if="page != 0"></div>
                 <img 
                     v-if="imgData.normal" 
                     v-for="(pic, index) in imgData.normal" 
@@ -24,7 +25,9 @@
                     :src="pic.url" 
                     alt="点击编辑" 
                     :key="index + pic"
-                    :class="index"
+                    :class="[index, {imgHover: hover == index}]"
+                    @mouseover="imgHover(index)"
+                    @mouseout="unHover()"
                     :style="{
                         'max-width': pic.size[0] * 0.4 + 'px',
                         'max-height': pic.size[1] * 0.4 +'px',
@@ -50,11 +53,15 @@ export default {
         imgKey: {
             type: String,
             default: ""
+        },
+        page: {
+            type: Number,
+            default: 0
         }
     },
     data () {
         return {
-
+            hover: ''
         }
     },
     created () {
@@ -66,7 +73,13 @@ export default {
     computed: {
     },
     methods: {
-
+        imgHover (index) {
+            console.log(index)
+            this.hover = index;
+        },
+        unHover () {
+            this.hover = ''
+        }
     }
 }
 </script>
@@ -98,7 +111,9 @@ export default {
                 transform: translateX(-50%);
             }
             .imgHover {
-                border: 1px dashed #999;
+                border: 2px dashed #999;
+                transform: scale(0.98, 0.98);
+                filter: blur(80%);
             }
         }
         .phone-footer{

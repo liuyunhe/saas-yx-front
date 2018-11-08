@@ -68,13 +68,6 @@ export default {
     descInput (e) {
         let value = e.value;
         e.value ? this.conf.desc = e.value : this.desc = '';
-    },
-    getImage (args) {
-        let oldBase = 'https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/';
-        let newBase = "https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/";
-        let suffix = args.suffix || '.png';
-        let url = args.type == 1 ? oldBase + args.name + suffix : newBase + args.name + suffix;
-        return url;
     }
   }
 };
