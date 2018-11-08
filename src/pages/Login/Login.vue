@@ -108,12 +108,12 @@
                         	name:'数据'
                         })
                     } else if (res.ret == '100409') {
-                        this.$message.error(res.message);
+                        that.$message.error(res.message);
                         that.$router.push({
                         	name:'Find'
                         })
                     } else {
-                    	this.$message.error(res.message);
+                    	that.$message.error(res.message);
                         that.srcClick();
                     }
 				})
