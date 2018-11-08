@@ -120,16 +120,6 @@ export default {
       this.$request.post('/api/saotx/menu/all',{ service: 'browser'}, true, res => {
         if (res.ret === '200000') {
           sessionStorage.menu = JSON.stringify(res.data)
-          // let sonMenu = []
-          // let grandSonMenu = []
-          // res.data.forEach(item => {
-          //   sonMenu.push(...item.nodeList)
-          // })
-          // sonMenu.forEach(item => {
-          //   grandSonMenu.push(...item.nodeList)
-          // })
-          // sessionStorage.sonMenu = JSON.stringify(sonMenu)
-          // sessionStorage.grandSonMenu = JSON.stringify(grandSonMenu)
           this.$router.replace({name: '数据'})
         } else {
           this.$message.error(res.message)
