@@ -116,7 +116,6 @@ export default {
       })
     },
     getMenuList() {
-      console.log('进来了')
       this.$request.post('/api/saotx/menu/all',{ service: 'browser'}, true, res => {
         if (res.ret === '200000') {
           sessionStorage.menu = JSON.stringify(res.data)
