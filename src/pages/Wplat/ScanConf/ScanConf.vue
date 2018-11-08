@@ -45,7 +45,7 @@
 					</el-table>
 					<br />
 					<el-button type="primary" @click='removeMul' size='small'>批量删除</el-button>
-					<div class="itemDec">当前第{{page}}页，本页{{max}}条记录，总共{{total}}条记录</div>
+					<!--<div class="itemDec">当前第{{page}}页，本页{{max}}条记录，总共{{total}}条记录</div>-->
 					<el-pagination layout="total,prev, pager, next,jumper" background :total="total" @current-change="myCallback" :page-size="max" class="pagination-css">
 					</el-pagination>
 				</div>
