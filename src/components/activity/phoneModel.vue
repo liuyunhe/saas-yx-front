@@ -5,7 +5,32 @@
                 <h4>{{title}}</h4>
             </div>
             <div class="phone-body">
-                <img v-if="picData" v-for="(pic, index) in picData" :src="pic.url" alt="点击编辑" :key="index + pic"/>
+                <img 
+                    v-if="imgData.normal" 
+                    v-for="(pic, index) in imgData.normal" 
+                    :src="pic.url" 
+                    alt="点击编辑" 
+                    :key="index + pic"
+                    :class="index"
+                    :style="{
+                        'max-width': pic.size[0] * 0.4 + 'px',
+                        'max-height': pic.size[1] * 0.4 +'px',
+                        'left': pic.pos[0] * 0.4 + 'px',
+                        'top': pic.pos[1] * 0.4 + 'px'
+                    }"/>
+                <img 
+                    v-if="imgData.item" 
+                    v-for="(pic, index) in imgData.item" 
+                    :src="pic.url" 
+                    alt="点击编辑" 
+                    :key="index + pic"
+                    :class="index"
+                    :style="{
+                        'max-width': pic.size[0] * 0.4 + 'px',
+                        'max-height': pic.size[1] * 0.4 +'px',
+                        'left': pic.pos[0] * 0.4 + 'px',
+                        'top': pic.pos[1] * 0.4 + 'px'
+                    }"/>
             </div>
             <div class="phone-footer"></div>
         </div>
@@ -18,9 +43,13 @@ export default {
             type: String,
             default: "活动标题"
         },
-        picData: {
+        imgData: {
             type: [Array, Object],
             default: null
+        },
+        imgKey: {
+            type: String,
+            default: ""
         }
     },
     data () {
@@ -30,6 +59,11 @@ export default {
     },
     created () {
 
+    },
+    mounted () {
+
+    },
+    computed: {
     },
     methods: {
 
@@ -55,6 +89,17 @@ export default {
         }
         .phone-body{
             height: 484px;
+            position: relative;
+            & img{
+                position: absolute;
+            }
+            .contentBg, .title, .contentBg{
+                left: 50%!important;
+                transform: translateX(-50%);
+            }
+            .imgHover {
+                border: 1px dashed #999;
+            }
         }
         .phone-footer{
             height: 64px;

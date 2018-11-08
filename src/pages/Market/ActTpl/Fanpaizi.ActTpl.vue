@@ -15,7 +15,7 @@
         <el-card :body-style="{padding:'40px'}">
             <el-row>
                 <el-col :span="8">
-                    <phone-model :title="conf.title" :titleLength="30"></phone-model>
+                    <phone-model :title="conf.title" :titleLength="30" imgKey ="ACT_FANPAIZI" :imgData="conf.img"></phone-model>
                 </el-col>
                 <el-col :span="14">
                     <activity-info @titleInput="titleInput" @descInput="descInput"></activity-info>
@@ -30,24 +30,16 @@
 import phoneModel from "@/components/activity/phoneModel";
 import activityInfo from "@/components/activity/activityInfo";
 import activityImageEditor from "@/components/activity/activityImageEditor";
+import img from './imageConf'
 export default {
   data() {
     return {
       defaultActive: "1",
-      imgConf: {
-          oldBase: "https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/",
-          newBase: "https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/", //title, bg, bg1, tip, item, award, noaward, btn
-          title: {
-              name: 'title',
-              url: this.getImage({name: 'fanpaizi-bg1', type: 2}),
-              pos: [100, 100],
-              size: [100, 100]
-          }
-      },
       conf : {
           title: '活动标题',
           desc: '',
-          pic: {}
+          img: img.img.ACT_FANPAIZI,
+          commonImg: img.commonImg
       }
     };
   },
@@ -60,6 +52,7 @@ export default {
     //   console.log(this.conf.pic)
   },
   mounted () {
+      console.log(this)
     //   console.log(this.conf.pic)
   },
   computed: {
