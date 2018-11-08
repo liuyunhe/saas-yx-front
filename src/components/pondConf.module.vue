@@ -7,98 +7,98 @@
   <div class="pond">
     <el-form ref="form" :model="pondConf" label-width="100px">
       <el-form-item label="N次必中:" v-if="nWin">
-        用户第 <el-input-number size="small" v-model="pondConf.n" :min="0" controls-position="right"></el-input-number> 个抽奖必中
+        用户第 <el-input-number  v-model="pondConf.n" :min="0" controls-position="right"></el-input-number> 个抽奖必中
       </el-form-item>
       <el-form-item label="奖品类型:">
-        <el-select size="medium" v-model="pondConf.awardType" placeholder="请选择" @change="resetPrize">
+        <el-select  v-model="pondConf.awardType" placeholder="请选择" @change="resetPrize">
           <el-option v-for="item in prizeList" :key="item.type" :label="item.name" :value="item.type">
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="奖品名称:">
         <el-col :span="10">
-          <el-input size="medium" v-model="pondConf.prizeName" placeholder="请输入奖品名称"></el-input>
+          <el-input  v-model="pondConf.prizeName" placeholder="请输入奖品名称"></el-input>
         </el-col>
       </el-form-item>
       <template v-if="pondConf.awardType == '1'">
         <el-form-item label="选择物品:">
-          <!-- <el-button size="medium" @click="getEntityList">选择</el-button> -->
-          <el-button size="medium" v-if="!pondConf.awardPic" @click="getList">选择</el-button>
+          <!-- <el-button  @click="getEntityList">选择</el-button> -->
+          <el-button  v-if="!pondConf.awardPic" @click="getList">选择</el-button>
           <img v-if="pondConf.awardPic" :src="pondConf.awardPic"  @click="getList">
           <span>{{pondConf.poolName}}</span>
         </el-form-item>
         <el-form-item label="投放数量:">
-          <el-input-number size="small" v-model="pondConf.totalNum" :min="0" controls-position="right"></el-input-number> 个
+          <el-input-number  v-model="pondConf.totalNum" :min="0" controls-position="right"></el-input-number> 个
         </el-form-item>
       </template>
       <template v-if="pondConf.awardType == '2'">
         <el-form-item label="选择物品:">
-          <!-- <el-button size="medium" @click="getVirtualList">选择</el-button> -->
-          <el-button size="medium" v-if="!pondConf.awardPic" @click="getList">选择</el-button>
+          <!-- <el-button  @click="getVirtualList">选择</el-button> -->
+          <el-button  v-if="!pondConf.awardPic" @click="getList">选择</el-button>
           <img v-if="pondConf.awardPic" :src="pondConf.awardPic"  @click="getList">
           <span>{{pondConf.poolName}}</span>
         </el-form-item>
         <el-form-item label="投放数量:">
-          <el-input-number size="small" v-model="pondConf.totalNum" :min="0" controls-position="right"></el-input-number> 个
+          <el-input-number  v-model="pondConf.totalNum" :min="0" controls-position="right"></el-input-number> 个
         </el-form-item>
       </template>
       <template v-if="pondConf.awardType == '3'">
         <el-form-item label="红包池:">
-          <!-- <el-button size="medium" @click="getRedpacklList">选择</el-button> -->
-          <el-button size="medium" v-if="!pondConf.awardPic" @click="getList">选择</el-button>
+          <!-- <el-button  @click="getRedpacklList">选择</el-button> -->
+          <el-button  v-if="!pondConf.awardPic" @click="getList">选择</el-button>
           <img v-if="pondConf.awardPic" :src="pondConf.awardPic"  @click="getList">
           <span>{{pondConf.poolName}}</span>
         </el-form-item>
         <el-col :span="10">
           <el-form-item label="红包面额:">
-            <el-input-number size="small" v-model="pondConf.redMoney" :min="0" controls-position="right"></el-input-number> 元
+            <el-input-number  v-model="pondConf.redMoney" :min="0" controls-position="right"></el-input-number> 元
           </el-form-item>
         </el-col>
         <el-col :span="14">
           <el-form-item label="投放数量:">
-            <el-input-number size="small" v-model="pondConf.totalNum" :min="0" controls-position="right"></el-input-number> 个
+            <el-input-number  v-model="pondConf.totalNum" :min="0" controls-position="right"></el-input-number> 个
           </el-form-item>
         </el-col>
         <el-form-item label="红包金额:">
-          <el-input-number size="small" disabled v-model="pondConf.redTotalMoney" :min="0" controls-position="right"></el-input-number> 元
+          <el-input-number  disabled v-model="pondConf.redTotalMoney" :min="0" controls-position="right"></el-input-number> 元
         </el-form-item>
       </template>
       <template v-if="pondConf.awardType == '6'">
         <el-form-item label="选择积分:">
-          <!-- <el-button size="medium" @click="getIntegrallList">选择</el-button> -->
-          <el-button size="medium" v-if="!pondConf.awardPic" @click="getList">选择</el-button>
+          <!-- <el-button  @click="getIntegrallList">选择</el-button> -->
+          <el-button  v-if="!pondConf.awardPic" @click="getList">选择</el-button>
           <img v-if="pondConf.awardPic" :src="pondConf.awardPic"  @click="getList">
           <span>{{pondConf.poolName}}</span>
         </el-form-item>
         <el-form-item label="投放数量:">
-          <el-input-number size="small" v-model="pondConf.remainNum" :min="0" controls-position="right"></el-input-number> 个
+          <el-input-number  v-model="pondConf.remainNum" :min="0" controls-position="right"></el-input-number> 个
         </el-form-item>
         <el-form-item label="积分面额:">
-          <el-input-number size="small" v-model="pondConf.remainNum" :min="0" controls-position="right"></el-input-number> 分
+          <el-input-number  v-model="pondConf.remainNum" :min="0" controls-position="right"></el-input-number> 分
         </el-form-item>
       </template>
       <el-form-item label="中奖概率:">
-        <el-input-number size="small" v-model="pondConf.probability" :min="0" :max="100" controls-position="right"></el-input-number> %
+        <el-input-number  v-model="pondConf.probability" :min="0" :max="100" controls-position="right"></el-input-number> %
       </el-form-item>
       <el-form-item>
         <el-checkbox v-model="pondConf.isWarn">阈值预警</el-checkbox>
         <span v-if="pondConf.isWarn">
-          <el-input-number size="small" v-model="pondConf.warnValue" :min="0" controls-position="right"></el-input-number> 个
+          <el-input-number  v-model="pondConf.warnValue" :min="0" controls-position="right"></el-input-number> 个
         </span>
       </el-form-item>
       <el-form-item>
         <el-checkbox v-model="pondConf.isGiveScore">同时送积分</el-checkbox>
         <span v-if="pondConf.isGiveScore">
-          <el-button size="medium" class="ml20 mr20" v-if="!pondConf.integralPool" @click="giveIntegral">选择</el-button>
+          <el-button  class="ml20 mr20" v-if="!pondConf.integralPool" @click="giveIntegral">选择</el-button>
           <el-button size="mini" type="info" v-if="pondConf.integralPool" @click="giveIntegral">已选择</el-button>
-          <el-input-number size="small" v-model="pondConf.integral" :min="0" controls-position="right"></el-input-number> 积分
+          <el-input-number  v-model="pondConf.integral" :min="0" controls-position="right"></el-input-number> 积分
         </span>
       </el-form-item>
       <el-form-item>
         <el-checkbox v-model="pondConf.guideGzh">中奖后引导关注公众号</el-checkbox>
         <el-checkbox v-model="pondConf.hasPdMaxOut">每天出奖总次数限制</el-checkbox>
         <span v-if="pondConf.hasPdMaxOut">
-          <el-input-number size="small" v-model="pondConf.pdMaxOut" :min="0" controls-position="right"></el-input-number> 次
+          <el-input-number  v-model="pondConf.pdMaxOut" :min="0" controls-position="right"></el-input-number> 次
         </span>
       </el-form-item>
     </el-form>
