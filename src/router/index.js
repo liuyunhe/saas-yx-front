@@ -255,8 +255,6 @@ export default new Router({
         { path: '/product/mgr/editTobaccoMr', name: '编辑卷烟', component: editTobaccoMr,props: (route) => ({id:route.query.id}) },
         { path: '/product/mgr/liquor', name: '酒管理', component: KPI },
         { path: '/product/materiel', name: '物料管理', redirect: '/product/materiel/object' },
-        { path: '/product/materiel/table', name: '物料礼品列表', component: MaterielTable, props: (route) => ({metraFlag:route.query.metraFlag})},
-        { path: '/product/materiel/form', name: '物料表单管理', component: MaterielForm, props: (route) => ({metraFlag:route.query.metraFlag, id:route.query.id})},
         { path: '/product/materiel/object', name: '实物礼品', component: MaterielObject },
         { path: '/product/materiel/virtual', name: '虚拟礼品', component: MaterielVirtual },
         { path: '/product/materiel/redpack', name: '红包', component: MaterielRedpack },
