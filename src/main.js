@@ -148,7 +148,10 @@ Vue.use(Main)
 Vue.use(Loading.directive)
 
 Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$message = Message
+// 全局设置 拥有size属性的尺寸均为 small
+Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000, align: 'center' }
 // Vue.use(ElementUI);
 
 router.beforeEach((to, from, next) => {
@@ -159,7 +162,28 @@ router.beforeEach((to, from, next) => {
   }
   const tokenStr = window.sessionStorage.getItem('access_token')
   if (!tokenStr) return next('/login')
-  next()
+  const menu = JSON.parse(sessionStorage.getItem('menu'))
+  // const start = new Date().getTime()
+  if (JSON.stringify(menu).indexOf(to.path) !== -1) {
+    // const end = new Date().getTime()
+    // alert(end - start)
+    next()
+  } else {
+    next('/datas/kpi')
+  }
+
+  // const sonMenu = JSON.parse(sessionStorage.getItem('sonMenu'))
+  // const grandSonMenu = JSON.parse(sessionStorage.getItem('grandSonMenu'))
+  // menu.forEach(item => {
+  //   if (item.menuUrl == to.path) return next()
+  // })
+  // sonMenu.forEach(item => {
+  //   if (item.menuUrl == to.path) return next()
+  // })
+  // grandSonMenu.forEach(item => {
+  //   if (item.menuUrl == to.path) return next()
+  // })
+  // next('/datas/kpi')
 })
 
 /* eslint-disable no-new */
