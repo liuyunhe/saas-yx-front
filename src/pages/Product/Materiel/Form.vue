@@ -72,9 +72,10 @@
 
 <script>
 export default {
-  props: ['metraFlag', 'id'],
+  props: ['metraFlag', 'materielId'],
   data() {
     return {
+      id: this.materielId,
       materielName: { // 物料类型及名称
         'object':'实物礼品',
         'virtual':'虚拟礼品',
@@ -212,7 +213,8 @@ export default {
     requestAddStore() {
       this.$request.post('/api/saotx/metra/saveOrModify', this.form, true, (res)=>{
         if (res.ret == '200000') {
-          this.$router.push({path:"/product/materiel/table?metraFlag="+this.metraFlag});
+          //this.$router.push({path:"/product/materiel/table?metraFlag="+this.metraFlag});
+          this.$emit('showTable');
         } else {
           this.$message.error(res.message);
         }
@@ -221,7 +223,8 @@ export default {
     // 提交取消
     cancelForm(form) {
       this.$refs[form].resetFields();
-      this.$router.push({path:'/product/materiel/'+this.metraFlag});
+      //this.$router.push({path:'/product/materiel/'+this.metraFlag});
+      this.$emit('showTable');
     },
     // 文件上传控制。上传之前的校验
     beforeAvatarUpload(file) {
