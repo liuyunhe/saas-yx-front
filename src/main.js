@@ -163,11 +163,21 @@ router.beforeEach((to, from, next) => {
   }
   const tokenStr = window.sessionStorage.getItem('access_token')
   if (!tokenStr) return next('/login')
+  // console.log(to)
+  // console.log(from)
+  // if(!from.path){
+  //   return next('/datas/kpi')
+  // }
   const menu = JSON.parse(sessionStorage.getItem('menu'))
   if (JSON.stringify(menu).indexOf(to.path) !== -1) {
     next()
   } else {
-    next('/datas/kpi')
+    if(JSON.stringify(menu).indexOf(from.path) !==-1 && to.path.indexOf(from.path) !== -1 ){
+      next()
+    }else{
+      next('/datas/kpi')
+    }
+
   }
 })
 

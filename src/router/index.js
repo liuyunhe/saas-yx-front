@@ -286,8 +286,9 @@ export default new Router({
         // 零售户
         { path: '/seller', name: '零售户'},
         { path: '/seller/review', name: '审核管理', component: reviewmanage},
-        { path: '/seller/reviewDetail', name: '审核管理', component: reviewDetail,props: (route) => ({sellerId:route.query.sellerId})},
-        { path: '/seller/addSeller', name: '新增零售户', component: addSeller},
+        { path: '/seller/review/reviewDetail', name: '审核管理', component: reviewDetail,props: (route) => ({sellerId:route.query.sellerId})},
+        { path: '/seller/review/addSeller', name: '新增零售户', component: addSeller},
+
         { path: '/seller/mgr', name: '零售户管理', component: sellerManage},
         { path: '/seller/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
         { path: '/seller/tx', name: '提现审核', component: amountExamine},

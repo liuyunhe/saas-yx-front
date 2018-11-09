@@ -277,6 +277,14 @@
 <script>
   export default {
     name: "Reviewmanage",
+    // beforeRouteLeave(to, from, next) {
+    //   // console.log(to.path)
+    //   if (to.path !== '/seller/review/addSeller') {
+    //     next()
+    //   }else {
+    //     next("/seller/review/")
+    //   }
+    // },
     data(){
       return{
         listLoading:false,
@@ -403,7 +411,7 @@
     methods:{
       addNewSeller(){
         this.$router.push({
-          'path':'/seller/addSeller'
+          'path':'/seller/review/addSeller'
         })
       },
       //从后台拿取商品分类1
