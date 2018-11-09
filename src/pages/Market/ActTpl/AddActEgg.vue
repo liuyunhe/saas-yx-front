@@ -17,11 +17,14 @@
             <div class="header">
               <p>{{addActParams.name}}</p>
             </div>
-            <div class="content">
+            <div class="content phone">
               <div class="bg"><img :src="configItem.bgImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 1"></div>
               <div class="top"><img :src="configItem.headerImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 2"></div>
               <div class="game-con">
-                <div class="game-item" v-for="item in configItem.iconUrl" :key="item.key" @click="showEditConIndex = 3"><img :src="item.imgUrl" alt=""></div>
+                <div class="game-item" v-for="item in iconUrl" :key="item.key"><img :src="item.imgUrl" alt=""></div>
+              </div>
+              <div class="tip">
+              	<img :src="configItem.actTip" @click="showEditConIndex = 3"alt="" />
               </div>
             </div>
             <div class="footer"></div>
@@ -59,19 +62,19 @@
                   </div>
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 3">
-                  <div v-for="(item, index) in configItem.iconUrl" :key="item.key">
-                    <p class="img-title">{{'钻石' + (index + 1) + ':'}}</p>
-                    <div class="img-con"><img :src="item.imgUrl" alt=""></div>
+                  <div>
+                    <p class="img-title">活动说明</p>
+                    <div class="img-con"><img :src="configItem.actTip" alt=""></div>
                     <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upGameImgSuccess" :show-file-list="false">
-                        <el-button size="small" type="primary" @click="getGameIndex(index)">更换图片</el-button>
+                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upTipImgSuccess" :show-file-list="false">
+                        <el-button size="small" type="primary">更换图片</el-button>
                       </el-upload>
                     </div>
                   </div>
                 </div>
                 <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1208px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 730*280px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 82*72px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 74*90px格式为jpg\bmp\png\gif</p>
               </div>
 
             </el-card>
@@ -106,7 +109,7 @@
                   <img class="pic" :src="configItem.drawImgUrl" alt="">
                   <h3>奖品名称</h3>
                   <p>请在24小时内领取</p>
-                  <img class="prize-btn" src="https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/djlq_btn.png" alt="">
+                  <img class="prize-btn" :src="configItem.drawBtnUrl" alt="">
                 </div>
               </div>
             </div>
@@ -120,9 +123,11 @@
               <div class="edit-con">
                 <div class="edit-winning-img">
                   <p class="img-title">按钮:</p>
-                  <div class="img-con"><img src="https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/djlq_btn.png" alt=""></div>
+                  <div class="img-con"><img :src="configItem.drawBtnUrl" alt=""></div>
                   <div class="btn-con">
-                    <el-button type="primary" size="small">更换图片</el-button>
+                    <el-upload :action="uploadURL" :headers="headerObj" :on-success="upWinningBtnSuccess" :show-file-list="false">
+                      <el-button size="small" type="primary">更换图片</el-button>
+                    </el-upload>
                   </div>
                 </div>
                 <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
@@ -140,7 +145,7 @@
                   <div class="close">X</div>
                   <img class="pic" :src="configItem.cryImgUrl" alt="">
                   <h3>很遗憾，未中奖</h3>
-                  <img class="prize-btn" src="https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/djlq_btn.png" alt="">
+                  <img class="prize-btn" :src="configItem.cryBtnUrl" alt="">
                 </div>
               </div>
             </div>
@@ -166,9 +171,11 @@
               <div class="edit-con">
                 <div class="edit-notWinning-img">
                   <p class="img-title">按钮:</p>
-                  <div class="img-con"><img src="https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/djlq_btn.png" alt=""></div>
+                  <div class="img-con"><img :src="configItem.cryBtnUrl" alt=""></div>
                   <div class="btn-con">
-                    <el-button type="primary" size="small">更换图片</el-button>
+                    <el-upload :action="uploadURL" :headers="headerObj" :on-success="upNotWinningBtnSuccess" :show-file-list="false">
+                      <el-button size="small" type="primary">更换图片</el-button>
+                    </el-upload>
                   </div>
                 </div>
                 <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
@@ -194,7 +201,7 @@ export default {
       activeName: 'home',
       addActParams: {
         conf: '',
-        form: 'act-100',
+        form: 'act-103',
         id: '',
         name: '',
         note: ''
@@ -205,55 +212,55 @@ export default {
           { max: 15, message: '长度不能超过 15 个字符', trigger: 'blur' }
         ]
       },
-      configItem: {
-        title: '',
-        description: '',
-        headerImgUrl:
-          'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi-header.png',
-        bgImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi-bg.png',
-        iconUrl: [
+      iconUrl: [
           {
             key: 1,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi.png',
+            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
             $$hashKey: 'object:378'
           },
           {
             key: 2,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi.png',
+            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
             $$hashKey: 'object:379'
           },
           {
             key: 3,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi.png',
+            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
             $$hashKey: 'object:380'
           },
           {
             key: 4,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi.png',
+            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
             $$hashKey: 'object:381'
           },
           {
             key: 5,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi.png',
+            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
             $$hashKey: 'object:382'
           },
           {
             key: 6,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi.png',
+            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
             $$hashKey: 'object:383'
           },
           {
             key: 7,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi.png',
+            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
             $$hashKey: 'object:384'
           },
           {
             key: 8,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi.png',
+            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
             $$hashKey: 'object:385'
           }
         ],
-        iconAwardImg: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi.png',
+      configItem: {
+        title: '',
+        description: '',
+        headerImgUrl:
+          'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg-title.png',
+        bgImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/eggBg.png',
+        actTip:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg-top.png',
         awardUrl: [
           {
             imgUrl:
@@ -262,7 +269,9 @@ export default {
         ],
         drawImgUrl:
           'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zhongjiang74@2x.png',
-        cryImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/cry75@2x.png'
+        drawBtnUrl:'https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/djlq_btn.png',
+        cryImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/cry75@2x.png',
+        cryBtnUrl:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/cry-btn.png'
       },
       uploadURL: '/api/saotx/attach/commonAliUpload',
       headerObj: {
@@ -313,9 +322,9 @@ export default {
       this.gameIndex = index
     },
     // 上传游戏图片
-    upGameImgSuccess(resule) {
+    upTipImgSuccess(resule) {
       if (resule.ret === '200000')
-        return (this.configItem.iconUrl[this.gameIndex].imgUrl = resule.data.accessUrl)
+        return (this.configItem.actTip = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
     // 上传未中奖图片
@@ -323,11 +332,19 @@ export default {
       if (resule.ret === '200000') return (this.configItem.cryImgUrl = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
+    // 上传未中奖按钮图片
+    upNotWinningBtnSuccess(resule) {
+      if (resule.ret === '200000') return (this.configItem.cryBtnUrl = resule.data.accessUrl)
+      this.$message.error(resule.message)
+    },
+    // 上传中奖按钮图片
+    upWinningBtnSuccess(resule) {
+      if (resule.ret === '200000') return (this.configItem.drawBtnUrl = resule.data.accessUrl)
+      this.$message.error(resule.message)
+    },
     // 保存进入下一步
     saveActTpl() {
       if (!this.addActParams.name) return this.$message.warning('请输入模板名称')
-      this.configItem.title = this.addActParams.name
-      this.configItem.description = this.addActParams.note
       this.addActParams.conf = JSON.stringify(this.configItem)
       this.$request.post('/api/saotx/acttpl/saveOrModify', this.addActParams, true, res => {
         if (res.ret === '200000') {
@@ -375,6 +392,9 @@ export default {
           margin: 0;
         }
       }
+      .phone {
+      	position: relative;
+      }
       .content {
         position: relative;
         width: 100%;
@@ -401,6 +421,17 @@ export default {
             height: 100%;
           }
         }
+        .tip {
+        	width:50px;
+        	height: 70px;
+        	position: absolute;
+        	right:10px;
+        	top:20px;
+        	img {
+        		width:100%;
+        		height: 100%;
+        	}
+        }
         .game-con {
           position: absolute;
           left: 0;
@@ -414,8 +445,9 @@ export default {
           .game-item {
             width: 25%;
             height: 50%;
+            text-align:center;
             img {
-              width: 100%;
+              width: 70%;
               height: 100%;
             }
           }
@@ -555,7 +587,7 @@ export default {
 // 只有首页有效果
 .el-tabs .el-tab-pane:first-child {
   .bg:hover,
-  .game-item:hover,
+  .tip:hover,
   .top:hover {
     transform: scale(0.99);
     cursor: pointer;

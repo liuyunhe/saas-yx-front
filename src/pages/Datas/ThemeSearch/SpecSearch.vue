@@ -258,7 +258,7 @@
 					true,
 					res => {
 						var data = res || [];
-						data=DATA.s1;
+//						data=DATA.s1;
 						if(data.length!=0){
 							that.briefList=data;
 						}
@@ -282,7 +282,7 @@
 					res => {
 						that.loading2=false;
 						var data = res || [];
-						data=DATA.s2;
+//						data=DATA.s2;
 						var showArr=[];
 						if(data.length != 0) {
 							data.forEach(item=>{
@@ -325,7 +325,7 @@
 					res => {
 						that.loading3=false;
 						var data = res || [];
-						data=DATA.s3;
+//						data=DATA.s3;
 						var showDateArr=[];
 						var scanAddUvArr=[];
 						var scanHistoryUvArr=[];
@@ -409,7 +409,7 @@
 					res => {
 						that.loading4=false;
 						var data = res || [];
-						data=DATA.s4;
+//						data=DATA.s4;
 						var awardPayPvArr=[];
 						var awardPutPvArr=[];
 						var drawPvArr=[];
@@ -489,7 +489,7 @@
 					res => {
 						that.loading5=false;
 						var data = res || [];
-						data=DATA.s5;
+//						data=DATA.s5;
 						var mydata=[];
 						data.forEach((item,i)=>{
 							mydata[i]=new Object();						
@@ -593,7 +593,7 @@
 					res => {
 						that.loading6=false;
 						var data = res || [];
-						data=DATA.s6;
+//						data=DATA.s6;
 						var scanCodeArr=[];
 						var showX=[];
 						if(data.length != 0) {
@@ -644,7 +644,7 @@
 					res => {
 						that.loading7=false;
 						var data = res || [];
-						data=DATA.s7;
+//						data=DATA.s7;
 						var scanCodeArr=[];
 						var showX=[];
 						if(data.length != 0) {
@@ -697,7 +697,7 @@
 					res => {
 						that.loading8=false;
 						var data = res || [];
-						data=DATA.s8;
+//						data=DATA.s8;
 						var scanCodeArr=[];
 						var showX=[];
 						if(data.length != 0) {
@@ -751,7 +751,7 @@
 					res => {
 						that.loading9=false;
 						var data = res || [];
-						data=DATA.s9;
+//						data=DATA.s9;
 						var awardPayPvArr=[];
 						var drawResultPvArr=[];
 						var showX=[];
@@ -826,7 +826,7 @@
 					res => {
 						that.loading10=false;
 						var data = res || [];
-						data=DATA.s9;
+//						data=DATA.s9;
 						var awardPayPvArr=[];
 						var drawResultPvArr=[];
 						var showX=[];

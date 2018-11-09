@@ -1,106 +1,81 @@
 <template>
-	<div class="home-container">
-		<!-- <el-container>
-      <el-header>
-        <div class="top-logo">
-          <img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/top_logo.png" alt="">
+  <div class="home-container">
+    <el-container class="home-container">
+      <el-aside width="200px">
+        <div class="left">
+          <div class="logo">
+            <img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/top_logo_mini.png" alt="">
+          </div>
+          <div class="parent-menu">
+            <ul>
+              <li ref="parentMenu" v-for="(item, index) in menuList" :key="item.id" @click="getsonMenuList(item, index)" :class="pathOneMenuActive ? (item.menuUrl == pathOneMenuActive ? 'active' : '') : (index == oneMenuIndex ? 'active' : '')">
+                <router-link :to="item.menuUrl">{{item.menuName}}</router-link>
+              </li>
+            </ul>
+          </div>
         </div>
-      </el-header>
+        <div class="right">
+          <div class="menuName">{{nowMenuName}}</div>
+          <div class="son-menu">
+            <ul>
+              <li v-for="(item, index) in sonMenuList" :key="item.id" @click="getGrandsonMentList(item, index)" ref="sonMenu" :class="pathTowMenuActive ? (item.menuUrl == pathTowMenuActive ? 'active' : '') : (index == towMenuIndex ? 'active' : '')">
+                <router-link :to="item.menuUrl">{{item.menuName}}</router-link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </el-aside>
       <el-container>
-        <el-aside width="250px">
-          <el-menu default-active="2" class="el-menu-vertical-demo" background-color="#fff" text-color="#000" active-text-color="#3287FF" :unique-opened="true">
-            <el-submenu :index="item.idx + ''" v-for="item in menuList" :key="item.id">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>{{item.menuName}}</span>
-              </template>
-              <el-submenu :index="subItem.menuCode" v-for="subItem in item.nodeList" :key="subItem.id">
-                <template slot="title">{{subItem.menuName}}</template>
-                <el-menu-item :index="childItem.menuName" v-for="childItem in subItem.nodeList" :key="childItem.id">{{childItem.menuName}}</el-menu-item>
-              </el-submenu>
-            </el-submenu>
-          </el-menu>
-        </el-aside>
-        <el-main>Main</el-main>
+        <el-header>
+          <div class="grandson-menu">
+            <el-dropdown class='user-info-home'>
+
+              <span class="el-dropdown-link">
+                <span>{{name}}</span>
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown" class='down-home-item'>
+                <el-dropdown-item>用户名：{{name}}</el-dropdown-item>
+                <el-dropdown-item>公司：{{orgName}}</el-dropdown-item>
+                <el-dropdown-item divided>
+                  <div class="btns">
+                    <div class="user-btn">
+                      <router-link to='/setting/user/modPwd'>修改密码</router-link>
+                    </div>
+                  </div>
+
+                </el-dropdown-item>
+                <el-dropdown-item divided>
+                  <div class="btns">
+                    <div class="user-btn" @click='handleClose'>退出登录</div>
+                  </div>
+
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+            <ul>
+              <li v-for="(item, index) in grandsonMenuLisy" :key="index" @click="getPages(item, index)" ref="grandsonMenu" :class="pathThreeMenuActive ? (item.menuUrl == pathThreeMenuActive ? 'active' : '') : (index == threeMenuIndex ? 'active' : '')">
+                <router-link :to="item.menuUrl">{{item.menuName}}</router-link>
+              </li>
+            </ul>
+          </div>
+        </el-header>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
       </el-container>
-    </el-container> -->
-		<!--<el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
-			<span>确定要退出登录？</span>
-			<span slot="footer" class="dialog-footer">
-				<el-button @click="dialogVisible = false">取 消</el-button>
-				<el-button type="primary" @click="logout">确 定</el-button>
-			</span>
-		</el-dialog>-->
-		<el-container class="home-container">
-			<el-aside width="200px">
-				<div class="left">
-					<div class="logo">
-						<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/top_logo_mini.png" alt="">
-					</div>
-					<div class="parent-menu">
-						<ul>
-							<li ref="parentMenu" v-for="(item, index) in menuList" :key="item.id" @click="getsonMenuList(item, index)" :class="index == nowOneMenuActive ? 'active' : ''"><router-link :to="item.menuUrl">{{item.menuName}}</router-link></li>
-						</ul>
-					</div>
-				</div>
-				<div class="right">
-					<div class="menuName">{{nowMenuName}}</div>
-					<div class="son-menu">
-						<ul>
-							<li v-for="(item, index) in sonMenuList" :key="item.id" @click="getGrandsonMentList(item, index)" ref="sonMenu" :class="index == nowTowMenuActive ? 'active' : ''">
-								<router-link :to="item.menuUrl">{{item.menuName}}</router-link>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</el-aside>
-			<el-container>
-				<el-header>
-					<div class="grandson-menu">
-						<el-dropdown class='user-info-home'>
-
-							<span class="el-dropdown-link">
-								<span>{{name}}</span>
-								<i class="el-icon-arrow-down el-icon--right"></i>
-							</span>
-							<el-dropdown-menu slot="dropdown" class='down-home-item'>
-								<el-dropdown-item>用户名：{{name}}</el-dropdown-item>
-								<el-dropdown-item>公司：{{orgName}}</el-dropdown-item>
-								<el-dropdown-item divided>
-									<div class="btns">
-										<div class="user-btn"><router-link to='/setting/user/modPwd'>修改密码</router-link></div>
-									</div>
-
-								</el-dropdown-item>
-								<el-dropdown-item divided>
-									<div class="btns">
-										<div class="user-btn" @click='handleClose'>退出登录</div>
-									</div>
-
-								</el-dropdown-item>
-							</el-dropdown-menu>
-						</el-dropdown>
-						<ul>
-							<li v-for="(item, index) in grandsonMenuLisy" :key="index" @click="getPages(item, index)" ref="grandsonMenu" :class="index == nowThreeMenuActive ? 'active' : ''">
-								<router-link :to="item.menuUrl">{{item.menuName}}</router-link>
-							</li>
-						</ul>
-					</div>
-				</el-header>
-				<el-main>
-					<router-view></router-view>
-				</el-main>
-			</el-container>
-		</el-container>
-	</div>
+    </el-container>
+  </div>
 </template>
 
 <script>
 import draggable from 'vuedraggable'
+import store from '@/store/index'
 export default {
   components: {
     draggable
   },
+  store,
   data() {
     return {
       menuList: [],
@@ -111,18 +86,27 @@ export default {
       name: '',
       orgName: '',
       dialogVisible: false,
-      nowOneMenuActive: 0,
-      nowTowMenuActive: 0,
-      nowThreeMenuActive: 0,
+      pathOneMenuActive: '',
+      pathTowMenuActive: '',
+      pathThreeMenuActive: '',
+      oneMenuIndex: 0,
+      towMenuIndex: 0,
+      threeMenuIndex: 0,
     }
   },
   created() {
     this.init()
   },
+  watch: {
+    $router(to, from) {
+      console.log(to)
+    }
+  },
   methods: {
     init() {
       this.getMenuList()
       this.getUserInfo()
+      this.menuActive()
     },
     getUserInfo() {
       var that = this
@@ -139,8 +123,8 @@ export default {
               orgId: data.orgId,
               orgName: data.orgName,
               orgRegion: data.orgRegion
-            };
-            sessionStorage.setItem("cluser", JSON.stringify(cluser));
+            }
+            sessionStorage.setItem('cluser', JSON.stringify(cluser))
             that.account = data.account
             that.name = data.name
             that.orgName = data.orgName
@@ -155,45 +139,81 @@ export default {
     },
     // 获取菜单
     getMenuList() {
-      this.$request.post(
-        `/api/saotx/menu/all`,
-        {
-          service: 'browser'
-        },
-        true,
-        res => {
-          console.log(res)
-          if (res.ret === '200000') {
-            this.menuList = res.data
-            this.sonMenuList = res.data[0].nodeList
-            this.initGrandsonMenu(this.sonMenuList[0])
-          } else {
-            this.$message.error(res.message)
-          }
+      // this.$request.post(
+      //   `/api/saotx/menu/all`,
+      //   {
+      //     service: 'browser'
+      //   },
+      //   true,
+      //   res => {
+      //     if (res.ret === '200000') {
+      //       this.menuList = res.data
+      //       sessionStorage.menu = JSON.stringify(res.data)
+      //       // this.sonMenuList = res.data[0].nodeList
+      //       // this.initGrandsonMenu(this.sonMenuList[0])
+      //       this.menuActive()
+      //     } else {
+      //       this.$message.error(res.message)
+      //     }
+      //   }
+      // ),
+      //   err => {
+      //     console.log(err)
+      //   }
+      this.menuList = JSON.parse(sessionStorage.getItem('menu'))
+      // console.log(this.menuList)
+      this.menuActive()
+    },
+    // 页面刷新的时候 加载对应的菜单样式
+    menuActive() {
+      this.pathOneMenuActive = '/' + location.hash.split('/').slice(1, 2)
+      this.pathTowMenuActive = '/' + location.hash .split('/').slice(1, 3).join('/')
+      if (location.hash.split('/')[3]) {
+        const url = location.hash.split('/').slice(1, 4).join('/')
+        const index = url.indexOf('?')
+        if (index !== -1) {
+          this.pathThreeMenuActive = '/' + url.substring(0, index)
+        } else {
+          this.pathThreeMenuActive = '/' + url
         }
-      ),
-        err => {
-          console.log(err)
+      }
+      this.menuList.forEach(item => {
+        if (item.menuUrl == this.pathOneMenuActive) {
+          this.nowMenuName = item.menuName
+          this.sonMenuList = item.nodeList
         }
+      })
+      this.sonMenuList.forEach(item => {
+        if (item.menuUrl == this.pathTowMenuActive) {
+          this.initGrandsonMenu(item)
+        }
+      })
+      // this.initGrandsonMenu(this.sonMenuList[0])
     },
     // 获取子级菜单(子级)
     getsonMenuList(item, index) {
-      this.nowOneMenuActive = index
+      this.$router.push(item.nodeList[0].menuUrl)
+      // if (location.hash)
+      this.pathOneMenuActive = ''
+      this.pathTowMenuActive = ''
+      this.pathThreeMenuActive = ''
+      this.oneMenuIndex = index
+      this.towMenuIndex = 0
       this.sonMenuList = item.nodeList
       this.nowMenuName = item.menuName
       this.initGrandsonMenu(this.sonMenuList[0])
-      this.nowTowMenuActive = 0
-      this.nowThreeMenuActive = 0
     },
     // 获取次子菜单(孙子级)
     getGrandsonMentList(item, index) {
-      this.nowTowMenuActive = index
+      this.pathTowMenuActive = ''
+      this.pathThreeMenuActive = ''
+      this.towMenuIndex = index
       this.initGrandsonMenu(item)
-      this.nowThreeMenuActive = 0
     },
     // 获取页面详情
     getPages(item, index) {
-      this.nowThreeMenuActive = index
+      this.pathThreeMenuActive = ''
+      this.threeMenuIndex = index
     },
     // 初始化次子级菜单(孙子级)
     initGrandsonMenu(son) {
@@ -213,9 +233,8 @@ export default {
         res => {
           if (res.ret == '200000') {
             that.dialogVisible = false
-            that.$router.replace({
-              name: 'Login'
-            })
+            // that.$router.push('/login')
+            that.$router.replace({name: 'Login'})
           } else {
             this.$message.error(res.message)
           }
@@ -226,7 +245,7 @@ export default {
       )
     },
     handleClose(done) {
-    	var that=this;
+      var that = this
       this.$confirm('确定要退出登录？')
         .then(_ => {
           that.logout()
@@ -244,31 +263,6 @@ export default {
   font-size: 14px;
   color: #fff;
   background: #d9e0e7;
-  // 第一版
-  // .el-container {
-  //   width: 100%;
-  //   height: 100%;
-  //   .el-header {
-  //     height: 50px;
-  //     background-color: #fff;
-  //     padding: 0;
-  //     .top-logo {
-  //       width: 250px;
-  //       height: 100%;
-  //       line-height: 50px;
-  //       text-align: center;
-  //       background-color: #283543;
-  //       img {
-  //         vertical-align: middle;
-  //       }
-  //     }
-  //   }
-  //   .el-aside {
-  //     width: 200px;
-  //     height: 100%;
-  //     background-color: #283543;
-  //   }
-  // }
   .el-aside {
     height: 100%;
     background-color: #283543;
@@ -278,7 +272,7 @@ export default {
     li {
       height: 36px;
       line-height: 36px;
-			margin-bottom: 14px;
+      margin-bottom: 14px;
     }
     .left {
       float: left;
@@ -292,17 +286,16 @@ export default {
           width: 50px;
           vertical-align: middle;
         }
-			}
-			a {
-				color: #fff;
-			}
+      }
+      a {
+        color: #fff;
+      }
       li.active {
         background-color: #f8f8f8;
         a {
-					color: #333;
-				}
-			}
-			
+          color: #333;
+        }
+      }
     }
     .right {
       float: left;
