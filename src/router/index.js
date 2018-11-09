@@ -496,49 +496,49 @@ export default new Router({
 })
 
 // 商城-审核管理
-import auditManage from '../pages/Mall/AuditManage/AuditManage'
+import auditManage from '@/pages/Mall/AuditManage/AuditManage'
 // 商城-系统设置
-import systemLayout from '../pages/Mall/SystemLayout/SystemLayout'
+import systemLayout from '@/pages/Mall/SystemLayout/SystemLayout'
 // 商城-商品管理-自建商品管理
-import buildProduct from '../pages/Mall/CommodityManage/BuildProduct/BuildProduct'
-import addProduct from  '../pages/Mall/CommodityManage/BuildProduct/AddProduct'
-import editProduct from  '../pages/Mall/CommodityManage/BuildProduct/EditProduct'
+import buildProduct from '@/pages/Mall/CommodityManage/BuildProduct/BuildProduct'
+import addProduct from  '@/pages/Mall/CommodityManage/BuildProduct/AddProduct'
+import editProduct from  '@/pages/Mall/CommodityManage/BuildProduct/EditProduct'
 // 商城-商品管理-京东商品管理
-import JDProduct from '../pages/Mall/CommodityManage/JDProduct/JDProduct'
-import addJDProduct from '../pages/Mall/CommodityManage/JDProduct/AddJDProduct'
-import editJDProduct from '../pages/Mall/CommodityManage/JDProduct/EditJDProduct'
+import JDProduct from '@/pages/Mall/CommodityManage/JDProduct/JDProduct'
+import addJDProduct from '@/pages/Mall/CommodityManage/JDProduct/AddJDProduct'
+import editJDProduct from '@/pages/Mall/CommodityManage/JDProduct/EditJDProduct'
 // 商城-banner位管理
-import bannerManage from '../pages/Mall/BannerManage/BannerManage'
-import addBanner from '../pages/Mall/BannerManage/AddBanner'
-import editBanner from '../pages/Mall/BannerManage/EditBanner'
+import bannerManage from '@/pages/Mall/BannerManage/BannerManage'
+import addBanner from '@/pages/Mall/BannerManage/AddBanner'
+import editBanner from '@/pages/Mall/BannerManage/EditBanner'
 // 商城-分类管理
-import sortManage from '../pages/Mall/SortManage/SortManage'
+import sortManage from '@/pages/Mall/SortManage/SortManage'
 // 商城-推荐位管理
-import recommendManage from '../pages/Mall/RecommendManage/RecommendManage'
+import recommendManage from '@/pages/Mall/RecommendManage/RecommendManage'
 // 商城-推荐位管理-新增推荐位A
-import addCommendTpmA from '../pages/Mall/RecommendManage/Template/AddCommendTpmA'
+import addCommendTpmA from '@/pages/Mall/RecommendManage/Template/AddCommendTpmA'
 // 商城-推荐位管理-编辑推荐位A
-import editCommendTpmA from '../pages/Mall/RecommendManage/Template/EditCommendTpmA'
+import editCommendTpmA from '@/pages/Mall/RecommendManage/Template/EditCommendTpmA'
 // 商城-推荐位管理-新增推荐位B
-import addCommendTpmB from '../pages/Mall/RecommendManage/Template/AddCommendTpmB'
+import addCommendTpmB from '@/pages/Mall/RecommendManage/Template/AddCommendTpmB'
 // 商城-推荐位管理-编辑推荐位B
-import editCommendTpmB from '../pages/Mall/RecommendManage/Template/EditCommendTpmB'
+import editCommendTpmB from '@/pages/Mall/RecommendManage/Template/EditCommendTpmB'
 // 商城-推荐位管理-新增推荐位C
-import addCommendTpmC from '../pages/Mall/RecommendManage/Template/AddCommendTpmC'
+import addCommendTpmC from '@/pages/Mall/RecommendManage/Template/AddCommendTpmC'
 // 商城-推荐位管理-编辑推荐位C
-import editCommendTpmC from '../pages/Mall/RecommendManage/Template/EditCommendTpmC'
+import editCommendTpmC from '@/pages/Mall/RecommendManage/Template/EditCommendTpmC'
 
 //零售户-审核管理
-import reviewmanage from '../pages/Seller/Reviewmanage/ReviewManage'
+import reviewmanage from '@/pages/Seller/Reviewmanage/ReviewManage'
 //零售户-审核详情
-import reviewDetail from  '../pages/Seller/Reviewmanage/ReviewDetail'
+import reviewDetail from  '@/pages/Seller/Reviewmanage/ReviewDetail'
 //零售户-新增零售户
-import addSeller from  '../pages/Seller/AddSeller/AddSeller'
+import addSeller from  '@/pages/Seller/AddSeller/AddSeller'
 //零售户-零售户管理
-import sellerManage from '../pages/Seller/SellerManage/SellerManage'
+import sellerManage from '@/pages/Seller/SellerManage/SellerManage'
 //零售户-零售户管理-详情
-import sellerDetail from '../pages/Seller/SellerManage/SelllerDetail'
+import sellerDetail from '@/pages/Seller/SellerManage/SelllerDetail'
 //零售户-提现审核
-import amountExamine from '../pages/Seller/AmountExamine/AmountExamine'
+import amountExamine from '@/pages/Seller/AmountExamine/AmountExamine'
 //零售户-返佣管理-扫码返佣管理
-import rebateManage from '../pages/Seller/RebateManage/RebateManage'
+import rebateManage from '@/pages/Seller/RebateManage/RebateManage'
