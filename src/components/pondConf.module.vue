@@ -102,105 +102,6 @@
         </span>
       </el-form-item>
     </el-form>
-    <!-- 实物弹窗 -->
-    <!-- <el-dialog title="选择实物" :visible.sync="entityVisible" width="800px">
-      <el-table :data="entityList" border :stripe="true" style="width: 100%">
-        <el-table-column prop="name" label="礼品名称" align="center">
-        </el-table-column>
-        <el-table-column label="礼品图片" align="center">
-          <template slot-scope="scope">
-            <img :src="scope.row.pic" alt="" style="height: 60px">
-          </template>
-        </el-table-column>
-        <el-table-column prop="stock" label="剩余库存" align="center">
-        </el-table-column>
-        <el-table-column label="操作" align="center">
-          <template slot-scope="scope">
-            <el-button size="mini">选择</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-col :span="24">
-        <el-pagination background @size-change="entitySizeChange" @current-change="entityCurrentChange" :current-page="entityParams.pageNo" layout="total, prev, pager, next, jumper" :total="entityTotal">
-        </el-pagination>
-      </el-col>
-      <div style="clear:both"></div>
-    </el-dialog> -->
-
-    <!-- 虚拟弹窗 -->
-    <!-- <el-dialog title="选择虚拟" :visible.sync="virtualVisible" width="800px">
-      <el-table :data="virtualList" border :stripe="true" style="width: 100%">
-        <el-table-column prop="name" label="礼品名称" align="center">
-        </el-table-column>
-        <el-table-column label="礼品图片" align="center">
-          <template slot-scope="scope">
-            <img :src="scope.row.pic" alt="" style="height: 60px">
-          </template>
-        </el-table-column>
-        <el-table-column prop="stock" label="剩余库存" align="center">
-        </el-table-column>
-        <el-table-column label="操作" align="center">
-          <template slot-scope="scope">
-            <el-button size="mini">选择</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-col :span="24">
-        <el-pagination background @size-change="virtualSizeChange" @current-change="virtualCurrentChange" :current-page="virtualParams.pageNo" layout="total, prev, pager, next, jumper" :total="virtualTotal">
-        </el-pagination>
-      </el-col>
-      <div style="clear:both"></div>
-    </el-dialog> -->
-
-    <!-- 红包弹窗 -->
-    <!-- <el-dialog title="选择虚拟" :visible.sync="redpackVisible" width="800px">
-      <el-table :data="redpackList" border :stripe="true" style="width: 100%">
-        <el-table-column prop="name" label="礼品名称" align="center">
-        </el-table-column>
-        <el-table-column label="礼品图片" align="center">
-          <template slot-scope="scope">
-            <img :src="scope.row.pic" alt="" style="height: 60px">
-          </template>
-        </el-table-column>
-        <el-table-column prop="stock" label="剩余库存" align="center">
-        </el-table-column>
-        <el-table-column label="操作" align="center">
-          <template slot-scope="scope">
-            <el-button size="mini">选择</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-col :span="24">
-        <el-pagination background @size-change="redpackSizeChange" @current-change="redpackCurrentChange" :current-page="redpackParams.pageNo" layout="total, prev, pager, next, jumper" :total="redpackTotal">
-        </el-pagination>
-      </el-col>
-      <div style="clear:both"></div>
-    </el-dialog> -->
-
-    <!-- 积分弹窗 -->
-    <!-- <el-dialog title="选择虚拟" :visible.sync="integralVisible" width="800px">
-      <el-table :data="integralList" border :stripe="true" style="width: 100%">
-        <el-table-column prop="name" label="礼品名称" align="center">
-        </el-table-column>
-        <el-table-column label="礼品图片" align="center">
-          <template slot-scope="scope">
-            <img :src="scope.row.pic" alt="" style="height: 60px">
-          </template>
-        </el-table-column>
-        <el-table-column prop="stock" label="剩余库存" align="center">
-        </el-table-column>
-        <el-table-column label="操作" align="center">
-          <template slot-scope="scope">
-            <el-button size="mini">选择</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-col :span="24">
-        <el-pagination background @size-change="integralSizeChange" @current-change="integralCurrentChange" :current-page="integralParams.pageNo" layout="total, prev, pager, next, jumper" :total="integralTotal">
-        </el-pagination>
-      </el-col>
-      <div style="clear:both"></div>
-    </el-dialog> -->
 
     <!-- 通用 -->
     <el-dialog :title="title" :visible.sync="listVisible" width="800px">
@@ -268,56 +169,6 @@ export default {
     return {
       pondConf: this.awae,
       prizeList: this.prizeType,
-      pondRules: {
-        // nNum: [{required: true, message: '请输入多少次必中', trigger: 'blur'}],
-        // type: [{required: true, message: '请选择奖品类型', trigger: 'blur'}],
-        // name: [{required: true, message: '请输入奖品名称', trigger: 'blur'}],
-        // prize: [{required: true, validator: validateImgUrl}],
-        // putNum: [{required: true, message: '请选择投放数量', trigger: 'blur'}],
-        // probability: [{required: true, message: '请选择中奖概率', trigger: 'blur'}],
-        // redMoney: [{required: true, message: '请选择红包面额', trigger: 'blur'}],
-        // remainNum: [{required: true, message: '请选择积分面额', trigger: 'blur'}]
-      },
-      // entityVisible: false,
-      // entityList: [],
-      // entityParams: {
-      //   metraFlag: 'object',
-      //   pageNo: 1,
-      //   pageSize: 10,
-      //   status: 1
-      // },
-      // entityTotal: 0,
-      
-      // virtualVisible: false,
-      // virtualList: [],
-      // virtualParams: {
-      //   metraFlag: 'virtual',
-      //   pageNo: 1,
-      //   pageSize: 10,
-      //   status: 1
-      // },
-      // virtualTotal: 0,
-
-      // redpackVisible: false,
-      // redpackList: [],
-      // redpackParams: {
-      //   metraFlag: 'redpack',
-      //   pageNo: 1,
-      //   pageSize: 10,
-      //   status: 1
-      // },
-      // redpackTotal: 0,
-
-      // integralVisible: false,
-      // integralList: [],
-      // integralParams: {
-      //   metraFlag: 'integral',
-      //   pageNo: 1,
-      //   pageSize: 10,
-      //   status: 1
-      // },
-      // integralTotal: 0,
-
 
       title: '选择物品',
       list: [],
@@ -329,7 +180,6 @@ export default {
       },
       listTotal: 0,
       listVisible: false,
-
 
       integralList: [],
       integralTotal: 0,
@@ -403,101 +253,7 @@ export default {
     handCurrentChange(newSize) {
       this.params.pageNo = newSize
       this.getList()
-    },
-
-
-
-    //   // 实物
-    // getEntityList() {
-    //   this.$request.post('/api/saotx/metra/list', this.entityParams, true, res => {
-    //     if (res.ret === '200000') {
-    //       this.entityList = res.data.list
-    //       this.entityTotal = res.data.page.count
-    //       this.entityVisible = true
-    //       return
-    //     }
-    //     this.$message.error(res.message)
-    //   })
-    // },
-    // // 实物
-    // entitySizeChange(newSize) {
-    //   this.entityParams.pageSize = newSize
-    //   this.getEntityList()
-    // },
-    // // 实物
-    // entityCurrentChange(newSize) {
-    //   this.entityParams.pageNo = newSize
-    //   this.getEntityList()
-    // },
-
-    // // 虚拟
-    // getVirtualList() {
-    //   this.$request.post('/api/saotx/metra/list', this.virtualParams, true, res => {
-    //     if (res.ret === '200000') {
-    //       this.virtualList = res.data.list
-    //       this.virtualTotal = res.data.page.count
-    //       this.virtualVisible = true
-    //       return
-    //     }
-    //     this.$message.error(res.message)
-    //   })
-    // },
-    //  // 虚拟
-    // virtualSizeChange(newSize) {
-    //   this.virtualParams.pageSize = newSize
-    //   this.getVirtualList()
-    // },
-    // // 虚拟
-    // virtualCurrentChange(newSize) {
-    //   this.virtualParams.pageNo = newSize
-    //   this.getVirtualList()
-    // },
-
-    // // 红包
-    // getRedpacklList() {
-    //   this.$request.post('/api/saotx/metra/list', this.redpackParams, true, res => {
-    //     if (res.ret === '200000') {
-    //       this.redpackList = res.data.list
-    //       this.redpackTotal= res.data.page.count
-    //       this.redpackVisible = true
-    //       return
-    //     }
-    //     this.$message.error(res.message)
-    //   })
-    // },
-    //  // 红包
-    // redpackSizeChange(newSize) {
-    //   this.redpackParams.pageSize = newSize
-    //   this.getRedpacklList()
-    // },
-    // // 红包
-    // redpackCurrentChange(newSize) {
-    //   this.redpackParams.pageNo = newSize
-    //   this.getRedpacklList()
-    // },
-
-    // // 积分
-    // getIntegrallList() {
-    //   this.$request.post('/api/saotx/metra/list', this.integralParams, true, res => {
-    //     if (res.ret === '200000') {
-    //       this.integralList = res.data.list
-    //       this.integralTotal= res.data.page.count
-    //       this.integralVisible = true
-    //       return
-    //     }
-    //     this.$message.error(res.message)
-    //   })
-    // },
-    //  // 积分
-    // integralSizeChange(newSize) {
-    //   this.integralParams.pageSize = newSize
-    //   this.getIntegrallList()
-    // },
-    // // 积分
-    // integralCurrentChange(newSize) {
-    //   this.integralParams.pageNo = newSize
-    //   this.getIntegrallList()
-    // },
+    }
   }
 }
 </script>

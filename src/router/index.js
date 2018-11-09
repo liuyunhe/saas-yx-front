@@ -173,19 +173,19 @@ export default new Router({
     {
       path: '/login',
       name: 'Login',
-      leaf:true,
+      // leaf:true,
       component: Login
     },
     {
       path: '/find',
       name: 'Find',
-      leaf:true,
+      // leaf:true,
       component: Find
     },
     {
       path: '/',
       name: 'Home',
-      leaf: true,
+      // leaf: true,
       redirect: '/home'
     },
     {
