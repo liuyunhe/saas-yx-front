@@ -50,7 +50,7 @@
         <el-table-column prop="statusName" label="状态" align="center"></el-table-column>
         <el-table-column label="操作" align="center" width="220px">
           <template slot-scope="scope">
-            <el-button size="mini" type="primary" @click="$router.push('/market/actTpl/addAct?id=' + scope.row.id)">编辑</el-button>
+            <el-button size="mini" type="primary" @click="edit(scope.row.form,scope.row.id)">编辑</el-button>
             <el-button size="mini" type="success" @click="$router.push('/market/actTpl/actSetConf?form=' + scope.row.form + '&tplCode=' + scope.row.tplCode)">投放</el-button>
             <el-button size="mini" @click="delAct(scope.row.id)" type="danger">删除</el-button>
           </template>
@@ -70,7 +70,7 @@
           <div v-if="actForms">
             <div class="act-item" v-for="item in actForms" :key="item.id">
               <img :src="item.extUrl" :alt="item.name">
-              <p>{{item.name}}<i class="el-icon-circle-plus" @click="goAddActTpl()"></i></p>
+              <p>{{item.name}}<i class="el-icon-circle-plus" @click="goAddActTpl(item.code)"></i></p>
             </div>
           </div>
           <div v-else>暂无</div>
@@ -133,7 +133,6 @@ export default {
   },
   // 离开路由之前执行的函数
   beforeRouteLeave(to, from, next) {
-    console.log(to.path)
     next()
   },
   methods: {
@@ -269,8 +268,12 @@ export default {
       console.log(id[0].id)
     },
     // 跳转到新建活动模板页面
-    goAddActTpl() {
-      this.$router.push('/market/actTpl/addAct')
+    goAddActTpl(code) {
+    	if(code=='act-103'){
+    		this.$router.push('/market/actTpl/addActEgg')
+    	}else {
+    		this.$router.push('/market/actTpl/addAct')
+    	} 
     },
     // 每当 pagesize 变化，会触发 这个函数
     handleSizeChange(newSize) {
@@ -291,6 +294,13 @@ export default {
     actHandleCurrentChange(newPage) {
       this.actParams.pageNo = newPage
       this.getAct()
+    },
+    edit(code,id){
+    	if(code=='act-103'){
+    		this.$router.push('/market/actTpl/addActEgg?id=' + id)
+    	}else {
+    		this.$router.push('/market/actTpl/addAct?id=' + id)
+    	} 	
     }
   }
 }
