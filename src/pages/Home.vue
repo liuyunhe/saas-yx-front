@@ -102,29 +102,6 @@ export default {
       console.log(to)
     }
   },
-  beforeRouteEnter(to, from, next) {
-    // console.log(to.path)
-    // this.menuList.forEach(item => {
-    //   if (to.path == item.menuUrl) {
-    //     console.log('进来了')
-    //     next(item.nodeList[0].menuUrl)
-    //     console.log(item.nodeList[0].menuUrl)
-    //   }
-    // })
-    next()
-  },
-  // 离开路由之前执行的函数
-  beforeRouteLeave(to, from, next) {
-    console.log(to.path)
-    this.menuList.forEach(item => {
-      if (to.path == item.menuUrl) {
-        console.log('进来了')
-        next(item.nodeList[0].menuUrl)
-        console.log(item.nodeList[0].menuUrl)
-      }
-    })
-    // next()
-  },
   methods: {
     init() {
       this.getMenuList()

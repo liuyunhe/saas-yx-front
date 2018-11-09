@@ -282,11 +282,16 @@ export default {
     },
     // 新增或修改物料表单
     materielForm(index, row) {
-      let _path = "/product/materiel/form?metraFlag="+this.metraFlag;
-      if( row&&row.id ) {
-        _path += "&id="+row.id;
+      //let _path = "/product/materiel/form?metraFlag="+this.metraFlag;
+      //if( row&&row.id ) {
+      //  _path += "&id="+row.id;
+      //}
+      //this.$router.push({path:_path});
+      let materielId = "";
+      if(row&&row.id) {
+        materielId = row.id;
       }
-      this.$router.push({path:_path});
+      this.$emit('showForm', materielId);
     },
     // 查询礼品库列表数据
     listMateriel(_event, pageNo, pageSize) {

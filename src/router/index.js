@@ -86,9 +86,6 @@ const MaterielVirtual = () => import(/* webpackChunkName: "product" */ '@/pages/
 const MaterielRedpack = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Redpack.vue')
 // 产品-物料管理-积分礼品
 const MaterielIntegral = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Integral.vue')
-// 产品-物料管理-实物、虚拟、红包、积分表格展示公共页
-const MaterielTable = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Table.vue')
-const MaterielForm = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Form.vue')
 
 
 // 设置-日志管理
@@ -161,6 +158,12 @@ const sellerDetail = () => import(/* webpackChunkName: "seller" */ '../pages/Sel
 const amountExamine = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/AmountExamine/AmountExamine')
 //零售户-返佣管理-扫码返佣管理
 const rebateManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/RebateManage/RebateManage')
+//零售户-业绩活动
+const sellerAchievement = () => import(/* webpackChunkName: "seller" */ '@/pages/Seller/Achievement')
+//零售户-初审管理
+const sellerAuditStep1 = () => import(/* webpackChunkName: "seller" */ '@/pages/Seller/Audit/Step1')
+//零售户-终审管理
+const sellerAuditStep2 = () => import(/* webpackChunkName: "seller" */ '@/pages/Seller/Audit/Step2')
 
 Vue.use(Router)
 
@@ -170,19 +173,19 @@ export default new Router({
     {
       path: '/login',
       name: 'Login',
-      leaf:true,
+      // leaf:true,
       component: Login
     },
     {
       path: '/find',
       name: 'Find',
-      leaf:true,
+      // leaf:true,
       component: Find
     },
     {
       path: '/',
       name: 'Home',
-      leaf: true,
+      // leaf: true,
       redirect: '/home'
     },
     {
@@ -252,8 +255,6 @@ export default new Router({
         { path: '/product/mgr/editTobaccoMr', name: '编辑卷烟', component: editTobaccoMr,props: (route) => ({id:route.query.id}) },
         { path: '/product/mgr/liquor', name: '酒管理', component: KPI },
         { path: '/product/materiel', name: '物料管理', redirect: '/product/materiel/object' },
-        { path: '/product/materiel/table', name: '物料礼品列表', component: MaterielTable, props: (route) => ({metraFlag:route.query.metraFlag})},
-        { path: '/product/materiel/form', name: '物料表单管理', component: MaterielForm, props: (route) => ({metraFlag:route.query.metraFlag, id:route.query.id})},
         { path: '/product/materiel/object', name: '实物礼品', component: MaterielObject },
         { path: '/product/materiel/virtual', name: '虚拟礼品', component: MaterielVirtual },
         { path: '/product/materiel/redpack', name: '红包', component: MaterielRedpack },
@@ -288,9 +289,11 @@ export default new Router({
         { path: '/seller/mgr', name: '零售户管理', component: sellerManage},
         { path: '/seller/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
         { path: '/seller/tx', name: '提现审核', component: amountExamine},
-        { path: '/seller/achievement', name: '零售户业绩', component: KPI },
+        { path: '/seller/achievement', name: '业绩活动', component: sellerAchievement },
         { path: '/seller/rebate', name: '返佣管理', redirect: '/seller/rebate/mgr' },
         { path: '/seller/rebate/mgr', name: '扫码返佣管理', component: rebateManage },
+        { path: '/seller/audStep1', name: '初审管理', component: sellerAuditStep1},
+        { path: '/seller/audStep2', name: '终审管理', component: sellerAuditStep2},
         // 商城
         { path: '/mall', name: '商城'},
         { path: '/mall/auth', name: '审核管理', component: auditManage },
@@ -340,6 +343,3 @@ export default new Router({
     return { x: 0, y: 0 }
   }
 })
-
-
-
