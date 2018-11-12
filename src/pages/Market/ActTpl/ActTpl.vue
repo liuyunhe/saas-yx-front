@@ -356,11 +356,13 @@ export default {
     },
     // 跳转到新建活动模板页面
     goAddActTpl(code) {
-      if (code == 'act-103') {
-        this.$router.push('/market/actTpl/addActEgg')
-      } else {
-        this.$router.push('/market/actTpl/addAct')
-      }
+    	if(code=='act-103'){
+    		this.$router.push('/market/actTpl/addActEgg')
+    	}else if(code=='act-102'){//点元宝
+            this.$router.push('/market/actTpl/AddWingAct')
+        }else{
+    		this.$router.push('/market/actTpl/addAct')
+    	}
     },
     // 每当 pagesize 变化，会触发 这个函数
     handleSizeChange(newSize) {
@@ -382,12 +384,14 @@ export default {
       this.actParams.pageNo = newPage
       this.getAct()
     },
-    edit(code, id) {
-      if (code == 'act-103') {
-        this.$router.push('/market/actTpl/addActEgg?id=' + id)
-      } else {
-        this.$router.push('/market/actTpl/addAct?id=' + id)
-      }
+    edit(code,id){
+    	if(code=='act-103'){
+    		this.$router.push('/market/actTpl/addActEgg?id=' + id)
+    	}else if(code=='act-102'){//点元宝
+            this.$router.push('/market/actTpl/AddWingAct?id=' + id)
+        }else{
+    		this.$router.push('/market/actTpl/addAct?id=' + id)
+    	}
     }
   }
 }
