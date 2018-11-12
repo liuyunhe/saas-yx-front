@@ -196,7 +196,10 @@
 				that.listShow = false;
 				that.addListShow = true;
 				that.editListShow = false;
-				console.log(that.noArr)
+				that.addImg1='http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png';
+				that.addImg2='http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png';
+				that.selectValue='';
+				that.noArr=[];
 				for(let i = 0; i < that.navArr.length; i++) {
 					let flag = false;
 					for(let j = 0; j < that.typeArr.length; j++) {
@@ -234,7 +237,7 @@
 							tempType = item.type;
 						}
 					})
-					that.submitArr.push({
+					var addObj={
 						id: '',
 						name: that.selectValue,
 						type: tempType,
@@ -242,7 +245,16 @@
 						icon: that.addImg1,
 						activeIcon: that.addImg2,
 						del: 1
-					})
+					};
+					if(!addObj.type){
+						this.$message({
+							message: '请填写完整的菜单信息',
+							type: 'warning'
+						});
+						return;
+					}
+					that.submitArr.push(addObj)
+					
 
 				} else if(that.editListShow) {
 					if(!that.flag) {
@@ -277,7 +289,7 @@
 				console.log(event.currentTarget.getAttribute('dataId'))
 				var id = parseInt(event.currentTarget.getAttribute('dataId'));
 				var that = this;
-				this.$confirm('确定要退出登录？')
+				this.$confirm('确定删除该菜单？')
 					.then(_ => {
 						that.submitArr.splice(id, 1);
 						that.save();
