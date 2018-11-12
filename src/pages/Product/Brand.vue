@@ -122,7 +122,7 @@ export default {
             this.search.pageNo = _pageNo;
             let _pageSize = 10;
             if(pageSize) _pageSize = pageSize;
-            this.search.pageNo = _pageSize;
+            this.search.pageSize = _pageSize;
 
             this.$request.post('/api/saotx/prod/brands', this.search, true, (res)=>{
                 if (res.ret == '200000') {
