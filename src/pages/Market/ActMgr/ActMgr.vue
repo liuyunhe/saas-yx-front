@@ -62,6 +62,8 @@
           </el-col>
         </el-row>
       </el-form>
+    </el-card>
+    <el-card class="mt20">
       <el-table v-loading="loading" :data="actList" border style="width: 100%" :stripe="true">
         <el-table-column type="index" width="50" label="序号" align="center">
         </el-table-column>
@@ -107,10 +109,8 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-col :span="24" v-show="actForms">
-        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryActParams.pageNo" :page-size="queryActParams.pageSize" layout="total, prev, pager, next, jumper" :total="actListTotal">
-        </el-pagination>
-      </el-col>
+      <el-pagination v-if="actForms" background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryActParams.pageNo" :page-size="queryActParams.pageSize" layout="total, prev, pager, next, jumper" :total="actListTotal">
+      </el-pagination>
     </el-card>
     <!-- 新建活动弹框 -->
     <el-dialog :visible.sync="addActDialogVisible" width="900px" :close-on-click-modal="false">
@@ -134,10 +134,10 @@
         <div v-else>暂无</div>
       </div>
       <el-col :span="24" v-show="actForms">
-        <el-pagination background @size-change="actHandleSizeChange" @current-change="actHandleCurrentChange" :current-page="actParams.pageNo" :page-size="actParams.pageSize" layout="total, prev, pager, next, jumper" :total="actTotal">
+        <el-pagination class="mb20" background @size-change="actHandleSizeChange" @current-change="actHandleCurrentChange" :current-page="actParams.pageNo" :page-size="actParams.pageSize" layout="total, prev, pager, next, jumper" :total="actTotal">
         </el-pagination>
       </el-col>
-      <div style="clear: both"></div>
+      <!-- <div style="clear: both"></div> -->
     </el-dialog>
     <!-- 日志弹窗 -->
     <el-dialog :visible.sync="putLogVisible" width="900px" :close-on-click-modal="false">
@@ -449,7 +449,7 @@ export default {
         res => {
           if (res.ret == '200000') {
             this.actFormName.push(...res.data.list)
-            this.getAct()
+            // this.getAct()
           } else {
             this.$message.error(res.message)
           }

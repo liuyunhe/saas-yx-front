@@ -18,12 +18,20 @@ const webpackConfig = merge(baseWebpackConfig, {
     rules: utils.styleLoaders({
       sourceMap: config.build.productionSourceMap,
       extract: true,
-      usePostCSS: true
+      usePostCSS: true,
+      publicPath:'./',
     })
+  },
+  externals: {
+    // axios: 'axios',
+    // lodash: '_',
+    // nprogress: 'NProgress',
+    // echarts: 'echarts'
   },
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
   output: {
     path: config.build.assetsRoot,
+    publicPath: './',
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },

@@ -590,8 +590,9 @@
                     this.listDataTopTen=datas
                 });
             },
-            Datail(){
-
+            Datail(mobileNo){
+                sessionStorage.setItem('mobileNo',mobileNo);
+                this.$router.push({path:'/datas/userAnalysis/portraitu?mobileNo='+mobileNo})
             },
             queryData(){
                 this.kpikDataList();

@@ -63,7 +63,7 @@
 						<el-table-column prop="lastMonthPv" label="(上月)扫码烟包数" width="200">
 						</el-table-column>
 						<el-table-column prop="llastMontHPv" label="(上上月)扫码烟包数" width="200">
-						</el-table-column>				
+						</el-table-column>
 				</el-table>
 			</div>
 		</div>
@@ -96,7 +96,7 @@
 				loading4:true,
 				loading5:true,
 				loading6:true,
-				
+
 			}
 		},
 		created() {
@@ -127,7 +127,7 @@
 					inter=null;
 				}
 			},10)
-			
+
 		},
 		methods: {
 			getIdByPhone(phone) {
@@ -189,7 +189,7 @@
 				this.loading4=true;
 				this.loading5=true;
 				this.loading6=true;
-				
+
 				this.getUserInfo();
 				this.drawScanTime();
 				this.drawPie();
@@ -199,7 +199,7 @@
 			},
 			search() {
 				this.getIdByPhone(this.phone)
-				
+
 			},
 			getUserInfo(){
 				var that=this;
@@ -280,7 +280,7 @@
 							        }
 							    ],
 							    yAxis : [
-							        {	
+							        {
 							            type : 'value'
 							        }
 							    ],
@@ -291,7 +291,7 @@
 							            barWidth: '60%',
 							            data:scanPvArr
 							        }
-							    ]					
+							    ]
 							});
 
 						},
@@ -320,7 +320,7 @@
 										value:item.scanPv
 									});
 								})
-								
+
 							}
 							let myChart = this.$echarts.init(document.getElementById('pie'));
 
@@ -435,7 +435,7 @@
 							        }
 							    ],
 							    yAxis : [
-							        {	
+							        {
 							        	name:'单包结构 (元)',
 							            type : 'value'
 							        }
@@ -446,7 +446,7 @@
 							            type:'line',
 							            data:scanPvArr
 							        }
-							    ]					
+							    ]
 							});
 
 						},
@@ -556,7 +556,7 @@
 						        }
 						      ],
 							"series": {
-								"name":"扫码烟包数",		
+								"name":"扫码烟包数",
 								"type": "scatter",
 								"symbolSize": "symbolSize",
 								"data": [""]
@@ -566,7 +566,7 @@
 									"show": "true",
 									"formatter":"formatter",
 									 "position": "top"
-									
+
 								}
 							},
 							"itemStyle": {
@@ -607,7 +607,7 @@
 					res => {
 						var data=res || [];
 						data=[{"effectScanPv":2,"productName":"钻石（洪荒之绿）盒","statDate":"2018-10-31"}]
-						
+
 						var sum = 0;
 						var EffectScanPv=data;
 						for(var i = 0; i < data.length; i++) {
@@ -695,7 +695,7 @@
 					}
 				)
 			}
-			
+
 		}
 	}
 </script>
