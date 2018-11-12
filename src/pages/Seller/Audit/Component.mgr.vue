@@ -113,7 +113,7 @@
                     <el-form class="search-block">
                         <el-input v-model="auditForm.id" type="hidden"></el-input>
                         <el-form-item label="得分" v-show="auditForm.audStatus==2">
-                            <el-input-number size="small" v-model="auditForm.score" controls-position="right" :min="0" :max="maxScore" class="audit-score"></el-input-number>
+                            <el-input-number size="small" type="number" v-model="auditForm.score" controls-position="right" :min="0" :max="maxScore" class="audit-score"></el-input-number>
                         </el-form-item>
                         <el-form-item label="" v-show="auditForm.audStatus==3">
                             <el-input size="small" type="textarea" :rows="5" v-model="auditForm.note" placeholder="请输入不超过50字的内容"></el-input>
@@ -137,7 +137,7 @@
                         </td>
                         <td width="35%">
                             <label>初审时间：</label>
-                            <span v-if="detailForm.step.s1ApplyTime">{{new Date(detailForm.step.s1AudTime).Format("yyyy-MM-dd hh:mm:ss")}}</span>
+                            <span v-if="detailForm.step.s1AudTime">{{new Date(detailForm.step.s1AudTime).Format("yyyy-MM-dd hh:mm:ss")}}</span>
                         </td>
                         <td colspan="2">
                             <label>得分：</label>
@@ -146,31 +146,31 @@
                     </tr>
                     <tr>
                         <td>
-                            <label>门店名称：</label>
-                            <span>{{detailForm.shopName}}</span>
-                        </td>
-                        <td>
                             <label>联系人姓名：</label>
                             <span>{{detailForm.ownerName}}</span>
+                        </td>
+                        <td>
+                            <label>联系人微信：</label>
+                            <span>{{detailForm.nickname}}</span>
                         </td>
                         <td rowspan="3" valign="top" width="130px">
                             <label class="multi-span">烟草许可证照片：</label>
                         </td>
-                        <td rowspan="3" valign="middle">
-                            <el-popover placement="right" trigger="hover" width="20">
+                        <td rowspan="4" valign="middle">
+                            <el-popover placement="right" trigger="click">
                                 <img class="popover-img" :src="detailForm.licenceImg" />
                                 <img class="licence-img" slot="reference" :src="detailForm.licenceImg" />
                             </el-popover>
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                         <td>
                             <label>联系人电话：</label>
                             <span>{{detailForm.phoneNo}}</span>
                         </td>
                         <td>
-                            <label>联系人微信：</label>
-                            <span>{{detailForm.nickname}}</span>
+                            <label>门店名称：</label>
+                            <span>{{detailForm.shopName}}</span>
                         </td>
                     </tr>
                     <tr>
@@ -179,8 +179,18 @@
                             <span>{{detailForm.provinceName}}{{detailForm.cityName}}{{detailForm.districtName}}</span>
                         </td>
                         <td>
+                            <label>烟草专卖证号：</label>
+                            <span>{{detailForm.licenceNo}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <label>详细地址：</label>
                             <span>{{detailForm.detail}}</span>
+                        </td>
+                        <td>
+                            <label>业态：</label>
+                            <span>{{detailForm.commercialName}}</span>
                         </td>
                     </tr>
                 </table>
@@ -206,7 +216,7 @@
                         <td colspan="3">
                             <label class="img-label">店面照片：</label>
                             <div>
-                                <el-popover placement="top-start" trigger="hover" v-for="item in detailForm.imgs" :key="item.id">
+                                <el-popover placement="top-start" trigger="click" v-for="item in detailForm.imgs" :key="item.id">
                                     <img class="popover-img" :src="item.imgUrl" />
                                     <img v-if="item.type==1" slot="reference"  :src="item.imgUrl" />
                                 </el-popover>
@@ -217,7 +227,7 @@
                         <td colspan="3">
                             <label class="img-label">陈列照片：</label>
                             <div>
-                                <el-popover placement="top-start" trigger="hover" v-for="item in detailForm.imgs" :key="item.id">
+                                <el-popover placement="top-start" trigger="click" v-for="item in detailForm.imgs" :key="item.id">
                                     <img class="popover-img" :src="item.imgUrl" />
                                     <img v-if="item.type==2" slot="reference"  :src="item.imgUrl" />
                                 </el-popover>
@@ -228,7 +238,7 @@
                         <td colspan="3">
                             <label class="img-label">烟品订单照片：</label>
                             <div>
-                                <el-popover placement="top-start" trigger="hover" v-for="item in detailForm.imgs" :key="item.id">
+                                <el-popover placement="top-start" trigger="click" v-for="item in detailForm.imgs" :key="item.id">
                                     <img class="popover-img" :src="item.imgUrl" />
                                     <img v-if="item.type==3" slot="reference"  :src="item.imgUrl" />
                                 </el-popover>
@@ -249,13 +259,13 @@
                         <el-input size="small" type="textarea" :rows="5" v-model="auditForm.note" :disabled="auditForm.hisAudit" placeholder="请输入不超过50字的内容"></el-input>
                     </el-form-item>
                     <el-form-item label="得分" prop="score" v-show="auditForm.audStatus==2">
-                        <el-input-number size="small" v-model="auditForm.score" controls-position="right" :min="0" :max="maxScore" class="audit-score"></el-input-number>
+                        <el-input-number size="small" type="number" v-model="auditForm.score" controls-position="right" :min="0" :max="maxScore" class="audit-score"></el-input-number>
                     </el-form-item>
                     <div></div>
                     <el-form-item>
-                        <el-button size="small" v-if="auditForm.hisAudit&&auditForm.audStatus==2" type="primary" @click="saveAudit('auditForm', 1)">保存</el-button>
+                        <el-button size="small" v-if="!auditForm.hisAudit||auditForm.audStatus==2" type="primary" @click="saveAudit('auditForm', 1)">保存</el-button>
                         <el-button size="small" @click="saveAudit('auditForm', 2)">退出</el-button>
-                        <el-button size="small" v-if="auditForm.hisAudit&&auditForm.audStatus==2" type="primary" @click="saveAudit('auditForm', 3)">保存并退出</el-button>
+                        <el-button size="small" v-if="!auditForm.hisAudit||auditForm.audStatus==2" type="primary" @click="saveAudit('auditForm', 3)">保存并退出</el-button>
                     </el-form-item>
                 </el-form>
             </el-card>
@@ -438,7 +448,10 @@ export default {
             let url = "/api/saotx/seller/export";
             let xhr = new XMLHttpRequest();
             let formData = new FormData();
-            formData = Object.assign({}, formData, this.form);
+            //formData = Object.assign({}, formData, this.form);
+            for(let attr in this.form) {
+                formData.append(attr, this.form[attr]);
+            }
             formData.pageNo = 1;
             formData.pageSize = -1;// 不分页
 
@@ -473,6 +486,10 @@ export default {
             this.auditForm.show = true;
         },
         auditFormConfirm() {
+            if(this.auditForm.audStatus==3&&this.auditForm.note&&this.auditForm.note.length>50) {
+                this.$message.error("审核不通过的理由不能超过50个字！");
+                return false;
+            }
             let _this = this;
             _this.$request.post('/api/saotx/seller/audit', _this.auditForm, true, (res)=>{
                 if (res.ret==200000) {
@@ -532,7 +549,7 @@ export default {
                 let validResult = false;
                 if(this.auditForm.audStatus==2&&this.auditForm.score) validResult = true;// 审核通过，并且有得分值，则校验OK
                 if(this.auditForm.audStatus==3&&this.auditForm.note&&this.auditForm.note.length<=50) validResult = true;// 审核通过，并且有得分值，则校验OK
-
+                
                 if (validResult) {
                     let apiUrl = "/api/saotx/seller/audit";// 未审核时
                     if(this.auditForm.hisAudit) {
@@ -580,7 +597,7 @@ export default {
             .licence-img {
                 margin-top: 15px;
                 min-width: 80px;
-                max-height: 90px;
+                max-height: 180px;
             }
         }
     }
@@ -605,7 +622,7 @@ export default {
     }
     .el-popover {
         img.popover-img {
-            max-height: 200px;
+            max-height: 400px;
         }
     }
 </style>
