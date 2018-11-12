@@ -162,14 +162,21 @@ router.beforeEach((to, from, next) => {
   }
   const tokenStr = window.sessionStorage.getItem('access_token')
   if (!tokenStr) return next('/login')
-  if (to.path === '/datas/kpi' || to.path === '/home') return next() 
-  // const menu = store
-  // console.log(menu)
+  if (to.path === '/datas/kpi' || to.path === '/home') return next()
+  // console.log(to)
+  // console.log(from)
+  // if(!from.path){
+  //   return next('/datas/kpi')
+  // }
   // const menu = JSON.parse(sessionStorage.getItem('menu'))
   if (JSON.stringify(store.menu).indexOf(to.path) !== -1) {
     next()
   } else {
-    next('/datas/kpi')
+    if(JSON.stringify(store.menu).indexOf(from.path) !==-1 && to.path.indexOf(from.path) !== -1 ){
+      next()
+    }else{
+      next('/datas/kpi')
+    }
   }
   // next()
 })

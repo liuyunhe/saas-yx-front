@@ -1,6 +1,9 @@
 p {
     margin: 0;
 }
+.require {
+    color:red;
+}
 .title-info,.not-title {
     label {
         text-align: left;
@@ -321,6 +324,7 @@ p {
                     padding-top: 10px;
                     position: relative;
                     box-sizing: border-box;
+                    font-size: 12px;
                     span {
                         position: absolute;
                         right:10px;
@@ -348,7 +352,7 @@ p {
                 text-align: center;
                 padding-top: 20px;
                 background-repeat: no-repeat;
-                background-size: 300px 130px;
+                background-size: 310px 150px;
                 border: 1px solid #fff;
                 &:hover {
                     border: 1px dashed #0099FF;
@@ -503,7 +507,7 @@ p {
                 text-align: center;
                 padding-top: 20px;
                 background-repeat: no-repeat;
-                background-size: 300px 130px;
+                background-size: 300px 150px;
                 border: 1px solid #fff;
                 &:hover {
                     border: 1px dashed #0099FF;

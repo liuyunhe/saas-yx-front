@@ -1,93 +1,96 @@
 <template>
-  <!-- 
+  <!--
   Author: chenxin
   Create Date: 2018-10-18
   Description: 活动模板
   -->
   <div class="actTpl-container" v-cloak>
-    <div v-if="aaa">
-      <el-card>
-        <el-button type="primary" size="small" @click="addAct()">新建活动模板</el-button>
-        <el-form ref="form" :model="actListParams" label-width="80px">
-          <el-row>
-            <el-col :span="7">
-              <el-form-item label="模板类型">
-                <el-select size="small" v-model="actListParams.form">
-                  <el-option v-for="item in selectOption" :key="item.form" :label="item.name" :value="item.form"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="7">
-              <el-form-item label="时间段">
-                <el-col>
-                  <el-date-picker size="small" type="date" placeholder="开始时间" v-model="actListParams.ctime" style="width: 100%;"></el-date-picker>
-                </el-col>
-              </el-form-item>
-            </el-col>
-            <el-col :span="7">
-              <el-form-item label="关键词">
-                <el-input size="small" v-model="actListParams.keyword" placeholder="请输入关键词"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col>
-              <!-- 按钮 -->
-              <el-button type="primary" size="small" @click="getActList()">查询</el-button>
-              <el-button type="primary" size="small" @click="resetSearch()">重置</el-button>
-            </el-col>
-          </el-row>
-        </el-form>
-      </el-card>
-      <el-card class="mt20">
-        <el-table v-loading="loading" border :data="actList" style="width: 100%" @select-all="handleSelectionAllChange" @select="handleSelectionChange" class="mt20">
-          <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
-          <el-table-column type="selection" width="55" align="center"></el-table-column>
-          <el-table-column prop="tplCode" label="模板编号" align="center"></el-table-column>
-          <el-table-column prop="name" label="模板名称" align="center"></el-table-column>
-          <el-table-column prop="note" label="模板说明" align="center"></el-table-column>
-          <el-table-column prop="ctime" label="创建时间" align="center">
-            <template slot-scope="scope">
-              {{new Date(scope.row.ctime).Format('yyyy-MM-dd hh:mm:ss')}}
-            </template>
-          </el-table-column>
-          <el-table-column prop="creatorName" label="创建人" align="center"></el-table-column>
-          <el-table-column prop="statusName" label="状态" align="center"></el-table-column>
-          <el-table-column label="操作" align="center" width="220px">
-            <template slot-scope="scope">
-              <el-button size="mini" type="primary" @click="$router.push('/market/actTpl/addAct?id=' + scope.row.id)">编辑</el-button>
-              <el-button size="mini" type="success" @click="$router.push('/market/actTpl/actSetConf?form=' + scope.row.form + '&tplCode=' + scope.row.tplCode)">投放</el-button>
-              <el-button size="mini" @click="delAct(scope.row.id)" type="danger">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <el-button class="mt20" type="danger" @click="batchDel">批量删除</el-button>
-        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="actListParams.pageNo" layout="total, prev, pager, next, jumper" :total="total">
-        </el-pagination>
-        <!-- 新建活动模板弹框 -->
-        <el-dialog :visible.sync="addActDialogVisible" width="900px" :close-on-click-modal="false">
-          <div class="act-wrap">
-            <div class="title">
-              <ul>
-                <li v-for="(item, index) in actFormName" :key="index" @click="getCheckedAct(item, index)" :class="index == nowActiveIndex ? 'active' : ''">{{item.name}}</li>
-              </ul>
-              <div style="clear: both"></div>
-            </div>
-            <div v-if="actForms">
-              <div class="act-item" v-for="item in actForms" :key="item.id">
-                <img :src="item.extUrl" :alt="item.name">
-                <p>{{item.name}}<i class="el-icon-circle-plus" @click="goAddActTpl()"></i></p>
-              </div>
-            </div>
-            <div v-else>暂无</div>
-          </div>
-          <el-col :span="24" v-if="actForms">
-            <el-pagination class="mt20" background @size-change="actHandleSizeChange" @current-change="actHandleCurrentChange" :current-page="actParams.pageNo" :page-size="actParams.pageSize" layout="total, prev, pager, next, jumper" :total="actTotal">
-            </el-pagination>
+    <el-card>
+      <el-button type="primary" size="small" @click="addAct()">新建活动模板</el-button>
+      <el-form ref="form" :model="actListParams" label-width="80px">
+        <el-row>
+          <el-col :span="7">
+            <el-form-item label="模板类型">
+              <el-select size="small" v-model="actListParams.form">
+                <el-option v-for="item in selectOption" :key="item.form" :label="item.name" :value="item.form"></el-option>
+              </el-select>
+            </el-form-item>
           </el-col>
+          <el-col :span="7">
+            <el-form-item label="时间段">
+              <el-col>
+                <el-date-picker size="small" type="date" placeholder="开始时间" v-model="actListParams.ctime" style="width: 100%;"></el-date-picker>
+              </el-col>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="关键词">
+              <el-input size="small" v-model="actListParams.keyword" placeholder="请输入关键词"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col>
+            <!-- 按钮 -->
+            <el-button type="primary" size="small" @click="getActList()">查询</el-button>
+            <el-button type="primary" size="small" @click="resetSearch()">重置</el-button>
+          </el-col>
+        </el-row>
+      </el-form>
+    </el-card>
+    <el-card class="mt20">
+      <el-table v-loading="loading" border :data="actList" style="width: 100%" @select-all="handleSelectionAllChange" @select="handleSelectionChange" class="mt20">
+        <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
+        <el-table-column type="selection" width="55" align="center"></el-table-column>
+        <el-table-column prop="tplCode" label="模板编号" align="center"></el-table-column>
+        <el-table-column prop="name" label="模板名称" align="center"></el-table-column>
+        <el-table-column prop="note" label="模板说明" align="center"></el-table-column>
+        <el-table-column prop="ctime" label="创建时间" align="center">
+          <template slot-scope="scope">
+            {{new Date(scope.row.ctime).Format('yyyy-MM-dd hh:mm:ss')}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="creatorName" label="创建人" align="center"></el-table-column>
+        <el-table-column prop="statusName" label="状态" align="center"></el-table-column>
+        <el-table-column label="操作" align="center" width="220px">
+          <template slot-scope="scope">
+            <el-button size="mini" type="primary" @click="edit(scope.row.form,scope.row.id)">编辑</el-button>
+            <el-button size="mini" type="success" @click="$router.push('/market/actTpl/actSetConf?form=' + scope.row.form + '&tplCode=' + scope.row.tplCode)">投放</el-button>
+            <el-button size="mini" @click="delAct(scope.row.id)" type="danger">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-button class="mt20" type="danger" @click="batchDel">批量删除</el-button>
+      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="actListParams.pageNo" layout="total, prev, pager, next, jumper" :total="total">
+      </el-pagination>
+    </el-card>
+    <!-- 新建活动模板弹框 -->
+    <el-dialog :visible.sync="addActDialogVisible" width="900px" :close-on-click-modal="false">
+      <div class="act-wrap">
+        <div class="title">
+          <ul>
+            <li v-for="(item, index) in actFormName" :key="index" @click="getCheckedAct(item, index)" :class="index == nowActiveIndex ? 'active' : ''">{{item.name}}</li>
+          </ul>
           <div style="clear: both"></div>
-        </el-dialog>
-      </el-card>
-    </div>
-    <add-act v-if="bbb"></add-act>
+        </div>
+        <div v-if="actForms">
+          <div class="act-item" v-for="item in actForms" :key="item.id">
+            <img :src="item.extUrl" :alt="item.name">
+            <p>{{item.name}}<i class="el-icon-circle-plus" @click="goAddActTpl(item.code)"></i></p>
+          </div>
+          <!-- <div v-if="actForms">
+            <div class="act-item" v-for="item in actForms" :key="item.id">
+              <img :src="item.extUrl" :alt="item.name">
+              <p>{{item.name}}<i class="el-icon-circle-plus" @click="goAddActTpl()"></i></p>
+            </div>
+          </div> -->
+        </div>
+        <div v-else>暂无</div>
+        <el-col :span="24" v-if="actForms">
+          <el-pagination class="mt20" background @size-change="actHandleSizeChange" @current-change="actHandleCurrentChange" :current-page="actParams.pageNo" :page-size="actParams.pageSize" layout="total, prev, pager, next, jumper" :total="actTotal">
+          </el-pagination>
+        </el-col>
+        <div style="clear: both"></div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -98,8 +101,6 @@ export default {
   },
   data() {
     return {
-      aaa: true,
-      bbb: false,
       selectOption: [],
       keyword: '',
       actListParams: {
@@ -218,6 +219,7 @@ export default {
         true,
         res => {
           if (res.ret == '200000') {
+            this.actForms = []
             this.actForms = res.data.list
             this.actTotal = res.data.page.count
           } else {
@@ -353,10 +355,12 @@ export default {
       })
     },
     // 跳转到新建活动模板页面
-    goAddActTpl() {
-      // this.$router.push('/market/actTpl/addAct')
-      this.aaa = false
-      this.bbb = true
+    goAddActTpl(code) {
+      if (code == 'act-103') {
+        this.$router.push('/market/actTpl/addActEgg')
+      } else {
+        this.$router.push('/market/actTpl/addAct')
+      }
     },
     // 每当 pagesize 变化，会触发 这个函数
     handleSizeChange(newSize) {
@@ -377,6 +381,13 @@ export default {
     actHandleCurrentChange(newPage) {
       this.actParams.pageNo = newPage
       this.getAct()
+    },
+    edit(code, id) {
+      if (code == 'act-103') {
+        this.$router.push('/market/actTpl/addActEgg?id=' + id)
+      } else {
+        this.$router.push('/market/actTpl/addAct?id=' + id)
+      }
     }
   }
 }

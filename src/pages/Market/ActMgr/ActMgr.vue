@@ -540,9 +540,7 @@ export default {
     // 投放
     goPut(item) {
       this.$router.push(
-        '/market/actTpl/actSetConf?id=' +
-          item.id +
-          '&form=' +
+        '/market/actTpl/actSetConf?form=' +
           item.form +
           '&tplCode=' +
           item.tplCode

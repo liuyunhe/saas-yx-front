@@ -20,17 +20,17 @@ module.exports = function () {
             privateKey: 'C:/Users/44539/.ssh/id_rsa'
         }],
         SERVER 		= {
-			'test': {// 老的中控机跳转：测试环境
+			'test': {// 新的中控机跳转：测试环境
 				type: 'test',
-                host: '172.17.15.174',
+                host: '172.17.15.214',
                 port: 22,
                 user: '',
                 dist: '/opt/webapps/',
                 privateKey: ''
             },
-            'dev214': {// 新的中控机跳转：生产环境
+            'dev212': {// 新的中控机跳转：生产环境
 				type: 'dev',
-                host: '172.17.15.214',
+                host: '172.17.15.212',
                 port: 22,
                 user: '',
                 dist: '/opt/webapps/',
