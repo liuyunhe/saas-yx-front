@@ -482,12 +482,12 @@
       },
       addJDProduct(){
         this.$router.push({
-          path:'/mall/product/addJDProduct'
+          path:'/mall/product/jd/addJDProduct'
         })
       },
       editJDProduct(id){
         this.$router.push({
-          path:'/mall/product/editJDProduct?id='+id
+          path:'/mall/product/jd/editJDProduct?id='+id
         })
       },
       //删除商品
