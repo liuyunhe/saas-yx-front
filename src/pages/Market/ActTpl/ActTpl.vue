@@ -1,5 +1,5 @@
 <template>
-  <!-- 
+  <!--
   Author: chenxin
   Create Date: 2018-10-18
   Description: 活动模板
@@ -347,7 +347,7 @@ export default {
     		this.$router.push('/market/actTpl/addActEgg')
     	}else {
     		this.$router.push('/market/actTpl/addAct')
-    	} 
+    	}
     },
     // 每当 pagesize 变化，会触发 这个函数
     handleSizeChange(newSize) {
@@ -374,7 +374,7 @@ export default {
     		this.$router.push('/market/actTpl/addActEgg?id=' + id)
     	}else {
     		this.$router.push('/market/actTpl/addAct?id=' + id)
-    	} 	
+    	}
     }
   }
 }
