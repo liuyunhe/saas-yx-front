@@ -162,7 +162,7 @@ router.beforeEach((to, from, next) => {
   }
   const tokenStr = window.sessionStorage.getItem('access_token')
   if (!tokenStr) return next('/login')
-  const menu = JSON.parse(sessionStorage.getItem('menu'))
+ /* const menu = JSON.parse(sessionStorage.getItem('menu'))
   // const start = new Date().getTime()
   if (JSON.stringify(menu).indexOf(to.path) !== -1) {
     // const end = new Date().getTime()
@@ -170,7 +170,8 @@ router.beforeEach((to, from, next) => {
     next()
   } else {
     next('/datas/kpi')
-  }
+  }*/
+    next()
 
   // const sonMenu = JSON.parse(sessionStorage.getItem('sonMenu'))
   // const grandSonMenu = JSON.parse(sessionStorage.getItem('grandSonMenu'))
