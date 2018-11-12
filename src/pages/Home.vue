@@ -377,7 +377,9 @@ export default {
             text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
+            /* autoprefixer: off */
+    				-webkit-box-orient: vertical;
+    				/* autoprefixer: on */
             width: 70px !important;
           }
         }
