@@ -254,7 +254,7 @@
     methods: {
       addTobaccoMgr(){
         this.$router.push({
-          path:"/product/mgr/addTobaccoMr"
+          path:"/product/mgr/tobacco/addTobaccoMr"
         })
       },
       //获取列表
@@ -342,7 +342,7 @@
       },
       //编辑
       handleEdit(index, row) {
-        this.$router.push({path:'/product/mgr/editTobaccoMr?id='+row.id})
+        this.$router.push({path:'/product/mgr/tobacco/editTobaccoMr?id='+row.id})
       },
       //分页器功能
       handleCurrentChange(val) {
