@@ -377,7 +377,7 @@ export default {
             text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-line-clamp: 1;
-            /* autoprefixer: off */
+            /*! autoprefixer: off */
     				-webkit-box-orient: vertical;
     				/* autoprefixer: on */
             width: 70px !important;
