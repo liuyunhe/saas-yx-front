@@ -19,7 +19,7 @@
         </el-form-item>
         <el-form-item label="优先级" prop="idx">
           <el-select v-model="confData.idx" placeholder="请选择">
-            <el-option v-for="(item, index) in idxSelect" :key="index + ''" :label="item.name" :value="index + ''">
+            <el-option v-for="(val, key, index) in idxSelect" :key="index" :label="val" :value="key">
             </el-option>
           </el-select>
         </el-form-item>
@@ -44,7 +44,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="nextStep">保存并进入下一步</el-button>
-          <el-button>返回列表</el-button>
+          <el-button @click="$router.push('/market/actTpl')">返回列表</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -99,13 +99,13 @@ export default {
         },
         placeholder: '请输入活动说明'
       },
-      idxSelect: [{ name: '请选择' }, { name: '高' }, { name: '中' }, { name: '低' }],
+      idxSelect: {},
       confData: {
         actDesc: '',
         actName: '',
         banner: '',
         form: '',
-        idx: '0',
+        idx: '',
         note: '',
         stimeStr: '',
         etimeStr: '',
@@ -149,16 +149,26 @@ export default {
       if (!this.id) return
       this.$request.post('/api/saotx/act/detail', { id: this.id }, true, res => {
         if (res.ret == '200000') {
-          this.confData = res.data.act
+          if (this.clone == '1') {
+            for (let key in this.confData) {
+              this.confData[key] = res.data.act[key]
+            }
+            console.log(this.confData)
+          } else {
+            this.confData = res.data.act
+          }
+          this.confData.idx = this.confData.idx + ''
           this.actTime.push(this.confData.stimeStr)
           this.actTime.push(this.confData.etimeStr)
+          return
         }
+        this.$message.error(res.messgae)
       })
     },
     // 获取优先级
     getIdxSelect() {
       this.$request.post('/api/saotx/act/idxSelect', {}, true, res => {
-        if (res.ret === '200000') return
+        if (res.ret === '200000') return this.idxSelect = res.data
       })
     },
     // 上传活动图片
@@ -177,9 +187,10 @@ export default {
     nextStep() {
       this.$refs.actSetConfRef.validate(valid => {
         if (!valid) return this.$message.error('请完善表单数据!')
-        this.confData.form = this.form
-        this.confData.tplCode = this.tplCode
-        if (!this.clone || this.clone != '1') this.confData['id'] = this.id
+        if (!this.id) {
+          this.confData.form = this.form
+          this.confData.tplCode = this.tplCode
+        }
         this.$request.post('/api/saotx/act/saveOrModify', this.confData, true, res => {
           if (res.ret === '200000') {
             return this.$router.push(

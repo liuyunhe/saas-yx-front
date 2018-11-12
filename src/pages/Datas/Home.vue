@@ -126,6 +126,7 @@
 					console.log(res)
 					if(res.ret == '200000') {
 						var data = res.data || {};
+						that.$store.commit('setCluser', res.data)
 						that.account = data.account;
 						that.orgName = data.orgName;
 					}
