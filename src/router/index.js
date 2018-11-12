@@ -88,6 +88,8 @@ const MaterielVirtual = () => import(/* webpackChunkName: "product" */ '@/pages/
 const MaterielRedpack = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Redpack.vue')
 // 产品-物料管理-积分礼品
 const MaterielIntegral = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Integral.vue')
+// 产品-品牌管理
+const prodBrand = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Brand.vue')
 
 
 // 设置-日志管理
@@ -261,6 +263,7 @@ export default new Router({
         { path: '/product/materiel/virtual', name: '虚拟礼品', component: MaterielVirtual },
         { path: '/product/materiel/redpack', name: '红包', component: MaterielRedpack },
         { path: '/product/materiel/integral', name: '积分', component: MaterielIntegral },
+        { path: '/product/brand', name: '品牌管理', component: prodBrand },
         // 营销
         { path: '/market', name: '营销'},
         { path: '/market/actTpl', name: '活动模板', component: ActTpl },

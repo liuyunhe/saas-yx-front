@@ -48,6 +48,7 @@
                     <el-form-item>
                         <el-button size="small" type="primary" @click="list">查询</el-button>
                         <el-button size="small" @click="resetForm">重置</el-button>
+                        <el-button size="small" type="primary" @click="exportDatas">导出</el-button>
                     </el-form-item>
                 </el-form>
             </el-card>
@@ -78,6 +79,11 @@
                         <template slot-scope="scope">
                             <span v-if="step==1">{{scope.row.step.s1Score}}</span>
                             <span v-if="step==2">{{scope.row.step.s2Score}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column v-if="step==2" label="总分数" align="center">
+                        <template slot-scope="scope">
+                            <span>{{scope.row.step.totalScore}}</span>
                         </template>
                     </el-table-column>
                     <el-table-column label="状态" align="center">
@@ -424,9 +430,41 @@ export default {
                     this.tableList = res.data.list || [];
                     this.initPagination(res.data.page||{});
                 } else {
-                    this.$message.error(res.msg);
+                    this.$message.error(res.message);
                 }
             });
+        },
+        exportDatas() {
+            let url = "/api/saotx/seller/export";
+            let xhr = new XMLHttpRequest();
+            let formData = new FormData();
+            formData = Object.assign({}, formData, this.form);
+            formData.pageNo = 1;
+            formData.pageSize = -1;// 不分页
+
+            xhr.overrideMimeType("text/plain; charset=x-user-defined");
+            xhr.open('POST', url, true);
+            xhr.responseType = "blob";
+            xhr.responseType = "arraybuffer"
+            xhr.setRequestHeader("token", sessionStorage.getItem('access_token'));
+            xhr.setRequestHeader("loginId", sessionStorage.getItem('access_loginId'));
+            xhr.onload = function(res) {
+                if (this.status == 200) {
+                    let blob = new Blob([this.response], {type: 'application/vnd.ms-excel'});
+                    let respHeader = xhr.getResponseHeader("Content-Disposition");
+                    let fileName = decodeURI(respHeader.match(/filename=(.*?)(;|$)/)[1]);
+                    if (window.navigator.msSaveOrOpenBlob) {
+                        navigator.msSaveBlob(blob, fileName);
+                    } else {
+                        let link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = fileName;
+                        link.click();
+                        window.URL.revokeObjectURL(link.href);
+                    }
+                }
+            }
+            xhr.send(formData);
         },
         audit(index, row, result, title) {
             this.auditForm.id = row.id;
@@ -442,7 +480,7 @@ export default {
                     _this.$message({type:'success', message:"审核操作成功！"});
                     _this.list(null, _this.form.pageNo, _this.form.pageSize);
                 } else {
-                    _this.$message.error(res.msg);
+                    _this.$message.error(res.message);
                 }
             });
         },
@@ -479,7 +517,7 @@ export default {
                     }
                     _this.detail = true;
                 } else {
-                    _this.$message.error(res.msg);
+                    _this.$message.error(res.message);
                 }
             });
         },
@@ -506,7 +544,7 @@ export default {
                                 this.resetAuditForm();
                             }
                         } else {
-                            this.$message.error(res.msg);
+                            this.$message.error(res.message);
                         }
                     });
                 }
