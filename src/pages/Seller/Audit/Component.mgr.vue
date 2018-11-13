@@ -108,7 +108,7 @@
                     :total="pagination.total">
                 </el-pagination>
             </el-card>
-            <el-dialog center :title="auditForm.title" :visible.sync="auditForm.show" width="30%">
+            <el-dialog center :title="auditForm.title" :visible.sync="auditForm.show" width="30%" @closed="resetAuditForm">
                 <div>
                     <el-form class="search-block">
                         <el-input v-model="auditForm.id" type="hidden"></el-input>
@@ -252,8 +252,8 @@
                 <el-form class="detail-audit-block" :model="auditForm" :rules="detailAuditRules" ref="auditForm" label-width="100px">
                     <el-input v-model="auditForm.id" type="hidden"></el-input>
                     <el-form-item label="审核状态" prop="audStatus">
-                        <el-radio v-model="auditForm.audStatus" :label="2" :disabled="auditForm.hisAudit">审核通过</el-radio>
-                        <el-radio v-model="auditForm.audStatus" :label="3" :disabled="auditForm.hisAudit">审核不通过</el-radio>
+                        <el-radio v-model="auditForm.audStatus" :label="2" @change="audStatusChange" :disabled="auditForm.hisAudit">审核通过</el-radio>
+                        <el-radio v-model="auditForm.audStatus" :label="3" @change="audStatusChange" :disabled="auditForm.hisAudit">审核不通过</el-radio>
                     </el-form-item>
                     <el-form-item label="" prop="note" v-show="auditForm.audStatus==3">
                         <el-input size="small" type="textarea" :rows="5" v-model="auditForm.note" :disabled="auditForm.hisAudit" placeholder="请输入不超过50字的内容"></el-input>
@@ -519,14 +519,23 @@ export default {
             });
         },
         // 重置审核表单内容
-        resetAuditForm() {
+        resetAuditForm(refreshTable) {
             this.auditForm.hisAudit = false;
             this.auditForm.id = "";
             this.auditForm.audStatus = "";
             this.auditForm.score = "";
             this.auditForm.note = "";
             this.detail = false;
-            this.list(null, this.form.pageNo, this.form.pageSize);
+            if(refreshTable) {
+                this.list(null, this.form.pageNo, this.form.pageSize);
+            }
+        },
+        audStatusChange() {
+            if(this.auditForm.audStatus==2) {
+                this.auditForm.note = "";
+            } else if(this.auditForm.audStatus==3) {
+                this.auditForm.score = "";
+            }
         },
         // 列表数据查看详情
         seeDetail(index, row) {
@@ -575,7 +584,7 @@ export default {
                     this.$request.post(apiUrl, this.auditForm, true, (res)=>{
                         if (res.ret==200000) {
                             if(flag==3) {
-                                this.resetAuditForm();
+                                this.resetAuditForm(true);
                             }
                         } else {
                             this.$message.error(res.message);
