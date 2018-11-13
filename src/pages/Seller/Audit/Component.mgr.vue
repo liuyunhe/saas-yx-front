@@ -113,7 +113,7 @@
                     <el-form class="search-block">
                         <el-input v-model="auditForm.id" type="hidden"></el-input>
                         <el-form-item label="得分" v-show="auditForm.audStatus==2">
-                            <el-input-number size="small" type="number" v-model="auditForm.score" controls-position="right" :min="0" :max="maxScore" class="audit-score"></el-input-number>
+                            <el-input size="small" ref="scoreInput" type="number" v-model="auditForm.score" @input="checkScore" class="audit-score" :placeholder="'请输入['+minScore+'-'+maxScore+']之间的正整数'"></el-input>
                         </el-form-item>
                         <el-form-item label="" v-show="auditForm.audStatus==3">
                             <el-input size="small" type="textarea" :rows="5" v-model="auditForm.note" placeholder="请输入不超过50字的内容"></el-input>
@@ -258,8 +258,8 @@
                     <el-form-item label="" prop="note" v-show="auditForm.audStatus==3">
                         <el-input size="small" type="textarea" :rows="5" v-model="auditForm.note" :disabled="auditForm.hisAudit" placeholder="请输入不超过50字的内容"></el-input>
                     </el-form-item>
-                    <el-form-item label="得分" prop="score" v-show="auditForm.audStatus==2">
-                        <el-input-number size="small" type="number" v-model="auditForm.score" controls-position="right" :min="0" :max="maxScore" class="audit-score"></el-input-number>
+                    <el-form-item label="得分" v-show="auditForm.audStatus==2">
+                        <el-input size="small" ref="scoreInput" type="number" v-model="auditForm.score" @input="checkScore" class="audit-score" :placeholder="'请输入['+minScore+'-'+maxScore+']之间的正整数'"></el-input>
                     </el-form-item>
                     <div></div>
                     <el-form-item>
@@ -352,11 +352,11 @@ export default {
                 note: [{required:true, validator: checNote, trigger:'blur' }],
                 score: [{required:true, message:'审核状态不能为空！', trigger:'blur' }]
             },
-            maxScore: 20, // 审批得分最大值。第一步最大20，第二步最大30
+            minScore: 0,
+            maxScore: 20 // 审批得分最大值。第一步最大20，第二步最大30
         }
     },
     created() {
-        console.log(this.step);
         if( this.step==2 ) this.maxScore = 30;
         this.getRegions(1);
         this.list();
@@ -375,6 +375,16 @@ export default {
             if(page) {
                 this.pagination.total = page.count;
             }
+        },
+        checkScore(val) {
+            let lastVal = val;
+            if(val>this.maxScore) {
+                lastVal = this.maxScore;
+            } else if(val<this.minScore) {
+                lastVal = this.minScore;
+            }
+            this.auditForm.score = lastVal;
+            this.$refs.scoreInput.currentValue = lastVal;
         },
         // 根据父编码查询地域信息
         getRegions(level, pcode) {
@@ -486,9 +496,12 @@ export default {
             this.auditForm.show = true;
         },
         auditFormConfirm() {
-            if(this.auditForm.audStatus==3&&this.auditForm.note&&this.auditForm.note.length>50) {
-                this.$message.error("审核不通过的理由不能超过50个字！");
-                return false;
+            if(this.auditForm.audStatus==3){
+                this.auditForm.score = "";
+                if(this.auditForm.note&&this.auditForm.note.length>50) {
+                    this.$message.error("审核不通过的理由不能超过50个字！");
+                    return false;
+                }
             }
             let _this = this;
             _this.$request.post('/api/saotx/seller/audit', _this.auditForm, true, (res)=>{

@@ -27,7 +27,7 @@
             <el-table :data="tableList" style="width: 100%">
                 <el-table-column label="序号" type="index" align="center">
                     <template slot-scope="scope">
-                    {{ (form.pageNo-1)*form.pageSize + scope.$index + 1 }}
+                    {{ (search.pageNo-1)*search.pageSize + scope.$index + 1 }}
                     </template>
                 </el-table-column>
                 <el-table-column prop="name" label="品牌名称" align="center"></el-table-column>
@@ -48,7 +48,7 @@
             <!-- 分页组件 -->
             <el-pagination :small="false" background layout="total, prev, pager, next, jumper"
                 @size-change="sizeChange" @current-change="currentChange"
-                :current-page="form.pageNo" :page-size="form.pageSize"
+                :current-page="search.pageNo" :page-size="search.pageSize"
                 :total="pagination.total">
             </el-pagination>
         </el-card>
