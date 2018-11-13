@@ -273,6 +273,11 @@
                 var suffix = suffix ? suffix : this.suffix;
                 return  base + name + "." + suffix;
             },
+            getNewImage: function(name, suffix) {
+                var newBase="https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/";
+                var suffix = suffix ? suffix : this.suffix;
+                return newBase + name + "." + suffix;
+            },
             getStyle(w, h, x, y) {
                 var wp = w.toString().indexOf('%') > -1;
                 var hp = h.toString().indexOf('%') > -1;
@@ -331,7 +336,7 @@
                     var ratio = 0.4;
                     if(i != 5 ){
                         urls[nameSuffix + i] = {
-                            url: 'https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/item_bg.png',
+                            url: _this.getNewImage('item_bg',"png"),
                             width: width,
                             height: height,
                             left: left,
@@ -342,7 +347,7 @@
                         };
                     }else {
                         urls[nameSuffix + i] = {
-                            url: 'https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/jgg_ljcj.png',
+                            url: _this.getNewImage("jgg_ljcj","png"),
                             width: width,
                             height: height,
                             left: left,
@@ -355,7 +360,7 @@
                     urls.kists.push(urls[nameSuffix + i])
                 }
                 urls.bg = {
-                    url: 'https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/jiugongge-bg.png',
+                    url: _this.getNewImage("jiugongge-bg","png"),
                     width: "100%",
                     height: "100%",
                     left: 0,
@@ -363,7 +368,7 @@
                     style: _this.getStyle('100%', '100%', 0, 0)
                 };
                 urls.title = {
-                    url: _this.getImage("JGG_DZP","png"),
+                    url: _this.getNewImage("jgg-banner","png"),
                     width: 691,
                     height: 361,
                     left: 29,
@@ -406,7 +411,7 @@
                     url: _this.getImage("cry75@2x","png")
                 };
                 urls.zxNoAwardBtn = {
-                    url: "https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/know-btn.png"
+                    url: _this.getNewImage("know-btn","png")
                 }
                 console.log(urls);
                 return urls;

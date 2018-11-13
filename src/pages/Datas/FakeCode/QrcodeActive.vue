@@ -16,8 +16,12 @@
                     </el-form-item>
                     <el-form-item size="small" label="商品状态:" >
                         <el-select v-model="form.type" placeholder="请选择">
-                            <el-option value="1">内码</el-option>
-                            <el-option value="2">外码</el-option>
+                            <el-option
+                                    v-for="item in options"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
                         </el-select>
                     </el-form-item>
                 </el-row>
@@ -68,6 +72,13 @@
         data(){
             return{
                 listData:[],
+                options: [{
+                    value: '1',
+                    label: '内码'
+                }, {
+                    value: '2',
+                    label: '外码'
+                }],
                 form:{
                     code:'',
                     verifycode:'',
