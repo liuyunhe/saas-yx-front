@@ -48,6 +48,7 @@
                     <el-form-item>
                         <el-button size="small" type="primary" @click="list">查询</el-button>
                         <el-button size="small" @click="resetForm">重置</el-button>
+                        <el-button size="small" type="primary" @click="exportDatas">导出</el-button>
                     </el-form-item>
                 </el-form>
             </el-card>
@@ -80,6 +81,11 @@
                             <span v-if="step==2">{{scope.row.step.s2Score}}</span>
                         </template>
                     </el-table-column>
+                    <el-table-column v-if="step==2" label="总分数" align="center">
+                        <template slot-scope="scope">
+                            <span>{{scope.row.step.totalScore}}</span>
+                        </template>
+                    </el-table-column>
                     <el-table-column label="状态" align="center">
                         <template slot-scope="scope">
                             <span v-if="step==1">{{scope.row.step.s1StatusName}}</span>
@@ -102,12 +108,12 @@
                     :total="pagination.total">
                 </el-pagination>
             </el-card>
-            <el-dialog center :title="auditForm.title" :visible.sync="auditForm.show" width="30%">
+            <el-dialog center :title="auditForm.title" :visible.sync="auditForm.show" width="30%" @closed="resetAuditForm">
                 <div>
                     <el-form class="search-block">
                         <el-input v-model="auditForm.id" type="hidden"></el-input>
                         <el-form-item label="得分" v-show="auditForm.audStatus==2">
-                            <el-input-number size="small" v-model="auditForm.score" controls-position="right" :min="0" :max="maxScore" class="audit-score"></el-input-number>
+                            <el-input size="small" ref="scoreInput1" type="number" v-model="auditForm.score" @input="checkScore" class="audit-score" :placeholder="'请输入['+minScore+'-'+maxScore+']之间的正整数'"></el-input>
                         </el-form-item>
                         <el-form-item label="" v-show="auditForm.audStatus==3">
                             <el-input size="small" type="textarea" :rows="5" v-model="auditForm.note" placeholder="请输入不超过50字的内容"></el-input>
@@ -131,7 +137,7 @@
                         </td>
                         <td width="35%">
                             <label>初审时间：</label>
-                            <span v-if="detailForm.step.s1ApplyTime">{{new Date(detailForm.step.s1AudTime).Format("yyyy-MM-dd hh:mm:ss")}}</span>
+                            <span v-if="detailForm.step.s1AudTime">{{new Date(detailForm.step.s1AudTime).Format("yyyy-MM-dd hh:mm:ss")}}</span>
                         </td>
                         <td colspan="2">
                             <label>得分：</label>
@@ -140,31 +146,31 @@
                     </tr>
                     <tr>
                         <td>
-                            <label>门店名称：</label>
-                            <span>{{detailForm.shopName}}</span>
-                        </td>
-                        <td>
                             <label>联系人姓名：</label>
                             <span>{{detailForm.ownerName}}</span>
+                        </td>
+                        <td>
+                            <label>联系人微信：</label>
+                            <span>{{detailForm.nickname}}</span>
                         </td>
                         <td rowspan="3" valign="top" width="130px">
                             <label class="multi-span">烟草许可证照片：</label>
                         </td>
-                        <td rowspan="3" valign="middle">
-                            <el-popover placement="right" trigger="hover" width="20">
+                        <td rowspan="4" valign="middle">
+                            <el-popover placement="right" trigger="click">
                                 <img class="popover-img" :src="detailForm.licenceImg" />
                                 <img class="licence-img" slot="reference" :src="detailForm.licenceImg" />
                             </el-popover>
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                         <td>
                             <label>联系人电话：</label>
                             <span>{{detailForm.phoneNo}}</span>
                         </td>
                         <td>
-                            <label>联系人微信：</label>
-                            <span>{{detailForm.nickname}}</span>
+                            <label>门店名称：</label>
+                            <span>{{detailForm.shopName}}</span>
                         </td>
                     </tr>
                     <tr>
@@ -173,8 +179,18 @@
                             <span>{{detailForm.provinceName}}{{detailForm.cityName}}{{detailForm.districtName}}</span>
                         </td>
                         <td>
+                            <label>烟草专卖证号：</label>
+                            <span>{{detailForm.licenceNo}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <label>详细地址：</label>
                             <span>{{detailForm.detail}}</span>
+                        </td>
+                        <td>
+                            <label>业态：</label>
+                            <span>{{detailForm.commercialName}}</span>
                         </td>
                     </tr>
                 </table>
@@ -200,7 +216,7 @@
                         <td colspan="3">
                             <label class="img-label">店面照片：</label>
                             <div>
-                                <el-popover placement="top-start" trigger="hover" v-for="item in detailForm.imgs" :key="item.id">
+                                <el-popover placement="top-start" trigger="click" v-for="item in detailForm.imgs" :key="item.id">
                                     <img class="popover-img" :src="item.imgUrl" />
                                     <img v-if="item.type==1" slot="reference"  :src="item.imgUrl" />
                                 </el-popover>
@@ -211,7 +227,7 @@
                         <td colspan="3">
                             <label class="img-label">陈列照片：</label>
                             <div>
-                                <el-popover placement="top-start" trigger="hover" v-for="item in detailForm.imgs" :key="item.id">
+                                <el-popover placement="top-start" trigger="click" v-for="item in detailForm.imgs" :key="item.id">
                                     <img class="popover-img" :src="item.imgUrl" />
                                     <img v-if="item.type==2" slot="reference"  :src="item.imgUrl" />
                                 </el-popover>
@@ -222,7 +238,7 @@
                         <td colspan="3">
                             <label class="img-label">烟品订单照片：</label>
                             <div>
-                                <el-popover placement="top-start" trigger="hover" v-for="item in detailForm.imgs" :key="item.id">
+                                <el-popover placement="top-start" trigger="click" v-for="item in detailForm.imgs" :key="item.id">
                                     <img class="popover-img" :src="item.imgUrl" />
                                     <img v-if="item.type==3" slot="reference"  :src="item.imgUrl" />
                                 </el-popover>
@@ -236,20 +252,20 @@
                 <el-form class="detail-audit-block" :model="auditForm" :rules="detailAuditRules" ref="auditForm" label-width="100px">
                     <el-input v-model="auditForm.id" type="hidden"></el-input>
                     <el-form-item label="审核状态" prop="audStatus">
-                        <el-radio v-model="auditForm.audStatus" :label="2" :disabled="auditForm.hisAudit">审核通过</el-radio>
-                        <el-radio v-model="auditForm.audStatus" :label="3" :disabled="auditForm.hisAudit">审核不通过</el-radio>
+                        <el-radio v-model="auditForm.audStatus" :label="2" @change="audStatusChange" :disabled="auditForm.hisAudit">审核通过</el-radio>
+                        <el-radio v-model="auditForm.audStatus" :label="3" @change="audStatusChange" :disabled="auditForm.hisAudit">审核不通过</el-radio>
                     </el-form-item>
                     <el-form-item label="" prop="note" v-show="auditForm.audStatus==3">
                         <el-input size="small" type="textarea" :rows="5" v-model="auditForm.note" :disabled="auditForm.hisAudit" placeholder="请输入不超过50字的内容"></el-input>
                     </el-form-item>
-                    <el-form-item label="得分" prop="score" v-show="auditForm.audStatus==2">
-                        <el-input-number size="small" v-model="auditForm.score" controls-position="right" :min="0" :max="maxScore" class="audit-score"></el-input-number>
+                    <el-form-item label="得分" v-show="auditForm.audStatus==2">
+                        <el-input size="small" ref="scoreInput2" type="number" v-model="auditForm.score" @input="checkScore" class="audit-score" :placeholder="'请输入['+minScore+'-'+maxScore+']之间的正整数'"></el-input>
                     </el-form-item>
                     <div></div>
                     <el-form-item>
-                        <el-button size="small" v-if="auditForm.hisAudit&&auditForm.audStatus==2" type="primary" @click="saveAudit('auditForm', 1)">保存</el-button>
+                        <el-button size="small" v-if="!auditForm.hisAudit||auditForm.audStatus==2" type="primary" @click="saveAudit('auditForm', 1)">保存</el-button>
                         <el-button size="small" @click="saveAudit('auditForm', 2)">退出</el-button>
-                        <el-button size="small" v-if="auditForm.hisAudit&&auditForm.audStatus==2" type="primary" @click="saveAudit('auditForm', 3)">保存并退出</el-button>
+                        <el-button size="small" v-if="!auditForm.hisAudit||auditForm.audStatus==2" type="primary" @click="saveAudit('auditForm', 3)">保存并退出</el-button>
                     </el-form-item>
                 </el-form>
             </el-card>
@@ -336,11 +352,11 @@ export default {
                 note: [{required:true, validator: checNote, trigger:'blur' }],
                 score: [{required:true, message:'审核状态不能为空！', trigger:'blur' }]
             },
-            maxScore: 20, // 审批得分最大值。第一步最大20，第二步最大30
+            minScore: 0,
+            maxScore: 20 // 审批得分最大值。第一步最大20，第二步最大30
         }
     },
     created() {
-        console.log(this.step);
         if( this.step==2 ) this.maxScore = 30;
         this.getRegions(1);
         this.list();
@@ -358,6 +374,20 @@ export default {
         initPagination(page) {
             if(page) {
                 this.pagination.total = page.count;
+            }
+        },
+        checkScore(val) {
+            let lastVal = val;
+            if(val>this.maxScore) {
+                lastVal = this.maxScore;
+            } else if(val<this.minScore) {
+                lastVal = this.minScore;
+            }
+            this.auditForm.score = lastVal;
+            if(this.detail) {
+                this.$refs.scoreInput2.currentValue = lastVal;
+            } else {
+                this.$refs.scoreInput1.currentValue = lastVal;
             }
         },
         // 根据父编码查询地域信息
@@ -424,9 +454,44 @@ export default {
                     this.tableList = res.data.list || [];
                     this.initPagination(res.data.page||{});
                 } else {
-                    this.$message.error(res.msg);
+                    this.$message.error(res.message);
                 }
             });
+        },
+        exportDatas() {
+            let url = "/api/saotx/seller/export";
+            let xhr = new XMLHttpRequest();
+            let formData = new FormData();
+            //formData = Object.assign({}, formData, this.form);
+            for(let attr in this.form) {
+                formData.append(attr, this.form[attr]);
+            }
+            formData.pageNo = 1;
+            formData.pageSize = -1;// 不分页
+
+            xhr.overrideMimeType("text/plain; charset=x-user-defined");
+            xhr.open('POST', url, true);
+            xhr.responseType = "blob";
+            xhr.responseType = "arraybuffer"
+            xhr.setRequestHeader("token", sessionStorage.getItem('access_token'));
+            xhr.setRequestHeader("loginId", sessionStorage.getItem('access_loginId'));
+            xhr.onload = function(res) {
+                if (this.status == 200) {
+                    let blob = new Blob([this.response], {type: 'application/vnd.ms-excel'});
+                    let respHeader = xhr.getResponseHeader("Content-Disposition");
+                    let fileName = decodeURI(respHeader.match(/filename=(.*?)(;|$)/)[1]);
+                    if (window.navigator.msSaveOrOpenBlob) {
+                        navigator.msSaveBlob(blob, fileName);
+                    } else {
+                        let link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = fileName;
+                        link.click();
+                        window.URL.revokeObjectURL(link.href);
+                    }
+                }
+            }
+            xhr.send(formData);
         },
         audit(index, row, result, title) {
             this.auditForm.id = row.id;
@@ -435,6 +500,13 @@ export default {
             this.auditForm.show = true;
         },
         auditFormConfirm() {
+            if(this.auditForm.audStatus==3){
+                this.auditForm.score = "";
+                if(this.auditForm.note&&this.auditForm.note.length>50) {
+                    this.$message.error("审核不通过的理由不能超过50个字！");
+                    return false;
+                }
+            }
             let _this = this;
             _this.$request.post('/api/saotx/seller/audit', _this.auditForm, true, (res)=>{
                 if (res.ret==200000) {
@@ -442,19 +514,28 @@ export default {
                     _this.$message({type:'success', message:"审核操作成功！"});
                     _this.list(null, _this.form.pageNo, _this.form.pageSize);
                 } else {
-                    _this.$message.error(res.msg);
+                    _this.$message.error(res.message);
                 }
             });
         },
         // 重置审核表单内容
-        resetAuditForm() {
+        resetAuditForm(refreshTable) {
             this.auditForm.hisAudit = false;
             this.auditForm.id = "";
             this.auditForm.audStatus = "";
             this.auditForm.score = "";
             this.auditForm.note = "";
             this.detail = false;
-            this.list(null, this.form.pageNo, this.form.pageSize);
+            if(refreshTable) {
+                this.list(null, this.form.pageNo, this.form.pageSize);
+            }
+        },
+        audStatusChange() {
+            if(this.auditForm.audStatus==2) {
+                this.auditForm.note = "";
+            } else if(this.auditForm.audStatus==3) {
+                this.auditForm.score = "";
+            }
         },
         // 列表数据查看详情
         seeDetail(index, row) {
@@ -479,7 +560,7 @@ export default {
                     }
                     _this.detail = true;
                 } else {
-                    _this.$message.error(res.msg);
+                    _this.$message.error(res.message);
                 }
             });
         },
@@ -494,7 +575,7 @@ export default {
                 let validResult = false;
                 if(this.auditForm.audStatus==2&&this.auditForm.score) validResult = true;// 审核通过，并且有得分值，则校验OK
                 if(this.auditForm.audStatus==3&&this.auditForm.note&&this.auditForm.note.length<=50) validResult = true;// 审核通过，并且有得分值，则校验OK
-
+                
                 if (validResult) {
                     let apiUrl = "/api/saotx/seller/audit";// 未审核时
                     if(this.auditForm.hisAudit) {
@@ -503,10 +584,10 @@ export default {
                     this.$request.post(apiUrl, this.auditForm, true, (res)=>{
                         if (res.ret==200000) {
                             if(flag==3) {
-                                this.resetAuditForm();
+                                this.resetAuditForm(true);
                             }
                         } else {
-                            this.$message.error(res.msg);
+                            this.$message.error(res.message);
                         }
                     });
                 }
@@ -542,7 +623,7 @@ export default {
             .licence-img {
                 margin-top: 15px;
                 min-width: 80px;
-                max-height: 90px;
+                max-height: 180px;
             }
         }
     }
@@ -567,7 +648,7 @@ export default {
     }
     .el-popover {
         img.popover-img {
-            max-height: 200px;
+            max-height: 400px;
         }
     }
 </style>

@@ -175,7 +175,8 @@ router.beforeEach((to, from, next) => {
     if(JSON.stringify(store.menu).indexOf(from.path) !==-1 && to.path.indexOf(from.path) !== -1 ){
       next()
     }else{
-      next('/datas/kpi')
+        next()
+      // next('/datas/kpi')
     }
 
   }
