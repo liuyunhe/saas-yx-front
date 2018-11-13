@@ -1,5 +1,5 @@
 <template>
-  <!-- 
+  <!--
   Author: chenxin
   Create Date: 2018-10-18
   Description: 新建活动模板
