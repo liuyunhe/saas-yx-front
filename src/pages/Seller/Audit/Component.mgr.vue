@@ -113,7 +113,7 @@
                     <el-form class="search-block">
                         <el-input v-model="auditForm.id" type="hidden"></el-input>
                         <el-form-item label="得分" v-show="auditForm.audStatus==2">
-                            <el-input size="small" ref="scoreInput" type="number" v-model="auditForm.score" @input="checkScore" class="audit-score" :placeholder="'请输入['+minScore+'-'+maxScore+']之间的正整数'"></el-input>
+                            <el-input size="small" ref="scoreInput1" type="number" v-model="auditForm.score" @input="checkScore" class="audit-score" :placeholder="'请输入['+minScore+'-'+maxScore+']之间的正整数'"></el-input>
                         </el-form-item>
                         <el-form-item label="" v-show="auditForm.audStatus==3">
                             <el-input size="small" type="textarea" :rows="5" v-model="auditForm.note" placeholder="请输入不超过50字的内容"></el-input>
@@ -259,7 +259,7 @@
                         <el-input size="small" type="textarea" :rows="5" v-model="auditForm.note" :disabled="auditForm.hisAudit" placeholder="请输入不超过50字的内容"></el-input>
                     </el-form-item>
                     <el-form-item label="得分" v-show="auditForm.audStatus==2">
-                        <el-input size="small" ref="scoreInput" type="number" v-model="auditForm.score" @input="checkScore" class="audit-score" :placeholder="'请输入['+minScore+'-'+maxScore+']之间的正整数'"></el-input>
+                        <el-input size="small" ref="scoreInput2" type="number" v-model="auditForm.score" @input="checkScore" class="audit-score" :placeholder="'请输入['+minScore+'-'+maxScore+']之间的正整数'"></el-input>
                     </el-form-item>
                     <div></div>
                     <el-form-item>
@@ -384,7 +384,11 @@ export default {
                 lastVal = this.minScore;
             }
             this.auditForm.score = lastVal;
-            this.$refs.scoreInput.currentValue = lastVal;
+            if(this.detail) {
+                this.$refs.scoreInput2.currentValue = lastVal;
+            } else {
+                this.$refs.scoreInput1.currentValue = lastVal;
+            }
         },
         // 根据父编码查询地域信息
         getRegions(level, pcode) {
