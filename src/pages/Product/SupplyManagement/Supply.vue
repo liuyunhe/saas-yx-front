@@ -196,7 +196,7 @@
     methods: {
       addSupplier(){
         this.$router.push({
-          path:"/product/addSupplier"
+          path:"/product/supply/addSupplier"
         })
       },
       //获取列表
@@ -253,7 +253,7 @@
       },
       //编辑
       handleEdit(index, row) {
-        this.$router.push({path:'/product/editSupplier?id='+row.id})
+        this.$router.push({path:'/product/supply/editSupplier?id='+row.id})
       },
       //分页器功能
       handleCurrentChange(val) {

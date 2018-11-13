@@ -40,6 +40,8 @@ const ActTpl = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/A
 const ActMgc = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActMgr')
 const AddAct = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddAct')
 const AddActEgg = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddActEgg')
+const AddWingAct = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddWingAct')
+const AddActSudoku = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddActSudoku')
 const ActSetConf = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActSetConf')
 const ActPutConf = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActPutConf')
 
@@ -87,6 +89,8 @@ const MaterielVirtual = () => import(/* webpackChunkName: "product" */ '@/pages/
 const MaterielRedpack = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Redpack.vue')
 // 产品-物料管理-积分礼品
 const MaterielIntegral = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Integral.vue')
+// 产品-品牌管理
+const prodBrand = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Brand.vue')
 
 
 // 设置-日志管理
@@ -248,24 +252,27 @@ export default new Router({
         // 产品
         {  path: '/product', name: '产品'},
         { path: '/product/supply', name: '供应商管理', component: supply },
-        { path: '/product/addSupplier', name: '供应商管理', component: addSupplier },
-        { path: '/product/editSupplier', name: '供应商管理', component: editSupplier,props: (route) => ({id:route.query.id}) },
+        { path: '/product/supply/addSupplier', name: '供应商管理', component: addSupplier },
+        { path: '/product/supply/editSupplier', name: '供应商管理', component: editSupplier,props: (route) => ({id:route.query.id}) },
         { path: '/product/mgr', name: '产品管理', redirect: '/product/mgr/tobacco' },
         { path: '/product/mgr/tobacco', name: '卷烟管理', component: tobacco },
-        { path: '/product/mgr/addTobaccoMr', name: '新建卷烟', component: addTobaccoMr },
-        { path: '/product/mgr/editTobaccoMr', name: '编辑卷烟', component: editTobaccoMr,props: (route) => ({id:route.query.id}) },
+        { path: '/product/mgr/tobacco/addTobaccoMr', name: '新建卷烟', component: addTobaccoMr },
+        { path: '/product/mgr/tobacco/editTobaccoMr', name: '编辑卷烟', component: editTobaccoMr,props: (route) => ({id:route.query.id}) },
         { path: '/product/mgr/liquor', name: '酒管理', component: KPI },
         { path: '/product/materiel', name: '物料管理', redirect: '/product/materiel/object' },
         { path: '/product/materiel/object', name: '实物礼品', component: MaterielObject },
         { path: '/product/materiel/virtual', name: '虚拟礼品', component: MaterielVirtual },
         { path: '/product/materiel/redpack', name: '红包', component: MaterielRedpack },
         { path: '/product/materiel/integral', name: '积分', component: MaterielIntegral },
+        { path: '/product/brand', name: '品牌管理', component: prodBrand },
         // 营销
         { path: '/market', name: '营销'},
         { path: '/market/actTpl', name: '活动模板', component: ActTpl },
         { path: '/market/actMgr', name: '活动管理', component: ActMgc },
         { path: '/market/actTpl/addAct', name: '新建活动模板配置', component: AddAct, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/addActEgg', name: '新建砸金蛋活动模板配置', component: AddActEgg, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/addWingAct', name: '新建点元宝活动模板配置', component: AddWingAct, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/AddActSudoku', name: '新建九宫格活动模板配置', component: AddActSudoku, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/actSetConf', name: '基础设置', component: ActSetConf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode, id: router.query.id, clone: router.query.clone,}) },
         { path: '/market/actTpl/actPutConf', name: '投放设置', component: ActPutConf, props: (router) => ({id: router.query.id, actCode: router.query.actCode}) },
         // 订单
@@ -290,7 +297,8 @@ export default new Router({
         { path: '/seller/review/addSeller', name: '新增零售户', component: addSeller},
 
         { path: '/seller/mgr', name: '零售户管理', component: sellerManage},
-        { path: '/seller/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
+        { path: '/seller/mgr/addSeller', name: '新增零售户', component: addSeller},
+        { path: '/seller/mgr/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
         { path: '/seller/tx', name: '提现审核', component: amountExamine},
         { path: '/seller/achievement', name: '业绩活动', component: sellerAchievement },
         { path: '/seller/rebate', name: '返佣管理', redirect: '/seller/rebate/mgr' },
@@ -303,22 +311,22 @@ export default new Router({
         { path: '/mall/systemLayout', name: '系统配置', component: systemLayout },
         { path: '/mall/category', name: '分类管理', component: sortManage },
         { path: '/mall/recommend', name: '推荐位管理', component: recommendManage },
-        { path: '/mall/addCommendTpmA', name: '新增推荐位模板A', component: addCommendTpmA },
-        { path: '/mall/addCommendTpmB', name: '新增推荐位模板B', component: addCommendTpmB },
-        { path: '/mall/addCommendTpmC', name: '新增推荐位模板C', component: addCommendTpmC },
-        { path: '/mall/editCommendTpmA', name: '编辑推荐位模板A', component: editCommendTpmA,props: (route) => ({id:route.query.id})},
-        { path: '/mall/editCommendTpmB', name: '编辑推荐位模板B', component: editCommendTpmB,props: (route) => ({id:route.query.id})},
-        { path: '/mall/editCommendTpmC', name: '编辑推荐位模板C', component: editCommendTpmC,props: (route) => ({id:route.query.id})},
+        { path: '/mall/recommend/addCommendTpmA', name: '新增推荐位模板A', component: addCommendTpmA },
+        { path: '/mall/recommend/addCommendTpmB', name: '新增推荐位模板B', component: addCommendTpmB },
+        { path: '/mall/recommend/addCommendTpmC', name: '新增推荐位模板C', component: addCommendTpmC },
+        { path: '/mall/recommend/editCommendTpmA', name: '编辑推荐位模板A', component: editCommendTpmA,props: (route) => ({id:route.query.id})},
+        { path: '/mall/recommend/editCommendTpmB', name: '编辑推荐位模板B', component: editCommendTpmB,props: (route) => ({id:route.query.id})},
+        { path: '/mall/recommend/editCommendTpmC', name: '编辑推荐位模板C', component: editCommendTpmC,props: (route) => ({id:route.query.id})},
         { path: '/mall/banner', name: 'banner位管理', component: bannerManage},
         { path: '/mall/banner/addBanner', name: '新增banner', component: addBanner},
         { path: '/mall/banner/editBanner', name: '编辑banner', component: editBanner,props: (route) => ({id:route.query.id})},
         { path: '/mall/product', name: '商品管理', redirect: '/mall/product/zj' },
         { path: '/mall/product/zj', name: '自建商品管理', component: buildProduct},
-        { path: '/mall/product/addProduct', name: '新建自建商品', component: addProduct},
-        { path: '/mall/product/editProduct', name: '编辑自建商品', component: editProduct,props: (route) => ({id:route.query.id})},
+        { path: '/mall/product/zj/addProduct', name: '新建自建商品', component: addProduct},
+        { path: '/mall/product/zj/editProduct', name: '编辑自建商品', component: editProduct,props: (route) => ({id:route.query.id})},
         { path: '/mall/product/jd', name: '京东商品管理', component: JDProduct },
-        { path: '/mall/product/addJDProduct', name: '新建京东商品', component: addJDProduct },
-        { path: '/mall/product/editJDProduct', name: '编辑京东商品', component: editJDProduct,props: (route) => ({id:route.query.id})},
+        { path: '/mall/product/jd/addJDProduct', name: '新建京东商品', component: addJDProduct },
+        { path: '/mall/product/jd/editJDProduct', name: '编辑京东商品', component: editJDProduct,props: (route) => ({id:route.query.id})},
         // 设置
         { path: '/setting', name: '设置'},
         { path: '/setting/user', name: '账户设置', redirect: '/setting/user/modPwd' },

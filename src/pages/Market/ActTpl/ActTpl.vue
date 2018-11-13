@@ -1,5 +1,5 @@
 <template>
-  <!-- 
+  <!--
   Author: chenxin
   Create Date: 2018-10-18
   Description: 活动模板
@@ -345,9 +345,13 @@ export default {
     goAddActTpl(code) {
     	if(code=='act-103'){
     		this.$router.push('/market/actTpl/addActEgg')
-    	}else {
+    	}else if(code=='act-102'){//点元宝
+            this.$router.push('/market/actTpl/AddWingAct')
+        }else if(code=='act-101'){//九宫格
+            this.$router.push('/market/actTpl/AddActSudoku')
+        }else{
     		this.$router.push('/market/actTpl/addAct')
-    	} 
+    	}
     },
     // 每当 pagesize 变化，会触发 这个函数
     handleSizeChange(newSize) {
@@ -372,9 +376,13 @@ export default {
     edit(code,id){
     	if(code=='act-103'){
     		this.$router.push('/market/actTpl/addActEgg?id=' + id)
-    	}else {
+    	}else if(code=='act-102'){//点元宝
+            this.$router.push('/market/actTpl/AddWingAct?id=' + id)
+        }else if(code=='act-101'){//九宫格
+            this.$router.push('/market/actTpl/AddActSudoku?id=' + id)
+        }else{
     		this.$router.push('/market/actTpl/addAct?id=' + id)
-    	} 	
+    	}
     }
   }
 }

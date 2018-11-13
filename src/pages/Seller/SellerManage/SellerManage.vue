@@ -448,7 +448,7 @@
     methods:{
       addNewSeller(){
         this.$router.push({
-          'path':'/seller/addSeller'
+          'path':'/seller/mgr/addSeller'
         })
       },
       //从后台拿取商品分类1
@@ -660,7 +660,7 @@
       },
       sellerDetail(sellerId){
         this.$router.push({
-          path:'/seller/sellerDetail?sellerId='+sellerId
+          path:'/seller/mgr/sellerDetail?sellerId='+sellerId
         })
       },
 
