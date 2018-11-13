@@ -23,6 +23,9 @@
                     <el-button size="small" @click="reset">重置</el-button>
                 </el-form-item>
             </el-form>
+        </el-card>
+        <div class="space"></div>
+        <el-card>
             <!-- 数据表格 -->
             <el-table :data="tableList" style="width: 100%">
                 <el-table-column label="序号" type="index" align="center">
@@ -39,7 +42,7 @@
                 <el-table-column label="操作" align="center" width="220">
                     <template slot-scope="scope">
                     <el-button v-if="scope.row.status==1" size="mini" @click="dataForm(scope.$index, scope.row)">编辑</el-button>
-                    <el-button v-if="scope.row.status==1" size="mini" @click="handleDelete(scope.$index, scope.row)" type="danger">停用</el-button>
+                    <el-button v-if="scope.row.status==1" size="mini" @click="modifyData(scope.row.id, 0)" type="danger">停用</el-button>
                     <el-button v-if="scope.row.status==0" size="mini" @click="modifyData(scope.row.id, 1)">启用</el-button>
                     </template>
                 </el-table-column>
@@ -89,6 +92,7 @@ export default {
         }
     },
     created() {
+        this.list();
     },
     methods: {
         currentChange(pageNo) {
@@ -144,6 +148,7 @@ export default {
             this.$request.post('/api/saotx/prod/brand/saveOrModify', this.form, true, (res)=>{
                 if (res.ret == '200000') {
                     this.list();
+                    this.form.show = false;
                     this.$message({type: 'success', message: '操作成功!'});
                 } else {
                     this.$message.error(res.message);
