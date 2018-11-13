@@ -15,11 +15,11 @@
         <el-card :body-style="{padding:'40px'}">
             <el-row>
                 <el-col :span="8">
-                    <phone-model :title="conf.title" :titleLength="30" imgKey ="ACT_FANPAIZI" :imgData="conf.img"></phone-model>
+                    <phone-model :title="conf.title" :titleLength="30" imgKey ="ACT_FANPAIZI" :imgData="conf.img" @edit="edit" />
                 </el-col>
                 <el-col :span="14">
                     <activity-info @titleInput="titleInput" @descInput="descInput"></activity-info>
-                    <activity-image-editor :picData="conf.pic"></activity-image-editor>
+                    <activity-image-editor :editData="editData" :type="editType"></activity-image-editor>
                 </el-col>
             </el-row>
         </el-card>
@@ -35,6 +35,8 @@ export default {
   data() {
     return {
       defaultActive: "1",
+      editData: null,
+      editType: "",
       conf : {
           title: '活动标题',
           desc: '',
@@ -68,6 +70,12 @@ export default {
     descInput (e) {
         let value = e.value;
         e.value ? this.conf.desc = e.value : this.desc = '';
+    },
+    edit(e){
+        let index = e.index;
+        let type = index.indexOf('item') > -1 ? 'item' : 'normal';
+        this.editType =  type;
+        this.editData = type == 'item' ? this.conf.img[type] : this.conf.img[type][index];
     }
   }
 };

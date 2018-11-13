@@ -10,9 +10,12 @@
                     v-if="imgData.normal" 
                     v-for="(pic, index) in imgData.normal" 
                     :src="pic.url" 
-                    alt="点击编辑" 
+                    title="点击编辑" 
                     :key="index + pic"
-                    :class="index"
+                    @mouseover="imgHover(index)"
+                    @mouseout="unHover()"
+                    @click="edit(index)"
+                    :class="[index, {imgHover: hover == index}]"
                     :style="{
                         'max-width': pic.size[0] * 0.4 + 'px',
                         'max-height': pic.size[1] * 0.4 +'px',
@@ -23,11 +26,12 @@
                     v-if="imgData.item" 
                     v-for="(pic, index) in imgData.item" 
                     :src="pic.url" 
-                    alt="点击编辑" 
+                    title="点击编辑" 
                     :key="index + pic"
                     :class="[index, {imgHover: hover == index}]"
                     @mouseover="imgHover(index)"
                     @mouseout="unHover()"
+                    @click="edit(index)"
                     :style="{
                         'max-width': pic.size[0] * 0.4 + 'px',
                         'max-height': pic.size[1] * 0.4 +'px',
@@ -74,11 +78,13 @@ export default {
     },
     methods: {
         imgHover (index) {
-            console.log(index)
             this.hover = index;
         },
         unHover () {
             this.hover = ''
+        },
+        edit (index) {
+            this.$emit('edit', {index: index});
         }
     }
 }
@@ -104,6 +110,8 @@ export default {
             height: 484px;
             position: relative;
             & img{
+                box-sizing: border-box;
+                transition: all 0.2s linear;
                 position: absolute;
             }
             .contentBg, .title, .contentBg{
@@ -112,8 +120,9 @@ export default {
             }
             .imgHover {
                 border: 2px dashed #999;
-                transform: scale(0.98, 0.98);
-                filter: blur(80%);
+                // transform: scale(0.98, 0.98);
+                filter: brightness(80%);
+                cursor: pointer;
             }
         }
         .phone-footer{
