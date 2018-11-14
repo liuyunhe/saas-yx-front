@@ -300,7 +300,7 @@ export default {
       this.form.pageNo = _pageNo;
       let _pageSize = 10;
       if(pageSize) _pageSize = pageSize;
-      this.form.pageNo = _pageSize;
+      this.form.pageSize = _pageSize;
       
       this.$request.post('/api/saotx/metra/list', this.form, true, (res)=>{
         if (res.ret == '200000') {
