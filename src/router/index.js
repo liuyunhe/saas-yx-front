@@ -295,6 +295,7 @@ export default new Router({
         { path: '/seller/mgr/addSeller', name: '新增零售户', component: addSeller},
         { path: '/seller/mgr/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
         { path: '/seller/tx', name: '提现审核', component: amountExamine},
+        { path: '/seller/tx/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
         { path: '/seller/achievement', name: '业绩活动', component: sellerAchievement },
         { path: '/seller/rebate', name: '返佣管理', redirect: '/seller/rebate/mgr' },
         { path: '/seller/rebate/mgr', name: '扫码返佣管理', component: rebateManage },
