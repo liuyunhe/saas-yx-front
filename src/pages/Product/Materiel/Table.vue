@@ -282,11 +282,16 @@ export default {
     },
     // 新增或修改物料表单
     materielForm(index, row) {
-      let _path = "/product/materiel/form?metraFlag="+this.metraFlag;
-      if( row&&row.id ) {
-        _path += "&id="+row.id;
+      //let _path = "/product/materiel/form?metraFlag="+this.metraFlag;
+      //if( row&&row.id ) {
+      //  _path += "&id="+row.id;
+      //}
+      //this.$router.push({path:_path});
+      let materielId = "";
+      if(row&&row.id) {
+        materielId = row.id;
       }
-      this.$router.push({path:_path});
+      this.$emit('showForm', materielId);
     },
     // 查询礼品库列表数据
     listMateriel(_event, pageNo, pageSize) {
@@ -295,7 +300,7 @@ export default {
       this.form.pageNo = _pageNo;
       let _pageSize = 10;
       if(pageSize) _pageSize = pageSize;
-      this.form.pageNo = _pageSize;
+      this.form.pageSize = _pageSize;
       
       this.$request.post('/api/saotx/metra/list', this.form, true, (res)=>{
         if (res.ret == '200000') {

@@ -66,14 +66,14 @@
             @sort-change="sortDatas" @cell-click="arrowCellClick">
             <el-table-column label="地域" align="center">
               <el-table-column label="统计" prop="overview" align="center"></el-table-column>
-              <el-table-column label="省市" align="center" width="200">
+              <el-table-column label="省市" align="center">
                 <template slot-scope="scope">
                     {{scope.row.provOrCity}}
                     <i v-if="scope.row.province?true:false" :class="arrowTop[scope.row.province]?'el-icon-caret-top':'el-icon-caret-bottom'"></i>
                 </template>
               </el-table-column>
             </el-table-column>
-            <el-table-column prop="saleType" label="所属销区" align="center" width="240"></el-table-column>
+            <el-table-column prop="saleType" label="所属销区" align="center"></el-table-column>
             <el-table-column prop="scantimes" label="扫码次数" align="center" width="180" sortable="custom" :render-header="scantimesHeader"></el-table-column>
             <el-table-column prop="scanUsers" label="扫码人数" align="center" width="180" sortable="custom" :render-header="scanusersHeader"></el-table-column>
             <el-table-column prop="scanCodes" label="扫码烟包数" align="center" width="180" sortable="custom" :render-header="scancodesHeader"></el-table-column>
@@ -85,7 +85,7 @@
                   <i v-if="scope.row.province?true:false" :class="sortArrowTop[scope.row.province]?'el-icon-caret-top':'el-icon-caret-bottom'"></i>
               </template>
             </el-table-column>
-            <el-table-column prop="saleType" label="所属销区" align="center" width="280"></el-table-column>
+            <el-table-column prop="saleType" label="所属销区" align="center"></el-table-column>
             <el-table-column prop="scantimes" label="扫码次数" align="center" width="180" sortable="custom"></el-table-column>
             <el-table-column prop="scanUsers" label="扫码人数" align="center" width="180" sortable="custom"></el-table-column>
             <el-table-column prop="scanCodes" label="扫码烟包数" align="center" width="180" sortable="custom"></el-table-column>

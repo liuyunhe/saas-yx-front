@@ -23,21 +23,21 @@
 				</div>
 				<div class="bottom">
 					<el-table :data="tableData"v-loading="loading" style="width: 100%" @selection-change="handleSelectionChange">
-						<el-table-column type="selection" width="55">
+						<el-table-column type="selection" >
 						</el-table-column>
-						<el-table-column prop="name" label="模板名称" width="120">
+						<el-table-column prop="name" label="模板名称" >
 						</el-table-column>
-						<el-table-column prop="note" label="模板说明" width="270">
+						<el-table-column prop="note" label="模板说明" >
 						</el-table-column>
-						<el-table-column prop="ctime" label="创建时间" width="220">
+						<el-table-column prop="ctime" label="创建时间" >
 						</el-table-column>
-						<el-table-column prop="creatorName" label="创建人" width="120">
+						<el-table-column prop="creatorName" label="创建人" >
 						</el-table-column>
-						<el-table-column prop="statusName" label="状态" width="100">
+						<el-table-column prop="statusName" label="状态" >
 						</el-table-column>
-						<el-table-column label="操作" width="150">
+						<el-table-column label="操作" >
 							<template slot-scope="scope">
-								<el-button @click="use(scope.row)" type="text" size="small">启用</el-button>
+								<el-button @click="use(scope.row)" type="text" size="small"v-show='scope.row.status==2?true:false'>启用</el-button>
 								<el-button @click="removeItem(scope.row)" type="text" size="small">删除</el-button>
 								<el-button type="text" size="small" @click="editItem(scope.row)">编辑</el-button>
 							</template>
@@ -45,7 +45,7 @@
 					</el-table>
 					<br />
 					<el-button type="primary" @click='removeMul' size='small'>批量删除</el-button>
-					<div class="itemDec">当前第{{page}}页，本页{{max}}条记录，总共{{total}}条记录</div>
+					<!--<div class="itemDec">当前第{{page}}页，本页{{max}}条记录，总共{{total}}条记录</div>-->
 					<el-pagination layout="total,prev, pager, next,jumper" background :total="total" @current-change="myCallback" :page-size="max" class="pagination-css">
 					</el-pagination>
 				</div>
@@ -77,12 +77,12 @@
 											<br />
 											<div class="detail">
 												<div>页面名称:</div>
-												<el-input v-model="addlist.conf.has.title.name" size='small' placeholder="请输入页面名称"></el-input>
+												<el-input v-model="addlist.conf.has.title.name" size='small' placeholder="请输入页面名称"maxlength='15'></el-input>
 											</div>
 											<br />
 											<div class="detail">
 												<div>页面描述:</div>
-												<el-input v-model="addlist.conf.has.title.note" size='small' placeholder="请输入页面描述"></el-input>
+												<el-input v-model="addlist.conf.has.title.note" size='small' placeholder="请输入页面描述"maxlength='20'></el-input>
 											</div>
 											<br />
 										</div>
@@ -157,12 +157,12 @@
 										<br />
 										<div class="name">
 											<span>公众号名称：</span>
-											<el-input size='mini' v-model="addlist.conf.has.gzh.name" class='gInput' placeholder="请输入内容"></el-input>
+											<el-input size='mini' v-model="addlist.conf.has.gzh.name" class='gInput' placeholder="请输入内容"maxlength='10'></el-input>
 										</div>
 										<br />
 										<div class="name">
 											<span>说明：</span>
-											<el-input size='mini' v-model="addlist.conf.has.gzh.note" class='gInput' placeholder="请输入内容"></el-input>
+											<el-input size='mini' v-model="addlist.conf.has.gzh.note" class='gInput' placeholder="请输入内容"maxlength='20'></el-input>
 										</div>
 										<div class="back">
 											二维码：<img :src="addlist.conf.has.gzh.qrIcon" alt="" />
@@ -186,11 +186,11 @@
 
 						</div>
 						<div class="tplInfo">
-							模板名称：<br />
-							<el-input v-model="addlist.name" placeholder="请输入模板名称"></el-input>
+							<span class='require'>*</span>模板名称：<br />
+							<el-input v-model="addlist.name" placeholder="请输入模板名称"maxlength='15'></el-input>
 							<br /><br /> 模板说明：
 							<br />
-							<el-input v-model="addlist.note" placeholder="请输入模板说明"></el-input>
+							<el-input v-model="addlist.note" placeholder="请输入模板说明"maxlength='20'></el-input>
 							<br /><br />
 							请选择品牌：<el-select class="filter-item" multiple v-model="selectBrand" placeholder="请选择品牌">
 								<el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
@@ -215,12 +215,12 @@
 											<br />
 											<div class="detail">
 												<div>页面名称:</div>
-												<el-input v-model="addlist.conf.not.title.name" placeholder="请输入页面名称"></el-input>
+												<el-input v-model="addlist.conf.not.title.name" placeholder="请输入页面名称"maxlength='15'></el-input>
 											</div>
 											<br />
 											<div class="detail">
 												<div>页面描述:</div>
-												<el-input v-model="addlist.conf.not.title.note" placeholder="请输入页面描述"></el-input>
+												<el-input v-model="addlist.conf.not.title.note" placeholder="请输入页面描述"maxlength='20'></el-input>
 											</div>
 											<br />
 										</div>
@@ -241,7 +241,7 @@
 											</el-upload>
 											<br /><br />
 											<div>提示语：</div>
-											<el-input v-model="addlist.conf.not.yz.tip" placeholder="请输入内容"></el-input>
+											<el-input v-model="addlist.conf.not.yz.tip" placeholder="请输入内容"maxlength='20'></el-input>
 											<br /> 按钮图片：
 											<img :src="addlist.conf.not.yz.btnIcon" alt="" />
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz4">
@@ -271,12 +271,12 @@
 										<br />
 										<div class="name">
 											<div>公众号名称：</div>
-											<el-input size='mini' v-model="addlist.conf.not.gzh.name" class='gInput' placeholder="请输入内容"></el-input>
+											<el-input size='mini' v-model="addlist.conf.not.gzh.name" class='gInput' placeholder="请输入内容"maxlength='10'></el-input>
 										</div>
 										<br />
 										<div class="name">
 											<div>说明：</div>
-											<el-input size='mini' v-model="addlist.conf.not.gzh.note" class='gInput' placeholder="请输入内容"></el-input>
+											<el-input size='mini' v-model="addlist.conf.not.gzh.note" class='gInput' placeholder="请输入内容"maxlength='20'></el-input>
 										</div>
 										<div class="back">
 											二维码：<img :src="addlist.conf.not.gzh.qrIcon" alt="" />
@@ -299,11 +299,11 @@
 							<div class="phone-bottom"></div>
 						</div>
 						<div class="tplInfo">
-							模板名称：<br />
-							<el-input v-model="addlist.name" placeholder="请输入模板名称"></el-input>
+							<span class='require'>*</span>模板名称：<br />
+							<el-input v-model="addlist.name" placeholder="请输入模板名称"maxlength='15'></el-input>
 							<br /><br /> 模板说明：
 							<br />
-							<el-input v-model="addlist.note" placeholder="请输入模板说明"></el-input>
+							<el-input v-model="addlist.note" placeholder="请输入模板说明"maxlength='20'></el-input>
 							<br /><br />
 							请选择品牌：<el-select class="filter-item" multiple v-model="selectBrand" placeholder="请选择品牌">
 								<el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">

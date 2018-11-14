@@ -5,8 +5,21 @@
                 <h4>{{title}}</h4>
             </div>
             <div class="phone-body">
-                <div class="cover" v-if="page != 0"></div>
-                <img 
+                <div class="cover" v-if="page != 1">
+                    <img 
+                        v-if="page != 2 && page != 3"
+                        :src="commonImg.close.url" alt=""
+                        :style="{
+                            'width': commonImg.close.size[0] * 0.4 + 'px',
+                            'height': commonImg.close.size[1] * 0.4 + 'px',
+                            'left': commonImg.close.pos[0] * 0.4 + 'px',
+                            'top': commonImg.close.pos[1] * 0.4 + 'px',
+                        }"
+                    >
+                </div>
+                 <!-- 第一页： 首页 -->
+                <div class="page1">
+                    <img 
                     v-if="imgData.normal" 
                     v-for="(pic, index) in imgData.normal" 
                     :src="pic.url" 
@@ -38,6 +51,58 @@
                         'left': pic.pos[0] * 0.4 + 'px',
                         'top': pic.pos[1] * 0.4 + 'px'
                     }"/>
+                </div>
+                <div class="page page2" v-if="page == 2">
+                    <img :src="commonImg.actNotes.url" alt="">
+                </div>
+                <div class="page page3" v-if="page == 3">
+                    <img :src="commonImg.myAward.url" alt="">
+                </div>
+                <div class="page page4" v-if="page == 4">
+                    <img 
+                        :src="commonImg.award.url" alt="" 
+                        class="award-pic" 
+                        :style="{
+                            'max-width': commonImg.award.size[0] * 0.4 + 'px',
+                            'max-height': commonImg.award.size[1] * 0.4 + 'px'
+                        }"
+                    >
+                    <div class="award-text">
+                        <h2>奖品名称</h2>
+                        <p>请在24小时内领取</p>
+                    </div>
+                    <img 
+                        :src="commonImg.getBtn.url" alt="" 
+                        class="award-btn"
+                        :style="{
+                            'max-width': commonImg.getBtn.size[0] * 0.4 + 'px',
+                            'max-height': commonImg.getBtn.size[1] * 0.4 + 'px',
+                            'top': commonImg.getBtn.pos[1] * 0.42 + 'px'
+                        }"
+                        >
+                </div>
+                <div class="page page5" v-if="page == 5">
+                    <img 
+                        :src="commonImg.noAward.url" alt="" 
+                        class="award-pic no-award"
+                        :style="{
+                            'max-width': commonImg.noAward.size[0] * 0.4 + 'px',
+                            'max-height': commonImg.noAward.size[1] * 0.4 + 'px',
+                            'top': commonImg.noAward.pos[1] * 0.42 + 'px'
+                        }"
+                        />
+                    <p>很遗憾，未中奖</p>
+                    <img 
+                        :src="commonImg.knowBtn.url" alt="" 
+                        class="award-btn"
+                        :style="{
+                            'max-width': commonImg.knowBtn.size[0] * 0.4 + 'px',
+                            'max-height': commonImg.knowBtn.size[1] * 0.4 + 'px',
+                            'top': commonImg.knowBtn.pos[1] * 0.42 + 'px'
+                        }"
+                    >
+                </div>
+                
             </div>
             <div class="phone-footer"></div>
         </div>
@@ -59,8 +124,11 @@ export default {
             default: ""
         },
         page: {
-            type: Number,
-            default: 0
+            type: [Number, String],
+            default: 1
+        },
+        commonImg: {
+            type: [Array, Object]
         }
     },
     data () {
@@ -108,7 +176,17 @@ export default {
         }
         .phone-body{
             height: 484px;
+            margin-left: 1px;
             position: relative;
+            .cover{
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba($color: #000000, $alpha: 0.8);
+                z-index: 1;
+            }
             & img{
                 box-sizing: border-box;
                 transition: all 0.2s linear;
@@ -123,6 +201,47 @@ export default {
                 // transform: scale(0.98, 0.98);
                 filter: brightness(80%);
                 cursor: pointer;
+            }
+            .page {
+                position: absolute;
+                z-index: 2;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 0;
+                &.page2>img, &.page3>img{
+                    width: 100%;
+                    height: 100%;
+                }
+                .award-pic{
+                    left: 47%;
+                    top: 84.4px;
+                    transform: translateX(-50%);
+                    &.no-award{
+                        left: 50%;
+                    }
+                }
+                .award-text{
+                    color: white;
+                    text-align:  center;
+                    margin-top: 311px;
+                    & h2, & p{
+                        margin: 5px;
+                    }
+                }
+                .award-btn{
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+                &.page5 p{
+                    position: absolute;
+                    width: 100%;
+                    font-weight: bold;
+                    font-size: 16px;
+                    color: white;
+                    text-align: center;
+                    top: 308px;
+                }
             }
         }
         .phone-footer{

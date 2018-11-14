@@ -148,18 +148,38 @@ Vue.use(Main)
 Vue.use(Loading.directive)
 
 Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$message = Message
+// 全局设置 拥有size属性的尺寸均为 small
+Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000, align: 'center' }
 // Vue.use(ElementUI);
 
 router.beforeEach((to, from, next) => {
   //登录规则
   if (to.path === '/login' || to.path === '/find') {
+    console.log('进来了')
     sessionStorage.removeItem('access_token');
     return next()
   }
   const tokenStr = window.sessionStorage.getItem('access_token')
   if (!tokenStr) return next('/login')
-  next()
+  // console.log(to)
+  // console.log(from)
+  // if(!from.path){
+  //   return next('/datas/kpi')
+  // }
+  const menu = JSON.parse(sessionStorage.getItem('menu'))
+  if (JSON.stringify(menu).indexOf(to.path) !== -1) {
+    next()
+  } else {
+    if(JSON.stringify(menu).indexOf(from.path) !==-1 && to.path.indexOf(from.path) !== -1 ){
+      next()
+    }else{
+        next()
+      // next('/datas/kpi')
+    }
+
+  }
 })
 
 /* eslint-disable no-new */

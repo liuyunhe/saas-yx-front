@@ -1,21 +1,29 @@
 <template>
     <div id="root">
-        <el-card class="card">
+        <el-card class="card" v-if="editData">
             <div slot="header" class="header">
                 <h3>编辑图片</h3>
             </div>
-            <div v-if="type == 'normal'" class="edit normal-pic">
-                <div class="edit-container">
-                    <h4>编辑{{editData.name}}：</h4>
+            <div v-if="type == 'normal' || (type == 'item' &&itemRepeat) || type == 'common'" class="edit normal-pic">
+                <div class="edit-container" v-for="(img, index) in editData" :key="index + img">
+                    <h4>编辑{{img.name}}：</h4>
                     <div class="img-container">
-                        <img :src="editData.url" alt="">
+                        <img :src="img.url" alt="">
                     </div>
-                    <el-upload action="/api/saotx/attach/commonAliUpload" class="upload">
-                        <el-button type="primary" size="small" @click="onUploadClick(editData.index)">点击上传</el-button>
+                    <el-upload 
+                    :action="uploadApi" 
+                    :headers="headerObj" 
+                    class="upload" 
+                    :show-file-list="showFile" 
+                    :on-success="uploadSuccess"
+                    :on-error="uploadError">
+                        <el-button type="primary" size="small" @click="onUploadClick(itemRepeat && type == 'item' ? 'item0' : img.index)">点击上传</el-button>
+                        
                     </el-upload>
+                    <div slot="tip" class="el-upload__tip">*图片建议尺寸为：{{img.size[0]}} x {{img.size[1]}}px；建议格式为：jpg/png/bmp/gif</div>
                 </div>
             </div>
-            <div v-if="type == 'item'" class="edit item-pic">
+            <div v-if="type == 'item' && !itemRepeat" class="edit item-pic">
                 <div class="edit-container" v-for="(img, index) in editData" :key="index + img">
                     <h4>编辑{{img.name}}：</h4>
                     <div class="img-container">
@@ -43,6 +51,9 @@ export default {
     },
     type: {
       type: String
+    },
+    itemRepeat: {
+      type: Boolean
     }
   },
   data() {
@@ -60,15 +71,19 @@ export default {
   created() {},
   methods: {
       uploadSuccess (res, file, fileList) {
+        let that = this;
         let url = res.data.accessUrl;
-        console.log(file)
+        that.$emit('picChange', {type: that.type, index: that.editIndex, url: url, itemRepeat: that.itemRepeat});
       },
       uploadError (err) {
+          let that = this;
           console.log(err)
           alert('图片上传失败')
       },
-      onUploadClick (e) {
-          this.editIndex = e;
+      onUploadClick (index) {
+          let that = this;
+          console.log(index)
+          that.editIndex = index;
       }
   }
 };

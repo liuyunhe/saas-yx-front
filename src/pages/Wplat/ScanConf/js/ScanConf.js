@@ -46,13 +46,13 @@ export default {
 						},
 						yz: {
 							detailFlag: true,
-							bg: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png'
+							bg: ''
 						},
 						gzh: {
 							name: 'XXX',
 							note: '获得更多惊喜',
 							qrIcon: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
-							bg: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png'
+							bg: ''
 						},
 						activity: {
 							show: false,
@@ -94,13 +94,13 @@ export default {
 						},
 						yz: {
 							detailFlag: true,
-							bg: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png'
+							bg: ''
 						},
 						gzh: {
 							name: 'XXX',
 							note: '获得更多惊喜',
 							qrIcon: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
-							bg: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png'
+							bg: ''
 						},
 						activity: {
 							show: false,
@@ -172,6 +172,8 @@ export default {
 
 						if(data == null || data.length == 0) {
 							that.tableData = data;
+							that.loading = false;
+							that.total = res.data.page.count;
 						} else {
 							that.tableData = data;
 							that.loading = false;
@@ -192,6 +194,7 @@ export default {
 			this.dateValue = '';
 			this.keywords = '';
 			this.modelValue = '';
+			this.search();
 		},
 		init() {
 			var that = this;
@@ -209,7 +212,9 @@ export default {
 						var data = res.data.list || [];
 
 						if(data == null || data.length == 0) {
-
+							that.tableData = data;
+							that.loading = false;
+							that.total = res.data.page.count;
 						} else {
 							that.tableData = data;
 							that.loading = false;
@@ -376,6 +381,13 @@ export default {
 		},
 		save() {
 			var that = this;
+			if(!that.addlist.name){
+				this.$message({
+					message: '请填写模板名称',
+					type: 'warning'
+				});
+				return;
+			}
 			var savelist = {};
 			savelist.id = that.addlist.id;
 			savelist.name = that.addlist.name;
@@ -411,6 +423,13 @@ export default {
 		},
 		saveAdd() {
 			var that = this;
+			if(!that.addlist.name){
+				this.$message({
+					message: '请填写模板名称',
+					type: 'warning'
+				});
+				return;
+			}
 			var savelist = {};
 			savelist.id = that.addlist.id;
 			savelist.name = that.addlist.name;
@@ -521,6 +540,11 @@ export default {
 						});
 						that.removeArr = [];
 						that.init();
+					}else if(res.ret=='400400'){
+						this.$message({
+							message: '该模板正在启用中，不能进行删除操作',
+							type: 'warning'
+						});
 					}
 				},
 				err => {
@@ -562,6 +586,7 @@ export default {
 				true,
 				res => {
 					if(res.ret == '200000') {
+						
 						this.$message({
 							message: '已启用',
 							type: 'success'

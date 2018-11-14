@@ -22,6 +22,12 @@ export default {
         descLength: {
             type: Number,
             default: 50
+        },
+        title: {
+            type: String
+        },
+        desc: {
+            type: String
         }
     },
     data () {
@@ -30,8 +36,8 @@ export default {
                 require: true
             },
             info: {
-                title: "",
-                desc: ""
+                title: '',
+                desc: ''
             },
             rules: {
                 title: [
@@ -44,16 +50,20 @@ export default {
         }
     },
     created () {
-
+        let that = this;
+        this.$watch('title', v => {
+            that.info.title = v;
+        });
+        this.$watch('desc', v => {
+            that.info.desc = v;
+        })
     },
     methods: {
         titleInput (value) {
             this.$emit('titleInput', {value: value});
-            console.log(value)
         },
         descInput (value) {
             this.$emit('descInput', {value: value})
-            console.log(value)
         }
     }
 }

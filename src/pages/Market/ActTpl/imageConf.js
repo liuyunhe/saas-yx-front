@@ -14,38 +14,58 @@ const handle = {
 }
 
 const commonImg = {
+    close: {
+        name: '关闭按钮',
+        index: 'close',
+        url: handle.getUrl('home_close', 2),
+        pos: [632, 141],
+        size: [60, 60]
+    },
+    awardText: {
+        name: '关闭按钮',
+        index: 'awardText',
+        url: handle.getUrl('award-text', 2),
+        pos: [0, 0],
+        size: [311, 76]
+    },
     award: {
-        name: 'award',
+        name: '中奖图片',
+        index: 'award',
         url: handle.getUrl('ic-awardgift', 2),
         pos: [0, 0],
         size: [750, 1208]
     },
     noAward: {
-        name: 'noAward',
+        name: '未获奖图片',
+        index: 'noAward',
         url: handle.getUrl('cry75@2x', 1),
-        pos: [0, 0],
-        size: [750, 1208]
+        pos: [85, 373],
+        size: [620, 345]
     },
     getBtn: {
-        name: 'getBtn',
+        name: '领取按钮',
+        index: 'getBtn',
         url: handle.getUrl('djlq_btn', 2),
-        pos: [0, 0],
-        size: [750, 1208]
+        pos: [0, 933],
+        size: [373, 84]
     },
     knowBtn: {
-        name: 'knowBtn',
+        name: '知道了按钮',
+        index: 'knowBtn',
         url: handle.getUrl('know-btn', 2),
-        pos: [0, 0],
+        pos: [231, 905],
         size: [290, 74]
     },
     myAward: {
-        name: 'myAward',
+        name: '我的奖品',
+        index: 'myAward',
         url: handle.getUrl('wodedjiangpin', 2),
         pos: [0, 0],
         size: [100, 100]
     },
     actNotes: {
-        name: 'actNotes',
+        name: '活动说明',
+        index: 'actNotes',
         url: handle.getUrl('huodongshuoming', 2),
         pos: [0, 0],
         size: [100, 100]
@@ -86,7 +106,7 @@ const img = {
         },
         item: {
             item0: {
-                name: '牌子1',
+                name: '牌子',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [89, 571],
                 size: [173, 237]

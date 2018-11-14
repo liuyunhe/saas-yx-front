@@ -160,15 +160,15 @@
       editRecommend(id,type){
         if(type==1){
           this.$router.push({
-            path:'/mall/editCommendTpmA?id='+id
+            path:'/mall/recommend/editCommendTpmA?id='+id
           })
         }else if(type==2){
           this.$router.push({
-            path:'/mall/editCommendTpmB?id='+id
+            path:'/mall/recommend/editCommendTpmB?id='+id
           })
         }else if(type==3){
           this.$router.push({
-            path:'/mall/editCommendTpmC?id='+id
+            path:'/mall/recommend/editCommendTpmC?id='+id
           })
         }
 
@@ -206,7 +206,7 @@
       },
       templateLink(type){
         this.landingPage =false;
-        this.$router.push('/mall/addCommendTpm'+type)
+        this.$router.push('/mall/recommend/addCommendTpm'+type)
       },
     },
     created(){
