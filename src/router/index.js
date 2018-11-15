@@ -39,6 +39,8 @@ const IntegralExchDayPage = () => import(/* webpackChunkName: "henanReport" */ '
 const ActTpl = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/ActTpl')
 const ActMgc = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActMgr')
 const AddAct = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddAct')
+const Fanpaizi = () => import(/*webpackChunkName: '"fanpaizi" */'@/pages/Market/ActTpl/Fanpaizi.ActTpl')
+const Jiugongge = () => import(/*webpackChunkName: '"jiugongge" */'@/pages/Market/ActTpl/Jiugongge.ActTpl')
 const AddActEgg = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddActEgg')
 const AddWingAct = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddWingAct')
 const AddActSudoku = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddActSudoku')
@@ -220,7 +222,7 @@ export default new Router({
         { path: '/datas/agree', name: '履约报表', component: DataAgree },
         { path: '/datas/visit', name: '回访报表', component: DataVisit },
         { path: '/datas/theme', name: '主题查询', redirect: '/datas/theme/kpiReview', },
-        { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: DataThemeReview },
+        { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: KPI },
         { path: '/datas/theme/region', name: '地域查询', component: RegionSearch },
         { path: '/datas/theme/spec', name: '规格查询', component: SpecSearch },
         { path: '/datas/track', name: '活动追踪', redirect: '/datas/track/realtime' },
@@ -238,7 +240,7 @@ export default new Router({
         { path: '/datas/operate/steal', name: '盗扫明细', component: DataOperateSteal },
         { path: '/datas/fakeCode', name: '异常码明细', redirect: '/datas/fakeCode/Report' },
         { path: '/datas/fakeCode/Report', name: '假码举报', component: DataFakeCodeReport },
-        { path: '/datas/fakeCode/qrcodeActive', name: '二维码激活', component: DataQrcodeActive },
+        { path: '/datas/fakeCode/qrcodeActive', name: '二维码激活', component: KPI },
         // 微平台
         { path: '/weplat', name: '微平台'},
         { path: '/weplat/down', name: '扫码落地页', component: ScanConf },
@@ -271,6 +273,8 @@ export default new Router({
         { path: '/market/actMgr', name: '活动管理', component: ActMgc },
         { path: '/market/actTpl/addAct', name: '新建活动模板配置', component: AddAct, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/addActEgg', name: '新建砸金蛋活动模板配置', component: AddActEgg, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/addActFanpaizi', name: '翻牌子活动', component: Fanpaizi, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/addActJiugongge', name: '九宫格活动', component: Jiugongge, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/addWingAct', name: '新建点元宝活动模板配置', component: AddWingAct, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/AddActSudoku', name: '新建九宫格活动模板配置', component: AddActSudoku, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/actSetConf', name: '基础设置', component: ActSetConf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode, id: router.query.id, clone: router.query.clone,}) },
@@ -335,7 +339,7 @@ export default new Router({
         { path: '/setting/user/account', name: '成员管理', component: SettingAccount },
         { path: '/setting/user/role', name: '角色管理', component: SettingRole },
         { path: '/setting/logs', name: '日志管理', component: SettingLogs },
-        { path: '/setting/seller', name: '零售户管理', component: SettingSeller },
+        { path: '/setting/seller', name: '零售户管理', component: KPI },
         { path: '/setting/mall', name: '积分设置', component: KPI }
       ]
     },

@@ -349,6 +349,8 @@ export default {
             this.$router.push('/market/actTpl/AddWingAct')
         }else if(code=='act-101'){//九宫格
             this.$router.push('/market/actTpl/AddActSudoku')
+        }else if(code == 'act-104'){
+          this.$router.push('/market/actTpl/AddActFanpaizi')
         }else{
     		this.$router.push('/market/actTpl/addAct')
     	}
@@ -380,6 +382,8 @@ export default {
             this.$router.push('/market/actTpl/AddWingAct?id=' + id)
         }else if(code=='act-101'){//九宫格
             this.$router.push('/market/actTpl/AddActSudoku?id=' + id)
+        }else if(code == 'act-104'){
+          this.$router.push('/market/actTpl/addActFanpaizi?id=' + id)
         }else{
     		this.$router.push('/market/actTpl/addAct?id=' + id)
     	}
