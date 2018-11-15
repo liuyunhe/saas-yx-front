@@ -279,14 +279,14 @@
                 return newBase + name + "." + suffix;
             },
             getStyle(w, h, x, y) {
+                var ratio=0.4;
+                var pcRatio=0.5;
                 var wp = w.toString().indexOf('%') > -1;
                 var hp = h.toString().indexOf('%') > -1;
-                var ratio= 0.4;
-                var pcRatio= 0.5;
                 return {
                     style: {
                         "max-width": wp ? w : Math.floor(w * ratio) + 'px',
-                        "max-height": hp ? h : Math.floor(h * ratio) + 'px',
+                        "max-height": hp ? h :Math.floor(h * ratio) + 'px',
                         transform: "translate(" + Math.floor(x * ratio) + "px," + Math.floor(y * ratio) + "px)"
                     },
                     'c-style': {
@@ -327,12 +327,12 @@
                     var top = imgPosition[i - 1][1];
                     var pos = 0;
                     i == 1 || i == 2 || i == 3 || i == 7
-                        ? pos = i : i == 6
-                        ? pos = 4 : i == 9
-                            ? pos = 5 : i == 8
-                                ? pos = 6 : i == 4
-                                    ? pos = 8 : i == 5
-                                        ? pos = 9 : '';
+                    ? pos = i : i == 6
+                    ? pos = 4 : i == 9
+                    ? pos = 5 : i == 8
+                    ? pos = 6 : i == 4
+                    ? pos = 8 : i == 5
+                    ? pos = 9 : '';
                     var ratio = 0.4;
                     if(i != 5 ){
                         urls[nameSuffix + i] = {
@@ -345,6 +345,7 @@
                             style:  _this.getStyle(width, height, left, top).style,
                             'c-style': _this.getStyle(width, height, left, top)["c-style"],
                         };
+                        urls.kists.push(urls[nameSuffix + i])
                     }else {
                         urls[nameSuffix + i] = {
                             url: _this.getNewImage("jgg_ljcj","png"),
@@ -356,8 +357,9 @@
                             style:  _this.getStyle(width, height, left, top).style,
                             'c-style': _this.getStyle(width, height, left, top)["c-style"],
                         };
+                        urls.kists.push(urls[nameSuffix + i])
                     }
-                    urls.kists.push(urls[nameSuffix + i])
+
                 }
                 urls.bg = {
                     url: _this.getNewImage("jiugongge-bg","png"),
@@ -369,12 +371,12 @@
                 };
                 urls.title = {
                     url: _this.getNewImage("jgg-banner","png"),
-                    width: 691,
-                    height: 361,
-                    left: 29,
-                    top: 76,
-                    style: _this.getStyle(691, 361, 29, 76).style,
-                    'c-style':  _this.getStyle(691, 361, 29, 76)["c-style"],
+                    width: 622,
+                    height: 357,
+                    left: 63,
+                    top: 130,
+                    style: _this.getStyle(622, 357, 63, 130).style,
+                    'c-style':  _this.getStyle(622, 357, 63, 130)["c-style"],
                 };
                 urls.subTitle = {
                     url: _this.getImage("JGG_title_text","png"),
