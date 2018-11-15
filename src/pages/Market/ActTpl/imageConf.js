@@ -142,6 +142,103 @@ const img = {
                 size: [173, 237]
             },
         }
+    },
+    ACT_JIUGONGGE: {
+        normal: {
+            bg: {
+                name: '背景',
+                index: 'bg',
+                url: handle.getUrl('jiugongge-bg', 2),
+                pos: [0, 0],
+                size: [750, 1208]
+            },
+            contentBg: {
+                name: '牌子背景',
+                index: 'contentBg',
+                url: handle.getUrl('content-bg', 1),
+                pos: [35, 600],
+                size: [660, 560]
+            },
+            title: {
+                name: '标题',
+                index: 'title',
+                url: handle.getUrl('jgg-banner', 2),
+                pos: [63, 130],
+                size: [622, 357]
+            },
+            subTitle: {
+                name: '副标题',
+                index: 'subTitle',
+                url: handle.getUrl('JGG_title_text', 1),
+                pos: [80, 500],
+                size: [550, 100]
+            },
+            tips: {
+                name: '活动锦囊',
+                index: 'tips',
+                url: handle.getUrl('JGG_HDJN', 1),
+                pos: [638, 38],
+                size: [98, 103]
+            },
+            drawBrn: {
+                name: '抽奖按钮',
+                index: 'drawBtn',
+                url: handle.getUrl('jgg_ljcj', 2),
+                pos: [265, 794],
+                size: [195, 162]
+            },
+            
+        },
+        item: {
+            item0: {
+                name: '格子1',
+                url: handle.getUrl('item_bg', 2),
+                pos: [70, 632],
+                size: [195, 162]
+            },
+            item1: {
+                name: '格子2',
+                url: handle.getUrl('item_bg', 2),
+                pos: [265, 632],
+                size: [195, 162]
+            },
+            item2: {
+                name: '格子3',
+                url: handle.getUrl('item_bg', 2),
+                pos: [460, 632],
+                size: [195, 162]
+            },
+            item3: {
+                name: '格子4',
+                url: handle.getUrl('item_bg', 2),
+                pos: [70, 794],
+                size: [195, 162]
+            },
+            item4: {
+                name: '格子5',
+                url: handle.getUrl('item_bg', 2),
+                pos: [460, 794],
+                size: [195, 162]
+            },
+            item5: {
+                name: '格子6',
+                url: handle.getUrl('item_bg', 2),
+                pos: [70, 956],
+                size: [195, 162]
+            },
+            item6: {
+                name: '格子7',
+                url: handle.getUrl('item_bg', 2),
+                pos: [265, 956],
+                size: [195, 162]
+            },
+            item7: {
+                name: '格子8',
+                url: handle.getUrl('item_bg', 2),
+                pos: [460, 956],
+                size: [195, 162]
+            },
+        }
     }
 }
 
