@@ -22,7 +22,7 @@
                     <img 
                     v-if="imgData.normal" 
                     v-for="(pic, index) in imgData.normal" 
-                    :src="pic.url" 
+                    :src="pic.url + '?v=1.1'" 
                     title="点击编辑" 
                     :key="index + pic"
                     @mouseover="imgHover(index)"
@@ -38,7 +38,7 @@
                 <img 
                     v-if="imgData.item" 
                     v-for="(pic, index) in imgData.item" 
-                    :src="pic.url" 
+                    :src="pic.url + '?v=1.1'" 
                     title="点击编辑" 
                     :key="index + pic"
                     :class="[index, {imgHover: hover == index}]"

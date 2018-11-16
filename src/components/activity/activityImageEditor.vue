@@ -8,7 +8,7 @@
                 <div class="edit-container" v-for="(img, index) in editData" :key="index + img">
                     <h4>编辑{{img.name}}：</h4>
                     <div class="img-container">
-                        <img :src="img.url" alt="">
+                        <img :src="img.url + '?v=1.1'" alt="">
                     </div>
                     <el-upload 
                     :action="uploadApi" 
@@ -27,7 +27,7 @@
                 <div class="edit-container" v-for="(img, index) in editData" :key="index + img">
                     <h4>编辑{{img.name}}：</h4>
                     <div class="img-container">
-                        <img :src="img.url" alt="">
+                        <img :src="img.url + '?v=1.1'" alt="">
                     </div>
                     <el-upload 
                     :action="uploadApi" 

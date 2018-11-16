@@ -94,7 +94,7 @@ const img = {
                 index: 'title',
                 url: handle.getUrl('fanpaizi-title', 2),
                 pos: [70, 100],
-                size: [555, 297]
+                size: [550, 270]
             },
             tips: {
                 name: '活动锦囊',
