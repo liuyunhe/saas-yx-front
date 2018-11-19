@@ -269,7 +269,7 @@
                 this.getlistData();
             },
             resetData(){
-                selectallKyeType='';
+                this.selectallKyeType='';
                 this.form.kyeName=''
                 this.form.giftType='';
                 this.form.status='';

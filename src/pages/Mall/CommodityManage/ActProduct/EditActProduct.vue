@@ -22,7 +22,7 @@
                     </el-row>
                     <el-row>
                         <el-form-item size="small" label="礼品分类：" prop="exchangeType"  v-if="giftTypeDisPlay==1">
-                            <el-select class="tobacco-input" v-model="filters.echangeType" placeholder="请选择">
+                            <el-select class="tobacco-input" v-model="filters.exchangeType" placeholder="请选择">
                                 <el-option
                                         v-for="item in allEchangeTypeData"
                                         :key="item.id"
@@ -110,12 +110,12 @@
                     price:'',
                     shopQuantity:'',
                     quantity:'',
-                    echangeType:4,
+                    exchangeType:4,
                     exchangeUrl:'',
                     afterService:''
                 },
                 rules:{
-                    seletGiftType: [
+                    giftType: [
                         { required: true, message: '请选择礼物类型', trigger: 'change' },
                     ],
                     memo: [
@@ -224,13 +224,14 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let params = {
+                            id:this.pid,
                             giftType: this.filters.giftType,
                             memo: this.filters.memo,
                             image: this.filters.image,
                             price: this.filters.price,
                             shopQuantity: this.filters.shopQuantity,
                             quantity: this.filters.quantity,
-                            echangeType: this.filters.echangeType,
+                            exchangeType: this.filters.exchangeType,
                             exchangeUrl: this.filters.exchangeUrl,
                             afterService: this.filters.afterService
                         }
@@ -240,6 +241,7 @@
                                     message: '保存成功！',
                                     type: 'success'
                                 });
+                                this.returnTobaccoMgr();
                             }else{
                                 this.$message({
                                     message:res.message,
