@@ -139,7 +139,8 @@ export default {
         }
     },
     created() {
-        const cluserStr = sessionStorage.getItem("cluser");
+        // const cluserStr = sessionStorage.getItem("cluser");
+        const cluserStr = this.$store.state.cluser
         this.cluser = JSON.parse(cluserStr);
         if(!this.cluser||!this.cluser.account) {
             this.clearLoginSession();
@@ -156,7 +157,7 @@ export default {
     methods: {
         // 清空当前登录用户信息缓存
         clearLoginSession() {
-            sessionStorage.removeItem("cluser");
+            // sessionStorage.removeItem("cluser");
             sessionStorage.removeItem("access_token");
             sessionStorage.removeItem("access_loginId");
         },

@@ -238,9 +238,9 @@ export default new Router({
         { path: '/datas/sellerDatas/search', name: '明细查询', component: DataSellerDetail },
         { path: '/datas/operate', name: '运营小工具', redirect: '/datas/operate/steal' },
         { path: '/datas/operate/steal', name: '盗扫明细', component: DataOperateSteal },
-        { path: '/datas/fakeCode', name: '异常码明细', redirect: '/datas/fakeCode/Report' },
-        { path: '/datas/fakeCode/Report', name: '假码举报', component: DataFakeCodeReport },
-        { path: '/datas/fakeCode/qrcodeActive', name: '二维码激活', component: KPI },
+        { path: '/datas/fakeCode', name: '异常码明细', redirect: '/datas/fakeCode/report' },
+        { path: '/datas/fakeCode/report', name: '假码举报', component: DataFakeCodeReport },
+        { path: '/datas/fakeCode/qrcodeActive', name: '二维码激活', component: DataQrcodeActive },
         // 微平台
         { path: '/weplat', name: '微平台'},
         { path: '/weplat/down', name: '扫码落地页', component: ScanConf },
