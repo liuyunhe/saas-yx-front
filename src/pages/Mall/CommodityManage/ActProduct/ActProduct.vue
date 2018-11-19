@@ -67,12 +67,12 @@
                 <el-table-column
                         fixed="right"
                         label="操作"
-                        width="100">
+                        width="240">
                     <template slot-scope="scope">
-                        <el-button @click="edit(scope.row.id)" type="text" size="small">编辑</el-button>
-                        <el-button @click="addQuanTity(scope.row.id)" type="text" size="small">增库</el-button>
-                        <el-button @click="editSatus(scope.row.id,-1)" type="text" size="small" v-if="scope.row.status==1">停用</el-button>
-                        <el-button @click="editSatus(scope.row.id,1)" type="text" size="small" v-if="scope.row.status==-1">启用</el-button>
+                        <el-button @click="edit(scope.row.id)" type="primary" size="mini">编辑</el-button>
+                        <el-button @click="addQuanTity(scope.row.id)" type="primary"  size="mini">增库</el-button>
+                        <el-button @click="editSatus(scope.row.id,-1)" type="danger" size="mini" v-if="scope.row.status==1">停用</el-button>
+                        <el-button @click="editSatus(scope.row.id,1)" type="primary" size="mini" v-if="scope.row.status==-1">启用</el-button>
                     </template>
                 </el-table-column>
             </el-table>
