@@ -103,7 +103,8 @@ export default {
           var data = res.data || {}
           sessionStorage.setItem('access_token', data.token)
           sessionStorage.setItem('access_loginId', data.loginId)
-          that.getMenuList()
+          // that.getMenuList()
+          that.$router.replace({name: '数据'})
         } else if (res.ret == '100409') {
           that.$message.error(res.message)
           that.$router.push({
@@ -115,26 +116,17 @@ export default {
         }
       })
     },
-    getMenuList() {
-      this.$request.post('/api/saotx/menu/all',{ service: 'browser'}, true, res => {
-        if (res.ret === '200000') {
-          sessionStorage.menu = JSON.stringify(res.data)
-          // let sonMenu = []
-          // let grandSonMenu = []
-          // res.data.forEach(item => {
-          //   sonMenu.push(...item.nodeList)
-          // })
-          // sonMenu.forEach(item => {
-          //   grandSonMenu.push(...item.nodeList)
-          // })
-          // sessionStorage.sonMenu = JSON.stringify(sonMenu)
-          // sessionStorage.grandSonMenu = JSON.stringify(grandSonMenu)
-          this.$router.replace({name: '数据'})
-        } else {
-          this.$message.error(res.message)
-        }
-      })
-    },
+    // getMenuList() {
+    //   this.$request.post('/api/saotx/menu/all',{ service: 'browser'}, true, res => {
+    //     if (res.ret === '200000') {
+    //       // sessionStorage.menu = JSON.stringify(res.data)
+    //       this.$store.commit('getMenu', res.data)
+    //       this.$router.replace({name: '数据'})
+    //     } else {
+    //       this.$message.error(res.message)
+    //     }
+    //   })
+    // },
     srcClick(e) {
       this.codeSrc += 1
     },

@@ -71,6 +71,7 @@
 <script>
 import draggable from 'vuedraggable'
 import store from '@/store/index'
+import {mapGetters} from 'vuex'
 export default {
   components: {
     draggable
@@ -124,7 +125,8 @@ export default {
               orgName: data.orgName,
               orgRegion: data.orgRegion
             }
-            sessionStorage.setItem('cluser', JSON.stringify(cluser))
+            // sessionStorage.setItem('cluser', JSON.stringify(cluser))
+            that.$store.commit('setCluser', cluser)
             that.account = data.account
             that.name = data.name
             that.orgName = data.orgName
@@ -139,30 +141,31 @@ export default {
     },
     // 获取菜单
     getMenuList() {
-      // this.$request.post(
-      //   `/api/saotx/menu/all`,
-      //   {
-      //     service: 'browser'
-      //   },
-      //   true,
-      //   res => {
-      //     if (res.ret === '200000') {
-      //       this.menuList = res.data
-      //       sessionStorage.menu = JSON.stringify(res.data)
-      //       // this.sonMenuList = res.data[0].nodeList
-      //       // this.initGrandsonMenu(this.sonMenuList[0])
-      //       this.menuActive()
-      //     } else {
-      //       this.$message.error(res.message)
-      //     }
-      //   }
-      // ),
-      //   err => {
-      //     console.log(err)
-      //   }
-      this.menuList = JSON.parse(sessionStorage.getItem('menu'))
-      // console.log(this.menuList)
-      this.menuActive()
+      this.$request.post(
+        `/api/saotx/menu/all`,
+        {
+          service: 'browser'
+        },
+        true,
+        res => {
+          if (res.ret === '200000') {
+            this.menuList = res.data
+            this.$store.commit('setMenu', res.data)
+            // sessionStorage.menu = JSON.stringify(res.data)
+            // this.sonMenuList = res.data[0].nodeList
+            // this.initGrandsonMenu(this.sonMenuList[0])
+            this.menuActive()
+          } else {
+            this.$message.error(res.message)
+          }
+        }
+      ),
+        err => {
+          console.log(err)
+        }
+      // this.menuList = this.$store.state.menu
+      // // console.log(this.menuList)
+      // this.menuActive()
     },
     // 页面刷新的时候 加载对应的菜单样式
     menuActive() {
@@ -199,6 +202,7 @@ export default {
       this.pathThreeMenuActive = ''
       this.oneMenuIndex = index
       this.towMenuIndex = 0
+      this.threeMenuIndex = 0
       this.sonMenuList = item.nodeList
       this.nowMenuName = item.menuName
       this.initGrandsonMenu(this.sonMenuList[0])
@@ -208,6 +212,7 @@ export default {
       this.pathTowMenuActive = ''
       this.pathThreeMenuActive = ''
       this.towMenuIndex = index
+      this.threeMenuIndex = 0
       this.initGrandsonMenu(item)
     },
     // 获取页面详情

@@ -268,22 +268,22 @@ export default {
     isDisabled: function (val) {
       // console.log(val)
       if (val) {
-        this.selectProvList == ['000000']
-        this.selectCityList == ['000000']
-        this.selectAreaList == ['000000']
+        this.selectProvList = ['000000']
+        this.selectCityList = ['000000']
+        this.selectAreaList = ['000000']
       } else {
-        this.selectProvList == []
-        this.selectCityList == []
-        this.selectAreaList == []
+        this.selectProvList = []
+        this.selectCityList = []
+        this.selectAreaList = []
       }
     },
     fixationPutFlag: function (val) {
       if (val) {
         this.restrictArea()
       } else {
-        this.selectProvList == []
-        this.selectCityList == []
-        this.selectAreaList == []
+        this.selectProvList = []
+        this.selectCityList = []
+        this.selectAreaList = []
       }
     }
   },
@@ -294,45 +294,61 @@ export default {
         this.$request.post('/api/saotx/act/detail', {
           id: this.id
         }, true, res => {
+          if (res.ret !== '200000') return this.$message.error(res.message)
           this.actSTime = res.data.act.stimeStr
           this.actETime = res.data.act.etimeStr
           if (res.data.strategyArr.length != 0) {
             res.data.strategyArr.forEach((item, index) => {
               if (item.tfType == 'common') {
                 // let data = item.awardArr
-                item.awardArr.forEach((item, index) => {
-                  if (index != 0) {
+                item.awardArr.forEach((sonItem, i) => {
+                  if (i != 0) {
                     this.normalTabs.push({
-                      title: '常规奖项' + (index + 1),
-                      name: '' + (index + 1)
+                      title: '常规奖项' + (i + 1),
+                      name: '' + (i + 1)
                     })
                   }
-                  for (let k in item) {
-                    this.normalConf[index][k] = item[k]
+                  if (i == 0) {
+                    for (let k in sonItem) {
+                      this.normalConf[0][k] = sonItem[k]
+                    }
+                  } else {
+                    this.normalConf.push(sonItem)
                   }
                 })
                 // this.normalConf = item.awardArr
 
-                console.log(this.normalConf)
-                this.selectProvList = item.areas.provinceArr
-                this.selectCityList = item.areas.cityArr
-                this.getCityList(this.selectProvList)
-                // this.getAreaList(this.selectCityList)
-                this.selectAreaList = item.areas.districtArr
+                // console.log(this.normalConf)
+                if (item.areas.provinceArr[0] == '000000' && item.areas.cityArr[0] == '000000') {
+                  this.isDisabled = true
+                } else {
+                  this.selectProvList = item.areas.provinceArr
+                  this.selectCityList = item.areas.cityArr
+                  this.getCityList(this.selectProvList)
+                  this.getAreaList(this.selectCityList)
+                  this.selectAreaList = item.areas.districtArr
+                }
                 this.selectBrand = item.brandArr
                 this.getBrandSonList()
                 this.selectSonBrand = item.snArr
               }
               if (item.tfType == 'sn_first') {
-                item.awardArr.forEach((item, index) => {
-                  if (index != 0) {
+                item.awardArr.forEach((sonItem, i) => {
+                  if (i != 0) {
                     this.firstScanTabs.push({
-                      title: '常规奖项' + (index + 1),
-                      name: '' + (index + 1)
+                      title: '常规奖项' + (i + 1),
+                      name: '' + (i + 1)
                     })
                   }
-                  for (let k in item) {
-                    this.firstScanTabs[index][k] = item[k]
+                  // for (let k in sonItem) {
+                  //   this.firstScanTabs[i][k] = sonItem[k]
+                  // }
+                  if (i == 0) {
+                    for (let k in sonItem) {
+                      this.firstScanTabs[0][k] = sonItem[k]
+                    }
+                  } else {
+                    this.firstScanTabs.push(sonItem)
                   }
                 })
                 this.specialRuleConfFlag = true
@@ -340,15 +356,22 @@ export default {
                 this.firstScanConf = item.awardArr
               }
               if (item.tfType == 'n_mwin') {
-                item.awardArr.forEach((item, index) => {
-                  if (index != 0) {
+                item.awardArr.forEach((sonItem, i) => {
+                  if (i != 0) {
                     this.nWinTabs.push({
-                      title: '常规奖项' + (index + 1),
-                      name: '' + (index + 1)
+                      title: '常规奖项' + (i + 1),
+                      name: '' + (i + 1)
                     })
                   }
-                  for (let k in item) {
-                    this.nWinTabs[index][k] = item[k]
+                  // for (let k in sonItem) {
+                  //   this.nWinTabs[i][k] = sonItem[k]
+                  // }
+                  if (i == 0) {
+                    for (let k in sonItem) {
+                      this.nWinTabs[0][k] = sonItem[k]
+                    }
+                  } else {
+                    this.nWinTabs.push(sonItem)
                   }
                 })
                 this.specialRuleConfFlag = true
@@ -356,16 +379,23 @@ export default {
                 this.nWinConf = item.awardArr
               }
               if (item.tfType == 'special') {
-                item.awardArr.forEach((item, index) => {
-                  if (index != 0) {
+                item.awardArr.forEach((sonItem, i) => {
+                  if (i != 0) {
                     this.fixationPutTabs.push({
-                      title: '常规奖项' + (index + 1),
-                      name: '' + (index + 1)
+                      title: '常规奖项' + (i + 1),
+                      name: '' + (i + 1)
                     })
                   }
-                  for (let k in item) {
-                    console.log(this.normalConf[index][k])
-                    this.fixationPutTabs[index][k] = item[k]
+                  // for (let k in sonItem) {
+                  //   console.log(this.normalConf[i][k])
+                  //   this.fixationPutTabs[i][k] = sonItem[k]
+                  // }
+                  if (i == 0) {
+                    for (let k in sonItem) {
+                      this.fixationPutTabs[0][k] = sonItem[k]
+                    }
+                  } else {
+                    this.fixationPutTabs.push(sonItem)
                   }
                 })
                 this.specialRuleConfFlag = true
@@ -432,8 +462,6 @@ export default {
     },
     // 获取市
     getCityList(val) {
-      // 定点投放地区限制
-      this.restrictProv()
       let allValue = []
       // 保存所有的值
       for (let item of this.provList) {
@@ -478,6 +506,8 @@ export default {
         res => {
           if (res.ret === '200000') {
             this.cityList = res.data
+            // 定点投放地区限制
+            this.restrictProv()
             this.cityList.unshift({
               code: '000000',
               name: '全部'
@@ -490,8 +520,6 @@ export default {
     },
     // 获取区
     getAreaList(val) {
-      // 定点投放地区限制
-      this.restrictCity()
       let allValue = []
       for (let item of this.cityList) {
         allValue.push(item.code)
@@ -523,6 +551,8 @@ export default {
         res => {
           if (res.ret === '200000') {
             this.areaList = res.data
+            // 定点投放地区限制
+            this.restrictCity()
             this.areaList.unshift({
               code: '000000',
               name: '全部'
@@ -600,10 +630,16 @@ export default {
         data.strategyArr[index - 1].confOpen = true
         data.strategyArr[index - 1].brandArr = this.specialBrand.brandArr
         data.strategyArr[index - 1].snArr = this.specialBrand.snArr
-        data.strategyArr[index - 1].tf['sduration'] = this.tfDurationArr[0]
-        data.strategyArr[index - 1].tf['eduration'] = this.tfDurationArr[1]
-        data.strategyArr[index - 1].tf['stimeStr'] = this.tfTimeArr[0]
-        data.strategyArr[index - 1].tf['etimeStr'] = this.tfTimeArr[1]
+        // data.strategyArr[index - 1].tf.sduration = this.tfDurationArr[0]
+        // data.strategyArr[index - 1].tf.eduration = this.tfDurationArr[1]
+        // data.strategyArr[index - 1].tf.stimeStr = this.tfTimeArr[0]
+        // data.strategyArr[index - 1].tf.etimeStr = this.tfTimeArr[1]
+        data.strategyArr[index - 1].tf = {
+          sduration: this.tfDurationArr[0],
+          eduration: this.tfDurationArr[1],
+          stimeStr: this.tfTimeArr[0],
+          etimeStr: this.tfTimeArr[1]
+        }
         data.strategyArr[index - 1].tfType = 'special'
       }
       this.$request.post('/api/saotx/act/somtf', data, true, res => {
@@ -695,6 +731,7 @@ export default {
     // 定点投放地区限制
     restrictProv() {
       this.specialProvList = JSON.parse(JSON.stringify(this.provList))
+      // if (this.selectProvList == ['000000']) return
       this.specialProvList.forEach(speciaItem => {
         speciaItem['disabled'] = true
         this.selectProvList.forEach(item => {
@@ -706,6 +743,7 @@ export default {
     },
     restrictCity() {
       this.specialCityList = JSON.parse(JSON.stringify(this.cityList))
+      // if (this.selectCityList == ['000000']) return
       this.specialCityList.forEach(speciaItem => {
         speciaItem['disabled'] = true
         this.selectCityList.forEach(item => {
@@ -717,6 +755,7 @@ export default {
     },
     restrictArea() {
       this.specialAreaList = JSON.parse(JSON.stringify(this.areaList))
+      // if (this.selectAreaList == ['000000']) return
       this.specialAreaList.forEach(speciaItem => {
         speciaItem['disabled'] = true
         this.selectAreaList.forEach(item => {
@@ -743,7 +782,7 @@ export default {
       this.specialBrandSonList.forEach(speciaItem => {
         speciaItem['disabled'] = true
         this.selectSonBrand.forEach(item => {
-          if (speciaItem.brandCode == item) {
+          if (speciaItem.sn == item) {
             speciaItem['disabled'] = false
           }
         })
