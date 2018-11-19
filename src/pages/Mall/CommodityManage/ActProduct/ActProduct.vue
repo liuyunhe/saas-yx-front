@@ -277,6 +277,7 @@
                 this.form.productName='';
                 this.form.pageNo= 1;
                 this.form.pageSize= 10;
+                this.getlistData();
             },
             currentChange(pageNo) {
                 this.form.pageNo = pageNo;
