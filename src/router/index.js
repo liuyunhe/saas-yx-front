@@ -130,6 +130,10 @@ const editProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/C
 const JDProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/JDProduct/JDProduct')
 const addJDProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/JDProduct/AddJDProduct')
 const editJDProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/JDProduct/EditJDProduct')
+// 商城-商品管理-活动物料管理
+const ActProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ActProduct/ActProduct')
+const AddActProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ActProduct/AddActProduct')
+const EditActProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ActProduct/EditActProduct')
 // 商城-banner位管理
 const bannerManage = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/BannerManage/BannerManage')
 const addBanner = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/BannerManage/AddBanner')
@@ -332,6 +336,10 @@ export default new Router({
         { path: '/mall/product/jd', name: '京东商品管理', component: JDProduct },
         { path: '/mall/product/jd/addJDProduct', name: '新建京东商品', component: addJDProduct },
         { path: '/mall/product/jd/editJDProduct', name: '编辑京东商品', component: editJDProduct,props: (route) => ({id:route.query.id})},
+        { path: '/mall/product/act', name: '活动物料管理', component: ActProduct },
+        { path: '/mall/product/act/addActProduct', name: '新建活动物料管理', component: AddActProduct },
+        { path: '/mall/product/act/editActProduct', name: '编辑活动物料管理', component: EditActProduct,props: (route) => ({pid:route.query.pid})},
+
         // 设置
         { path: '/setting', name: '设置'},
         { path: '/setting/user', name: '账户设置', redirect: '/setting/user/modPwd' },
