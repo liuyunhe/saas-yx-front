@@ -39,6 +39,8 @@ const IntegralExchDayPage = () => import(/* webpackChunkName: "henanReport" */ '
 const ActTpl = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/ActTpl')
 const ActMgc = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActMgr')
 const AddAct = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddAct')
+const Fanpaizi = () => import(/*webpackChunkName: '"fanpaizi" */'@/pages/Market/ActTpl/Fanpaizi.ActTpl')
+const Jiugongge = () => import(/*webpackChunkName: '"jiugongge" */'@/pages/Market/ActTpl/Jiugongge.ActTpl')
 const AddActEgg = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddActEgg')
 const AddWingAct = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddWingAct')
 const AddActSudoku = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddActSudoku')
@@ -220,7 +222,7 @@ export default new Router({
         { path: '/datas/agree', name: '履约报表', component: DataAgree },
         { path: '/datas/visit', name: '回访报表', component: DataVisit },
         { path: '/datas/theme', name: '主题查询', redirect: '/datas/theme/kpiReview', },
-        { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: DataThemeReview },
+        { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: KPI },
         { path: '/datas/theme/region', name: '地域查询', component: RegionSearch },
         { path: '/datas/theme/spec', name: '规格查询', component: SpecSearch },
         { path: '/datas/track', name: '活动追踪', redirect: '/datas/track/realtime' },
@@ -271,6 +273,8 @@ export default new Router({
         { path: '/market/actMgr', name: '活动管理', component: ActMgc },
         { path: '/market/actTpl/addAct', name: '新建活动模板配置', component: AddAct, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/addActEgg', name: '新建砸金蛋活动模板配置', component: AddActEgg, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/addActFanpaizi', name: '翻牌子活动', component: Fanpaizi, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/addActJiugongge', name: '九宫格活动', component: Jiugongge, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/addWingAct', name: '新建点元宝活动模板配置', component: AddWingAct, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/AddActSudoku', name: '新建九宫格活动模板配置', component: AddActSudoku, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/actSetConf', name: '基础设置', component: ActSetConf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode, id: router.query.id, clone: router.query.clone,}) },
@@ -300,6 +304,7 @@ export default new Router({
         { path: '/seller/mgr/addSeller', name: '新增零售户', component: addSeller},
         { path: '/seller/mgr/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
         { path: '/seller/tx', name: '提现审核', component: amountExamine},
+        { path: '/seller/tx/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
         { path: '/seller/achievement', name: '业绩活动', component: sellerAchievement },
         { path: '/seller/rebate', name: '返佣管理', redirect: '/seller/rebate/mgr' },
         { path: '/seller/rebate/mgr', name: '扫码返佣管理', component: rebateManage },
@@ -334,7 +339,7 @@ export default new Router({
         { path: '/setting/user/account', name: '成员管理', component: SettingAccount },
         { path: '/setting/user/role', name: '角色管理', component: SettingRole },
         { path: '/setting/logs', name: '日志管理', component: SettingLogs },
-        { path: '/setting/seller', name: '零售户管理', component: SettingSeller },
+        { path: '/setting/seller', name: '零售户管理', component: KPI },
         { path: '/setting/mall', name: '积分设置', component: KPI }
       ]
     },

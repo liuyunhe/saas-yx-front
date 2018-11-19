@@ -139,7 +139,7 @@
                             <label>初审时间：</label>
                             <span v-if="detailForm.step.s1AudTime">{{new Date(detailForm.step.s1AudTime).Format("yyyy-MM-dd hh:mm:ss")}}</span>
                         </td>
-                        <td colspan="2">
+                        <td>
                             <label>得分：</label>
                             <span>{{detailForm.step.s1Score}}</span>
                         </td>
@@ -153,10 +153,8 @@
                             <label>联系人微信：</label>
                             <span>{{detailForm.nickname}}</span>
                         </td>
-                        <td rowspan="3" valign="top" width="130px">
+                        <td rowspan="4" valign="top">
                             <label class="multi-span">烟草许可证照片：</label>
-                        </td>
-                        <td rowspan="4" valign="middle">
                             <el-popover placement="right" trigger="click">
                                 <img class="popover-img" :src="detailForm.licenceImg" />
                                 <img class="licence-img" slot="reference" :src="detailForm.licenceImg" />
@@ -263,7 +261,7 @@
                     </el-form-item>
                     <div></div>
                     <el-form-item>
-                        <el-button size="small" v-if="!auditForm.hisAudit||auditForm.audStatus==2" type="primary" @click="saveAudit('auditForm', 1)">保存</el-button>
+                        <!--<el-button size="small" v-if="!auditForm.hisAudit||auditForm.audStatus==2" type="primary" @click="saveAudit('auditForm', 1)">保存</el-button>-->
                         <el-button size="small" @click="saveAudit('auditForm', 2)">退出</el-button>
                         <el-button size="small" v-if="!auditForm.hisAudit||auditForm.audStatus==2" type="primary" @click="saveAudit('auditForm', 3)">保存并退出</el-button>
                     </el-form-item>
@@ -620,10 +618,18 @@ export default {
         tr {
             height: 40px;
             line-height: 40px;
-            .licence-img {
-                margin-top: 15px;
-                min-width: 80px;
-                max-height: 180px;
+            td {
+                position: relative;
+                label.multi-span {
+                    position: absolute;
+                    display: block;
+                }
+                .licence-img {
+                    display: block;
+                    margin-top: 50px;
+                    min-width: 80px;
+                    max-height: 120px;
+                }
             }
         }
     }
@@ -644,6 +650,14 @@ export default {
                     margin-right: 15px;
                 }
             }
+        }
+    }
+    .detail-audit-block {
+        .el-input {
+            width: 300px;
+        }
+        .el-textarea {
+            width: 400px;
         }
     }
     .el-popover {

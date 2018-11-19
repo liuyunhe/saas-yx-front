@@ -467,7 +467,7 @@
       },
       sellerDetail(sellerId){
         this.$router.push({
-          path:'/seller/sellerDetail?sellerId='+sellerId
+          path:'/seller/tx/sellerDetail?sellerId='+sellerId
         })
       },
       //跳转按钮功能

@@ -17,7 +17,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="时间段">
+            <el-form-item label="创建时间">
               <el-col>
                 <el-date-picker size="small" type="date" placeholder="开始时间" v-model="actListParams.ctime" style="width: 100%;"></el-date-picker>
               </el-col>
@@ -362,6 +362,8 @@ export default {
             this.$router.push('/market/actTpl/AddWingAct')
         }else if(code=='act-101'){//九宫格
             this.$router.push('/market/actTpl/AddActSudoku')
+        }else if(code == 'act-104'){
+          this.$router.push('/market/actTpl/AddActFanpaizi')
         }else{
     		this.$router.push('/market/actTpl/addAct')
     	}
@@ -393,6 +395,8 @@ export default {
             this.$router.push('/market/actTpl/AddWingAct?id=' + id)
         }else if(code=='act-101'){//九宫格
             this.$router.push('/market/actTpl/AddActSudoku?id=' + id)
+        }else if(code == 'act-104'){
+          this.$router.push('/market/actTpl/addActFanpaizi?id=' + id)
         }else{
     		this.$router.push('/market/actTpl/addAct?id=' + id)
     	}

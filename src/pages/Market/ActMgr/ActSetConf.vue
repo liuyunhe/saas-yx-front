@@ -12,7 +12,7 @@
     <el-card>
       <el-form ref="actSetConfRef" :model="confData" label-width="150px" :rules="confRules">
         <el-form-item label="活动名称" prop="actName">
-          <el-input v-model="confData.actName"></el-input>
+          <el-input v-model="confData.actName" :maxlength="15"></el-input>
         </el-form-item>
         <el-form-item label="活动描述" prop="note">
           <el-input type="textarea" v-model="confData.note" :rows="3" resize="none"></el-input>
