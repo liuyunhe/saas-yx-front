@@ -17,15 +17,15 @@
             </el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="时间段">
+            <el-form-item label="创建时间">
               <el-col>
-                <el-date-picker size="small" type="date" placeholder="开始时间" v-model="actListParams.ctime" style="width: 100%;"></el-date-picker>
+                <el-date-picker size="small" type="date" placeholder="开始时间" v-model="actListParams.ctime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
               </el-col>
             </el-form-item>
           </el-col>
           <el-col :span="7">
             <el-form-item label="关键词">
-              <el-input size="small" v-model="actListParams.keyword" placeholder="请输入关键词"></el-input>
+              <el-input size="small" v-model="actListParams.keywords" placeholder="请输入关键词"></el-input>
             </el-form-item>
           </el-col>
           <el-col>
@@ -92,11 +92,11 @@ export default {
   data() {
     return {
       selectOption: [],
-      keyword: '',
+      keywords: '',
       actListParams: {
         ctime: '',
         form: '',
-        keyword: '',
+        keywords: '',
         pageNo: 1,
         pageSize: 10
       },
@@ -253,7 +253,7 @@ export default {
     resetSearch() {
       this.actListParams.ctime = ''
       this.actListParams.form = ''
-      this.actListParams.keyword = ''
+      this.actListParams.keywords = ''
       this.getActList()
     },
     // 删除模板

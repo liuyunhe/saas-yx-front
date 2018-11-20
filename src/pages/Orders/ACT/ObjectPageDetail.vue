@@ -137,8 +137,8 @@
         created(){
             this.getObjectPageDetail(this.orderId)
         },
-        methods:{
-            submitFormSave(){
+        methods: {
+            submitFormSave() {
                 let params = {
                     province: this.formDetail.province,
                     city: this.formDetail.city,
@@ -148,30 +148,30 @@
                     receiver: this.formDetail.receiver,
                     orderCode: this.formDetail.orderCode
                 }
-                this.$request.post('/api/saotx/order/save',params,true,res => {
-                    if(res.ret == '200000'){
+                this.$request.post('/api/saotx/order/save', params, true, res => {
+                    if (res.ret == '200000') {
                         this.$message({
                             message: '保存成功！',
                             type: 'success'
                         });
                         this.returnObjectPage()
-                    }else{
+                    } else {
                         this.$message({
-                            message:res.message,
+                            message: res.message,
                             type: 'warning'
                         })
                     }
-                },err => {
+                }, err => {
 
                 })
             },
-            returnObjectPage(){
+            returnObjectPage() {
                 this.$router.push({
-                    path:'/Orders/ACT/object'
+                    path: '/Orders/ACT/object'
                 })
             },
-            getObjectPageDetail(orderId){
-                this.$request.post('/api/saotx/order/detail',{orderCode:orderId}, true, (res) => {
+            getObjectPageDetail(orderId) {
+                this.$request.post('/api/saotx/order/detail', {orderCode: orderId}, true, (res) => {
                     if (res.ret == '200000') {
                         console.log(res.data)
                         this.formDetail.orderCode = res.data.orderCode;
@@ -181,8 +181,8 @@
                         this.formDetail.nickname = res.data.nickname;
                         this.formDetail.prizeName = res.data.prizeName;
                         this.formDetail.snName = res.data.snName;
-                        this.formDetail.ctime = res.data.ctime;
-                        this.formDetail.getaddress = res.data.getaddress;
+                        this.formDetail.ctime = this.formatDate(res.data.ctime);
+                        this.formDetail.getaddress = res.data.awdDistrictName;
                         this.formDetail.receiver = res.data.receiver;
                         this.formDetail.mobile = res.data.mobile;
                         this.formDetail.province = res.data.province;
@@ -190,14 +190,40 @@
                         this.formDetail.district = res.data.district;
                         this.formDetail.detail = res.data.detail;
                         this.formDetail.logistics = res.data.logistics;
-                        this.formDetail.status=res.data.status;
-                        this.formDetail.stepTime1 = res.data.logs[0].stepTime;
-                        this.formDetail.stepTime2 = res.data.logs[0].stepTime;
-                        this.formDetail.stepStatusName1 = res.data.logs[0].stepStatusName;
-                        this.formDetail.stepStatusName2 = res.data.logs[1].stepStatusName;
-
+                        this.formDetail.status = res.data.status;
+                        if (res.data.logs.length > 1) {
+                            this.formDetail.stepTime1 = res.data.logs[0].stepTime;
+                            this.formDetail.stepStatusName1 = res.data.logs[0].stepStatusName;
+                            this.formDetail.stepTime2 = res.data.logs[1].stepTime;
+                            this.formDetail.stepStatusName2 = res.data.logs[1].stepStatusName;
+                        } else {
+                            this.formDetail.stepTime1 = res.data.logs[0].stepTime;
+                            this.formDetail.stepStatusName1 = res.data.logs[0].stepStatusName;
+                        }
                     }
                 })
+            },
+            formatDate(time) {
+                var date = new Date(time);
+
+                var year = date.getFullYear(),
+                    month = date.getMonth() + 1,//月份是从0开始的
+                    day = date.getDate(),
+                    hour = date.getHours(),
+                    min = date.getMinutes(),
+                    sec = date.getSeconds();
+                var preArr = Array.apply(null, Array(10)).map(function (elem, index) {
+                    return '0' + index;
+                });////开个长度为10的数组 格式为 00 01 02 03
+
+                var newTime = year + '-' +
+                    (preArr[month] || month) + '-' +
+                    (preArr[day] || day) + ' ' +
+                    (preArr[hour] || hour) + ':' +
+                    (preArr[min] || min) + ':' +
+                    (preArr[sec] || sec);
+
+                return newTime;
             }
         }
     }
