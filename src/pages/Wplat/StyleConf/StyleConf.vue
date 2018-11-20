@@ -69,7 +69,11 @@
 							that.colorValue = '#297873';
 						} else {
 							var conf = JSON.parse(DATA.conf)
-							that.colorValue = conf.bgColor;
+							if(!conf.bgColor){
+								that.colorValue='#297873'
+							}else {
+								that.colorValue = conf.bgColor;
+							}						
 							that.id = DATA.id;
 						}
 					}
@@ -83,7 +87,6 @@
 	.clearfix:after {
 		content: " ";
 		display: block;
-		;
 		line-height: 0;
 		height: 0;
 		visibility: hidden;
@@ -125,7 +128,6 @@
 				.right_btn {
 					width: 80px;
 					height: 37px;
-					background: red;
 					position: absolute;
 					right: 0;
 					bottom: 3px;

@@ -154,7 +154,10 @@ const editCommendTpmB = () => import(/* webpackChunkName: "mall" */ '../pages/Ma
 const addCommendTpmC = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/AddCommendTpmC')
 // 商城-推荐位管理-编辑推荐位C
 const editCommendTpmC = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/EditCommendTpmC')
-
+// 商城 - 积分活动
+const scoreAct = () =>import(/* webpackChunkName: "mall" */ '../pages/Mall/ScoreAct/ActList')
+// 商城 - 积分活动编辑
+const scoreActEdit = () =>import(/* webpackChunkName: "mall" */ '../pages/Mall/ScoreAct/ActDetailEdit')
 //零售户-审核管理
 const reviewmanage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/Reviewmanage/ReviewManage')
 //零售户-审核详情
@@ -339,7 +342,8 @@ export default new Router({
         { path: '/mall/product/act', name: '活动物料管理', component: ActProduct },
         { path: '/mall/product/act/addActProduct', name: '新建活动物料管理', component: AddActProduct },
         { path: '/mall/product/act/editActProduct', name: '编辑活动物料管理', component: EditActProduct,props: (route) => ({pid:route.query.pid})},
-
+        { path: '/mall/score', name:'积分活动', component:scoreAct},
+        { path: '/mall/score/edit', name:'活动编辑', component:scoreActEdit},
         // 设置
         { path: '/setting', name: '设置'},
         { path: '/setting/user', name: '账户设置', redirect: '/setting/user/modPwd' },
