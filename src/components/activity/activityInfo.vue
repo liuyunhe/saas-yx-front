@@ -2,7 +2,7 @@
     <div id="root">
         <el-form ref="infoForm" :model="info" :rules="rules" :hideRequiredAsterisk="state.require" label-width="100px" label-position="top">
             <el-form-item label="活动名称：" prop="title">
-                <el-input placeholder="请输入活动名称" v-model="info.title" @change="titleInput" maxlength="titleLength"></el-input>
+                <el-input placeholder="请输入活动名称" v-model="info.title" @change="titleInput" maxlength="15"></el-input>
                 <span class="words-tips">{{info.title.length}}/{{titleLength}}</span>
             </el-form-item>
             <el-form-item label="活动描述：" prop="desc">
