@@ -10,7 +10,7 @@
                 <el-form-item label="品牌名称">
                     <el-input size="small" v-model="search.name"></el-input>
                 </el-form-item>
-                <el-form-item label="使用状态">
+                <el-form-item label="使用状态" v-if="false">
                     <el-select size="small" v-model="search.status" placeholder="全部">
                         <el-option label="全部" value=""></el-option>
                         <el-option label="启用" value="1"></el-option>
@@ -34,16 +34,21 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="name" label="品牌名称" align="center"></el-table-column>
-                <el-table-column prop="status" label="使用状态" align="center">
+                <el-table-column prop="status" label="使用状态" align="center" v-if="false">
                     <template slot-scope="scope">
                     {{scope.row.status==1?"已启用":"已停用"}}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="ctime" label="创建时间" align="center">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.ctime">{{new Date(scope.row.ctime).Format("yyyy-MM-dd hh:mm:ss")}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="操作" align="center" width="220">
                     <template slot-scope="scope">
                     <el-button v-if="scope.row.status==1" size="mini" @click="dataForm(scope.$index, scope.row)">编辑</el-button>
-                    <el-button v-if="scope.row.status==1" size="mini" @click="modifyData(scope.row.id, 0)" type="danger">停用</el-button>
-                    <el-button v-if="scope.row.status==0" size="mini" @click="modifyData(scope.row.id, 1)">启用</el-button>
+                    <el-button v-if="false&&scope.row.status==1" size="mini" @click="modifyData(scope.row.id, 0)" type="danger">停用</el-button>
+                    <el-button v-if="false&&scope.row.status==0" size="mini" @click="modifyData(scope.row.id, 1)">启用</el-button>
                     </template>
                 </el-table-column>
             </el-table>
