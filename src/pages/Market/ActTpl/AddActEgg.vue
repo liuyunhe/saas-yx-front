@@ -32,10 +32,10 @@
           <div class="edit-box">
             <el-form :model="addActParams" :rules="addActRules" ref="ruleForm" label-width="100px" label-position="top">
               <el-form-item label="模板名称" prop="name">
-                <el-input v-model="addActParams.name" placeholder="请输入模板名称"></el-input>
+                <el-input v-model="addActParams.name" placeholder="请输入模板名称"maxLength='15'></el-input>
               </el-form-item>
               <el-form-item label="模板说明">
-                <el-input type="textarea" :rows="3" v-model="addActParams.note" placeholder="请输入模板描述" maxlength="50" resize="none"></el-input>
+                <el-input type="textarea" :rows="3" v-model="addActParams.note"maxLength='20' placeholder="请输入模板描述" maxlength="50" resize="none"></el-input>
               </el-form-item>
             </el-form>
             <el-card class="edit-img" shadow="hover">
@@ -64,7 +64,7 @@
                 <div class="edit-game-img" v-if="showEditConIndex == 3">
                   <div>
                     <p class="img-title">活动说明</p>
-                    <div class="img-con"><img :src="configItem.actTip" alt=""></div>
+                    <div class="img-con act-tip-img"><img :src="configItem.actTip" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upTipImgSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -519,6 +519,9 @@ export default {
           text-align: center;
           border: 1px solid #ccc;
           margin: 0 10px;
+        }
+        .act-tip-img {
+        	height: 100%;
         }
         .btn-con {
           position: relative;

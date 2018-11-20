@@ -132,7 +132,8 @@
 					loginId: sessionStorage.getItem('access_loginId')
 				},
 				activeFlag: 'scan',
-				loading: true
+				loading: true,
+				initUrl:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png'
 			}
 		},
 		created() {
@@ -246,7 +247,7 @@
 						activeIcon: that.addImg2,
 						del: 1
 					};
-					if(!addObj.type){
+					if(!addObj.type || addObj.icon==that.initUrl || addObj.activeIcon==that.initUrl){
 						this.$message({
 							message: '请填写完整的菜单信息',
 							type: 'warning'

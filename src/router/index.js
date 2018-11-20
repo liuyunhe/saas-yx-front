@@ -148,7 +148,10 @@ const editCommendTpmB = () => import(/* webpackChunkName: "mall" */ '../pages/Ma
 const addCommendTpmC = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/AddCommendTpmC')
 // 商城-推荐位管理-编辑推荐位C
 const editCommendTpmC = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/EditCommendTpmC')
-
+// 商城 - 积分活动
+const scoreAct = () =>import(/* webpackChunkName: "mall" */ '../pages/Mall/ScoreAct/ActList')
+// 商城 - 积分活动编辑
+const scoreActEdit = () =>import(/* webpackChunkName: "mall" */ '../pages/Mall/ScoreAct/ActDetailEdit')
 //零售户-审核管理
 const reviewmanage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/Reviewmanage/ReviewManage')
 //零售户-审核详情
@@ -327,6 +330,8 @@ export default new Router({
         { path: '/mall/product/jd', name: '京东商品管理', component: JDProduct },
         { path: '/mall/product/jd/addJDProduct', name: '新建京东商品', component: addJDProduct },
         { path: '/mall/product/jd/editJDProduct', name: '编辑京东商品', component: editJDProduct,props: (route) => ({id:route.query.id})},
+        { path: '/mall/score', name:'积分活动', component:scoreAct},
+        { path: '/mall/score/edit', name:'活动编辑', component:scoreActEdit},
         // 设置
         { path: '/setting', name: '设置'},
         { path: '/setting/user', name: '账户设置', redirect: '/setting/user/modPwd' },
