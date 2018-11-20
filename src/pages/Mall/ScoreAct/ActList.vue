@@ -3,11 +3,11 @@
 		<ul>
 			<li v-for='(item,key) in actList' :key='key'>
 				<div class="con">
-					<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/wx_hebei/img/hscan/hot-act-img.png"@click="getDetail(key)" alt="" />
+					<img :src="item.banner"@click="getDetail(key)" alt="" />
 					<div class="act-info">
 						<div class="act-left">
 							<p>{{item.gameName}}</p>
-							<p>疯狂老虎机，精彩送不停</p>
+							<p>精彩送不停</p>
 						</div>
 						<div class="act-right">
 							<el-switch
