@@ -128,7 +128,7 @@
                 dialogFormVisible:false,
                 dialogFormVisible2:false,
                 formLabelWidth: '120px',
-                selectallKyeType:'',
+                selectallKyeType:1,
                 allKeyWordActData:[],
                 allGiftTypeActData:[],
                 allStatusData:[],
@@ -315,6 +315,16 @@
                 });
             },
             queryData(){
+                if(this.selectallKyeType==1){
+                    this.form.productId=this.form.kyeName;
+                    this.form.productName='';
+                }else if(this.selectallKyeType==2){
+                    this.form.productId='';
+                    this.form.productName=this.form.kyeName;
+                }else{
+                    this.form.productId='';
+                    this.form.productName='';
+                }
                 this.getlistData();
             },
             resetData(){
