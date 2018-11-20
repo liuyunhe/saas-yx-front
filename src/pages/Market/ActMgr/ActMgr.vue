@@ -15,7 +15,7 @@
           <el-col :span="8">
             <el-form-item label="选择规格:">
               <el-select size="small" v-model="queryActParams.snArr" multiple placeholder="请选择">
-                <el-option v-for="item in sonBrandList" :key="item.sn" :label="item.name" :value="item.sn">
+                <el-option v-for="item in sonBrandList" :key="item.sn" :label="item.allName" :value="item.sn">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -571,7 +571,7 @@ export default {
       this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 1 }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('发布成功')
-          this.actList()
+          this.getActList()
           return
         }
         this.$message.error(res.message)
@@ -597,7 +597,7 @@ export default {
       this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 4 }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('已结束')
-          this.actList()
+          this.getActList()
           return
         }
         this.$message.error(res.message)
@@ -623,7 +623,7 @@ export default {
       this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 4 }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('已暂停')
-          this.actList()
+          this.getActList()
           return
         }
         this.$message.error(res.message)
@@ -645,7 +645,7 @@ export default {
       this.$request.post('/api/saotx/act/remBatch', { id: [id] }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('删除成功')
-          this.actList()
+          this.getActList()
           return
         }
         this.$message.error(res.message)

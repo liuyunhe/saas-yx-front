@@ -17,7 +17,7 @@
             </el-option>
           </el-select>
           <el-select v-model="selectSonBrand" multiple placeholder="请选择" @change="restrictSonBrand">
-            <el-option v-if="brandSonList" v-for="item in brandSonList" :key="item.id" :label="item.name" :value="item.sn">
+            <el-option v-if="brandSonList" v-for="item in brandSonList" :key="item.id" :label="item.allName" :value="item.sn">
             </el-option>
           </el-select>
           <el-button type="primary" @click="brandVisible = true" class="ml20">已选明细</el-button>
