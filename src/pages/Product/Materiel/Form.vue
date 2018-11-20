@@ -138,7 +138,7 @@ export default {
   methods: {
     // 查询所有的供应商数据
     getSuppliers() {
-      this.$request.post('/api/saotx/supplier/list', {pageSize:-1, status:1}, true, (res)=>{
+      this.$request.post('/api/saotx/supplier/list', {pageSize:-1, status: 1}, true, (res)=>{
         if (res.ret == '200000') {
           this.supplierList = res.data.list||[];
         }
