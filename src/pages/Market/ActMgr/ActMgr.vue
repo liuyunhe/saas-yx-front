@@ -15,7 +15,7 @@
           <el-col :span="8">
             <el-form-item label="选择规格:">
               <el-select size="small" v-model="queryActParams.snArr" multiple placeholder="请选择">
-                <el-option v-for="item in sonBrandList" :key="item.brandCode" :label="item.name" :value="item.brandCode">
+                <el-option v-for="item in sonBrandList" :key="item.sn" :label="item.allName" :value="item.sn">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -80,14 +80,6 @@
         </el-table-column>
         <el-table-column label="操作" align="center" width="260px">
           <template slot-scope="scope">
-            <!-- <el-button plain size="mini" v-if="scope.row.status != 4">编辑</el-button>
-            <el-button plain size="mini" v-if="scope.row.status == 2">发布</el-button>
-            <el-button plain size="mini" v-if="scope.row.status == 3">发布</el-button>
-            <el-button plain size="mini">复制</el-button>
-            <el-button plain size="mini">投放日志</el-button>
-            <el-button plain size="mini" v-if="scope.row.status == 1">暂停</el-button>
-            <el-button plain size="mini" v-if="scope.row.status == 1">结束</el-button>
-            <el-button plain size="mini" v-if="scope.row.status == 4">删除</el-button> -->
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status != 4" @click="edit(scope.row.id)">编辑</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 2" @click="post(scope.row.id)">发布</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 3" @click="post(scope.row.id)">发布</a>
@@ -96,16 +88,6 @@
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="stop(scope.row.id)">暂停</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="over(scope.row.id)">结束</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 4" @click="del(scope.row.id)">删除</a>
-            <!-- <el-dropdown>
-              <el-button plain size="mini" style="margin-left: 10px;">
-                更多<i class="el-icon-arrow-down el-icon--right"></i>
-              </el-button>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item @click="putLog(scope.row.actCode)">投放日志</el-dropdown-item>
-                <el-dropdown-item>暂停</el-dropdown-item>
-                <el-dropdown-item>结束</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown> -->
           </template>
         </el-table-column>
       </el-table>
@@ -134,10 +116,10 @@
         <div v-else>暂无</div>
       </div>
       <el-col :span="24" v-show="actForms">
-        <el-pagination class="mb20" background @size-change="actHandleSizeChange" @current-change="actHandleCurrentChange" :current-page="actParams.pageNo" :page-size="actParams.pageSize" layout="total, prev, pager, next, jumper" :total="actTotal">
+        <el-pagination background @size-change="actHandleSizeChange" @current-change="actHandleCurrentChange" :current-page="actParams.pageNo" :page-size="actParams.pageSize" layout="total, prev, pager, next, jumper" :total="actTotal">
         </el-pagination>
       </el-col>
-      <!-- <div style="clear: both"></div> -->
+      <div style="clear: both"></div>
     </el-dialog>
     <!-- 日志弹窗 -->
     <el-dialog :visible.sync="putLogVisible" width="900px" :close-on-click-modal="false">
@@ -482,6 +464,7 @@ export default {
       this.queryActParams.snArr = []
       this.queryActParams.status = ''
       this.queryActParams.stime = ''
+      this.queryActParams.etime = ''
       this.selectProvList = []
       this.selectCityList = []
       this.queryActParams.provinceCodeArr = []
@@ -588,7 +571,7 @@ export default {
       this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 1 }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('发布成功')
-          this.actList()
+          this.getActList()
           return
         }
         this.$message.error(res.message)
@@ -614,7 +597,7 @@ export default {
       this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 4 }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('已结束')
-          this.actList()
+          this.getActList()
           return
         }
         this.$message.error(res.message)
@@ -640,7 +623,7 @@ export default {
       this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 4 }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('已暂停')
-          this.actList()
+          this.getActList()
           return
         }
         this.$message.error(res.message)
@@ -662,7 +645,7 @@ export default {
       this.$request.post('/api/saotx/act/remBatch', { id: [id] }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('删除成功')
-          this.actList()
+          this.getActList()
           return
         }
         this.$message.error(res.message)

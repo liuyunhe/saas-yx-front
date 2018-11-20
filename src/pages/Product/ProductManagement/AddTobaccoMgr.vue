@@ -234,9 +234,6 @@
           pack:'',
           grade:'',
           gradeLevel:'',
-
-
-
         },
         rules:{
           brandCode: [
@@ -304,7 +301,7 @@
         })
       },
       selectBrand(selected){
-        alert(selected)
+        // alert(selected)
       },
       //从后台拿取包装列表tobaccoPack
       getTobaccoPack(){
@@ -379,6 +376,7 @@
                   message: '保存成功！',
                   type: 'success'
                 });
+                this.returnTobaccoMgr()
               }else{
                 this.$message({
                   message:res.message,

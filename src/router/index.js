@@ -39,6 +39,8 @@ const IntegralExchDayPage = () => import(/* webpackChunkName: "henanReport" */ '
 const ActTpl = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/ActTpl')
 const ActMgc = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActMgr')
 const AddAct = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddAct')
+const Fanpaizi = () => import(/*webpackChunkName: '"fanpaizi" */'@/pages/Market/ActTpl/Fanpaizi.ActTpl')
+const Jiugongge = () => import(/*webpackChunkName: '"jiugongge" */'@/pages/Market/ActTpl/Jiugongge.ActTpl')
 const AddActEgg = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddActEgg')
 const AddWingAct = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddWingAct')
 const AddActSudoku = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddActSudoku')
@@ -128,6 +130,10 @@ const editProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/C
 const JDProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/JDProduct/JDProduct')
 const addJDProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/JDProduct/AddJDProduct')
 const editJDProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/JDProduct/EditJDProduct')
+// 商城-商品管理-活动物料管理
+const ActProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ActProduct/ActProduct')
+const AddActProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ActProduct/AddActProduct')
+const EditActProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ActProduct/EditActProduct')
 // 商城-banner位管理
 const bannerManage = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/BannerManage/BannerManage')
 const addBanner = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/BannerManage/AddBanner')
@@ -223,7 +229,7 @@ export default new Router({
         { path: '/datas/agree', name: '履约报表', component: DataAgree },
         { path: '/datas/visit', name: '回访报表', component: DataVisit },
         { path: '/datas/theme', name: '主题查询', redirect: '/datas/theme/kpiReview', },
-        { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: DataThemeReview },
+        { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: KPI },
         { path: '/datas/theme/region', name: '地域查询', component: RegionSearch },
         { path: '/datas/theme/spec', name: '规格查询', component: SpecSearch },
         { path: '/datas/track', name: '活动追踪', redirect: '/datas/track/realtime' },
@@ -239,8 +245,8 @@ export default new Router({
         { path: '/datas/sellerDatas/search', name: '明细查询', component: DataSellerDetail },
         { path: '/datas/operate', name: '运营小工具', redirect: '/datas/operate/steal' },
         { path: '/datas/operate/steal', name: '盗扫明细', component: DataOperateSteal },
-        { path: '/datas/fakeCode', name: '异常码明细', redirect: '/datas/fakeCode/Report' },
-        { path: '/datas/fakeCode/Report', name: '假码举报', component: DataFakeCodeReport },
+        { path: '/datas/fakeCode', name: '异常码明细', redirect: '/datas/fakeCode/report' },
+        { path: '/datas/fakeCode/report', name: '假码举报', component: DataFakeCodeReport },
         { path: '/datas/fakeCode/qrcodeActive', name: '二维码激活', component: DataQrcodeActive },
         // 微平台
         { path: '/weplat', name: '微平台'},
@@ -274,6 +280,8 @@ export default new Router({
         { path: '/market/actMgr', name: '活动管理', component: ActMgc },
         { path: '/market/actTpl/addAct', name: '新建活动模板配置', component: AddAct, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/addActEgg', name: '新建砸金蛋活动模板配置', component: AddActEgg, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/addActFanpaizi', name: '翻牌子活动', component: Fanpaizi, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/addActJiugongge', name: '九宫格活动', component: Jiugongge, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/addWingAct', name: '新建点元宝活动模板配置', component: AddWingAct, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/AddActSudoku', name: '新建九宫格活动模板配置', component: AddActSudoku, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/actSetConf', name: '基础设置', component: ActSetConf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode, id: router.query.id, clone: router.query.clone,}) },
@@ -303,6 +311,7 @@ export default new Router({
         { path: '/seller/mgr/addSeller', name: '新增零售户', component: addSeller},
         { path: '/seller/mgr/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
         { path: '/seller/tx', name: '提现审核', component: amountExamine},
+        { path: '/seller/tx/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
         { path: '/seller/achievement', name: '业绩活动', component: sellerAchievement },
         { path: '/seller/rebate', name: '返佣管理', redirect: '/seller/rebate/mgr' },
         { path: '/seller/rebate/mgr', name: '扫码返佣管理', component: rebateManage },
@@ -330,6 +339,9 @@ export default new Router({
         { path: '/mall/product/jd', name: '京东商品管理', component: JDProduct },
         { path: '/mall/product/jd/addJDProduct', name: '新建京东商品', component: addJDProduct },
         { path: '/mall/product/jd/editJDProduct', name: '编辑京东商品', component: editJDProduct,props: (route) => ({id:route.query.id})},
+        { path: '/mall/product/act', name: '活动物料管理', component: ActProduct },
+        { path: '/mall/product/act/addActProduct', name: '新建活动物料管理', component: AddActProduct },
+        { path: '/mall/product/act/editActProduct', name: '编辑活动物料管理', component: EditActProduct,props: (route) => ({pid:route.query.pid})},
         { path: '/mall/score', name:'积分活动', component:scoreAct},
         { path: '/mall/score/edit', name:'活动编辑', component:scoreActEdit},
         // 设置
@@ -339,7 +351,7 @@ export default new Router({
         { path: '/setting/user/account', name: '成员管理', component: SettingAccount },
         { path: '/setting/user/role', name: '角色管理', component: SettingRole },
         { path: '/setting/logs', name: '日志管理', component: SettingLogs },
-        { path: '/setting/seller', name: '零售户管理', component: SettingSeller },
+        { path: '/setting/seller', name: '零售户管理', component: KPI },
         { path: '/setting/mall', name: '积分设置', component: KPI }
       ]
     },
