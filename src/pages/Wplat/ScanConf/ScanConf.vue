@@ -5,9 +5,9 @@
 			<div class="scan-content">
 				<div class="top">
 					<el-button type="primary" size='small' class='pri-btn' @click='listShow=false;addTplShow=true;'>新建扫码落地页</el-button>
-					<br /><br /> 摸板类型:
+					<br /><br /> 模板类型:
 					<el-select v-model="modelValue" placeholder="请选择" size='small'style='width:200px'>
-						<el-option v-for="item in options" :key="item.name" :label="item.name" :value="item.name">
+						<el-option v-for="item in options" :key="item.name" :label="item.name" :value="item.type">
 						</el-option>
 					</el-select>
 					&nbsp;&nbsp;创建时间:

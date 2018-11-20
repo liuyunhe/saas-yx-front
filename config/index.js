@@ -38,6 +38,13 @@ module.exports = {
         pathRewrite: {
           '^/sc': ''
         }
+      },
+      '/shop': {
+      	target: 'http://cs-jfc.saotianxia.vip/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/shop': ''
+        }
       }
     },
     // Various Dev Server settings
