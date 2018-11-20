@@ -343,7 +343,7 @@
         })
       },
       selectBrand(selected){
-        alert(selected)
+        // alert(selected)
       },
       //从后台拿取包装列表tobaccoPack
       getTobaccoPack(){

@@ -10,12 +10,12 @@
                     <el-form-item label="活动编号" size="small" >
                         <el-input v-model="form.hdCode" placeholder="请输入活动编号"></el-input>
                     </el-form-item>
-                    <el-form-item label="品牌选择" size="small" >
+                    <el-form-item label="品牌" size="small" >
                         <el-select v-model="selectAllBrands" placeholder="请选择">
                             <el-option v-for="(item,index) in allBrandsData" :key="item.brandCode" :label="item.name" :value="item.brandCode"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="规格选择" size="small" >
+                    <el-form-item label="规格" size="small" >
                         <el-select v-model="selectSpeciSns" placeholder="请选择" :disabled="id?true:false" :clearable="id?true:false"   >
                             <el-option v-for="(item,index) in allSpecisData" :key="item.product.sn" :label="item.product.allName" :value="item.product.sn"></el-option>
                         </el-select>
@@ -57,7 +57,11 @@
                 <el-table-column prop="prizeName" label="所领奖项"></el-table-column>
                 <el-table-column prop="awdName" label="奖项内容"></el-table-column>
                 <el-table-column prop="snName" label="关联规格"></el-table-column>
-                <el-table-column prop="ctime" label="领奖时间"></el-table-column>
+                <el-table-column  label="领奖时间">
+                    <template slot-scope="scope">
+                        {{new Date(scope.row.ctime).Format("yyyy-MM-dd hh:mm:ss")}}
+                    </template>
+                </el-table-column>
                 <el-table-column  label="中奖地区">
                     <template slot-scope="scope">
                         <span>{{scope.row.awdProvinceName}}-{{scope.row.awdCityName}}-{{scope.row.awdDistrictName}}</span>
@@ -127,6 +131,8 @@
                     this.form.brandArr  = [];
                     this.form.brandArr[0] = nval;
                     this.id='';
+                    this.selectSpeciSns=''
+                    this.form.snArr  = [];
                     this.allSpecisList(this.form.brandArr[0]);
                 }
             },

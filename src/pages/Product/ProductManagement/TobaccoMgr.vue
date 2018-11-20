@@ -75,10 +75,10 @@
               </el-select>
             </el-form-item>
             <el-form-item :size="'small'" label="价格" style="margin-right: 10px">
-              <el-input v-model="filters.minPrice" style="width: 80px" placeholder="最大值"></el-input>
+              <el-input v-model="filters.minPrice" style="width: 80px" placeholder="最小值"></el-input>
             </el-form-item>
             <el-form-item :size="'small'" label="至">
-              <el-input v-model="filters.maxPrice" style="width: 80px" placeholder="最小值"></el-input>
+              <el-input v-model="filters.maxPrice" style="width: 80px" placeholder="最大值"></el-input>
             </el-form-item>
             <div></div>
             <el-form-item class="mr0" :size="'small'">

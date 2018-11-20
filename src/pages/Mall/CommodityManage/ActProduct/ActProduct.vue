@@ -72,7 +72,7 @@
                         <el-button @click="edit(scope.row.id)" type="primary" size="mini">编辑</el-button>
                         <el-button @click="addQuanTity(scope.row.id)" type="primary"  size="mini">增库</el-button>
                         <el-button @click="editSatus(scope.row.id,-1)" type="danger" size="mini" v-if="scope.row.status==1">停用</el-button>
-                        <el-button @click="editSatus(scope.row.id,1)" type="primary" size="mini" v-if="scope.row.status==-1">启用</el-button>
+                        <el-button @click="editSatusOn(scope.row.id,1)" type="primary" size="mini" v-if="scope.row.status==-1">启用</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -96,6 +96,20 @@
                     <el-button type="primary" @click="submitAddQuanTity()">确 定</el-button>
                 </div>
             </el-dialog>
+
+            <el-dialog title="礼品提示" :visible.sync="dialogFormVisible2">
+                <el-form :model="form3">
+                    <el-form-item label="停用后，新增活动将不能使用该礼品" :label-width="formLabelWidth">
+                        <el-input type="text" v-model="form3.id" style="display: none"></el-input>
+                        <el-input type="text" v-model="form3.status" style="display: none"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogFormVisible2 = false">取 消</el-button>
+                    <el-button type="primary" @click="subEditSatus()">确 定</el-button>
+                </div>
+            </el-dialog>
+
         </el-card>
     </div>
 
@@ -112,8 +126,9 @@
         data(){
             return {
                 dialogFormVisible:false,
+                dialogFormVisible2:false,
                 formLabelWidth: '120px',
-                selectallKyeType:'',
+                selectallKyeType:1,
                 allKeyWordActData:[],
                 allGiftTypeActData:[],
                 allStatusData:[],
@@ -121,6 +136,11 @@
                 form2:{
                     delivery: false,
                     shopQuantity: ''
+                },
+                form3:{
+                    delivery: false,
+                    id:'',
+                    status:''
                 },
                 form:{
                     kyeName:'',
@@ -243,13 +263,42 @@
                     path:'/mall/product/act/editActProduct?pid='+pid
                 })
             },
+            subEditSatus(){
+                let params = {
+                    id:this.form3.id,
+                    status:this.form3.status,
+                };
+                this.$request.post('/sc/saotx/mall/product/onOffline',params,true,res => {
+                    if(res.ret == '200000'){
+                        this.dialogFormVisible2=false;
+                        this.getlistData();
+                        this.$message({
+                            message: '修改成功！',
+                            type: 'success'
+                        });
+                    }else{
+                        this.$message({
+                            message:res.message,
+                            type: 'warning'
+                        })
+                    }
+                },err => {
+
+                });
+            },
             editSatus(id,sat){
+                this.form3.id=id;
+                this.form3.status=sat;
+                this.dialogFormVisible2=true;
+            },
+            editSatusOn(id,sat){
                 let params = {
                     id:id,
                     status:sat,
                 };
                 this.$request.post('/sc/saotx/mall/product/onOffline',params,true,res => {
                     if(res.ret == '200000'){
+                        this.dialogFormVisible2=false;
                         this.getlistData();
                         this.$message({
                             message: '修改成功！',
@@ -266,6 +315,16 @@
                 });
             },
             queryData(){
+                if(this.selectallKyeType==1){
+                    this.form.productId=this.form.kyeName;
+                    this.form.productName='';
+                }else if(this.selectallKyeType==2){
+                    this.form.productId='';
+                    this.form.productName=this.form.kyeName;
+                }else{
+                    this.form.productId='';
+                    this.form.productName='';
+                }
                 this.getlistData();
             },
             resetData(){
