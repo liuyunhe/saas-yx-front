@@ -318,11 +318,11 @@
         				<li v-for='(item,key) in priceList':key='key'>
         					<div><img :src="item.image" alt="" /></div>
         					<div>{{item.productName}}</div>
-        					<div>奖品数量：<el-input v-model="item.quantity" size='small'class='award-num'></el-input>个
+        					<div>奖品数量：<input type="number"v-model="item.quantity"class='award-num' />个
         					<br />
-        					剩余{{item.quantity}}个
+        					剩余{{tableData[key].shopQuantity-item.quantity}}个
         					</div>
-        					<div><span class='require-icon'>*</span>中奖概率：<el-input v-model="item.probability" size='small'class='award-percent'></el-input>%</div>
+        					<div><span class='require-icon'>*</span>中奖概率：<input type="number" v-model="item.probability"class='award-percent' />%</div>
         					<div><el-button type="primary"@click='remove(key)'>删除</el-button></div>
         				</li>
         			</ul>
@@ -498,7 +498,9 @@ export default {
     			probability:'',
     			quantity:'',
     			type:item.giftType,
-    			score:item.score
+    			score:item.score,
+    			bingo_image:item.image,
+    			shopQuantity:item.shopQuantity
     		})
     	})
     	//  	根据hangleSelectionChange选择的list,格式化this.secondSet.priceList
@@ -692,8 +694,9 @@ export default {
 						padding-top: 10px;
 						.award-num {
 							width:30px;
-							height: 10px;
+							height: 20px;
 							margin-right: 5px;
+							vertical-align: top;
 						}
 					}
 					&:nth-child(4){
@@ -702,7 +705,7 @@ export default {
 						line-height: 60px;
 						.award-percent {
 							width:30px;
-							height: 10px;
+							height: 20px;
 							margin-right: 5px;
 						}
 					}
