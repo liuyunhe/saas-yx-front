@@ -58,7 +58,11 @@
                 <el-table-column prop="winnerMobile" label="中奖人手机号"></el-table-column>
                 <el-table-column prop="awdName" label="奖项名称"></el-table-column>
                 <el-table-column prop="snName" label="关联规格"></el-table-column>
-                <el-table-column prop="ctime" label="领奖时间"></el-table-column>
+                <el-table-column  label="领奖时间">
+                    <template slot-scope="scope">
+                        {{new Date(scope.row.ctime).Format("yyyy-MM-dd hh:mm:ss")}}
+                    </template>
+                </el-table-column>
                 <el-table-column  label="中奖地区">
                     <template slot-scope="scope">
                         <span>{{scope.row.awdProvinceName}}-{{scope.row.awdCityName}}-{{scope.row.awdDistrictName}}</span>
