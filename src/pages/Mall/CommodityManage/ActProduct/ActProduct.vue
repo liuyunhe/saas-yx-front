@@ -228,6 +228,7 @@
                         console.log(res.data)
                         if (res.ret === '200000') {
                             this.listData = res.data.list;
+                            this.initPagination(res.data.page||{});
                         }
                     }
                 ),
