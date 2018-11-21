@@ -129,7 +129,8 @@ export default {
 				publish: 0
 			},
 			removeArr: [],
-			loading: true
+			loading: true,
+			borderShow:false,//活动的border
 		}
 	},
 	
@@ -141,6 +142,9 @@ export default {
 		myCallback(data) {
 			this.page = data;
 			this.init();
+		},
+		showBorder(){
+			this.borderShow=true;
 		},
 		backMain() {
 			this.addTplShow = false;

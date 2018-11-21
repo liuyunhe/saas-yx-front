@@ -126,7 +126,8 @@
 								</el-popover>
 							</div>
 
-							<div class="activity" v-show='addlist.conf.has.activity.show'>
+							<div :class="{'activity':true, 'border-show':borderShow}" v-show='addlist.conf.has.activity.show'@click='showBorder'>
+								<div class="remove-btn"@click='addlist.conf.has.activity.show=false'>-</div>
 								<el-popover placement="right" width="400" trigger="click" class='act-click'>
 									<div class="act-info">
 										<p>活动模块配置</p>

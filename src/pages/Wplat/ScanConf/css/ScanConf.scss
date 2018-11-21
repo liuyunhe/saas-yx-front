@@ -383,6 +383,7 @@ p {
                 height: 130px;
                 margin-bottom: 10px;
                 position: relative;
+                border:1px solid transparent;
                 .act-click {
                     button {
                         width: 300px;
@@ -405,6 +406,24 @@ p {
                     height: 100px;
                     background: #ccc;
                     text-align: center;
+                }
+                &.border-show {
+                    border: 1px dashed #0099FF;
+                }
+                .remove-btn {
+                    position: absolute;
+                    top:-7px;
+                    width:15px;
+                    height: 15px;
+                    border-radius: 50%;
+                    line-height: 13px;
+                    text-align: center;
+                    color:#fff;
+                    background: #0099FF;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    cursor: pointer;
+                    z-index: 3;
                 }
             }
         }
