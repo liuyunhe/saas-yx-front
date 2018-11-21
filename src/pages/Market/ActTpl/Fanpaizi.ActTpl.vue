@@ -76,7 +76,7 @@ props: ['id'],
         form: 'act-104',
         id: '',
         description: '',
-        title: '活动标题',
+        title: '',
         img: img.img.ACT_FANPAIZI,
         commonImg: img.commonImg,
         conf: {img: '', commonImg: '', title: '', desc: ''},
@@ -182,6 +182,8 @@ props: ['id'],
     save() {
       let that = this;
       if (!that.conf.title) return this.$message.warning('请输入模板名称');
+      if (that.conf.title.length > 15) return this.$message.warning('模板名称不能超过15个字符');
+      if (that.conf.description.length > 50) return this.$message.warning('模板描述不能超过50个字符');
       that.conf.conf.img = JSON.stringify(that.conf.img);
       that.conf.conf.commonImg = JSON.stringify(that.conf.commonImg);
       that.conf.conf.title = that.conf.title;
