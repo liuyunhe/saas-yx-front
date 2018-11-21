@@ -16,7 +16,7 @@
 				<!--验证码-->
 				<div class="ui-label ui-code">
 					<label class="check">验证码</label>
-					<input type="text" name="verifyCode" placeholder="" v-model="verifyCode">
+					<input type="text" name="verifyCode" placeholder="" v-model="verifyCode" @keyup.enter="submitLogin">
 					<img :src="codeSrc" @click="srcClick" id="verifyCode">
 					<div id="drag" style="display: none;"></div>
 				</div>

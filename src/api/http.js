@@ -6,6 +6,7 @@ http.defaults.timeout = 100000;
 //  http.defaults.headers.post['Content-Type'] = 'application/json'
 // cache-control: "max-age=0, private, must-revalidate"
 //http.defaults.headers.post['Cache-control'] = 'max-age=5'
+http.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest'
 //http.defaults.headers.post['Access-Control-Allow-Headers'] = 'x-access-token'
 //http.defaults.headers.post['X-ACCESS_TOKEN'] = 'Access-Control-Allow-Origin'
 // Add a request interceptor 解决ie下url带中文参数乱码问题
@@ -13,6 +14,7 @@ http.interceptors.request.use(
   function (config) {
     // Do something before request is sent
     // console.log(config)
+    // config.headers['X-Requested-With'] = XMLHttpRequest
     config.headers['loginId'] = sessionStorage.getItem('access_loginId') || "2d07e7953a2a63ceda6df5144d1abec3";
     config.headers['token'] = sessionStorage.getItem('access_token')
     config.headers['CLIENTSESSIONID'] = sessionStorage.getItem('CLIENTSESSIONID')

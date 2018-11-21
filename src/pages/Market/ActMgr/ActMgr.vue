@@ -126,7 +126,7 @@
       <el-row>
         <el-col :span="8">
           投放时间
-          <el-select v-model="putLogTime" placeholder="请选择" @change="logDetail(this.nowActCode, this.putLogTime)">
+          <el-select v-model="putLogTime" placeholder="请选择" @change="logDetail(nowActCode, putLogTime)">
             <el-option v-for="(item, index) in putTimeList" :key="index" :label="new Date(item.time).Format('yyyy-MM-dd hh:mm:ss')" :value="item.version">
             </el-option>
           </el-select>
