@@ -94,9 +94,10 @@
                   </div>
                 </div>
 
-                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1208px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 730*280px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 74*90px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*890px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 424*225px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 748*616px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 448*125px格式为jpg\bmp\png\gif</p>
               </div>
 
             </el-card>
@@ -318,12 +319,22 @@
         				<li v-for='(item,key) in priceList':key='key'>
         					<div><img :src="item.image" alt="" /></div>
         					<div>{{item.productName}}</div>
-        					<div>奖品数量：<input type="number"v-model="item.quantity"class='award-num' />个
-        					<br />
-        					剩余{{tableData[key].shopQuantity-item.quantity}}个
+        					<div>奖品数量：<input type="number"v-model="item.quantity" :disabled='item.abled':max='item.shopQuantity'min='1'class='award-num' />个
         					</div>
-        					<div><span class='require-icon'>*</span>中奖概率：<input type="number" v-model="item.probability"class='award-percent' />%</div>
+        					<div><span class='require-icon'>*</span>中奖概率：<input type="number"max='100'min='0' v-model="item.probability"class='award-percent'@change='checkAll' />%</div>
         					<div><el-button type="primary"@click='remove(key)'>删除</el-button></div>
+        					<div><el-button type="primary"@click='addQuantity(key)'>增库</el-button></div>
+        					<el-dialog
+					  				title="增加库存"
+					  				:visible.sync="addQuantityShow"
+					  				width="50%">
+					  				增加库存： <el-input type='number'min='0'max='99999' v-model="addQ" placeholder="请输入增加数量"size='small'class='act-name'maxLength='5'></el-input> 件
+					  				<br />	
+					  				<span slot="footer" class="dialog-footer">
+					    				<el-button @click="addQuantityShow = false">取 消</el-button>
+					    				<el-button type="primary" @click="sureAdd">确 定</el-button>
+					  				</span>
+					  				</el-dialog>
         				</li>
         			</ul>
         		</div>
@@ -410,8 +421,10 @@ export default {
       loading:false,
       total:10,
       max:3,
-      page:1
-      
+      page:1,
+      addQuantityShow:false,
+      addQ:0,
+      awardId:''
     }
   },
   computed: {},
@@ -428,7 +441,10 @@ export default {
 			this.addActParams=res.context;
 			this.priceList=res.context.items || [];
 			this.priceList.forEach((item)=>{
+				item.curId=item.id;
+				item.abled=true;
 				item.id='';
+				
 			})
 			if(!res.context.cssStyle){
 				
@@ -478,16 +494,39 @@ export default {
     },
     myCallback(data){
     	this.page = data;
-		this.selectAward();
+			this.selectAward();
+    },
+    addQuantity(key){
+    	this.addQuantityShow=true;
+    	this.addQ=0;
+    	this.awardId=this.priceList[key].curId;
+    },
+    sureAdd(){
+    	this.$request.post('/sc/saotx/game/addQuality', {
+    		id:this.awardId,
+    		shopQuantity:parseInt(this.addQ)
+    	}, true, res => {
+          if (res.code === 200) {
+          	this.addQuantityShow=false;
+          	this.getActDetail();
+          } else {
+            this.$message.error(res.msg);
+            this.addQuantityShow=false;
+          }
+        })
     },
 	//  选择奖品
     handleSelectionChange(val){
     	this.selectedPriceList=val;
     },
     sureSelect(){
-    	this.dialogVisible = false;
+    	let arr=[]
+    	this.priceList.forEach((item)=>{
+    		arr.push(item.productId)
+    	})
     	this.selectedPriceList.forEach((item,index)=>{
-    		this.priceList.push({
+    		if(arr.indexOf(item.productId)==-1){
+    			this.priceList.push({
     			orgId:item.orgId,
     			gameId:this.addActParams.gameId,
     			gameName:this.addActParams.gameName,
@@ -500,13 +539,30 @@ export default {
     			type:item.giftType,
     			score:item.score,
     			bingo_image:item.image,
-    			shopQuantity:item.shopQuantity
+    			shopQuantity:item.shopQuantity,
+    			curId:1,
+    			abled:false
     		})
+    			this.dialogVisible = false;
+    		}else {
+    			this.$message.warning('请不要选择重复的奖品');
+    		}
+    		
     	})
     	//  	根据hangleSelectionChange选择的list,格式化this.secondSet.priceList
     },
     remove(key){
     	this.priceList.splice(key,1);
+    },
+    checkAll(){
+    	var allPro=0;
+    	this.priceList.forEach((item)=>{
+    		allPro+=parseInt(item.probability);
+    	})
+    	if(allPro>100){
+    		this.$message.error('总中奖概率不能超过100%');
+    		return allPro;
+    	}
     },
     // 保存进入下一步
     saveActTpl() {
@@ -516,6 +572,18 @@ export default {
       if(!this.addActParams.times) return this.$message.warning('请输入活动次数')
       if(!this.addActParams.gameDesc) return this.$message.warning('请输入活动说明')
       if(this.priceList.length==0) return this.$message.warning('请选择奖品')
+      var flag=1;var flag1=1;
+      this.priceList.forEach((item)=>{
+      	if(!item.quantity) return flag=0
+      	if(!item.probability) return flag1=0;
+      })
+      if(!flag){
+      	return this.$message.warning('请选择奖品数量');
+      }
+      if(!flag1){
+      	return this.$message.warning('请选择奖品的中奖概率');
+      }
+      if(this.checkAll()) return 1;
       this.addActParams.cssStyle = JSON.stringify(this.configItem);
       this.priceList.forEach((item,index)=>{
       	item.score=parseInt(item.score);
@@ -523,7 +591,7 @@ export default {
       })
       this.addActParams.items=this.priceList;
       this.$request.post('/sc/saotx/game/saveGame', this.addActParams, true, res => {
-        if (res.ret === '200000') {
+        if (res.code == '200') {
           this.$message.success('保存成功!')
           this.getActDetail();
           return
@@ -668,7 +736,7 @@ export default {
 		ul{
 			margin-top: 20px;
 			li {
-				width:600px;
+				width:630px;
 				height: 60px;
 				border:1px solid #CCCCCC;
 				overflow: hidden;
@@ -676,8 +744,9 @@ export default {
 					float: left;
 					height: 100%;
 					img {
-						width:55px;
-						height: 55px;
+						width:40px;
+						height: 40px;
+						margin-top: 8px;
 						object-fit: cover;
 					}
 					&:nth-child(1){
@@ -691,12 +760,12 @@ export default {
 					}
 					&:nth-child(3){
 						width:140px;
-						padding-top: 10px;
+						text-align: center;
+						line-height: 60px;
 						.award-num {
 							width:30px;
 							height: 20px;
 							margin-right: 5px;
-							vertical-align: top;
 						}
 					}
 					&:nth-child(4){
@@ -704,13 +773,18 @@ export default {
 						text-align: center;
 						line-height: 60px;
 						.award-percent {
-							width:30px;
+							width:35px;
 							height: 20px;
 							margin-right: 5px;
 						}
 					}
 					&:nth-child(5){
-						width:100px;
+						width:60px;
+						text-align: center;
+						line-height: 60px;
+					}
+					&:nth-child(6){
+						width:60px;
 						text-align: center;
 						line-height: 60px;
 					}
