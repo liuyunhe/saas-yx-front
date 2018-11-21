@@ -33,7 +33,7 @@ export default {
       },
       normalConf: [{ // 正常选项
         awardPic: '',
-        awardType: '1', // 奖项类型
+        awardType: 1, // 奖项类型
         curActive: true,
         giveScore: 0, // 是否赠送积分 0-否 1-是
         guideGzh: 0, // 是否引导关注公众号 0-否 1-是
@@ -61,7 +61,7 @@ export default {
       }],
       defaultAwae: { // 给个默认 好复制
         awardPic: '',
-        awardType: '1', // 奖项类型
+        awardType: 1, // 奖项类型
         curActive: true,
         giveScore: 0, // 是否赠送积分 0-否 1-是
         guideGzh: 0, // 是否引导关注公众号 0-否 1-是
@@ -90,7 +90,7 @@ export default {
       },
       firstScanConf: [{
         awardPic: '',
-        awardType: '1',
+        awardType: 1,
         curActive: true,
         giveScore: 0,
         guideGzh: 0,
@@ -115,7 +115,7 @@ export default {
       }], // 首扫选项
       nWinConf: [{
         awardPic: '',
-        awardType: '1',
+        awardType: 1,
         curActive: true,
         giveScore: 0,
         guideGzh: 0,
@@ -141,7 +141,7 @@ export default {
       }], // n次选项
       fixationPutConf: [{
         awardPic: '',
-        awardType: '1',
+        awardType: 1,
         curActive: true,
         giveScore: 0,
         guideGzh: 0,
@@ -189,19 +189,19 @@ export default {
       tfDurationArr: [], // 投放策略开始/结束时段(发放时间) 0-开始时间 1-结束时间
       prizeType: [{ // 类型
           name: '实物礼品',
-          type: '1'
+          type: 1
         },
         {
           name: '虚拟礼品',
-          type: '2'
+          type: 2
         },
         {
           name: '红包',
-          type: '3'
+          type: 3
         },
         {
           name: '积分',
-          type: '6'
+          type: 6
         }
       ],
       normalIndex: 1,
@@ -220,9 +220,18 @@ export default {
       brandSonList: [], // 子品牌
       specialBrandList: [], // 定投品牌
       specialBrandSonList: [],
-      provList: [], // 省
-      cityList: [], // 市
-      areaList: [], // 区
+      provList: [{
+        code: '000000',
+        name: '全部'
+      }], // 省
+      cityList: [{
+        code: '000000',
+        name: '全部'
+      }], // 市
+      areaList: [{
+        code: '000000',
+        name: '全部'
+      }], // 区
       specialProvList: [], // 定投地区
       specialCityList: [],
       specialAreaList: [],
@@ -300,6 +309,7 @@ export default {
           if (res.data.strategyArr.length != 0) {
             res.data.strategyArr.forEach((item, index) => {
               if (item.tfType == 'common') {
+                if (item.awardArr.length == 0) return
                 // let data = item.awardArr
                 item.awardArr.forEach((sonItem, i) => {
                   if (i != 0) {
@@ -450,11 +460,11 @@ export default {
         parentArr: []
       }, true, res => {
         if (res.ret === '200000') {
-          this.provList = res.data
-          this.provList.unshift({
-            code: '000000',
-            name: '全部'
-          })
+          this.provList.push(...res.data)
+          // this.provList.unshift({
+          //   code: '000000',
+          //   name: '全部'
+          // })
           return
         }
         this.$message.error(res.message)
@@ -505,13 +515,14 @@ export default {
         true,
         res => {
           if (res.ret === '200000') {
-            this.cityList = res.data
+            this.cityList = [{ code: '000000', name: '全部'}]
+            this.cityList.push(...res.data)
             // 定点投放地区限制
             this.restrictProv()
-            this.cityList.unshift({
-              code: '000000',
-              name: '全部'
-            })
+            // this.cityList.unshift({
+            //   code: '000000',
+            //   name: '全部'
+            // })
             return
           }
           this.message.error(res.message)
@@ -550,13 +561,14 @@ export default {
         true,
         res => {
           if (res.ret === '200000') {
-            this.areaList = res.data
+            this.areaList = [{ code: '000000', name: '全部'}]
+            this.areaList.push(...res.data)
             // 定点投放地区限制
             this.restrictCity()
-            this.areaList.unshift({
-              code: '000000',
-              name: '全部'
-            })
+            // this.areaList.unshift({
+            //   code: '000000',
+            //   name: '全部'
+            // })
             return
           }
           this.$message.error(res.message)
@@ -684,18 +696,18 @@ export default {
       //   this.normalTabsValue = activeName;
       //   this.normalTabs = tabs.filter(tab => tab.name !== targetName)
       // }
-      this.addRoRemove('normal', targetName, action)
+      this.addOrRemove('normal', targetName, action)
     },
     firstScanTabsEdit(targetName, action) {
-      this.addRoRemove('firstScan', targetName, action)
+      this.addOrRemove('firstScan', targetName, action)
     },
     nWinTabsEdit(targetName, action) {
-      this.addRoRemove('nWin', targetName, action)
+      this.addOrRemove('nWin', targetName, action)
     },
     fixationPutTabsEdit(targetName, action) {
-      this.addRoRemove('fixationPut', targetName, action)
+      this.addOrRemove('fixationPut', targetName, action)
     },
-    addRoRemove(confName, targetName, action) {
+    addOrRemove(confName, targetName, action) {
       if (action === 'add') {
         if (this[confName + 'Conf'].length == 10) return
         // 深拷贝 防止数据相互串通
@@ -778,6 +790,7 @@ export default {
       })
     },
     restrictSonBrand() {
+      console.log(this.selectSonBrand)
       this.specialBrandSonList = JSON.parse(JSON.stringify(this.brandSonList))
       this.specialBrandSonList.forEach(speciaItem => {
         speciaItem['disabled'] = true

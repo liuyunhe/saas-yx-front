@@ -60,7 +60,7 @@
         </el-form-item>
         <!-- </el-col> -->
         <el-form-item label="红包金额:">
-          <el-input-number disabled v-model="pondConf.redTotalMoney" :min="0" controls-position="right"></el-input-number> 元
+          <el-input-number disabled v-model="totalRed" :min="0" controls-position="right"></el-input-number> 元
         </el-form-item>
       </template>
       <template v-if="pondConf.awardType == '6'">
@@ -81,21 +81,21 @@
         <el-input-number v-model="pondConf.probability" :min="0" :max="100" controls-position="right"></el-input-number> %
       </el-form-item>
       <el-form-item>
-        <el-checkbox v-model="pondConf.isWarn" @change="resetWarn">阈值预警</el-checkbox>
-        <span v-if="pondConf.isWarn">
+        <el-checkbox v-model="pondConf.hasWarn" @change="resetWarn">阈值预警</el-checkbox>
+        <span v-if="pondConf.hasWarn">
           <el-input-number v-model="pondConf.warnValue" :min="0" controls-position="right"></el-input-number> 个
         </span>
       </el-form-item>
       <el-form-item v-if="pondConf.awardType !== '6'">
-        <el-checkbox v-model="pondConf.isGiveScore" @change="resetScore">同时送积分</el-checkbox>
-        <span v-if="pondConf.isGiveScore">
+        <el-checkbox v-model="pondConf.giveScore" :checked="pondConf.giveScore == 1 ? true : false" :true-label=1 :false-label=0 @change="resetScore">同时送积分</el-checkbox>
+        <span v-if="pondConf.giveScore">
           <el-button class="ml20 mr20" v-if="!pondConf.integralPool" @click="giveIntegral">选择</el-button>
           <el-button size="mini" type="info" v-else @click="giveIntegral">已选择</el-button>
           <el-input-number v-model="pondConf.integral" :min="0" controls-position="right"></el-input-number> 积分
         </span>
       </el-form-item>
       <el-form-item>
-        <el-checkbox v-model="pondConf.isGuideGzh" @change="isGuideGzh">中奖后引导关注公众号</el-checkbox>
+        <el-checkbox v-model="pondConf.guideGzh" :checked="pondConf.guideGzh == 1 ? true : false" :true-label=1 :false-label=0>中奖后引导关注公众号</el-checkbox>
         <el-checkbox v-model="pondConf.hasPdMaxOut" @change="resetPdMaxOut">每天出奖总次数限制</el-checkbox>
         <span v-if="pondConf.hasPdMaxOut">
           <el-input-number v-model="pondConf.pdMaxOut" :min="0" controls-position="right"></el-input-number> 次
@@ -184,7 +184,16 @@ export default {
       integralList: [],
       integralTotal: 0,
       integralVisible: false,
-
+    }
+  },
+  computed: {
+    totalRed: {
+      get: function() {
+        return this.pondConf.redMoney * this.pondConf.totalNum
+      },
+      set: function(newValue) {
+        // console.log(newValue)
+      }
     }
   },
   created() {},
@@ -281,7 +290,7 @@ export default {
     // 重置阈值预警
     resetWarn(val) {
       if (!val) {
-        this.pondConf.isWarn = null
+        this.pondConf.hasWarn = null
         this.pondConf.warnValue = ''
       }
     },
@@ -294,14 +303,6 @@ export default {
       const redMoney = this.pondConf.redMoney
       const totalNum = this.pondConf.totalNum
       if (redMoney != 0 && totalNum != 0) return this.pondConf.redTotalMoney = redMoney * totalNum
-    },
-    // 是否引导关注公众号
-    isGuideGzh(val) {
-      if (val) {
-        this.pondConf.guideGzh = 1
-      } else {
-        this.pondConf.guideGzh = 0
-      }
     }
   }
 }
