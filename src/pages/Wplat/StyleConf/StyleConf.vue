@@ -120,7 +120,7 @@
 					text-align: center;
 					line-height: 38px;
 					position: absolute;
-					bottom: 18px;
+					bottom: 19px;
 					left: 10px;
 					border-radius: 4px;
 					color: #fff;
