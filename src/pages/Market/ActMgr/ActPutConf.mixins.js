@@ -33,7 +33,7 @@ export default {
       },
       normalConf: [{ // 正常选项
         awardPic: '',
-        awardType: '1', // 奖项类型
+        awardType: 1, // 奖项类型
         curActive: true,
         giveScore: 0, // 是否赠送积分 0-否 1-是
         guideGzh: 0, // 是否引导关注公众号 0-否 1-是
@@ -61,7 +61,7 @@ export default {
       }],
       defaultAwae: { // 给个默认 好复制
         awardPic: '',
-        awardType: '1', // 奖项类型
+        awardType: 1, // 奖项类型
         curActive: true,
         giveScore: 0, // 是否赠送积分 0-否 1-是
         guideGzh: 0, // 是否引导关注公众号 0-否 1-是
@@ -90,7 +90,7 @@ export default {
       },
       firstScanConf: [{
         awardPic: '',
-        awardType: '1',
+        awardType: 1,
         curActive: true,
         giveScore: 0,
         guideGzh: 0,
@@ -115,7 +115,7 @@ export default {
       }], // 首扫选项
       nWinConf: [{
         awardPic: '',
-        awardType: '1',
+        awardType: 1,
         curActive: true,
         giveScore: 0,
         guideGzh: 0,
@@ -141,7 +141,7 @@ export default {
       }], // n次选项
       fixationPutConf: [{
         awardPic: '',
-        awardType: '1',
+        awardType: 1,
         curActive: true,
         giveScore: 0,
         guideGzh: 0,
