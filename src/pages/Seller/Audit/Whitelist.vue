@@ -1,6 +1,10 @@
 <template>
     <div>
         <el-card>
+            <el-row>
+                <el-button size="small" type="primary" @click="newWhitelist">新建</el-button>
+            </el-row>
+            <div class="space"></div>
             <!-- 数据查询条件 -->
             <el-form :inline="true" :model="form" class="search-block">
                 <el-form-item label="关键词">
@@ -32,7 +36,8 @@
                 <el-table-column prop="phoneNo" label="联系人电话" align="center"></el-table-column>
                 <el-table-column label="操作" align="center" width="220">
                     <template slot-scope="scope">
-                        <el-button size="mini" type="text" @click="modifyPhone(scope.$index, scope.row)">修改手机号</el-button>
+                        <el-button size="mini" type="text" @click="modifySeller(scope.$index, scope.row)">修改</el-button>
+                        <el-button size="mini" type="text" @click="removeSeller(scope.$index, scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -47,9 +52,18 @@
 
         <el-dialog center title="修改白名单管理手机号" :visible.sync="modifyForm.show" width="30%" @closed="resetModifyForm">
             <div>
-                <el-form class="search-block">
+                <el-form class="search-block" label-width="100px">
+                    <el-form-item label="门店名称">
+                        <el-input size="small" v-model="modifyForm.shopName" :disabled="!modifyForm.isNew" class="audit-score" placeholder="请输入门店名称"></el-input>
+                    </el-form-item>
+                    <el-form-item label="专卖许可证">
+                        <el-input size="small" type="number" v-model="modifyForm.licenceNo" :disabled="!modifyForm.isNew" class="audit-score" placeholder="请输入专卖许可证"></el-input>
+                    </el-form-item>
+                    <el-form-item label="联系人姓名">
+                        <el-input size="small" v-model="modifyForm.ownerName" class="audit-score" placeholder="请输入联系人姓名"></el-input>
+                    </el-form-item>
                     <el-form-item label="手机号">
-                        <el-input size="small" type="number" v-model="modifyForm.phoneNo" class="audit-score" placeholder="请输入修改后的手机号"></el-input>
+                        <el-input size="small" type="number" v-model="modifyForm.phoneNo" class="audit-score" placeholder="请输入手机号"></el-input>
                     </el-form-item>
                 </el-form>
             </div>
@@ -74,6 +88,7 @@ export default {
             form: {
                 pageNo: 1,
                 pageSize: 10,
+                status: 1,
                 keyType: "1",
                 keywords: ""
             },
@@ -83,9 +98,13 @@ export default {
             tableList: [],
             
             modifyForm: {
+                isNew: true,
                 show: false,
                 id: "",
-                phone: ""
+                shopName: "",
+                licenceNo: "",
+                ownerName: "",
+                phoneNo: ""
             }
         }
     },
@@ -112,6 +131,7 @@ export default {
             this.form = {
                 pageNo: 1,
                 pageSize: 10,
+                status: 1,
                 keyType: "1",
                 keywords: ""
             };
@@ -139,24 +159,70 @@ export default {
         },
         resetModifyForm() {
             this.modifyForm = {
+                isNew: true,
                 show: false,
+                id: "",
+                shopName: "",
                 licenceNo: "",
+                ownerName: "",
                 phoneNo: ""
             }
         },
-        modifyPhone(index, row) {
+        removeSeller(index, row) {
+            let params = {id: row.id, status: 0};
+            this.$confirm('确认要删除白名单数据吗？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.$request.post('/api/saotx/seller/mstatus', params, true, (res)=>{
+                    if (res.ret==200000) {
+                        this.list(null, this.form.pageNo, this.form.pageSize);
+                    } else {
+                        this.$message.error(res.message);
+                    }
+                });
+            }).catch(() => {
+                //this.addPool.show = false;
+            });
+        },
+        modifySeller(index, row) {
             this.modifyForm = {
+                isNew: false,
                 show: true,
+                id: row.id,
+                shopName: row.shopName,
                 licenceNo: row.licenceNo,
+                ownerName: row.ownerName,
                 phoneNo: row.phoneNo
             }
+        },
+        newWhitelist() {
+            this.resetModifyForm();
+            this.modifyForm.show = true;
         },
         modifyConfirm() {
             if(!/^1[0-9]{10}$/.test(this.modifyForm.phoneNo)) {
                 this.$message.error("手机号格式错误！");
                 return;
             }
-            this.$request.post('/api/saotx/seller/mwhite', this.modifyForm, true, (res)=>{
+
+            let url = "/api/saotx/seller/somWhitelist";
+            if(this.modifyForm.isNew) {
+                if(!this.modifyForm.shopName||this.modifyForm.shopName.length>9) {
+                    this.$message.error("店铺名称不能为空，并且长度不能超过9个字！");
+                    return;
+                }
+                if(!this.modifyForm.licenceNo||this.modifyForm.licenceNo.length!=12) {
+                    this.$message.error("专卖许可证号不能为空，并且长度为12位！");
+                    return;
+                }
+                if(!this.modifyForm.ownerName) {
+                    this.$message.error("联系人姓名不能为空，并且长度不能超过9个字！");
+                    return;
+                }
+            }
+            this.$request.post(url, this.modifyForm, true, (res)=>{
                 this.loading = false;
                 if (res.ret==200000) {
                     this.resetModifyForm();
