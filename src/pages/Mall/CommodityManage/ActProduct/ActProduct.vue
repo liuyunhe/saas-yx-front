@@ -211,7 +211,7 @@
                     }
             },
             allStatusList(){
-                this.$request.post(`/sc/saotx/mall/StatusOnOffEnum`,{service: 'browser'},true,res => {
+                this.$request.post(`/sc/saotx/mall/statusOnOffMap`,{service: 'browser'},true,res => {
                         console.log(res.data)
                         if (res.ret === '200000') {
                             this.allStatusData = res.data;
