@@ -642,7 +642,7 @@ export default {
           message: '已取消删除'
         })
       }
-      this.$request.post('/api/saotx/act/remBatch', { id: [id] }, true, res => {
+      this.$request.post('/api/saotx/act/remBatch', { idArr: [id] }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('删除成功')
           this.getActList()
