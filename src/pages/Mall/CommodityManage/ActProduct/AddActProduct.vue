@@ -33,12 +33,12 @@
                         </el-form-item>
                     </el-row>
                     <el-row>
-                        <el-form-item size="small" label="市面价值（元）：" prop="price">
+                        <el-form-item size="small" label="市面价值（元）：" prop="price" v-if="giftTypeDisPlay==1||giftTypeDisPlay==2">
                             <el-input type="number"  class="tobacco-input" v-model="filters.price" placeholder="请输入内容" min="0"></el-input>
                         </el-form-item>
                     </el-row>
                     <el-row>
-                        <el-form-item label="主图：" prop="image" size="small">
+                        <el-form-item label="礼品图片：" prop="image" size="small">
                             <el-input v-model="filters.image" style="display: none" ></el-input>
                             <el-upload
                                     action="/api/saotx/attach/commonAliUpload"
@@ -54,14 +54,12 @@
                     </el-row>
                     <el-row>
                         <el-form-item size="small" label="库存数量：" prop="shopQuantity">
-                            <el-input type="number"  class="tobacco-input" v-model="filters.shopQuantity" placeholder="请输入内容"min="0"></el-input>
-                            <div class="pic-tips">库存数量保存后不可手动减库存，请谨慎输入</div>
+                            <el-input type="number"  class="tobacco-input" v-model="filters.shopQuantity" placeholder="请输入内容" min="0"  @change="checkOn(filters.shopQuantity)"></el-input>
                         </el-form-item>
                     </el-row>
                     <el-row>
                         <el-form-item size="small" label="库存阀值：" prop="quantity">
-                            <el-input type="number"  class="tobacco-input" v-model="filters.quantity" placeholder="请输入内容" min="0"></el-input>
-                            <div class="pic-tips">库存阀值不可高于库存</div>
+                            <el-input type="number"  class="tobacco-input" v-model="filters.quantity" placeholder="请输入内容" min="0" @change="checkOn2(filters.quantity)"></el-input>
                         </el-form-item>
                     </el-row>
                     <el-row>
@@ -92,7 +90,7 @@
         data(){
             return{
                 allGiftTypeActData:[],
-                allEchangeTypeData:[{id:4,name:"卡卷"},{id:5,name:"外链"}],
+                allEchangeTypeData:[{id:4,name:"卡券"},{id:5,name:"外链"}],
                 seletGiftType:'',
                 seleteEchangeType:'',
                 giftTypeDisPlay:2,
@@ -165,6 +163,26 @@
         methods:{
             init(){
                 this.allGiftTypeActList();
+            },
+            checkOn(value){
+                let reg = /^[1-9]\d*$/;
+                if (value) {
+                    if (value > 999999 || new RegExp(reg).test(value) == false) {
+                        setTimeout(() => {
+                            this.filters.shopQuantity ='';
+                        }, 500);
+                    }
+                }
+            },
+            checkOn2(value){
+                let reg = /^[1-9]\d*$/;
+                if (value) {
+                    if (value > 999999 || new RegExp(reg).test(value) == false) {
+                        setTimeout(() => {
+                            this.filters.quantity ='';
+                        }, 500);
+                    }
+                }
             },
             allGiftTypeActList(){
                 this.$request.post(`/sc/saotx/mall/giftTypeActMap`,{service: 'browser'},true,res => {

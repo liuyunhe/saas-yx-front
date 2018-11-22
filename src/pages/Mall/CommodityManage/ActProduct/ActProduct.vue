@@ -9,7 +9,7 @@
             <el-form :inline="true" :model="form" class="demo-form-inline">
                 <el-row>
                     <el-form-item label="关键字:" size="small" >
-                        <el-select v-model="selectallKyeType" placeholder="请选择">
+                        <el-select v-model="selectallKyeType" placeholder="全部">
                             <el-option v-for="(item,index) in allKeyWordActData" :key="item.id" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
@@ -17,12 +17,12 @@
                         <el-input v-model="form.kyeName" placeholder="请输入关键词"></el-input>
                     </el-form-item>
                     <el-form-item label="礼品类型:" size="small" >
-                        <el-select v-model="form.giftType" placeholder="请选择">
+                        <el-select v-model="form.giftType" placeholder="全部">
                             <el-option v-for="(item,index) in allGiftTypeActData" :key="item.id" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="订单状态:"  size="small" >
-                        <el-select v-model="form.status" placeholder="请选择">
+                    <el-form-item label="使用状态:"  size="small" >
+                        <el-select v-model="form.status" placeholder="全部">
                             <el-option v-for="(item,index) in allStatusData" :key="item.id" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
@@ -45,7 +45,7 @@
                 <el-table-column prop="memo" label="礼品名称" ></el-table-column>
                 <el-table-column  label="礼品图片">
                     <template slot-scope="scope">
-                        <img v-if="scope.row.image" :src="scope.row.image" style="width: 50px;height: 50px" />
+                        <img v-if="scope.row.image" :src="scope.row.image" style="width: 90px;height: 50px" />
                     </template>
                 </el-table-column>
                 <el-table-column label="礼品类型">
@@ -84,11 +84,11 @@
             </el-pagination>
 
 
-            <el-dialog title="增加库存" :visible.sync="dialogFormVisible">
+            <el-dialog title="增加库存" :visible.sync="dialogFormVisible" width="30%">
                 <el-form :model="form2">
-                    <el-form-item label=" 增加库存" :label-width="formLabelWidth">
+                    <el-form-item label="增加库存" :label-width="formLabelWidth">
                         <el-input type="text" v-model="form2.id" style="display: none"></el-input>
-                        <el-input type="number" v-model="form2.shopQuantity" style="width: 180px;" minlength="0"  min="0" ></el-input>
+                        <el-input type="number" v-model="form2.shopQuantity" style="width: 180px;" minlength="0"  min="0" @change="checkOn(form2.shopQuantity)"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -97,9 +97,10 @@
                 </div>
             </el-dialog>
 
-            <el-dialog title="礼品提示" :visible.sync="dialogFormVisible2">
+            <el-dialog title="礼品提示" :visible.sync="dialogFormVisible2" width="30%">
                 <el-form :model="form3">
-                    <el-form-item label="停用后，新增活动将不能使用该礼品" :label-width="formLabelWidth">
+                    <el-row><div align="center">停用后，新增活动将不能使用该礼品</div></el-row>
+                    <el-form-item label="" :label-width="formLabelWidth">
                         <el-input type="text" v-model="form3.id" style="display: none"></el-input>
                         <el-input type="text" v-model="form3.status" style="display: none"></el-input>
                     </el-form-item>
@@ -186,6 +187,16 @@
                 this.allStatusList();
                 this.getlistData();
             },
+            checkOn(value){
+                let reg = /^[1-9]\d*$/;
+                if (value) {
+                    if (value > 999999 || new RegExp(reg).test(value) == false) {
+                        setTimeout(() => {
+                            this.form2.shopQuantity ='';
+                        }, 500);
+                    }
+                }
+            },
             allKeyWordActList() {//关键字
                 this.$request.post(`/sc/saotx/mall/KeyWordActMap`,{service: 'browser'},true,res => {
                         console.log(res.data)
@@ -238,6 +249,7 @@
             },
             addQuanTity(id){
                 this.form2.id=id;
+                this.form2.shopQuantity=0;
                 this.dialogFormVisible=true;
             },
             submitAddQuanTity(){
@@ -274,7 +286,7 @@
                         this.dialogFormVisible2=false;
                         this.getlistData();
                         this.$message({
-                            message: '修改成功！',
+                            message: '停用成功！',
                             type: 'success'
                         });
                     }else{
@@ -302,7 +314,7 @@
                         this.dialogFormVisible2=false;
                         this.getlistData();
                         this.$message({
-                            message: '修改成功！',
+                            message: '启用成功！',
                             type: 'success'
                         });
                     }else{
