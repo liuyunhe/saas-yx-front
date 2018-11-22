@@ -594,6 +594,12 @@ export default {
         if (res.code == '200') {
           this.$message.success('保存成功!')
           this.getActDetail();
+          var that=this;
+          setTimeout(()=>{
+          	that.$router.push({
+          		path:'/mall/score'
+          	})
+          },1000);
           return
         }
         this.$message.error(res.message)
