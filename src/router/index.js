@@ -175,6 +175,8 @@ const rebateManage = () => import(/* webpackChunkName: "seller" */ '../pages/Sel
 //零售户-业绩活动
 const sellerAchievement = () => import(/* webpackChunkName: "seller" */ '@/pages/Seller/Achievement')
 //零售户-初审管理
+const sellerWhitelist = () => import(/* webpackChunkName: "seller" */ '@/pages/Seller/Audit/Whitelist')
+//零售户-初审管理
 const sellerAuditStep1 = () => import(/* webpackChunkName: "seller" */ '@/pages/Seller/Audit/Step1')
 //零售户-终审管理
 const sellerAuditStep2 = () => import(/* webpackChunkName: "seller" */ '@/pages/Seller/Audit/Step2')
@@ -315,6 +317,7 @@ export default new Router({
         { path: '/seller/achievement', name: '业绩活动', component: sellerAchievement },
         { path: '/seller/rebate', name: '返佣管理', redirect: '/seller/rebate/mgr' },
         { path: '/seller/rebate/mgr', name: '扫码返佣管理', component: rebateManage },
+        { path: '/seller/whitelist', name: '白名单管理', component: sellerWhitelist},
         { path: '/seller/audStep1', name: '初审管理', component: sellerAuditStep1},
         { path: '/seller/audStep2', name: '终审管理', component: sellerAuditStep2},
         // 商城
