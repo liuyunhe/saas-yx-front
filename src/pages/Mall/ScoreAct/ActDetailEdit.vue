@@ -10,7 +10,7 @@
         <el-tab-pane label="首页" name="home" class="clearfix">
           <div class="ipone">
             <div class="header">
-              <p>{{addActParams.name}}</p>
+              <p>{{configItem.title}}</p>
             </div>
             <div class="content phone">
               <div class="bg bg-home":style="{backgroundImage:'url('+configItem.bgImgUrl+')'}"@click="showEditConIndex = 1"></div>
