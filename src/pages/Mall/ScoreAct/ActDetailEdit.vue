@@ -32,10 +32,10 @@
           	<div class="first-set">
           		<el-form :model="addActParams" :rules="addActRules" ref="ruleForm" label-width="100px" label-position="top">
               <el-form-item label="页面名称" prop="name">
-                <el-input v-model="configItem.title" placeholder="请输入页面名称"></el-input>
+                <el-input v-model="configItem.title" placeholder="请输入页面名称"maxLength='15'></el-input>
               </el-form-item>
               <el-form-item label="页面说明">
-                <el-input type="textarea" :rows="3" v-model="configItem.description" placeholder="请输入页面描述" maxlength="50" resize="none"></el-input>
+                <el-input type="textarea" :rows="3" v-model="configItem.description" placeholder="请输入页面描述" maxlength="20" resize="none"></el-input>
               </el-form-item>
             </el-form>
             <el-card class="edit-img" shadow="hover">
@@ -253,7 +253,7 @@
            	<div class="second-set">
         		<div class="title">基础设置</div>
         		<div class="base-set">
-		            <span class='require-icon'>*</span>活动名称： <el-input v-model="addActParams.gameName" placeholder="请输入活动名称"size='small'class='act-name'></el-input>		         
+		            <span class='require-icon'>*</span>活动名称： <el-input v-model="addActParams.gameName" placeholder="请输入活动名称"size='small'class='act-name'maxLength='10'></el-input>		         
         			<br /><br /><br />
         			<span class='require-icon'>*</span>活动图片：
         			<div class="act-img">
@@ -263,10 +263,10 @@
                     	</el-upload>
         			</div>
         			<br /><br /><br />
-        			消耗积分：<el-input v-model="addActParams.score" placeholder="请输入需要消耗的积分"size='small'class='act-score'></el-input>积分	
+        			消耗积分：<el-input v-model="addActParams.score" placeholder="请输入需要消耗的积分"size='small'class='act-score'maxLength='9'></el-input>积分	
         			<br /><span class='space'></span><span>（用户参与活动每次需要消耗的积分数）</span>
         			<br /><br /><br />
-        			<span class='require-icon'>*</span>参与次数： 每人每天可参与<el-input v-model="addActParams.times" size='small'class='act-num'></el-input>次
+        			<span class='require-icon'>*</span>参与次数： 每人每天可参与<el-input v-model="addActParams.times" size='small'class='act-num'maxLength='10'></el-input>次
         			<br /><br /><br />
         			<span class='require-icon'>*</span>活动说明： <el-input v-model="addActParams.gameDesc"type="textarea"resize="none" rows="3" placeholder="请输入活动说明"size='small'class='act-dec'></el-input>		         
         			<div class="title award-title">奖项设置</div>

@@ -3,7 +3,7 @@
 		<ul>
 			<li v-for='(item,key) in actList' :key='key'>
 				<div class="con">
-					<img :src="item.banner"@click="getDetail(key)" alt="" />
+					<img :src="item.gameImg"@click="getDetail(key)" alt="" />
 					<div class="act-info">
 						<div class="act-left">
 							<p>{{item.gameName}}</p>
