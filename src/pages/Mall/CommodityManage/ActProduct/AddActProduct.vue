@@ -17,7 +17,7 @@
                     </el-row>
                     <el-row>
                         <el-form-item size="small" label="礼品名称：" prop="memo">
-                            <el-input class="tobacco-input" v-model="filters.memo" placeholder="请输入内容"></el-input>
+                            <el-input class="tobacco-input" v-model="filters.memo" placeholder="请输入内容" maxlength="100"></el-input>
                         </el-form-item>
                     </el-row>
                     <el-row>
@@ -34,7 +34,7 @@
                     </el-row>
                     <el-row>
                         <el-form-item size="small" label="市面价值（元）：" prop="price" v-if="giftTypeDisPlay==1||giftTypeDisPlay==2">
-                            <el-input type="number"  class="tobacco-input" v-model="filters.price" placeholder="请输入内容" min="0"></el-input>
+                            <el-input type="number"  class="tobacco-input" v-model="filters.price" placeholder="请输入内容" min="0" max="999999" @input="checkOn3(filters.price)"></el-input>
                         </el-form-item>
                     </el-row>
                     <el-row>
@@ -54,22 +54,22 @@
                     </el-row>
                     <el-row>
                         <el-form-item size="small" label="库存数量：" prop="shopQuantity">
-                            <el-input type="number"  class="tobacco-input" v-model="filters.shopQuantity" placeholder="请输入内容" min="0"  @change="checkOn(filters.shopQuantity)"></el-input>
+                            <el-input type="number"  class="tobacco-input" v-model="filters.shopQuantity" placeholder="请输入内容" min="0" max="999999" @input="checkOn(filters.shopQuantity)"></el-input>
                         </el-form-item>
                     </el-row>
                     <el-row>
                         <el-form-item size="small" label="库存阀值：" prop="quantity">
-                            <el-input type="number"  class="tobacco-input" v-model="filters.quantity" placeholder="请输入内容" min="0" @change="checkOn2(filters.quantity)"></el-input>
+                            <el-input type="number"  class="tobacco-input" v-model="filters.quantity" placeholder="请输入内容" min="0" max="99999" @input="checkOn2(filters.quantity)"></el-input>
                         </el-form-item>
                     </el-row>
                     <el-row>
                         <el-form-item size="small" label="链接URL："  v-if="giftTypeDisPlay==1">
-                            <el-input class="tobacco-input" v-model="filters.exchangeUrl" placeholder="请输入内容"></el-input>
+                            <el-input class="tobacco-input" v-model="filters.exchangeUrl" placeholder="请输入内容" maxlength="200"></el-input>
                         </el-form-item>
                     </el-row>
                     <el-row>
                         <el-form-item size="small" label="礼品描述："   v-if="giftTypeDisPlay==1||giftTypeDisPlay==2">
-                            <el-input class="tobacco-input" v-model="filters.afterService" placeholder="请输入内容" type="textarea" :rows="3"></el-input>
+                            <el-input class="tobacco-input" v-model="filters.afterService" placeholder="请输入内容" type="textarea" :rows="3" maxlength="200"></el-input>
                         </el-form-item>
                     </el-row>
                 </div>
@@ -168,9 +168,7 @@
                 let reg = /^[1-9]\d*$/;
                 if (value) {
                     if (value > 999999 || new RegExp(reg).test(value) == false) {
-                        setTimeout(() => {
-                            this.filters.shopQuantity ='';
-                        }, 500);
+                        this.filters.shopQuantity ='';
                     }
                 }
             },
@@ -178,9 +176,14 @@
                 let reg = /^[1-9]\d*$/;
                 if (value) {
                     if (value > 999999 || new RegExp(reg).test(value) == false) {
-                        setTimeout(() => {
-                            this.filters.quantity ='';
-                        }, 500);
+                        this.filters.quantity ='';
+                    }
+                }
+            },
+            checkOn3(value){
+                if (value) {
+                    if (value > 999999 ) {
+                        this.filters.price ='';
                     }
                 }
             },
