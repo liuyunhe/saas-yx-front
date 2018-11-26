@@ -20,7 +20,8 @@
             <el-option v-if="brandSonList" v-for="item in brandSonList" :key="item.id" :label="item.allName" :value="item.sn">
             </el-option>
           </el-select>
-          <el-button type="primary" @click="brandVisible = true" class="ml20">已选明细</el-button>
+          <!-- 暂时不做 -->
+          <!-- <el-button type="primary" @click="brandVisible = true" class="ml20">已选明细</el-button> -->
         </el-form-item>
         <el-form-item label="地区：">
           <el-select v-model="selectProvList" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择" @change="getCityList">
@@ -36,7 +37,8 @@
             </el-option>
           </el-select>
           <el-checkbox v-model="isDisabled" label="全部地区" border></el-checkbox>
-          <el-button type="primary" @click="regionVisible = true" class="ml20">已选明细</el-button>
+          <!-- 暂时不做 -->
+          <!-- <el-button type="primary" @click="regionVisible = true" class="ml20">已选明细</el-button> -->
         </el-form-item>
         <el-form-item>
           <div class="prize-conf">
@@ -89,7 +91,8 @@
                         <el-option v-if="brandSonList" v-for="item in specialBrandSonList" :disabled="item.disabled" :key="item.id" :label="item.name" :value="item.sn">
                         </el-option>
                       </el-select>
-                      <el-button type="primary" @click="brandVisible = true" class="ml20">已选明细</el-button>
+                      <!-- 暂时不做 -->
+                      <!-- <el-button type="primary" @click="brandVisible = true" class="ml20">已选明细</el-button> -->
                     </el-form-item>
                     <el-form-item label="地区：">
                       <el-select v-model="specialAreas.provinceArr" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择">
@@ -105,7 +108,8 @@
                         </el-option>
                       </el-select>
                       <!-- <el-checkbox v-model="isDisabled" label="全部地区" border></el-checkbox> -->
-                      <el-button type="primary" @click="regionVisible = true" class="ml20">已选明细</el-button>
+                      <!-- 暂时不做 -->
+                      <!-- <el-button type="primary" @click="regionVisible = true" class="ml20">已选明细</el-button> -->
                     </el-form-item>
                     <el-form-item label="投放时间:">
                       <el-date-picker v-model="tfTimeArr" :picker-options="pickerOptions" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
