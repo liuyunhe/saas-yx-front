@@ -214,7 +214,7 @@ export default {
       this.$request.post('/api/saotx/metra/saveOrModify', this.form, true, (res)=>{
         if (res.ret == '200000') {
           //this.$router.push({path:"/product/materiel/table?metraFlag="+this.metraFlag});
-          this.$emit('showTable');
+          this.$emit('showTable', true);
         } else {
           this.$message.error(res.message);
         }
