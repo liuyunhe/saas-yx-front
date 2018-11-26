@@ -337,6 +337,7 @@ export default {
                   this.getCityList(this.selectProvList)
                   this.getAreaList(this.selectCityList)
                   this.selectAreaList = item.areas.districtArr
+                  this.selectAll(this.selectAreaList)
                 }
                 this.selectBrand = item.brandArr
                 this.getBrandSonList()
@@ -472,6 +473,12 @@ export default {
     },
     // 获取市
     getCityList(val) {
+      if (this.provList.length == 1) {
+        setTimeout(() => {
+          this.getCityList(val)
+        }, 1000)
+        return
+      }
       let allValue = []
       // 保存所有的值
       for (let item of this.provList) {
@@ -531,6 +538,12 @@ export default {
     },
     // 获取区
     getAreaList(val) {
+      if (this.cityList.length == 1) {
+        setTimeout(() => {
+          this.getAreaList(val)
+        }, 1000)
+        return
+      }
       let allValue = []
       for (let item of this.cityList) {
         allValue.push(item.code)
@@ -577,6 +590,12 @@ export default {
     },
     // 选择区
     selectAll(val) {
+      if (this.areaList.length == 1) {
+        setTimeout(() => {
+          this.selectAll(val)
+        }, 1000)
+        return
+      }
       this.restrictArea()
       let allValue = []
       for (let item of this.areaList) {
@@ -603,9 +622,19 @@ export default {
       // console.log(this.normalConf)
       if (this.selectBrand.length == 0 || this.selectSonBrand.length == 0) return this.$message.error('请选择品牌规格')
       if (this.selectProvList.length == 0 || this.selectCityList.length == 0 || this.selectAreaList.length == 0) return this.$message.error('请选择地区')
+      if (!this.isDisabled) {
+        if(this.selectCityList.indexOf('000000') != -1) {
+          this.selectCityList.splice(this.selectCityList.indexOf('000000'), 1)
+        }
+        if(this.selectAreaList.indexOf('000000') != -1) {
+          this.selectAreaList.splice(this.selectAreaList.indexOf('000000'), 1)
+        }
+        if(this.selectProvList.indexOf('000000') != -1) {
+          this.selectProvList.splice(this.selectProvList.indexOf('000000'), 1)
+        }
+      }
       this.act.id = this.id
       this.act.actCode = this.actCode
-      this.no
       let data = {
         act: {},
         strategyArr: []
