@@ -261,15 +261,15 @@
                     	</el-upload>
         			</div>
         			<br /><br /><br />
-        			消耗积分：<el-input v-model="addActParams.score" placeholder="请输入需要消耗的积分"size='small'class='act-score'maxLength='9'></el-input>积分	
+        			消耗积分：<el-input v-model="addActParams.score" placeholder="请输入需要消耗的积分"size='small'class='act-score'maxLength='4'></el-input>积分	
         			<br /><span class='space'></span><span>（用户参与活动每次需要消耗的积分数）</span>
         			<br /><br /><br />
-        			<span class='require-icon'>*</span>参与次数： 每人每天可参与<el-input v-model="addActParams.times" size='small'class='act-num'maxLength='10'></el-input>次
+        			<span class='require-icon'>*</span>参与次数： 每人每天可参与<el-input v-model="addActParams.times" size='small'class='act-num'maxLength='4'></el-input>次
         			<br /><br /><br />
         			<span class='require-icon'>*</span>活动说明： <el-input v-model="addActParams.gameDesc"type="textarea"resize="none" rows="3" placeholder="请输入活动说明"size='small'class='act-dec'></el-input>		         
         			<div class="title award-title">奖项设置</div>
         			<br /><br />
-        			<span class='require-icon'>*</span>选择奖品： <el-button type="info" plain class='select-award'@click="selectAward">+</el-button>
+        			<span class='require-icon'>*</span>选择奖品： <el-button type="info" plain class='select-award'@click="selectAward">+</el-button><span>（最少配置三种奖品）</span>
         			<el-dialog
 					  title="选择奖品"
 					  :visible.sync="dialogVisible"
@@ -570,6 +570,7 @@ export default {
       if(!this.addActParams.times) return this.$message.warning('请输入活动次数')
       if(!this.addActParams.gameDesc) return this.$message.warning('请输入活动说明')
       if(this.priceList.length==0) return this.$message.warning('请选择奖品')
+      if(this.priceList.length<3) return this.$message.warning('请最少选择三种奖品')
       var flag=1;var flag1=1;
       this.priceList.forEach((item)=>{
       	if(item.quantity=='') return flag=0
