@@ -59,6 +59,7 @@ export default {
         totalNum: '', // totalNum
         warnValue: '' //告警阀值 非空且大于0时为设置告警
       }],
+      normalTfId: '',
       defaultAwae: { // 给个默认 好复制
         awardPic: '',
         awardType: 1, // 奖项类型
@@ -113,6 +114,7 @@ export default {
         totalNum: '',
         warnValue: ''
       }], // 首扫选项
+      firstScanTfId: '',
       nWinConf: [{
         awardPic: '',
         awardType: 1,
@@ -139,6 +141,7 @@ export default {
         totalNum: '',
         warnValue: ''
       }], // n次选项
+      nWinTfId: '',
       fixationPutConf: [{
         awardPic: '',
         awardType: 1,
@@ -164,6 +167,7 @@ export default {
         totalNum: '',
         warnValue: ''
       }], // 定投选项
+      fixationPutTfId: '',
       normalTabsValue: '1', // 正常tabs
       normalTabs: [{
         title: '常规奖项1',
@@ -304,12 +308,14 @@ export default {
           id: this.id
         }, true, res => {
           if (res.ret !== '200000') return this.$message.error(res.message)
+          this.status = res.data.act.status == 1 ? true : false
           this.actSTime = res.data.act.stimeStr
           this.actETime = res.data.act.etimeStr
           if (res.data.strategyArr.length != 0) {
             res.data.strategyArr.forEach((item, index) => {
               if (item.tfType == 'common') {
                 if (item.awardArr.length == 0) return
+                this.normalTfId = item.tf.id
                 // let data = item.awardArr
                 item.awardArr.forEach((sonItem, i) => {
                   if (i != 0) {
@@ -344,6 +350,7 @@ export default {
                 this.selectSonBrand = item.snArr
               }
               if (item.tfType == 'sn_first') {
+                this.firstScanTfId = item.tf.id
                 item.awardArr.forEach((sonItem, i) => {
                   if (i != 0) {
                     this.firstScanTabs.push({
@@ -367,6 +374,7 @@ export default {
                 this.firstScanConf = item.awardArr
               }
               if (item.tfType == 'n_mwin') {
+                this.nWinTfId = item.tf.id
                 item.awardArr.forEach((sonItem, i) => {
                   if (i != 0) {
                     this.nWinTabs.push({
@@ -390,6 +398,7 @@ export default {
                 this.nWinConf = item.awardArr
               }
               if (item.tfType == 'special') {
+                this.fixationPutTfId = item.tf.id
                 item.awardArr.forEach((sonItem, i) => {
                   if (i != 0) {
                     this.fixationPutTabs.push({
@@ -621,7 +630,7 @@ export default {
     save() {
       // console.log(this.normalConf)
       if (this.selectBrand.length == 0 || this.selectSonBrand.length == 0) return this.$message.error('请选择品牌规格')
-      if (this.selectProvList.length == 0 || this.selectCityList.length == 0 || this.selectAreaList.length == 0) return this.$message.error('请选择地区')
+      if (this.selectProvList.length == 0 || this.selectCityList.length == 0) return this.$message.error('请选择地区')
       if (!this.isDisabled) {
         if(this.selectCityList.indexOf('000000') != -1) {
           this.selectCityList.splice(this.selectCityList.indexOf('000000'), 1)
@@ -648,6 +657,7 @@ export default {
       data.strategyArr[0].brandArr = this.selectBrand
       data.strategyArr[0].snArr = this.selectSonBrand
       data.strategyArr[0].tfType = 'common'
+      data.strategyArr[0].tf = { id: this.normalTfId }
       let index = 0
       if (this.firstScanFlag) {
         data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
@@ -655,6 +665,7 @@ export default {
         data.strategyArr[index - 1].awardArr = this.firstScanConf
         data.strategyArr[index - 1].confOpen = true
         data.strategyArr[index - 1].tfType = 'sn_first'
+        data.strategyArr[index - 1].tf = { id: this.firstScanTfId }
       }
       if (this.nWinFlag) {
         data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
@@ -662,6 +673,7 @@ export default {
         data.strategyArr[index - 1].awardArr = this.nWinConf
         data.strategyArr[index - 1].confOpen = true
         data.strategyArr[index - 1].tfType = 'n_mwin'
+        data.strategyArr[index - 1].tf = { id: this.nWinTfId }
       }
       if (this.fixationPutFlag) {
         data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
@@ -682,6 +694,7 @@ export default {
           etimeStr: this.tfTimeArr[1]
         }
         data.strategyArr[index - 1].tfType = 'special'
+        data.strategyArr[index - 1].tf = { id: this.fixationPutTfId }
       }
       this.$request.post('/api/saotx/act/somtf', data, true, res => {
         if (res.ret === '200000') {
