@@ -14,16 +14,16 @@
             </div>
             <div class="content phone">
               <div class="bg bg-home":style="{backgroundImage:'url('+configItem.bgImgUrl+')'}"@click="showEditConIndex = 1"></div>
-              <div class="top"><img :src="configItem.headerImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 2"></div>
-              <div class="game-con">
+<!--              <div class="top"><img :src="configItem.headerImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 2"></div>
+-->              <div class="game-con">
                 <img :src="configItem.gameBg" alt=""@click="showEditConIndex = 3" />
               </div>
               <div class="game-btn">
                 <img :src="configItem.gameBtn" alt=""@click="showEditConIndex = 4" />
               </div>
-              <div class="game-rule">
+              <!--<div class="game-rule">
               	<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/rule.png" alt="" />
-              </div>
+              </div>-->
               
             </div>
             <div class="footer"></div>
@@ -64,7 +64,7 @@
                 <div class="edit-game-img" v-if="showEditConIndex == 3">
                   <div>
                     <p class="img-title">底盘：</p>
-                    <div class="img-con"><img :src="configItem.gameBg" alt=""></div>
+                    <div class="img-con pan-img-con"><img :src="configItem.gameBg" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upGameImgSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -233,17 +233,15 @@
             </div>
             <div class="content phone">
               <div class="bg bg-home":style="{backgroundImage:'url('+configItem.bgImgUrl+')'}"></div>
-              <div class="top"><img :src="configItem.headerImgUrl" alt="" title="点击编辑" ></div>
               <div class="game-con">
                 <img :src="configItem.gameBg" alt="" />
               </div>
               <div class="game-btn">
                 <img :src="configItem.gameBtn" alt="" />
               </div>
-              <div class="game-rule">
-              	<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/rule.png" alt="" />
-              </div>
+          
               <div class="rule-bg">
+              	<div class="rule-title">活动规则</div>
               	{{addActParams.gameDesc}}
               </div>
             </div>
@@ -376,8 +374,8 @@ export default {
         description: '',
         headerImgUrl:
           'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/tigger-title.png',
-        bgImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/tigger-bg.png',
-        gameBg:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/tigger-pan.png',
+        bgImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/tigger-bg.png',
+        gameBg:'http://weiopn.oss-cn-beijing.aliyuncs.com/pan.png',
         gameBtn:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/tigger-btn.png',
         gameBtnActive:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/tigger-btn.png',
         drawImgUrl:
@@ -574,8 +572,8 @@ export default {
       if(this.priceList.length==0) return this.$message.warning('请选择奖品')
       var flag=1;var flag1=1;
       this.priceList.forEach((item)=>{
-      	if(!item.quantity) return flag=0
-      	if(!item.probability) return flag1=0;
+      	if(item.quantity=='') return flag=0
+      	if(item.probability=='') return flag1=0;
       })
       if(!flag){
       	return this.$message.warning('请选择奖品数量');
@@ -652,7 +650,7 @@ export default {
       if (resule.ret === '200000') return (this.configItem.drawBtnRightUrl = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
-    upWinningImgSuccess(){
+    upWinningImgSuccess(resule){
     	if (resule.ret === '200000') return (this.configItem.drawImgUrl = resule.data.accessUrl)
       	this.$message.error(resule.message)
     },
@@ -875,18 +873,19 @@ export default {
           left: 50%;
           top:150px;
           width:100%;
-          height: 170px;
+          height: 330px;
           transform: translateX(-50%);
           z-index: 3;
           img {
             width: 100%;
-            height: 100%;
+            /*height: 100%;*/
+            
           }
         }
         .game-btn {
         	position: absolute;
         	left: 50%;
-        	top:290px;
+        	top:350px;
         	width:160px;
         	height: 30px;
         	transform: translateX(-50%);
@@ -910,7 +909,7 @@ export default {
         }
         .rule-bg {
         	width: 100%;
-        	height: 50px;
+        	height: 70px;
         	position: absolute;
         	bottom:0;
         	left: 0;
@@ -926,7 +925,12 @@ export default {
         		margin: 0;
         		
         	}
+        	.rule-title {
+        		text-align: center;
+        		margin-bottom: 10px;
+        	}
         }
+        
         .winning,
         .not-winning {
           position: absolute;
@@ -951,11 +955,11 @@ export default {
               border-radius: 50%;
             }
             .price-alert {
-            	width:100%;
-            	height: 220px;
+            	width:80%;
+            	height: 240px;
             	overflow: hidden;
             	position: absolute;
-            	left: 10px;
+            	left: 25px;
             	top:80px;
             	.pic {
 	              width:100%;
@@ -969,7 +973,7 @@ export default {
 	            	background-repeat: no-repeat;
 	            	background-size: contain;
 	            	position: absolute;
-	            	left: 60px;
+	            	left: 30px;
 	            	bottom:20px;
 	            	line-height: 30px;
 	            }
@@ -980,7 +984,7 @@ export default {
 	            	background-repeat: no-repeat;
 	            	background-size: contain;
 	            	position: absolute;
-	            	right: 70px;
+	            	right: 40px;
 	            	bottom:20px;
 	            	line-height: 30px;
 	            	color:#666;
@@ -1002,7 +1006,7 @@ export default {
             .not-price-alert {
             	.price-right {
             		width:100px;
-            		left: 100px;
+            		left: 70px;
             		line-height: 28px;
             	}
             }
@@ -1015,6 +1019,7 @@ export default {
               margin-right: 0;
             }
           }
+          
         }
       }
       .footer {
@@ -1037,6 +1042,13 @@ export default {
           text-align: center;
           border: 1px solid #ccc;
           margin: 0 10px;
+        }
+        .pan-img-con {
+        	overflow: hidden;
+        	img {
+        		width:60%;
+        		height: auto;
+        	}
         }
         .btn-con {
           position: relative;
@@ -1074,6 +1086,13 @@ export default {
             img {
               width: 100%;
             }
+          }
+          .pan-img-con {
+          	height: 230px;
+          	img {
+          		width:60%;
+          		height: auto;
+          	}
           }
         }
         .edit-winning-img {
