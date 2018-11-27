@@ -2,7 +2,7 @@
     <div>
         <el-card>
             <el-row>
-                <el-button size="small" type="primary" @click="newWhitelist">新建</el-button>
+                <el-button size="small" type="primary" @click="newWhitelist">新增</el-button>
             </el-row>
             <div class="space"></div>
             <!-- 数据查询条件 -->
@@ -50,19 +50,19 @@
             </el-pagination>
         </el-card>
 
-        <el-dialog center title="修改白名单管理手机号" :visible.sync="modifyForm.show" width="30%" @closed="resetModifyForm">
+        <el-dialog center title="白名单管理" :visible.sync="modifyForm.show" width="30%" @closed="resetModifyForm">
             <div>
                 <el-form class="search-block" label-width="100px">
-                    <el-form-item label="门店名称">
+                    <el-form-item label="门店名称" :required="true">
                         <el-input size="small" v-model="modifyForm.shopName" :disabled="!modifyForm.isNew" class="audit-score" placeholder="请输入门店名称"></el-input>
                     </el-form-item>
-                    <el-form-item label="专卖许可证">
+                    <el-form-item label="专卖许可证" :required="true">
                         <el-input size="small" type="number" v-model="modifyForm.licenceNo" :disabled="!modifyForm.isNew" class="audit-score" placeholder="请输入专卖许可证"></el-input>
                     </el-form-item>
-                    <el-form-item label="联系人姓名">
+                    <el-form-item label="联系人姓名" :required="true">
                         <el-input size="small" v-model="modifyForm.ownerName" class="audit-score" placeholder="请输入联系人姓名"></el-input>
                     </el-form-item>
-                    <el-form-item label="手机号">
+                    <el-form-item label="手机号" :required="true">
                         <el-input size="small" type="number" v-model="modifyForm.phoneNo" class="audit-score" placeholder="请输入手机号"></el-input>
                     </el-form-item>
                 </el-form>
