@@ -418,6 +418,11 @@ export default {
 						this.selectBrand = [];
 						that.init();
 
+					}else {
+						this.$message({
+							message: res.message,
+							type: 'warning'
+						});
 					}
 				},
 				err => {

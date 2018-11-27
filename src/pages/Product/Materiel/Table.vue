@@ -261,7 +261,7 @@ export default {
     resetForm() {
       this.supplierSel = '';
       this.form = {
-        metraFlag: 'object',
+        metraFlag: this.metraFlag,
         pageNo: 1,
         pageSize: 10,
         keywords: '', // 公共参数：关键字
