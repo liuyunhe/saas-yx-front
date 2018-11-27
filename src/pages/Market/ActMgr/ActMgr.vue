@@ -620,7 +620,7 @@ export default {
           message: '已取消'
         })
       }
-      this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 4 }, true, res => {
+      this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 3 }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('已暂停')
           this.getActList()
