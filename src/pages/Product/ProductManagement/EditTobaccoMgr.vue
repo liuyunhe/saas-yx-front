@@ -314,7 +314,7 @@
             this.filters.nicotine = res.data.nicotine
             this.filters.num = res.data.num
             this.filters.oil = res.data.oil
-            this.filters.pack = res.data.pack
+            this.filters.pack = res.data.pack+''
             this.filters.price = res.data.price
             this.filters.sn = res.data.sn
             this.filters.typeCode = res.data.typeCode+''
