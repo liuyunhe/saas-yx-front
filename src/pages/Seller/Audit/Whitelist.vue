@@ -2,7 +2,7 @@
     <div>
         <el-card>
             <el-row>
-                <el-button size="small" type="primary" @click="newWhitelist">新增</el-button>
+                <el-button size="small" type="primary" @click="newWhitelist">添加</el-button>
             </el-row>
             <div class="space"></div>
             <!-- 数据查询条件 -->
