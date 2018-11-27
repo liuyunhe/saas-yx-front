@@ -5,7 +5,7 @@ export default {
       act: {
         id: null,
         actCode: '', // 编码
-        dwnum: '',
+        dwnum: null,
         status: null, // 活动状态 1-发布 0-未发布
       },
       status: false,
@@ -309,6 +309,8 @@ export default {
         }, true, res => {
           if (res.ret !== '200000') return this.$message.error(res.message)
           this.status = res.data.act.status == 1 ? true : false
+          this.prizeLimitFlag = res.data.act.dwnum ? true : false
+          this.act.dwnum = res.data.act.dwnum
           this.actSTime = res.data.act.stimeStr
           this.actETime = res.data.act.etimeStr
           if (res.data.strategyArr.length != 0) {
@@ -348,6 +350,7 @@ export default {
                 this.selectBrand = item.brandArr
                 this.getBrandSonList()
                 this.selectSonBrand = item.snArr
+                // this.restrictSonBrand()
               }
               if (item.tfType == 'sn_first') {
                 this.firstScanTfId = item.tf.id
@@ -443,6 +446,7 @@ export default {
       }, true, res => {
         if (res.ret === '200000') {
           this.brandList = res.data.list
+          this.restrictBrand()
           return
         }
         this.$message.error(res.message)
@@ -459,7 +463,11 @@ export default {
         },
         true,
         res => {
-          if (res.ret === '200000') return (this.brandSonList = res.data.list)
+          if (res.ret === '200000') {
+            this.brandSonList = res.data.list
+            this.restrictSonBrand()
+            return
+          }
           this.$message.error(res.message)
         }
       )
@@ -691,10 +699,11 @@ export default {
           sduration: this.tfDurationArr[0],
           eduration: this.tfDurationArr[1],
           stimeStr: this.tfTimeArr[0],
-          etimeStr: this.tfTimeArr[1]
+          etimeStr: this.tfTimeArr[1],
+          id: this.fixationPutTfId
         }
         data.strategyArr[index - 1].tfType = 'special'
-        data.strategyArr[index - 1].tf = { id: this.fixationPutTfId }
+        // data.strategyArr[index - 1].tf = { id: this.fixationPutTfId }
       }
       this.$request.post('/api/saotx/act/somtf', data, true, res => {
         if (res.ret === '200000') {
@@ -821,6 +830,7 @@ export default {
     },
     // 定点投放品牌限制
     restrictBrand() {
+      console.log(this.selectBrand)
       this.specialBrandList = JSON.parse(JSON.stringify(this.brandList))
       this.specialBrandList.forEach(speciaItem => {
         speciaItem['disabled'] = true
@@ -830,9 +840,9 @@ export default {
           }
         })
       })
+      console.log(this.specialBrandList)
     },
     restrictSonBrand() {
-      console.log(this.selectSonBrand)
       this.specialBrandSonList = JSON.parse(JSON.stringify(this.brandSonList))
       this.specialBrandSonList.forEach(speciaItem => {
         speciaItem['disabled'] = true

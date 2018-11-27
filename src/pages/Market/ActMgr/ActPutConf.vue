@@ -80,8 +80,8 @@
               </el-row>
               <el-row>
                 <el-checkbox v-model="fixationPutFlag">定点投放奖</el-checkbox>
-                <div class="conf" v-if="fixationPutFlag">
-                  <el-form :model="specialAreas" label-width="100px" class="mb20">
+                <div class="conf mb20" v-if="fixationPutFlag">
+                  <el-form :model="specialAreas" label-width="100px" class="mb20 mt20">
                     <el-form-item label="品牌规格：">
                       <el-select v-model="specialBrand.brandArr" multiple placeholder="请选择">
                         <el-option v-for="item in specialBrandList" :key="item.id" :disabled="item.disabled" :label="item.name" :value="item.brandCode">
@@ -198,6 +198,7 @@ export default {
 }
 .conf {
   background-color: #fff;
+  overflow: hidden;
 }
 .special-rule-conf,
 .prize-limit {
