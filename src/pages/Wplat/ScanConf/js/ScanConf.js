@@ -465,6 +465,8 @@ export default {
 						this.selectBrand = [];
 						that.init();
 
+					}else {
+						this.$message.error(res.message);
 					}
 				},
 				err => {
@@ -509,6 +511,8 @@ export default {
 						that.brandList = blist;
 						that.selectBrand = data.brandArr;
 
+					}else {
+						this.$message.error(res.message);
 					}
 				},
 				err => {
@@ -601,6 +605,8 @@ export default {
 							type: 'success'
 						});
 						this.init();
+					}else {
+						this.$message.error(res.message);
 					}
 				},
 				err => {
