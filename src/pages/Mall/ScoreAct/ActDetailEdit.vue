@@ -231,20 +231,28 @@
             <div class="header">
               <p>{{addActParams.name}}</p>
             </div>
-            <div class="content phone">
-              <div class="bg bg-home":style="{backgroundImage:'url('+configItem.bgImgUrl+')'}"></div>
-              <div class="game-con">
-                <img :src="configItem.gameBg" alt="" />
+            <div class="phone-con-big">
+            	<div class="content phone last-phone":style="{backgroundImage:'url('+configItem.bgImgUrl+')'}">
+            	<div class="phone-fixed">
+            		<div class="bg bg-home-last":style="{backgroundImage:'url('+configItem.gameBg+')'}">
+            			<div class="game-content">
+		                <div class="rule-bg">
+		              		<div class="rule-title">活动规则</div>
+		              		{{addActParams.gameDesc}}
+		              	</div>
+            		</div>
+              
               </div>
-              <div class="game-btn">
+              <div class="game-btn last-game-btn">
                 <img :src="configItem.gameBtn" alt="" />
               </div>
           
-              <div class="rule-bg">
-              	<div class="rule-title">活动规则</div>
-              	{{addActParams.gameDesc}}
-              </div>
+              
+            	</div>
+              
             </div>
+            </div>
+            
             <div class="footer"></div>
           </div>
           <div class="edit-box">
@@ -264,9 +272,10 @@
         			消耗积分：<el-input v-model="addActParams.score" placeholder="请输入需要消耗的积分"size='small'class='act-score'maxLength='4'></el-input>积分	
         			<br /><span class='space'></span><span>（用户参与活动每次需要消耗的积分数）</span>
         			<br /><br /><br />
-        			<span class='require-icon'>*</span>参与次数： 每人每天可参与<el-input v-model="addActParams.times" size='small'class='act-num'maxLength='4'></el-input>次
+
+        			<span class='require-icon'>*</span>参与次数： 每人每天可参与 <el-input v-model="addActParams.times" size='small'class='act-num'maxLength='4'></el-input> 次
         			<br /><br /><br />
-        			<span class='require-icon'>*</span>活动说明： <el-input v-model="addActParams.gameDesc"type="textarea"resize="none" rows="3" placeholder="请输入活动说明"size='small'class='act-dec'></el-input>		         
+        			<span class='require-icon'>*</span>活动说明： <el-input v-model="addActParams.gameDesc"type="textarea" rows="3" placeholder="请输入活动说明"size='small'class='act-dec'></el-input>		         
         			<div class="title award-title">奖项设置</div>
         			<br /><br />
         			<span class='require-icon'>*</span>选择奖品： <el-button type="info" plain class='select-award'@click="selectAward">+</el-button><span>（最少配置三种奖品）</span>
@@ -317,7 +326,7 @@
         				<li v-for='(item,key) in priceList':key='key'>
         					<div><img :src="item.image" alt="" /></div>
         					<div>{{item.productName}}</div>
-        					<div>奖品数量：<input type="number"v-model="item.quantity" :disabled='item.abled':max='item.shopQuantity'min='1'class='award-num' />个
+        					<div>奖品数量：<input type="number"v-model="item.quantity" :disabled='item.abled'min='1'class='award-num'@input="spliceLength(item)" />个
         					</div>
         					<div><span class='require-icon'>*</span>中奖概率：<input type="number"max='100'min='0' v-model="item.probability"class='award-percent'@change='checkAll' />%</div>
         					<div><el-button type="primary"@click='remove(key)'>删除</el-button></div>
@@ -432,6 +441,11 @@ export default {
     this.getActDetail()
   },
   methods: {
+  	spliceLength(item){
+  		var len=(item.shopQuantity+'').length;
+  		console.log(item.quantity)
+  		if(item.quantity.length>len)item.quantity=item.quantity.slice(0,len)
+  	},
     getActDetail() {
       if (this.addActParams.id) {
         this.$request.post('/sc/saotx/game/getGameById', { id: this.addActParams.id }, true, res => {
@@ -729,7 +743,7 @@ export default {
 			width:60px;
 		}
 		.act-num {
-			width:200px;
+			width:195px;
 		}
 		.act-dec {
 			width:300px;
@@ -759,16 +773,19 @@ export default {
 						text-align: center;
 					}
 					&:nth-child(2){
-						width:150px;
+						width:110px;
 						text-align: center;
 						line-height: 60px;
+						overflow: hidden;
+						text-overflow:ellipsis;
+						white-space: nowrap;
 					}
 					&:nth-child(3){
-						width:140px;
+						width:180px;
 						text-align: center;
 						line-height: 60px;
 						.award-num {
-							width:30px;
+							width:80px;
 							height: 20px;
 							margin-right: 5px;
 						}
@@ -823,6 +840,18 @@ export default {
       }
       .phone {
       	position: relative;
+      }
+      .phone-con-big {
+      	height: 483px;
+      	overflow: auto;
+      }
+      .last-phone {
+      	overflow: auto;
+      	background-repeat: no-repeat;
+        background-size:100%;
+        background-position:top center ;
+      	padding-top: 100px;
+      	height: auto !important;
       }
       .content {
         position: relative;
@@ -883,6 +912,21 @@ export default {
             
           }
         }
+        .last-game-btn {
+        	top:290px !important;
+        }
+        .last-phone .game-content {
+        	background-repeat: no-repeat;
+        	background-size:100%;
+        	background-position:top center ;
+        	height: auto !important; 
+        }
+        .bg-home-last{
+         	padding-top: 250px;
+         	background-repeat: no-repeat;
+        	background-size:100%;
+        	background-position:top center ;
+         }
         .game-btn {
         	position: absolute;
         	left: 50%;
@@ -896,6 +940,7 @@ export default {
             height: 100%;
           }
         }
+        
         .game-rule {
         	width:100%;
         	height: 200px;
@@ -909,19 +954,14 @@ export default {
         	}
         }
         .rule-bg {
-        	width: 100%;
-        	height: 70px;
-        	position: absolute;
-        	bottom:0;
-        	left: 0;
-        	background: url('http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/rule-bg.png')no-repeat bottom / 100% auto;
-        	z-index: 6;
-        	overflow: auto;
+        	width: 100%;       	
         	padding: 3px 10px 3px 10px;
         	color:#fff;
+        	min-height: 130px;
         	font-size: 12px;
         	line-height: 16px;
         	box-sizing: border-box;
+        	word-break:break-all;
         	p {
         		margin: 0;
         		
