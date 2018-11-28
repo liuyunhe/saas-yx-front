@@ -30,7 +30,7 @@
           </el-col>
           <el-col>
             <!-- 按钮 -->
-            <el-button type="primary" size="small" @click="getActList()">查询</el-button>
+            <el-button type="primary" size="small" @click="queryActList()">查询</el-button>
             <el-button type="primary" size="small" @click="resetSearch()">重置</el-button>
           </el-col>
         </el-row>
@@ -208,6 +208,7 @@ export default {
     addAct() {
       this.addActDialogVisible = true
       this.actParams.pcode = ''
+      this.actParams.pageNo = 1
       this.nowActiveIndex = 0
       this.getAct()
     },
@@ -255,18 +256,25 @@ export default {
     getCheckedAct(item, index) {
       this.nowActiveIndex = index
       this.actParams.pcode = item.code
+      this.actParams.pageNo = 1
       // if (index == 0) {
       //   this.actParams.pcode = ''
       // } else {
       //   this.actParams.pcode = 'form-cate' + index
       // }
       this.getAct()
+    }, 
+    // 按条件查询活动模板
+    queryActList() {
+      this.actListParams.pageNo = 1
+      this.getActList()
     },
     // 重置条件查询活动模板
     resetSearch() {
       this.actListParams.ctime = ''
       this.actListParams.form = ''
       this.actListParams.keywords = ''
+      this.actListParams.pageNo = 1
       this.getActList()
     },
     // 删除模板
