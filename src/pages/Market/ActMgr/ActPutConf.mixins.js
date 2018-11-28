@@ -8,7 +8,8 @@ export default {
         dwnum: null,
         status: null, // 活动状态 1-发布 0-未发布
       },
-      status: false,
+      status: false, // 是否立即发布
+      statusDisabled: false, // 立即发布开关禁用
       actSTime: '', // 活动开始时间
       actETime: '', // 结束
       strategy: {
@@ -308,6 +309,11 @@ export default {
           id: this.id
         }, true, res => {
           if (res.ret !== '200000') return this.$message.error(res.message)
+          if (res.data.act.status == 1) {
+            this.statusDisabled = true
+          } else {
+            this.statusDisabled = false
+          }
           this.status = res.data.act.status == 1 ? true : false
           this.prizeLimitFlag = res.data.act.dwnum ? true : false
           this.act.dwnum = res.data.act.dwnum

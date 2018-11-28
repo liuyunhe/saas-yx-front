@@ -150,7 +150,7 @@
         </el-form-item>
         <el-form-item>
           是否立即发布
-          <el-switch class="ml20" v-model="status">
+          <el-switch class="ml20" :disabled="statusDisabled" v-model="status">
           </el-switch>
           <el-row class="mt20">
             <el-button type="primary" @click="save">保存</el-button>
