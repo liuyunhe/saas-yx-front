@@ -639,7 +639,7 @@
       },
       sellerDetail(sellerId){
         this.$router.push({
-          path:'/seller/reviewDetail?sellerId='+sellerId
+          path:'/seller/review/reviewDetail?sellerId='+sellerId
         })
       },
       //跳转按钮功能
