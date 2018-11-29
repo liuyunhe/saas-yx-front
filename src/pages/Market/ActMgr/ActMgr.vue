@@ -57,7 +57,7 @@
             </el-form-item>
           </el-col>
           <el-col>
-            <el-button type="primary" size="small" @click="getActList">查询</el-button>
+            <el-button type="primary" size="small" @click="queryActList">查询</el-button>
             <el-button type="primary" size="small" @click="resetForm">重置</el-button>
           </el-col>
         </el-row>
@@ -404,6 +404,7 @@ export default {
     addAct() {
       this.addActDialogVisible = true
       this.actParams.pcode = ''
+      this.actParams.pageNo = 1
       this.nowActiveIndex = 0
       this.getAct()
     },
@@ -411,6 +412,7 @@ export default {
     getCheckedAct(item, index) {
       this.nowActiveIndex = index
       this.actParams.pcode = item.code
+      this.actParams.pageNo = 1
       // if (index == 0) {
       //   this.actParams.pcode = ''
       // } else {
@@ -457,6 +459,11 @@ export default {
         }
       )
     },
+    // 按条件查询活动
+    queryActList() {
+      this.queryActParams.pageNo = 1
+      this.getActList()
+    },
     // 重置
     resetForm() {
       this.queryActParams.keywords = ''
@@ -470,6 +477,7 @@ export default {
       this.queryActParams.provinceCodeArr = []
       this.queryActParams.cityCodeArr = []
       this.actTime = []
+      this.queryActParams.pageNo = 1
       this.getActList()
     },
     // 投放日志
@@ -620,7 +628,7 @@ export default {
           message: '已取消'
         })
       }
-      this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 4 }, true, res => {
+      this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 3 }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('已暂停')
           this.getActList()

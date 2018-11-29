@@ -6,7 +6,7 @@
 				<div class="top">
 					<el-button type="primary" size='small' class='pri-btn' @click='listShow=false;addTplShow=true;'>新建扫码落地页</el-button>
 					<br /><br /> 模板类型:
-					<el-select v-model="modelValue" placeholder="请选择" size='small'style='width:200px'>
+					<el-select v-model="modelValue" placeholder="请选择" size='small' style='width:200px'>
 						<el-option v-for="item in options" :key="item.name" :label="item.name" :value="item.type">
 						</el-option>
 					</el-select>
@@ -22,22 +22,24 @@
 					</div>
 				</div>
 				<div class="bottom">
-					<el-table :data="tableData"v-loading="loading" style="width: 100%" @selection-change="handleSelectionChange">
+					<el-table :data="tableData" v-loading="loading" style="width: 100%" @selection-change="handleSelectionChange">
 						<el-table-column type="selection" >
 						</el-table-column>
-						<el-table-column prop="name" label="模板名称" >
+						<el-table-column prop="name" label="模板名称" align="center">
 						</el-table-column>
-						<el-table-column prop="note" label="模板说明" >
+						<el-table-column prop="note" label="模板说明" align="center">
 						</el-table-column>
-						<el-table-column prop="ctime" label="创建时间" >
+						<el-table-column prop="snName" label="适用产品" align="center">
 						</el-table-column>
-						<el-table-column prop="creatorName" label="创建人" >
+						<el-table-column prop="ctime" label="创建时间" align="center">
 						</el-table-column>
-						<el-table-column prop="statusName" label="状态" >
+						<el-table-column prop="creatorName" label="创建人" align="center">
 						</el-table-column>
-						<el-table-column label="操作" >
+						<el-table-column prop="statusName" label="状态" align="center">
+						</el-table-column>
+						<el-table-column label="操作" align="center">
 							<template slot-scope="scope">
-								<el-button @click="use(scope.row)" type="text" size="small"v-show='scope.row.status==2?true:false'>启用</el-button>
+								<el-button @click="use(scope.row)" type="text" size="small" v-show='scope.row.status==2?true:false'>启用</el-button>
 								<el-button @click="removeItem(scope.row)" type="text" size="small">删除</el-button>
 								<el-button type="text" size="small" @click="editItem(scope.row)">编辑</el-button>
 							</template>
