@@ -249,9 +249,13 @@ export default {
                 let seriesData1 = []; // 累计零售户数据内容数组
                 let seriesData2 = []; // 新增零售户数据内容数组
                 let datas = res||[];
-                //datas = [{"arriveNum":"1376","dayJoin":1376,"statTime":"2018-01"},{"arriveNum":"1420","dayJoin":44,"statTime":"2018-02"},{"arriveNum":"1515","dayJoin":86,"statTime":"2018-03"},{"arriveNum":"3847","dayJoin":1391,"statTime":"2018-04"},{"arriveNum":"4586","dayJoin":458,"statTime":"2018-05"},{"arriveNum":"4856","dayJoin":199,"statTime":"2018-06"},{"arriveNum":"5069","dayJoin":182,"statTime":"2018-07"},{"arriveNum":"5147","dayJoin":58,"statTime":"2018-08"},{"arriveNum":"5281","dayJoin":83,"statTime":"2018-09"},{"arriveNum":"5344","dayJoin":2,"statTime":"2018-10"}];
+                //datas = [{"arriveNum":"1376","dayJoin":1376,weekNo: "201847"},{"arriveNum":"1420","dayJoin":44,"statTime":"2018-02"},{"arriveNum":"1515","dayJoin":86,"statTime":"2018-03"},{"arriveNum":"3847","dayJoin":1391,"statTime":"2018-04"},{"arriveNum":"4586","dayJoin":458,"statTime":"2018-05"},{"arriveNum":"4856","dayJoin":199,"statTime":"2018-06"},{"arriveNum":"5069","dayJoin":182,"statTime":"2018-07"},{"arriveNum":"5147","dayJoin":58,"statTime":"2018-08"},{"arriveNum":"5281","dayJoin":83,"statTime":"2018-09"},{"arriveNum":"5344","dayJoin":2,"statTime":"2018-10"}];
                 for(let i=0;i<datas.length;i++) {
-                    xAxisData.push(datas[i].statTime);
+                    if(this.form.statType=="week") {
+                        xAxisData.push(datas[i].weekNo.substr(0,4)+"第"+datas[i].weekNo.substr(4)+"周");
+                    } else {
+                        xAxisData.push(datas[i].statTime);
+                    }
                     seriesData1.push(datas[i].arriveNum);
                     seriesData2.push(datas[i].dayJoin);
                 }
@@ -333,7 +337,11 @@ export default {
                 let datas = res||[];
                 //datas = [{"arriveNum":"1376","dayJoin":1376,"statTime":"2018-01"},{"arriveNum":"1420","dayJoin":44,"statTime":"2018-02"},{"arriveNum":"1515","dayJoin":86,"statTime":"2018-03"},{"arriveNum":"3847","dayJoin":1391,"statTime":"2018-04"},{"arriveNum":"4586","dayJoin":458,"statTime":"2018-05"},{"arriveNum":"4856","dayJoin":199,"statTime":"2018-06"},{"arriveNum":"5069","dayJoin":182,"statTime":"2018-07"},{"arriveNum":"5147","dayJoin":58,"statTime":"2018-08"},{"arriveNum":"5281","dayJoin":83,"statTime":"2018-09"},{"arriveNum":"5344","dayJoin":2,"statTime":"2018-10"}];
                 for(let i=0;i<datas.length;i++) {
-                    xAxisData.push(datas[i].statTime);
+                    if(this.form.statType=="week") {
+                        xAxisData.push(datas[i].weekNo.substr(0,4)+"第"+datas[i].weekNo.substr(4)+"周");
+                    } else {
+                        xAxisData.push(datas[i].statTime);
+                    }
                     seriesData1.push(datas[i].arriveNum);
                     seriesData2.push(datas[i].dayJoin);
                 }
