@@ -167,7 +167,7 @@ export default {
                 endTime: "" // 结束时间：年-月-日 时:分:秒
             };
             this.initDate();
-            this.list();
+            this.tableList = []
         },
         // 分页
         initPagination(page) {
