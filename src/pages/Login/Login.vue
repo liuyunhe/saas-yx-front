@@ -68,8 +68,10 @@ export default {
     this.$cookies.set('CLIENTSESSIONID', date + num, '1y', '/')
     sessionStorage.setItem('CLIENTSESSIONID', date + num)
     if(sessionStorage.getItem('ran')){
+    	console.log(sessionStorage.getItem('ran'))
     	var ran=sessionStorage.getItem('ran')+1;
-    	this.codeSrc = location.origin + '/api/sys/login/verifyCode?'+ran
+    	this.ran=ran;
+    	this.codeSrc = location.origin + '/api/sys/login/verifyCode?'+this.ran
     }else {
     	this.codeSrc = location.origin + '/api/sys/login/verifyCode?'+this.ran
     }
@@ -111,7 +113,7 @@ export default {
           sessionStorage.setItem('access_token', data.token)
           sessionStorage.setItem('access_loginId', data.loginId)
           // that.getMenuList()
-          sessionStorage.setItem('ran',that.ran)
+          sessionStorage.setItem('ran',that.ran+1)
           that.$router.replace({name: '数据'})
         } else if (res.ret == '100409') {
           that.$message.error(res.message)
