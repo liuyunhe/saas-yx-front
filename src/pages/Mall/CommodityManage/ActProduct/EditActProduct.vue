@@ -34,7 +34,7 @@
                     </el-row>
                     <el-row>
                         <el-form-item size="small" label="市面价值（元）：" prop="price" v-if="giftTypeDisPlay==1||giftTypeDisPlay==2" >
-                            <el-input type="number"  class="tobacco-input" v-model="filters.price" placeholder="请输入内容" min="0" max="999999" @input="checkOn3(filters.price)"></el-input>
+                            <el-input type="number"  class="tobacco-input" v-model="filters.price" placeholder="请输入内容" min="0" max="9999999" @input="checkOn3(filters.price)"></el-input>
                         </el-form-item>
                     </el-row>
                     <el-row>
@@ -54,12 +54,12 @@
                     </el-row>
                     <el-row>
                         <el-form-item size="small" label="库存数量：" prop="shopQuantity">
-                            <el-input type="number"  class="tobacco-input" v-model="filters.shopQuantity" placeholder="请输入内容"min="0" max="999999"  @input="checkOn(filters.shopQuantity)"></el-input>
+                            <el-input type="number"  class="tobacco-input" v-model="filters.shopQuantity" placeholder="请输入内容"min="0" max="99999999"  @input="checkOn(filters.shopQuantity)"></el-input>
                         </el-form-item>
                     </el-row>
                     <el-row>
                         <el-form-item size="small" label="库存阀值：" prop="quantity">
-                            <el-input type="number"  class="tobacco-input" v-model="filters.quantity" placeholder="请输入内容" min="0" max="999999"  @input="checkOn2(filters.quantity)"></el-input>
+                            <el-input type="number"  class="tobacco-input" v-model="filters.quantity" placeholder="请输入内容" min="0" max="99999998"  @input="checkOn2(filters.quantity)"></el-input>
                         </el-form-item>
                     </el-row>
                     <el-row>
@@ -186,7 +186,7 @@
             checkOn(value){
                 let reg = /^[1-9]\d*$/;
                 if (value) {
-                    if (value > 999999 || new RegExp(reg).test(value) == false) {
+                    if (value > 99999999 || new RegExp(reg).test(value) == false) {
                         this.filters.shopQuantity ='';
                     }
                 }
@@ -194,14 +194,14 @@
             checkOn2(value){
                 let reg = /^[1-9]\d*$/;
                 if (value) {
-                    if (value > 999999 || new RegExp(reg).test(value) == false) {
+                    if (value > 99999999 || new RegExp(reg).test(value) == false) {
                         this.filters.quantity ='';
                     }
                 }
             },
             checkOn3(value){
                 if (value) {
-                    if (value > 999999 ) {
+                    if (value > 9999999 ) {
                         this.filters.price ='';
                     }
                 }
