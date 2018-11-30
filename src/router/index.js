@@ -103,7 +103,7 @@ const ModPwd = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/U
 const SettingAccount = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/User/Account.vue')
 // 设置-账号管理-角色管理
 const SettingRole = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/User/Role.vue')
-// 设置-账号管理-角色管理
+// 设置-账号管理-零售户管理
 const SettingSeller = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Seller.vue')
 
 //菜单配置
@@ -354,7 +354,7 @@ export default new Router({
         { path: '/setting/user/account', name: '成员管理', component: SettingAccount },
         { path: '/setting/user/role', name: '角色管理', component: SettingRole },
         { path: '/setting/logs', name: '日志管理', component: SettingLogs },
-        { path: '/setting/seller', name: '零售户管理', component: KPI },
+        { path: '/setting/seller', name: '零售户管理', component: SettingSeller },
         { path: '/setting/mall', name: '积分设置', component: KPI }
       ]
     },

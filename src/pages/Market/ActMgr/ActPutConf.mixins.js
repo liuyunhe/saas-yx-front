@@ -5,10 +5,11 @@ export default {
       act: {
         id: null,
         actCode: '', // 编码
-        dwnum: '',
+        dwnum: null,
         status: null, // 活动状态 1-发布 0-未发布
       },
-      status: false,
+      status: false, // 是否立即发布
+      statusDisabled: false, // 立即发布开关禁用
       actSTime: '', // 活动开始时间
       actETime: '', // 结束
       strategy: {
@@ -59,6 +60,7 @@ export default {
         totalNum: '', // totalNum
         warnValue: '' //告警阀值 非空且大于0时为设置告警
       }],
+      normalTfId: '',
       defaultAwae: { // 给个默认 好复制
         awardPic: '',
         awardType: 1, // 奖项类型
@@ -113,6 +115,7 @@ export default {
         totalNum: '',
         warnValue: ''
       }], // 首扫选项
+      firstScanTfId: '',
       nWinConf: [{
         awardPic: '',
         awardType: 1,
@@ -139,6 +142,7 @@ export default {
         totalNum: '',
         warnValue: ''
       }], // n次选项
+      nWinTfId: '',
       fixationPutConf: [{
         awardPic: '',
         awardType: 1,
@@ -164,6 +168,7 @@ export default {
         totalNum: '',
         warnValue: ''
       }], // 定投选项
+      fixationPutTfId: '',
       normalTabsValue: '1', // 正常tabs
       normalTabs: [{
         title: '常规奖项1',
@@ -304,12 +309,21 @@ export default {
           id: this.id
         }, true, res => {
           if (res.ret !== '200000') return this.$message.error(res.message)
+          if (res.data.act.status == 1) {
+            this.statusDisabled = true
+          } else {
+            this.statusDisabled = false
+          }
+          this.status = res.data.act.status == 1 ? true : false
+          this.prizeLimitFlag = res.data.act.dwnum ? true : false
+          this.act.dwnum = res.data.act.dwnum
           this.actSTime = res.data.act.stimeStr
           this.actETime = res.data.act.etimeStr
           if (res.data.strategyArr.length != 0) {
             res.data.strategyArr.forEach((item, index) => {
               if (item.tfType == 'common') {
                 if (item.awardArr.length == 0) return
+                this.normalTfId = item.tf.id
                 // let data = item.awardArr
                 item.awardArr.forEach((sonItem, i) => {
                   if (i != 0) {
@@ -337,12 +351,15 @@ export default {
                   this.getCityList(this.selectProvList)
                   this.getAreaList(this.selectCityList)
                   this.selectAreaList = item.areas.districtArr
+                  this.selectAll(this.selectAreaList)
                 }
                 this.selectBrand = item.brandArr
                 this.getBrandSonList()
                 this.selectSonBrand = item.snArr
+                // this.restrictSonBrand()
               }
               if (item.tfType == 'sn_first') {
+                this.firstScanTfId = item.tf.id
                 item.awardArr.forEach((sonItem, i) => {
                   if (i != 0) {
                     this.firstScanTabs.push({
@@ -366,6 +383,7 @@ export default {
                 this.firstScanConf = item.awardArr
               }
               if (item.tfType == 'n_mwin') {
+                this.nWinTfId = item.tf.id
                 item.awardArr.forEach((sonItem, i) => {
                   if (i != 0) {
                     this.nWinTabs.push({
@@ -389,6 +407,7 @@ export default {
                 this.nWinConf = item.awardArr
               }
               if (item.tfType == 'special') {
+                this.fixationPutTfId = item.tf.id
                 item.awardArr.forEach((sonItem, i) => {
                   if (i != 0) {
                     this.fixationPutTabs.push({
@@ -433,6 +452,7 @@ export default {
       }, true, res => {
         if (res.ret === '200000') {
           this.brandList = res.data.list
+          this.restrictBrand()
           return
         }
         this.$message.error(res.message)
@@ -449,7 +469,11 @@ export default {
         },
         true,
         res => {
-          if (res.ret === '200000') return (this.brandSonList = res.data.list)
+          if (res.ret === '200000') {
+            this.brandSonList = res.data.list
+            this.restrictSonBrand()
+            return
+          }
           this.$message.error(res.message)
         }
       )
@@ -472,6 +496,12 @@ export default {
     },
     // 获取市
     getCityList(val) {
+      if (this.provList.length == 1) {
+        setTimeout(() => {
+          this.getCityList(val)
+        }, 1000)
+        return
+      }
       let allValue = []
       // 保存所有的值
       for (let item of this.provList) {
@@ -531,6 +561,12 @@ export default {
     },
     // 获取区
     getAreaList(val) {
+      if (this.cityList.length == 1) {
+        setTimeout(() => {
+          this.getAreaList(val)
+        }, 1000)
+        return
+      }
       let allValue = []
       for (let item of this.cityList) {
         allValue.push(item.code)
@@ -577,6 +613,12 @@ export default {
     },
     // 选择区
     selectAll(val) {
+      if (this.areaList.length == 1) {
+        setTimeout(() => {
+          this.selectAll(val)
+        }, 1000)
+        return
+      }
       this.restrictArea()
       let allValue = []
       for (let item of this.areaList) {
@@ -602,10 +644,20 @@ export default {
     save() {
       // console.log(this.normalConf)
       if (this.selectBrand.length == 0 || this.selectSonBrand.length == 0) return this.$message.error('请选择品牌规格')
-      if (this.selectProvList.length == 0 || this.selectCityList.length == 0 || this.selectAreaList.length == 0) return this.$message.error('请选择地区')
+      if (this.selectProvList.length == 0 || this.selectCityList.length == 0) return this.$message.error('请选择地区')
+      if (!this.isDisabled) {
+        if(this.selectCityList.indexOf('000000') != -1) {
+          this.selectCityList.splice(this.selectCityList.indexOf('000000'), 1)
+        }
+        if(this.selectAreaList.indexOf('000000') != -1) {
+          this.selectAreaList.splice(this.selectAreaList.indexOf('000000'), 1)
+        }
+        if(this.selectProvList.indexOf('000000') != -1) {
+          this.selectProvList.splice(this.selectProvList.indexOf('000000'), 1)
+        }
+      }
       this.act.id = this.id
       this.act.actCode = this.actCode
-      this.no
       let data = {
         act: {},
         strategyArr: []
@@ -619,6 +671,7 @@ export default {
       data.strategyArr[0].brandArr = this.selectBrand
       data.strategyArr[0].snArr = this.selectSonBrand
       data.strategyArr[0].tfType = 'common'
+      data.strategyArr[0].tf = { id: this.normalTfId }
       let index = 0
       if (this.firstScanFlag) {
         data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
@@ -626,6 +679,7 @@ export default {
         data.strategyArr[index - 1].awardArr = this.firstScanConf
         data.strategyArr[index - 1].confOpen = true
         data.strategyArr[index - 1].tfType = 'sn_first'
+        data.strategyArr[index - 1].tf = { id: this.firstScanTfId }
       }
       if (this.nWinFlag) {
         data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
@@ -633,6 +687,7 @@ export default {
         data.strategyArr[index - 1].awardArr = this.nWinConf
         data.strategyArr[index - 1].confOpen = true
         data.strategyArr[index - 1].tfType = 'n_mwin'
+        data.strategyArr[index - 1].tf = { id: this.nWinTfId }
       }
       if (this.fixationPutFlag) {
         data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
@@ -650,9 +705,11 @@ export default {
           sduration: this.tfDurationArr[0],
           eduration: this.tfDurationArr[1],
           stimeStr: this.tfTimeArr[0],
-          etimeStr: this.tfTimeArr[1]
+          etimeStr: this.tfTimeArr[1],
+          id: this.fixationPutTfId
         }
         data.strategyArr[index - 1].tfType = 'special'
+        // data.strategyArr[index - 1].tf = { id: this.fixationPutTfId }
       }
       this.$request.post('/api/saotx/act/somtf', data, true, res => {
         if (res.ret === '200000') {
@@ -779,6 +836,7 @@ export default {
     },
     // 定点投放品牌限制
     restrictBrand() {
+      console.log(this.selectBrand)
       this.specialBrandList = JSON.parse(JSON.stringify(this.brandList))
       this.specialBrandList.forEach(speciaItem => {
         speciaItem['disabled'] = true
@@ -788,9 +846,9 @@ export default {
           }
         })
       })
+      console.log(this.specialBrandList)
     },
     restrictSonBrand() {
-      console.log(this.selectSonBrand)
       this.specialBrandSonList = JSON.parse(JSON.stringify(this.brandSonList))
       this.specialBrandSonList.forEach(speciaItem => {
         speciaItem['disabled'] = true

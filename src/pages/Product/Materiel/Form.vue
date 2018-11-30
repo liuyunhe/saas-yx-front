@@ -116,7 +116,7 @@ export default {
         sourceCode: '' // 虚拟物料上传卡密文件编码
       },
       rules: {
-        name: [{required:true, message:'请输入活动名称', trigger:'blur'}],
+        name: [{required:true, message:'请输入名称', trigger:'blur'}],
         type: [{required:true, message:'类型不能为空', trigger:'blur'}],
         supplierCode: [{required:true, message:'请选择供应商', trigger:'change'}],
         marketMoney: [{required:true, message:'请输入正确的市场价值'}],
@@ -214,7 +214,7 @@ export default {
       this.$request.post('/api/saotx/metra/saveOrModify', this.form, true, (res)=>{
         if (res.ret == '200000') {
           //this.$router.push({path:"/product/materiel/table?metraFlag="+this.metraFlag});
-          this.$emit('showTable');
+          this.$emit('showTable', true);
         } else {
           this.$message.error(res.message);
         }

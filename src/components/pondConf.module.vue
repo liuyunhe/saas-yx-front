@@ -51,7 +51,7 @@
         </el-form-item>
         <!-- <el-col :span="10"> -->
         <el-form-item label="红包面额:">
-          <el-input-number v-model="pondConf.redMoney" :min="0" controls-position="right" @change="countRedTotal"></el-input-number> 元
+          <el-input-number v-model="pondConf.redMoney" :precision="2" :min="0" controls-position="right" @change="countRedTotal"></el-input-number> 元
         </el-form-item>
         <!-- </el-col>
         <el-col :span="14"> -->

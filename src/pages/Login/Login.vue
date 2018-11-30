@@ -52,7 +52,8 @@ export default {
       codeSrc: '',
       isRem: true,
       errorTip: '用户名不能为空!',
-      error: false
+      error: false,
+      ran:1
     }
   },
   created() {
@@ -66,7 +67,13 @@ export default {
     var date = new Date().getTime()
     this.$cookies.set('CLIENTSESSIONID', date + num, '1y', '/')
     sessionStorage.setItem('CLIENTSESSIONID', date + num)
-    this.codeSrc = location.origin + '/api/sys/login/verifyCode?'
+    if(sessionStorage.getItem('ran')){
+    	var ran=sessionStorage.getItem('ran')+1;
+    	this.codeSrc = location.origin + '/api/sys/login/verifyCode?'+ran
+    }else {
+    	this.codeSrc = location.origin + '/api/sys/login/verifyCode?'+this.ran
+    }
+    
   },
   methods: {
     submitLogin() {
@@ -104,6 +111,7 @@ export default {
           sessionStorage.setItem('access_token', data.token)
           sessionStorage.setItem('access_loginId', data.loginId)
           // that.getMenuList()
+          sessionStorage.setItem('ran',that.ran)
           that.$router.replace({name: '数据'})
         } else if (res.ret == '100409') {
           that.$message.error(res.message)
@@ -128,7 +136,8 @@ export default {
     //   })
     // },
     srcClick(e) {
-      this.codeSrc += 1
+      this.ran+=1;
+      this.codeSrc += this.ran
     },
     forget() {
       this.$router.push({

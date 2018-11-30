@@ -272,6 +272,7 @@
         			消耗积分：<el-input v-model="addActParams.score" placeholder="请输入需要消耗的积分"size='small'class='act-score'maxLength='4'></el-input>积分	
         			<br /><span class='space'></span><span>（用户参与活动每次需要消耗的积分数）</span>
         			<br /><br /><br />
+
         			<span class='require-icon'>*</span>参与次数： 每人每天可参与 <el-input v-model="addActParams.times" size='small'class='act-num'maxLength='4'></el-input> 次
         			<br /><br /><br />
         			<span class='require-icon'>*</span>活动说明： <el-input v-model="addActParams.gameDesc"type="textarea" rows="3" placeholder="请输入活动说明"size='small'class='act-dec'></el-input>		         
