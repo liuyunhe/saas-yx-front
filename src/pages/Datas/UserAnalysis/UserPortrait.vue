@@ -417,7 +417,7 @@
 							    color: ['#3398DB'],
 							    grid: {
 							        left: '3%',
-							        right: '4%',
+							        right: '10%',
 							        bottom: '5%',
 							        containLabel: true
 							    },
