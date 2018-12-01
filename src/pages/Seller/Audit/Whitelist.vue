@@ -25,7 +25,7 @@
         <el-card>
             <!-- 数据表格 -->
             <el-table :data="tableList" style="width: 100%">
-                <el-table-column label="序号" type="index" align="center">
+                <el-table-column label="序号" type="index" align="center" width="80px">
                     <template slot-scope="scope">
                         {{ (form.pageNo-1)*form.pageSize + scope.$index + 1 }}
                     </template>
@@ -34,7 +34,7 @@
                 <el-table-column prop="licenceNo" label="专卖许可证" align="center"></el-table-column>
                 <el-table-column prop="ownerName" label="联系人姓名" align="center"></el-table-column>
                 <el-table-column prop="phoneNo" label="联系人电话" align="center"></el-table-column>
-                <el-table-column label="操作" align="center" width="220">
+                <el-table-column label="操作" align="center" width="180">
                     <template slot-scope="scope">
                         <el-button size="mini" type="text" @click="modifySeller(scope.$index, scope.row)">修改</el-button>
                         <el-button size="mini" type="text" @click="removeSeller(scope.$index, scope.row)">删除</el-button>
@@ -53,13 +53,13 @@
         <el-dialog center title="白名单管理" :visible.sync="modifyForm.show" width="30%" @closed="resetModifyForm">
             <div>
                 <el-form class="search-block" label-width="100px">
-                    <el-form-item label="门店名称" :required="true">
-                        <el-input size="small" v-model="modifyForm.shopName" :disabled="!modifyForm.isNew" class="audit-score" placeholder="请输入门店名称"></el-input>
+                    <el-form-item label="门店名称">
+                        <el-input size="small" v-model="modifyForm.shopName" :disabled="false&&!modifyForm.isNew" class="audit-score" placeholder="请输入门店名称"></el-input>
                     </el-form-item>
-                    <el-form-item label="专卖许可证" :required="true">
-                        <el-input size="small" type="number" v-model="modifyForm.licenceNo" :disabled="!modifyForm.isNew" class="audit-score" placeholder="请输入专卖许可证"></el-input>
+                    <el-form-item label="专卖许可证">
+                        <el-input size="small" type="number" v-model="modifyForm.licenceNo" :disabled="false&&!modifyForm.isNew" class="audit-score" placeholder="请输入专卖许可证"></el-input>
                     </el-form-item>
-                    <el-form-item label="联系人姓名" :required="true">
+                    <el-form-item label="联系人姓名">
                         <el-input size="small" v-model="modifyForm.ownerName" class="audit-score" placeholder="请输入联系人姓名"></el-input>
                     </el-form-item>
                     <el-form-item label="手机号" :required="true">
@@ -89,7 +89,7 @@ export default {
                 pageNo: 1,
                 pageSize: 10,
                 status: 1,
-                keyType: "1",
+                keyType: "3",
                 keywords: ""
             },
             pagination: {
@@ -132,7 +132,7 @@ export default {
                 pageNo: 1,
                 pageSize: 10,
                 status: 1,
-                keyType: "1",
+                keyType: "3",
                 keywords: ""
             };
             this.list();
@@ -209,18 +209,18 @@ export default {
 
             let url = "/api/saotx/seller/somWhitelist";
             if(this.modifyForm.isNew) {
-                if(!this.modifyForm.shopName||this.modifyForm.shopName.length>9) {
-                    this.$message.error("店铺名称不能为空，并且长度不能超过9个字！");
-                    return;
-                }
-                if(!this.modifyForm.licenceNo||this.modifyForm.licenceNo.length!=12) {
-                    this.$message.error("专卖许可证号不能为空，并且长度为12位！");
-                    return;
-                }
-                if(!this.modifyForm.ownerName) {
-                    this.$message.error("联系人姓名不能为空，并且长度不能超过9个字！");
-                    return;
-                }
+                //if(!this.modifyForm.shopName||this.modifyForm.shopName.length>9) {
+                //    this.$message.error("店铺名称不能为空，并且长度不能超过9个字！");
+                //    return;
+                //}
+                //if(!this.modifyForm.licenceNo||this.modifyForm.licenceNo.length!=12) {
+                //    this.$message.error("专卖许可证号不能为空，并且长度为12位！");
+                //    return;
+                //}
+                //if(!this.modifyForm.ownerName) {
+                //    this.$message.error("联系人姓名不能为空，并且长度不能超过9个字！");
+                //    return;
+                //}
             }
             this.$request.post(url, this.modifyForm, true, (res)=>{
                 this.loading = false;
@@ -244,6 +244,7 @@ export default {
         }
     }
     .el-input {
-        width: 300px;
+        min-width: 20%;
+        max-width: 90%;
     }
 </style>

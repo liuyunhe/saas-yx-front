@@ -18,11 +18,11 @@
       { required: true, message: '请输入手机号', trigger: 'blur' },
       { pattern:/^1[3|4|5|7|8][0-9]{9}$/, message: '请输入正确的手机号', trigger: ['blur'] }
     ]">
-							<el-input v-model="dynamicValidateForm.phone"></el-input>
+							<el-input v-model="dynamicValidateForm.phone"class='style_phone'></el-input>
 						</el-form-item>
 						<el-form-item label="验证码" prop="code" :rules="[
       { required: true, message: '请输入验证码', trigger: 'blur' }]"class='code-input'>
-							<el-input v-model="dynamicValidateForm.code"></el-input>
+							<el-input v-model="dynamicValidateForm.code"class='style_code'></el-input>
 							<el-button @click.prevent="time" class='{active:active}'>{{timeText}}</el-button>
 						</el-form-item>
 						<el-form-item>
@@ -34,13 +34,13 @@
 					<el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
 						<el-form-item label="用户名" prop="user":rules="[
       { required: true, message: '请输入用户名', trigger: 'blur' }]">
-							<el-input v-model="ruleForm2.user"></el-input>
+							<el-input v-model="ruleForm2.user"class='style_user'></el-input>
 						</el-form-item>
 						<el-form-item label="密码" prop="pass">
-							<el-input type="password" v-model="ruleForm2.pass" autocomplete="off"></el-input>
+							<el-input type="password" v-model="ruleForm2.pass" autocomplete="off"class='style_user'></el-input>
 						</el-form-item>
 						<el-form-item label="确认密码" prop="checkPass">
-							<el-input type="password" v-model="ruleForm2.checkPass" autocomplete="off"></el-input>
+							<el-input type="password" v-model="ruleForm2.checkPass" autocomplete="off"class='style_user'></el-input>
 						</el-form-item>
 
 						<el-form-item>
@@ -158,7 +158,6 @@
 			submitf(formName) {
 				var that = this;
 				that.$refs[formName].validate((valid) => {
-					console.log(valid)
 					if(valid) {
 						var params = {
 							oldPwd: '',
@@ -170,18 +169,21 @@
 						console.log(params)
 						that.$request.post('/api/sys/login/findPwd', params, true, function(res) {
 							if(res.ret == '200000') {
-								alert("密码修改成功，请重新登陆！");
+								this.$message({
+						          message: "密码修改成功，请重新登陆！",
+						          type: 'success'
+						       });
 								that.$router.push({
 									name: 'Login'
 								})
 							} else {
-								alert(res.message || "验证码不正确！");
+								that.$message.error(res.message || "验证码不正确！")
 							}
 						}, function(err) {
-							alert(err.message || "找回密码失败！");
+							that.$message.error(res.message || "找回密码失败！")
 						})
 					} else {
-						alert('请输入正确的信息');
+						that.$message.error('请输入正确的信息')
 						return false;
 					}
 				});
@@ -210,6 +212,7 @@
 		width: 100%;
 		height: 100%;
 		padding: 0 50px;
+		box-sizing: border-box;
 		.title {
 			font-size: 14px;
 			border-left: 5px solid #44c2ed;
@@ -231,6 +234,15 @@
 						width:80% !important;
 					}
 				}
+			}
+			.style_phone {
+				width:300px;
+			}
+			.style_code {
+				width:205px;
+			}
+			.style_user {
+				width:300px;
 			}
 		}
 	}

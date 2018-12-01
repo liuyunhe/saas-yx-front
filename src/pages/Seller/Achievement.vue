@@ -143,7 +143,7 @@
         <div v-show="business==3">
             <el-card>
                 <el-row>
-                    <el-button type="text" @click="business = 1">返回</el-button>
+                    <el-button type="text" @click="goTable">返回</el-button>
                 </el-row>
                 <div class="space"></div>
                 <!-- 数据查询条件 -->
@@ -157,10 +157,15 @@
                     <el-form-item label="关键字">
                         <el-input size="small" v-model="rankForm.shopName" placeholder="请输入门店名称"></el-input>
                     </el-form-item>
-                    <div></div>
+                    <br/>
                     <el-form-item>
                         <el-button size="small" type="primary" @click="listRank">查询</el-button>
-                        <el-button size="small" @click="resetRandForm">重置</el-button>
+                        <el-button size="small" @click="resetRandForm(true)">重置</el-button>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button size="small" type="primary">发送模板消息</el-button>
+                        <el-button size="small" :type="canPay?'primary':''" :disabled="!canPay">派发现金奖励</el-button>
+                        <el-button size="small" :type="canExport?'primary':''" :disabled="!canExport" @click="exportDatas">导出中奖名单</el-button>
                     </el-form-item>
                 </el-form>
             </el-card>
@@ -194,7 +199,7 @@
                     <el-table-column prop="payStatusName" label="派奖状态" align="center"></el-table-column>
                     <el-table-column label="操作" align="center" width="100">
                         <template slot-scope="scope">
-                            <el-button size="mini" @click="seeRankd(scope.$index, scope.row)">查看详情</el-button>
+                            <el-button size="mini" @click="seeSellerDetail(scope.$index, scope.row)">查看详情</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -216,6 +221,7 @@ export default {
         return {
             loading: false,
             business: 1, // 当前页面展示内容：1-业绩活动列表；2-业绩新增或修改form表单；3-业绩排行结果查询
+            requesting: true, // 是否发送接口请求中
             form: {
                 pageNo: 1,
                 pageSize: 10,
@@ -257,6 +263,8 @@ export default {
                 rankSection: "",
                 shopName: ""
             },
+            canPay: false, // 是否允许派发奖励
+            canExport: true, // 是否允许导出
             tableRankList: []
         }
     },
@@ -314,13 +322,23 @@ export default {
             this.rankForm.periodId = row.id;
             this.periodAwardList();
             this.listRank();
+            this.judgePay();
             this.business = 3;
         },
         // 编辑
         confDetail(index, row) {
             this.getConfDetail(row.id);
         },
-
+        seeSellerDetail(index, row) {
+            this.$router.push({
+                path:'/seller/mgr/sellerDetail?sellerId='+row.sellerId
+            })
+        },
+        goTable() {
+            this.list();
+            this.business = 1;
+            this.resetRandForm(false);
+        },
         // 根据业绩活动id查询详情配置
         getConfDetail(periodId) {
             this.$request.post('/lsh/seller-manager/achieve/configDetail', {periodId: periodId}, true, (res)=>{
@@ -378,7 +396,6 @@ export default {
                         if (res.ok) {
                             this.$message({type:'success', message:"数据保存成功！"});
                             this.business = 1;
-                            this.resetForm()
                         } else {
                             this.$message.error(res.msg);
                         }
@@ -424,16 +441,16 @@ export default {
             this.loading = true;
             this.$request.post('/lsh/seller-manager/achieve/periodResultList', this.rankForm, true, (res)=>{
                 this.loading = false;
-                res = {"ok":true,"data":{"page":{"pageNo":1,"pageSize":10,"pageCount":1,"count":1,"start":0},"list":[{"id":1745,"orgId":"shankunzhongyan","periodId":7,"period":2,"periodName":"第二期","sellerId":3010761,"licenceNo":"140105116783","ownerName":"刘冬花","phoneNo":"18734561405","shopName":"丰泰烟酒商行","idx":1,"awardName":"店铺鼓励金","price":1000.0,"achieveNum":379,"openid":"oAbSR1JKQiMwM8ImSeyCRxD1C_h4","ctime":1530507921000,"payStatus":1,"payStatusName":"已发放","addrDetail":"正阳街","addrProvinceName":"山西省","addrCityName":"太原市","addrAreaName":"小店区"}]},"errorCode":0,"msg":null};
                 if (res.ok) {
                     this.tableRankList = res.data.list || [];
+                    this.canExport = this.tableRankList.length==0?false:true;
                     this.initPagination(res.data.page||{});
                 } else {
                     this.$message.error(res.msg);
                 }
             });
         },
-        resetRandForm() {
+        resetRandForm(refreshListRank) {
             this.rankForm = {
                 pageNo: 1,
                 pageSize: 10,
@@ -441,7 +458,51 @@ export default {
                 rankSection: "",
                 shopName: ""
             }
-            this.listRank();
+            if(refreshListRank===true) {
+                this.listRank();
+            }
+        },
+        // 导出业绩活动排行数据
+        exportDatas() {
+            let url = "/lsh/seller-manager/achieve/exportPeriodResult";
+            let xhr = new XMLHttpRequest();
+            let formData = new FormData();
+            for(let attr in this.rankForm) {
+                formData.append(attr, this.rankForm[attr]);
+            }
+            xhr.overrideMimeType("text/plain; charset=x-user-defined");
+            xhr.open('POST', url, true);
+            xhr.responseType = "blob";
+            xhr.responseType = "arraybuffer"
+            xhr.setRequestHeader("token", sessionStorage.getItem('access_token'));
+            xhr.setRequestHeader("loginId", sessionStorage.getItem('access_loginId'));
+            xhr.onload = function(res) {
+                if (this.status == 200) {
+                    let blob = new Blob([this.response], {type: 'application/vnd.ms-excel'});
+                    let respHeader = xhr.getResponseHeader("Content-Disposition");
+                    let fileName = decodeURI(respHeader.match(/filename=(.*?)(;|$)/)[1]);
+                    if (window.navigator.msSaveOrOpenBlob) {
+                        navigator.msSaveBlob(blob, fileName);
+                    } else {
+                        let link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = fileName;
+                        link.click();
+                        window.URL.revokeObjectURL(link.href);
+                    }
+                }
+            }
+            xhr.send(formData);
+        },
+        // 判断当前周期活动是否允许派发奖励
+        judgePay() {
+            this.$request.post('/lsh/seller-manager/achieve/judgePay', {periodId:this.rankForm.periodId}, true, (res)=>{
+                if (res.ok) {// 允许操作派发
+                    this.canPay = true;
+                } else {// 不允许操作派发
+                    this.canPay = false;
+                }
+            });
         }
     }
 }

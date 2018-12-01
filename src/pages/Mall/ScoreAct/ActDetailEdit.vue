@@ -238,7 +238,7 @@
             			<div class="game-content">
 		                <div class="rule-bg">
 		              		<div class="rule-title">活动规则</div>
-		              		{{addActParams.gameDesc}}
+		              		<div v-html="addActParams.gameDesc"></div>
 		              	</div>
             		</div>
               
