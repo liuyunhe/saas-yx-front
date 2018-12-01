@@ -60,11 +60,11 @@
 				<div id="scanDate" style="width:98%; height:300px"></div>
 			</div>
 			<div class="scan-result"v-loading='loading4'>
-				<div class="title">促销效果趋势分析<span class="line"></span></div>
+				<div class="title" style="margin-bottom: 30px">促销效果趋势分析<span class="line"></span></div>
 				<div id="scanResult" style="width:98%; height:300px"></div>
 			</div>
 			<div class="scan-area">
-				<div class="title">扫描地域分布<span class="line"></span></div>
+				<div class="title" style="margin-bottom: 20px">扫描地域分布<span class="line"></span></div>
 				<div id="map" style="width:40%; height:600px"v-loading='loading5'></div>
 				<div class="map-data">
 					<div id="mapTimes" style="width:100%; height:300px"v-loading='loading6'></div>
@@ -75,7 +75,7 @@
 				<div id="scanAllRange" style="width:98%; height:300px"></div>
 			</div>
 			<div class="scan-award">
-				<div class="title">奖品分布<span class="line"></span></div>
+				<div class="title" style="margin-bottom: 30px">奖品分布<span class="line"></span></div>
 				<div id="money" style="width:50%; height:300px"v-loading='loading9'></div>
 				<div id="product" style="width:50%; height:300px"v-loading='loading10'></div>
 			</div>
@@ -351,7 +351,7 @@
 						    grid: {
 						        left: '3%',
 						        right: '4%',
-						        bottom: '3%',
+						        bottom: '15%',
 						        containLabel: true
 						    },
 						    xAxis: {
@@ -435,7 +435,7 @@
 						    grid: {
 						        left: '3%',
 						        right: '4%',
-						        bottom: '3%',
+						        bottom: '15%',
 						        containLabel: true
 						    },
 						    xAxis: {
@@ -531,7 +531,7 @@
 	              			max: 600,
 	                    calculable : true,//颜色呈条状
 	            				text:['高','低'],
-	                    color: ['#5475f5', '#9feaa5', '#85daef','#74e2ca', '#e6ac53', '#9fb5ea']  
+	                    color: ['#e6ac53','#74e2ca','#85daef','#9feaa5','#5475f5']
 	                },  
 	                
 	                //配置属性
@@ -653,10 +653,16 @@
 								scanCodeArr.push(item.scanCode);
 							})
 						}
-						
+						console.log(showX)
 						let myChart = this.$echarts.init(document.getElementById('mapRange'));
 						// 绘制图表
 						myChart.setOption({
+              tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                  type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+              },
 							title: {  
 	                    text: '',  
 	                    subtext: '省市各地市扫码烟包数排名',  
@@ -664,7 +670,11 @@
 	               }, 
 						    xAxis: {
 						    		name:'市',
-						        data:  showX
+						        data:  showX,
+                  axisLabel: {
+                    interval:0,
+                    rotate:-40
+                  }
 						    },
 						    yAxis: {
 						    	name:'(单位：次)',
@@ -674,7 +684,7 @@
 						    		{
 						            name:'扫码烟包数',
 						            type:'bar',
-						            barWidth : 20,
+						            barWidth : 10,
 						            data:scanCodeArr
 						        }
 						    ]				
@@ -717,7 +727,7 @@
 	               }, 
 						    xAxis: {
 						    		name:'市',
-						        data:  showX
+						        data:  showX,
 						    },
 						    yAxis: {
 						    	name:'(单位：次)',
@@ -774,7 +784,7 @@
 					    },
 					    grid: {
 						        left: '5%',
-						        right: '4%',
+						        right: '20%',
 						        bottom: '3%',
 						        containLabel: true
 						    },
@@ -796,13 +806,13 @@
 						    		{
 						            name:'中奖数量',
 						            type:'bar',
-						            barWidth : 20,
+						            barWidth : 12,
 						            data:awardPayPvArr
 						        },
 						        {
 						            name:'领奖数量',
 						            type:'bar',
-						            barWidth : 20,
+						            barWidth : 12,
 						            data:drawResultPvArr
 						        }
 						    ]				
@@ -854,7 +864,7 @@
 	               }, 
 	               grid: {
 						        left: '5%',
-						        right: '4%',
+						        right: '20%',
 						        bottom: '3%',
 						        containLabel: true
 						    },
