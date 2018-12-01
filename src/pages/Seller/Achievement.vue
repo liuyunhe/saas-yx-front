@@ -396,6 +396,7 @@ export default {
                         if (res.ok) {
                             this.$message({type:'success', message:"数据保存成功！"});
                             this.business = 1;
+                            this.cancelForm()
                         } else {
                             this.$message.error(res.msg);
                         }
