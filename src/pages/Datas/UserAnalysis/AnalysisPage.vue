@@ -190,6 +190,7 @@
             selectAllBrands(nval, oval){
                 if(nval&&nval!=oval) {
                     this.allSpecisList(nval);
+                    this.selectSpeciSns =''
                 }
             },
             selectSpeciSns(nval, oval){
