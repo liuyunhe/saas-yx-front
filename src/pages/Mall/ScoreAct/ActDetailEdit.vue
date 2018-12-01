@@ -275,7 +275,9 @@
 
         			<span class='require-icon'>*</span>参与次数： 每人每天可参与 <el-input v-model="addActParams.times" size='small'class='act-num'maxLength='4'></el-input> 次
         			<br /><br /><br />
-        			<span class='require-icon'>*</span>活动说明： <el-input v-model="addActParams.gameDesc"type="textarea" rows="3" placeholder="请输入活动说明"size='small'class='act-dec'></el-input>		         
+        			<span class='require-icon'>*</span>活动说明： 
+        			<quill-editor ref="myTextEditor" v-model="addActParams.gameDesc" :options="editorOption" placeholder="请输入活动说明"class='edit-input'>
+          	  </quill-editor>		         
         			<div class="title award-title">奖项设置</div>
         			<br /><br />
         			<span class='require-icon'>*</span>选择奖品： <el-button type="info" plain class='select-award'@click="selectAward">+</el-button><span>（最少配置三种奖品）</span>
@@ -358,6 +360,7 @@
   </div>
 </template>
 <script>
+	import { quillEditor } from 'vue-quill-editor'
 export default {
   data() {
     return {
@@ -371,6 +374,18 @@ export default {
         gameDesc:'',
         score:'',
         times:''
+      },
+       // 富文本设置
+      editorOption: {
+        modules: {
+          toolbar: [
+            [{ header: 1 }, { header: 2 }],
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            ['bold', 'italic', 'underline', 'strike', , 'blockquote'],
+            [{ color: [] }, { background: [] }, { align: [] }]
+          ]
+        },
+        placeholder: '请输入活动说明'
       },
       addActRules: {
         name: [
@@ -678,6 +693,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.edit-input {
+	width:400px;
+	margin-top: 10px;
+}
 .addActTamConf-container {
 	position: relative;
 }
@@ -766,7 +785,7 @@ export default {
 						width:40px;
 						height: 40px;
 						margin-top: 8px;
-						object-fit: cover;
+						object-fit: contain;
 					}
 					&:nth-child(1){
 						width:60px;
