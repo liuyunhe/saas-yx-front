@@ -163,8 +163,8 @@
                         <el-button size="small" @click="resetRandForm(true)">重置</el-button>
                     </el-form-item>
                     <el-form-item>
-                        <el-button size="small" type="primary">发送模板消息</el-button>
-                        <el-button size="small" :type="canPay?'primary':''" :disabled="!canPay">派发现金奖励</el-button>
+                        <el-button size="small" type="primary" @click="openTplMsg">发送模板消息</el-button>
+                        <el-button size="small" :type="canPay?'primary':''" :disabled="!canPay" @click="sendRankPay">派发现金奖励</el-button>
                         <el-button size="small" :type="canExport?'primary':''" :disabled="!canExport" @click="exportDatas">导出中奖名单</el-button>
                     </el-form-item>
                 </el-form>
@@ -212,6 +212,37 @@
                 </el-pagination>
             </el-card>
         </div>
+
+        <el-dialog center title="模板消息编辑" :visible.sync="tplMsgForm.show" width="60%" @closed="resetTplMsgForm">
+            <div>
+                <el-form class="tplM-msg-block" :rules="tplMsgRules" ref="tplMsgForm"  :model="tplMsgForm" label-width="100px">
+                    <el-form-item label="头部内容" prop="first">
+                        <el-input size="small" type="textarea" v-model="tplMsgForm.first" placeholder="请输入顶部描述"></el-input>
+                    </el-form-item>
+                    <el-form-item label="活动名称" prop="keyword1">
+                        <el-input size="small" v-model="tplMsgForm.keyword1" placeholder="请输入活动名称"></el-input>
+                    </el-form-item>
+                    <el-form-item label="完成时间" prop="keyword2">
+                        <!--<el-date-picker v-model="tplMsgForm.sendTime" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>-->
+                        <el-input size="small" v-model="tplMsgForm.keyword2" placeholder="例如：2019年01月01日-2019年01月31日"></el-input>
+                    </el-form-item>
+                    <el-form-item label="底部内容" prop="remark">
+                        <el-input size="small" type="textarea" v-model="tplMsgForm.remark" placeholder="请输入底部描述"></el-input>
+                    </el-form-item>
+                    <el-form-item label="发送范围" prop="sendScope">
+                        <el-radio v-model="tplMsgForm.sendScope" :label="1">所有零售户</el-radio>
+                        <el-radio v-model="tplMsgForm.sendScope" :label="2">中奖零售户</el-radio>
+                    </el-form-item>
+                    <el-form-item label="链接地址">
+                        <el-input size="small" v-model="tplMsgForm.templateUrl" placeholder="请输入此消息跳转链接。如无跳转功能，此项为空"></el-input>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button size="small" type="primary" @click="confirmSendMsg('tplMsgForm')">确 定</el-button>
+                <el-button size="small" @click="resetTplMsgForm">取 消</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -265,7 +296,25 @@ export default {
             },
             canPay: false, // 是否允许派发奖励
             canExport: true, // 是否允许导出
-            tableRankList: []
+            tableRankList: [],
+
+            // 推送消息模板表单
+            tplMsgForm: {
+                show: false,
+                first: '',
+                keyword1: '',
+                keyword2: '',
+                remark: '',
+                templateUrl: '',
+                sendScope: 2
+            },
+            tplMsgRules: {
+                sendScope: [{required:true, message:'发送范围不能为空', trigger:'blur'}],
+                first: [{required:true, message:'头部内容不能为空', trigger:'blur'}],
+                keyword1: [{required:true, message:'活动名称不能为空', trigger:'blur'}],
+                keyword2: [{required:true, message:'完成时间不能为空', trigger:'blur'}],
+                remark: [{required:true, message:'底部内容不能为空', trigger:'blur'}]
+            },
         }
     },
     created() {
@@ -503,6 +552,66 @@ export default {
                     this.canPay = false;
                 }
             });
+        },
+        // 派发奖项
+        sendRankPay() {
+            this.$confirm('确认要进行派发奖项吗?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.$request.post('/lsh/seller-manager/achieve/payAchievement', {periodId: this.rankForm.periodId}, true, (res)=>{
+                    if (res.ok) {
+                        this.canPay = false;
+                        this.listRank();
+                        this.$message({type:'success', message:"操作成功！"});
+                    } else {
+                        this.canPay = true;
+                        this.$message.error(res.msg);
+                    }
+                });
+            }).catch(() => {});
+        },
+        openTplMsg() {
+            this.tplMsgForm.show = true;
+        },
+        resetTplMsgForm() {
+            this.tplMsgForm = {
+                show: false,
+                show: false,
+                first: '',
+                keyword1: '',
+                keyword2: '',
+                remark: '',
+                templateUrl: '',
+                sendScope: 2
+            };
+        },
+        confirmSendMsg(form) {
+            this.$refs[form].validate((valid) => {
+                if (valid) {
+                    let params = {
+                        wxTemplateParams: {
+                            first: this.tplMsgForm.first,
+                            keyword1: this.tplMsgForm.keyword1,
+                            keyword2: this.tplMsgForm.keyword2,
+                            remark: this.tplMsgForm.remark,
+                            templateUrl: this.tplMsgForm.templateUrl
+                        },
+                        achieveParams: {
+                            sendScope: this.tplMsgForm.sendScope,
+                            periodId: this.rankForm.periodId
+                        }
+                    }
+                    this.$request.post('/lsh/seller-manager/achieve/sendWechatTemplate', params, true, (res)=>{
+                        if (res.ok) {
+                            this.$message({type:'success', message: res.data});
+                        } else {
+                            this.$message.error(res.msg);
+                        }
+                    });
+                }
+            });
         }
     }
 }
@@ -518,6 +627,12 @@ export default {
     .search-block {
         .el-input, .el-select {
             width: 200px;
+        }
+    }
+    .tplM-msg-bloc {
+        width: 100%;
+        .el-input, .el-textarea {
+            width: 80%;
         }
     }
     .award-table {
