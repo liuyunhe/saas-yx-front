@@ -244,12 +244,19 @@
 				}else {
 					this.startTime=new Date().Format('yyyy-MM-dd');
 				}
+
 				this.type1 = 'day';
+				this.searchShow = 'day'
 				this.date1 = new Date().Format('yyyy-MM-dd');
 				this.month=new Date().Format('yyyy-MM');
 				this.brand = this.brandList[0].name;
 				this.spec = '';
-				this.week=this.weekList[0].weekNo;
+				if(this.weekList.length){
+          this.week=this.weekList[0].weekNo;
+				}
+        this.getBrand();
+        this.specChange()
+
 			},
 			getBrief(){
 				var that = this;
