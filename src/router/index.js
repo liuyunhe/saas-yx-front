@@ -230,7 +230,7 @@ export default new Router({
         { path: '/datas/Report/IntegralExchDayPage', name: '积分操作情况统计日报', component: IntegralExchDayPage },
         { path: '/datas/agree', name: '履约报表', component: DataAgree },
         { path: '/datas/visit', name: '回访报表', component: DataVisit },
-        { path: '/datas/theme', name: '主题查询', redirect: '/datas/theme/kpiReview', },
+        { path: '/datas/theme', name: '主题查询', redirect: '/datas/theme/region', },
         { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: KPI },
         { path: '/datas/theme/region', name: '地域查询', component: RegionSearch },
         { path: '/datas/theme/spec', name: '规格查询', component: SpecSearch },
