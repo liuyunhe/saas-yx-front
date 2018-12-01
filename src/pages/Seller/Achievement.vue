@@ -143,7 +143,7 @@
         <div v-show="business==3">
             <el-card>
                 <el-row>
-                    <el-button type="text">返回</el-button>
+                    <el-button type="text" @click="business = 1">返回</el-button>
                 </el-row>
                 <div class="space"></div>
                 <!-- 数据查询条件 -->
@@ -378,6 +378,7 @@ export default {
                         if (res.ok) {
                             this.$message({type:'success', message:"数据保存成功！"});
                             this.business = 1;
+                            this.resetForm()
                         } else {
                             this.$message.error(res.msg);
                         }
