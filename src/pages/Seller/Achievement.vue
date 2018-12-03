@@ -39,7 +39,7 @@
             <el-card>
                 <!-- 数据表格 -->
                 <el-table :data="tableList" style="width: 100%">
-                    <el-table-column label="序号" type="index" align="center">
+                    <el-table-column label="序号" type="index" align="center" width="80px">
                         <template slot-scope="scope">
                             {{ (form.pageNo-1)*form.pageSize + scope.$index + 1 }}
                         </template>
@@ -47,7 +47,7 @@
                     <el-table-column prop="periodName" label="活动姓名" align="center"></el-table-column>
                     <el-table-column prop="achievementTypeName" label="活动类型" align="center"></el-table-column>
                     <el-table-column prop="statusName" label="状态" align="center"></el-table-column>
-                    <el-table-column label="活动时间" align="center">
+                    <el-table-column label="活动时间" align="center" width="300px">
                         <template slot-scope="scope">
                             {{scope.row.stimeStr}} -- {{scope.row.etimeStr}}
                         </template>
@@ -445,7 +445,7 @@ export default {
                         if (res.ok) {
                             this.$message({type:'success', message:"数据保存成功！"});
                             this.business = 1;
-                            this.cancelForm()
+                            this.list();
                         } else {
                             this.$message.error(res.msg);
                         }

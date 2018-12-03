@@ -38,7 +38,7 @@
 			</div>
 		</div>
 		<div class="echarts">
-			<div class="brief"v-for='(item,key) in briefList':key='key'>
+			<div class="brief" v-for='(item,key) in briefList' :key='key'>
 				<div class="img-con">
 					<img :src="item.image" alt="" />
 				</div>
@@ -51,33 +51,33 @@
 					<p>本日连续周活用户：<span>{{item.weekActiveUv}}</span>次</p>
 				</div>
 			</div>
-			<div class="scan-time"v-loading='loading2'>
+			<div class="scan-time" v-loading='loading2'>
 				<div class="title">扫码次数时刻趋势<span class="line"></span></div>
 				<div id="scanTime" style="width:98%; height:300px"></div>
 			</div>
-			<div class="scan-date"v-loading='loading3'>
+			<div class="scan-date" v-loading='loading3'>
 				<div class="title">扫码人数时间趋势<span class="line"></span></div>
 				<div id="scanDate" style="width:98%; height:300px"></div>
 			</div>
-			<div class="scan-result"v-loading='loading4'>
+			<div class="scan-result" v-loading='loading4'>
 				<div class="title" style="margin-bottom: 30px">促销效果趋势分析<span class="line"></span></div>
 				<div id="scanResult" style="width:98%; height:300px"></div>
 			</div>
 			<div class="scan-area">
 				<div class="title" style="margin-bottom: 20px">扫描地域分布<span class="line"></span></div>
-				<div id="map" style="width:40%; height:600px"v-loading='loading5'></div>
+				<div id="map" style="width:40%; height:600px" v-loading='loading5'></div>
 				<div class="map-data">
-					<div id="mapTimes" style="width:100%; height:300px"v-loading='loading6'></div>
-					<div id="mapRange" style="width:100%; height:300px"v-loading='loading7'></div>
+					<div id="mapTimes" style="width:100%; height:300px" v-loading='loading6'></div>
+					<div id="mapRange" style="width:100%; height:300px" v-loading='loading7'></div>
 				</div>	
 			</div>
-			<div class="scan-all-range"v-loading='loading8'>
+			<div class="scan-all-range" v-loading='loading8'>
 				<div id="scanAllRange" style="width:98%; height:300px"></div>
 			</div>
 			<div class="scan-award">
 				<div class="title" style="margin-bottom: 30px">奖品分布<span class="line"></span></div>
-				<div id="money" style="width:50%; height:300px"v-loading='loading9'></div>
-				<div id="product" style="width:50%; height:300px"v-loading='loading10'></div>
+				<div id="money" style="width:50%; height:300px" v-loading='loading9'></div>
+				<div id="product" style="width:50%; height:300px" v-loading='loading10'></div>
 			</div>
 		</div>
 
@@ -119,7 +119,8 @@
 		},
 		created() {
 				this.getBrand();
-				this.specChange()
+				this.specChange();
+				this.search();
 		},
 		mounted(){
 			var that=this;
@@ -244,19 +245,12 @@
 				}else {
 					this.startTime=new Date().Format('yyyy-MM-dd');
 				}
-
 				this.type1 = 'day';
-				this.searchShow = 'day'
 				this.date1 = new Date().Format('yyyy-MM-dd');
 				this.month=new Date().Format('yyyy-MM');
 				this.brand = this.brandList[0].name;
 				this.spec = '';
-				if(this.weekList.length){
-          this.week=this.weekList[0].weekNo;
-				}
-        this.getBrand();
-        this.specChange()
-
+				this.week=this.weekList[0].weekNo;
 			},
 			getBrief(){
 				var that = this;
