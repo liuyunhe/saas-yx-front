@@ -10,7 +10,7 @@
 				<el-dialog title="选择所需查询的微信ID" :visible.sync="dialogTableVisible">
 					<div class="tpl-con">
 						<el-radio-group v-model="idInfo">
-							<el-radio v-for='(item,key) in idList' :label="key" :key='key'>
+							<el-radio v-for='(item,index) in idList' :label="index" :key='index'>
 								<span>微信ID：{{item.openId}}</span>&nbsp;&nbsp;
 								<span>昵称：{{item.nickName}}</span>
 							</el-radio>
@@ -417,7 +417,7 @@
 							    color: ['#3398DB'],
 							    grid: {
 							        left: '3%',
-							        right: '4%',
+							        right: '10%',
 							        bottom: '5%',
 							        containLabel: true
 							    },

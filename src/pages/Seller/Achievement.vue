@@ -39,7 +39,7 @@
             <el-card>
                 <!-- 数据表格 -->
                 <el-table :data="tableList" style="width: 100%">
-                    <el-table-column label="序号" type="index" align="center">
+                    <el-table-column label="序号" type="index" align="center" width="80px">
                         <template slot-scope="scope">
                             {{ (form.pageNo-1)*form.pageSize + scope.$index + 1 }}
                         </template>
@@ -47,7 +47,7 @@
                     <el-table-column prop="periodName" label="活动姓名" align="center"></el-table-column>
                     <el-table-column prop="achievementTypeName" label="活动类型" align="center"></el-table-column>
                     <el-table-column prop="statusName" label="状态" align="center"></el-table-column>
-                    <el-table-column label="活动时间" align="center">
+                    <el-table-column label="活动时间" align="center" width="300px">
                         <template slot-scope="scope">
                             {{scope.row.stimeStr}} -- {{scope.row.etimeStr}}
                         </template>
@@ -143,7 +143,7 @@
         <div v-show="business==3">
             <el-card>
                 <el-row>
-                    <el-button type="text">返回</el-button>
+                    <el-button type="text" @click="goTable">返回</el-button>
                 </el-row>
                 <div class="space"></div>
                 <!-- 数据查询条件 -->
@@ -157,10 +157,15 @@
                     <el-form-item label="关键字">
                         <el-input size="small" v-model="rankForm.shopName" placeholder="请输入门店名称"></el-input>
                     </el-form-item>
-                    <div></div>
+                    <br/>
                     <el-form-item>
                         <el-button size="small" type="primary" @click="listRank">查询</el-button>
-                        <el-button size="small" @click="resetRandForm">重置</el-button>
+                        <el-button size="small" @click="resetRandForm(true)">重置</el-button>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button size="small" type="primary" @click="openTplMsg">发送模板消息</el-button>
+                        <el-button size="small" :type="canPay?'primary':''" :disabled="!canPay" @click="sendRankPay">派发现金奖励</el-button>
+                        <el-button size="small" :type="canExport?'primary':''" :disabled="!canExport" @click="exportDatas">导出中奖名单</el-button>
                     </el-form-item>
                 </el-form>
             </el-card>
@@ -194,7 +199,7 @@
                     <el-table-column prop="payStatusName" label="派奖状态" align="center"></el-table-column>
                     <el-table-column label="操作" align="center" width="100">
                         <template slot-scope="scope">
-                            <el-button size="mini" @click="seeRankd(scope.$index, scope.row)">查看详情</el-button>
+                            <el-button size="mini" @click="seeSellerDetail(scope.$index, scope.row)">查看详情</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -207,6 +212,37 @@
                 </el-pagination>
             </el-card>
         </div>
+
+        <el-dialog center title="模板消息编辑" :visible.sync="tplMsgForm.show" width="60%" @closed="resetTplMsgForm">
+            <div>
+                <el-form class="tplM-msg-block" :rules="tplMsgRules" ref="tplMsgForm"  :model="tplMsgForm" label-width="100px">
+                    <el-form-item label="头部内容" prop="first">
+                        <el-input size="small" type="textarea" v-model="tplMsgForm.first" placeholder="请输入顶部描述"></el-input>
+                    </el-form-item>
+                    <el-form-item label="活动名称" prop="keyword1">
+                        <el-input size="small" v-model="tplMsgForm.keyword1" placeholder="请输入活动名称"></el-input>
+                    </el-form-item>
+                    <el-form-item label="完成时间" prop="keyword2">
+                        <!--<el-date-picker v-model="tplMsgForm.sendTime" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>-->
+                        <el-input size="small" v-model="tplMsgForm.keyword2" placeholder="例如：2019年01月01日-2019年01月31日"></el-input>
+                    </el-form-item>
+                    <el-form-item label="底部内容" prop="remark">
+                        <el-input size="small" type="textarea" v-model="tplMsgForm.remark" placeholder="请输入底部描述"></el-input>
+                    </el-form-item>
+                    <el-form-item label="发送范围" prop="sendScope">
+                        <el-radio v-model="tplMsgForm.sendScope" :label="1">所有零售户</el-radio>
+                        <el-radio v-model="tplMsgForm.sendScope" :label="2">中奖零售户</el-radio>
+                    </el-form-item>
+                    <el-form-item label="链接地址">
+                        <el-input size="small" v-model="tplMsgForm.templateUrl" placeholder="请输入此消息跳转链接。如无跳转功能，此项为空"></el-input>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button size="small" type="primary" @click="confirmSendMsg('tplMsgForm')">确 定</el-button>
+                <el-button size="small" @click="resetTplMsgForm">取 消</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -216,6 +252,7 @@ export default {
         return {
             loading: false,
             business: 1, // 当前页面展示内容：1-业绩活动列表；2-业绩新增或修改form表单；3-业绩排行结果查询
+            requesting: true, // 是否发送接口请求中
             form: {
                 pageNo: 1,
                 pageSize: 10,
@@ -257,7 +294,27 @@ export default {
                 rankSection: "",
                 shopName: ""
             },
-            tableRankList: []
+            canPay: false, // 是否允许派发奖励
+            canExport: true, // 是否允许导出
+            tableRankList: [],
+
+            // 推送消息模板表单
+            tplMsgForm: {
+                show: false,
+                first: '',
+                keyword1: '',
+                keyword2: '',
+                remark: '',
+                templateUrl: '',
+                sendScope: 2
+            },
+            tplMsgRules: {
+                sendScope: [{required:true, message:'发送范围不能为空', trigger:'blur'}],
+                first: [{required:true, message:'头部内容不能为空', trigger:'blur'}],
+                keyword1: [{required:true, message:'活动名称不能为空', trigger:'blur'}],
+                keyword2: [{required:true, message:'完成时间不能为空', trigger:'blur'}],
+                remark: [{required:true, message:'底部内容不能为空', trigger:'blur'}]
+            },
         }
     },
     created() {
@@ -314,13 +371,23 @@ export default {
             this.rankForm.periodId = row.id;
             this.periodAwardList();
             this.listRank();
+            this.judgePay();
             this.business = 3;
         },
         // 编辑
         confDetail(index, row) {
             this.getConfDetail(row.id);
         },
-
+        seeSellerDetail(index, row) {
+            this.$router.push({
+                path:'/seller/mgr/sellerDetail?sellerId='+row.sellerId
+            })
+        },
+        goTable() {
+            this.list();
+            this.business = 1;
+            this.resetRandForm(false);
+        },
         // 根据业绩活动id查询详情配置
         getConfDetail(periodId) {
             this.$request.post('/lsh/seller-manager/achieve/configDetail', {periodId: periodId}, true, (res)=>{
@@ -378,6 +445,7 @@ export default {
                         if (res.ok) {
                             this.$message({type:'success', message:"数据保存成功！"});
                             this.business = 1;
+                            this.list();
                         } else {
                             this.$message.error(res.msg);
                         }
@@ -423,16 +491,16 @@ export default {
             this.loading = true;
             this.$request.post('/lsh/seller-manager/achieve/periodResultList', this.rankForm, true, (res)=>{
                 this.loading = false;
-                res = {"ok":true,"data":{"page":{"pageNo":1,"pageSize":10,"pageCount":1,"count":1,"start":0},"list":[{"id":1745,"orgId":"shankunzhongyan","periodId":7,"period":2,"periodName":"第二期","sellerId":3010761,"licenceNo":"140105116783","ownerName":"刘冬花","phoneNo":"18734561405","shopName":"丰泰烟酒商行","idx":1,"awardName":"店铺鼓励金","price":1000.0,"achieveNum":379,"openid":"oAbSR1JKQiMwM8ImSeyCRxD1C_h4","ctime":1530507921000,"payStatus":1,"payStatusName":"已发放","addrDetail":"正阳街","addrProvinceName":"山西省","addrCityName":"太原市","addrAreaName":"小店区"}]},"errorCode":0,"msg":null};
                 if (res.ok) {
                     this.tableRankList = res.data.list || [];
+                    this.canExport = this.tableRankList.length==0?false:true;
                     this.initPagination(res.data.page||{});
                 } else {
                     this.$message.error(res.msg);
                 }
             });
         },
-        resetRandForm() {
+        resetRandForm(refreshListRank) {
             this.rankForm = {
                 pageNo: 1,
                 pageSize: 10,
@@ -440,7 +508,111 @@ export default {
                 rankSection: "",
                 shopName: ""
             }
-            this.listRank();
+            if(refreshListRank===true) {
+                this.listRank();
+            }
+        },
+        // 导出业绩活动排行数据
+        exportDatas() {
+            let url = "/lsh/seller-manager/achieve/exportPeriodResult";
+            let xhr = new XMLHttpRequest();
+            let formData = new FormData();
+            for(let attr in this.rankForm) {
+                formData.append(attr, this.rankForm[attr]);
+            }
+            xhr.overrideMimeType("text/plain; charset=x-user-defined");
+            xhr.open('POST', url, true);
+            xhr.responseType = "blob";
+            xhr.responseType = "arraybuffer"
+            xhr.setRequestHeader("token", sessionStorage.getItem('access_token'));
+            xhr.setRequestHeader("loginId", sessionStorage.getItem('access_loginId'));
+            xhr.onload = function(res) {
+                if (this.status == 200) {
+                    let blob = new Blob([this.response], {type: 'application/vnd.ms-excel'});
+                    let respHeader = xhr.getResponseHeader("Content-Disposition");
+                    let fileName = decodeURI(respHeader.match(/filename=(.*?)(;|$)/)[1]);
+                    if (window.navigator.msSaveOrOpenBlob) {
+                        navigator.msSaveBlob(blob, fileName);
+                    } else {
+                        let link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = fileName;
+                        link.click();
+                        window.URL.revokeObjectURL(link.href);
+                    }
+                }
+            }
+            xhr.send(formData);
+        },
+        // 判断当前周期活动是否允许派发奖励
+        judgePay() {
+            this.$request.post('/lsh/seller-manager/achieve/judgePay', {periodId:this.rankForm.periodId}, true, (res)=>{
+                if (res.ok) {// 允许操作派发
+                    this.canPay = true;
+                } else {// 不允许操作派发
+                    this.canPay = false;
+                }
+            });
+        },
+        // 派发奖项
+        sendRankPay() {
+            this.$confirm('确认要进行派发奖项吗?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.$request.post('/lsh/seller-manager/achieve/payAchievement', {periodId: this.rankForm.periodId}, true, (res)=>{
+                    if (res.ok) {
+                        this.canPay = false;
+                        this.listRank();
+                        this.$message({type:'success', message:"操作成功！"});
+                    } else {
+                        this.canPay = true;
+                        this.$message.error(res.msg);
+                    }
+                });
+            }).catch(() => {});
+        },
+        openTplMsg() {
+            this.tplMsgForm.show = true;
+        },
+        resetTplMsgForm() {
+            this.tplMsgForm = {
+                show: false,
+                show: false,
+                first: '',
+                keyword1: '',
+                keyword2: '',
+                remark: '',
+                templateUrl: '',
+                sendScope: 2
+            };
+        },
+        confirmSendMsg(form) {
+            this.$refs[form].validate((valid) => {
+                if (valid) {
+                    let params = {
+                        wxTemplateParams: {
+                            first: this.tplMsgForm.first,
+                            keyword1: this.tplMsgForm.keyword1,
+                            keyword2: this.tplMsgForm.keyword2,
+                            remark: this.tplMsgForm.remark,
+                            templateUrl: this.tplMsgForm.templateUrl
+                        },
+                        achieveParams: {
+                            sendScope: this.tplMsgForm.sendScope,
+                            periodId: this.rankForm.periodId
+                        }
+                    }
+                    this.$request.post('/lsh/seller-manager/achieve/sendWechatTemplate', params, true, (res)=>{
+                        if (res.ok) {
+                            this.$message({type:'success', message: res.data});
+                        } else {
+                            this.$message.error(res.msg);
+                        }
+                    });
+                }
+            });
         }
     }
 }
@@ -456,6 +628,12 @@ export default {
     .search-block {
         .el-input, .el-select {
             width: 200px;
+        }
+    }
+    .tplM-msg-bloc {
+        width: 100%;
+        .el-input, .el-textarea {
+            width: 80%;
         }
     }
     .award-table {

@@ -38,7 +38,7 @@
 			</div>
 		</div>
 		<div class="echarts">
-			<div class="yibiao"v-loading='loading1'>
+			<div class="yibiao" v-loading='loading1'>
 				<div class="title">仪表盘中间值确定方式：往前推7天（包括当天）的均值</div>
 				<div class="yi1" id="yibiao1" style="width:30%; height:300px">
 				</div>
@@ -47,27 +47,27 @@
 				<div class="yi1" id="yibiao3" style="width:30%; height:300px">
 				</div>
 			</div>
-			<div class="scan-time"v-loading='loading2'>
+			<div class="scan-time" v-loading='loading2'>
 				<div class="title">扫码次数时刻趋势<span class="line"></span></div>
 				<div id="scanTime" style="width:98%; height:300px"></div>
 			</div>
-			<div class="scan-date"v-loading='loading3'>
+			<div class="scan-date" v-loading='loading3'>
 				<div class="title">扫码日期趋势<span class="line"></span></div>
 				<div id="scanDate" style="width:98%; height:300px"></div>
 			</div>
-			<div class="scan-result"v-loading='loading4'>
+			<div class="scan-result" v-loading='loading4'>
 				<div class="title">促销效果趋势分析<span class="line"></span></div>
 				<div id="scanResult" style="width:98%; height:300px"></div>
 			</div>
-			<div class="scan-num-time"v-loading='loading5'>
+			<div class="scan-num-time" v-loading='loading5'>
 				<div class="title">扫描烟包数时间趋势<span class="line"></span></div>
 				<div id="scanNumTime" style="width:98%; height:300px"></div>
 			</div>
-			<div class="scan-range"v-loading='loading6'>
+			<div class="scan-range" v-loading='loading6'>
 				<div class="title">前十五规格扫码次数<span class="line"></span></div>
 				<div id="scanRange" style="width:98%; height:300px"></div>
 			</div>
-			<div class="scan-cities"v-loading='loading7'>
+			<div class="scan-cities" v-loading='loading7'>
 				<div class="title">各城市扫码次数<span class="line"></span></div>
 				<div class="unit">&nbsp;&nbsp;(单位:次)</div>
 				<div id="scanCities" style="width:100%; height:300px">
@@ -92,19 +92,19 @@
 							</div>
 							<div>
 								<div>
-									<el-progress :text-inside="false":show-text='false' :stroke-width="18" :percentage="item.per1"></el-progress>
+									<el-progress :text-inside="false" :show-text='false' :stroke-width="18" :percentage="item.per1"></el-progress>
 									<span class='show-num'>No{{item.rownum}}:{{item.scanPv}}</span>
 								</div>
 							</div>
 							<div>
 								<div>
-									<el-progress :text-inside="false":show-text='false' :stroke-width="18" :percentage="item.per2"></el-progress>
+									<el-progress :text-inside="false" :show-text='false' :stroke-width="18" :percentage="item.per2"></el-progress>
 									<span class='show-num'>No{{item.rownum2}}:{{item.scanCode}}</span>
 								</div>
 							</div>
 							<div>
 								<div>
-									<el-progress :text-inside="false":show-text='false' :stroke-width="18" :percentage="item.per3"></el-progress>
+									<el-progress :text-inside="false" :show-text='false' :stroke-width="18" :percentage="item.per3"></el-progress>
 									<span class='show-num'>No{{item.rownum3}}:{{item.scanUv}}</span>
 								</div>
 							</div>
@@ -149,6 +149,7 @@
 		},
 		created() {
 			this.getDefaultPro(this.getProvice);
+			this.search();
 		},
 		mounted() {
 			var that=this;

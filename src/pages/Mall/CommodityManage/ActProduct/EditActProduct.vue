@@ -33,8 +33,13 @@
                         </el-form-item>
                     </el-row>
                     <el-row>
-                        <el-form-item size="small" label="市面价值（元）：" prop="price" v-if="giftTypeDisPlay==1||giftTypeDisPlay==2" >
-                            <el-input type="number"  class="tobacco-input" v-model="filters.price" placeholder="请输入内容" min="0" max="999999" @input="checkOn3(filters.price)"></el-input>
+                        <el-form-item size="small" :label="giftTypeDisPlay==3?'红包面值：':'市面价值（元）：'" prop="price" v-if="giftTypeDisPlay==1||giftTypeDisPlay==2||giftTypeDisPlay==3">
+                            <el-input type="number"  class="tobacco-input" v-model="filters.price" placeholder="请输入内容" min="0" max="9999999" @input="checkOn3(filters.price)"></el-input>
+                        </el-form-item>
+                    </el-row>
+                    <el-row>
+                        <el-form-item size="small" label="积分面值：" prop="score" v-if="giftTypeDisPlay==4">
+                            <el-input type="number"  class="tobacco-input" v-model="filters.score" placeholder="请输入内容" min="0" max="9999999" @input="checkOn4(filters.score)"></el-input>
                         </el-form-item>
                     </el-row>
                     <el-row>
@@ -54,12 +59,17 @@
                     </el-row>
                     <el-row>
                         <el-form-item size="small" label="库存数量：" prop="shopQuantity">
-                            <el-input type="number"  class="tobacco-input" v-model="filters.shopQuantity" placeholder="请输入内容"min="0" max="999999"  @input="checkOn(filters.shopQuantity)"></el-input>
+                            <el-input type="number"  class="tobacco-input" v-model="filters.shopQuantity" placeholder="请输入内容"min="0" max="99999999"  @input="checkOn(filters.shopQuantity)"></el-input>
+                        </el-form-item>
+                    </el-row>
+                    <el-row>
+                        <el-form-item size="small" :label="giftTypeDisPlay==3?'红包总数：':'积分总数：'"  v-if="giftTypeDisPlay==3||giftTypeDisPlay==4">
+                            <el-input type="number" v-model="filters.abc" placeholder="请输入内容" maxlength="200" disabled="true"></el-input>
                         </el-form-item>
                     </el-row>
                     <el-row>
                         <el-form-item size="small" label="库存阀值：" prop="quantity">
-                            <el-input type="number"  class="tobacco-input" v-model="filters.quantity" placeholder="请输入内容" min="0" max="999999"  @input="checkOn2(filters.quantity)"></el-input>
+                            <el-input type="number"  class="tobacco-input" v-model="filters.quantity" placeholder="请输入内容" min="0" max="99999998"  @input="checkOn2(filters.quantity)"></el-input>
                         </el-form-item>
                     </el-row>
                     <el-row>
@@ -110,7 +120,9 @@
                     quantity:'',
                     exchangeType:4,
                     exchangeUrl:'',
-                    afterService:''
+                    afterService:'',
+                    score:'',
+                    abc:0
                 },
                 rules:{
                     giftType: [
@@ -127,6 +139,9 @@
                     ],
                     exchangeType:[
                         { required: true, message: '请输入礼品分类', trigger: 'change' },
+                    ],
+                    score:[
+                        { required: true, message: '请输入市面价值', trigger: 'change' },
                     ]
 
                 }
@@ -186,23 +201,42 @@
             checkOn(value){
                 let reg = /^[1-9]\d*$/;
                 if (value) {
-                    if (value > 999999 || new RegExp(reg).test(value) == false) {
+                    if (value > 99999999 || new RegExp(reg).test(value) == false) {
                         this.filters.shopQuantity ='';
+                    }else{
+                        if(this.giftTypeDisPlay==3){
+                            this.filters.abc=(this.filters.price*this.filters.shopQuantity).toFixed(2)
+                        }else if(this.giftTypeDisPlay==4){
+                            this.filters.abc=(this.filters.score*this.filters.shopQuantity).toFixed(2)
+                        }
                     }
                 }
             },
             checkOn2(value){
                 let reg = /^[1-9]\d*$/;
                 if (value) {
-                    if (value > 999999 || new RegExp(reg).test(value) == false) {
+                    if (value > 99999999 || new RegExp(reg).test(value) == false) {
                         this.filters.quantity ='';
                     }
                 }
             },
             checkOn3(value){
                 if (value) {
-                    if (value > 999999 ) {
+                    if (value > 9999999 ) {
                         this.filters.price ='';
+                    }else{
+                        if(this.giftTypeDisPlay==3){
+                            this.filters.abc=(this.filters.price*this.filters.shopQuantity).toFixed(2)
+                        }
+                    }
+                }
+            },
+            checkOn4(value){
+                if (value) {
+                    if (value > 9999999 ) {
+                        this.filters.score ='';
+                    }else{
+                        this.filters.abc=(this.filters.score*this.filters.shopQuantity).toFixed(2)
                     }
                 }
             },
@@ -215,6 +249,7 @@
                             this.filters.memo=res.data.memo;
                             this.filters.image=res.data.image;
                             this.filters.price=res.data.price;
+                            this.filters.score=res.data.score;
                             this.filters.shopQuantity=res.data.shopQuantity;
                             this.filters.quantity=res.data.quantity;
                             this.filters.echangeType=res.data.echangeType;
@@ -222,6 +257,12 @@
                             this.filters.afterService=res.data.afterService;
                             this.gitTypek=res.data.giftType;
                             this.seletGiftType=res.data.giftType;
+                            if(this.filters.giftType==3){
+                                this.filters.abc=(this.filters.price*this.filters.shopQuantity).toFixed(2);
+                            }else if(this.filters.giftType==4){
+                                this.filters.abc=(this.filters.score*this.filters.shopQuantity).toFixed(2);
+                            }
+
                         }
                     }
                 ),
@@ -249,6 +290,7 @@
                             giftType: this.filters.giftType,
                             memo: this.filters.memo,
                             image: this.filters.image,
+                            score:this.filters.score,
                             price: this.filters.price,
                             shopQuantity: this.filters.shopQuantity,
                             quantity: this.filters.quantity,
@@ -289,6 +331,8 @@
                 this.filters.price='',
                 this.filters.shopQuantity='',
                 this.filters.quantity='',
+                this.filters.score='',
+                this.filters.abc='',
                 this.filters.echangeType=4,
                 this.filters.exchangeUrl='',
                 this.filters.afterService=''

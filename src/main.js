@@ -72,6 +72,7 @@ import {
   InputNumber,
   OptionGroup,
   Radio,
+  RadioGroup,
   TimePicker
 } from 'element-ui'
 
@@ -104,6 +105,7 @@ Vue.use(TimePicker)
 Vue.use(OptionGroup)
 Vue.use(InputNumber)
 Vue.use(Radio)
+Vue.use(RadioGroup)
 Vue.use(DatePicker)
 Vue.use(Dropdown)
 Vue.use(DropdownMenu)

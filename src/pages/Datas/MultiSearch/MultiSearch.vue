@@ -7,12 +7,12 @@
 					查询时间：
 					<el-date-picker v-model="startDate"format="yyyy-MM-dd" type="date" placeholder="选择日期" size='small'@change='selectStartDay'>
 					</el-date-picker>
-					<el-time-select v-model="startTime" size='small' :picker-options="{start: '00:00',step: '01:00',end: '23:59'}" placeholder="选择时间">
+					<el-time-select v-model="startTime" size='small' :picker-options="{start: '00:00',step: '01:00',end: '23:59'}" @change="selectTime" placeholder="选择时间">
 					</el-time-select>
 					<span>~</span>
 					<el-date-picker v-model="endDate" type="date" placeholder="选择日期" size='small'@change='selectEndDay'>
 					</el-date-picker>
-					<el-time-select v-model="endTime" size='small' :picker-options="{start: '00:00',step: '01:00',end: '23:59'}" placeholder="选择时间">
+					<el-time-select v-model="endTime" size='small' :picker-options="{start: '00:00',step: '01:00',end: '23:59'}" @click="selectTime" placeholder="选择时间">
 					</el-time-select>
 					<br /><br /> 
 					品牌：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -190,7 +190,9 @@
 				tabActive:0,//tab栏中样式标识符
 				tabList:['扫码数据','成本数据','现金红包数据','实物奖励数据'],//tab栏列表
 				loading:true,//table的加载样式
-				tableData:[]//表格数据
+				tableData:[],//表格数据
+        startDateTime: new Date().getTime() - 24 * 60 * 60 * 1000,
+        endDateTime: new Date().getTime(),
 			};
 		},
 		mounted() {
@@ -307,10 +309,38 @@
 		},
 		methods: {
 			selectStartDay(day) {//日期格式化
-				this.startDate = day.Format('yyyy-MM-dd');
+			  this.startDateTime =  day.getTime()
+				if(this.endDateTime<this.startDateTime){
+				  alert("结束时间不能小于开始时间")
+          this.startDate = new Date(new Date().getTime() - 24 * 60 * 60 * 1000).Format('yyyy-MM-dd')
+					this.startDateTime =  new Date().getTime() - 24 * 60 * 60 * 1000
+				}else{
+          this.startDate = day.Format('yyyy-MM-dd');
+				}
+				this.selectTime()
 			},
+      selectTime(){
+        if(this.startDate == this.endDate){
+          let st = this.startTime.split(":")[0] - ""
+          let et = this.endTime.split(":")[0] - ""
+          if(st>et){
+            alert("结束时间不能小于开始时间")
+            this.startTime = "00:00"
+            this.endTime = "00:00"
+          }
+        }
+			},
+
 			selectEndDay(day) {
-				this.endDate = day.Format('yyyy-MM-dd');
+			  this.endDateTime = day.getTime()
+        if(this.endDateTime<this.startDateTime){
+          alert("结束时间不能小于开始时间")
+          this.endDate = new Date().Format('yyyy-MM-dd')
+          this.endDateTime =  new Date().getTime()
+        }else {
+          this.endDate = day.Format('yyyy-MM-dd');
+				}
+        this.selectTime()
 			},
 			toggleShow() {//查询部分的隐藏和显示切换
 				if(this.conditionShow) {

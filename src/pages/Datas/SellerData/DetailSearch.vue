@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="detail-search-container">
     <el-card class="box-card">
         <!-- 数据查询条件 -->
         <el-form :inline="true" :model="form">
@@ -9,8 +9,8 @@
                     <el-option v-for="item in brandList" :key="item.brandCode" :label="item.name" :value="item.name"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="规格">
-                <el-select size="small" v-model="form.productSnArr" placeholder="全部" :multiple="true" :collapse-tags="true" @change="snChange">
+            <el-form-item label="规格" >
+                <el-select size="small" style="width: 220px" v-model="form.productSnArr" id="sn" placeholder="全部" :multiple="true" :collapse-tags="true" @change="snChange">
                     <el-option label="全部" value="all"></el-option>
                     <el-option v-for="item in snList" :key="item.sn" :label="item.productName" :value="item.sn"></el-option>
                 </el-select>
@@ -227,4 +227,25 @@ export default {
     .el-input, .el-select {
         width: 200px;
     }
+</style>
+<style lang="scss">
+    .detail-search-container{
+        #sn::-webkit-input-placeholder{
+            color:#606266;
+            font-size: 13px;
+        }
+        #sn::-moz-placeholder{   /* Mozilla Firefox 19+ */
+            color:#606266;
+            font-size: 13px;
+        }
+        #sn:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+            color:#606266;
+            font-size: 13px;
+        }
+        #sn:-ms-input-placeholder{  /* Internet Explorer 10-11 */
+            color:#606266;
+            font-size: 13px;
+        }
+    }
+
 </style>
