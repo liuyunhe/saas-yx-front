@@ -39,6 +39,7 @@ const IntegralExchDayPage = () => import(/* webpackChunkName: "henanReport" */ '
 const ActTpl = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/ActTpl')
 const ActMgc = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActMgr')
 const AddAct = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddAct')
+const Hongbaoyu = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/Hongbaoyu.ActTpl')
 const Fanpaizi = () => import(/*webpackChunkName: '"fanpaizi" */'@/pages/Market/ActTpl/Fanpaizi.ActTpl')
 const Jiugongge = () => import(/*webpackChunkName: '"jiugongge" */'@/pages/Market/ActTpl/Jiugongge.ActTpl')
 const AddActEgg = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddActEgg')
@@ -281,6 +282,7 @@ export default new Router({
         { path: '/market/actTpl', name: '活动模板', component: ActTpl },
         { path: '/market/actMgr', name: '活动管理', component: ActMgc },
         { path: '/market/actTpl/addAct', name: '新建活动模板配置', component: AddAct, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/addActRedPacked', name: '新建活动模板配置', component: Hongbaoyu, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/addActEgg', name: '新建砸金蛋活动模板配置', component: AddActEgg, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/addActFanpaizi', name: '翻牌子活动', component: Fanpaizi, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/addActJiugongge', name: '九宫格活动', component: Jiugongge, props: (router) => ({id: router.query.id})},

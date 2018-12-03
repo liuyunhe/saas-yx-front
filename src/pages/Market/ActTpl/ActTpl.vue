@@ -397,17 +397,34 @@ export default {
       this.getAct()
     },
     edit(code,id){
-    	if(code=='act-103'){
-    		this.$router.push('/market/actTpl/addActEgg?id=' + id)
-    	}else if(code=='act-102'){//点元宝
-            this.$router.push('/market/actTpl/AddWingAct?id=' + id)
-        }else if(code=='act-101'){//九宫格
-            this.$router.push('/market/actTpl/AddActSudoku?id=' + id)
-        }else if(code == 'act-104'){
+      switch (key) {
+        case 'act-101':
+          this.$router.push('/market/actTpl/AddActSudoku?id=' + id)
+          break;
+        case 'act-102':
+          this.$router.push('/market/actTpl/AddWingAct?id=' + id)
+          break;
+        case 'act-103':
+          this.$router.push('/market/actTpl/addActEgg?id=' + id)
+          break;
+        case 'act-104':
           this.$router.push('/market/actTpl/addActFanpaizi?id=' + id)
-        }else{
-    		this.$router.push('/market/actTpl/addAct?id=' + id)
-    	}
+          break;
+        default:
+          this.$router.push('/market/actTpl/addAct?id=' + id)
+          break;
+      }
+    	// if(code=='act-103'){
+    	// 	this.$router.push('/market/actTpl/addActEgg?id=' + id)
+    	// }else if(code=='act-102'){//点元宝
+      //       this.$router.push('/market/actTpl/AddWingAct?id=' + id)
+      //   }else if(code=='act-101'){//九宫格
+      //       this.$router.push('/market/actTpl/AddActSudoku?id=' + id)
+      //   }else if(code == 'act-104'){
+      //     this.$router.push('/market/actTpl/addActFanpaizi?id=' + id)
+      //   }else{
+    	// 	this.$router.push('/market/actTpl/addAct?id=' + id)
+    	// }
     }
   }
 }
