@@ -28,7 +28,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item >
-                        <el-input v-model="form.kyeName" placeholder="请输入关键词"></el-input>
+                        <el-input v-model="form.kyeName" placeholder="请输入关键词" @input="changek()"></el-input>
                     </el-form-item>
 
                 </el-row>
@@ -216,6 +216,23 @@
                 this.allGiftTypeList()
                 this.allOneCateList()
                 this.getlistData();
+            },
+            changek(){
+                if(this.selectallKyeType==1){
+                    this.form.orderId=this.form.kyeName;
+                    this.form.awardName='';
+                    this.form.userName='';
+                }
+                if(this.selectallKyeType==2){
+                    this.form.orderId='';
+                    this.form.awardName=this.form.kyeName;
+                    this.form.userName='';
+                }
+                if(this.selectallKyeType==3){
+                    this.form.orderId='';
+                    this.form.awardName='';
+                    this.form.userName=this.form.kyeName;
+                }
             },
             allKeyWordList() {//关键字
                 this.$request.post(`/sc/saotx/mall/keyWordMap`,{service: 'browser'},true,res => {

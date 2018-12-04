@@ -1157,8 +1157,15 @@ export default {
         }
         .edit-winning-img {
           display: flex;
+          .img-con {
+          	display: flex;
+            justify-content: center;
+            align-items: center;
+          }
           img {
-            width: 100%;
+            width: 80%;
+				    height: 80%;
+				    object-fit: contain;
           }
         }
         .edit-notWinning-img {
@@ -1168,7 +1175,9 @@ export default {
             justify-content: center;
             align-items: center;
             img {
-              width: 100%;
+              width: 80%;
+					    height: 80%;
+					    object-fit: contain;
             }
           }
         }
