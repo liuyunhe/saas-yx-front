@@ -17,7 +17,9 @@ const ZjOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Ord
 const ZjOrderPageDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ZjOrderPageDetail.vue')
 const JdOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/JdOrderPage.vue')
 //积分活动订单管理
-const ScoreOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ScoreOrderPage.vue')
+const ActOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ActOrderPage.vue')
+const ActOrderPageDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ActOrderPageDetail.vue')
+// const ScoreOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ScoreOrderPage.vue')
 
 //河北固定报表管理
 const HbReportPage = () => import(/* webpackChunkName: "hebeiReport" */ '@/pages/Report/ReportPage.vue')
@@ -304,7 +306,9 @@ export default new Router({
         { path: '/Orders/mall/zj', name: '自建商品订单', component: ZjOrderPage },
         { path: '/Orders/mall/zjOrderPageDetail', name: '自建商品订单详情',  component: ZjOrderPageDetail,props: (route) => ({orderCode:route.query.orderCode})  },
         { path: '/Orders/mall/jd', name: '京东商品订单', component: JdOrderPage },
-        { path: '/Orders/mall/integral', name: '积分活动订单', component: ScoreOrderPage },
+        // { path: '/Orders/mall/integral', name: '积分活动订单', component: ScoreOrderPage },
+        { path: '/Orders/mall/act', name: '积分活动订单', component: ActOrderPage },
+        { path: '/Orders/mall/actOrderPageDetail', name: '积分活动订单详情', component: ActOrderPageDetail,props: (route) => ({orderCode:route.query.orderCode})  },
         // 零售户
         { path: '/seller', name: '零售户'},
         { path: '/seller/review', name: '审核管理', component: reviewmanage},
