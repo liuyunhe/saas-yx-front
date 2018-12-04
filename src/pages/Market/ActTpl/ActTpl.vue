@@ -364,7 +364,7 @@ export default {
     },
     // 跳转到新建活动模板页面
     goAddActTpl(code) {
-    	if(code=='act-103'){
+    	if(code=='act-103'){//砸金蛋
     		this.$router.push('/market/actTpl/addActEgg')
     	}else if(code=='act-102'){//点元宝
             this.$router.push('/market/actTpl/AddWingAct')
@@ -373,7 +373,8 @@ export default {
         }else if(code == 'act-104'){
           this.$router.push('/market/actTpl/AddActFanpaizi')
         }else{
-    		this.$router.push('/market/actTpl/addAct')
+//  		this.$router.push('/market/actTpl/addAct')//先注释之前的，暂时改为答题
+				this.$router.push('/market/actTpl/addActQuestion')
     	}
     },
     // 每当 pagesize 变化，会触发 这个函数

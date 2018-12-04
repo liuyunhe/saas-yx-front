@@ -239,6 +239,62 @@ const img = {
                 size: [195, 162]
             },
         }
+    },
+    ACT_QUESTION:{
+    	normal:{
+    		bg: {
+                name: '背景',
+                index: 'bg',
+                url: handle.getUrl('fanpaizi-bg1', 2),
+                pos: [0, 0],
+                size: [750, 1208]
+            },
+            contentBg: {
+                name: '牌子背景',
+                index: 'contentBg',
+                url: handle.getUrl('fanpaizi-bg2', 2),
+                pos: [32, 400],
+                size: [693, 724]
+            },
+            title: {
+                name: '标题',
+                index: 'title',
+                url: handle.getUrl('fanpaizi-title', 2),
+                pos: [70, 100],
+                size: [550, 270]
+            },
+            tips: {
+                name: '活动锦囊',
+                index: 'tips',
+                url: handle.getUrl('fanpaizi-tips', 2),
+                pos: [654, 32],
+                size: [92, 106]
+            },
+            
+    	},
+    	question:{
+    		Quesbg: {
+                name: '答题背景',
+                index: 'Qbg',
+                url: handle.getUrl('eggBg', 2),
+                pos: [0, 0],
+                size: [750, 1208]
+            },
+            QuesActive: {
+                name: '选中标识',
+                index: 'QcontentBg',
+                url: handle.getUrl('fanpaizi-bg2', 2),
+                pos: [32, 400],
+                size: [693, 724]
+            },
+            QuesbtnBg:{
+            	name: '答题按钮',
+                index: 'QcontentBg',
+                url: handle.getUrl('fanpaizi-bg2', 2),
+                pos: [32, 20],
+                size: [693, 724]
+            }
+    	}
     }
 }
 

@@ -5,7 +5,7 @@
                 <h4>{{title}}</h4>
             </div>
             <div class="phone-body">
-                <div class="cover" v-if="page != 1">
+                <div class="cover" v-if="page != 1 && page !=6">
                     <img 
                         v-if="page != 2 && page != 3"
                         :src="commonImg.close.url" alt=""
@@ -52,13 +52,33 @@
                         'top': pic.pos[1] * 0.4 + 'px'
                     }"/>
                 </div>
-                <div class="page page2" v-if="page == 2">
+                <!--答题页面-->
+                <div class="page1" v-show="page == 6">
+                    <img 
+                    v-if="imgData.question" 
+                    v-for="(pic, index) in imgData.question" 
+                    :src="pic.url + '?v=1.1'" 
+                    title="点击编辑" 
+                    :key="index + pic"
+                    @mouseover="imgHover(index)"
+                    @mouseout="unHover()"
+                    @click="edit(index)"
+                    :class="[index, {imgHover: hover == index}]"
+                    :style="{
+                        'max-width': pic.size[0] * 0.4 + 'px',
+                        'max-height': pic.size[1] * 0.4 +'px',
+                        'left': pic.pos[0] * 0.4 + 'px',
+                        'top': pic.pos[1] * 0.4 + 'px'
+                    }"/>
+                
+                </div>
+                <div class="page page2" v-show="page == 2">
                     <img :src="commonImg.actNotes.url" alt="">
                 </div>
-                <div class="page page3" v-if="page == 3">
+                <div class="page page3" v-show="page == 3">
                     <img :src="commonImg.myAward.url" alt="">
                 </div>
-                <div class="page page4" v-if="page == 4">
+                <div class="page page4" v-show="page == 4">
                     <img 
                         :src="commonImg.award.url" alt="" 
                         class="award-pic" 

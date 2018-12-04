@@ -386,6 +386,7 @@
             // 文件上传控制。成功之后的回调
             handleSourceFileSuccess(res, file) {
                 if(res.ret==200000) {
+                	
                     this.$message({type:'success', message:res.data.successMsg});
                     let obj = {name:res.data.sourceFile, sourceCode:res.data.sourceCode, count:res.data.successCount};
                     this.sourceFiles.push(obj);
