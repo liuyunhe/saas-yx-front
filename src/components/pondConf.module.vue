@@ -10,53 +10,65 @@
         用户第 <el-input-number v-model="pondConf.n" :min="0" controls-position="right"></el-input-number> 个抽奖必中
       </el-form-item>
       <el-form-item label="奖品类型:">
-        <el-select v-model="pondConf.awardType" placeholder="请选择" @change="resetPrize">
+        <el-select v-model="pondConf.awardType" :disabled="isEdit" placeholder="请选择" @change="resetPrize">
           <el-option v-for="item in prizeList" :key="item.type" :label="item.name" :value="item.type">
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="奖品名称:">
         <el-col :span="10">
-          <el-input v-model="pondConf.prizeName" placeholder="请输入奖品名称"></el-input>
+          <el-input v-model="pondConf.prizeName" :disabled="isEdit" placeholder="请输入奖品名称"></el-input>
         </el-col>
       </el-form-item>
       <template v-if="pondConf.awardType == '1'">
         <el-form-item label="选择物品:">
           <!-- <el-button  @click="getEntityList">选择</el-button> -->
           <el-button v-if="!pondConf.awardPic" @click="getList">选择</el-button>
-          <img v-if="pondConf.awardPic" :src="pondConf.awardPic" @click="getList">
+          <img v-if="pondConf.awardPic" :src="pondConf.awardPic" @click="isEdit && getList">
           <span>{{pondConf.poolName}}</span>
         </el-form-item>
         <el-form-item label="投放数量:">
-          <el-input-number v-model="pondConf.totalNum" :min="0" controls-position="right"></el-input-number> 个
+          <el-input-number v-model="pondConf.totalNum" :disabled="isEdit" :min="0" controls-position="right"></el-input-number> 个
+          <span v-if="isEdit">
+            剩余<el-input-number v-model="residue" :disabled="true"></el-input-number>个
+            <el-button @click="addRepertory">增库</el-button>
+          </span>
         </el-form-item>
       </template>
       <template v-if="pondConf.awardType == '2'">
         <el-form-item label="选择物品:">
           <!-- <el-button  @click="getVirtualList">选择</el-button> -->
           <el-button v-if="!pondConf.awardPic" @click="getList">选择</el-button>
-          <img v-if="pondConf.awardPic" :src="pondConf.awardPic" @click="getList">
+          <img v-if="pondConf.awardPic" :src="pondConf.awardPic" @click="isEdit && getList">
           <span>{{pondConf.poolName}}</span>
         </el-form-item>
         <el-form-item label="投放数量:">
-          <el-input-number v-model="pondConf.totalNum" :min="0" controls-position="right"></el-input-number> 个
+          <el-input-number v-model="pondConf.totalNum" :disabled="isEdit" :min="0" controls-position="right"></el-input-number> 个
+          <span v-if="isEdit">
+            剩余<el-input-number v-model="residue" :disabled="true"></el-input-number>个
+            <el-button @click="addRepertory">增库</el-button>
+          </span>
         </el-form-item>
       </template>
       <template v-if="pondConf.awardType == '3'">
         <el-form-item label="红包池:">
           <!-- <el-button  @click="getRedpacklList">选择</el-button> -->
           <el-button v-if="!pondConf.awardPic" @click="getList">选择</el-button>
-          <img v-if="pondConf.awardPic" :src="pondConf.awardPic" @click="getList">
+          <img v-if="pondConf.awardPic" :src="pondConf.awardPic" @click="isEdit && getList">
           <span>{{pondConf.poolName}}</span>
         </el-form-item>
         <!-- <el-col :span="10"> -->
         <el-form-item label="红包面额:">
-          <el-input-number v-model="pondConf.redMoney" :precision="2" :min="0" controls-position="right" @change="countRedTotal"></el-input-number> 元
+          <el-input-number v-model="pondConf.redMoney" :disabled="isEdit" :precision="2" :min="0" controls-position="right" @change="countRedTotal"></el-input-number> 元
         </el-form-item>
         <!-- </el-col>
         <el-col :span="14"> -->
         <el-form-item label="投放数量:">
-          <el-input-number v-model="pondConf.totalNum" :min="0" controls-position="right" @change="countRedTotal"></el-input-number> 个
+          <el-input-number v-model="pondConf.totalNum" :disabled="isEdit" :min="0" controls-position="right" @change="countRedTotal"></el-input-number> 个
+          <span v-if="isEdit">
+            剩余<el-input-number v-model="residue" :disabled="true"></el-input-number>个
+            <el-button @click="addRepertory">增库</el-button>
+          </span>
         </el-form-item>
         <!-- </el-col> -->
         <el-form-item label="红包金额:">
@@ -67,11 +79,15 @@
         <el-form-item label="选择积分:">
           <!-- <el-button  @click="getIntegrallList">选择</el-button> -->
           <el-button v-if="!pondConf.awardPic" @click="getList">选择</el-button>
-          <img v-if="pondConf.awardPic" :src="pondConf.awardPic" @click="getList">
+          <img v-if="pondConf.awardPic" :src="pondConf.awardPic" @click="isEdit && getList">
           <span>{{pondConf.poolName}}</span>
         </el-form-item>
         <el-form-item label="投放数量:">
-          <el-input-number v-model="pondConf.totalNum" :min="0" controls-position="right"></el-input-number> 个
+          <el-input-number v-model="pondConf.totalNum" :disabled="isEdit" :min="0" controls-position="right"></el-input-number> 个
+          <span v-if="isEdit">
+            剩余<el-input-number v-model="residue" :disabled="true"></el-input-number>个
+            <el-button @click="addRepertory">增库</el-button>
+          </span>
         </el-form-item>
         <el-form-item label="积分面额:">
           <el-input-number v-model="pondConf.integral" :min="0" controls-position="right"></el-input-number> 分
@@ -157,7 +173,7 @@
 </template>
 <script>
 export default {
-  props: ['awae', 'prizeType', 'nWin'],
+  props: ['awae', 'prizeType', 'nWin', 'isEdit'],
   data() {
     var validateImgUrl = (rule, value, callback) => {
       if (this.pondConf.awardPic) {
@@ -187,6 +203,14 @@ export default {
     }
   },
   computed: {
+    residue: {
+      get: function() {
+        return this.pondConf.totalNum - this.pondConf.outNum
+      },
+      set: function(newValue) {
+        // console.log(newValue)
+      }
+    },
     totalRed: {
       get: function() {
         return this.pondConf.redMoney * this.pondConf.totalNum
@@ -196,7 +220,13 @@ export default {
       }
     }
   },
-  created() {},
+  created() {
+    if (this.pondConf.id) {
+      this.isEdit = true
+    } else {
+      this.isEdit = false
+    }
+  },
   methods: {
     // 选择奖品
     selectPrize(obj) {
@@ -303,6 +333,33 @@ export default {
       const redMoney = this.pondConf.redMoney
       const totalNum = this.pondConf.totalNum
       if (redMoney != 0 && totalNum != 0) return this.pondConf.redTotalMoney = redMoney * totalNum
+    },
+    // 增库
+    addRepertory() {
+      this.$prompt('请输入数字', '增库', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: /^\d{1,}$/,
+          inputErrorMessage: '请输入数字'
+        }).then(({ value }) => {
+          if (value == 0) return this.$message.error('数字不能为0')
+          this.$request.post('/api/saotx/act/addNum', {
+            id: this.pondConf.id,
+            increment: value
+          }, true, res => {
+            if (res.ret === '200000') {
+              this.$message.success('增库成功')
+              this.pondConf.totalNum += Number(value)
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消输入'
+          });       
+        });
     }
   }
 }

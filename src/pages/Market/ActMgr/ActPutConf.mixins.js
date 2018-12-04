@@ -8,6 +8,7 @@ export default {
         dwnum: null,
         status: null, // 活动状态 1-发布 0-未发布
       },
+      isEdit: false,
       status: false, // 是否立即发布
       statusDisabled: false, // 立即发布开关禁用
       actSTime: '', // 活动开始时间
@@ -320,6 +321,7 @@ export default {
           this.actSTime = res.data.act.stimeStr
           this.actETime = res.data.act.etimeStr
           if (res.data.strategyArr.length != 0) {
+            this.isEdit = true
             res.data.strategyArr.forEach((item, index) => {
               if (item.tfType == 'common') {
                 if (item.awardArr.length == 0) return
