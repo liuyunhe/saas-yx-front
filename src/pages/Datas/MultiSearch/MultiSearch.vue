@@ -311,7 +311,7 @@
 			selectStartDay(day) {//日期格式化
 			  this.startDateTime =  day.getTime()
 				if(this.endDateTime<this.startDateTime){
-				  alert("开始时间不能小于结束时间")
+				  alert("结束时间不能小于开始时间")
           this.startDate = new Date(new Date().getTime() - 24 * 60 * 60 * 1000).Format('yyyy-MM-dd')
 					this.startDateTime =  new Date().getTime() - 24 * 60 * 60 * 1000
 				}else{
@@ -324,7 +324,7 @@
           let st = this.startTime.split(":")[0] - ""
           let et = this.endTime.split(":")[0] - ""
           if(st>et){
-            alert("开始时间不能小于结束时间")
+            alert("结束时间不能小于开始时间")
             this.startTime = "00:00"
             this.endTime = "00:00"
           }
@@ -334,7 +334,7 @@
 			selectEndDay(day) {
 			  this.endDateTime = day.getTime()
         if(this.endDateTime<this.startDateTime){
-          alert("开始时间不能小于结束时间")
+          alert("结束时间不能小于开始时间")
           this.endDate = new Date().Format('yyyy-MM-dd')
           this.endDateTime =  new Date().getTime()
         }else {

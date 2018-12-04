@@ -28,7 +28,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item  size="small" >
-                        <el-input v-model="form.kyeName" placeholder="请输入关键词"></el-input>
+                        <el-input v-model="form.kyeName" placeholder="请输入关键词" @input="changek()"></el-input>
                     </el-form-item>
                     <el-form-item label="商品状态:" size="small" >
                         <el-select v-model="form.giftType" placeholder="请选择">
@@ -246,6 +246,23 @@
                 this.allOneCateList()
                 this.getlistData();
             },
+            changek(){
+                if(this.selectallKyeType==1){
+                    this.form.orderId=this.form.kyeName;
+                    this.form.awardName='';
+                    this.form.userName='';
+                }
+                if(this.selectallKyeType==2){
+                    this.form.orderId='';
+                    this.form.awardName=this.form.kyeName;
+                    this.form.userName='';
+                }
+                if(this.selectallKyeType==3){
+                    this.form.orderId='';
+                    this.form.awardName='';
+                    this.form.userName=this.form.kyeName;
+                }
+            },
             orderStatusList() {//订单状态
                 this.$request.post(`/sc/saotx/mall/orderStatusMap`,{service: 'browser'},true,res => {
                         console.log(res.data)
@@ -385,14 +402,15 @@
             },
             // 文件上传控制。成功之后的回调
             handleSourceFileSuccess(res, file) {
-                if(res.ret==200000) {
-                	
+                this.$message({type:'success', message:res});
+                this.getlistData();
+             /*   if(res.ret==200000) {
                     this.$message({type:'success', message:res.data.successMsg});
                     let obj = {name:res.data.sourceFile, sourceCode:res.data.sourceCode, count:res.data.successCount};
                     this.sourceFiles.push(obj);
                 } else {
-                    this.$message.error(res.message);
-                }
+                     this.$message.error(res.message);
+                }*/
             },
             // 卡密文件上传之后，删除文件
             handleSourceFileRemove(file, fileList) {
