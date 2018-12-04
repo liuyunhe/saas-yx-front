@@ -338,6 +338,11 @@ export default {
         res => {
           if (res.ret === '200000') {
             this.$message.success('删除成功')
+            this.actListParams.ctime = ''
+            this.actListParams.form = ''
+            this.actListParams.keywords = ''
+            this.actListParams.pageNo = 1
+            this.actListParams.pageSize = 10
             this.getActList()
           } else {
             this.$message.error(res.message)

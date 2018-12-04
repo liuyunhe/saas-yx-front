@@ -90,7 +90,7 @@
           </span>
         </el-form-item>
         <el-form-item label="积分面额:">
-          <el-input-number v-model="pondConf.integral" :min="0" controls-position="right"></el-input-number> 分
+          <el-input-number v-model="pondConf.integral" :disabled="isEdit" :min="0" controls-position="right"></el-input-number> 分
         </el-form-item>
       </template>
       <el-form-item label="中奖概率:">
