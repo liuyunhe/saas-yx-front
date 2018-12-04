@@ -402,7 +402,7 @@ export default {
       this.getAct()
     },
     edit(code,id){
-      switch (key) {
+      switch (code) {
         case 'act-101':
           this.$router.push('/market/actTpl/AddActSudoku?id=' + id)
           break;
