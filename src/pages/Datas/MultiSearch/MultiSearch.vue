@@ -5,14 +5,14 @@
 			<div class="condition-con" v-show='conditionShow'>
 				<div class="inputs">
 					查询时间：
-					<el-date-picker v-model="startDate"format="yyyy-MM-dd" type="date" placeholder="选择日期" size='small'@change='selectStartDay'>
+					<el-date-picker v-model="startDate"format="yyyy-MM-dd" type="date" placeholder="选择日期" size='small'@change='selectStartDay' :clearable="false">
 					</el-date-picker>
-					<el-time-select v-model="startTime" size='small' :picker-options="{start: '00:00',step: '01:00',end: '23:59'}" @change="selectTime" placeholder="选择时间">
+					<el-time-select v-model="startTime" size='small' :picker-options="{start: '00:00',step: '01:00',end: '23:59'}" @change="selectTime" placeholder="选择时间" :clearable="false">
 					</el-time-select>
 					<span>~</span>
-					<el-date-picker v-model="endDate" type="date" placeholder="选择日期" size='small'@change='selectEndDay'>
+					<el-date-picker v-model="endDate" type="date" placeholder="选择日期" size='small'@change='selectEndDay' :clearable="false">
 					</el-date-picker>
-					<el-time-select v-model="endTime" size='small' :picker-options="{start: '00:00',step: '01:00',end: '23:59'}" @click="selectTime" placeholder="选择时间">
+					<el-time-select v-model="endTime" size='small' :picker-options="{start: '00:00',step: '01:00',end: '23:59'}" @click="selectTime" placeholder="选择时间" :clearable="false">
 					</el-time-select>
 					<br /><br /> 
 					品牌：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
