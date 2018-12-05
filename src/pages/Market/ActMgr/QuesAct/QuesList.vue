@@ -59,7 +59,7 @@
 
 <script>
 	export default {
-	  props: ['id', 'actCode'],
+	  props: ['id', 'actCode','form'],
 	  data() {	    
 	    return {	      
 	      stepActive:1,
