@@ -150,6 +150,7 @@ Vue.use(Main)
 Vue.use(Loading.directive)
 
 Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$prompt = MessageBox.prompt
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$message = Message
 // 全局设置 拥有size属性的尺寸均为 small

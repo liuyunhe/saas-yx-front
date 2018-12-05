@@ -338,6 +338,11 @@ export default {
         res => {
           if (res.ret === '200000') {
             this.$message.success('删除成功')
+            this.actListParams.ctime = ''
+            this.actListParams.form = ''
+            this.actListParams.keywords = ''
+            this.actListParams.pageNo = 1
+            this.actListParams.pageSize = 10
             this.getActList()
           } else {
             this.$message.error(res.message)
@@ -399,17 +404,34 @@ export default {
       this.getAct()
     },
     edit(code,id){
-    	if(code=='act-103'){
-    		this.$router.push('/market/actTpl/addActEgg?id=' + id)
-    	}else if(code=='act-102'){//点元宝
-            this.$router.push('/market/actTpl/AddWingAct?id=' + id)
-        }else if(code=='act-101'){//九宫格
-            this.$router.push('/market/actTpl/AddActSudoku?id=' + id)
-        }else if(code == 'act-104'){
+      switch (code) {
+        case 'act-101':
+          this.$router.push('/market/actTpl/AddActSudoku?id=' + id)
+          break;
+        case 'act-102':
+          this.$router.push('/market/actTpl/AddWingAct?id=' + id)
+          break;
+        case 'act-103':
+          this.$router.push('/market/actTpl/addActEgg?id=' + id)
+          break;
+        case 'act-104':
           this.$router.push('/market/actTpl/addActFanpaizi?id=' + id)
-        }else{
-    		this.$router.push('/market/actTpl/addAct?id=' + id)
-    	}
+          break;
+        default:
+          this.$router.push('/market/actTpl/addAct?id=' + id)
+          break;
+      }
+    	// if(code=='act-103'){
+    	// 	this.$router.push('/market/actTpl/addActEgg?id=' + id)
+    	// }else if(code=='act-102'){//点元宝
+      //       this.$router.push('/market/actTpl/AddWingAct?id=' + id)
+      //   }else if(code=='act-101'){//九宫格
+      //       this.$router.push('/market/actTpl/AddActSudoku?id=' + id)
+      //   }else if(code == 'act-104'){
+      //     this.$router.push('/market/actTpl/addActFanpaizi?id=' + id)
+      //   }else{
+    	// 	this.$router.push('/market/actTpl/addAct?id=' + id)
+    	// }
     }
   }
 }
