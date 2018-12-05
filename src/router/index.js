@@ -47,8 +47,7 @@ const AddActSudoku = () => import(/* webpackChunkName: "activity" */ '@/pages/Ma
 const AddActQuestion = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddQuestion.ActTpl')
 const ActSetConf = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActSetConf')
 const ActPutConf = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActPutConf')
-const QuesActSetConf = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/QuesAct/QuesActSet')
-const QuesActPutConf = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/QuesAct/QuesActPut')
+const QuesEdit = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/QuesAct/QuesEdit')
 const QuesList = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/QuesAct/QuesList')
 // 数据-零售户-发展情况概况
 const DataSellerOverview = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/SellerData/Overview.vue')
@@ -292,6 +291,7 @@ export default new Router({
         { path: '/market/actTpl/addActQuestion', name: '新建答题活动模板配置', component: AddActQuestion, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/actSetConf', name: '基础设置', component: ActSetConf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode, id: router.query.id, clone: router.query.clone,}) },
         { path: '/market/actTpl/quesActSetConf', name: '题目设置', component: QuesList, props: (router) => ({id: router.query.id, actCode: router.query.actCode}) },
+        { path: '/market/actTpl/quesEdit', name: '题目编辑', component: QuesEdit, props: (router) => ({id: router.query.id}) },
         { path: '/market/actTpl/actPutConf', name: '投放设置', component: ActPutConf, props: (router) => ({id: router.query.id, actCode: router.query.actCode}) },
         // 订单
         { path: '/orders', name: '订单' },

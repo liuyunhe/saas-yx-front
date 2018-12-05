@@ -207,8 +207,11 @@ props: ['id'],
 //          that.$router.push(
 //            '/market/actTpl/actSetConf?form=' + res.data.form + '&tplCode=' + res.data.tplCode
 //          )
+//          that.$router.push(
+//            '/market/actTpl/actSetConf?form=act-501'
+//          )
             that.$router.push(
-              '/market/actTpl/actSetConf'
+              '/market/actTpl/quesActSetConf?form=act-501'
             )
           } else {
             // 不投放

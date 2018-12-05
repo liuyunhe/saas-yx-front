@@ -2,6 +2,7 @@ export default {
   props: ['id', 'actCode'],
   data() {
     return {
+    	stepActive:2,
       act: {
         id: null,
         actCode: '', // 编码
