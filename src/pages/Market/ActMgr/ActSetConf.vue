@@ -222,9 +222,16 @@ export default {
         }
         this.$request.post('/api/saotx/act/saveOrModify', this.confData, true, res => {
           if (res.ret === '200000') {
-            return this.$router.push(
+          	if(this.form='act-501'){
+          		return this.$router.push(
               '/market/actTpl/quesActSetConf?id=' + res.data.id + '&actCode=' + res.data.actCode+'&form='+this.form
-            )
+            	)
+          	}else {
+          		return this.$router.push(
+              '/market/actTpl/actPutConf?id=' + res.data.id + '&actCode=' + res.data.actCode
+            	)
+          	}
+            
           }
           this.$message.error(res.message)
         })

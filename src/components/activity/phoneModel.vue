@@ -122,6 +122,27 @@
                         }"
                     >
                 </div>
+                <div class="page page5" v-if="page == 7">
+                    <img 
+                        :src="commonImg.errorTip.url" alt="" 
+                        class="award-pic no-award"
+                        :style="{
+                            'max-width': commonImg.errorTip.size[0] * 0.4 + 'px',
+                            'max-height': commonImg.errorTip.size[1] * 0.4 + 'px',
+                            'top': commonImg.errorTip.pos[1] * 0.42 + 'px'
+                        }"
+                        />
+                    <p>时间到!</p>
+                    <img 
+                        :src="commonImg.errorBtn.url" alt="" 
+                        class="award-btn"
+                        :style="{
+                            'max-width': commonImg.errorBtn.size[0] * 0.4 + 'px',
+                            'max-height': commonImg.errorBtn.size[1] * 0.4 + 'px',
+                            'top': commonImg.errorBtn.pos[1] * 0.42 + 'px'
+                        }"
+                    >
+                </div>
                 
             </div>
             <div class="phone-footer"></div>
@@ -184,7 +205,7 @@ export default {
         height: 614px;
         .phone-header{
             height: 66px;
-            background: url("http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/937@2x.png") center no-repeat;
+            background: url("http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/937@2x.png") center no-repeat / cover;
             overflow: hidden;
             & h4{
                 margin-block-start: 0;
@@ -196,7 +217,7 @@ export default {
         }
         .phone-body{
             height: 484px;
-            margin-left: 1px;
+            /*margin-left: 1px;*/
             position: relative;
             .cover{
                 position: absolute;
@@ -266,7 +287,7 @@ export default {
         }
         .phone-footer{
             height: 64px;
-            background: url("http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/phone-footer@2x.png") center no-repeat;
+            background: url("http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/phone-footer@2x.png") center no-repeat/ cover;
         }
     }
 }

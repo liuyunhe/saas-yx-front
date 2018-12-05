@@ -12,6 +12,7 @@
             <el-menu-item index="3">我的奖品页面</el-menu-item>
             <el-menu-item index="4">中奖页面</el-menu-item>
             <el-menu-item index="5">未中奖页面</el-menu-item>
+            <el-menu-item index="7">异常处理页面</el-menu-item>
         </el-menu>
         <el-card :body-style="{padding:'40px'}">
             <el-row>
@@ -31,7 +32,7 @@
                         :desc = "conf.description"
                         @titleInput="titleInput" 
                         @descInput="descInput" 
-                        v-if="page == 1"/>
+                        v-show="page == 1"/>
                     <activity-image-editor 
                         v-if="page != 2 && page !=3"
                         :editData="editData" 
@@ -74,10 +75,10 @@ props: ['id'],
       page: 1,
       isPublish: false,
       conf : {
-        form: 'act-104',
+        form: 'act-501',
         id: '',
         description: '',
-        title: '活动标题',
+        title: '',
         img: img.img.ACT_QUESTION,
         commonImg: img.commonImg,
         conf: {img: '', commonImg: '', title: '', desc: ''},
@@ -122,11 +123,17 @@ props: ['id'],
         }else if(key==6){
         	that.editData = [that.conf.img.question.Quesbg];
             that.editType = 'normal';
+        }else if(key==7){
+        	that.editData = [
+                that.conf.commonImg.errorTip,
+                that.conf.commonImg.errorBtn
+            ];
+            that.editType = 'common'
         }
     },
     titleInput(e) {
         let value = e.value;
-        value ? this.conf.title = value : this.title = "活动标题";
+        value ? this.conf.title = value : this.conf.title = "";
     },
     descInput (e) {
         let value = e.value;
@@ -199,19 +206,13 @@ props: ['id'],
       that.conf.conf = JSON.stringify(that.conf.conf);
       that.conf.name = that.conf.title;
       that.conf.note = that.conf.description;
-//    that.$request.post('/api/saotx/acttpl/saveOrModify', that.conf, true, res => {
-//      if (res.ret === '200000') {
+      that.$request.post('/api/saotx/acttpl/saveOrModify', that.conf, true, res => {
+        if (res.ret === '200000') {
           // 投放
           if (that.isPublish) {
             // 跳到活动基本信息页
-//          that.$router.push(
-//            '/market/actTpl/actSetConf?form=' + res.data.form + '&tplCode=' + res.data.tplCode
-//          )
-//          that.$router.push(
-//            '/market/actTpl/actSetConf?form=act-501'
-//          )
             that.$router.push(
-              '/market/actTpl/quesActSetConf?form=act-501'
+              '/market/actTpl/actSetConf?form=' + res.data.form + '&tplCode=' + res.data.tplCode
             )
           } else {
             // 不投放
@@ -219,10 +220,10 @@ props: ['id'],
             that.$router.push('/market/actTpl')
           }
           that.$message.success('保存成功!')
-//        return
-//      }
-//      that.$message.error(res.message)
-//    })
+          return
+        }
+        that.$message.error(res.message)
+      })
     }
   }
 };

@@ -417,6 +417,9 @@ export default {
         case 'act-104':
           this.$router.push('/market/actTpl/addActFanpaizi?id=' + id)
           break;
+        case 'act-501':
+          this.$router.push('/market/actTpl/addActQuestion?id=' + id)
+          break;
         default:
           this.$router.push('/market/actTpl/addAct?id=' + id)
           break;

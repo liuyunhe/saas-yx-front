@@ -69,6 +69,20 @@ const commonImg = {
         url: handle.getUrl('huodongshuoming', 2),
         pos: [0, 0],
         size: [100, 100]
+    },
+    errorTip:{
+    	name: '异常弹框',
+        index: 'error',
+        url: handle.getUrl('wodedjiangpin', 2),
+        pos: [85, 373],
+        size: [620,345]
+    },
+    errorBtn:{
+    	name: '异常弹框按钮',
+        index: 'error',
+        url: handle.getUrl('know-btn', 2),
+        pos: [231, 905],
+        size: [290, 74]
     }
 }
 
@@ -245,30 +259,30 @@ const img = {
     		bg: {
                 name: '背景',
                 index: 'bg',
-                url: handle.getUrl('fanpaizi-bg1', 2),
+                url: handle.getUrl('ques_bg__2', 2),
                 pos: [0, 0],
                 size: [750, 1208]
             },
             contentBg: {
-                name: '牌子背景',
+                name: '开始答题按钮',
                 index: 'contentBg',
-                url: handle.getUrl('fanpaizi-bg2', 2),
-                pos: [32, 400],
-                size: [693, 724]
+                url: handle.getUrl('ques_btn_2', 2),
+                pos: [80, 1050],
+                size: [317, 103]
             },
             title: {
                 name: '标题',
                 index: 'title',
-                url: handle.getUrl('fanpaizi-title', 2),
+                url: handle.getUrl('ques_title', 2),
                 pos: [70, 100],
-                size: [550, 270]
+                size: [720, 468]
             },
             tips: {
-                name: '活动锦囊',
+                name: '活动规则',
                 index: 'tips',
-                url: handle.getUrl('fanpaizi-tips', 2),
-                pos: [654, 32],
-                size: [92, 106]
+                url: handle.getUrl('ques_rule', 2),
+                pos: [620, 32],
+                size: [120, 120]
             },
             
     	},
@@ -276,23 +290,23 @@ const img = {
     		Quesbg: {
                 name: '答题背景',
                 index: 'Qbg',
-                url: handle.getUrl('eggBg', 2),
+                url: handle.getUrl('ques_bg_1', 2),
                 pos: [0, 0],
                 size: [750, 1208]
             },
             QuesActive: {
                 name: '选中标识',
                 index: 'QcontentBg',
-                url: handle.getUrl('fanpaizi-bg2', 2),
+                url: handle.getUrl('right_1', 2),
                 pos: [32, 400],
-                size: [693, 724]
+                size: [59, 34]
             },
             QuesbtnBg:{
             	name: '答题按钮',
                 index: 'QcontentBg',
-                url: handle.getUrl('fanpaizi-bg2', 2),
-                pos: [32, 20],
-                size: [693, 724]
+                url: handle.getUrl('ques_btn_2', 2),
+                pos: [220, 1050],
+                size: [317, 103]
             }
     	}
     }

@@ -15,7 +15,7 @@
 			<!--<el-button type="primary" size="small" @click="addQues()">初始化题目</el-button>-->
 			<br />
            	 关键字：<el-input size="small" v-model="keywords" placeholder="请输入关键词"class='keywords'></el-input>
-           	<el-button type="primary" size="small" @click="addQues()"class='search'>查询</el-button>
+           	<el-button type="primary" size="small" @click="search()"class='search'>查询</el-button>
            	
 	    </el-card>
 	    <el-card class='table-part'>
@@ -66,7 +66,7 @@
 	      keywords:'',
 	      tableData:[],
 	      loading:false,
-	      max:10,
+	      max:5,
 	      total:10,
 	    }
 	  },
@@ -82,21 +82,23 @@
 	  	},
 	  	addQues(){
 	  		this.$router.push(
-	            '/market/actTpl/quesEdit'
+	            '/market/actTpl/quesEdit?id='+this.id+'&actCode='+this.actCode+'&form='+this.form
 	        )
 	  	},
 	  	addBatch(){},
 	  	editItem(item){
 	  		this.$router.push(
-	            '/market/actTpl/quesEdit?id=' + item.id
-	        )
+	            '/market/actTpl/quesEdit?quesId=' + item.id+'&id='+this.id+'&actCode='+this.actCode+'&form='+this.form	        )
 //	  		'/market/actTpl/quesEdit
+	  	},
+	  	search(){
+	  		this.getList();
 	  	},
 	  	removeItem(item){},
 	  	getList(){
 	  		this.$request.post('/api/saotx/actquest/list', {
 	  			pageNo: this.page,
-				selfListPageSize: this.max,
+				pageSize: this.max,
 				keywords:this.keywords
 	  		}, true, res => {
 		        if (res.ret == '200000') {
@@ -129,7 +131,7 @@
 	    },
 	    nextStep() {
 	        this.$router.push(
-	            '/market/actTpl/actPutConf?id=' + this.id + '&actCode=' + this.actCode
+	            '/market/actTpl/actPutConf?id=' + this.id + '&actCode=' + this.actCode +'&form='+this.form
 	        )
 	    }
 	  }
@@ -163,7 +165,7 @@
 				vertical-align: middle;
 				width:20px;
 				height: 20px;
-				background: url(../../../../../build/logo.png) no-repeat center / contain;
+				background: url('http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/right_1.png') no-repeat center / contain;
 			}
 		}
 	}

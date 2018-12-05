@@ -35,7 +35,7 @@
 
 <script>
 	export default {
-	  props: ['id', 'actCode'],
+	  props: ['id', 'actCode','form','quesId'],
 	  data() {	    
 	    return {	      
 	      stepActive:1,
@@ -47,7 +47,14 @@
 	      titleName:'',
 	      detailData:{
 	      	quesTitle:'',
-	      	actAnsw:[]
+	      	actAnsw:[
+	      	{answName:'',answFlag:false},
+	      	{answName:'',answFlag:false},
+	      	],
+	      	actCode:'',
+	      	id:'',
+	      	quesId:'',
+	      	quesType:1,
 	      },
 	      addFlag:false
 	    }
@@ -84,9 +91,12 @@
 	  		this.detailData.actAnsw.splice(key,1)
 	  	},
 	    getDetail() {
-	      if (!this.id) return
+	      if (!this.quesId) {
+	      	this.detailData.actCode=this.actCode;
+	      	return;
+	      }
 	      this.$request.post('/api/saotx/actquest/detail', { actQuest: {
-	      	id:parseInt(this.id)
+	      	id:parseInt(this.quesId)
 	      } }, true, res => {
 	        if (res.ret == '200000') {
 	          this.detailData=res.data.bean;
@@ -99,24 +109,52 @@
 	      })
 	    },
 	    back(){
-	    	this.$router.push('/market/actTpl/quesActSetConf?id='+id+'&actCode='+actCode)
+	    	this.$router.push('/market/actTpl/quesActSetConf?id='+this.id+'&actCode='+this.actCode+'&form='+this.form)
 	    },
 	    nextStep() {
-	      this.$refs.actSetConfRef.validate(valid => {
-	        if (!valid) return this.$message.error('请完善表单数据!')
-	        if (!this.id) {
-	          this.confData.form = this.form
-	          this.confData.tplCode = this.tplCode
+	        if (!this.detailData.quesTitle) return this.$message.error('请填写题目内容!')
+	        var flag=0;var flag2=0;
+	        this.detailData.actAnsw.forEach((item)=>{
+	        	if(!item.answName) {
+	        		flag2=1;
+	        		return;
+	        	}
+	        	if(item.answFlag){
+	        		flag=1;
+	        	}
+	        })
+	        if(!flag){
+	        	return this.$message.error('请至少选择一个正确答案!')
 	        }
-	        this.$request.post('/api/saotx/act/saveOrModify', this.confData, true, res => {
+	        if(flag2){
+	        	return this.$message.error('请填写完整题目答案!')
+	        }
+	        if(this.detailData.actAnsw.length<2){
+	        	return this.$message.error('请至少填写两个答案!')
+	        }
+	        this.detailData.actAnsw.forEach((item)=>{
+	          item.answFlag==true?item.answFlag=1:item.answFlag=0;
+	        })
+	        this.$request.post('/api/saotx/actquest/somquet', {
+	        	actQuest:{
+	        		id:this.detailData.id,
+	        		quesId:this.detailData.quesId,
+	        		actCode:this.detailData.actCode,
+	        		quesTitle:this.detailData.quesTitle,
+	        		quesType:this.detailData.quesType
+	        	},
+	        	actAnsw:this.detailData.actAnsw
+	        }, true, res => {
+	        	console.log(res)
 	          if (res.ret === '200000') {
-	            return this.$router.push(
-	              '/market/actTpl/actPutConf?id=' + res.data.id + '&actCode=' + res.data.actCode
-	            )
+	          	this.$message.success('保存成功!')
+	          		return this.$router.push(
+		              '/market/actTpl/quesActSetConf?id=' + this.id + '&actCode=' + this.actCode+'&form='+this.form
+		           )
+	            return;
 	          }
 	          this.$message.error(res.message)
 	        })
-	      })
 	    }
 	  }
 	}
