@@ -345,6 +345,7 @@ export default {
     // 保存进入下一步
     saveActTpl() {
       if (!this.addActParams.name) return this.$message.warning('请输入模板名称')
+      this.configItem.title=this.addActParams.name;
       this.addActParams.conf = JSON.stringify(this.configItem)
       this.$request.post('/api/saotx/acttpl/saveOrModify', this.addActParams, true, res => {
         if (res.ret === '200000') {
