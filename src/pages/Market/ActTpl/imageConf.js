@@ -33,7 +33,7 @@ const commonImg = {
         index: 'award',
         url: handle.getUrl('ic-awardgift', 2),
         pos: [0, 0],
-        size: [750, 1208]
+        size: [620, 345]
     },
     noAward: {
         name: '未获奖图片',
@@ -72,17 +72,17 @@ const commonImg = {
     },
     errorTip:{
     	name: '异常弹框',
-        index: 'error',
-        url: handle.getUrl('wodedjiangpin', 2),
+        index: 'errorTip',
+        url: handle.getUrl('error_bg', 2),
         pos: [85, 373],
-        size: [620,345]
+        size: [593,686]
     },
     errorBtn:{
     	name: '异常弹框按钮',
-        index: 'error',
-        url: handle.getUrl('know-btn', 2),
+        index: 'errorBtn',
+        url: handle.getUrl('error_btn', 2),
         pos: [231, 905],
-        size: [290, 74]
+        size: [199, 69]
     }
 }
 
@@ -289,22 +289,29 @@ const img = {
     	question:{
     		Quesbg: {
                 name: '答题背景',
-                index: 'Qbg',
+                index: 'Quesbg',
                 url: handle.getUrl('ques_bg_1', 2),
                 pos: [0, 0],
                 size: [750, 1208]
             },
             QuesActive: {
                 name: '选中标识',
-                index: 'QcontentBg',
+                index: 'QuesActive',
                 url: handle.getUrl('right_1', 2),
-                pos: [32, 400],
+                pos: [400, 550],
                 size: [59, 34]
+            },
+            QuesWrong: {
+                name: '选错标识',
+                index: 'QuesWrong',
+                url: handle.getUrl('wrong', 2),
+                pos: [410, 650],
+                size: [34, 34]
             },
             QuesbtnBg:{
             	name: '答题按钮',
-                index: 'QcontentBg',
-                url: handle.getUrl('ques_btn_2', 2),
+                index: 'QuesbtnBg',
+                url: handle.getUrl('ques_btn_1', 2),
                 pos: [220, 1050],
                 size: [317, 103]
             }

@@ -153,6 +153,7 @@ props: ['id'],
         }
     },
     editPic (e) {
+    	console.log(e)
         let that = this, 
             type = e.type, 
             index = e.index, 
@@ -160,18 +161,21 @@ props: ['id'],
             itemRepeat = e.itemRepeat,
             item = 'item',
             conf = that.conf;
+            
         if(!url) return;
         if(type == 'item' && itemRepeat){
             for(let i in conf.img[type]){
                 conf.img[type][i].url = url;
             }
-        }else if((type == 'item' && !itemRepeat) || type == 'normal') {
+        }else if((type == 'item' && !itemRepeat) || type == 'normal' && that.page==1) {
             conf.img[type][index].url = url;
         }else if(type == 'common'){
             console.log(index)
             conf.commonImg[index].url = url;
+        }else if(type == 'normal' && that.page==6){
+        	console.log(conf.img['question'])
+        	conf.img['question'][index].url = url;
         }
-        that.conf = conf;
     },
     getActDetail() {
         let that = this;
