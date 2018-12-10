@@ -200,14 +200,15 @@ p {
             cursor: pointer;
         }
     }
+    
     .add-tpl {
         padding: 20px 10px 10px 20px;
-        min-height: 600px;
         ul {
             li {
                 float: left;
                 width: 200px;
                 height: 400px;
+                margin-bottom: 20px;
                 img {
                     width: 200px;
                     height: 350px;
