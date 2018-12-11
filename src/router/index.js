@@ -48,6 +48,16 @@ const AddActSudoku = () => import(/* webpackChunkName: "activity" */ '@/pages/Ma
 const ActSetConf = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActSetConf')
 const ActPutConf = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActPutConf')
 
+
+// 会员日
+const Draw = () => import(/* webpackChunkName: "member" */ '@/pages/Member/DrawALottery/Draw')
+const BaseAward = () => import(/* webpackChunkName: "member" */ '@/pages/Member/WinningList/BaseAward')
+const BaseAwardDetail = () => import(/* webpackChunkName: "member" */ '@/pages/Member/WinningList/BaseAwardDetail')
+const ScanAward = () => import(/* webpackChunkName: "member" */ '@/pages/Member/WinningList/ScanAward')
+const SuperAward = () => import(/* webpackChunkName: "member" */ '@/pages/Member/WinningList/SuperAward')
+const SuperAwardDetail = () => import(/* webpackChunkName: "member" */ '@/pages/Member/WinningList/SuperAwardDetail')
+const MemberSetting = () => import(/* webpackChunkName: "member" */ '@/pages/Member/MemberSetting/MemberSetting')
+
 // 数据-零售户-发展情况概况
 const DataSellerOverview = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/SellerData/Overview.vue')
 // 数据-零售户-明细查询
@@ -357,7 +367,15 @@ export default new Router({
         { path: '/setting/user/role', name: '角色管理', component: SettingRole },
         { path: '/setting/logs', name: '日志管理', component: SettingLogs },
         { path: '/setting/seller', name: '零售户管理', component: SettingSeller },
-        { path: '/setting/mall', name: '积分设置', component: KPI }
+        { path: '/setting/mall', name: '积分设置', component: KPI },
+        // 会员日
+        { path: '/member/draw', name: '会员日开奖', component: Draw },
+        { path: '/member/baseAward', name: '中奖名单-常规', component: BaseAward },
+        { path: '/member/baseAwardDetail', name: '常规奖详情', component: BaseAwardDetail },
+        { path: '/member/scanAward', name: '中奖名单-扫码贡献奖', component: ScanAward },
+        { path: '/member/superAward', name: '中奖名单-超级金荷奖', component: SuperAward },
+        { path: '/member/superAwardDetail', name: '金荷奖详情', component: SuperAwardDetail },
+        { path: '/member/memberSetting', name: '会员日设置', component: MemberSetting },
       ]
     },
     {
