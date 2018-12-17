@@ -369,16 +369,18 @@ export default {
     },
     // 跳转到新建活动模板页面
     goAddActTpl(code) {
-    	if(code=='act-103'){
+    	if(code=='act-100'){//翻钻石
+    		this.$router.push('/market/actTpl/addAct')//先注释之前的，暂时改为答题
+    	}else if(code=='act-103'){//砸金蛋
     		this.$router.push('/market/actTpl/addActEgg')
     	}else if(code=='act-102'){//点元宝
-            this.$router.push('/market/actTpl/AddWingAct')
-        }else if(code=='act-101'){//九宫格
-            this.$router.push('/market/actTpl/AddActSudoku')
-        }else if(code == 'act-104'){
-          this.$router.push('/market/actTpl/AddActFanpaizi')
-        }else{
-    		this.$router.push('/market/actTpl/addAct')
+          this.$router.push('/market/actTpl/AddWingAct')
+      }else if(code=='act-101'){//九宫格
+        this.$router.push('/market/actTpl/AddActSudoku')
+      }else if(code == 'act-104'){
+        this.$router.push('/market/actTpl/AddActFanpaizi')
+      }else if(code=='act-501'){   		
+				this.$router.push('/market/actTpl/addActQuestion')
     	}
     },
     // 每当 pagesize 变化，会触发 这个函数
@@ -414,6 +416,9 @@ export default {
           break;
         case 'act-104':
           this.$router.push('/market/actTpl/addActFanpaizi?id=' + id)
+          break;
+        case 'act-501':
+          this.$router.push('/market/actTpl/addActQuestion?id=' + id)
           break;
         default:
           this.$router.push('/market/actTpl/addAct?id=' + id)

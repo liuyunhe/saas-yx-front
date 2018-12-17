@@ -10,6 +10,11 @@
       <el-breadcrumb-item>投放设置</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
+    	<el-steps :active="stepActive" finish-status="success"align-center class='step-style'v-show='form=="act-501"'>
+			  <el-step title="基础设置"></el-step>
+			  <el-step title="题目设置"></el-step>
+			  <el-step title="投放设置"></el-step>
+			</el-steps>
       <el-form ref="form" :model="strategy" label-width="100px">
         <el-form-item label="品牌规格：">
           <el-select v-model="selectBrand" multiple collapse-tags placeholder="请选择" @change="getBrandSonList">
@@ -182,6 +187,9 @@ export default {
   .prize-conf {
     max-width: 800px;
   }
+}
+.step-style {
+	margin-bottom: 40px;
 }
 .title {
   height: 40px;

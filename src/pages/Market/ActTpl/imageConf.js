@@ -33,7 +33,7 @@ const commonImg = {
         index: 'award',
         url: handle.getUrl('ic-awardgift', 2),
         pos: [0, 0],
-        size: [750, 1208]
+        size: [620, 345]
     },
     noAward: {
         name: '未获奖图片',
@@ -69,6 +69,20 @@ const commonImg = {
         url: handle.getUrl('huodongshuoming', 2),
         pos: [0, 0],
         size: [100, 100]
+    },
+    errorTip:{
+    	name: '异常弹框',
+        index: 'errorTip',
+        url: handle.getUrl('error_bg', 2),
+        pos: [85, 373],
+        size: [593,686]
+    },
+    errorBtn:{
+    	name: '异常弹框按钮',
+        index: 'errorBtn',
+        url: handle.getUrl('error_btn', 2),
+        pos: [231, 905],
+        size: [199, 69]
     }
 }
 
@@ -239,6 +253,69 @@ const img = {
                 size: [195, 162]
             },
         }
+    },
+    ACT_QUESTION:{
+    	normal:{
+    		bg: {
+                name: '背景',
+                index: 'bg',
+                url: handle.getUrl('ques_bg__2', 2),
+                pos: [0, 0],
+                size: [750, 1208]
+            },
+            contentBg: {
+                name: '开始答题按钮',
+                index: 'contentBg',
+                url: handle.getUrl('ques_btn_2', 2),
+                pos: [80, 1050],
+                size: [317, 103]
+            },
+            title: {
+                name: '标题',
+                index: 'title',
+                url: handle.getUrl('ques_title', 2),
+                pos: [70, 100],
+                size: [720, 468]
+            },
+            tips: {
+                name: '活动规则',
+                index: 'tips',
+                url: handle.getUrl('ques_rule', 2),
+                pos: [620, 32],
+                size: [120, 120]
+            },
+            
+    	},
+    	question:{
+    		Quesbg: {
+                name: '答题背景',
+                index: 'Quesbg',
+                url: handle.getUrl('ques_bg_1', 2),
+                pos: [0, 0],
+                size: [750, 1208]
+            },
+            QuesActive: {
+                name: '选中标识',
+                index: 'QuesActive',
+                url: handle.getUrl('right_1', 2),
+                pos: [400, 550],
+                size: [59, 34]
+            },
+            QuesWrong: {
+                name: '选错标识',
+                index: 'QuesWrong',
+                url: handle.getUrl('wrong', 2),
+                pos: [410, 650],
+                size: [34, 34]
+            },
+            QuesbtnBg:{
+            	name: '答题按钮',
+                index: 'QuesbtnBg',
+                url: handle.getUrl('ques_btn_1', 2),
+                pos: [220, 1050],
+                size: [317, 103]
+            }
+    	}
     }
 }
 

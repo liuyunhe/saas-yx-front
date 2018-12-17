@@ -80,7 +80,7 @@
         </el-table-column>
         <el-table-column label="操作" align="center" width="260px">
           <template slot-scope="scope">
-            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status != 4" @click="edit(scope.row.id)">编辑</a>
+            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status != 4" @click="edit(scope.row.id,scope.row.form)">编辑</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 2" @click="post(scope.row.id)">发布</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 3" @click="post(scope.row.id)">发布</a>
             <a style="color: #347ab7" href="javascript:;" @click="clone(scope.row.id)">复制</a>
@@ -556,8 +556,12 @@ export default {
     },
 
     // 编辑
-    edit(id) {
-      this.$router.push('/market/actTpl/actSetConf?id=' + id)
+    edit(id,form) {
+    	if(form=='act-501'){
+    		this.$router.push('/market/actTpl/actSetConf?id=' + id+'&form='+form)
+    	}else {
+    		this.$router.push('/market/actTpl/actSetConf?id=' + id)
+    	}
     },
     // 复制
     clone(id) {

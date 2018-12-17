@@ -68,7 +68,9 @@ export default {
       editIndex: ""
     };
   },
-  created() {},
+  created() {
+  	console.log()
+  },
   methods: {
       uploadSuccess (res, file, fileList) {
         let that = this;

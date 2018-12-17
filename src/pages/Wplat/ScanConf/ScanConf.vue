@@ -4,7 +4,7 @@
 
 			<div class="scan-content">
 				<div class="top">
-					<el-button type="primary" size='small' class='pri-btn' @click='listShow=false;addTplShow=true;'>新建扫码落地页</el-button>
+					<el-button type="primary" size='small' class='pri-btn' @click='addTplShow=true;'>新建扫码落地页</el-button>
 					<br /><br /> 模板类型:
 					<el-select v-model="modelValue" placeholder="请选择" size='small' style='width:200px'>
 						<el-option v-for="item in options" :key="item.name" :label="item.name" :value="item.type">
@@ -55,15 +55,16 @@
 			</div>
 
 		</div>
-		<div class="add-tpl" v-show='addTplShow'>
-			<span @click='backMain' class='backMain'>返回</span>
-			<ul class="clearfix">
-				<li v-for='(item,key) in options'>
-					<img :src="item.icon" alt="" />
-					<div @click='addSure(item)'>使用模板</div>
-				</li>
-			</ul>
-		</div>
+		<el-dialog title="模板选择":visible.sync="addTplShow"width='70%':close-on-click-modal="false">
+			<div class="add-tpl" v-show='addTplShow'>
+				<ul class="clearfix">
+					<li v-for='(item,key) in options'>
+						<img :src="item.icon" alt="" />
+						<div @click='addSure(item)'>使用模板</div>
+					</li>
+				</ul>
+			</div>
+		</el-dialog>		
 		<div class="add-part" v-show='addShow'>
 			<span @click='backMain' class='backMain'>返回</span>
 			<div class="title">扫码验真页配置</div>

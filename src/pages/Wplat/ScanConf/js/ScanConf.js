@@ -392,6 +392,21 @@ export default {
 				});
 				return;
 			}
+			if(!that.addlist.conf.has.title.name){
+				
+				this.$message({
+					message: '请填写已扫码页面的页面名称',
+					type: 'warning'
+				});
+				return;
+			}
+			if(!that.addlist.conf.not.title.name){
+				this.$message({
+					message: '请填写未扫码页面的页面名称',
+					type: 'warning'
+				});
+				return;
+			}
 			var savelist = {};
 			savelist.id = that.addlist.id;
 			savelist.name = that.addlist.name;
@@ -435,6 +450,20 @@ export default {
 			if(!that.addlist.name){
 				this.$message({
 					message: '请填写模板名称',
+					type: 'warning'
+				});
+				return;
+			}
+			if(!that.addlist.conf.has.title.name){
+				this.$message({
+					message: '请填写已扫码页面的页面名称',
+					type: 'warning'
+				});
+				return;
+			}
+			if(!that.addlist.conf.not.title.name){
+				this.$message({
+					message: '请填写未扫码页面的页面名称',
 					type: 'warning'
 				});
 				return;
