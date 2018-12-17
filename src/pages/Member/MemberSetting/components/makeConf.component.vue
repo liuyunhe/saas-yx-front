@@ -9,7 +9,7 @@
           <el-form-item>
             <el-radio v-model="item.give" :label="1">可转赠</el-radio>
           </el-form-item>
-          <el-form-item>
+          <el-form-item v-if="item.give == 1">
             <div>
               {{item.type === 202 ? '接收转赠翻倍卡数量：' : '接收转赠翻倍卡数量：'}}
               <el-radio v-model="item.isRecieveMax" :label="0">不限制</el-radio>

@@ -4,7 +4,7 @@
       <el-input v-model="form.activityName" :maxlength="15"></el-input>
     </el-form-item>
     <el-form-item label="活动描述：" prop="activityDec">
-      <el-input type="textarea" v-model="form.activityDec" :rows="3" resize="none"></el-input>
+      <el-input id="desc" type="textarea" v-model="form.activityDec" :rows="3" resize="none"></el-input>
     </el-form-item>
     <el-form-item label="优先级：" prop="idx">
       <el-select v-model="form.idx" placeholder="请选择">
@@ -197,6 +197,9 @@ export default {
 }
 .quill-editor {
   width: 420px;
+}
+#desc {
+  font-family: Arial !important;
 }
 </style>
 

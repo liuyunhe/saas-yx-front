@@ -126,7 +126,7 @@ export default {
       }
     },
     add() {
-      this.params.unshift({
+      this.params.push({
         snArr: [],
         score: null,
         luck: null,
@@ -136,7 +136,22 @@ export default {
       this.disableOption()
     },
     del(index) {
-      this.params.splice(index, 1)
+      this.$confirm('是否删除该项规则?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.params.splice(index, 1)
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })          
+        })
     }
   }
 }

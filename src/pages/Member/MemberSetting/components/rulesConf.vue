@@ -176,6 +176,7 @@ export default {
       })
     },
     nextStep() {
+      if (!this.form.lotteryStime) return this.$message.error('请选择开奖时间')
       this.form.lotteryStime = this.form.lotteryStime.split(':').join('')
       this.$request.post('/api/saotx/md/somExt', this.form, true, res => {
         if (res.ret === '200000') return this.$emit('nextStep', this.form.activityCode)
