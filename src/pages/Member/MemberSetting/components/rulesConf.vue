@@ -14,7 +14,7 @@
         <norm-conf v-if="form.snGiveSets" :params="form.snGiveSets"></norm-conf>
       </el-form-item>
       <el-form-item label="分享设置">
-        <share-conf v-if="form" :params="form" :double="doubleArr" :discount="discountArr"></share-conf>
+        <share-conf v-if="form && doubleArr && discountArr" :params="form" :double="doubleArr" :discount="discountArr"></share-conf>
       </el-form-item>
       <el-form-item label="转赠设置">
         <make-conf v-if="form.giveSets" :params="form.giveSets"></make-conf>
@@ -100,7 +100,7 @@ export default {
   },
   watch: {
     doubleArr: function(val) {
-      console.log(this.form.shareAwards)
+      // console.log(this.form.shareAwards)
       this.form.shareAwards.map((item, index) => {
         if (item.awardType == 202) {
           this.form.shareAwards.splice(index, 1)

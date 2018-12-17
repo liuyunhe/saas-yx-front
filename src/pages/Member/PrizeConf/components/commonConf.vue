@@ -12,21 +12,21 @@
             </el-select>
           </el-form-item>
           <el-form-item label="活动图片" prop="icon">
-            <el-upload class="avatar-uploader" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
+            <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
               <img v-if="form.icon" :src="form.icon" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：360像素*270像素；格式png、jpg；大小不超过2M</div>
             </el-upload>
           </el-form-item>
           <el-form-item label="翻倍倍数" prop="value" v-if="params.type == 2 && form.subType == 202">
-            <el-input-number controls-position="right" :min="0" :max="10" :precision="0" v-model="form.value"></el-input-number> 倍
+            <el-input-number controls-position="right" :min="1" :max="10" :precision="0" v-model="form.value"></el-input-number> 倍
             <!-- <el-input style="width: 100px;" v-model="form.value"></el-input> 倍 -->
           </el-form-item>
           <el-form-item label="折扣值" prop="value" v-if="params.type == 2 && form.subType == 201">
             <el-input-number controls-position="right" :min="0.00" :max="1.00" :precision="2" :step="0.1" v-model="form.value"></el-input-number> 折
           </el-form-item>
           <el-form-item label="红包面额" prop="value" v-if="params.type == 3">
-            <el-input-number controls-position="right" :min="0.00" :precision="2" v-model="form.value"></el-input-number> 元
+            <el-input-number controls-position="right" :min="0.30" :precision="2" v-model="form.value"></el-input-number> 元
           </el-form-item>
           <el-form-item label="积分面额" prop="value" v-if="params.type == 6">
             <el-input-number controls-position="right" :min="0" :precision="0" v-model="form.value"></el-input-number> 分
@@ -127,6 +127,13 @@ export default {
       }
       this.$message.error(resule.message)
     },
+    beforeAvatarUpload(file) {
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isLt2M;
+    }
   }
 }
 </script>

@@ -53,6 +53,9 @@ export default {
       selectedItem: [],
     }
   },
+  created () {
+    this.getCheckedCard()
+  },
   methods: {
     getCheckedCard() {
       if (this.params.length != 0) {

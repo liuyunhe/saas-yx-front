@@ -54,7 +54,7 @@
             <div v-if="TfPond">
               <el-form-item label="地区：">
                 <el-select v-model="prov" multiple collapse-tags placeholder="请选择区">
-                  <el-option v-if="provList" v-for="(item, index) in provList" :key="index" :label="item.name" :value="item.code"></el-option>
+                  <el-option v-if="provList" :disabled="item.disable ? true : false" v-for="(item, index) in provList" :key="index" :label="item.name" :value="item.code"></el-option>
                 </el-select>
               </el-form-item>
               <rank-conf :params="form[2].awards" :outRange="form[2].outRange"></rank-conf>
@@ -141,6 +141,7 @@ export default {
               this.prov.push(item.provCode)
             })
             this.TfPond = true
+            console.log(this.prov)
           }
           return
         }
@@ -149,7 +150,14 @@ export default {
     },
     getProvList() {
       this.$request.post('/api/saotx/dim/regionByMultiParent', { parentArr: [] }, true, res => {
-        if (res.ret === '200000') return this.provList = res.data
+        if (res.ret === '200000') {
+          res.data.map((item, index) => {
+            if (item.code == '130000') {
+              res.data.splice(index, 1)
+            }
+          })
+          this.provList = res.data
+        }
         this.$meaasge.error(res.message)
       })
     },

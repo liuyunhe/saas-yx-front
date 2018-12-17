@@ -1,29 +1,29 @@
 <template>
   <el-form ref="baseConfRef" :model="form" label-width="140px" :rules="confRules">
-    <el-form-item label="活动名称" prop="activityName">
+    <el-form-item label="活动名称：" prop="activityName">
       <el-input v-model="form.activityName" :maxlength="15"></el-input>
     </el-form-item>
-    <el-form-item label="活动描述" prop="activityDec">
+    <el-form-item label="活动描述：" prop="activityDec">
       <el-input type="textarea" v-model="form.activityDec" :rows="3" resize="none"></el-input>
     </el-form-item>
-    <el-form-item label="优先级" prop="idx">
+    <el-form-item label="优先级：" prop="idx">
       <el-select v-model="form.idx" placeholder="请选择">
         <el-option v-for="item in idxSelect" :key="item.idx" :label="item.name" :value="item.idx">
         </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item label="活动时间" prop="date">
+    <el-form-item label="活动时间：" prop="date">
       <el-date-picker v-model="actTime" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" :editable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
       </el-date-picker>
     </el-form-item>
-    <el-form-item label="活动图片" prop="banner">
+    <el-form-item label="活动图片：" prop="banner">
       <el-upload class="avatar-uploader" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
         <img v-if="form.activityEntrance" :src="form.activityEntrance" class="avatar">
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*270像素；格式png、jpg；大小不超过2M</div>
       </el-upload>
     </el-form-item>
-    <el-form-item label="活动说明" prop="desc">
+    <el-form-item label="活动说明：" prop="desc">
       <quill-editor ref="myTextEditor" v-model="form.activityDoc" :options="editorOption" placeholder="请输入活动说明" @blur="onEditorBlur($event)">
       </quill-editor>
     </el-form-item>

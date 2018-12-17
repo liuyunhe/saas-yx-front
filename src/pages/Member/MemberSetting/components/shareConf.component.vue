@@ -17,8 +17,8 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <double-card class="mt20" :params="double"></double-card>
-    <discount-card class="mt20" :params="discount"></discount-card>
+    <double-card v-if="double" class="mt20" :params="double"></double-card>
+    <discount-card v-if="discount" class="mt20" :params="discount"></discount-card>
   </div>
 </template>
 <script>

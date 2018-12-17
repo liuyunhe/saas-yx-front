@@ -56,7 +56,9 @@ export default {
     }
   },
   created() {
-    // this.getDoubleCardList()
+    this.getCheckedCard()
+  },
+  mounted() {
   },
   methods: {
     getCheckedCard() {
@@ -65,6 +67,7 @@ export default {
           this.selectedItem.push({id: item.poolId})
         })
       }
+      console.log(this.selectedItem)
     },
     handleSelectionChange(selection, row) {
       this.selectedItem = selection
@@ -133,6 +136,7 @@ export default {
           this.total = res.data.page.count
           this.$nextTick(_ => {
             this.selectedItem.forEach(item => {
+              console.log('ok')
               this.$refs.doubleCardTable.toggleRowSelection(this.dataList.find(d => d.id == item.id), true)
             })
           })

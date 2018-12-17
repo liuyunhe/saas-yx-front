@@ -8,7 +8,7 @@
       </el-steps>
        <base-conf v-if="active == 0" @nextStep="next"></base-conf>
        <rules-conf v-if="active == 1" :activityCode="actCode" @nextStep="next" @back="back"></rules-conf>
-       <put-conf v-if="active == 2" :activityCode="actCode"></put-conf>
+       <put-conf v-if="active == 2" :activityCode="actCode" @back="back"></put-conf>
     </el-card>
   </div>
 </template>
