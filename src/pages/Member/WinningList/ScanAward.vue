@@ -76,7 +76,7 @@ export default {
   methods: {
     getAwardList() {},
     handleSizeChange(newSize) {
-      this.params.pagesize = newSize
+      this.params.pageSize = newSize
       this.getAwardList()
     },
     handleCurrentChange(newPage) {

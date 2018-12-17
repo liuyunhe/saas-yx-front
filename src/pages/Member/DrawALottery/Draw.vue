@@ -3,28 +3,40 @@
     <el-card>
       <el-col class="mb20">
         <span>中奖周期：</span>
-        <el-select v-model="selectedDrawCircle" placeholder="请选择" @change='clg'>
-          <el-option v-for="item in drawCircleData" :key="item.id" :label="item.time" :value="item.name"></el-option>
+        <el-select v-model="params.termName" placeholder="请选择">
+          <el-option v-if="drawCircleData" v-for="item in drawCircleData" :key="item.termName" :label="item.termName" :value="item.termName"></el-option>
         </el-select>
       </el-col>
-      <el-button type="primary">查询</el-button>
-      <el-button>重置</el-button>
+      <el-button type="primary" @click="queryDraw">查询</el-button>
+      <el-button @click="reset">重置</el-button>
     </el-card>
     <el-card class="mt20">
-      <el-table border :stripe="true" :data="drawList" tooltip-effect="dark" style="width: 100%">
+      <el-table border  v-loading="loading" :stripe="true" :data="drawList" tooltip-effect="dark" style="width: 100%">
         <el-table-column align="center" type="selection" width="55"></el-table-column>
         <el-table-column align="center" type="index" label="序号" width="55"></el-table-column>
-        <el-table-column align="center" prop="name" label="中奖周期"></el-table-column>
-        <el-table-column align="center" prop="name" label="开奖周期">
-          <template slot-scope="scope">{{ scope.row.name }}</template>
+        <el-table-column align="center" prop="termName" label="中奖周期"></el-table-column>
+        <el-table-column align="center" label="开奖周期">
+          <template slot-scope="scope">
+            {{scope.row.term}}—{{scope.row.termEnd}}
+          </template>
         </el-table-column>
-        <el-table-column align="center" prop="name" label="开奖号码"></el-table-column>
-        <el-table-column align="center" prop="name" label="操作人"></el-table-column>
-        <el-table-column align="center" prop="name" label="操作时间">
-          <template slot-scope="scope">{{ scope.row.name }}</template>
+        <el-table-column align="center" prop="result" label="开奖号码"></el-table-column>
+        <el-table-column align="center" prop="drawUser" label="操作人"></el-table-column>
+        <el-table-column align="center" label="操作时间">
+          <template slot-scope="scope">
+            {{new Date(scope.row.drawTime).Format('yyyy-MM-dd hh:mm:ss')}}
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="开奖状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.drawStatus == 1">待开奖</span>
+            <span v-if="scope.row.drawStatus == 2">开奖中</span>
+            <span v-if="scope.row.drawStatus == 3">开奖完成</span>
+            <span v-if="scope.row.drawStatus == 4">开奖异常</span>
+          </template>
         </el-table-column>
         <el-table-column align="center" prop="name" label="操作项">
-          <template slot-scope="scope"><el-button type="text" @click="openDrawDialog(scope.row)">开奖</el-button></template>
+          <template slot-scope="scope" v-if="scope.row.drawStatus == 1"><el-button type="text" @click="openDrawDialog(scope.row)">开奖</el-button></template>
         </el-table-column>
       </el-table>
       <el-pagination class="mt20" background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="params.pageNo" :page-size="params.pageSize" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
@@ -58,14 +70,11 @@ export default {
       params: {
         pageNo: 1,
         pageSize: 10,
-        pcode: ''
+        termName: ''
       },
+      loading: true,
       total: 5,
-      drawCircleData: [
-        { name: '123', time: '第1234期', id: 1 },
-        { name: '1223', time: '第123234期', id: 2 },
-        { name: '12323', time: '第123234期', id: 3 }
-      ],
+      drawCircleData: [],
       numArr: [
         { num: 1, selected: false },
         { num: 2, selected: false },
@@ -80,30 +89,53 @@ export default {
         { num: 11, selected: false },
         { num: 12, selected: false },
       ],
+      nowId: null,
       selectedNumArr: [],
       selectedDrawCircle: '',
-      drawList: [
-        { name: 'test' },
-        { name: 'test' },
-        { name: 'test' },
-        { name: 'test' },
-        { name: 'test' },
-      ],
+      drawList: [],
       nowDrawCircleTime: '',
       selectedNumDialogVisible: false,
       confirmDialogVisible: false
     }
   },
+  created() {
+    this.getDrawList()
+    this.getQueryList()
+  },
   methods: {
     getDrawList() {
-
+      this.$request.post('/api/saotx/md/listRsl', this.params, true, res => {
+        if (res.ret === '200000') {
+          this.drawList = res.data.list
+          this.loading = false
+          return
+        }
+        this.$message.error(res.message)
+      })
     },
-    clg() {
-      console.log(this.selectedDrawCircle)
+    getQueryList() {
+      this.$request.post('/api/saotx/md/terms', {}, true, res => {
+        if (res.ret === '200000') return this.drawCircleData = res.data
+        this.$message.error(res.message)
+      })
+    },
+    queryDraw() {
+      this.params.pageNo = 1
+      this.params.pageSize = 10
+      this.loading = true
+      this.getDrawList()
+    },
+    reset() {
+      this.params.termName = ''
+      this.params.pageNo = 1
+      this.params.pageSize = 10
+      this.loading = true
+      this.getDrawList()
     },
     openDrawDialog(row) {
       this.selectedNumDialogVisible = true
-      this.nowDrawCircleTime = row.name
+      this.nowDrawCircleTime = row.term + '—' + row.termEnd
+      this.nowId = row.id
     },
     selectedStatus(i) {
       if (this.numArr[i].selected) {
@@ -130,7 +162,17 @@ export default {
       this.confirmDialogVisible = true
     },
     drawALottery() {
-
+      let drawNum = this.selectedNumArr.join(',')
+      this.$request.post('/api/saotx/md/draw', {id: this.nowId, result: drawNum}, true, res => {
+        if (res.ret === '200000') {
+          this.reset()
+        } else {
+          this.$message.error(res.message)
+        }
+        this.selectedNumDialogVisible = false,
+        this.confirmDialogVisible = false
+        this.selectedNumArr = []
+      })
     },
     resetSelectedNum() {
       this.selectedNumDialogVisible = false
@@ -140,7 +182,7 @@ export default {
       this.selectedNumArr = []
     },
     handleSizeChange(newSize) {
-      this.params.pagesize = newSize
+      this.params.pageSize = newSize
       this.getDrawList()
     },
     handleCurrentChange(newPage) {
