@@ -381,9 +381,9 @@ export default {
     		this.$router.push('/market/actTpl/addAct')
     	}
     },
-    // 每当 pagesize 变化，会触发 这个函数
+    // 每当 pageSize 变化，会触发 这个函数
     handleSizeChange(newSize) {
-      this.actListParams.pagesize = newSize
+      this.actListParams.pageSize = newSize
       this.getActList()
     },
     // 每当 页码值发生变化，会触发这个函数
@@ -393,7 +393,7 @@ export default {
     },
     // 活动弹窗分页
     actHandleSizeChange(newSize) {
-      this.actParams.pagesize = newSize
+      this.actParams.pageSize = newSize
       this.getAct()
     },
     // 活动弹窗分页

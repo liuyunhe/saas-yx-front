@@ -167,7 +167,7 @@ export default {
       this.sourceFiles = []; // 清空上传文件内容的引用
     },
     handleSizeChange(newSize) {
-      this.params.pagesize = newSize
+      this.params.pageSize = newSize
       this.getAwardList()
     },
     handleCurrentChange(newPage) {

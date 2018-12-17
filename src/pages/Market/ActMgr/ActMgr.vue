@@ -527,7 +527,7 @@ export default {
     },
     // 活动列表分页
     handleSizeChange(newSize) {
-      this.queryActParams.pagesize = newSize
+      this.queryActParams.pageSize = newSize
       this.getActList()
     },
     // 活动列表分页
@@ -537,7 +537,7 @@ export default {
     },
     // 活动弹窗分页
     actHandleSizeChange(newSize) {
-      this.actParams.pagesize = newSize
+      this.actParams.pageSize = newSize
       this.getAct()
     },
     // 活动弹窗分页
