@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div v-if="params.length != 0">
     <el-card>
       <div slot="header" class="clearfix">
         <span v-if="type == 1">实物</span>
         <span v-if="type == 202">翻倍卡</span>
         <span v-if="type == 201">折扣卡</span>
         <span v-if="type == 3">红包</span>
-        <span v-if="type == 3" style="color: #999;">投入总金额：xx元  剩余总金额：xx元</span>
+        <span v-if="type == 3" style="color: #999;">投入总金额：{{totalRedNum}}元  剩余总金额：{{totalSurplusNul}}元</span>
         <span v-if="type == 6">积分</span>
       </div>
       <el-form>
@@ -24,7 +24,12 @@
           <span v-if="item.awardType == 201">折扣值</span>
           <span v-if="item.awardType == 3">面额</span>
           <span v-if="item.awardType == 6">面额</span>
-          <span style="display: inline-block; width: 100px">{{item.awardName}}</span>
+          <span v-if="item.awardType == 1">{{item.awardName}}</span>
+          <span v-else>{{item.minred}}</span>
+          <span v-if="item.awardType == 202">倍</span>
+          <span v-if="item.awardType == 201">折</span>
+          <span v-if="item.awardType == 3">元</span>
+          <span v-if="item.awardType == 6">荷石币</span>
           投放数量：
           <el-input-number v-if="type == 1 || type == 202 || type == 201" v-model="item.totalNum" :precision="0" :min="0" controls-position="right"></el-input-number>
           <el-input-number v-if="type == 3" v-model="item.totalNum" @change="calculate(index)" :precision="0" :min="0" controls-position="right"></el-input-number>
@@ -76,10 +81,15 @@ export default {
       dataListVisible: false,
       total: null,
       selectedItem: [],
-      totlaMoney: []
+      totlaMoney: [],
+      totalRedNum: null,
+      totalSurplusNul: null
     }
   },
   created() {
+    
+  },
+  mounted () {
     this.getCheckedCard()
     this.calculate()
   },
@@ -95,13 +105,22 @@ export default {
             this.totlaMoney.push(total)
           })
         }
+        this.totalRedNum = null
+        this.totalSurplusNul = null
+        this.params.map(item => {
+          this.totalSurplusNul += (item.totalNum - item.stockNum) * item.minred.toFixed(2)
+        })
+        this.totlaMoney.forEach(item => {
+          this.totalRedNum += parseFloat(item)
+        })
+
       } else if (this.type == 6) {
         if (index != undefined) {
-          let total = (this.params[index].totalNum * this.params[index].score).toFixed(2)
+          let total = (this.params[index].totalNum * this.params[index].score)
           this.totlaMoney.splice(index, 1, total)
         } else {
           this.params.forEach(item => {
-            let total = (item.totalNum * item.score).toFixed(2)
+            let total = (item.totalNum * item.score)
             this.totlaMoney.push(total)
           })
         }
@@ -141,6 +160,7 @@ export default {
           })
         }
       })
+      this.calculate()
     },
     add(id, index) {
       this.$prompt('请输入数字', '增库', {
@@ -157,6 +177,7 @@ export default {
           if (res.ret === '200000') {
             this.$message.success('增库成功')
             this.params[index].totalNum += Number(value)
+            this.calculate()
           } else {
             this.$message.error(res.message)
           }

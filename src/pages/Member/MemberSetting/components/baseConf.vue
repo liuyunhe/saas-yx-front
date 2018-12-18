@@ -17,7 +17,7 @@
       </el-date-picker>
     </el-form-item>
     <el-form-item label="活动图片：" prop="banner">
-      <el-upload class="avatar-uploader" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
+      <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
         <img v-if="form.activityEntrance" :src="form.activityEntrance" class="avatar">
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*270像素；格式png、jpg；大小不超过2M</div>
@@ -170,6 +170,13 @@ export default {
           })
         })
       }
+    },
+    beforeAvatarUpload(file) {
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isLt2M) {
+        this.$message.error('上传图片大小不能超过 2MB!')
+      }
+      return isLt2M;
     }
   }
 }

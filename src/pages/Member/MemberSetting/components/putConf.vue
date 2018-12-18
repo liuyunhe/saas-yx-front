@@ -63,7 +63,7 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <div class="btn">
+    <div class="btn mt20">
       <el-button type="primary" @click="save">保存</el-button>
     </div>
   </div>
