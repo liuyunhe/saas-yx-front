@@ -9,11 +9,11 @@
         <el-form-item label="答题投放奖品设置：">
           <span>必须配置一项奖品类型</span>
         </el-form-item>
-        <common-conf class="mt20" :params="type1" :type="1"></common-conf>
-        <common-conf class="mt20" :params="type201" :type="201"></common-conf>
-        <common-conf class="mt20" :params="type202" :type="202"></common-conf>
-        <common-conf class="mt20" :params="type3" :type="3"></common-conf>
-        <common-conf class="mt20" :params="type6" :type="6"></common-conf>
+        <common-conf v-if="status" class="mt20" :params="type1" :type="1"></common-conf>
+        <common-conf v-if="status" class="mt20" :params="type201" :type="201"></common-conf>
+        <common-conf v-if="status" class="mt20" :params="type202" :type="202"></common-conf>
+        <common-conf v-if="status" class="mt20" :params="type3" :type="3"></common-conf>
+        <common-conf v-if="status" class="mt20" :params="type6" :type="6"></common-conf>
       </el-form>
       <div class="mt20 mb20">
         <el-button type="primary" @click="save">保存</el-button>
@@ -34,7 +34,8 @@ export default {
       type201: [],
       type202: [],
       type3: [],
-      type6: []
+      type6: [],
+      status: false
     }
   },
   watch: {
@@ -85,6 +86,7 @@ export default {
   methods: {
     getActDetail() {
       this.$request.post('/api/saotx/md/queryExtAct', {flag: 2}, true, res => {
+        this.status = true
         if (res.ret === '200000') {
           this.data = res.data
           if (this.data.awards.length != 0) {

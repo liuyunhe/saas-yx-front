@@ -1,39 +1,43 @@
 <template>
   <div class="container">
-    <el-form :modal="form" label-width="150px">
-      <el-form-item label="选号设置">
-        每扫
+    <el-form :modal="form">
+      <el-form-item label="选号设置：">
+        <span>每扫</span>
         <el-input-number controls-position="right" :min="0" v-model="form.scanTimes" :precision="0"></el-input-number>
-        包烟可参与一次选号
+        <span>包烟可参与一次选号</span>
       </el-form-item>
-      <el-form-item label="开奖时间">
-        每周六
+      <el-form-item label="开奖时间：">
+        <span>每周六</span>
         <el-time-picker style="width: 130px;" align="center" :editable="false" v-model="form.lotteryStime" format="HH:mm" value-format="HH:mm" placeholder="请选择时间"></el-time-picker>
       </el-form-item>
-      <el-form-item label="规格参数">
-        <norm-conf v-if="form.snGiveSets" :params="form.snGiveSets"></norm-conf>
-      </el-form-item>
-      <el-form-item label="分享设置">
-        <share-conf v-if="form && doubleArr && discountArr" :params="form" :double="doubleArr" :discount="discountArr"></share-conf>
-      </el-form-item>
-      <el-form-item label="转赠设置">
-        <make-conf v-if="form.giveSets" :params="form.giveSets"></make-conf>
-      </el-form-item>
-      <el-form-item label="中奖地区黑名单设置">
-        <el-select v-model="selectedProv" placeholder="请选择" @change="getCityList">
-          <el-option  value="130000" label="河北省"></el-option>
-        </el-select>
-        <el-select v-model="selectedCityIndex" placeholder="请选择"  @change="getAreaList">
-          <el-option v-if="cityList" v-for="(item, index) in cityList" :key="item.code" :label="item.name" :value="index"></el-option>
-        </el-select>
-        <el-select v-model="selectedAreaIndex" placeholder="请选择" @change="selectDisable">
-          <el-option v-if="areaList" v-for="(item, index) in areaList" :key="item.code" :label="item.name" :value="index"></el-option>
-        </el-select>
-        <el-col class="mt20">
-          <el-tag v-if="disableAreaName.length != 0" v-for="(item, index) in disableAreaName" :key="index" @close="handleClose(item)" type="info" color="#fff" :closable="true" size="medium">{{item}}</el-tag>
-        </el-col>
-      </el-form-item>
-      <el-form-item>
+      <el-form label-position="top">
+        <el-form-item label="规格参数：">
+          <norm-conf class="ml40" v-if="status" :params="form.snGiveSets"></norm-conf>
+        </el-form-item>
+        <el-form-item label="分享设置：">
+          <share-conf class="ml40" v-if="status" :params="form" :double="doubleArr" :discount="discountArr"></share-conf>
+        </el-form-item>
+        <el-form-item label="转赠设置：">
+          <make-conf class="ml40" v-if="status" :params="form.giveSets"></make-conf>
+        </el-form-item>
+        <el-form-item label="中奖地区黑名单设置：">
+          <div class="ml40">
+            <el-select v-model="selectedProv" placeholder="请选择" @change="getCityList">
+              <el-option  value="130000" label="河北省"></el-option>
+            </el-select>
+            <el-select v-model="selectedCityIndex" placeholder="请选择"  @change="getAreaList">
+              <el-option v-if="cityList" v-for="(item, index) in cityList" :key="item.code" :label="item.name" :value="index"></el-option>
+            </el-select>
+            <el-select v-model="selectedAreaIndex" placeholder="请选择" @change="selectDisable">
+              <el-option v-if="areaList" v-for="(item, index) in areaList" :key="item.code" :label="item.name" :value="index"></el-option>
+            </el-select>
+            <el-col class="mt20">
+              <el-tag v-if="disableAreaName.length != 0" v-for="(item, index) in disableAreaName" :key="index" @close="handleClose(item)" type="info" color="#fff" :closable="true" size="medium">{{item}}</el-tag>
+            </el-col>
+          </div>
+        </el-form-item>
+      </el-form>
+      <el-form-item style="text-align: center;">
         <el-button type="primary" @click="nextStep">下一步</el-button>
         <el-button plain @click="back">返回</el-button>
       </el-form-item>
@@ -53,6 +57,9 @@ export default {
   props: ['activityCode'],
   data() {
     return {
+      rules: {
+        // scanTimes: [{required: true}]
+      },
       form: {
         // activityCode: this.activityCode,
         // scanTimes: null,
@@ -95,7 +102,8 @@ export default {
       areaList: [],
       disableAreaName: [],
       doubleArr: [],
-      discountArr: []
+      discountArr: [],
+      status: false
     }
   },
   watch: {
@@ -126,6 +134,7 @@ export default {
     getActDetail() {
       this.$request.post('/api/saotx/md/queryExt', { activityCode: this.activityCode }, true, res => {
         if (res.ret === '200000') {
+          this.status = true
           this.form = res.data
           if (this.form.blackList.length != 0) this.handleBlack()
           if (this.form.snGiveSets.length == 0) this.form.snGiveSets.push({ snArr: [], score: null, luck: null, })
@@ -227,6 +236,14 @@ export default {
 }
 .el-select {
   width: 120px;
+}
+.ml40 {
+  margin-left: 40px;
+}
+.warn label::before {
+  content: '*';
+  color: #f56c6c;
+  margin-right: 4px;
 }
 </style>
 

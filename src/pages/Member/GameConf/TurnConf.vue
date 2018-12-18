@@ -90,9 +90,9 @@ export default {
   methods: {
     getActDetail() {
       this.$request.post('/api/saotx/md/queryExtAct', {flag: 1}, true, res => {
+        this.status = true
         if (res.ret === '200000') {
           this.data = res.data
-          this.status = true
           if (this.data.awards.length != 0) {
             this.data.awards.forEach(item => {
               switch (item.awardType) {

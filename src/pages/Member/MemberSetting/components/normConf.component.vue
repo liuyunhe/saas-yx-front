@@ -2,7 +2,7 @@
   <el-card>
     <el-form :model="item" v-for="(item, index) in params" :key="index" inline>
       <el-form-item label="规格:">
-        <el-select v-model="item.snArr" style="width: 240px;" multiple placeholder="请选择" collapse-tags @change="handleRepeat(index)">
+        <el-select v-model="item.snArr" class="ml20" style="width: 240px;" multiple placeholder="请选择" collapse-tags @change="handleRepeat(index)">
           <el-option v-if="item" :disabled="item.disable" v-for="item in brandList[index]" :key="item.id" :label="item.allName" :value="item.sn"></el-option>
         </el-select>
       </el-form-item>
