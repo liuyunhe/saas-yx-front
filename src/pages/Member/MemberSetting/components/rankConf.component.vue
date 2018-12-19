@@ -171,9 +171,24 @@ export default {
       })
     },
     del(index) {
-      this.params.splice(index, 1)
-      this.params.map((item, index) => {
-        if (item.rangeType == 2) return this.index = index
+      this.$confirm('是否删除该项规则?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.params.splice(index, 1)
+        this.params.map((item, index) => {
+          if (item.rangeType == 2) return this.index = index
+        })
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })          
       })
     }
   }

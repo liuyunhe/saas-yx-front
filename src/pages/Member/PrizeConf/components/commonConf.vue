@@ -2,7 +2,7 @@
   <div class="container">
     <el-card>
        <el-form ref="prizeConfRef" :model="form" label-width="100px" :rules="confRules">
-          <el-form-item label="活动名称" prop="name">
+          <el-form-item label="礼品名称" prop="name">
             <el-input v-model="form.name" :maxlength="15"></el-input>
           </el-form-item>
           <el-form-item label="礼品分类" prop="subType" v-if="params.type == 2">
@@ -11,7 +11,7 @@
               <el-option label="折扣卡" :value="201"></el-option> 
             </el-select>
           </el-form-item>
-          <el-form-item label="活动图片" prop="icon">
+          <el-form-item label="礼品图片" prop="icon">
             <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
               <img v-if="form.icon" :src="form.icon" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -58,7 +58,7 @@ export default {
       form: {
         id: this.params.id,
         type: this.params.type,
-        subType: 202,
+        subType: null,
         name: '',
         icon: '',
         value: 0,
@@ -76,13 +76,13 @@ export default {
         token: sessionStorage.getItem('access_token'),
         CLIENTSESSIONID: sessionStorage.getItem('CLIENTSESSIONID')
       },
-      detailData: {}
+      detailData: {},
+      typeName: ''
     }
   },
   created () {
     this.prizeDetail()
-    console.log(this.params.type)
-    console.log(this.params.id)
+    // this.getTypeName()
   },
   methods: {
     prizeDetail() {
@@ -95,6 +95,14 @@ export default {
           }
         })
       }
+    },
+    getTypeName() {
+      let arr = [
+        {type: 1, name: '实物'},
+        {type: 2, name: '礼品'},
+        {type: 3, name: '红包'},
+        {type: 6, name: '积分'},
+      ]
     },
     save() {
       if (this.params.type != 2) {
@@ -128,11 +136,15 @@ export default {
       this.$message.error(resule.message)
     },
     beforeAvatarUpload(file) {
+      const JPGOrPNG = file.type === 'image/jpeg' || file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 2
+      if (!JPGOrPNG) {
+        this.$message.error('上传图片只能是 JPG 或 PNG 格式!')
+      }
       if (!isLt2M) {
         this.$message.error('上传图片大小不能超过 2MB!')
       }
-      return isLt2M;
+      return JPGOrPNG && isLt2M;
     }
   }
 }

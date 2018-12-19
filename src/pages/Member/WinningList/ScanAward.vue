@@ -1,23 +1,23 @@
 <template>
   <div class="container">
     <el-card>
-      <el-form :model="form" label-width="100px">
+      <el-form :model="queryParams" label-width="100px">
         <el-row>
           <el-col :span="8">
             <el-form-item label="姓名/手机号:">
-              <el-input v-model="form.name" placeholder="请输入"></el-input>
+              <el-input v-model="queryParams.name" placeholder="请输入"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="中奖时间:">
-              <el-select v-model="form.region" placeholder="请选择活动区域">
+              <el-select v-model="queryParams.region" placeholder="请选择活动区域">
                 <el-option label="区域一" value="shanghai"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="中奖地区:">
-              <el-select v-model="form.region" placeholder="请选择活动区域">
+              <el-select v-model="queryParams.region" placeholder="请选择活动区域">
                 <el-option label="区域一" value="shanghai"></el-option>
               </el-select>
             </el-form-item>
@@ -43,7 +43,7 @@
         </el-table-column>
         <el-table-column align="center" prop="name" label="中奖地区"></el-table-column>
       </el-table>
-      <el-pagination class="mt20" background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="params.pageNo" :page-size="params.pageSize" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
+      <el-pagination class="mt20" background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryParams.pageNo" :page-size="queryParams.pageSize" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
     </el-card>
   </div>
 </template>
@@ -51,12 +51,20 @@
 export default {
   data() {
     return {
-      params: {
+      queryParams: {
+        activityCode: 'ACT-ZCQ2JKDBBBBB',
+        awardProv: [],
+        awardCity: [],
+        stime: '',
+        etime: '',
+        orderCode: '',
+        awardType: '',
+        selType: null,
+        keywords: '',
         pageNo: 1,
-        pageSize: 10,
-        pcode: ''
+        pageSize: 10
       },
-      total: 11,
+      total: null,
       form: {},
       awardList: [
         { name: 'test', status: 1 },
@@ -74,13 +82,22 @@ export default {
     }
   },
   methods: {
-    getAwardList() {},
+    getAwardList() {
+       this.$request.post('/api/saotx/md/orders', this.queryParams, true, res => {
+        if (res.ret === '200000') {
+          this.awardList = res.data.list
+          this.total = res.data.page.count
+          return
+        }
+        this.$message.error(res.message)
+      })
+    },
     handleSizeChange(newSize) {
-      this.params.pageSize = newSize
+      this.queryParams.pageSize = newSize
       this.getAwardList()
     },
     handleCurrentChange(newPage) {
-      this.params.pageNo = newPage
+      this.queryParams.pageNo = newPage
       this.getAwardList()
     },
     //导出
@@ -88,8 +105,8 @@ export default {
       var url = "/api/saotx/order/export"
       var xhr = new XMLHttpRequest()
       var formData = new FormData()
-      for(var attr in this.form) {
-        formData.append(attr, this.form[attr])
+      for(var attr in this.queryParams) {
+        formData.append(attr, this.queryParams[attr])
       }
       xhr.overrideMimeType("text/plain; charset=x-user-defined")
       xhr.open('POST', url, true)

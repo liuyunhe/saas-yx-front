@@ -67,11 +67,9 @@ export default {
           this.selectedItem.push({id: item.poolId})
         })
       }
-      console.log(this.selectedItem)
     },
     handleSelectionChange(selection, row) {
       this.selectedItem = selection
-      // console.log(this.selectedItem)
     },
     handleSelectionAllChange(selection) {
       this.selectedItem = selection
@@ -123,9 +121,24 @@ export default {
       })
     },
     del(row, index) {
-      this.params.splice(index, 1)
-      this.selectedItem.forEach((item, i) => {
-        if (item.id == row.poolId) return this.selectedItem.splice(i, 1)
+      this.$confirm('是否删除该项?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.params.splice(index, 1)
+        this.selectedItem.forEach((item, i) => {
+          if (item.id == row.poolId) return this.selectedItem.splice(i, 1)
+        })
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })          
       })
     },
     getDoubleCardList() {
@@ -136,7 +149,6 @@ export default {
           this.total = res.data.page.count
           this.$nextTick(_ => {
             this.selectedItem.forEach(item => {
-              console.log('ok')
               this.$refs.doubleCardTable.toggleRowSelection(this.dataList.find(d => d.id == item.id), true)
             })
           })
