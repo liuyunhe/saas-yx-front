@@ -24,7 +24,7 @@
           <el-input size="small" type="number" v-model="form.marketMoney"></el-input>
         </el-form-item>
         <el-form-item label="礼品图片" prop="pic">
-          <el-upload class="avatar-uploader" :disabled="id?true:false" size="small"
+          <el-upload class="avatar-uploader" size="small"
             action="/api/saotx/attach/commonAliUpload"
             :headers="headers"
             :show-file-list="false"
