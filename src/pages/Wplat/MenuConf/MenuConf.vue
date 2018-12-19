@@ -406,6 +406,7 @@
 		line-height: 35px;
 		height: 35px;
 		color: #242A30;
+		margin-bottom: 10px;
 		border-bottom: 1px solid #eee;
 	}
 	

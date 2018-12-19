@@ -67,9 +67,40 @@
 		</el-dialog>		
 		<div class="add-part" v-show='addShow'>
 			<span @click='backMain' class='backMain'>返回</span>
-			<div class="title">扫码验真页配置</div>
+			<div class="title">扫码落地页配置</div>
 			<el-tabs v-model="activeName" @tab-click="tabPartClick">
-				<el-tab-pane label="扫码验真完成页面" name="first">
+				<el-tab-pane label="模板设置" name="third">
+					<div class="tplInfo">
+							<span class='left-name'>
+								<span class='require'>*</span>模板名称：
+							</span>
+							
+							<el-input v-model="addlist.name" placeholder="请输入模板名称"maxlength='15'class='tpl-name'size='small'></el-input>
+							<br /><br /> 
+							<span class='left-name'>
+								模板说明：
+							</span>							
+							<el-input v-model="addlist.note" placeholder="请输入模板说明"maxlength='20'class='tpl-name'size='small'></el-input>
+							<br /><br />
+							<span class='left-name'>
+							请选择品牌：
+							</span>
+							<el-select class="filter-item" multiple v-model="selectBrand" placeholder="请选择品牌"size='small'>
+								<el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
+								</el-option>
+							</el-select>
+							<br /><br />
+							<span class='left-name'>
+							请选择规格：
+							</span>
+							<el-select size='small' class="filter-item" multiple v-model="addlist.snArr"@visible-change='snCallback' placeholder="请选择规格">
+								<el-option v-for="item in snList" :key="item.id" :label="item.allName" :value="item.sn">
+								</el-option>
+							</el-select>
+						</div>
+				</el-tab-pane>
+
+				<el-tab-pane label="扫码落地页面设置" name="first">
 					<div class='has clearfix'>
 						<div class="phone">
 							<div class="phone-top">
@@ -79,7 +110,7 @@
 											<p>标题配置</p>
 											<br />
 											<div class="detail">
-												<div>页面名称:</div>
+												<div><span class='require'>*</span>页面名称:</div>
 												<el-input v-model="addlist.conf.has.title.name" size='small' placeholder="请输入页面名称"maxlength='15'></el-input>
 											</div>
 											<br />
@@ -91,6 +122,7 @@
 										</div>
 										<el-button slot="reference"></el-button>
 									</el-popover>
+									<span class='click-tip'v-show='!addlist.conf.has.title.name'>点击编辑页面名称</span>
 									{{addlist.conf.has.title.name}}
 								</div>
 							</div>
@@ -103,7 +135,7 @@
 											<el-checkbox v-model="addlist.conf.has.yz.detailFlag"></el-checkbox>
 										</div>
 										<div class="back">
-											背景图片：<img :src="addlist.conf.has.yz.bg" alt="" />
+											背景图片：<img :src="addlist.conf.has.yz.bg" alt=""v-show='addlist.conf.has.yz.bg' /><div class="img-div"v-show='!addlist.conf.has.yz.bg'></div>
 											<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz">
 												<el-button type="primary">更换图片</el-button>
 											</el-upload>
@@ -175,7 +207,8 @@
 											</el-upload>
 										</div>
 										<div class="back">
-											背景图片：<img :src="addlist.conf.has.gzh.bg" alt="" />
+											背景图片：<img :src="addlist.conf.has.gzh.bg" alt=""v-show='addlist.conf.has.gzh.bg' />
+											<div class="img-div"v-show='!addlist.conf.has.gzh.bg'></div>
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz2">
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
@@ -185,30 +218,18 @@
 								</el-popover>
 								<img :src="addlist.conf.has.gzh.qrIcon" alt="" />
 								<p>关注公众号<span>{{addlist.conf.has.gzh.name}}</span>{{addlist.conf.has.gzh.note}}</p>
+								
 							</div>
+							<div class="menu-part">
+									<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/menu.png" alt="" />
+								</div>
 							<div class="phone-bottom"></div>
 
-						</div>
-						<div class="tplInfo">
-							<span class='require'>*</span>模板名称：<br />
-							<el-input v-model="addlist.name" placeholder="请输入模板名称"maxlength='15'></el-input>
-							<br /><br /> 模板说明：
-							<br />
-							<el-input v-model="addlist.note" placeholder="请输入模板说明"maxlength='20'></el-input>
-							<br /><br />
-							请选择品牌：<el-select class="filter-item" multiple v-model="selectBrand" placeholder="请选择品牌">
-								<el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
-								</el-option>
-							</el-select>
-							请选择规格：<el-select class="filter-item" multiple v-model="addlist.snArr"@visible-change='snCallback' placeholder="请选择规格">
-								<el-option v-for="item in snList" :key="item.id" :label="item.allName" :value="item.sn">
-								</el-option>
-							</el-select>
 						</div>
 					</div>
 				</el-tab-pane>
 
-				<el-tab-pane label="未扫码页面" name="second">
+				<el-tab-pane label="未扫码页面设置" name="second">
 					<div class='not'>
 						<div class="phone">
 							<div class="phone-top">
@@ -218,7 +239,7 @@
 											<p>标题配置</p>
 											<br />
 											<div class="detail">
-												<div>页面名称:</div>
+												<div><span class='require'>*</span>页面名称:</div>
 												<el-input v-model="addlist.conf.not.title.name" placeholder="请输入页面名称"maxlength='15'></el-input>
 											</div>
 											<br />
@@ -230,6 +251,7 @@
 										</div>
 										<el-button slot="reference"></el-button>
 									</el-popover>
+									<span class='click-tip' v-show='!addlist.conf.not.title.name'>点击编辑页面名称</span>
 									{{addlist.conf.not.title.name}}
 								</div>
 							</div>
@@ -299,27 +321,17 @@
 								</el-popover>
 								<img :src="addlist.conf.not.gzh.qrIcon" alt="" />
 								<p>关注公众号<span>"{{addlist.conf.not.gzh.name}}"</span>{{addlist.conf.not.gzh.note}}</p>
+								
 							</div>
+							<div class="menu-part">
+									<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/menu.png" alt="" />
+								</div>
 							<div class="phone-bottom"></div>
 						</div>
-						<div class="tplInfo">
-							<span class='require'>*</span>模板名称：<br />
-							<el-input v-model="addlist.name" placeholder="请输入模板名称"maxlength='15'></el-input>
-							<br /><br /> 模板说明：
-							<br />
-							<el-input v-model="addlist.note" placeholder="请输入模板说明"maxlength='20'></el-input>
-							<br /><br />
-							请选择品牌：<el-select class="filter-item" multiple v-model="selectBrand" placeholder="请选择品牌">
-								<el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
-								</el-option>
-							</el-select>
-							请选择规格：<el-select class="filter-item" multiple v-model="addlist.snArr"@visible-change='snCallback' placeholder="请选择规格">
-								<el-option v-for="item in snList" :key="item.id" :label="item.allName" :value="item.sn">
-								</el-option>
-							</el-select>
-						</div>
+						
 					</div>
 				</el-tab-pane>
+
 			</el-tabs>
 			<div class="save">
 				<div class="save-con">

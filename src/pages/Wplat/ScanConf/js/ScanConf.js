@@ -16,7 +16,7 @@ export default {
 			addShow: false,
 			isAddBtn: false,
 			isAddBtn1: false,
-			activeName: 'first',
+			activeName: 'third',
 			actShow: true,
 			appShow: true,
 			tabShow: true,
@@ -103,7 +103,7 @@ export default {
 							bg: ''
 						},
 						activity: {
-							show: false,
+							show: true,
 							tpl: 1 //1为轮播
 						}
 					},
@@ -288,6 +288,7 @@ export default {
 			this.addlist.type = item.type;
 			this.addTplShow = false;
 			this.addShow = true;
+			this.activeName='third'
 			this.listShow = false;
 			this.$request.post(
 				'/api/saotx/prod/listBrand', {
@@ -508,6 +509,7 @@ export default {
 			this.addTplShow = false;
 			this.addShow = true;
 			this.listShow = false;
+			this.activeName='third'
 			this.$request.post(
 				'/api/saotx/orgtpl/detail', {
 					id: item.id

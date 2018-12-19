@@ -23,8 +23,17 @@ p {
             object-fit: contain;
             vertical-align: middle;
         }
+        .img-div {
+            width:100px;
+            height: 100px;
+            border:1px solid #666;
+            display: inline-block;
+            vertical-align: middle;
+            background: #ccc;
+        }
         .avatar-uploader {
             display: inline-block;
+            vertical-align: middle;
         }
     }
     p {
@@ -44,8 +53,17 @@ p {
             object-fit: contain;
             vertical-align: middle;
         }
+        .img-div {
+            width:100px;
+            height: 100px;
+            border:1px solid #666;
+            display: inline-block;
+            vertical-align: middle;
+            background: #ccc;
+        }
         .avatar-uploader {
             display: inline-block;
+            vertical-align: middle;
         }
     }
     p {
@@ -77,6 +95,7 @@ p {
         }
         .avatar-uploader {
             display: inline-block;
+            vertical-align: middle;
         }
     }
     p {
@@ -98,6 +117,7 @@ p {
         }
         .avatar-uploader {
             display: inline-block;
+            vertical-align: middle;
         }
     }
     p {
@@ -139,7 +159,19 @@ p {
         }
     }
 }
-
+.tplInfo {
+    padding-top: 20px;
+    min-height: 400px;
+}
+.tpl-name,.filter-item {
+    width:300px;
+    height: 40px;
+}
+.left-name {
+    width:100px;
+    display: inline-block;
+    vertical-align: middle;
+}
 .clearfix:after {
     content: " ";
     display: block;
@@ -248,10 +280,22 @@ p {
                 .title {
                     width: 100%;
                     height: 100%;
-                    line-height: 66px;
+                    line-height: 85px;
                     text-align: center;
                     color: #fff;
                     position: relative;
+                    font-size: 14px;
+                }
+                .click-tip {
+                    position: absolute;
+                    width:100%;
+                    height: 66px;
+                    line-height: 85px;
+                    left: 0;
+                    top:0;
+                    font-size: 14px;
+                    text-align: center;
+                    text-shadow: 0 0 2px #ccc;
                 }
                 .title-click {
                     width: 300px;
@@ -265,6 +309,13 @@ p {
                         width: 300px;
                         height: 66px;
                     }
+                }
+            }
+            .menu-part {
+                width:300px;
+                height: 50px;
+                img {
+                    width:100% ;
                 }
             }
             .phone-bottom {
@@ -349,7 +400,6 @@ p {
                 height: 130px;
                 background: #ccc;
                 position: relative;
-                margin-bottom: 10px;
                 text-align: center;
                 padding-top: 20px;
                 background-repeat: no-repeat;
@@ -443,9 +493,10 @@ p {
                 .not-title {
                     width: 100%;
                     height: 100%;
-                    line-height: 66px;
+                    line-height: 85px;
                     text-align: center;
                     color: #fff;
+                    font-size: 14px;
                     position: relative;
                 }
                 .title-click {
@@ -460,6 +511,13 @@ p {
                         width: 300px;
                         height: 66px;
                     }
+                }
+            }
+            .menu-part {
+                width:300px;
+                height: 50px;
+                img {
+                    width:100% ;
                 }
             }
             .phone-bottom {
@@ -523,7 +581,6 @@ p {
                 height: 130px;
                 background: #ccc;
                 position: relative;
-                margin-bottom: 10px;
                 text-align: center;
                 padding-top: 20px;
                 background-repeat: no-repeat;
