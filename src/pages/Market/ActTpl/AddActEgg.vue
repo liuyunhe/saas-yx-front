@@ -242,16 +242,6 @@ export default {
             key: 6,
             imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
             $$hashKey: 'object:383'
-          },
-          {
-            key: 7,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
-            $$hashKey: 'object:384'
-          },
-          {
-            key: 8,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
-            $$hashKey: 'object:385'
           }
         ],
       configItem: {
@@ -412,25 +402,27 @@ export default {
         }
         .top {
           position: absolute;
-          top: 118px;
-          left: 50%;
+          top: 30px;
+          left: 49%;
           transform: translateX(-50%);
-          width: 282px;
-          height: 142px;
+          width: 250px;
+          height: 122px;
           img {
             width: 100%;
             height: 100%;
+            
           }
         }
         .tip {
-        	width:50px;
-        	height: 70px;
+        	width:30px;
+        	height: 50px;
         	position: absolute;
-        	right:10px;
-        	top:20px;
+        	right:5px;
+        	top:10px;
         	img {
         		width:100%;
         		height: 100%;
+        		object-fit: contain;
         	}
         }
         .game-con {
@@ -438,13 +430,13 @@ export default {
           left: 0;
           bottom: 42px;
           width: 100%;
-          height: 144px;
+          height: 200px;
           display: flex;
           justify-content: space-around;
           align-items: center;
           flex-wrap: wrap;
           .game-item {
-            width: 25%;
+            width: 33%;
             height: 50%;
             text-align:center;
             img {
