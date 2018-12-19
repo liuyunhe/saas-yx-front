@@ -19,7 +19,7 @@
         <common-conf v-if="status" class="mt20" :params="type3" :type="3"></common-conf>
         <common-conf v-if="status" class="mt20" :params="type6" :type="6"></common-conf>
       </el-form>
-        <div class="mt20 mb20">
+        <div class="mt20 mb20 btn">
           <el-button type="primary" @click="save">保存</el-button>
         </div>
     </el-card>
@@ -39,50 +39,69 @@ export default {
       type202: [],
       type3: [],
       type6: [],
-      status: false
+      status: false,
+      flag: false
+    }
+  },
+  computed: {
+    awards() {
+      return this.data.awards
     }
   },
   watch: {
-    type1: function(val) {
-      this.data.awards.map((item, index) => {
-        if (item.awardType == 1) {
-          this.data.awards.splice(index, 1)
-        }
-      })
-      this.data.awards.push(...val)
+    awards(val) {
+      if (val.length > 7) {
+        this.$message.warning('奖品设置项最多不能超过7条')
+      }
     },
-    type201: function(val) {
-      this.data.awards.map((item, index) => {
-        if (item.awardType == 201) {
-          this.data.awards.splice(index, 1)
-        }
-      })
-      this.data.awards.push(...val)
-    },
-    type202: function(val) {
-      this.data.awards.map((item, index) => {
-        if (item.awardType == 202) {
-          this.data.awards.splice(index, 1)
-        }
-      })
-      this.data.awards.push(...val)
-    },
-    type3: function(val) {
-      this.data.awards.map((item, index) => {
-        if (item.awardType == 3) {
-          this.data.awards.splice(index, 1)
-        }
-      })
-      this.data.awards.push(...val)
-    },
-    type6: function(val) {
-      this.data.awards.map((item, index) => {
-        if (item.awardType == 6) {
-          this.data.awards.splice(index, 1)
-        }
-      })
-      this.data.awards.push(...val)
-    },
+    // type1: function(val) {
+    //   if (!this.flag) return
+    //   this.data.awards.map((item, index) => {
+    //     if (item.awardType == 1) {
+    //       this.data.awards.splice(index, 1)
+    //     }
+    //   })
+    //   this.data.awards.push(...val)
+    // },
+    // type201: function(val) {
+    //   if (!this.flag) return
+    //   this.data.awards.map((item, index) => {
+    //     if (item.awardType == 201) {
+    //       console.log(this.data.awards)
+    //       this.data.awards.splice(index, 1)
+    //       console.log(this.data.awards)
+    //     }
+    //   })
+    //   this.data.awards.push(...val)
+    //   console.log(val)
+    // },
+    // type202: function(val) {
+    //   if (!this.flag) return
+    //   this.data.awards.map((item, index) => {
+    //     if (item.awardType == 202) {
+    //       this.data.awards.splice(index, 1)
+    //     }
+    //   })
+    //   this.data.awards.push(...val)
+    // },
+    // type3: function(val) {
+    //   if (!this.flag) return
+    //   this.data.awards.map((item, index) => {
+    //     if (item.awardType == 3) {
+    //       this.data.awards.splice(index, 1)
+    //     }
+    //   })
+    //   this.data.awards.push(...val)
+    // },
+    // type6: function(val) {
+    //   if (!this.flag) return
+    //   this.data.awards.map((item, index) => {
+    //     if (item.awardType == 6) {
+    //       this.data.awards.splice(index, 1)
+    //     }
+    //   })
+    //   this.data.awards.push(...val)
+    // },
   },
   created() {
     this.getActDetail()
@@ -93,8 +112,9 @@ export default {
         this.status = true
         if (res.ret === '200000') {
           this.data = res.data
-          if (this.data.awards.length != 0) {
-            this.data.awards.forEach(item => {
+          // this.data.awards = []
+          if (res.data.awards.length != 0) {
+            res.data.awards.forEach(item => {
               switch (item.awardType) {
                 case 1:
                   this.type1.push(item)
@@ -113,6 +133,7 @@ export default {
                   break;
               }
             })
+            this.flag = true
           }
           return
         }
@@ -120,6 +141,9 @@ export default {
       })
     },
     save() {
+      this.data.awards = []
+      this.data.awards.push(...this.type1, ...this.type201, ...this.type202, ...this.type3, ...this.type6)
+      if (this.data.awards.length > 7) return
       this.$request.post('/api/saotx/md/somExtAct', this.data, true, res => {
         if (res.ret === '200000') return this.$message.success('保存成功')
         this.$message.error(res.message)
@@ -131,5 +155,8 @@ export default {
 <style lang="scss" scoped>
   span {
     color: #999999;
+  }
+  .btn {
+    text-align: center;
   }
 </style>

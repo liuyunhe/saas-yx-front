@@ -22,7 +22,7 @@
         </el-form-item>
         <el-form-item label="中奖地区黑名单设置：">
           <div class="ml40">
-            <el-select v-model="selectedProv" placeholder="请选择" @change="getCityList">
+            <el-select v-model="selectedProv" placeholder="请选择">
               <el-option  value="130000" label="河北省"></el-option>
             </el-select>
             <el-select v-model="selectedCityIndex" placeholder="请选择"  @change="getAreaList">
@@ -209,6 +209,7 @@ export default {
       }
       this.selectedCityIndex = ''
       this.selectedAreaIndex = ''
+      this.areaList = []
     },
     // 删除黑名单
     handleClose(tag) {

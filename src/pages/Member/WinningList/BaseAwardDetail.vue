@@ -48,7 +48,7 @@
         <el-form-item label="手机号：">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item label="活动名称：">
+        <el-form-item label="收货地址：">
           <el-cascader :options="provList" @change="clg" v-model="selectedOptions" @active-item-change="handleItemChange" :props="props"></el-cascader>
         </el-form-item>
         <el-form-item label="详细地址：">

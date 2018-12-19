@@ -15,7 +15,7 @@
         <common-conf v-if="status" class="mt20" :params="type3" :type="3"></common-conf>
         <common-conf v-if="status" class="mt20" :params="type6" :type="6"></common-conf>
       </el-form>
-      <div class="mt20 mb20">
+      <div class="mt20 mb20 btn">
         <el-button type="primary" @click="save">保存</el-button>
       </div>
     </el-card>
@@ -39,46 +39,46 @@ export default {
     }
   },
   watch: {
-    type1: function(val) {
-      this.data.awards.map((item, index) => {
-        if (item.awardType == 1) {
-          this.data.awards.splice(index, 1)
-        }
-      })
-      this.data.awards.push(...val)
-    },
-    type201: function(val) {
-      this.data.awards.map((item, index) => {
-        if (item.awardType == 201) {
-          this.data.awards.splice(index, 1)
-        }
-      })
-      this.data.awards.push(...val)
-    },
-    type202: function(val) {
-      this.data.awards.map((item, index) => {
-        if (item.awardType == 202) {
-          this.data.awards.splice(index, 1)
-        }
-      })
-      this.data.awards.push(...val)
-    },
-    type3: function(val) {
-      this.data.awards.map((item, index) => {
-        if (item.awardType == 3) {
-          this.data.awards.splice(index, 1)
-        }
-      })
-      this.data.awards.push(...val)
-    },
-    type6: function(val) {
-      this.data.awards.map((item, index) => {
-        if (item.awardType == 6) {
-          this.data.awards.splice(index, 1)
-        }
-      })
-      this.data.awards.push(...val)
-    },
+    // type1: function(val) {
+    //   this.data.awards.map((item, index) => {
+    //     if (item.awardType == 1) {
+    //       this.data.awards.splice(index, 1)
+    //     }
+    //   })
+    //   this.data.awards.push(...val)
+    // },
+    // type201: function(val) {
+    //   this.data.awards.map((item, index) => {
+    //     if (item.awardType == 201) {
+    //       this.data.awards.splice(index, 1)
+    //     }
+    //   })
+    //   this.data.awards.push(...val)
+    // },
+    // type202: function(val) {
+    //   this.data.awards.map((item, index) => {
+    //     if (item.awardType == 202) {
+    //       this.data.awards.splice(index, 1)
+    //     }
+    //   })
+    //   this.data.awards.push(...val)
+    // },
+    // type3: function(val) {
+    //   this.data.awards.map((item, index) => {
+    //     if (item.awardType == 3) {
+    //       this.data.awards.splice(index, 1)
+    //     }
+    //   })
+    //   this.data.awards.push(...val)
+    // },
+    // type6: function(val) {
+    //   this.data.awards.map((item, index) => {
+    //     if (item.awardType == 6) {
+    //       this.data.awards.splice(index, 1)
+    //     }
+    //   })
+    //   this.data.awards.push(...val)
+    // },
   },
   created() {
     this.getActDetail()
@@ -116,6 +116,8 @@ export default {
       })
     },
     save() {
+      this.data.awards = []
+      this.data.awards.push(...this.type1, ...this.type201, ...this.type202, ...this.type3, ...this.type6)
       this.$request.post('/api/saotx/md/somExtAct', this.data, true, res => {
         if (res.ret === '200000') return this.$message.success('保存成功')
         this.$message.error(res.message)
@@ -127,6 +129,9 @@ export default {
 <style lang="scss" scoped>
 span {
   color: #999999;
+}
+.btn {
+  text-align: center;
 }
 </style>
 

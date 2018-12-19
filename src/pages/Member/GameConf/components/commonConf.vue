@@ -1,5 +1,5 @@
 <template>
-  <div v-if="params.length != 0">
+  <div>
     <el-card>
       <div slot="header" class="clearfix">
         <span v-if="type == 1">实物</span>
@@ -109,11 +109,10 @@ export default {
         this.totalSurplusNul = null
         this.params.map(item => {
           this.totalSurplusNul += (item.totalNum - item.stockNum) * item.minred.toFixed(2)
+          this.totalRedNum += item.totalNum * item.minred.toFixed(2)
         })
-        this.totlaMoney.forEach(item => {
-          this.totalRedNum += parseFloat(item)
-        })
-
+        this.totalSurplusNul = this.totalSurplusNul.toFixed(2)
+        this.totalRedNum = this.totalRedNum.toFixed(2)
       } else if (this.type == 6) {
         if (index != undefined) {
           let total = (this.params[index].totalNum * this.params[index].score)
@@ -177,7 +176,7 @@ export default {
           if (res.ret === '200000') {
             this.$message.success('增库成功')
             this.params[index].totalNum += Number(value)
-            this.calculate()
+            this.calculate(index)
           } else {
             this.$message.error(res.message)
           }
