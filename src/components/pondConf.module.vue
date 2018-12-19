@@ -24,7 +24,7 @@
         <el-form-item label="选择物品:">
           <!-- <el-button  @click="getEntityList">选择</el-button> -->
           <el-button v-if="!pondConf.awardPic" @click="getList">选择</el-button>
-          <img v-if="pondConf.awardPic" :src="pondConf.awardPic" @click="isEdit && getList">
+          <img style="border: 1px dotted #ccc" v-if="pondConf.awardPic" :src="pondConf.awardPic" @click="isEdit && getList">
           <span>{{pondConf.poolName}}</span>
         </el-form-item>
         <el-form-item label="投放数量:">

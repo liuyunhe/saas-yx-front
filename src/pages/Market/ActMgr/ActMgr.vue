@@ -106,7 +106,7 @@
         <div v-if="actForms">
           <div class="act-item" v-for="item in actForms" :key="item.id">
             <img :src="item.extUrl" :alt="item.name">
-            <p>{{item.name}}</p>
+            <p class="act-name">{{item.name}}</p>
             <div class="btn">
               <el-button type="primary" size="small">预览</el-button>
               <el-button type="primary" size="small" @click="goPut(item)">投放</el-button>
@@ -687,6 +687,12 @@ export default {
   li.active {
     color: #409eff;
   }
+  
+}
+.act-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .el-dialog__body {
   padding-top: 10px !important;
