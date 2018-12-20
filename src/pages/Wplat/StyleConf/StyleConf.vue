@@ -139,6 +139,9 @@
 		}
 		.set {
 			float: left;
+			.color-select {
+				vertical-align: middle;
+			}
 		}
 	}
 </style>
