@@ -3,9 +3,9 @@
     <el-form-item label="名次设置：">
       <div class="mb20" v-for="(item, i) in params" :key="i">
         <div v-if="item.rangeType == 1">
-          <el-input-number v-model="item.srange" :precision="0" :min="0" controls-position="right" @change="calculate(i)"></el-input-number>
+          <el-input-number v-model="item.srange" :precision="0" :min="1" controls-position="right" @change="calculate(i)"></el-input-number>
           —
-          <el-input-number v-model="item.erange" :precision="0" :min="0" controls-position="right" @change="calculate(i)"></el-input-number>
+          <el-input-number v-model="item.erange" :precision="0" :min="1" controls-position="right" @change="calculate(i)"></el-input-number>
           名，红包面额
           <!-- <el-input-number v-model="item.awardValue" :precision="2" :min="0" :max="500" controls-position="right" @change="calculate(item)"></el-input-number>
           元 -->
