@@ -133,7 +133,7 @@
               </div>
               <div class="edit-con">
                 <div class="edit-winning-img">
-                  <p class="img-title">中奖背景图:</p>
+                  <p class="img-title">中奖背景:</p>
                   <div class="img-con"><img :src="configItem.drawImgUrl" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upWinningImgSuccess" :show-file-list="false">
@@ -200,7 +200,7 @@
               </div>
               <div class="edit-con">
                 <div class="edit-notWinning-img">
-                  <p class="img-title">图片:</p>
+                  <p class="img-title">背景:</p>
                   <div class="img-con"><img :src="configItem.cryImgUrl" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upNotWinningImgSuccess" :show-file-list="false">

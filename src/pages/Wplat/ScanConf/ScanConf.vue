@@ -60,7 +60,7 @@
 				<ul class="clearfix">
 					<li v-for='(item,key) in options'>
 						<img :src="item.icon" alt="" />
-						<div @click='addSure(item)'>使用模板</div>
+						<el-button type="primary" size="small" @click='addSure(item)'class='sure-btn'>使用模板</el-button>
 					</li>
 				</ul>
 			</div>
