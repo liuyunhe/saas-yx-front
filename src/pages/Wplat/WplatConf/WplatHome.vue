@@ -4,7 +4,7 @@
 			<router-link to='/weplat/down'>去设置扫码落地页<span class='el-icon-arrow-right'></span></router-link>
 		</div>
 		<el-tabs v-model="activeName" @tab-click="handleClick">
-			<el-tab-pane label="扫码验证完成页面" name="first">
+			<el-tab-pane label="扫码落地页面" name="first">
 				<div>
 					<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/has.png" alt="" />
 				</div>

@@ -163,9 +163,12 @@ p {
     padding-top: 20px;
     min-height: 400px;
 }
-.tpl-name,.filter-item {
+.tpl-name {
     width:300px;
     height: 40px;
+}
+.filter-item {
+    width:300px;
 }
 .left-name {
     width:100px;
@@ -246,15 +249,11 @@ p {
                     height: 350px;
                     object-fit: contain;
                 }
-                div {
-                    text-align: center;
-                    line-height: 30px;
-                    font-size: 14px;
-                    color:#666;
-                    border:1px solid #ccc;
-                    border-radius: 4px;
+                .sure-btn {
+                    position: relative;
+                    left: 50%;
+                    transform: translateX(-50%);
                     margin-top: 10px;
-                    cursor: pointer;
                 }
             }
         }
@@ -457,6 +456,8 @@ p {
                     height: 100px;
                     background: #ccc;
                     text-align: center;
+                    padding-top: 35px;
+                    box-sizing: border-box;
                 }
                 &.border-show {
                     border: 1px dashed #0099FF;
