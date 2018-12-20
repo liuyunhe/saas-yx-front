@@ -783,13 +783,11 @@ export default {
       if (action === 'remove') {
         if (this[confName + 'Conf'].length == 1) return
         let tabs = this[confName + 'Tabs']
-        let activeName = this[confName + 'TabsValue']
-        let removeIndex = tabs.indexOf(activeName)
-        this[confName + 'Conf'].splice(removeIndex, 1)
+        // let activeName = this[confName + 'TabsValue']
+        // let removeIndex = tabs.indexOf(targetName)
+        this[confName + 'Conf'].splice(targetName - 1, 1)
         this[confName + 'Tabs'] = []
         for (var i = 1; i <= this[confName + 'Conf'].length; i++) {
-          // this[confName + 'Tabs'][i].title = '常规奖项' + i
-          // this[confName + 'Tabs'][i].name = '' + i
           this[confName + 'Tabs'].push({ title: '常规奖项' + i, name: i + ''})
         }
         // if (activeName === targetName) {
