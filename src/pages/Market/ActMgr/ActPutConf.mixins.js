@@ -9,7 +9,7 @@ export default {
         dwnum: null,
         status: null, // 活动状态 1-发布 0-未发布
       },
-      isEdit: false,
+      // firstScanTabsEdit: false,
       status: false, // 是否立即发布
       statusDisabled: false, // 立即发布开关禁用
       actSTime: '', // 活动开始时间
@@ -322,7 +322,7 @@ export default {
           this.actSTime = res.data.act.stimeStr
           this.actETime = res.data.act.etimeStr
           if (res.data.strategyArr.length != 0) {
-            this.isEdit = true
+            // this.isEdit = true
             res.data.strategyArr.forEach((item, index) => {
               if (item.tfType == 'common') {
                 if (item.awardArr.length == 0) return
@@ -773,12 +773,12 @@ export default {
         // 深拷贝 防止数据相互串通
         let newAwae = JSON.parse(JSON.stringify(this.defaultAwae))
         this[confName + 'Conf'].push(newAwae)
-        let newTabTitle = '常规奖项' + ++this[confName + 'Index']
+        let newTabTitle = '常规奖项' + this[confName + 'Conf'].length
         this[confName + 'Tabs'].push({
           title: newTabTitle,
-          name: this[confName + 'Index'] + ''
+          name: this[confName + 'Conf'].length + ''
         })
-        this[confName + 'TabsValue'] = this[confName + 'Index'] + ''
+        this[confName + 'TabsValue'] = this[confName + 'Conf'].length + ''
       }
       if (action === 'remove') {
         if (this[confName + 'Conf'].length == 1) return
@@ -786,18 +786,24 @@ export default {
         let activeName = this[confName + 'TabsValue']
         let removeIndex = tabs.indexOf(activeName)
         this[confName + 'Conf'].splice(removeIndex, 1)
-        if (activeName === targetName) {
-          tabs.forEach((tab, index) => {
-            if (tab.name === targetName) {
-              let nextTab = tabs[index + 1] || tabs[index - 1];
-              if (nextTab) {
-                activeName = nextTab.name;
-              }
-            }
-          });
+        this[confName + 'Tabs'] = []
+        for (var i = 1; i <= this[confName + 'Conf'].length; i++) {
+          // this[confName + 'Tabs'][i].title = '常规奖项' + i
+          // this[confName + 'Tabs'][i].name = '' + i
+          this[confName + 'Tabs'].push({ title: '常规奖项' + i, name: i + ''})
         }
-        this[confName + 'TabsValue'] = activeName;
-        this[confName + 'Tabs'] = tabs.filter(tab => tab.name !== targetName)
+        // if (activeName === targetName) {
+        //   tabs.forEach((tab, index) => {
+        //     if (tab.name === targetName) {
+        //       let nextTab = tabs[index + 1] || tabs[index - 1];
+        //       if (nextTab) {
+        //         activeName = nextTab.name;
+        //       }
+        //     }
+        //   });
+        // }
+        this[confName + 'TabsValue'] = '1'
+        // this[confName + 'Tabs'] = tabs.filter(tab => tab.name !== targetName)
       }
     },
     // 定点投放地区限制

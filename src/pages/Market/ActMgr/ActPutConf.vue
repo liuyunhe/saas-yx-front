@@ -10,7 +10,7 @@
       <el-breadcrumb-item>投放设置</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
-    	<el-steps :active="stepActive" finish-status="success"align-center class='step-style'v-show='form=="act-501"'>
+    	<el-steps :active="stepActive" finish-status="success" align-center class='step-style' v-show='form=="act-501"'>
 			  <el-step title="基础设置"></el-step>
 			  <el-step title="题目设置"></el-step>
 			  <el-step title="投放设置"></el-step>
@@ -49,8 +49,8 @@
           <div class="prize-conf">
             <div class="title">常规奖池</div>
             <el-tabs v-model="normalTabsValue" type="card" editable @edit="normalTabsEdit" class="put-conf">
-              <el-tab-pane :key="item.name" v-for="(item, index) in normalTabs" :label="item.title" :name="item.name">
-                <pond-conf :awae="normalConf[index]" :isEdit='isEdit' :prizeType="prizeType"></pond-conf>
+              <el-tab-pane :key="index" v-for="(item, index) in normalTabs" :label="item.title" :name="item.name">
+                <pond-conf :awae="normalConf[index]" :prizeType="prizeType"></pond-conf>
               </el-tab-pane>
             </el-tabs>
           </div>
@@ -68,7 +68,7 @@
                 <div class="conf" v-if="firstScanFlag">
                   <el-tabs v-model="firstScanTabsValue" type="card" editable @edit="firstScanTabsEdit">
                     <el-tab-pane :key="item.name" v-for="(item, index) in firstScanTabs" :label="item.title" :name="item.name">
-                      <pond-conf :awae="firstScanConf[index]" :isEdit='isEdit' :prizeType="prizeType"></pond-conf>
+                      <pond-conf :awae="firstScanConf[index]" :prizeType="prizeType"></pond-conf>
                     </el-tab-pane>
                   </el-tabs>
                 </div>
@@ -78,7 +78,7 @@
                 <div class="conf" v-if="nWinFlag">
                   <el-tabs v-model="nWinTabsValue" type="card" editable @edit="nWinTabsEdit">
                     <el-tab-pane :key="item.name" v-for="(item, index) in nWinTabs" :label="item.title" :name="item.name">
-                      <pond-conf :awae="nWinConf[index]" :isEdit='isEdit' :prizeType="prizeType" :nWin="true"></pond-conf>
+                      <pond-conf :awae="nWinConf[index]" :prizeType="prizeType" :nWin="true"></pond-conf>
                     </el-tab-pane>
                   </el-tabs>
                 </div>
@@ -129,7 +129,7 @@
                   </el-form>
                   <el-tabs v-model="fixationPutTabsValue" type="card" editable @edit="fixationPutTabsEdit">
                     <el-tab-pane :key="item.name" v-for="(item, index) in fixationPutTabs" :label="item.title" :name="item.name">
-                      <pond-conf :awae="fixationPutConf[index]" :isEdit='isEdit' :prizeType="prizeType"></pond-conf>
+                      <pond-conf :awae="fixationPutConf[index]" :prizeType="prizeType"></pond-conf>
                     </el-tab-pane>
                   </el-tabs>
                 </div>
