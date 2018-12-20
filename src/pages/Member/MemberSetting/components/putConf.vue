@@ -35,7 +35,7 @@
           <el-input-number v-model="form.score" :disabled="!radio" :precision="0" :min="0" :max="1000" controls-position="right"></el-input-number>
           荷石币
         </el-form-item> -->
-        <rank-conf :params="form[0].awards" :outRange="form[0].outRange"></rank-conf>
+        <rank-conf v-if="flag" :params="form[0].awards" :outRange="form[0].outRange"></rank-conf>
       </el-form>
     </el-card>
     <el-card class="mt20">
@@ -47,7 +47,7 @@
           <div class="mt20 mb20">
             <!-- <el-checkbox class="mr20" v-model="defaultPond">默认奖池</el-checkbox> -->
             <div>默认奖池</div>
-            <rank-conf :params="form[1].awards" :outRange="form[1].outRange"></rank-conf>
+            <rank-conf v-if="flag" :params="form[1].awards" :outRange="form[1].outRange"></rank-conf>
           </div>
           <div>
             <el-checkbox class="mr20" v-model="TfPond" @change="addTf">定投奖池</el-checkbox>
@@ -84,7 +84,9 @@ export default {
       provList: [],
       defaultPond: true,
       TfPond: false,
-      form: {}
+      form: {},
+      flag: false,
+      stop: false
     }
   },
   watch: {
@@ -132,16 +134,16 @@ export default {
     getActDetail() {
       this.$request.post('/api/saotx/md/queryBaseAward', {activityCode: this.activityCode}, true, res => {
         if (res.ret === '200000') {
+          this.flag = true
           this.form = res.data
           this.form[0].areas.forEach(item => {
             this.areas.push(item.cityCode)
           })
-          if (this.form.length == 3) {
+          if (this.form.length > 2) {
             this.form[2].areas.forEach(item => {
               this.prov.push(item.provCode)
             })
             this.TfPond = true
-            console.log(this.prov)
           }
           return
         }
@@ -157,8 +159,9 @@ export default {
             }
           })
           this.provList = res.data
+          return
         }
-        this.$meaasge.error(res.message)
+        this.$message.error(res.message)
       })
     },
     getCityList() {
@@ -168,6 +171,7 @@ export default {
       })
     },
     addTf(val) {
+      console.log(this.form)
       if (!val) {
         this.form.splice(2, 1)
       } else {
@@ -184,10 +188,36 @@ export default {
         })
       }
     },
+    test(list, index) {
+      var sNum = list.awards[index].srange
+      var eNum = list.awards[index].erange
+      for (let i = index + 1; i < list.awards.length; i++) {
+        var erange = list.awards[i].erange
+        var srange = list.awards[i].srange
+        if ((sNum <= srange && eNum >= srange) || (sNum <= erange && eNum >= erange)) {
+          this.$message.error('名次不能重复')
+          this.stop = true
+          // console.log('重复的名次：' + srange + '-' + erange + `\n` + '被重复的名次：' + sNum + '-' + eNum)
+          return 
+        } else {
+          this.stop = false
+        }
+      }
+      if (index < list.awards.length - 1) {
+        index++
+        this.test(list, index)
+      }
+    },
     save() {
       // this.form.map(item => {
       //   item.outRange[0].srange = item.awards[item.awards.length - 1].erange + 1
       // })
+      // this.test(this.form[0], 0)
+      this.form.forEach((item, index) => {
+        if (index != 0 && this.stop) return
+        this.test(item, 0)
+      })
+      if (this.stop) return
       this.form[0].areas = []
       this.cityList.map(item => {
         this.areas.forEach(d => {
@@ -211,7 +241,6 @@ export default {
           })
         })
       }
-      this.form[0].areas
       this.$request.post('/api/saotx/md/somBaseAward', { activityCode: this.activityCode, strategy: this.form }, true, res => {
         if (res.ret === '200000') {
           this.$message.success('保存成功')

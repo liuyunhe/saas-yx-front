@@ -628,7 +628,7 @@ export default {
           display: flex;
           margin-bottom: 10px;
           .img-con {
-            width: 25%;
+            width: 180px;
             display: flex;
             justify-content: center;
             align-items: center;

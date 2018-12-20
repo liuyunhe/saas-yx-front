@@ -18,7 +18,7 @@
           <share-conf class="ml40" v-if="status" :params="form" :double="doubleArr" :discount="discountArr"></share-conf>
         </el-form-item>
         <el-form-item label="转赠设置：">
-          <make-conf class="ml40" v-if="status" :params="form.giveSets"></make-conf>
+          <!-- <make-conf class="ml40" v-if="status" :params="form.giveSets"></make-conf> -->
         </el-form-item>
         <el-form-item label="中奖地区黑名单设置：">
           <div class="ml40">
