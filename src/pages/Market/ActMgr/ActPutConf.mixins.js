@@ -843,7 +843,7 @@ export default {
     },
     // 定点投放品牌限制
     restrictBrand() {
-      console.log(this.selectBrand)
+      // console.log(this.selectBrand)
       this.specialBrandList = JSON.parse(JSON.stringify(this.brandList))
       this.specialBrandList.forEach(speciaItem => {
         speciaItem['disabled'] = true
@@ -853,7 +853,7 @@ export default {
           }
         })
       })
-      console.log(this.specialBrandList)
+      // console.log(this.specialBrandList)
     },
     restrictSonBrand() {
       this.specialBrandSonList = JSON.parse(JSON.stringify(this.brandSonList))
