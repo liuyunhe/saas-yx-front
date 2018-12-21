@@ -1,25 +1,25 @@
 <template>
   <div class="container">
-    <el-form :modal="form">
-      <el-form-item label="选号设置：">
+    <el-form :modal="form" :rules="rules">
+      <el-form-item label="选号设置：" prop="scanTimes">
         <span>每扫</span>
         <el-input-number controls-position="right" :min="0" v-model="form.scanTimes" :precision="0"></el-input-number>
         <span>包烟可参与一次选号</span>
       </el-form-item>
-      <el-form-item label="开奖时间：">
+      <el-form-item label="开奖时间：" prop="lotteryStime">
         <span>每周六</span>
         <el-time-picker style="width: 130px;" align="center" :editable="false" v-model="form.lotteryStime" format="HH:mm" value-format="HH:mm" placeholder="请选择时间"></el-time-picker>
       </el-form-item>
-      <el-form label-position="top">
-        <el-form-item label="规格参数：">
+      <el-form label-position="top" :rules="rules2">
+        <el-form-item label="规格参数：" prop="snGiveSets">
           <norm-conf class="ml40" v-if="status" :params="form.snGiveSets"></norm-conf>
         </el-form-item>
-        <el-form-item label="分享设置：">
+        <el-form-item label="分享设置：" prop="form">
           <share-conf class="ml40" v-if="status" :params="form" :double="doubleArr" :discount="discountArr"></share-conf>
         </el-form-item>
-        <el-form-item label="转赠设置：">
+        <!-- <el-form-item label="转赠设置："> -->
           <!-- <make-conf class="ml40" v-if="status" :params="form.giveSets"></make-conf> -->
-        </el-form-item>
+        <!-- </el-form-item> -->
         <el-form-item label="中奖地区黑名单设置：">
           <div class="ml40">
             <el-select v-model="selectedProv" placeholder="请选择">
@@ -56,9 +56,18 @@ export default {
   },
   props: ['activityCode'],
   data() {
+    // 只是为了显示表单的必填标识 *  没实质性用处
+    var tips = (rule, value, callback) => {
+      // callback()
+    }
     return {
       rules: {
-        // scanTimes: [{required: true}]
+        scanTimes: [{required: true, validator: tips}],
+        lotteryStime: [{required: true, validator: tips}]
+      },
+      rules2: {
+        snGiveSets: [{required: true, validator: tips}],
+        form: [{required: true, validator: tips}]
       },
       form: {
         // activityCode: this.activityCode,

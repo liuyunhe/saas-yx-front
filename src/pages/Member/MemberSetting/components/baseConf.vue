@@ -4,7 +4,7 @@
       <el-input v-model="form.activityName" :maxlength="15"></el-input>
     </el-form-item>
     <el-form-item label="活动描述：" prop="activityDec">
-      <el-input id="desc" type="textarea" v-model="form.activityDec" :rows="3" resize="none"></el-input>
+      <el-input class="textarea" type="textarea" v-model="form.activityDec" :rows="3" resize="none"></el-input>
     </el-form-item>
     <el-form-item label="优先级：" prop="idx">
       <el-select v-model="form.idx" placeholder="请选择">
@@ -17,7 +17,7 @@
       </el-date-picker>
     </el-form-item>
     <el-form-item label="活动图片：" prop="banner">
-      <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
+      <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :on-error="upBannerImgErr" :show-file-list="false">
         <img v-if="form.activityEntrance" :src="form.activityEntrance" class="avatar">
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*270像素；格式png、jpg；大小不超过2M</div>
@@ -154,6 +154,9 @@ export default {
       }
       this.$message.error(resule.message)
     },
+    upBannerImgErr(err) {
+      this.$message.error('上传图片失败, 请重试!')
+    },
     // 富文本框失焦
     onEditorBlur() {
       this.$refs.baseConfRef.validateField('desc', valid => {})
@@ -209,8 +212,9 @@ export default {
 .quill-editor {
   width: 420px;
 }
-#desc {
-  font-family: Arial !important;
+
+.textarea /deep/ .el-textarea__inner{
+ font-family:"Microsoft" !important;
 }
 </style>
 

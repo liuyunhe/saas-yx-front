@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <el-form-item label="名次设置：">
+    <el-form-item label="名次设置：" prop="srange">
       <div class="mb20" v-for="(item, i) in params" :key="i">
         <div v-if="item.rangeType == 1">
           <el-input-number v-model="item.srange" :precision="0" :min="1" controls-position="right" @change="calculate(i)"></el-input-number>

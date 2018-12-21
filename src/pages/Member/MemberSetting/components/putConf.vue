@@ -5,36 +5,13 @@
       <div slot="header" class="clearfix">
         <span>省内</span>
       </div>
-      <el-form label-width="90px">
-        <el-form-item label="销区：">
+      <el-form label-width="100px" :rules="rules">
+        <el-form-item label="销区：" prop="areas">
           河北省
           <el-select v-model="areas" multiple collapse-tags class="ml20" placeholder="请选择区">
             <el-option v-if="cityList" v-for="(item, index) in cityList" :key="index" :label="item.name" :value="item.code"></el-option>
           </el-select>
         </el-form-item>
-        <!-- <el-form-item label="名次设置：">
-          <div class="mb20" v-for="(item, index) in form.arr" :key="index">
-            <el-input-number v-model="item.first" :precision="0" :min="0" controls-position="right"></el-input-number>
-            —
-            <el-input-number v-model="item.last" :precision="0" :min="0" controls-position="right"></el-input-number>
-            名，红包面额
-            <el-input-number v-model="item.money" :precision="2" :min="0" :max="500" controls-position="right" @change="calculate(item)"></el-input-number>
-            元
-            <span class="ml20 mr20">
-              总金额
-              <el-input disabled v-model="item.totlaMoney" style="width: 80px"></el-input>
-              元
-            </span>
-            <el-button type="primary" v-if="index === form.arr.length - 1" @click="add">新增</el-button>
-            <el-button type="danger" v-if="index!== 0 && index === form.arr.length - 1" @click="del(index)">删除</el-button>
-          </div>
-        </el-form-item>
-        <el-form-item>
-          <el-checkbox class="mr20" v-model="radio">排名以外</el-checkbox>
-          可获得
-          <el-input-number v-model="form.score" :disabled="!radio" :precision="0" :min="0" :max="1000" controls-position="right"></el-input-number>
-          荷石币
-        </el-form-item> -->
         <rank-conf v-if="flag" :params="form[0].awards" :outRange="form[0].outRange"></rank-conf>
       </el-form>
     </el-card>
@@ -42,8 +19,8 @@
       <div slot="header" class="clearfix">
         <span>省外</span>
       </div>
-      <el-form label-width="90px">
-        <el-form-item label="投放类型：">
+      <el-form label-width="100px" :rules="rules2">
+        <el-form-item label="投放类型：" prop="awards">
           <div class="mt20 mb20">
             <!-- <el-checkbox class="mr20" v-model="defaultPond">默认奖池</el-checkbox> -->
             <div>默认奖池</div>
@@ -52,7 +29,7 @@
           <div>
             <el-checkbox class="mr20" v-model="TfPond" @change="addTf">定投奖池</el-checkbox>
             <div v-if="TfPond">
-              <el-form-item label="地区：">
+              <el-form-item label="地区：" prop="prov">
                 <el-select v-model="prov" multiple collapse-tags placeholder="请选择区">
                   <el-option v-if="provList" :disabled="item.disable ? true : false" v-for="(item, index) in provList" :key="index" :label="item.name" :value="item.code"></el-option>
                 </el-select>
@@ -76,7 +53,20 @@ export default {
   },
   props: ['activityCode'],
   data() {
+    // 只是为了显示表单的必填标识 *  没实质性用处
+    var tips = (rule, value, callback) => {
+      // callback()
+    }
     return {
+      rules: {
+        areas: [{required: true, validator: tips}],
+        srange: [{required: true, validator: tips}],
+      },
+      rules2: {
+        awards: [{required: true, validator: tips}],
+        prov: [{required: true, validator: tips}],
+        srange: [{required: true, validator: tips}],
+      },
       areas: [],
       prov: [],
       cityList: [],

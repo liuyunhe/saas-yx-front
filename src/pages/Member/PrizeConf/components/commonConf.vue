@@ -12,7 +12,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="礼品图片" prop="icon">
-            <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
+            <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :on-error="upBannerImgErr" :show-file-list="false">
               <img v-if="form.icon" :src="form.icon" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：360像素*270像素；格式png、jpg；大小不超过2M</div>
@@ -134,6 +134,9 @@ export default {
         return
       }
       this.$message.error(resule.message)
+    },
+    upBannerImgErr(err) {
+      this.$message.error('上传图片失败, 请重试!')
     },
     beforeAvatarUpload(file) {
       const JPGOrPNG = file.type === 'image/jpeg' || file.type === 'image/png'
