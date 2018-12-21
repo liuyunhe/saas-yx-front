@@ -23,9 +23,9 @@
       <template v-if="awae.awardType == '1'">
         <el-form-item label="选择物品:">
           <!-- <el-button  @click="getEntityList">选择</el-button> -->
-          <el-button v-if="!pondConf.awardPic" @click="getList">选择</el-button>
-          <img style="border: 1px dotted #ccc" v-if="pondConf.awardPic" :src="pondConf.awardPic" @click="isEdit && getList">
-          <span>{{pondConf.poolName}}</span>
+          <el-button v-if="!awae.awardPic" @click="getList">选择</el-button>
+          <img style="border: 1px dotted #ccc" v-if="awae.awardPic" :src="awae.awardPic" @click="isEdit && getList">
+          <span>{{awae.poolName}}</span>
         </el-form-item>
         <el-form-item label="投放数量:">
           <el-input-number v-model="awae.totalNum" :disabled="awae.id ? true : false" :min="0" controls-position="right"></el-input-number> 个
