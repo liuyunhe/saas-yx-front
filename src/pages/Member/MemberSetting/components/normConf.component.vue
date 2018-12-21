@@ -89,7 +89,6 @@ export default {
               result = newSn
             }
           })
-          console.log(result)
           this.brandList.forEach(item => {
             item.forEach(d => {
               if (d.sn == result) {
@@ -97,6 +96,7 @@ export default {
               }
             })
           })
+          this.oldSnArr[i] = JSON.parse(JSON.stringify(this.params[i].snArr))
           // 添加地区
         } else if (this.oldSnArr[i].length < this.params[i].snArr.length) {
           let result = ''
@@ -122,6 +122,7 @@ export default {
               })
             }
           })
+          this.oldSnArr[i] = JSON.parse(JSON.stringify(this.params[i].snArr))
         }
       }
     },
