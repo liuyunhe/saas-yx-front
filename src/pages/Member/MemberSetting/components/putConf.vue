@@ -61,11 +61,13 @@ export default {
       rules: {
         areas: [{required: true, validator: tips}],
         srange: [{required: true, validator: tips}],
+        awardName: [{required: true, validator: tips}]
       },
       rules2: {
         awards: [{required: true, validator: tips}],
         prov: [{required: true, validator: tips}],
         srange: [{required: true, validator: tips}],
+        awardName: [{required: true, validator: tips}]
       },
       areas: [],
       prov: [],

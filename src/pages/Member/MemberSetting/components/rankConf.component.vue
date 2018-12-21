@@ -28,9 +28,9 @@
         </div>
       </div>
     </el-form-item>
-    <el-form-item>
+    <el-form-item label="排名以外：" prop="awardName">
       <!-- <el-checkbox class="mr20" v-model="type" :true-label="2" :false-label="1" @change="toggle">排名以外</el-checkbox> -->
-      <div>排名以外</div>
+      <!-- <div>排名以外</div> -->
       <div>
         可获得
         <span v-if="!outRange[0].materialId">
