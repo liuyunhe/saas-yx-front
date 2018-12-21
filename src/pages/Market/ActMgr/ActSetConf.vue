@@ -10,7 +10,7 @@
       <el-breadcrumb-item>基础设置</el-breadcrumb-item>
     </el-breadcrumb>   
     <el-card>
-    	<el-steps :active="stepActive" finish-status="success"align-center class='step-style'v-show='form=="act-501"'>
+    	<el-steps :active="stepActive" finish-status="success" align-center class='step-style' v-show='form=="act-501"'>
 			  <el-step title="基础设置"></el-step>
 			  <el-step title="题目设置"></el-step>
 			  <el-step title="投放设置"></el-step>
@@ -43,9 +43,9 @@
           <quill-editor ref="myTextEditor" v-model="confData.actDesc" :options="editorOption" placeholder="请输入活动说明" @blur="onEditorBlur($event)">
           </quill-editor>
         </el-form-item>
-        <el-form-item label="答题时间" prop="quesTime"v-show='form=="act-501"'>
+        <el-form-item label="答题时间" prop="quesTime" v-show='form=="act-501"'>
         	<el-radio v-model="extInfo.limited" :label="1">不限</el-radio>
-  				<el-radio v-model="extInfo.limited" :label="2">总时间限<input v-model="extInfo.time" type='number'class='limited-time'@input='limitNum'/>秒</el-radio>
+  				<el-radio v-model="extInfo.limited" :label="2">总时间限<input v-model="extInfo.time" type='number' class='limited-time' @input='limitNum'/>秒</el-radio>
         </el-form-item>
         <el-form-item label="是否在落地页显示">
           <el-radio v-model="confData.showStatus" :label="1">是</el-radio>
