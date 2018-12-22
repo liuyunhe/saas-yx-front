@@ -24,7 +24,7 @@
               </el-tooltip>
               <el-tooltip popper-class="mytooltip" content="从系统有数据记录开始到前一天，总共产生的扫码次数的实时数值，包含重复扫码的情况" placement="top">
                 <p>
-                  历史扫码总次数：<span id="scan_day_rate">{{hisScanData.totalCode}}</span><em>&nbsp;次</em>
+                  历史扫码总次数：<span id="scan_day_rate">{{hisScanData.totalPv}}</span><em>&nbsp;次</em>
                 </p>
               </el-tooltip>
             </div>
@@ -36,7 +36,7 @@
               </el-tooltip>
               <el-tooltip popper-class="mytooltip" content="从系统有数据记录开始到前一天，参与扫码活动的总用户数的实时数值，对历史所有扫码用户的id进行了去重处理" placement="top">
                 <p>
-                  历史扫码总人数：<span id="scan_user_rate">{{hisScanData.totalPv}}</span><em>&nbsp;人</em>
+                  历史扫码总人数：<span id="scan_user_rate">{{hisScanData.totalUv}}</span><em>&nbsp;人</em>
                 </p>
               </el-tooltip>
             </div>
@@ -48,7 +48,7 @@
               </el-tooltip>
               <el-tooltip popper-class="mytooltip" content="从系统有数据记录开始到前一天，总共产生的扫码总烟包数的实时数值，去除历史重复扫码后的扫码数" placement="top">
                 <p>
-                  历史扫码总烟包数：<span id="scan_code_rate">{{hisScanData.totalUv}}</span><em>&nbsp;个</em>
+                  历史扫码总烟包数：<span id="scan_code_rate">{{hisScanData.totalCode}}</span><em>&nbsp;个</em>
                 </p>
               </el-tooltip>
             </div>
