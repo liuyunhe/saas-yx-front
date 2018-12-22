@@ -175,10 +175,15 @@ export default {
       // ===================== 规格指标列表 =======================
       prodSort: false,
       prodSortInfo: {prop:'scanCodes',order:'descending'},
-      prodTableDatas: []
+      prodTableDatas: [],
+      yesterday: ""
     }
   },
   created() {
+    let _now = new Date();
+    _now.setTime(_now.getTime()-24*60*60*1000);
+    this.yesterday = _now.getFullYear()+"-" + (_now.getMonth()+1) + "-" + _now.getDate();
+
     let _this = this;
     _this.loadJsonDatas();
 
@@ -311,7 +316,7 @@ export default {
     // 同一周期进行查询
     getPageTopDatas() {
       // 历史扫码情况数据
-      this.$request.post('/record/statistics/getHistoryScanUv', {key: "scantimes"}, true, (res)=>{
+      this.$request.post('/record/statistics/getHistoryScanUv', {statTime: this.yesterday}, true, (res)=>{
         let datas = res || [];
         //datas = [{"scanTotalCode":34323151,"scanTotalPv":47093856,"scanTotalUv":4325241}];
         if(datas.length>0&&datas[0]) {
