@@ -26,7 +26,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="订单状态：">
-              <el-select :clearable="true" v-model="queryParams.region" placeholder="请选择">
+              <el-select :clearable="true" v-model="queryParams.status" placeholder="请选择">
                 <el-option v-for="(item, index) in orderStatusList" :key="index" :label="item.name" :value="item.status"></el-option>
               </el-select>
             </el-form-item>
@@ -109,10 +109,11 @@ export default {
         etime: '',
         orderCode: '',
         awardType: '',
-        selType: null,
+        selType: '',
         keywords: '',
         pageNo: 1,
-        pageSize: 10
+        pageSize: 10,
+        status: ''
       },
       queryTimeArr: [],
       actName: [
@@ -123,9 +124,9 @@ export default {
       orderStatusList: [
         {name: '待领取', status: 1},
         {name: '已发货', status: 2},
-        {name: '接口类奖品调用异常', status: 3},
-        {name: '已领取', status: 4},
-        {name: '待发货', status: 5},
+        // {name: '接口类奖品调用异常', status: 3},
+        {name: '已领取', status: 6},
+        // {name: '待发货', status: 7},
       ],
       awardTypeList: [
         {name: '实物', type: 1},
@@ -139,9 +140,9 @@ export default {
         {name: '姓名/手机号', type: 2},
       ],
       props: {
-      label: 'name',
-      value: 'code',
-      children: 'children'
+        label: 'name',
+        value: 'name',
+        children: 'children'
       },
       selectedOptions: [],
       provList: [],
@@ -182,6 +183,7 @@ export default {
       this.queryParams.awardCity = []
       this.queryParams.stime = ''
       this.queryParams.etime = ''
+      this.queryParams.status = ''
       this.queryParams.orderCode = ''
       this.queryParams.awardType = ''
       this.queryParams.selType = null
@@ -209,7 +211,7 @@ export default {
     getCityList(val, index) {
       this.cityList = []
       let params = []
-      params.push(val[0])
+      params.push(val)
       this.$request.post('/api/saotx/dim/regionByMultiParent', { parentArr: params }, true, res => {
           if (res.ret === '200000') {
             this.cityList = res.data
@@ -256,8 +258,8 @@ export default {
     },
     async handleItemChange(val) {
       this.provList.forEach((item, index) => {
-        if (val.indexOf(item.code) > -1 && !item.children.length) {
-          this.getCityList(val, index)
+        if (val.indexOf(item.name) > -1 && !item.children.length) {
+          this.getCityList(item.code, index)
           return
         }
       })

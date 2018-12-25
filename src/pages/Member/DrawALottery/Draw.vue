@@ -23,7 +23,7 @@
         <el-table-column align="center" prop="result" label="开奖号码"></el-table-column>
         <el-table-column align="center" prop="drawUser" label="操作人"></el-table-column>
         <el-table-column align="center" label="操作时间">
-          <template slot-scope="scope">
+          <template slot-scope="scope" v-if="scope.row.drawTime">
             {{new Date(scope.row.drawTime).Format('yyyy-MM-dd hh:mm:ss')}}
           </template>
         </el-table-column>
@@ -41,14 +41,14 @@
       </el-table>
       <el-pagination class="mt20" background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="params.pageNo" :page-size="params.pageSize" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
     </el-card>
-    <el-dialog custom-class="select-num-dialog" title="选择中奖号码" :close-on-click-modal="false" :center="true" :visible.sync="selectedNumDialogVisible" width="650px">
+    <el-dialog custom-class="select-num-dialog" title="选择中奖号码" @close="resetSelectedNum" :close-on-click-modal="false" :center="true" :visible.sync="selectedNumDialogVisible" width="650px">
       <div class="con">
         <p>当前开奖周期时间段为{{nowDrawCircleTime}}</p>
         <div class="warpper mb20">
           <div :class="item.selected ? 'num active' : 'num'" v-for="(item, index) in numArr" @click="selectedStatus(index)" :key="index">{{item.num}}</div>
         </div>
         <el-button type="primary" size="medium" @click="save">保存</el-button>
-        <el-button size="medium" @click="resetSelectedNum">取消</el-button>
+        <el-button size="medium" @click="selectedNumDialogVisible = false">取消</el-button>
       </div>
     </el-dialog>
     <el-dialog custom-class="selected-dialog" width="500px" title="当前已选中奖号码" :close-on-click-modal="false" :visible.sync="confirmDialogVisible">
@@ -210,6 +210,7 @@ export default {
       border-radius: 50%;
       margin: 10px 10px;
       cursor: pointer;
+      transition: all 0.3s;
       &.active {
         color: #fff;
         background-color: #409EFF;
