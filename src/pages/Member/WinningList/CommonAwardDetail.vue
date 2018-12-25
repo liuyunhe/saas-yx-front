@@ -64,7 +64,7 @@
         <el-button type="primary" v-if="orderData.activityCode == 'ACT-ZCQ2JKDAAAAA' && orderData.status == 2" @click="save">订单跟踪</el-button>
         <el-button type="primary" v-if="orderData.activityCode == 'ACT-ZCQ2JKDAAAAA' && orderData.status !== 2" @click="save">确认发货</el-button>
         <el-button type="primary" v-if="orderData.activityCode !== 'ACT-ZCQ2JKDAAAAA'" @click="save">保存</el-button>
-        <el-button @click="$router.push('/memberday/baseAward')">返回</el-button>
+        <el-button @click="$router.go(-1)">返回</el-button>
       </el-col>
     </el-card>
     <super-pop v-if="superConfVisible" @taggle="taggle" @refresh="refresh" :params="orderData"></super-pop>

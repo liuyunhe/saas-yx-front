@@ -12,7 +12,7 @@
     </el-card>
     <el-card class="mt20">
       <el-table border  v-loading="loading" :stripe="true" :data="drawList" tooltip-effect="dark" style="width: 100%">
-        <el-table-column align="center" type="selection" width="55"></el-table-column>
+        <!-- <el-table-column align="center" type="selection" width="55"></el-table-column> -->
         <el-table-column align="center" type="index" label="序号" width="55"></el-table-column>
         <el-table-column align="center" prop="termName" label="中奖周期"></el-table-column>
         <el-table-column align="center" label="开奖周期">
@@ -29,10 +29,11 @@
         </el-table-column>
         <el-table-column align="center" label="开奖状态">
           <template slot-scope="scope">
-            <span v-if="scope.row.drawStatus == 1">待开奖</span>
+            <span v-if="scope.row.drawStatus">{{prizeStatus[scope.row.drawStatus]}}</span>
+            <!-- <span v-if="scope.row.drawStatus == 1">待开奖</span>
             <span v-if="scope.row.drawStatus == 2">开奖中</span>
             <span v-if="scope.row.drawStatus == 3">开奖完成</span>
-            <span v-if="scope.row.drawStatus == 4">开奖异常</span>
+            <span v-if="scope.row.drawStatus == 4">开奖异常</span> -->
           </template>
         </el-table-column>
         <el-table-column align="center" prop="name" label="操作项">
@@ -95,7 +96,13 @@ export default {
       drawList: [],
       nowDrawCircleTime: '',
       selectedNumDialogVisible: false,
-      confirmDialogVisible: false
+      confirmDialogVisible: false,
+      prizeStatus: {
+        1: '待开奖',
+        2: '开奖中',
+        3: '开奖完成',
+        4: '开奖异常'
+      }
     }
   },
   created() {
@@ -165,6 +172,7 @@ export default {
       let drawNum = this.selectedNumArr.join(',')
       this.$request.post('/api/saotx/md/draw', {id: this.nowId, result: drawNum}, true, res => {
         if (res.ret === '200000') {
+          this.$message.success('开奖成功!')
           this.reset()
         } else {
           this.$message.error(res.message)

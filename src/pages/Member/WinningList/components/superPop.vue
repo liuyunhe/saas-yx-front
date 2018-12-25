@@ -24,7 +24,8 @@
           <span v-if="params.ctime">{{new Date(params.ctime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
         </el-form-item>
         <el-form-item label="发货时间：">
-          <span v-if="params.sendTime">{{new Date(params.sendTime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
+          <span class="mr20" v-if="params.sendTime">{{new Date(params.sendTime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
+          <span v-if="params.status == 2">状态：已发货</span>
         </el-form-item>
         <el-form-item label="认证照片：">
           <span v-if="!params.img">待上传</span>

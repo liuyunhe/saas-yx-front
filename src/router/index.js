@@ -195,7 +195,7 @@ const sellerAuditStep2 = () => import(/* webpackChunkName: "seller" */ '@/pages/
 // 会员日
 const Draw = () => import(/* webpackChunkName: "member" */ '@/pages/Member/DrawALottery/Draw')
 const BaseAward = () => import(/* webpackChunkName: "member" */ '@/pages/Member/WinningList/BaseAward')
-const BaseAwardDetail = () => import(/* webpackChunkName: "member" */ '@/pages/Member/WinningList/BaseAwardDetail')
+const CommonAwardDetail = () => import(/* webpackChunkName: "member" */ '@/pages/Member/WinningList/CommonAwardDetail')
 const ScanAward = () => import(/* webpackChunkName: "member" */ '@/pages/Member/WinningList/ScanAward')
 const SuperAward = () => import(/* webpackChunkName: "member" */ '@/pages/Member/WinningList/SuperAward')
 const SuperAwardDetail = () => import(/* webpackChunkName: "member" */ '@/pages/Member/WinningList/SuperAwardDetail')
@@ -391,11 +391,12 @@ export default new Router({
         { path: '/memberday', name: '会员日', redirect: '/memberday/material' },
         { path: '/memberday/material', name: '物料', redirect: '/memberday/material/prizeList', props: (route) => ({type: '1'}) },
         { path: '/memberday/draw', name: '会员日开奖', component: Draw },
-        { path: '/memberday/baseAward', name: '中奖名单-常规', component: BaseAward },
-        { path: '/memberday/baseAwardDetail', name: '常规奖详情', component: BaseAwardDetail, props: (route) => ({orderCode: route.query.orderCode}) },
-        { path: '/memberday/scanAward', name: '中奖名单-扫码贡献奖', component: ScanAward },
-        { path: '/memberday/superAward', name: '中奖名单-超级金荷奖', component: SuperAward },
-        { path: '/memberday/superAwardDetail', name: '金荷奖详情', component: SuperAwardDetail, props: (route) => ({orderCode: route.query.orderCode}) },
+        { path: '/memberday/order', redirect: '/memberday/order/baseAward'},
+        { path: '/memberday/order/baseAward', name: '中奖名单-常规', component: BaseAward },
+        { path: '/memberday/order/commonAwardDetail', name: '常规奖详情', component: CommonAwardDetail, props: (route) => ({orderCode: route.query.orderCode}) },
+        { path: '/memberday/order/scanAward', name: '中奖名单-扫码贡献奖', component: ScanAward },
+        { path: '/memberday/order/superAward', name: '中奖名单-超级金荷奖', component: SuperAward },
+        // { path: '/memberday/order/superAwardDetail', name: '金荷奖详情', component: SuperAwardDetail, props: (route) => ({orderCode: route.query.orderCode}) },
         { path: '/memberday/memberSetting', name: '会员日设置', component: MemberSetting },
         { path: '/memberday/material/prizeConf', name: '会员日奖品配置', component: PrizeConf, props: (route) => ({type: route.query.type, id: route.query.id}) },
         { path: '/memberday/material/prizeList', name: '会员日奖品列表', component: PrizeList, props: (route) => ({type: route.query.type}) },

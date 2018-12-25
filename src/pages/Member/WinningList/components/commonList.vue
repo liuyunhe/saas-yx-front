@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <el-table border :stripe="true" :data="awardList" tooltip-effect="dark" style="width: 100%">
+    <el-table border :v-loading="loading" :stripe="true" :data="awardList" tooltip-effect="dark" style="width: 100%">
       <el-table-column align="center" prop="orderCode" label="订单号"></el-table-column>
       <el-table-column align="center" prop="activityName" label="活动名称"></el-table-column>
       <el-table-column align="center" prop="prizeWinner" label="中奖人"></el-table-column>
@@ -26,7 +26,7 @@
 </template>
 <script>
 export default {
-  props: ['awardList'],
+  props: ['awardList', 'loading'],
   data() {
     return {
       prizeType: {
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     goDetailPage(code) {
-      this.$router.push('/memberday/baseAwardDetail?orderCode=' + code)
+      this.$router.push('/memberday/order/commonAwardDetail?orderCode=' + code)
     }
   }
 }

@@ -29,7 +29,7 @@
             <el-input-number controls-position="right" :min="0.30" :precision="2" v-model="form.value"></el-input-number> 元
           </el-form-item>
           <el-form-item label="积分面额" prop="value" v-if="params.type == 6">
-            <el-input-number controls-position="right" :min="0" :precision="0" v-model="form.value"></el-input-number> 分
+            <el-input-number controls-position="right" :min="0" :precision="0" v-model="form.value"></el-input-number> 荷石币
           </el-form-item>
           <el-form-item label="活动描述">
             <el-input type="textarea" v-model="form.note" :rows="3" resize="none"></el-input>

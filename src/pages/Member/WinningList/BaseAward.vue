@@ -39,7 +39,7 @@
                 </el-select>
               </el-col>
               <el-col :span="14">
-                <el-input v-model="queryParams.keywords" placeholder="请输入"></el-input>
+                <el-input v-model="queryParams.keywords" :disabled="queryParams.selType ? false : true" placeholder="请输入"></el-input>
               </el-col>
             </el-form-item>
           </el-col>
@@ -65,30 +65,7 @@
       <el-button type="primary" plain @click="exportData">导出搜索结果</el-button>
     </el-card>
     <el-card class="mt20">
-      <common-list :awardList="awardList"></common-list>
-      <!-- <el-table border :stripe="true" :data="awardList" tooltip-effect="dark" style="width: 100%">
-        <el-table-column align="center" prop="orderCode" label="订单号"></el-table-column>
-        <el-table-column align="center" prop="activityName" label="活动名称"></el-table-column>
-        <el-table-column align="center" prop="prizeWinner" label="中奖人"></el-table-column>
-        <el-table-column align="center" prop="mobile" label="中奖人手机号"></el-table-column>
-        <el-table-column align="center" prop="awardType" label="奖品类型">
-          <template slot-scope="scope">
-            <span>{{prizeType[scope.row.awardType]}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" prop="awardName" label="奖品名称"></el-table-column>
-        <el-table-column align="center" prop="term" label="中奖时间">
-        </el-table-column>
-        <el-table-column align="center" prop="name" label="中奖地区">
-          <template slot-scope="scope">
-            <span>{{scope.row.awardProvince}}-{{scope.row.awardCity}}{{scope.row.awardDistrict ? '-' + scope.row.awardDistrict : ''}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" prop="orderStatus" label="状态"></el-table-column>
-        <el-table-column align="center" label="操作项">
-          <template slot-scope="scope"><el-button type="text" v-if="scope.row.status == 2 || scope.row.status == 3">详情</el-button></template>
-        </el-table-column>
-      </el-table> -->
+      <common-list :awardList="awardList" :loading="loading"></common-list>
       <el-pagination class="mt20" background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryParams.pageNo" :page-size="queryParams.pageSize" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
     </el-card>
   </div>
@@ -154,7 +131,8 @@ export default {
         "token": sessionStorage.getItem("access_token"),
         "loginId": sessionStorage.getItem("access_loginId")
       },
-      sourceFiles: []
+      sourceFiles: [],
+      loading: true
     }
   },
   created() {
@@ -167,6 +145,7 @@ export default {
         if (res.ret === '200000') {
           this.awardList = res.data.list
           this.total = res.data.page.count
+          this.loading = false
           return
         }
         this.$message.error(res.message)

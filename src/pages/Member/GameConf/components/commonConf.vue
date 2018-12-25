@@ -2,34 +2,19 @@
   <div>
     <el-card>
       <div slot="header" class="clearfix">
-        <span v-if="type == 1">实物</span>
-        <span v-if="type == 202">翻倍卡</span>
-        <span v-if="type == 201">折扣卡</span>
-        <span v-if="type == 3">红包</span>
+        <span>{{prizeType[type].title}}</span>
         <span v-if="type == 3" style="color: #999;">投入总金额：{{totalRedNum}}元  剩余总金额：{{totalSurplusNul}}元</span>
-        <span v-if="type == 6">积分</span>
       </div>
       <el-form>
         <el-form-item>
-          <span v-if="type == 1">选择实物：</span>
-          <span v-if="type == 202">选择翻倍卡：</span>
-          <span v-if="type == 201">选择折扣卡：</span>
-          <span v-if="type == 3">选择红包：</span>
-          <span v-if="type == 6">选择荷石币：</span>
+          <span>{{prizeType[type].titleName}}</span>
           <el-button icon="el-icon-plus" @click="getMaterialList"></el-button>
         </el-form-item>
         <el-form-item v-if="params" v-for="(item, index) in params" :key="index">
-          <span v-if="item.awardType == 1">实物名称</span>
-          <span v-if="item.awardType == 202">翻倍卡</span>
-          <span v-if="item.awardType == 201">折扣值</span>
-          <span v-if="item.awardType == 3">面额</span>
-          <span v-if="item.awardType == 6">面额</span>
+          <span>{{prizeType[type].awardName}}</span>
           <span v-if="item.awardType == 1">{{item.awardName}}</span>
           <span v-else>{{item.minred}}</span>
-          <span v-if="item.awardType == 202">倍</span>
-          <span v-if="item.awardType == 201">折</span>
-          <span v-if="item.awardType == 3">元</span>
-          <span v-if="item.awardType == 6">荷石币</span>
+          <span>{{prizeType[type].units}}</span>
           投放数量：
           <el-input-number v-if="type == 1 || type == 202 || type == 201" v-model="item.totalNum" :precision="0" :min="0" controls-position="right"></el-input-number>
           <el-input-number v-if="type == 3" v-model="item.totalNum" @change="calculate(index)" :precision="0" :min="0" controls-position="right"></el-input-number>
@@ -48,19 +33,15 @@
       <el-dialog :close-on-click-modal="false" :visible.sync="dataListVisible" width="800px">
         <el-table  v-loading="loading" class="mb20" ref="doubleCardTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @select-all="handleSelectionAllChange" @select="handleSelectionChange">
           <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column prop="name" label="姓名"></el-table-column>
-          <el-table-column prop="valueAlias" label="倍数"></el-table-column>
+          <el-table-column prop="name" label="名称"></el-table-column>
+          <el-table-column prop="valueAlias" :label="prizeType[type].tableName"></el-table-column>
           <el-table-column label="图片">
             <template slot-scope="scope">
-              <img :src="scope.row.icon" width="50" alt="">
+              <img :src="scope.row.icon" width="50">
             </template>
           </el-table-column>
         </el-table>
-        <el-button type="primary" v-if="type == 1" size="medium" @click="confirmChecked">选择勾选的实物</el-button>
-        <el-button type="primary" v-if="type == 3" size="medium" @click="confirmChecked">选择勾选的红包</el-button>
-        <el-button type="primary" v-if="type == 202" size="medium" @click="confirmChecked">选择勾选的翻倍卡</el-button>
-        <el-button type="primary" v-if="type == 201" size="medium" @click="confirmChecked">选择勾选的折扣卡</el-button>
-        <el-button type="primary" v-if="type == 6" size="medium" @click="confirmChecked">选择勾选的积分</el-button>
+        <el-button type="primary" size="medium" @click="confirmChecked">{{prizeType[type].btnText}}</el-button>
       </el-dialog>
     </el-card>
   </div>
@@ -76,6 +57,13 @@ export default {
         subType: null,
         pageNo: 1,
         pageSize: -1
+      },
+      prizeType: {
+        1: {tableName: '', btnText: '选择勾选的实物', titleName: '选择实物：', title: '实物', awardName: '实物名称', units: ''},
+        3: {tableName: '金额', btnText: '选择勾选的红包', titleName: '选择红包：', title: '红包', awardName: '面额', units: '元'},
+        202: {tableName: '倍数', btnText: '选择勾选的翻倍卡', titleName: '选择翻倍卡：', title: '翻倍卡', awardName: '翻倍卡', units: '倍'},
+        201: {tableName: '折扣', btnText: '选择勾选的折扣卡', titleName: '选择折扣卡：', title: '折扣卡', awardName: '折扣值', units: '折'},
+        6: {tableName: '荷石币', btnText: '选择勾选的积分', titleName: '选择荷石币：', title: '荷石币', awardName: '面额', units: '荷石币'},
       },
       dataList: [],
       dataListVisible: false,

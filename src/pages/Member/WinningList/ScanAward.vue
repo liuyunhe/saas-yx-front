@@ -25,7 +25,7 @@
       <el-button type="primary" plain @click="exportData">导出搜索结果</el-button>
     </el-card>
     <el-card class="mt20">
-      <el-table border :stripe="true" :data="awardList" tooltip-effect="dark" style="width: 100%">
+      <el-table border :v-loading="loading" :stripe="true" :data="awardList" tooltip-effect="dark" style="width: 100%">
         <el-table-column align="center" type="index" label="序号" width="55"></el-table-column>
         <el-table-column align="center" prop="activityName" label="活动名称"></el-table-column>
         <el-table-column align="center" prop="termName" label="中奖周期"></el-table-column>
@@ -74,6 +74,7 @@ export default {
       selectedOptions: [],
       provList: [],
       cityList: [],
+      loading: true
     }
   },
   created() {
@@ -82,14 +83,15 @@ export default {
   },
   methods: {
     getAwardList() {
-       this.$request.post('/api/saotx/md/orders', this.queryParams, true, res => {
-        if (res.ret === '200000') {
-          this.awardList = res.data.list
-          this.total = res.data.page.count
-          return
-        }
-        this.$message.error(res.message)
-      })
+      this.$request.post('/api/saotx/md/orders', this.queryParams, true, res => {
+      if (res.ret === '200000') {
+        this.awardList = res.data.list
+        this.total = res.data.page.count
+        this.loading = false
+        return
+      }
+      this.$message.error(res.message)
+    })
     },
     queryAwardList() {
       this.queryParams.pageNo = 1
@@ -185,7 +187,7 @@ export default {
     },
     //导出
     exportData(){
-      var url = "/api/saotx/order/export"
+      var url = "/api/saotx/md/orderExport"
       var xhr = new XMLHttpRequest()
       var formData = new FormData()
       for(var attr in this.queryParams) {
