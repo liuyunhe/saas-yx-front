@@ -78,20 +78,5 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
-  },
-  externals: {
-    'Vue': 'window.Vue',
-    'vuex': 'window.vuex',
-    'vue-router': 'window.vue-router',
-    'vue-cookies': 'window.vue-cookies',
-    'vuedraggable': 'window.vuedraggable',
-    'lodash': 'window.lodash',
-    'echarts': 'window.echarts',
-    'axios': 'window.axios',
-    'axios-mock-adapter': 'window.axios-mock-adapter',
-    'js-md5': 'window.js-md5',
-    'mockjs': 'window.mockjs',
-    'nprogress': 'window.nprogress',
-    'element-ui': 'window.element-ui'
   }
 }

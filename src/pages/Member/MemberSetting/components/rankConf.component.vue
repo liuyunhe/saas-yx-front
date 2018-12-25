@@ -44,7 +44,7 @@
         <!-- <el-input-number v-model="form.score" :precision="0" :min="0" :max="1000" controls-position="right"></el-input-number> -->
       </div>
     </el-form-item>
-    <el-dialog title="选择积分" :close-on-click-modal="false" :visible.sync="prizeListVisible" width="800px">
+    <el-dialog :title="titleName" :close-on-click-modal="false" :visible.sync="prizeListVisible" width="800px">
       <el-table class="mb20" ref="doubleCardTable" :data="dataList" tooltip-effect="dark" style="width: 100%">
         <el-table-column type="index" width="50"></el-table-column>
         <el-table-column prop="name" label="名称"></el-table-column>
@@ -71,7 +71,8 @@ export default {
       index: null,
       prizeListVisible: false,
       dataList: [],
-      totlaMoney: []
+      totlaMoney: [],
+      titleName: ''
     }
   },
   created () {
@@ -143,6 +144,11 @@ export default {
       this.prizeListVisible = false
     },
     getPrizeList(type, index) {
+      if(type === 3) {
+        this.titleName = '选择红包'
+      } else if (type === 6) {
+        this.titleName = '选择荷石币'
+      }
       let queryParams = {
         type: type,
         pageSize: -1

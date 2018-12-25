@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
     <el-container class="home-container">
-      <el-aside width="200px">
+      <el-aside width="216px">
         <div class="left">
           <div class="logo">
             <img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/top_logo_mini.png" alt="">
@@ -9,6 +9,7 @@
           <div class="parent-menu">
             <ul>
               <li ref="parentMenu" v-for="(item, index) in menuList" :key="item.id" @click="getsonMenuList(item, index)" :class="pathOneMenuActive ? (item.menuUrl == pathOneMenuActive ? 'active' : '') : (index == oneMenuIndex ? 'active' : '')">
+                <img :src="pathOneMenuActive ? (item.menuUrl == pathOneMenuActive ? item.activeIcon : item.icon) : (index == oneMenuIndex ? item.activeIcon : item.icon)">
                 <router-link :to="item.menuUrl">{{item.menuName}}</router-link>
               </li>
             </ul>
@@ -270,6 +271,7 @@ export default {
   background: #d9e0e7;
   .el-aside {
     height: 100%;
+    user-select:none;
     background-color: #283543;
     ul {
       text-align: center;
@@ -281,22 +283,36 @@ export default {
     }
     .left {
       float: left;
-      width: 40%;
+      width: 96px;
       .logo {
-        width: 90px;
+        width: 100%;
         height: 65px;
         line-height: 65px;
         text-align: center;
         img {
-          width: 50px;
+          width: 30px;
           vertical-align: middle;
+        }
+      }
+      .parent-menu {
+        li {
+          text-align: left;
+          padding-left: 18px;
+          padding-bottom: 1px;
+          box-sizing: border-box;
+        }
+        img {
+          vertical-align: -5%;
+          max-width: 14px;
+          max-height: 14px;
+          margin-right: 5px;
         }
       }
       a {
         color: #fff;
       }
       li.active {
-        background-color: #f8f8f8;
+        background-color: #3289FF;
         a {
           color: #333;
         }
@@ -304,7 +320,7 @@ export default {
     }
     .right {
       float: left;
-      width: 60%;
+      width: 120px;
       height: 100%;
       background-color: #fff;
       .menuName {

@@ -11,7 +11,11 @@
         </template>
       </el-table-column>
       <el-table-column align="center" prop="awardName" label="奖品名称"></el-table-column>
-      <el-table-column align="center" prop="term" label="中奖时间"></el-table-column>
+      <el-table-column align="center" prop="term" label="中奖时间">
+        <template slot-scope="scope">
+          {{new Date(scope.row.ctime).Format('yyyy-MM-dd hh:mm:ss')}}
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="中奖地区">
         <template slot-scope="scope">
           <span>{{scope.row.awardProvince}}{{scope.row.awardCity ? '-' + scope.row.awardCity : ''}}{{scope.row.awardDistrict ? '-' + scope.row.awardDistrict : ''}}</span>
