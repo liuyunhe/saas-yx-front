@@ -20,7 +20,7 @@
           <el-input v-model="confData.actName"maxLength='15'placeholder='请输入活动名称，15字以内'></el-input>
         </el-form-item>
         <el-form-item label="活动描述" prop="note">
-          <el-input type="textarea" v-model="confData.note" :rows="3" resize="none"placeholder='请输入活动描述，15字以内'></el-input>
+          <el-input type="textarea" v-model="confData.note" :rows="3" resize="none"maxLength='15'placeholder='请输入活动描述，15字以内'></el-input>
         </el-form-item>
         <el-form-item label="优先级" prop="idx">
           <el-select v-model="confData.idx" placeholder="请选择">
