@@ -38,11 +38,12 @@
       <el-button @click="reset">重置</el-button>
       <el-upload
         class="upload"
-        action="/api/saotx/order/import"
+        action="/api/saotx/md/import"
         :headers="headers"
         :on-success="handleSourceFileSuccess"
         :on-remove="handleSourceFileRemove"
         :file-list="sourceFiles"
+        :before-upload="beforeAvatarUpload"
         :auto-upload="true">
           <el-button type="primary" plain>导入物流信息</el-button>
       </el-upload>
@@ -309,6 +310,13 @@ export default {
     handleCurrentChange(newPage) {
       this.queryParams.pageNo = newPage
       this.getAwardList()
+    },
+    beforeAvatarUpload(file) {
+      const xlsOrXlsx = file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      if (!xlsOrXlsx) {
+        this.$message.error('上传文件的格式只支持 XLS 或 XLSX !')
+      }
+      return xlsOrXlsx
     }
   }
 }

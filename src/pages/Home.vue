@@ -313,9 +313,9 @@ export default {
       }
       li.active {
         background-color: #3289FF;
-        a {
-          color: #333;
-        }
+        // a {
+        //   color: #333;
+        // }
       }
     }
     .right {

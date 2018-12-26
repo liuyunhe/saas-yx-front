@@ -17,7 +17,7 @@
             <p>{{ orderData.prizeWinner }}</p>
           </el-form-item>
           <el-form-item label="中奖人手机号：">
-            <p>{{ orderData.mobile }}</p>
+            <p>{{ orderData.winnerMobile }}</p>
           </el-form-item>
         </el-col>
         <el-col>
