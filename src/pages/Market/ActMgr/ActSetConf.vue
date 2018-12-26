@@ -17,10 +17,10 @@
 			</el-steps>
       <el-form ref="actSetConfRef" :model="confData" label-width="150px" :rules="confRules">
         <el-form-item label="活动名称" prop="actName">
-          <el-input v-model="confData.actName" :maxlength="15"></el-input>
+          <el-input v-model="confData.actName"maxLength='15'placeholder='请输入活动名称，15字以内'></el-input>
         </el-form-item>
         <el-form-item label="活动描述" prop="note">
-          <el-input type="textarea" v-model="confData.note" :rows="3" resize="none"></el-input>
+          <el-input type="textarea" v-model="confData.note" :rows="3" resize="none"maxLength='15'placeholder='请输入活动描述，15字以内'></el-input>
         </el-form-item>
         <el-form-item label="优先级" prop="idx">
           <el-select v-model="confData.idx" placeholder="请选择">
@@ -40,7 +40,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item label="活动说明" prop="desc">
-          <quill-editor ref="myTextEditor" v-model="confData.actDesc" :options="editorOption" placeholder="请输入活动说明" @blur="onEditorBlur($event)">
+          <quill-editor ref="myTextEditor" v-model="confData.actDesc" :options="editorOption" placeholder="请输入活动说明，300字以内" @blur="onEditorBlur($event)">
           </quill-editor>
         </el-form-item>
         <el-form-item label="答题时间" prop="quesTime" v-show='form=="act-501"'>

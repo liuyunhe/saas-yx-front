@@ -420,7 +420,7 @@
             this.ruleForm.headImg = res.data.sellerInfo.headImg
             this.ruleForm.shopName = res.data.sellerInfo.shopName
             this.ruleForm.ownerName = res.data.sellerInfo.ownerName
-            this.ruleForm.phoneNo = res.data.sellerInfo.ownerName
+            this.ruleForm.phoneNo = res.data.sellerInfo.phoneNo
 
             this.ruleForm.addrProvince = res.data.sellerInfo.addrProvince+''
             this.ruleForm.addrCity = res.data.sellerInfo.addrCity+''
