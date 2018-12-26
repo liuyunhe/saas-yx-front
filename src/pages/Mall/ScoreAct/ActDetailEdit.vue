@@ -133,7 +133,7 @@
               </div>
               <div class="edit-con">
                 <div class="edit-winning-img">
-                  <p class="img-title">中奖背景图:</p>
+                  <p class="img-title">中奖背景:</p>
                   <div class="img-con"><img :src="configItem.drawImgUrl" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upWinningImgSuccess" :show-file-list="false">
@@ -200,7 +200,7 @@
               </div>
               <div class="edit-con">
                 <div class="edit-notWinning-img">
-                  <p class="img-title">图片:</p>
+                  <p class="img-title">背景:</p>
                   <div class="img-con"><img :src="configItem.cryImgUrl" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upNotWinningImgSuccess" :show-file-list="false">
@@ -602,14 +602,21 @@ export default {
       if(this.priceList.length<3) return this.$message.warning('请最少选择三种奖品')
       var flag=1;var flag1=1;
       this.priceList.forEach((item)=>{
-      	if(item.quantity=='') return flag=0
-      	if(item.probability=='') return flag1=0;
+      	if(item.quantity==='' || item.quantity<0) {     		
+      		flag=0;
+      		return;
+      	}
+      	if(item.probability==='' || item.probability<0) {
+      		flag1=0;
+      		return;
+      	} 
       })
       if(!flag){
-      	return this.$message.warning('请选择奖品数量');
+      	
+      	return this.$message.warning('请输入奖品数量');
       }
       if(!flag1){
-      	return this.$message.warning('请选择奖品的中奖概率');
+      	return this.$message.warning('请输入奖品的中奖概率');
       }
       if(this.checkAll()) return 1;
       this.addActParams.cssStyle = JSON.stringify(this.configItem);

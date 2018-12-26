@@ -50,7 +50,7 @@
     <el-card class="box-card">
         <!-- 数据表格 -->
         <el-table v-loading="loading" :data="tableList" style="width: 100%">
-            <el-table-column label="序号" type="index" align="center" width="50">
+            <el-table-column label="序号" type="index" align="center" width="80">
                 <template slot-scope="scope">
                     <!-- {{ (form.page-1)*form.pageSize + scope.$index + 1 }} -->
                     {{ scope.$index + 1 }}

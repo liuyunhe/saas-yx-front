@@ -14,43 +14,48 @@
                     <el-form-item size="small"  label="下单时间:">
                         <el-input class="tobacco-input" disabled  v-model="formDetail.create_time" ></el-input>
                     </el-form-item>
-                    <el-form-item size="small" label="商品名称:">
+                    <el-form-item size="small" label="活动名称:">
+                        <el-input class="tobacco-input" disabled  v-model="formDetail.jmcnl" ></el-input>
+                    </el-form-item>
+                </el-row>
+                <el-row>
+                    <el-form-item size="small"  label="中奖人:">
+                        <el-input class="tobacco-input" disabled  v-model="formDetail.nickName" ></el-input>
+                    </el-form-item>
+                    <el-form-item size="small"  label="中奖人手机号:">
+                        <el-input class="tobacco-input" disabled  v-model="formDetail.mobile" ></el-input>
+                    </el-form-item>
+                    <el-form-item size="small" label="奖项名称:">
                         <el-input class="tobacco-input" disabled  v-model="formDetail.awardName" ></el-input>
-                    </el-form-item>
-                    <el-form-item size="small" label="分类:">
-                        <el-input class="tobacco-input" disabled  v-model="formDetail.category" ></el-input>
-                    </el-form-item>
-                    <el-form-item size="small" label="兑换值:">
-                        <el-input class="tobacco-input" disabled  v-model="formDetail.score" ></el-input>
                     </el-form-item>
                 </el-row>
                 <div><h1>收货人信息</h1></div>
                 <el-row>
                     <el-form-item size="small" label="联系人姓名:">
-                        <el-input class="tobacco-input" :disabled="formDetail.status!=0?true:false"  v-model="formDetail.username" placeholder="请输入内容"></el-input>
+                        <el-input class="tobacco-input" :disabled="formDetail.status!=1?true:false"  v-model="formDetail.username" placeholder="请输入内容"></el-input>
                     </el-form-item>
                 </el-row>
                 <el-row>
                     <el-form-item size="small" label="联系人电话:">
-                        <el-input class="tobacco-input" :disabled="formDetail.status!=0?true:false"  v-model="formDetail.mobile" placeholder="请输入内容"></el-input>
+                        <el-input class="tobacco-input" :disabled="formDetail.status!=1?true:false"  v-model="formDetail.lmobile" placeholder="请输入内容"></el-input>
                     </el-form-item>
                 </el-row>
                 <el-row>
                     <el-form-item size="small" label="收货地址:省:">
-                        <el-select v-model="selectallPro" placeholder="请选择" :disabled="formDetail.status!=0?true:false"    >
+                        <el-select v-model="selectallPro" placeholder="请选择" :disabled="formDetail.status!=1?true:false"    >
                             <el-option v-for="(item,index) in allProvinceData" :key="item.code" :label="item.name" :value="item.code"></el-option>
                         </el-select>
                         <!--<el-input class="tobacco-input" :disabled="formDetail.status!=0?true:false"  v-model="formDetail.province" placeholder="请输入内容"></el-input>-->
                     </el-form-item>
 
                     <el-form-item size="small" label="市:">
-                        <el-select v-model="selectallCity" placeholder="请选择" :disabled="formDetail.status!=0?true:false"  >
+                        <el-select v-model="selectallCity" placeholder="请选择" :disabled="formDetail.status!=1?true:false"  >
                             <el-option v-for="(item,index) in allCityData" :key="item.code" :label="item.name" :value="item.code"></el-option>
                         </el-select>
                         <!--<el-input class="tobacco-input" :disabled="formDetail.status!=0?true:false"  v-model="formDetail.city" placeholder="请输入内容"></el-input>-->
                     </el-form-item>
                     <el-form-item size="small" label="区:">
-                        <el-select v-model="selectallDistrict" placeholder="请选择" :disabled="formDetail.status!=0?true:false"    >
+                        <el-select v-model="selectallDistrict" placeholder="请选择" :disabled="formDetail.status!=1?true:false"    >
                             <el-option v-for="(item,index) in allDistrictData" :key="item.code" :label="item.name" :value="item.code"></el-option>
                         </el-select>
                         <!--<el-input class="tobacco-input" :disabled="formDetail.status!=0?true:false"  v-model="formDetail.district" placeholder="请输入内容"></el-input>-->
@@ -58,7 +63,7 @@
                 </el-row>
                 <el-row>
                     <el-form-item size="small" label="详细地址:">
-                        <el-input class="tobacco-input" :disabled="formDetail.status!=0?true:false"  v-model="formDetail.address" placeholder="请输入内容"></el-input>
+                        <el-input class="tobacco-input" :disabled="formDetail.status!=1?true:false"  v-model="formDetail.address" placeholder="请输入内容"></el-input>
                     </el-form-item>
                 </el-row>
                 <div><h1>订单跟踪</h1></div>
@@ -81,17 +86,9 @@
                         <el-input class="tobacco-input" disabled  v-model="formDetail.waybill" ></el-input>
                     </el-form-item>
                 </el-row>
-        <!--        <el-row>
-                    <el-form-item size="small" label="收货时间:">
-                        <el-input class="tobacco-input" disabled  v-model="formDetail.finish_time" ></el-input>
-                    </el-form-item>
-                    <el-form-item size="small" label="订单状态:">
-                        <el-input class="tobacco-input" disabled  v-model="formDetail.orderFLoad"></el-input>
-                    </el-form-item>
-                </el-row>-->
                 <div class="add-tobaccomgr-form-bt">
                     <el-form-item>
-                        <el-button  size="small" type="primary"  @click="submitFormSave" :disabled="formDetail.status!=0?true:false">保存</el-button>
+                        <el-button  size="small" type="primary"  @click="submitFormSave" :disabled="formDetail.status!=1?true:false">保存</el-button>
                         <el-button size="small" @click="returnObjectPage">返回列表</el-button>
                     </el-form-item>
                 </div>
@@ -105,7 +102,7 @@
 <script>
     export default {
         props: ['orderCode'],
-        name: "ZjOrderPageDetail",
+        name: "ActOrderPageDetail",
         data(){
             return{
                 allProvinceData:[],
@@ -126,8 +123,11 @@
                     city:'',
                     district:'',
                     address:'',
-                    status:0,
+                    status:1,
                     ctime:'',
+                    lmobile:'',
+                    jmcnl:'',
+                    nickName:'',
                     orderStatus:'',
                     orderWLoad:'',
                     waybill:'',
@@ -197,14 +197,14 @@
             submitFormSave(){
                 let params = {
                     userName: this.formDetail.username,
-                    mobile: this.formDetail.mobile,
+                    mobile: this.formDetail.lmobile,
                     province: this.formDetail.province,
                     city: this.formDetail.city,
                     district: this.formDetail.district,
                     adddress: this.formDetail.address,
                     orderId: this.formDetail.orderId
                 }
-                this.$request.post('/sc/saotx/mall/order/modifyReceiptInfo',params,true,res => {
+                this.$request.post('/sc/saotx/mall/order/actModifyReceiptInfo',params,true,res => {
                     if(res.ret == '200000'){
                         this.$message({
                             message: '保存成功！',
@@ -223,11 +223,11 @@
             },
             returnObjectPage(){//返回列表
                 this.$router.push({
-                    path:'/Orders/mall/zj'
+                    path:'/Orders/mall/act'
                 })
             },
             getObjectPageDetail(orderCode){//详情数据
-                this.$request.post('/sc/saotx/mall/order/selfOrderDetail',{orderId:orderCode}, true, (res) => {
+                this.$request.post('/sc/saotx/mall/order/selfActOrderDetail',{orderId:orderCode}, true, (res) => {
                     if (res.ret == '200000') {
                         console.log(res.data)
                         this.formDetail.orderId = res.data.orderInfo.orderid;
@@ -236,9 +236,12 @@
                         this.formDetail.awardName = res.data.orderInfo.awardName;
                         this.formDetail.score = res.data.orderInfo.score;
                         this.formDetail.status = res.data.orderInfo.status;
+                        this.formDetail.mobile = res.data.orderInfo.mobile;
+                        this.formDetail.jmcnl = res.data.orderInfo.jmcnl;
+                        this.formDetail.nickName = res.data.orderInfo.nickName;
 
+                        this.formDetail.lmobile = res.data.ReceiptInfo.lmobile;
                         this.formDetail.username = res.data.ReceiptInfo.username;
-                        this.formDetail.mobile = res.data.ReceiptInfo.mobile;
                         this.formDetail.province = res.data.ReceiptInfo.province;
                         this.selectallPro = res.data.ReceiptInfo.province + '';
                         this.formDetail.city = res.data.ReceiptInfo.city;

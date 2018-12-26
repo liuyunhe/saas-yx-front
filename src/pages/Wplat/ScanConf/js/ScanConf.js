@@ -16,7 +16,7 @@ export default {
 			addShow: false,
 			isAddBtn: false,
 			isAddBtn1: false,
-			activeName: 'first',
+			activeName: 'third',
 			actShow: true,
 			appShow: true,
 			tabShow: true,
@@ -103,7 +103,7 @@ export default {
 							bg: ''
 						},
 						activity: {
-							show: false,
+							show: true,
 							tpl: 1 //1为轮播
 						}
 					},
@@ -288,6 +288,7 @@ export default {
 			this.addlist.type = item.type;
 			this.addTplShow = false;
 			this.addShow = true;
+			this.activeName='third'
 			this.listShow = false;
 			this.$request.post(
 				'/api/saotx/prod/listBrand', {
@@ -392,6 +393,21 @@ export default {
 				});
 				return;
 			}
+			if(!that.addlist.conf.has.title.name){
+				
+				this.$message({
+					message: '请填写已扫码页面的页面名称',
+					type: 'warning'
+				});
+				return;
+			}
+			if(!that.addlist.conf.not.title.name){
+				this.$message({
+					message: '请填写未扫码页面的页面名称',
+					type: 'warning'
+				});
+				return;
+			}
 			var savelist = {};
 			savelist.id = that.addlist.id;
 			savelist.name = that.addlist.name;
@@ -439,6 +455,20 @@ export default {
 				});
 				return;
 			}
+			if(!that.addlist.conf.has.title.name){
+				this.$message({
+					message: '请填写已扫码页面的页面名称',
+					type: 'warning'
+				});
+				return;
+			}
+			if(!that.addlist.conf.not.title.name){
+				this.$message({
+					message: '请填写未扫码页面的页面名称',
+					type: 'warning'
+				});
+				return;
+			}
 			var savelist = {};
 			savelist.id = that.addlist.id;
 			savelist.name = that.addlist.name;
@@ -479,6 +509,7 @@ export default {
 			this.addTplShow = false;
 			this.addShow = true;
 			this.listShow = false;
+			this.activeName='third'
 			this.$request.post(
 				'/api/saotx/orgtpl/detail', {
 					id: item.id

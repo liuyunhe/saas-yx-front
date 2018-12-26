@@ -119,6 +119,11 @@
           <el-radio v-model="ruleForm.status" label="-1">下架</el-radio>
         </el-form-item>
         <div></div>
+        <el-form-item label="是否热门：" prop="isHostGood" size="small" >
+          <el-radio v-model="ruleForm.isHostGood" label="0">否</el-radio>
+          <el-radio v-model="ruleForm.isHostGood" label="1">是</el-radio>
+        </el-form-item>
+        <div></div>
         <div class="add-product-form-bt">
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
@@ -208,6 +213,8 @@
           url:'',
           //状态
           status:'1',
+          //是否为热门商品0否，1是
+          isHostGood:'0'
         },
         rules: {
           memo: [
@@ -334,7 +341,8 @@
               quantity: this.ruleForm.quantity,
               score: this.ruleForm.score,
               status: this.ruleForm.status,
-              url: this.ruleForm.url
+              url: this.ruleForm.url,
+              isHostGood: this.ruleForm.isHostGood
             }
             this.postParams(params)
           } else {

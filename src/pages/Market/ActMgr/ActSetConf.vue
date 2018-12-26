@@ -8,14 +8,19 @@
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>活动管理</el-breadcrumb-item>
       <el-breadcrumb-item>基础设置</el-breadcrumb-item>
-    </el-breadcrumb>
+    </el-breadcrumb>   
     <el-card>
+    	<el-steps :active="stepActive" finish-status="success" align-center class='step-style' v-show='form=="act-501"'>
+			  <el-step title="基础设置"></el-step>
+			  <el-step title="题目设置"></el-step>
+			  <el-step title="投放设置"></el-step>
+			</el-steps>
       <el-form ref="actSetConfRef" :model="confData" label-width="150px" :rules="confRules">
         <el-form-item label="活动名称" prop="actName">
-          <el-input v-model="confData.actName" :maxlength="15"></el-input>
+          <el-input v-model="confData.actName"maxLength='15'placeholder='请输入活动名称，15字以内'></el-input>
         </el-form-item>
         <el-form-item label="活动描述" prop="note">
-          <el-input type="textarea" v-model="confData.note" :rows="3" resize="none"></el-input>
+          <el-input type="textarea" v-model="confData.note" :rows="3" resize="none"maxLength='15'placeholder='请输入活动描述，15字以内'></el-input>
         </el-form-item>
         <el-form-item label="优先级" prop="idx">
           <el-select v-model="confData.idx" placeholder="请选择">
@@ -28,15 +33,19 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="活动图片" prop="banner">
-          <el-upload class="avatar-uploader" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
+          <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
             <img v-if="confData.banner" :src="confData.banner" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            <!-- <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*270像素；格式png、jpg；大小不超过2M</div> -->
+            <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*270像素；格式png、jpg；大小不超过2M</div>
           </el-upload>
         </el-form-item>
         <el-form-item label="活动说明" prop="desc">
-          <quill-editor ref="myTextEditor" v-model="confData.actDesc" :options="editorOption" placeholder="请输入活动说明" @blur="onEditorBlur($event)">
+          <quill-editor ref="myTextEditor" v-model="confData.actDesc" :options="editorOption" placeholder="请输入活动说明，300字以内" @blur="onEditorBlur($event)">
           </quill-editor>
+        </el-form-item>
+        <el-form-item label="答题时间" prop="quesTime" v-show='form=="act-501"'>
+        	<el-radio v-model="extInfo.limited" :label="1">不限</el-radio>
+  				<el-radio v-model="extInfo.limited" :label="2">总时间限<input v-model="extInfo.time" type='number' class='limited-time' @input='limitNum'/>秒</el-radio>
         </el-form-item>
         <el-form-item label="是否在落地页显示">
           <el-radio v-model="confData.showStatus" :label="1">是</el-radio>
@@ -99,6 +108,10 @@ export default {
         },
         placeholder: '请输入活动说明'
       },
+      extInfo:{
+      	limited:1,
+      	time:60
+      },
       idxSelect: {},
       confData: {
         actDesc: '',
@@ -110,7 +123,8 @@ export default {
         stimeStr: '',
         etimeStr: '',
         showStatus: 1,
-        tplCode: ''
+        tplCode: '',
+        extInfo:''
       },
       confRules: {
         actName: [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
@@ -126,7 +140,8 @@ export default {
         loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
         token: sessionStorage.getItem('access_token'),
         CLIENTSESSIONID: sessionStorage.getItem('CLIENTSESSIONID')
-      }
+      },
+      stepActive:0,
     }
   },
   watch: {
@@ -145,6 +160,14 @@ export default {
     this.getIdxSelect()
   },
   methods: {
+  	limitNum(){
+  		var len=4;
+  		if(this.extInfo.time.length>len){
+  			var str=this.extInfo.time.slice(0,len);
+  			this.extInfo.time=parseInt(str);
+  		}
+  		
+  	},
     getDetail() {
       if (!this.id) return
       this.$request.post('/api/saotx/act/detail', { id: this.id }, true, res => {
@@ -187,19 +210,43 @@ export default {
     nextStep() {
       this.$refs.actSetConfRef.validate(valid => {
         if (!valid) return this.$message.error('请完善表单数据!')
+        if(this.extInfo.limited==1){
+        	if(this.extInfo.time<=0 || !this.extInfo.time){
+        		 return this.$message.error('请填写时间限制的具体值!')
+        	}
+        }
         if (!this.id) {
-          this.confData.form = this.form
+          this.confData.form = this.form;
+          this.confData.extInfo=JSON.stringify(this.extInfo);
           this.confData.tplCode = this.tplCode
         }
         this.$request.post('/api/saotx/act/saveOrModify', this.confData, true, res => {
           if (res.ret === '200000') {
-            return this.$router.push(
+          	if(this.form=='act-501'){
+          		return this.$router.push(
+              '/market/actTpl/quesActSetConf?id=' + res.data.id + '&actCode=' + res.data.actCode+'&form='+this.form
+            	)
+          	}else {
+          		return this.$router.push(
               '/market/actTpl/actPutConf?id=' + res.data.id + '&actCode=' + res.data.actCode
-            )
+            	)
+          	}
+            
           }
           this.$message.error(res.message)
         })
       })
+    },
+    beforeAvatarUpload(file) {
+      const JPGOrPNG = file.type === 'image/jpeg' || file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!JPGOrPNG) {
+        this.$message.error('上传图片只能是 JPG 或 PNG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传图片大小不能超过 2MB!')
+      }
+      return JPGOrPNG && isLt2M;
     }
   }
 }
@@ -208,6 +255,9 @@ export default {
 .el-input,
 .el-textarea {
   width: 300px;
+}
+.step-style {
+	margin-bottom: 40px;
 }
 .avatar-uploader-icon {
   font-size: 28px;
@@ -224,5 +274,14 @@ export default {
 }
 .quill-editor {
   width: 420px;
+}
+.limited-time {
+	width:60px;
+	margin-left: 10px;
+	margin-right: 10px;
+	height: 24px;
+	border-radius: 4px;
+	border:none;
+	border:1px solid #ccc;
 }
 </style>

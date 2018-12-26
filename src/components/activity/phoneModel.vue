@@ -5,7 +5,7 @@
                 <h4>{{title}}</h4>
             </div>
             <div class="phone-body">
-                <div class="cover" v-if="page != 1">
+                <div class="cover" v-if="page != 1 && page !=6">
                     <img 
                         v-if="page != 2 && page != 3"
                         :src="commonImg.close.url" alt=""
@@ -30,8 +30,8 @@
                     @click="edit(index)"
                     :class="[index, {imgHover: hover == index}]"
                     :style="{
-                        'max-width': pic.size[0] * 0.4 + 'px',
-                        'max-height': pic.size[1] * 0.4 +'px',
+                        'width': pic.size[0] * 0.4 + 'px',
+                        'height': pic.size[1] * 0.4 +'px',
                         'left': pic.pos[0] * 0.4 + 'px',
                         'top': pic.pos[1] * 0.4 + 'px'
                     }"/>
@@ -46,25 +46,52 @@
                     @mouseout="unHover()"
                     @click="edit(index)"
                     :style="{
-                        'max-width': pic.size[0] * 0.4 + 'px',
-                        'max-height': pic.size[1] * 0.4 +'px',
+                        'width': pic.size[0] * 0.4 + 'px',
+                        'height': pic.size[1] * 0.4 +'px',
                         'left': pic.pos[0] * 0.4 + 'px',
                         'top': pic.pos[1] * 0.4 + 'px'
                     }"/>
                 </div>
-                <div class="page page2" v-if="page == 2">
+                <!--答题页面-->
+                <div class="page1" v-show="page == 6">              	
+                    <img 
+                    v-if="imgData.question" 
+                    v-for="(pic, index) in imgData.question" 
+                    :src="pic.url + '?v=1.1'" 
+                    title="点击编辑" 
+                    :key="index + pic"
+                    @mouseover="imgHover(index)"
+                    @mouseout="unHover()"
+                    @click="edit(index)"
+                    :class="[index, {imgHover: hover == index}]"
+                    :style="{
+                        'width': pic.size[0] * 0.4 + 'px',
+                        'height': pic.size[1] * 0.4 +'px',
+                        'left': pic.pos[0] * 0.4 + 'px',
+                        'top': pic.pos[1] * 0.4 + 'px'
+                    }"/>
+                	<div class="text">
+                		<div>1.中国的五大名山被称为“中国五岳”，五岳 中哪座山位于山西省？</div>
+	                	<div class="line"></div>
+	                	<div class="answer">
+	                		<p>A. 西岳华山</p>
+	                		<p>B. 北岳衡山</p>
+	                	</div>
+                	</div>
+                </div>
+                <div class="page page2" v-show="page == 2">
                     <img :src="commonImg.actNotes.url" alt="">
                 </div>
-                <div class="page page3" v-if="page == 3">
+                <div class="page page3" v-show="page == 3">
                     <img :src="commonImg.myAward.url" alt="">
                 </div>
-                <div class="page page4" v-if="page == 4">
+                <div class="page page4" v-show="page == 4">
                     <img 
                         :src="commonImg.award.url" alt="" 
                         class="award-pic" 
                         :style="{
-                            'max-width': commonImg.award.size[0] * 0.4 + 'px',
-                            'max-height': commonImg.award.size[1] * 0.4 + 'px'
+                            'width': commonImg.award.size[0] * 0.4 + 'px',
+                            'height': commonImg.award.size[1] * 0.4 + 'px'
                         }"
                     >
                     <div class="award-text">
@@ -75,8 +102,8 @@
                         :src="commonImg.getBtn.url" alt="" 
                         class="award-btn"
                         :style="{
-                            'max-width': commonImg.getBtn.size[0] * 0.4 + 'px',
-                            'max-height': commonImg.getBtn.size[1] * 0.4 + 'px',
+                            'width': commonImg.getBtn.size[0] * 0.4 + 'px',
+                            'height': commonImg.getBtn.size[1] * 0.4 + 'px',
                             'top': commonImg.getBtn.pos[1] * 0.42 + 'px'
                         }"
                         >
@@ -86,8 +113,8 @@
                         :src="commonImg.noAward.url" alt="" 
                         class="award-pic no-award"
                         :style="{
-                            'max-width': commonImg.noAward.size[0] * 0.4 + 'px',
-                            'max-height': commonImg.noAward.size[1] * 0.4 + 'px',
+                            'width': commonImg.noAward.size[0] * 0.4 + 'px',
+                            'height': commonImg.noAward.size[1] * 0.4 + 'px',
                             'top': commonImg.noAward.pos[1] * 0.42 + 'px'
                         }"
                         />
@@ -96,9 +123,30 @@
                         :src="commonImg.knowBtn.url" alt="" 
                         class="award-btn"
                         :style="{
-                            'max-width': commonImg.knowBtn.size[0] * 0.4 + 'px',
-                            'max-height': commonImg.knowBtn.size[1] * 0.4 + 'px',
+                            'width': commonImg.knowBtn.size[0] * 0.4 + 'px',
+                            'height': commonImg.knowBtn.size[1] * 0.4 + 'px',
                             'top': commonImg.knowBtn.pos[1] * 0.42 + 'px'
+                        }"
+                    >
+                </div>
+                <div class="page page5" v-if="page == 7">
+                    <img 
+                        :src="commonImg.errorTip.url" alt="" 
+                        class="award-pic no-award"
+                        :style="{
+                            'width': commonImg.errorTip.size[0] * 0.4 + 'px',
+                            'height': commonImg.errorTip.size[1] * 0.4 + 'px',
+                            'top': commonImg.errorTip.pos[1] * 0.32 + 'px'
+                        }"
+                        />
+                    <p class='error-text'>时间到!</p>
+                    <img 
+                        :src="commonImg.errorBtn.url" alt="" 
+                        class="award-btn errorBtn"
+                        :style="{
+                            'width': commonImg.errorBtn.size[0] * 0.4 + 'px',
+                            'height': commonImg.errorBtn.size[1] * 0.4 + 'px',
+                            'top': commonImg.errorBtn.pos[1] * 0.42 + 'px'
                         }"
                     >
                 </div>
@@ -164,7 +212,7 @@ export default {
         height: 614px;
         .phone-header{
             height: 66px;
-            background: url("http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/937@2x.png") center no-repeat;
+            background: url("http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/937@2x.png") center no-repeat / cover;
             overflow: hidden;
             & h4{
                 margin-block-start: 0;
@@ -176,7 +224,7 @@ export default {
         }
         .phone-body{
             height: 484px;
-            margin-left: 1px;
+            /*margin-left: 1px;*/
             position: relative;
             .cover{
                 position: absolute;
@@ -191,6 +239,7 @@ export default {
                 box-sizing: border-box;
                 transition: all 0.2s linear;
                 position: absolute;
+                object-fit:cover;
             }
             .contentBg, .title, .contentBg{
                 left: 50%!important;
@@ -209,6 +258,7 @@ export default {
                 height: 100%;
                 left: 0;
                 top: 0;
+                
                 &.page2>img, &.page3>img{
                     width: 100%;
                     height: 100%;
@@ -243,10 +293,43 @@ export default {
                     top: 308px;
                 }
             }
+            .errorBtn {
+            	top:360px !important
+            }
+            .page1{
+                	.text {
+	                	position: absolute;
+	                	left: 0;
+	                	top:50px;
+	                	
+	                	padding: 40px;
+	                	color:#fff;
+	                	.line {
+	                		width:100%;
+	                		height: 1px;
+	                		background: #fff;
+	                		margin-top: 60px;
+	                		margin-bottom: 30px;
+	                	}
+	                	.answer {
+	                		p {
+	                			padding-left: 20px;
+	                			margin-bottom: 20px;
+	                		}
+	                	}
+	                }
+	                .QuesActive,.QuesWrong {
+	                	z-index: 3;
+	                }
+	                
+                }
+                .error-text{
+	                	top:260px !important;
+	                }
         }
         .phone-footer{
             height: 64px;
-            background: url("http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/phone-footer@2x.png") center no-repeat;
+            background: url("http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/phone-footer@2x.png") center no-repeat/ cover;
         }
     }
 }

@@ -80,7 +80,7 @@
         </el-table-column>
         <el-table-column label="操作" align="center" width="260px">
           <template slot-scope="scope">
-            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status != 4" @click="edit(scope.row.id)">编辑</a>
+            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status != 4" @click="edit(scope.row.id,scope.row.form)">编辑</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 2" @click="post(scope.row.id)">发布</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 3" @click="post(scope.row.id)">发布</a>
             <a style="color: #347ab7" href="javascript:;" @click="clone(scope.row.id)">复制</a>
@@ -106,7 +106,7 @@
         <div v-if="actForms">
           <div class="act-item" v-for="item in actForms" :key="item.id">
             <img :src="item.extUrl" :alt="item.name">
-            <p>{{item.name}}</p>
+            <p class="act-name">{{item.name}}</p>
             <div class="btn">
               <el-button type="primary" size="small">预览</el-button>
               <el-button type="primary" size="small" @click="goPut(item)">投放</el-button>
@@ -527,7 +527,7 @@ export default {
     },
     // 活动列表分页
     handleSizeChange(newSize) {
-      this.queryActParams.pagesize = newSize
+      this.queryActParams.pageSize = newSize
       this.getActList()
     },
     // 活动列表分页
@@ -537,7 +537,7 @@ export default {
     },
     // 活动弹窗分页
     actHandleSizeChange(newSize) {
-      this.actParams.pagesize = newSize
+      this.actParams.pageSize = newSize
       this.getAct()
     },
     // 活动弹窗分页
@@ -556,8 +556,12 @@ export default {
     },
 
     // 编辑
-    edit(id) {
-      this.$router.push('/market/actTpl/actSetConf?id=' + id)
+    edit(id,form) {
+    	if(form=='act-501'){
+    		this.$router.push('/market/actTpl/actSetConf?id=' + id+'&form='+form)
+    	}else {
+    		this.$router.push('/market/actTpl/actSetConf?id=' + id)
+    	}
     },
     // 复制
     clone(id) {
@@ -683,6 +687,12 @@ export default {
   li.active {
     color: #409eff;
   }
+  
+}
+.act-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .el-dialog__body {
   padding-top: 10px !important;
