@@ -64,7 +64,7 @@
                 <div><h1>订单跟踪</h1></div>
                 <el-row>
                     <el-form-item size="small" label="下单时间:">
-                        <el-input class="tobacco-input" disabled  v-model="formDetail.ctime" ></el-input>
+                        <el-input class="tobacco-input" disabled  v-model="formDetail.create_time" ></el-input>
                     </el-form-item>
                     <el-form-item size="small" label="订单状态:">
                         <el-input class="tobacco-input" disabled  v-model="formDetail.orderStatus"></el-input>
@@ -72,7 +72,7 @@
                 </el-row>
                 <el-row>
                     <el-form-item size="small" label="发货时间:">
-                        <el-input class="tobacco-input" disabled  v-model="formDetail.create_time" ></el-input>
+                        <el-input class="tobacco-input" disabled  v-model="formDetail.ctime" ></el-input>
                     </el-form-item>
                     <el-form-item size="small" label="订单状态:">
                         <el-input class="tobacco-input" disabled  v-model="formDetail.orderWLoad" ></el-input>
@@ -81,14 +81,14 @@
                         <el-input class="tobacco-input" disabled  v-model="formDetail.waybill" ></el-input>
                     </el-form-item>
                 </el-row>
-                <el-row>
+        <!--        <el-row>
                     <el-form-item size="small" label="收货时间:">
                         <el-input class="tobacco-input" disabled  v-model="formDetail.finish_time" ></el-input>
                     </el-form-item>
                     <el-form-item size="small" label="订单状态:">
                         <el-input class="tobacco-input" disabled  v-model="formDetail.orderFLoad"></el-input>
                     </el-form-item>
-                </el-row>
+                </el-row>-->
                 <div class="add-tobaccomgr-form-bt">
                     <el-form-item>
                         <el-button  size="small" type="primary"  @click="submitFormSave" :disabled="formDetail.status!=0?true:false">保存</el-button>
@@ -246,8 +246,9 @@
                         this.formDetail.district = res.data.ReceiptInfo.district;
                         this.selectallDistrict = res.data.ReceiptInfo.district+'';
                         this.formDetail.address = res.data.ReceiptInfo.address;
-
-                        this.formDetail.ctime = this.formatDateTime(res.data.orderTrackingInfo.ctime);
+                        if(res.data.orderTrackingInfo.ctime!=""){
+                            this.formDetail.ctime = this.formatDateTime(res.data.orderTrackingInfo.ctime);
+                        }
                         this.formDetail.orderStatus = res.data.orderTrackingInfo.orderStatus;
                         this.formDetail.orderWLoad = res.data.orderTrackingInfo.orderWLoad;
                         this.formDetail.waybill = res.data.orderTrackingInfo.waybill;

@@ -135,16 +135,18 @@ export default {
             tableList: [],
             pagination: { // 分页
                 total: 0
-            }
+            },
+            cluser:{},
         }
     },
     created() {
-        const cluserStr = sessionStorage.getItem("cluser");
-        this.cluser = JSON.parse(cluserStr);
-        if(!this.cluser||!this.cluser.account) {
-            this.clearLoginSession();
-            return false;
-        }
+        // const cluserStr = sessionStorage.getItem("cluser");
+        const cluserStr = this.$store.state.cluser
+        this.cluser = cluserStr;
+        // if(!this.cluser||!this.cluser.account) {
+        //     this.clearLoginSession();
+        //     return false;
+        // }
         let _now = new Date();
         _now.setTime(_now.getTime()-24*60*60*1000);
         this.yesterday = _now.getFullYear()+"-" + (_now.getMonth()+1) + "-" + _now.getDate();
@@ -156,7 +158,7 @@ export default {
     methods: {
         // 清空当前登录用户信息缓存
         clearLoginSession() {
-            sessionStorage.removeItem("cluser");
+            // sessionStorage.removeItem("cluser");
             sessionStorage.removeItem("access_token");
             sessionStorage.removeItem("access_loginId");
         },

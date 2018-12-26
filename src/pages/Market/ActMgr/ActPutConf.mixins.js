@@ -1,14 +1,17 @@
 export default {
-  props: ['id', 'actCode'],
+  props: ['id', 'actCode','form'],
   data() {
     return {
+    	stepActive:2,
       act: {
         id: null,
         actCode: '', // 编码
-        dwnum: '',
+        dwnum: null,
         status: null, // 活动状态 1-发布 0-未发布
       },
-      status: false,
+      // firstScanTabsEdit: false,
+      status: false, // 是否立即发布
+      statusDisabled: false, // 立即发布开关禁用
       actSTime: '', // 活动开始时间
       actETime: '', // 结束
       strategy: {
@@ -33,7 +36,7 @@ export default {
       },
       normalConf: [{ // 正常选项
         awardPic: '',
-        awardType: '1', // 奖项类型
+        awardType: 1, // 奖项类型
         curActive: true,
         giveScore: 0, // 是否赠送积分 0-否 1-是
         guideGzh: 0, // 是否引导关注公众号 0-否 1-是
@@ -59,9 +62,10 @@ export default {
         totalNum: '', // totalNum
         warnValue: '' //告警阀值 非空且大于0时为设置告警
       }],
+      normalTfId: '',
       defaultAwae: { // 给个默认 好复制
         awardPic: '',
-        awardType: '1', // 奖项类型
+        awardType: 1, // 奖项类型
         curActive: true,
         giveScore: 0, // 是否赠送积分 0-否 1-是
         guideGzh: 0, // 是否引导关注公众号 0-否 1-是
@@ -90,7 +94,7 @@ export default {
       },
       firstScanConf: [{
         awardPic: '',
-        awardType: '1',
+        awardType: 1,
         curActive: true,
         giveScore: 0,
         guideGzh: 0,
@@ -113,9 +117,10 @@ export default {
         totalNum: '',
         warnValue: ''
       }], // 首扫选项
+      firstScanTfId: '',
       nWinConf: [{
         awardPic: '',
-        awardType: '1',
+        awardType: 1,
         curActive: true,
         giveScore: 0,
         guideGzh: 0,
@@ -139,9 +144,10 @@ export default {
         totalNum: '',
         warnValue: ''
       }], // n次选项
+      nWinTfId: '',
       fixationPutConf: [{
         awardPic: '',
-        awardType: '1',
+        awardType: 1,
         curActive: true,
         giveScore: 0,
         guideGzh: 0,
@@ -164,6 +170,7 @@ export default {
         totalNum: '',
         warnValue: ''
       }], // 定投选项
+      fixationPutTfId: '',
       normalTabsValue: '1', // 正常tabs
       normalTabs: [{
         title: '常规奖项1',
@@ -189,19 +196,19 @@ export default {
       tfDurationArr: [], // 投放策略开始/结束时段(发放时间) 0-开始时间 1-结束时间
       prizeType: [{ // 类型
           name: '实物礼品',
-          type: '1'
+          type: 1
         },
         {
           name: '虚拟礼品',
-          type: '2'
+          type: 2
         },
         {
           name: '红包',
-          type: '3'
+          type: 3
         },
         {
           name: '积分',
-          type: '6'
+          type: 6
         }
       ],
       normalIndex: 1,
@@ -220,9 +227,18 @@ export default {
       brandSonList: [], // 子品牌
       specialBrandList: [], // 定投品牌
       specialBrandSonList: [],
-      provList: [], // 省
-      cityList: [], // 市
-      areaList: [], // 区
+      provList: [{
+        code: '000000',
+        name: '全部'
+      }], // 省
+      cityList: [{
+        code: '000000',
+        name: '全部'
+      }], // 市
+      areaList: [{
+        code: '000000',
+        name: '全部'
+      }], // 区
       specialProvList: [], // 定投地区
       specialCityList: [],
       specialAreaList: [],
@@ -268,22 +284,22 @@ export default {
     isDisabled: function (val) {
       // console.log(val)
       if (val) {
-        this.selectProvList == ['000000']
-        this.selectCityList == ['000000']
-        this.selectAreaList == ['000000']
+        this.selectProvList = ['000000']
+        this.selectCityList = ['000000']
+        this.selectAreaList = ['000000']
       } else {
-        this.selectProvList == []
-        this.selectCityList == []
-        this.selectAreaList == []
+        this.selectProvList = []
+        this.selectCityList = []
+        this.selectAreaList = []
       }
     },
     fixationPutFlag: function (val) {
       if (val) {
         this.restrictArea()
       } else {
-        this.selectProvList == []
-        this.selectCityList == []
-        this.selectAreaList == []
+        this.selectProvList = []
+        this.selectCityList = []
+        this.selectAreaList = []
       }
     }
   },
@@ -294,45 +310,75 @@ export default {
         this.$request.post('/api/saotx/act/detail', {
           id: this.id
         }, true, res => {
+          if (res.ret !== '200000') return this.$message.error(res.message)
+          if (res.data.act.status == 1) {
+            this.statusDisabled = true
+          } else {
+            this.statusDisabled = false
+          }
+          this.status = res.data.act.status == 1 ? true : false
+          this.prizeLimitFlag = res.data.act.dwnum ? true : false
+          this.act.dwnum = res.data.act.dwnum
           this.actSTime = res.data.act.stimeStr
           this.actETime = res.data.act.etimeStr
           if (res.data.strategyArr.length != 0) {
+            // this.isEdit = true
             res.data.strategyArr.forEach((item, index) => {
               if (item.tfType == 'common') {
+                if (item.awardArr.length == 0) return
+                this.normalTfId = item.tf.id
                 // let data = item.awardArr
-                item.awardArr.forEach((item, index) => {
-                  if (index != 0) {
+                item.awardArr.forEach((sonItem, i) => {
+                  if (i != 0) {
                     this.normalTabs.push({
-                      title: '常规奖项' + (index + 1),
-                      name: '' + (index + 1)
+                      title: '常规奖项' + (i + 1),
+                      name: '' + (i + 1)
                     })
                   }
-                  for (let k in item) {
-                    this.normalConf[index][k] = item[k]
+                  if (i == 0) {
+                    for (let k in sonItem) {
+                      this.normalConf[0][k] = sonItem[k]
+                    }
+                  } else {
+                    this.normalConf.push(sonItem)
                   }
                 })
                 // this.normalConf = item.awardArr
 
-                console.log(this.normalConf)
-                this.selectProvList = item.areas.provinceArr
-                this.selectCityList = item.areas.cityArr
-                this.getCityList(this.selectProvList)
-                // this.getAreaList(this.selectCityList)
-                this.selectAreaList = item.areas.districtArr
+                // console.log(this.normalConf)
+                if (item.areas.provinceArr[0] == '000000' && item.areas.cityArr[0] == '000000') {
+                  this.isDisabled = true
+                } else {
+                  this.selectProvList = item.areas.provinceArr
+                  this.selectCityList = item.areas.cityArr
+                  this.getCityList(this.selectProvList)
+                  this.getAreaList(this.selectCityList)
+                  this.selectAreaList = item.areas.districtArr
+                  this.selectAll(this.selectAreaList)
+                }
                 this.selectBrand = item.brandArr
                 this.getBrandSonList()
                 this.selectSonBrand = item.snArr
+                // this.restrictSonBrand()
               }
               if (item.tfType == 'sn_first') {
-                item.awardArr.forEach((item, index) => {
-                  if (index != 0) {
+                this.firstScanTfId = item.tf.id
+                item.awardArr.forEach((sonItem, i) => {
+                  if (i != 0) {
                     this.firstScanTabs.push({
-                      title: '常规奖项' + (index + 1),
-                      name: '' + (index + 1)
+                      title: '常规奖项' + (i + 1),
+                      name: '' + (i + 1)
                     })
                   }
-                  for (let k in item) {
-                    this.firstScanTabs[index][k] = item[k]
+                  // for (let k in sonItem) {
+                  //   this.firstScanTabs[i][k] = sonItem[k]
+                  // }
+                  if (i == 0) {
+                    for (let k in sonItem) {
+                      this.firstScanTabs[0][k] = sonItem[k]
+                    }
+                  } else {
+                    this.firstScanTabs.push(sonItem)
                   }
                 })
                 this.specialRuleConfFlag = true
@@ -340,15 +386,23 @@ export default {
                 this.firstScanConf = item.awardArr
               }
               if (item.tfType == 'n_mwin') {
-                item.awardArr.forEach((item, index) => {
-                  if (index != 0) {
+                this.nWinTfId = item.tf.id
+                item.awardArr.forEach((sonItem, i) => {
+                  if (i != 0) {
                     this.nWinTabs.push({
-                      title: '常规奖项' + (index + 1),
-                      name: '' + (index + 1)
+                      title: '常规奖项' + (i + 1),
+                      name: '' + (i + 1)
                     })
                   }
-                  for (let k in item) {
-                    this.nWinTabs[index][k] = item[k]
+                  // for (let k in sonItem) {
+                  //   this.nWinTabs[i][k] = sonItem[k]
+                  // }
+                  if (i == 0) {
+                    for (let k in sonItem) {
+                      this.nWinTabs[0][k] = sonItem[k]
+                    }
+                  } else {
+                    this.nWinTabs.push(sonItem)
                   }
                 })
                 this.specialRuleConfFlag = true
@@ -356,16 +410,24 @@ export default {
                 this.nWinConf = item.awardArr
               }
               if (item.tfType == 'special') {
-                item.awardArr.forEach((item, index) => {
-                  if (index != 0) {
+                this.fixationPutTfId = item.tf.id
+                item.awardArr.forEach((sonItem, i) => {
+                  if (i != 0) {
                     this.fixationPutTabs.push({
-                      title: '常规奖项' + (index + 1),
-                      name: '' + (index + 1)
+                      title: '常规奖项' + (i + 1),
+                      name: '' + (i + 1)
                     })
                   }
-                  for (let k in item) {
-                    console.log(this.normalConf[index][k])
-                    this.fixationPutTabs[index][k] = item[k]
+                  // for (let k in sonItem) {
+                  //   console.log(this.normalConf[i][k])
+                  //   this.fixationPutTabs[i][k] = sonItem[k]
+                  // }
+                  if (i == 0) {
+                    for (let k in sonItem) {
+                      this.fixationPutTabs[0][k] = sonItem[k]
+                    }
+                  } else {
+                    this.fixationPutTabs.push(sonItem)
                   }
                 })
                 this.specialRuleConfFlag = true
@@ -393,6 +455,7 @@ export default {
       }, true, res => {
         if (res.ret === '200000') {
           this.brandList = res.data.list
+          this.restrictBrand()
           return
         }
         this.$message.error(res.message)
@@ -409,7 +472,11 @@ export default {
         },
         true,
         res => {
-          if (res.ret === '200000') return (this.brandSonList = res.data.list)
+          if (res.ret === '200000') {
+            this.brandSonList = res.data.list
+            this.restrictSonBrand()
+            return
+          }
           this.$message.error(res.message)
         }
       )
@@ -420,11 +487,11 @@ export default {
         parentArr: []
       }, true, res => {
         if (res.ret === '200000') {
-          this.provList = res.data
-          this.provList.unshift({
-            code: '000000',
-            name: '全部'
-          })
+          this.provList.push(...res.data)
+          // this.provList.unshift({
+          //   code: '000000',
+          //   name: '全部'
+          // })
           return
         }
         this.$message.error(res.message)
@@ -432,8 +499,12 @@ export default {
     },
     // 获取市
     getCityList(val) {
-      // 定点投放地区限制
-      this.restrictProv()
+      if (this.provList.length == 1) {
+        setTimeout(() => {
+          this.getCityList(val)
+        }, 1000)
+        return
+      }
       let allValue = []
       // 保存所有的值
       for (let item of this.provList) {
@@ -477,11 +548,14 @@ export default {
         true,
         res => {
           if (res.ret === '200000') {
-            this.cityList = res.data
-            this.cityList.unshift({
-              code: '000000',
-              name: '全部'
-            })
+            this.cityList = [{ code: '000000', name: '全部'}]
+            this.cityList.push(...res.data)
+            // 定点投放地区限制
+            this.restrictProv()
+            // this.cityList.unshift({
+            //   code: '000000',
+            //   name: '全部'
+            // })
             return
           }
           this.message.error(res.message)
@@ -490,8 +564,12 @@ export default {
     },
     // 获取区
     getAreaList(val) {
-      // 定点投放地区限制
-      this.restrictCity()
+      if (this.cityList.length == 1) {
+        setTimeout(() => {
+          this.getAreaList(val)
+        }, 1000)
+        return
+      }
       let allValue = []
       for (let item of this.cityList) {
         allValue.push(item.code)
@@ -522,11 +600,14 @@ export default {
         true,
         res => {
           if (res.ret === '200000') {
-            this.areaList = res.data
-            this.areaList.unshift({
-              code: '000000',
-              name: '全部'
-            })
+            this.areaList = [{ code: '000000', name: '全部'}]
+            this.areaList.push(...res.data)
+            // 定点投放地区限制
+            this.restrictCity()
+            // this.areaList.unshift({
+            //   code: '000000',
+            //   name: '全部'
+            // })
             return
           }
           this.$message.error(res.message)
@@ -535,6 +616,12 @@ export default {
     },
     // 选择区
     selectAll(val) {
+      if (this.areaList.length == 1) {
+        setTimeout(() => {
+          this.selectAll(val)
+        }, 1000)
+        return
+      }
       this.restrictArea()
       let allValue = []
       for (let item of this.areaList) {
@@ -560,10 +647,20 @@ export default {
     save() {
       // console.log(this.normalConf)
       if (this.selectBrand.length == 0 || this.selectSonBrand.length == 0) return this.$message.error('请选择品牌规格')
-      if (this.selectProvList.length == 0 || this.selectCityList.length == 0 || this.selectAreaList.length == 0) return this.$message.error('请选择地区')
+      if (this.selectProvList.length == 0 || this.selectCityList.length == 0) return this.$message.error('请选择地区')
+      if (!this.isDisabled) {
+        if(this.selectCityList.indexOf('000000') != -1) {
+          this.selectCityList.splice(this.selectCityList.indexOf('000000'), 1)
+        }
+        if(this.selectAreaList.indexOf('000000') != -1) {
+          this.selectAreaList.splice(this.selectAreaList.indexOf('000000'), 1)
+        }
+        if(this.selectProvList.indexOf('000000') != -1) {
+          this.selectProvList.splice(this.selectProvList.indexOf('000000'), 1)
+        }
+      }
       this.act.id = this.id
       this.act.actCode = this.actCode
-      this.no
       let data = {
         act: {},
         strategyArr: []
@@ -577,6 +674,7 @@ export default {
       data.strategyArr[0].brandArr = this.selectBrand
       data.strategyArr[0].snArr = this.selectSonBrand
       data.strategyArr[0].tfType = 'common'
+      data.strategyArr[0].tf = { id: this.normalTfId }
       let index = 0
       if (this.firstScanFlag) {
         data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
@@ -584,6 +682,7 @@ export default {
         data.strategyArr[index - 1].awardArr = this.firstScanConf
         data.strategyArr[index - 1].confOpen = true
         data.strategyArr[index - 1].tfType = 'sn_first'
+        data.strategyArr[index - 1].tf = { id: this.firstScanTfId }
       }
       if (this.nWinFlag) {
         data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
@@ -591,6 +690,7 @@ export default {
         data.strategyArr[index - 1].awardArr = this.nWinConf
         data.strategyArr[index - 1].confOpen = true
         data.strategyArr[index - 1].tfType = 'n_mwin'
+        data.strategyArr[index - 1].tf = { id: this.nWinTfId }
       }
       if (this.fixationPutFlag) {
         data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
@@ -600,11 +700,19 @@ export default {
         data.strategyArr[index - 1].confOpen = true
         data.strategyArr[index - 1].brandArr = this.specialBrand.brandArr
         data.strategyArr[index - 1].snArr = this.specialBrand.snArr
-        data.strategyArr[index - 1].tf['sduration'] = this.tfDurationArr[0]
-        data.strategyArr[index - 1].tf['eduration'] = this.tfDurationArr[1]
-        data.strategyArr[index - 1].tf['stimeStr'] = this.tfTimeArr[0]
-        data.strategyArr[index - 1].tf['etimeStr'] = this.tfTimeArr[1]
+        // data.strategyArr[index - 1].tf.sduration = this.tfDurationArr[0]
+        // data.strategyArr[index - 1].tf.eduration = this.tfDurationArr[1]
+        // data.strategyArr[index - 1].tf.stimeStr = this.tfTimeArr[0]
+        // data.strategyArr[index - 1].tf.etimeStr = this.tfTimeArr[1]
+        data.strategyArr[index - 1].tf = {
+          sduration: this.tfDurationArr[0],
+          eduration: this.tfDurationArr[1],
+          stimeStr: this.tfTimeArr[0],
+          etimeStr: this.tfTimeArr[1],
+          id: this.fixationPutTfId
+        }
         data.strategyArr[index - 1].tfType = 'special'
+        // data.strategyArr[index - 1].tf = { id: this.fixationPutTfId }
       }
       this.$request.post('/api/saotx/act/somtf', data, true, res => {
         if (res.ret === '200000') {
@@ -648,53 +756,58 @@ export default {
       //   this.normalTabsValue = activeName;
       //   this.normalTabs = tabs.filter(tab => tab.name !== targetName)
       // }
-      this.addRoRemove('normal', targetName, action)
+      this.addOrRemove('normal', targetName, action)
     },
     firstScanTabsEdit(targetName, action) {
-      this.addRoRemove('firstScan', targetName, action)
+      this.addOrRemove('firstScan', targetName, action)
     },
     nWinTabsEdit(targetName, action) {
-      this.addRoRemove('nWin', targetName, action)
+      this.addOrRemove('nWin', targetName, action)
     },
     fixationPutTabsEdit(targetName, action) {
-      this.addRoRemove('fixationPut', targetName, action)
+      this.addOrRemove('fixationPut', targetName, action)
     },
-    addRoRemove(confName, targetName, action) {
+    addOrRemove(confName, targetName, action) {
       if (action === 'add') {
         if (this[confName + 'Conf'].length == 10) return
         // 深拷贝 防止数据相互串通
         let newAwae = JSON.parse(JSON.stringify(this.defaultAwae))
         this[confName + 'Conf'].push(newAwae)
-        let newTabTitle = '常规奖项' + ++this[confName + 'Index']
+        let newTabTitle = '常规奖项' + this[confName + 'Conf'].length
         this[confName + 'Tabs'].push({
           title: newTabTitle,
-          name: this[confName + 'Index'] + ''
+          name: this[confName + 'Conf'].length + ''
         })
-        this[confName + 'TabsValue'] = this[confName + 'Index'] + ''
+        this[confName + 'TabsValue'] = this[confName + 'Conf'].length + ''
       }
       if (action === 'remove') {
         if (this[confName + 'Conf'].length == 1) return
         let tabs = this[confName + 'Tabs']
-        let activeName = this[confName + 'TabsValue']
-        let removeIndex = tabs.indexOf(activeName)
-        this[confName + 'Conf'].splice(removeIndex, 1)
-        if (activeName === targetName) {
-          tabs.forEach((tab, index) => {
-            if (tab.name === targetName) {
-              let nextTab = tabs[index + 1] || tabs[index - 1];
-              if (nextTab) {
-                activeName = nextTab.name;
-              }
-            }
-          });
+        // let activeName = this[confName + 'TabsValue']
+        // let removeIndex = tabs.indexOf(targetName)
+        this[confName + 'Conf'].splice(targetName - 1, 1)
+        this[confName + 'Tabs'] = []
+        for (var i = 1; i <= this[confName + 'Conf'].length; i++) {
+          this[confName + 'Tabs'].push({ title: '常规奖项' + i, name: i + ''})
         }
-        this[confName + 'TabsValue'] = activeName;
-        this[confName + 'Tabs'] = tabs.filter(tab => tab.name !== targetName)
+        // if (activeName === targetName) {
+        //   tabs.forEach((tab, index) => {
+        //     if (tab.name === targetName) {
+        //       let nextTab = tabs[index + 1] || tabs[index - 1];
+        //       if (nextTab) {
+        //         activeName = nextTab.name;
+        //       }
+        //     }
+        //   });
+        // }
+        this[confName + 'TabsValue'] = '1'
+        // this[confName + 'Tabs'] = tabs.filter(tab => tab.name !== targetName)
       }
     },
     // 定点投放地区限制
     restrictProv() {
       this.specialProvList = JSON.parse(JSON.stringify(this.provList))
+      // if (this.selectProvList == ['000000']) return
       this.specialProvList.forEach(speciaItem => {
         speciaItem['disabled'] = true
         this.selectProvList.forEach(item => {
@@ -706,6 +819,7 @@ export default {
     },
     restrictCity() {
       this.specialCityList = JSON.parse(JSON.stringify(this.cityList))
+      // if (this.selectCityList == ['000000']) return
       this.specialCityList.forEach(speciaItem => {
         speciaItem['disabled'] = true
         this.selectCityList.forEach(item => {
@@ -717,6 +831,7 @@ export default {
     },
     restrictArea() {
       this.specialAreaList = JSON.parse(JSON.stringify(this.areaList))
+      // if (this.selectAreaList == ['000000']) return
       this.specialAreaList.forEach(speciaItem => {
         speciaItem['disabled'] = true
         this.selectAreaList.forEach(item => {
@@ -728,6 +843,7 @@ export default {
     },
     // 定点投放品牌限制
     restrictBrand() {
+      // console.log(this.selectBrand)
       this.specialBrandList = JSON.parse(JSON.stringify(this.brandList))
       this.specialBrandList.forEach(speciaItem => {
         speciaItem['disabled'] = true
@@ -737,13 +853,14 @@ export default {
           }
         })
       })
+      // console.log(this.specialBrandList)
     },
     restrictSonBrand() {
       this.specialBrandSonList = JSON.parse(JSON.stringify(this.brandSonList))
       this.specialBrandSonList.forEach(speciaItem => {
         speciaItem['disabled'] = true
         this.selectSonBrand.forEach(item => {
-          if (speciaItem.brandCode == item) {
+          if (speciaItem.sn == item) {
             speciaItem['disabled'] = false
           }
         })

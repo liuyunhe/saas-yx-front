@@ -16,7 +16,7 @@ export default {
 			addShow: false,
 			isAddBtn: false,
 			isAddBtn1: false,
-			activeName: 'first',
+			activeName: 'third',
 			actShow: true,
 			appShow: true,
 			tabShow: true,
@@ -46,13 +46,13 @@ export default {
 						},
 						yz: {
 							detailFlag: true,
-							bg: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png'
+							bg: ''
 						},
 						gzh: {
 							name: 'XXX',
 							note: '获得更多惊喜',
 							qrIcon: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
-							bg: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png'
+							bg: ''
 						},
 						activity: {
 							show: false,
@@ -94,16 +94,16 @@ export default {
 						},
 						yz: {
 							detailFlag: true,
-							bg: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png'
+							bg: ''
 						},
 						gzh: {
 							name: 'XXX',
 							note: '获得更多惊喜',
 							qrIcon: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
-							bg: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png'
+							bg: ''
 						},
 						activity: {
-							show: false,
+							show: true,
 							tpl: 1 //1为轮播
 						}
 					},
@@ -129,7 +129,8 @@ export default {
 				publish: 0
 			},
 			removeArr: [],
-			loading: true
+			loading: true,
+			borderShow:false,//活动的border
 		}
 	},
 	
@@ -141,6 +142,9 @@ export default {
 		myCallback(data) {
 			this.page = data;
 			this.init();
+		},
+		showBorder(){
+			this.borderShow=true;
 		},
 		backMain() {
 			this.addTplShow = false;
@@ -172,6 +176,8 @@ export default {
 
 						if(data == null || data.length == 0) {
 							that.tableData = data;
+							that.loading = false;
+							that.total = res.data.page.count;
 						} else {
 							that.tableData = data;
 							that.loading = false;
@@ -192,6 +198,7 @@ export default {
 			this.dateValue = '';
 			this.keywords = '';
 			this.modelValue = '';
+			this.search();
 		},
 		init() {
 			var that = this;
@@ -209,7 +216,9 @@ export default {
 						var data = res.data.list || [];
 
 						if(data == null || data.length == 0) {
-
+							that.tableData = data;
+							that.loading = false;
+							that.total = res.data.page.count;
 						} else {
 							that.tableData = data;
 							that.loading = false;
@@ -279,6 +288,7 @@ export default {
 			this.addlist.type = item.type;
 			this.addTplShow = false;
 			this.addShow = true;
+			this.activeName='third'
 			this.listShow = false;
 			this.$request.post(
 				'/api/saotx/prod/listBrand', {
@@ -376,6 +386,28 @@ export default {
 		},
 		save() {
 			var that = this;
+			if(!that.addlist.name){
+				this.$message({
+					message: '请填写模板名称',
+					type: 'warning'
+				});
+				return;
+			}
+			if(!that.addlist.conf.has.title.name){
+				
+				this.$message({
+					message: '请填写已扫码页面的页面名称',
+					type: 'warning'
+				});
+				return;
+			}
+			if(!that.addlist.conf.not.title.name){
+				this.$message({
+					message: '请填写未扫码页面的页面名称',
+					type: 'warning'
+				});
+				return;
+			}
 			var savelist = {};
 			savelist.id = that.addlist.id;
 			savelist.name = that.addlist.name;
@@ -402,6 +434,11 @@ export default {
 						this.selectBrand = [];
 						that.init();
 
+					}else {
+						this.$message({
+							message: res.message,
+							type: 'warning'
+						});
 					}
 				},
 				err => {
@@ -411,6 +448,27 @@ export default {
 		},
 		saveAdd() {
 			var that = this;
+			if(!that.addlist.name){
+				this.$message({
+					message: '请填写模板名称',
+					type: 'warning'
+				});
+				return;
+			}
+			if(!that.addlist.conf.has.title.name){
+				this.$message({
+					message: '请填写已扫码页面的页面名称',
+					type: 'warning'
+				});
+				return;
+			}
+			if(!that.addlist.conf.not.title.name){
+				this.$message({
+					message: '请填写未扫码页面的页面名称',
+					type: 'warning'
+				});
+				return;
+			}
 			var savelist = {};
 			savelist.id = that.addlist.id;
 			savelist.name = that.addlist.name;
@@ -437,6 +495,8 @@ export default {
 						this.selectBrand = [];
 						that.init();
 
+					}else {
+						this.$message.error(res.message);
 					}
 				},
 				err => {
@@ -449,6 +509,7 @@ export default {
 			this.addTplShow = false;
 			this.addShow = true;
 			this.listShow = false;
+			this.activeName='third'
 			this.$request.post(
 				'/api/saotx/orgtpl/detail', {
 					id: item.id
@@ -481,6 +542,8 @@ export default {
 						that.brandList = blist;
 						that.selectBrand = data.brandArr;
 
+					}else {
+						this.$message.error(res.message);
 					}
 				},
 				err => {
@@ -521,6 +584,11 @@ export default {
 						});
 						that.removeArr = [];
 						that.init();
+					}else if(res.ret=='400400'){
+						this.$message({
+							message: '该模板正在启用中，不能进行删除操作',
+							type: 'warning'
+						});
 					}
 				},
 				err => {
@@ -562,11 +630,14 @@ export default {
 				true,
 				res => {
 					if(res.ret == '200000') {
+						
 						this.$message({
 							message: '已启用',
 							type: 'success'
 						});
 						this.init();
+					}else {
+						this.$message.error(res.message);
 					}
 				},
 				err => {

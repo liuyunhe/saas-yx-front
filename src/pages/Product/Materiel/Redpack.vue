@@ -1,7 +1,7 @@
 <template>
   <div>
-    <materiel-table :metraFlag="metraFlag" @showForm="showForm" v-show="table"></materiel-table>
-    <materiel-form :metraFlag="metraFlag" :materielId="id" @showTable="showTable" v-show="!table"></materiel-form>
+    <materiel-table ref="tableDatas" :metraFlag="metraFlag" @showForm="showForm" v-if="table"></materiel-table>
+    <materiel-form :metraFlag="metraFlag" :materielId="id" @showTable="showTable" v-if="!table"></materiel-form>
   </div>
 </template>
 
@@ -20,9 +20,12 @@
       }
     },
     methods:{
-      showTable() {
+      showTable(refresh) {
         this.id = "";
         this.table = true;
+        if(refresh) {
+          this.$refs.tableDatas.listMateriel();
+        }
       },
       showForm(materielId) {
         this.id = materielId;

@@ -24,7 +24,8 @@
           <el-input size="small" type="number" v-model="form.marketMoney"></el-input>
         </el-form-item>
         <el-form-item label="礼品图片" prop="pic">
-          <el-upload class="avatar-uploader" :disabled="id?true:false" size="small"
+          <!-- <el-upload class="avatar-uploader" :disabled="id?true:false" size="small" -->
+          <el-upload class="avatar-uploader" size="small"
             action="/api/saotx/attach/commonAliUpload"
             :headers="headers"
             :show-file-list="false"
@@ -46,7 +47,8 @@
         </el-form-item>
         <!-- 虚拟物料有此项内容 -->
         <el-form-item v-if="metraFlag=='virtual'" label="卡密文件" prop="sourceCode">
-          <el-upload class="upload-demo" :disabled="id?true:false" size="small"
+          <!-- <el-upload class="upload-demo" :disabled="id?true:false" size="small" -->
+          <el-upload class="upload-demo" size="small"
             action="/api/saotx/metra/import"
             :headers="headers"
             :data="form"
@@ -116,7 +118,7 @@ export default {
         sourceCode: '' // 虚拟物料上传卡密文件编码
       },
       rules: {
-        name: [{required:true, message:'请输入活动名称', trigger:'blur'}],
+        name: [{required:true, message:'请输入名称', trigger:'blur'}],
         type: [{required:true, message:'类型不能为空', trigger:'blur'}],
         supplierCode: [{required:true, message:'请选择供应商', trigger:'change'}],
         marketMoney: [{required:true, message:'请输入正确的市场价值'}],
@@ -138,7 +140,7 @@ export default {
   methods: {
     // 查询所有的供应商数据
     getSuppliers() {
-      this.$request.post('/api/saotx/supplier/list', {pageSize:-1}, true, (res)=>{
+      this.$request.post('/api/saotx/supplier/list', {pageSize:-1, status: 1}, true, (res)=>{
         if (res.ret == '200000') {
           this.supplierList = res.data.list||[];
         }
@@ -214,7 +216,7 @@ export default {
       this.$request.post('/api/saotx/metra/saveOrModify', this.form, true, (res)=>{
         if (res.ret == '200000') {
           //this.$router.push({path:"/product/materiel/table?metraFlag="+this.metraFlag});
-          this.$emit('showTable');
+          this.$emit('showTable', true);
         } else {
           this.$message.error(res.message);
         }

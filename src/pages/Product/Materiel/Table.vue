@@ -235,7 +235,7 @@ export default {
     },
     // 查询所有的供应商数据
     getSuppliers() {
-      this.$request.post('/api/saotx/supplier/list', {pageSize:-1}, true, (res)=>{
+      this.$request.post('/api/saotx/supplier/list', {pageSize:-1, status: 1}, true, (res)=>{
         if (res.ret == '200000') {
           this.supplierList = res.data.list||[];
         }
@@ -261,7 +261,7 @@ export default {
     resetForm() {
       this.supplierSel = '';
       this.form = {
-        metraFlag: 'object',
+        metraFlag: this.metraFlag,
         pageNo: 1,
         pageSize: 10,
         keywords: '', // 公共参数：关键字
@@ -300,7 +300,7 @@ export default {
       this.form.pageNo = _pageNo;
       let _pageSize = 10;
       if(pageSize) _pageSize = pageSize;
-      this.form.pageNo = _pageSize;
+      this.form.pageSize = _pageSize;
       
       this.$request.post('/api/saotx/metra/list', this.form, true, (res)=>{
         if (res.ret == '200000') {

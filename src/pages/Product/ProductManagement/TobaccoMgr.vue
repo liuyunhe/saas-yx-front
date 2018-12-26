@@ -75,10 +75,10 @@
               </el-select>
             </el-form-item>
             <el-form-item :size="'small'" label="价格" style="margin-right: 10px">
-              <el-input v-model="filters.minPrice" style="width: 80px" placeholder="最大值"></el-input>
+              <el-input v-model="filters.minPrice" style="width: 80px" placeholder="最小值"></el-input>
             </el-form-item>
             <el-form-item :size="'small'" label="至">
-              <el-input v-model="filters.maxPrice" style="width: 80px" placeholder="最小值"></el-input>
+              <el-input v-model="filters.maxPrice" style="width: 80px" placeholder="最大值"></el-input>
             </el-form-item>
             <div></div>
             <el-form-item class="mr0" :size="'small'">
@@ -254,7 +254,7 @@
     methods: {
       addTobaccoMgr(){
         this.$router.push({
-          path:"/product/mgr/addTobaccoMr"
+          path:"/product/mgr/tobacco/addTobaccoMr"
         })
       },
       //获取列表
@@ -342,7 +342,7 @@
       },
       //编辑
       handleEdit(index, row) {
-        this.$router.push({path:'/product/mgr/editTobaccoMr?id='+row.id})
+        this.$router.push({path:'/product/mgr/tobacco/editTobaccoMr?id='+row.id})
       },
       //分页器功能
       handleCurrentChange(val) {

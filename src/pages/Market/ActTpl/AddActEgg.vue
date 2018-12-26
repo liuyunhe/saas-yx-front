@@ -32,10 +32,10 @@
           <div class="edit-box">
             <el-form :model="addActParams" :rules="addActRules" ref="ruleForm" label-width="100px" label-position="top">
               <el-form-item label="模板名称" prop="name">
-                <el-input v-model="addActParams.name" placeholder="请输入模板名称"></el-input>
+                <el-input v-model="addActParams.name" placeholder="请输入模板名称"maxLength='15'></el-input>
               </el-form-item>
               <el-form-item label="模板说明">
-                <el-input type="textarea" :rows="3" v-model="addActParams.note" placeholder="请输入模板描述" maxlength="50" resize="none"></el-input>
+                <el-input type="textarea" :rows="3" v-model="addActParams.note"maxLength='20' placeholder="请输入模板描述" maxlength="50" resize="none"></el-input>
               </el-form-item>
             </el-form>
             <el-card class="edit-img" shadow="hover">
@@ -64,7 +64,7 @@
                 <div class="edit-game-img" v-if="showEditConIndex == 3">
                   <div>
                     <p class="img-title">活动说明</p>
-                    <div class="img-con"><img :src="configItem.actTip" alt=""></div>
+                    <div class="img-con act-tip-img"><img :src="configItem.actTip" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upTipImgSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -242,16 +242,6 @@ export default {
             key: 6,
             imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
             $$hashKey: 'object:383'
-          },
-          {
-            key: 7,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
-            $$hashKey: 'object:384'
-          },
-          {
-            key: 8,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
-            $$hashKey: 'object:385'
           }
         ],
       configItem: {
@@ -345,6 +335,7 @@ export default {
     // 保存进入下一步
     saveActTpl() {
       if (!this.addActParams.name) return this.$message.warning('请输入模板名称')
+      this.configItem.title=this.addActParams.name;
       this.addActParams.conf = JSON.stringify(this.configItem)
       this.$request.post('/api/saotx/acttpl/saveOrModify', this.addActParams, true, res => {
         if (res.ret === '200000') {
@@ -411,25 +402,27 @@ export default {
         }
         .top {
           position: absolute;
-          top: 118px;
-          left: 50%;
+          top: 30px;
+          left: 49%;
           transform: translateX(-50%);
-          width: 282px;
-          height: 142px;
+          width: 250px;
+          height: 122px;
           img {
             width: 100%;
             height: 100%;
+            
           }
         }
         .tip {
-        	width:50px;
-        	height: 70px;
+        	width:30px;
+        	height: 50px;
         	position: absolute;
-        	right:10px;
-        	top:20px;
+        	right:5px;
+        	top:10px;
         	img {
         		width:100%;
         		height: 100%;
+        		object-fit: contain;
         	}
         }
         .game-con {
@@ -437,13 +430,13 @@ export default {
           left: 0;
           bottom: 42px;
           width: 100%;
-          height: 144px;
+          height: 200px;
           display: flex;
           justify-content: space-around;
           align-items: center;
           flex-wrap: wrap;
           .game-item {
-            width: 25%;
+            width: 33%;
             height: 50%;
             text-align:center;
             img {
@@ -519,6 +512,9 @@ export default {
           text-align: center;
           border: 1px solid #ccc;
           margin: 0 10px;
+        }
+        .act-tip-img {
+        	height: 100%;
         }
         .btn-con {
           position: relative;

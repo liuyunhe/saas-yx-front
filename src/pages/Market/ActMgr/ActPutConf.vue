@@ -10,17 +10,23 @@
       <el-breadcrumb-item>投放设置</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
+    	<el-steps :active="stepActive" finish-status="success" align-center class='step-style' v-show='form=="act-501"'>
+			  <el-step title="基础设置"></el-step>
+			  <el-step title="题目设置"></el-step>
+			  <el-step title="投放设置"></el-step>
+			</el-steps>
       <el-form ref="form" :model="strategy" label-width="100px">
         <el-form-item label="品牌规格：">
-          <el-select v-model="selectBrand" multiple placeholder="请选择" @change="getBrandSonList">
+          <el-select v-model="selectBrand" multiple collapse-tags placeholder="请选择" @change="getBrandSonList">
             <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
             </el-option>
           </el-select>
-          <el-select v-model="selectSonBrand" multiple placeholder="请选择" @change="restrictSonBrand">
-            <el-option v-if="brandSonList" v-for="item in brandSonList" :key="item.id" :label="item.name" :value="item.sn">
+          <el-select v-model="selectSonBrand" multiple collapse-tags placeholder="请选择" @change="restrictSonBrand">
+            <el-option v-if="brandSonList" v-for="item in brandSonList" :key="item.id" :label="item.allName" :value="item.sn">
             </el-option>
           </el-select>
-          <el-button type="primary" @click="brandVisible = true" class="ml20">已选明细</el-button>
+          <!-- 暂时不做 -->
+          <!-- <el-button type="primary" @click="brandVisible = true" class="ml20">已选明细</el-button> -->
         </el-form-item>
         <el-form-item label="地区：">
           <el-select v-model="selectProvList" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择" @change="getCityList">
@@ -36,13 +42,14 @@
             </el-option>
           </el-select>
           <el-checkbox v-model="isDisabled" label="全部地区" border></el-checkbox>
-          <el-button type="primary" @click="regionVisible = true" class="ml20">已选明细</el-button>
+          <!-- 暂时不做 -->
+          <!-- <el-button type="primary" @click="regionVisible = true" class="ml20">已选明细</el-button> -->
         </el-form-item>
         <el-form-item>
           <div class="prize-conf">
             <div class="title">常规奖池</div>
             <el-tabs v-model="normalTabsValue" type="card" editable @edit="normalTabsEdit" class="put-conf">
-              <el-tab-pane :key="item.name" v-for="(item, index) in normalTabs" :label="item.title" :name="item.name">
+              <el-tab-pane :key="index" v-for="(item, index) in normalTabs" :label="item.title" :name="item.name">
                 <pond-conf :awae="normalConf[index]" :prizeType="prizeType"></pond-conf>
               </el-tab-pane>
             </el-tabs>
@@ -78,41 +85,45 @@
               </el-row>
               <el-row>
                 <el-checkbox v-model="fixationPutFlag">定点投放奖</el-checkbox>
-                <div class="conf" v-if="fixationPutFlag">
-                  <el-form :model="specialAreas" label-width="100px" class="mb20">
+                <div class="conf mb20" v-if="fixationPutFlag">
+                  <el-form :model="specialAreas" label-width="100px" class="mb20 mt20">
                     <el-form-item label="品牌规格：">
-                      <el-select v-model="specialBrand.brandArr" multiple size="mini" placeholder="请选择">
+                      <el-select v-model="specialBrand.brandArr" multiple placeholder="请选择">
                         <el-option v-for="item in specialBrandList" :key="item.id" :disabled="item.disabled" :label="item.name" :value="item.brandCode">
                         </el-option>
                       </el-select>
-                      <el-select v-model="specialBrand.snArr" multiple size="mini" placeholder="请选择">
+                      <el-select v-model="specialBrand.snArr" multiple placeholder="请选择">
                         <el-option v-if="brandSonList" v-for="item in specialBrandSonList" :disabled="item.disabled" :key="item.id" :label="item.name" :value="item.sn">
                         </el-option>
                       </el-select>
-                      <el-button type="primary" size="mini" @click="brandVisible = true" class="ml20">已选明细</el-button>
+                      <!-- 暂时不做 -->
+                      <!-- <el-button type="primary" @click="brandVisible = true" class="ml20">已选明细</el-button> -->
                     </el-form-item>
                     <el-form-item label="地区：">
-                      <el-select v-model="specialAreas.provinceArr" :disabled="isDisabled" size="mini" multiple collapse-tags filterable placeholder="请选择">
+                      <el-select v-model="specialAreas.provinceArr" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择">
                         <el-option v-for="item in specialProvList" :key="item.code" :disabled="item.disabled" :label="item.name" :value="item.code">
                         </el-option>
                       </el-select>
-                      <el-select v-model="specialAreas.cityArr" :disabled="isDisabled" size="mini" multiple collapse-tags filterable placeholder="请选择">
+                      <el-select v-model="specialAreas.cityArr" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择">
                         <el-option v-if="cityList" v-for="item in specialCityList" :key="item.code" :disabled="item.disabled" :label="item.name" :value="item.code">
                         </el-option>
                       </el-select>
-                      <el-select v-model="specialAreas.districtArr" :disabled="isDisabled" size="mini" multiple collapse-tags filterable placeholder="请选择">
+                      <el-select v-model="specialAreas.districtArr" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择">
                         <el-option v-if="areaList" v-for="item in specialAreaList" :key="item.code" :disabled="item.disabled" :label="item.name" :value="item.code">
                         </el-option>
                       </el-select>
-                      <!-- <el-checkbox v-model="isDisabled" label="全部地区" size="mini" border></el-checkbox> -->
-                      <el-button type="primary" @click="regionVisible = true" size="mini" class="ml20">已选明细</el-button>
+                      <!-- <el-checkbox v-model="isDisabled" label="全部地区" border></el-checkbox> -->
+                      <!-- 暂时不做 -->
+                      <!-- <el-button type="primary" @click="regionVisible = true" class="ml20">已选明细</el-button> -->
                     </el-form-item>
                     <el-form-item label="投放时间:">
-                      <el-date-picker v-model="tfTimeArr" size="mini" :picker-options="pickerOptions" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                      <el-date-picker v-model="tfTimeArr" :picker-options="pickerOptions" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
                       </el-date-picker>
                     </el-form-item>
                     <el-form-item label="发放时间:">
-                      <el-time-picker is-range v-model="tfDurationArr" size="mini" format="HH:mm" value-format="HH:mm" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围">
+                      <!-- <el-time-picker is-range v-model="tfDurationArr" format="HH:mm" value-format="HH:mm" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围">
+                      </el-time-picker> -->
+                      <el-time-picker is-range v-model="tfDurationArr" format="HH:mm" value-format="HH:mm" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围">
                       </el-time-picker>
                     </el-form-item>
                   </el-form>
@@ -144,7 +155,7 @@
         </el-form-item>
         <el-form-item>
           是否立即发布
-          <el-switch class="ml20" v-model="status">
+          <el-switch class="ml20" :disabled="statusDisabled" v-model="status">
           </el-switch>
           <el-row class="mt20">
             <el-button type="primary" @click="save">保存</el-button>
@@ -177,6 +188,9 @@ export default {
     max-width: 800px;
   }
 }
+.step-style {
+	margin-bottom: 40px;
+}
 .title {
   height: 40px;
   padding-left: 20px;
@@ -192,6 +206,7 @@ export default {
 }
 .conf {
   background-color: #fff;
+  overflow: hidden;
 }
 .special-rule-conf,
 .prize-limit {

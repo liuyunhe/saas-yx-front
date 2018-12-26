@@ -450,7 +450,7 @@
       },
       addProduct(){
         this.$router.push({
-          path:'/mall/product/addProduct'
+          path:'/mall/product/zj/addProduct'
         })
       },
       //删除商品
@@ -480,7 +480,7 @@
       //编辑商品
       editProduct(id){
         this.$router.push({
-          path:'/mall/product/editProduct?id='+id
+          path:'/mall/product/zj/editProduct?id='+id
         })
       },
       //上架商品

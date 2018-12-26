@@ -16,7 +16,7 @@
 				<!--验证码-->
 				<div class="ui-label ui-code">
 					<label class="check">验证码</label>
-					<input type="text" name="verifyCode" placeholder="" v-model="verifyCode">
+					<input type="text" name="verifyCode" placeholder="" v-model="verifyCode" @keyup.enter="submitLogin">
 					<img :src="codeSrc" @click="srcClick" id="verifyCode">
 					<div id="drag" style="display: none;"></div>
 				</div>
@@ -52,7 +52,8 @@ export default {
       codeSrc: '',
       isRem: true,
       errorTip: '用户名不能为空!',
-      error: false
+      error: false,
+      ran:1
     }
   },
   created() {
@@ -66,7 +67,15 @@ export default {
     var date = new Date().getTime()
     this.$cookies.set('CLIENTSESSIONID', date + num, '1y', '/')
     sessionStorage.setItem('CLIENTSESSIONID', date + num)
-    this.codeSrc = location.origin + '/api/sys/login/verifyCode?'
+    if(sessionStorage.getItem('ran')){
+    	console.log(sessionStorage.getItem('ran'))
+    	var ran=sessionStorage.getItem('ran')+1;
+    	this.ran=ran;
+    	this.codeSrc = location.origin + '/api/sys/login/verifyCode?'+this.ran
+    }else {
+    	this.codeSrc = location.origin + '/api/sys/login/verifyCode?'+this.ran
+    }
+    
   },
   methods: {
     submitLogin() {
@@ -103,7 +112,9 @@ export default {
           var data = res.data || {}
           sessionStorage.setItem('access_token', data.token)
           sessionStorage.setItem('access_loginId', data.loginId)
-          that.getMenuList()
+          // that.getMenuList()
+          sessionStorage.setItem('ran',that.ran+1)
+          that.$router.replace({name: '数据'})
         } else if (res.ret == '100409') {
           that.$message.error(res.message)
           that.$router.push({
@@ -115,28 +126,20 @@ export default {
         }
       })
     },
-    getMenuList() {
-      this.$request.post('/api/saotx/menu/all',{ service: 'browser'}, true, res => {
-        if (res.ret === '200000') {
-          sessionStorage.menu = JSON.stringify(res.data)
-          // let sonMenu = []
-          // let grandSonMenu = []
-          // res.data.forEach(item => {
-          //   sonMenu.push(...item.nodeList)
-          // })
-          // sonMenu.forEach(item => {
-          //   grandSonMenu.push(...item.nodeList)
-          // })
-          // sessionStorage.sonMenu = JSON.stringify(sonMenu)
-          // sessionStorage.grandSonMenu = JSON.stringify(grandSonMenu)
-          this.$router.replace({name: '数据'})
-        } else {
-          this.$message.error(res.message)
-        }
-      })
-    },
+    // getMenuList() {
+    //   this.$request.post('/api/saotx/menu/all',{ service: 'browser'}, true, res => {
+    //     if (res.ret === '200000') {
+    //       // sessionStorage.menu = JSON.stringify(res.data)
+    //       this.$store.commit('getMenu', res.data)
+    //       this.$router.replace({name: '数据'})
+    //     } else {
+    //       this.$message.error(res.message)
+    //     }
+    //   })
+    // },
     srcClick(e) {
-      this.codeSrc += 1
+      this.ran+=1;
+      this.codeSrc += this.ran
     },
     forget() {
       this.$router.push({

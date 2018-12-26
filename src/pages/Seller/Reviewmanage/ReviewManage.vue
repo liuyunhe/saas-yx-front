@@ -2,7 +2,7 @@
   <div class="review-manage-container">
     <div class="box-container">
       <div class="add-new-seller">
-        <el-button type="primary" size="small fr"  @click="addNewSeller()">新建零售户</el-button>
+        <el-button type="primary" size="small fr" style="margin-bottom:15px "  @click="addNewSeller()">新建零售户</el-button>
       </div>
       <!--查询表单-->
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;margin-bottom: 0">
@@ -556,7 +556,7 @@
       //审批通过
       approval(sellerIds){
         let params = {sellerIds,authResult:1}
-        this.$confirm(`您确定审核通过此商品？`, '提示', {
+        this.$confirm(`您确定审核通过吗？`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -584,7 +584,7 @@
       },
       disapproval(){
         let params = {sellerIds:this.sellerIds,authResult:2,failReason:this.failReason}
-        this.$confirm(`您确定审核不通过此商品？`, '提示', {
+        this.$confirm(`您确定审核不通过吗？`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -616,7 +616,7 @@
       },
       //批量通过
       passBatch(){
-        this.$confirm(`您确定批量审核通过商品？`, '提示', {
+        this.$confirm(`您确定批量审核通过吗？`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -639,7 +639,7 @@
       },
       sellerDetail(sellerId){
         this.$router.push({
-          path:'/seller/reviewDetail?sellerId='+sellerId
+          path:'/seller/review/reviewDetail?sellerId='+sellerId
         })
       },
       //跳转按钮功能

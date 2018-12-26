@@ -22,14 +22,17 @@
 				<ul class="icon-con">
 					<li v-for='(value,key) in typeArr'>
 						<span class='close' :dataId='key' @click='handleClose' v-if="value.del==1">×</span>
-						<div class="icon-text"><span>{{value.name}}</span></div>
+						<div class="icon-text"><span>图标 {{key+1}}</span></div>
 						<div class="icon-init">
 							初始状态
 							<div class="img-con" :style='{background:colorValue}'>
 								<img :src="value.icon" class='img-pre' alt="" />
 								<!--<div>{{value.name}}</div>-->
 							</div>
-							<button class='btn btn-primary edit' :num='key' @click='getCurr(key)' flag='0'>修改</button>
+							<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="handleAvatarSuccess2">
+								<el-button type="primary" plain @click='getCurr(key,0)'>修改</el-button>
+							</el-upload>
+							<!--<button class='btn btn-primary edit' :num='key' @click='getCurr(key)' flag='0'>修改</button>-->
 						</div>
 						<div class="icon-active">
 							按下状态
@@ -37,7 +40,10 @@
 								<img :src="value.activeIcon" alt="" />
 								<!--<div>{{value.name}}</div>-->
 							</div>
-							<button class='btn btn-primary edit' :num='key' @click='getCurr(key)' flag='1'>修改</button>
+							<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false"@click='getCurr(key,1)' :on-success="handleAvatarSuccess2">
+								<el-button type="primary" plain @click='getCurr(key,1)'>修改</el-button>
+							</el-upload>
+							<!--<button class='btn btn-primary edit' :num='key' @click='getCurr(key)' flag='1'>修改</button>-->
 						</div>
 					</li>
 				</ul>
@@ -46,7 +52,7 @@
 			</div>
 
 		</div>
-		<div class="add-menu" v-show='addListShow'>
+		<!--<div class="add-menu" v-show='addListShow'>
 			<span class='back' @click='back'>返回</span>
 			<div class="modal-header">
 				<h4 class="modal-title">添加菜单</h4>
@@ -92,7 +98,7 @@
 				</div>
 			</div>
 			<!-- /.modal-content -->
-		</div>
+		<!--</div>-->
 		<div class="save">
 			<el-button type="primary" @click='navSave()' size='small'>保存</el-button>
 		</div>
@@ -103,7 +109,7 @@
 	export default {
 		data() {
 			return {
-				addShow: true,
+				addShow: false,
 				navArr: [],
 				submitArr: [],
 				currText: '',
@@ -132,11 +138,14 @@
 					loginId: sessionStorage.getItem('access_loginId')
 				},
 				activeFlag: 'scan',
-				loading: true
+				loading: true,
+				initUrl:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png',
+				editKey:0,
+				editFlag:0,
+				initLength:0
 			}
 		},
 		created() {
-			console.log(this.imgHead)
 			this.init()
 
 		},
@@ -148,6 +157,7 @@
 						var DATA = res.data || {};
 						that.typeArr = DATA.orgMenus;
 						that.navArr = DATA.sysMenus;
+						that.initLength=DATA.orgMenus.length;
 						if(that.typeArr.length >= 4) {
 							that.addShow = false;
 						} else {
@@ -178,25 +188,15 @@
 				this.colorValue = '#ffffff';
 			},
 			remove1() {},
-			getCurr(index) {
-				this.listShow = false;
-				this.editListShow = true;
-				this.addListShow = false;
+			getCurr(index,flag) {
 				this.editId = index;
-				this.flag = parseInt(event.currentTarget.getAttribute('flag'))
-				console.log(this.flag)
-				if(this.flag) {
-					this.editImg = this.typeArr[index].activeIcon;
-				} else {
-					this.editImg = this.typeArr[index].icon;
-				}
+				this.flag = parseInt(flag);
 			},
 			addShowFn() {
 				var that = this;
-				that.listShow = false;
-				that.addListShow = true;
-				that.editListShow = false;
-				console.log(that.noArr)
+				that.addImg1='http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png';
+				that.addImg2='http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png';
+				that.noArr=[];
 				for(let i = 0; i < that.navArr.length; i++) {
 					let flag = false;
 					for(let j = 0; j < that.typeArr.length; j++) {
@@ -209,9 +209,46 @@
 						that.noArr.push(that.navArr[i])
 					}
 				}
+				var tempType = '';
+				that.selectValue=that.noArr[0].name;
+				that.navArr.forEach(function(item) {
+					if(item.name == that.selectValue) {
+						tempType = item.type;
+					}
+				})
+				var addIcon={
+					id: '',
+					name: that.selectValue,
+					type: tempType,
+					bgColor: that.colorValue,
+					icon: that.addImg1,
+					activeIcon: that.addImg2,
+					del: 1
+				};
+				that.typeArr.splice(2,0,addIcon);
+				if(that.typeArr.length >= 4) {
+					that.addShow = false;
+				} else {
+					that.addShow = true;
+				}
 			},
 			save() {
 				var that = this;
+				var flag=1;
+				that.submitArr.forEach((item)=>{
+					if(!item.type || item.icon==that.initUrl || item.activeIcon==that.initUrl){
+						flag=0;
+						return;
+					}
+				})
+				if(!flag){
+					this.$message({
+						message: '请填写完整的菜单信息',
+						type: 'warning'
+					});
+					return;
+				}
+				
 				that.$request.post('/api/saotx/weplat/msom', that.submitArr, true, (res) => {
 					if(res.ret === '200000') {
 						this.$message({
@@ -228,13 +265,8 @@
 			navSave() {
 				var that = this;
 				if(this.addListShow) {
-					var tempType = '';
-					that.navArr.forEach(function(item) {
-						if(item.name == that.selectValue) {
-							tempType = item.type;
-						}
-					})
-					that.submitArr.push({
+					
+					var addObj={
 						id: '',
 						name: that.selectValue,
 						type: tempType,
@@ -242,7 +274,16 @@
 						icon: that.addImg1,
 						activeIcon: that.addImg2,
 						del: 1
-					})
+					};
+					if(!addObj.type || addObj.icon==that.initUrl || addObj.activeIcon==that.initUrl){
+						this.$message({
+							message: '请填写完整的菜单信息',
+							type: 'warning'
+						});
+						return;
+					}
+					that.submitArr.push(addObj)
+					
 
 				} else if(that.editListShow) {
 					if(!that.flag) {
@@ -251,10 +292,11 @@
 						that.submitArr[that.editId].activeIcon = that.editImg;
 					}
 				} else {
-					that.submitArr.forEach((item) => {
-						item.bgColor = that.colorValue;
-					})
+					
 				}
+				that.submitArr.forEach((item) => {
+					item.bgColor = that.colorValue;
+				})
 				that.save();
 
 			},
@@ -271,18 +313,33 @@
 			handleAvatarSuccess2(res, file) {
 				var data = res.data || {};
 				var imgUrl = data && data.accessUrl;
-				this.editImg = imgUrl;
+				if(this.flag){
+					this.typeArr[this.editId].activeIcon = imgUrl;
+				}else {
+					this.typeArr[this.editId].icon = imgUrl;
+				}
+				
 			},
 			handleClose(done) {
-				console.log(event.currentTarget.getAttribute('dataId'))
 				var id = parseInt(event.currentTarget.getAttribute('dataId'));
 				var that = this;
-				this.$confirm('确定要退出登录？')
+					this.$confirm('确定删除该菜单？')
 					.then(_ => {
-						that.submitArr.splice(id, 1);
-						that.save();
+						
+						if(that.initLength<that.submitArr.length) {
+							that.typeArr.splice(id, 1);
+							if(that.typeArr.length >= 4) {
+								that.addShow = false;
+							} else {
+								that.addShow = true;
+							}
+						}else {
+							that.submitArr.splice(id, 1);
+							that.save();
+						}											
 					})
 					.catch(_ => {})
+				
 			},
 			activeShow(item) {
 				this.activeFlag = item.type;
@@ -346,6 +403,8 @@
 		width: 300px;
 		height: 37px;
 		border: 1px dashed #0099FF;
+		display: flex;
+		justify-content: space-around;
 	}
 	
 	.click-con li {
@@ -386,6 +445,7 @@
 		width: 500px;
 		margin-left: 50px;
 		margin-top: 20px;
+		border-radius: 4px;
 	}
 	
 	.title {
@@ -393,6 +453,7 @@
 		line-height: 35px;
 		height: 35px;
 		color: #242A30;
+		margin-bottom: 10px;
 		border-bottom: 1px solid #eee;
 	}
 	
@@ -401,11 +462,12 @@
 	}
 	
 	.icon-con li {
-		height: 125px;
+		height: 135px;
 		background: #eee;
 		margin-top: 10px;
 		position: relative;
 		border: 1px solid #ccc;
+		border-radius: 4px;
 		/*border-bottom: none;*/
 	}
 	
@@ -437,15 +499,19 @@
 		height: 100px;
 		position: absolute;
 		right: 0;
-		top: 10px;
+		top: 25px;
 	}
 	
 	.icon-con li .img-con {
-		width: 100px;
+		width: 98px;
 		height: 60px;
 		margin: 0 auto;
 		border: 1px solid #ccc;
 		background: #fff;
+		padding-top: 4px;
+		overflow: hidden;
+		margin-top: 4px;
+		border-radius: 4px;
 	}
 	
 	.icon-con li .img-con img {
@@ -466,13 +532,13 @@
 		cursor: pointer;
 	}
 	
-	.icon-con li .edit {
-		border: none;
-		cursor: pointer;
+	.icon-con li .avatar-uploader {
 		width: 100px;
-		margin: 0 auto;
+		margin: 0px auto;
 	}
-	
+	.icon-con li .avatar-uploader button{
+		width: 100px;
+	}
 	.icon-con li .icon-active {
 		padding-top: 5px;
 		width: 200px;
@@ -482,7 +548,7 @@
 	}
 	
 	.add {
-		width: 480px;
+		width: 500px;
 		margin: 0 auto;
 		height: 50px;
 		border: 1px solid #ccc;
@@ -491,33 +557,39 @@
 		line-height: 50px;
 		margin-top: 10px;
 		cursor: pointer;
+		border-radius: 4px;
+		background: #E8E8E8;
 	}
-	
+	.add:hover {
+		background: #eee;
+	}
 	.add span {
 		font-size: 32px;
 		color: #ccc;
 		font-weight: bold;
-		line-height: 50px;
 		margin-right: 10px;
 		display: inline-block;
-		height: 50px;
 		vertical-align: middle;
+		transform: translateY(-5px);
 	}
 	
 	.close {
 		width: 20px;
 		height: 20px;
-		background: #ccc;
-		border: 1px solid #000;
+		background: #E8E8E8;
+		border: 1px solid #ccc;
 		border-radius: 50%;
 		text-align: center;
+		font-size: 16px;
 		line-height: 20px;
 		position: absolute;
-		right: 0;
-		top: 0;
+		right: 5px;
+		top: 5px;
 		cursor: pointer;
 	}
-	
+	.close:hover {
+		background: #eee;
+	}
 	.save {
 		height: 50px;
 		padding: 0 20px;
@@ -525,13 +597,13 @@
 		position: relative;
 		border: 1px solid #ccc;
 		background: #fff;
-		border-radius: 10px;
 		margin-bottom: 50px;
 	}
 	
 	.save button {
 		position: absolute;
 		left: 50%;
+		width:80px;
 		margin-left: -27px;
 	}
 	

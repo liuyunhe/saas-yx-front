@@ -138,7 +138,7 @@
             allBrandsList(){
                 this.$request.post(`/record/public/getUserBrandByUserId`,{ },true,res => {
                         let datas = res || [];
-                        datas=[{"brandCode":"0f01c777243143bbb1928f8ea86f07d8","name":"黄金叶"},{"brandCode":"83fb28434f97455f8cba3d509b047f94","name":"帝豪"},{"brandCode":"b7dc34c1422a4bf6bad77772d997bbae","name":"红旗渠"}];
+                        //datas=[{"brandCode":"0f01c777243143bbb1928f8ea86f07d8","name":"黄金叶"},{"brandCode":"83fb28434f97455f8cba3d509b047f94","name":"帝豪"},{"brandCode":"b7dc34c1422a4bf6bad77772d997bbae","name":"红旗渠"}];
                         this.allBrandsData = datas;
                         if(datas.length>0){
                             this.selectAllBrands=datas[0].name;

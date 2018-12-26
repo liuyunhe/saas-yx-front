@@ -1,5 +1,5 @@
 <template>
-  <!-- 
+  <!--
   Author: chenxin
   Create Date: 2018-10-18
   Description: 新建活动模板
@@ -20,6 +20,7 @@
             <div class="content">
               <div class="bg"><img :src="configItem.bgImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 1"></div>
               <div class="top"><img :src="configItem.headerImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 2"></div>
+              <!-- <div class="kits"><img :src="defaultConf.img.tips.url" alt="" title="点击编辑" @click="showEditConIndex = 3" ></div> -->
               <div class="game-con">
                 <div class="game-item" v-for="item in configItem.iconUrl" :key="item.key" @click="showEditConIndex = 3"><img :src="item.imgUrl" alt=""></div>
               </div>
@@ -299,9 +300,13 @@ export default {
     },
     // 上传背景
     upBgImgSuccess(resule) {
-      console.log(resule)
       if (resule.ret === '200000') return (this.configItem.bgImgUrl = resule.data.accessUrl)
       this.$message.error(resule.message)
+    },
+    // 上传活动锦囊
+    upTipsImgSuccess(resule) {
+        if (resule.ret === '200000') return (this.defaultConf.img.tips.url = resule.data.accessUrl)
+        this.$message.error(resule.message)
     },
     // 上传头部标题
     upTopImgSuccess(resule) {
@@ -396,6 +401,18 @@ export default {
           transform: translateX(-50%);
           width: 282px;
           height: 142px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .kits{
+          position: absolute;
+          top: 15px;
+          left: 92%;
+          transform: translateX(-50%);
+          width: 40px;
+          height: 40px;
           img {
             width: 100%;
             height: 100%;
@@ -510,7 +527,7 @@ export default {
             justify-content: center;
             align-items: center;
             img {
-              width: 100%;
+              width: 90%;
             }
           }
         }
@@ -522,7 +539,7 @@ export default {
             justify-content: center;
             align-items: center;
             img {
-              width: 100%;
+              width: 150px;
             }
           }
         }

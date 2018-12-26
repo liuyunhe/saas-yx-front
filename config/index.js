@@ -13,6 +13,7 @@ module.exports = {
     proxyTable: {
       '/api': { // SAAS后端主接口
           target: 'http://cs-sass.saotianxia.vip/',
+          // target: 'http://172.16.1.227:9999',
           changeOrigin: true,
           pathRewrite: {
             '^/api': ''
@@ -37,6 +38,13 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           '^/sc': ''
+        }
+      },
+      '/shop': {
+      	target: 'http://cs-jfc.saotianxia.vip/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/shop': ''
         }
       }
     },

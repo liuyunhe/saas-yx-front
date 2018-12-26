@@ -17,7 +17,9 @@ const ZjOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Ord
 const ZjOrderPageDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ZjOrderPageDetail.vue')
 const JdOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/JdOrderPage.vue')
 //积分活动订单管理
-const ScoreOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ScoreOrderPage.vue')
+const ActOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ActOrderPage.vue')
+const ActOrderPageDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ActOrderPageDetail.vue')
+// const ScoreOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ScoreOrderPage.vue')
 
 //河北固定报表管理
 const HbReportPage = () => import(/* webpackChunkName: "hebeiReport" */ '@/pages/Report/ReportPage.vue')
@@ -39,9 +41,20 @@ const IntegralExchDayPage = () => import(/* webpackChunkName: "henanReport" */ '
 const ActTpl = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/ActTpl')
 const ActMgc = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActMgr')
 const AddAct = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddAct')
+const Hongbaoyu = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/Hongbaoyu.ActTpl')
+const Fanpaizi = () => import(/*webpackChunkName: '"fanpaizi" */'@/pages/Market/ActTpl/Fanpaizi.ActTpl')
+const Jiugongge = () => import(/*webpackChunkName: '"jiugongge" */'@/pages/Market/ActTpl/Jiugongge.ActTpl')
 const AddActEgg = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddActEgg')
+const AddWingAct = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddWingAct')
+const AddActSudoku = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddActSudoku')
+const AddActQuestion = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddQuestion.ActTpl')
 const ActSetConf = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActSetConf')
 const ActPutConf = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActPutConf')
+const QuesEdit = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/QuesAct/QuesEdit')
+const QuesList = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/QuesAct/QuesList')
+
+
+
 
 // 数据-零售户-发展情况概况
 const DataSellerOverview = () => import(/* webpackChunkName: "datas" */ '@/pages/Datas/SellerData/Overview.vue')
@@ -87,6 +100,8 @@ const MaterielVirtual = () => import(/* webpackChunkName: "product" */ '@/pages/
 const MaterielRedpack = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Redpack.vue')
 // 产品-物料管理-积分礼品
 const MaterielIntegral = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Integral.vue')
+// 产品-品牌管理
+const prodBrand = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Brand.vue')
 
 
 // 设置-日志管理
@@ -97,7 +112,7 @@ const ModPwd = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/U
 const SettingAccount = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/User/Account.vue')
 // 设置-账号管理-角色管理
 const SettingRole = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/User/Role.vue')
-// 设置-账号管理-角色管理
+// 设置-账号管理-零售户管理
 const SettingSeller = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Seller.vue')
 
 //菜单配置
@@ -124,6 +139,10 @@ const editProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/C
 const JDProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/JDProduct/JDProduct')
 const addJDProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/JDProduct/AddJDProduct')
 const editJDProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/JDProduct/EditJDProduct')
+// 商城-商品管理-活动物料管理
+const ActProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ActProduct/ActProduct')
+const AddActProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ActProduct/AddActProduct')
+const EditActProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ActProduct/EditActProduct')
 // 商城-banner位管理
 const bannerManage = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/BannerManage/BannerManage')
 const addBanner = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/BannerManage/AddBanner')
@@ -144,7 +163,10 @@ const editCommendTpmB = () => import(/* webpackChunkName: "mall" */ '../pages/Ma
 const addCommendTpmC = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/AddCommendTpmC')
 // 商城-推荐位管理-编辑推荐位C
 const editCommendTpmC = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/EditCommendTpmC')
-
+// 商城 - 积分活动
+const scoreAct = () =>import(/* webpackChunkName: "mall" */ '../pages/Mall/ScoreAct/ActList')
+// 商城 - 积分活动编辑
+const scoreActEdit = () =>import(/* webpackChunkName: "mall" */ '../pages/Mall/ScoreAct/ActDetailEdit')
 //零售户-审核管理
 const reviewmanage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/Reviewmanage/ReviewManage')
 //零售户-审核详情
@@ -162,9 +184,27 @@ const rebateManage = () => import(/* webpackChunkName: "seller" */ '../pages/Sel
 //零售户-业绩活动
 const sellerAchievement = () => import(/* webpackChunkName: "seller" */ '@/pages/Seller/Achievement')
 //零售户-初审管理
+const sellerWhitelist = () => import(/* webpackChunkName: "seller" */ '@/pages/Seller/Audit/Whitelist')
+//零售户-初审管理
 const sellerAuditStep1 = () => import(/* webpackChunkName: "seller" */ '@/pages/Seller/Audit/Step1')
 //零售户-终审管理
 const sellerAuditStep2 = () => import(/* webpackChunkName: "seller" */ '@/pages/Seller/Audit/Step2')
+
+
+
+// 会员日
+const Draw = () => import(/* webpackChunkName: "member" */ '@/pages/Member/DrawALottery/Draw')
+const BaseAward = () => import(/* webpackChunkName: "member" */ '@/pages/Member/WinningList/BaseAward')
+const CommonAwardDetail = () => import(/* webpackChunkName: "member" */ '@/pages/Member/WinningList/CommonAwardDetail')
+const ScanAward = () => import(/* webpackChunkName: "member" */ '@/pages/Member/WinningList/ScanAward')
+const SuperAward = () => import(/* webpackChunkName: "member" */ '@/pages/Member/WinningList/SuperAward')
+const SuperAwardDetail = () => import(/* webpackChunkName: "member" */ '@/pages/Member/WinningList/SuperAwardDetail')
+const MemberSetting = () => import(/* webpackChunkName: "member" */ '@/pages/Member/MemberSetting/MemberSetting')
+const PrizeConf = () => import(/* webpackChunkName: "member" */ '@/pages/Member/PrizeConf/PrizeConf')
+const PrizeList = () => import(/* webpackChunkName: "member" */ '@/pages/Member/PrizeConf/PrizeList')
+const Turn = () => import(/* webpackChunkName: "member" */ '@/pages/Member/GameConf/TurnConf')
+const Answer = () => import(/* webpackChunkName: "member" */ '@/pages/Member/GameConf/AnswerConf')
+
 
 Vue.use(Router)
 
@@ -215,8 +255,8 @@ export default new Router({
         { path: '/datas/Report/IntegralExchDayPage', name: '积分操作情况统计日报', component: IntegralExchDayPage },
         { path: '/datas/agree', name: '履约报表', component: DataAgree },
         { path: '/datas/visit', name: '回访报表', component: DataVisit },
-        { path: '/datas/theme', name: '主题查询', redirect: '/datas/theme/kpiReview', },
-        { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: DataThemeReview },
+        { path: '/datas/theme', name: '主题查询', redirect: '/datas/theme/region', },
+        { path: '/datas/theme/kpiReview', name: 'KPI指标总览', component: KPI },
         { path: '/datas/theme/region', name: '地域查询', component: RegionSearch },
         { path: '/datas/theme/spec', name: '规格查询', component: SpecSearch },
         { path: '/datas/track', name: '活动追踪', redirect: '/datas/track/realtime' },
@@ -232,8 +272,8 @@ export default new Router({
         { path: '/datas/sellerDatas/search', name: '明细查询', component: DataSellerDetail },
         { path: '/datas/operate', name: '运营小工具', redirect: '/datas/operate/steal' },
         { path: '/datas/operate/steal', name: '盗扫明细', component: DataOperateSteal },
-        { path: '/datas/fakeCode', name: '异常码明细', redirect: '/datas/fakeCode/Report' },
-        { path: '/datas/fakeCode/Report', name: '假码举报', component: DataFakeCodeReport },
+        { path: '/datas/fakeCode', name: '异常码明细', redirect: '/datas/fakeCode/report' },
+        { path: '/datas/fakeCode/report', name: '假码举报', component: DataFakeCodeReport },
         { path: '/datas/fakeCode/qrcodeActive', name: '二维码激活', component: DataQrcodeActive },
         // 微平台
         { path: '/weplat', name: '微平台'},
@@ -248,26 +288,35 @@ export default new Router({
         // 产品
         {  path: '/product', name: '产品'},
         { path: '/product/supply', name: '供应商管理', component: supply },
-        { path: '/product/addSupplier', name: '供应商管理', component: addSupplier },
-        { path: '/product/editSupplier', name: '供应商管理', component: editSupplier,props: (route) => ({id:route.query.id}) },
+        { path: '/product/supply/addSupplier', name: '供应商管理', component: addSupplier },
+        { path: '/product/supply/editSupplier', name: '供应商管理', component: editSupplier,props: (route) => ({id:route.query.id}) },
         { path: '/product/mgr', name: '产品管理', redirect: '/product/mgr/tobacco' },
         { path: '/product/mgr/tobacco', name: '卷烟管理', component: tobacco },
-        { path: '/product/mgr/addTobaccoMr', name: '新建卷烟', component: addTobaccoMr },
-        { path: '/product/mgr/editTobaccoMr', name: '编辑卷烟', component: editTobaccoMr,props: (route) => ({id:route.query.id}) },
+        { path: '/product/mgr/tobacco/addTobaccoMr', name: '新建卷烟', component: addTobaccoMr },
+        { path: '/product/mgr/tobacco/editTobaccoMr', name: '编辑卷烟', component: editTobaccoMr,props: (route) => ({id:route.query.id}) },
         { path: '/product/mgr/liquor', name: '酒管理', component: KPI },
         { path: '/product/materiel', name: '物料管理', redirect: '/product/materiel/object' },
         { path: '/product/materiel/object', name: '实物礼品', component: MaterielObject },
         { path: '/product/materiel/virtual', name: '虚拟礼品', component: MaterielVirtual },
         { path: '/product/materiel/redpack', name: '红包', component: MaterielRedpack },
         { path: '/product/materiel/integral', name: '积分', component: MaterielIntegral },
+        { path: '/product/brand', name: '品牌管理', component: prodBrand },
         // 营销
         { path: '/market', name: '营销'},
         { path: '/market/actTpl', name: '活动模板', component: ActTpl },
         { path: '/market/actMgr', name: '活动管理', component: ActMgc },
         { path: '/market/actTpl/addAct', name: '新建活动模板配置', component: AddAct, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/addActRedPacked', name: '新建活动模板配置', component: Hongbaoyu, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/addActEgg', name: '新建砸金蛋活动模板配置', component: AddActEgg, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/addActFanpaizi', name: '翻牌子活动', component: Fanpaizi, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/addActJiugongge', name: '九宫格活动', component: Jiugongge, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/addWingAct', name: '新建点元宝活动模板配置', component: AddWingAct, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/AddActSudoku', name: '新建九宫格活动模板配置', component: AddActSudoku, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/addActQuestion', name: '新建答题活动模板配置', component: AddActQuestion, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/actSetConf', name: '基础设置', component: ActSetConf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode, id: router.query.id, clone: router.query.clone,}) },
-        { path: '/market/actTpl/actPutConf', name: '投放设置', component: ActPutConf, props: (router) => ({id: router.query.id, actCode: router.query.actCode}) },
+        { path: '/market/actTpl/quesActSetConf', name: '题目设置', component: QuesList, props: (router) => ({id: router.query.id, actCode: router.query.actCode,form: router.query.form}) },
+        { path: '/market/actTpl/quesEdit', name: '题目编辑', component: QuesEdit, props: (router) => ({quesId: router.query.quesId,id: router.query.id, actCode: router.query.actCode,form: router.query.form}) },
+        { path: '/market/actTpl/actPutConf', name: '投放设置', component: ActPutConf, props: (router) => ({id: router.query.id, actCode: router.query.actCode,form: router.query.form}) },
         // 订单
         { path: '/orders', name: '订单' },
         { path: '/orders/seller', name: '零售户订单', component: KPI },
@@ -282,7 +331,9 @@ export default new Router({
         { path: '/Orders/mall/zj', name: '自建商品订单', component: ZjOrderPage },
         { path: '/Orders/mall/zjOrderPageDetail', name: '自建商品订单详情',  component: ZjOrderPageDetail,props: (route) => ({orderCode:route.query.orderCode})  },
         { path: '/Orders/mall/jd', name: '京东商品订单', component: JdOrderPage },
-        { path: '/Orders/mall/integral', name: '积分活动订单', component: ScoreOrderPage },
+        // { path: '/Orders/mall/integral', name: '积分活动订单', component: ScoreOrderPage },
+        { path: '/Orders/mall/act', name: '积分活动订单', component: ActOrderPage },
+        { path: '/Orders/mall/actOrderPageDetail', name: '积分活动订单详情', component: ActOrderPageDetail,props: (route) => ({orderCode:route.query.orderCode})  },
         // 零售户
         { path: '/seller', name: '零售户'},
         { path: '/seller/review', name: '审核管理', component: reviewmanage},
@@ -290,11 +341,14 @@ export default new Router({
         { path: '/seller/review/addSeller', name: '新增零售户', component: addSeller},
 
         { path: '/seller/mgr', name: '零售户管理', component: sellerManage},
-        { path: '/seller/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
+        { path: '/seller/mgr/addSeller', name: '新增零售户', component: addSeller},
+        { path: '/seller/mgr/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
         { path: '/seller/tx', name: '提现审核', component: amountExamine},
+        { path: '/seller/tx/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
         { path: '/seller/achievement', name: '业绩活动', component: sellerAchievement },
         { path: '/seller/rebate', name: '返佣管理', redirect: '/seller/rebate/mgr' },
         { path: '/seller/rebate/mgr', name: '扫码返佣管理', component: rebateManage },
+        { path: '/seller/whitelist', name: '白名单管理', component: sellerWhitelist},
         { path: '/seller/audStep1', name: '初审管理', component: sellerAuditStep1},
         { path: '/seller/audStep2', name: '终审管理', component: sellerAuditStep2},
         // 商城
@@ -303,22 +357,27 @@ export default new Router({
         { path: '/mall/systemLayout', name: '系统配置', component: systemLayout },
         { path: '/mall/category', name: '分类管理', component: sortManage },
         { path: '/mall/recommend', name: '推荐位管理', component: recommendManage },
-        { path: '/mall/addCommendTpmA', name: '新增推荐位模板A', component: addCommendTpmA },
-        { path: '/mall/addCommendTpmB', name: '新增推荐位模板B', component: addCommendTpmB },
-        { path: '/mall/addCommendTpmC', name: '新增推荐位模板C', component: addCommendTpmC },
-        { path: '/mall/editCommendTpmA', name: '编辑推荐位模板A', component: editCommendTpmA,props: (route) => ({id:route.query.id})},
-        { path: '/mall/editCommendTpmB', name: '编辑推荐位模板B', component: editCommendTpmB,props: (route) => ({id:route.query.id})},
-        { path: '/mall/editCommendTpmC', name: '编辑推荐位模板C', component: editCommendTpmC,props: (route) => ({id:route.query.id})},
+        { path: '/mall/recommend/addCommendTpmA', name: '新增推荐位模板A', component: addCommendTpmA },
+        { path: '/mall/recommend/addCommendTpmB', name: '新增推荐位模板B', component: addCommendTpmB },
+        { path: '/mall/recommend/addCommendTpmC', name: '新增推荐位模板C', component: addCommendTpmC },
+        { path: '/mall/recommend/editCommendTpmA', name: '编辑推荐位模板A', component: editCommendTpmA,props: (route) => ({id:route.query.id})},
+        { path: '/mall/recommend/editCommendTpmB', name: '编辑推荐位模板B', component: editCommendTpmB,props: (route) => ({id:route.query.id})},
+        { path: '/mall/recommend/editCommendTpmC', name: '编辑推荐位模板C', component: editCommendTpmC,props: (route) => ({id:route.query.id})},
         { path: '/mall/banner', name: 'banner位管理', component: bannerManage},
         { path: '/mall/banner/addBanner', name: '新增banner', component: addBanner},
         { path: '/mall/banner/editBanner', name: '编辑banner', component: editBanner,props: (route) => ({id:route.query.id})},
         { path: '/mall/product', name: '商品管理', redirect: '/mall/product/zj' },
         { path: '/mall/product/zj', name: '自建商品管理', component: buildProduct},
-        { path: '/mall/product/addProduct', name: '新建自建商品', component: addProduct},
-        { path: '/mall/product/editProduct', name: '编辑自建商品', component: editProduct,props: (route) => ({id:route.query.id})},
+        { path: '/mall/product/zj/addProduct', name: '新建自建商品', component: addProduct},
+        { path: '/mall/product/zj/editProduct', name: '编辑自建商品', component: editProduct,props: (route) => ({id:route.query.id})},
         { path: '/mall/product/jd', name: '京东商品管理', component: JDProduct },
-        { path: '/mall/product/addJDProduct', name: '新建京东商品', component: addJDProduct },
-        { path: '/mall/product/editJDProduct', name: '编辑京东商品', component: editJDProduct,props: (route) => ({id:route.query.id})},
+        { path: '/mall/product/jd/addJDProduct', name: '新建京东商品', component: addJDProduct },
+        { path: '/mall/product/jd/editJDProduct', name: '编辑京东商品', component: editJDProduct,props: (route) => ({id:route.query.id})},
+        { path: '/mall/product/act', name: '活动物料管理', component: ActProduct },
+        { path: '/mall/product/act/addActProduct', name: '新建活动物料管理', component: AddActProduct },
+        { path: '/mall/product/act/editActProduct', name: '编辑活动物料管理', component: EditActProduct,props: (route) => ({pid:route.query.pid})},
+        { path: '/mall/score', name:'积分活动', component:scoreAct},
+        { path: '/mall/score/edit', name:'活动编辑', component:scoreActEdit},
         // 设置
         { path: '/setting', name: '设置'},
         { path: '/setting/user', name: '账户设置', redirect: '/setting/user/modPwd' },
@@ -327,7 +386,22 @@ export default new Router({
         { path: '/setting/user/role', name: '角色管理', component: SettingRole },
         { path: '/setting/logs', name: '日志管理', component: SettingLogs },
         { path: '/setting/seller', name: '零售户管理', component: SettingSeller },
-        { path: '/setting/mall', name: '积分设置', component: KPI }
+        { path: '/setting/mall', name: '积分设置', component: KPI },
+        // 会员日
+        { path: '/memberday', name: '会员日', redirect: '/memberday/material' },
+        { path: '/memberday/material', name: '物料', redirect: '/memberday/material/prizeList', props: (route) => ({type: '1'}) },
+        { path: '/memberday/draw', name: '会员日开奖', component: Draw },
+        { path: '/memberday/order', redirect: '/memberday/order/baseAward'},
+        { path: '/memberday/order/baseAward', name: '中奖名单-常规', component: BaseAward },
+        { path: '/memberday/order/commonAwardDetail', name: '常规奖详情', component: CommonAwardDetail, props: (route) => ({orderCode: route.query.orderCode}) },
+        { path: '/memberday/order/scanAward', name: '中奖名单-扫码贡献奖', component: ScanAward },
+        { path: '/memberday/order/superAward', name: '中奖名单-超级金荷奖', component: SuperAward },
+        // { path: '/memberday/order/superAwardDetail', name: '金荷奖详情', component: SuperAwardDetail, props: (route) => ({orderCode: route.query.orderCode}) },
+        { path: '/memberday/memberSetting', name: '会员日设置', component: MemberSetting },
+        { path: '/memberday/material/prizeConf', name: '会员日奖品配置', component: PrizeConf, props: (route) => ({type: route.query.type, id: route.query.id}) },
+        { path: '/memberday/material/prizeList', name: '会员日奖品列表', component: PrizeList, props: (route) => ({type: route.query.type}) },
+        { path: '/memberday/turn', name: '大转盘活动管理', component: Turn },
+        { path: '/memberday/qa', name: '大转盘活动管理', component: Answer },
       ]
     },
     {

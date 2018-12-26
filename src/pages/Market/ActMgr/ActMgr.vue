@@ -15,7 +15,7 @@
           <el-col :span="8">
             <el-form-item label="选择规格:">
               <el-select size="small" v-model="queryActParams.snArr" multiple placeholder="请选择">
-                <el-option v-for="item in sonBrandList" :key="item.brandCode" :label="item.name" :value="item.brandCode">
+                <el-option v-for="item in sonBrandList" :key="item.sn" :label="item.allName" :value="item.sn">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -57,7 +57,7 @@
             </el-form-item>
           </el-col>
           <el-col>
-            <el-button type="primary" size="small" @click="getActList">查询</el-button>
+            <el-button type="primary" size="small" @click="queryActList">查询</el-button>
             <el-button type="primary" size="small" @click="resetForm">重置</el-button>
           </el-col>
         </el-row>
@@ -80,15 +80,7 @@
         </el-table-column>
         <el-table-column label="操作" align="center" width="260px">
           <template slot-scope="scope">
-            <!-- <el-button plain size="mini" v-if="scope.row.status != 4">编辑</el-button>
-            <el-button plain size="mini" v-if="scope.row.status == 2">发布</el-button>
-            <el-button plain size="mini" v-if="scope.row.status == 3">发布</el-button>
-            <el-button plain size="mini">复制</el-button>
-            <el-button plain size="mini">投放日志</el-button>
-            <el-button plain size="mini" v-if="scope.row.status == 1">暂停</el-button>
-            <el-button plain size="mini" v-if="scope.row.status == 1">结束</el-button>
-            <el-button plain size="mini" v-if="scope.row.status == 4">删除</el-button> -->
-            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status != 4" @click="edit(scope.row.id)">编辑</a>
+            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status != 4" @click="edit(scope.row.id,scope.row.form)">编辑</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 2" @click="post(scope.row.id)">发布</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 3" @click="post(scope.row.id)">发布</a>
             <a style="color: #347ab7" href="javascript:;" @click="clone(scope.row.id)">复制</a>
@@ -96,16 +88,6 @@
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="stop(scope.row.id)">暂停</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="over(scope.row.id)">结束</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 4" @click="del(scope.row.id)">删除</a>
-            <!-- <el-dropdown>
-              <el-button plain size="mini" style="margin-left: 10px;">
-                更多<i class="el-icon-arrow-down el-icon--right"></i>
-              </el-button>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item @click="putLog(scope.row.actCode)">投放日志</el-dropdown-item>
-                <el-dropdown-item>暂停</el-dropdown-item>
-                <el-dropdown-item>结束</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown> -->
           </template>
         </el-table-column>
       </el-table>
@@ -124,7 +106,7 @@
         <div v-if="actForms">
           <div class="act-item" v-for="item in actForms" :key="item.id">
             <img :src="item.extUrl" :alt="item.name">
-            <p>{{item.name}}</p>
+            <p class="act-name">{{item.name}}</p>
             <div class="btn">
               <el-button type="primary" size="small">预览</el-button>
               <el-button type="primary" size="small" @click="goPut(item)">投放</el-button>
@@ -134,17 +116,17 @@
         <div v-else>暂无</div>
       </div>
       <el-col :span="24" v-show="actForms">
-        <el-pagination class="mb20" background @size-change="actHandleSizeChange" @current-change="actHandleCurrentChange" :current-page="actParams.pageNo" :page-size="actParams.pageSize" layout="total, prev, pager, next, jumper" :total="actTotal">
+        <el-pagination background @size-change="actHandleSizeChange" @current-change="actHandleCurrentChange" :current-page="actParams.pageNo" :page-size="actParams.pageSize" layout="total, prev, pager, next, jumper" :total="actTotal">
         </el-pagination>
       </el-col>
-      <!-- <div style="clear: both"></div> -->
+      <div style="clear: both"></div>
     </el-dialog>
     <!-- 日志弹窗 -->
     <el-dialog :visible.sync="putLogVisible" width="900px" :close-on-click-modal="false">
       <el-row>
         <el-col :span="8">
           投放时间
-          <el-select v-model="putLogTime" placeholder="请选择" @change="logDetail(this.nowActCode, this.putLogTime)">
+          <el-select v-model="putLogTime" placeholder="请选择" @change="logDetail(nowActCode, putLogTime)">
             <el-option v-for="(item, index) in putTimeList" :key="index" :label="new Date(item.time).Format('yyyy-MM-dd hh:mm:ss')" :value="item.version">
             </el-option>
           </el-select>
@@ -422,6 +404,7 @@ export default {
     addAct() {
       this.addActDialogVisible = true
       this.actParams.pcode = ''
+      this.actParams.pageNo = 1
       this.nowActiveIndex = 0
       this.getAct()
     },
@@ -429,6 +412,7 @@ export default {
     getCheckedAct(item, index) {
       this.nowActiveIndex = index
       this.actParams.pcode = item.code
+      this.actParams.pageNo = 1
       // if (index == 0) {
       //   this.actParams.pcode = ''
       // } else {
@@ -475,6 +459,11 @@ export default {
         }
       )
     },
+    // 按条件查询活动
+    queryActList() {
+      this.queryActParams.pageNo = 1
+      this.getActList()
+    },
     // 重置
     resetForm() {
       this.queryActParams.keywords = ''
@@ -482,11 +471,13 @@ export default {
       this.queryActParams.snArr = []
       this.queryActParams.status = ''
       this.queryActParams.stime = ''
+      this.queryActParams.etime = ''
       this.selectProvList = []
       this.selectCityList = []
       this.queryActParams.provinceCodeArr = []
       this.queryActParams.cityCodeArr = []
       this.actTime = []
+      this.queryActParams.pageNo = 1
       this.getActList()
     },
     // 投放日志
@@ -536,7 +527,7 @@ export default {
     },
     // 活动列表分页
     handleSizeChange(newSize) {
-      this.queryActParams.pagesize = newSize
+      this.queryActParams.pageSize = newSize
       this.getActList()
     },
     // 活动列表分页
@@ -546,7 +537,7 @@ export default {
     },
     // 活动弹窗分页
     actHandleSizeChange(newSize) {
-      this.actParams.pagesize = newSize
+      this.actParams.pageSize = newSize
       this.getAct()
     },
     // 活动弹窗分页
@@ -565,8 +556,12 @@ export default {
     },
 
     // 编辑
-    edit(id) {
-      this.$router.push('/market/actTpl/actSetConf?id=' + id)
+    edit(id,form) {
+    	if(form=='act-501'){
+    		this.$router.push('/market/actTpl/actSetConf?id=' + id+'&form='+form)
+    	}else {
+    		this.$router.push('/market/actTpl/actSetConf?id=' + id)
+    	}
     },
     // 复制
     clone(id) {
@@ -588,7 +583,7 @@ export default {
       this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 1 }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('发布成功')
-          this.actList()
+          this.getActList()
           return
         }
         this.$message.error(res.message)
@@ -614,7 +609,7 @@ export default {
       this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 4 }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('已结束')
-          this.actList()
+          this.getActList()
           return
         }
         this.$message.error(res.message)
@@ -637,10 +632,10 @@ export default {
           message: '已取消'
         })
       }
-      this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 4 }, true, res => {
+      this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 3 }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('已暂停')
-          this.actList()
+          this.getActList()
           return
         }
         this.$message.error(res.message)
@@ -659,10 +654,10 @@ export default {
           message: '已取消删除'
         })
       }
-      this.$request.post('/api/saotx/act/remBatch', { id: [id] }, true, res => {
+      this.$request.post('/api/saotx/act/remBatch', { idArr: [id] }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('删除成功')
-          this.actList()
+          this.getActList()
           return
         }
         this.$message.error(res.message)
@@ -692,6 +687,12 @@ export default {
   li.active {
     color: #409eff;
   }
+  
+}
+.act-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .el-dialog__body {
   padding-top: 10px !important;

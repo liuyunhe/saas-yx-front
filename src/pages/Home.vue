@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
     <el-container class="home-container">
-      <el-aside width="200px">
+      <el-aside width="216px">
         <div class="left">
           <div class="logo">
             <img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/top_logo_mini.png" alt="">
@@ -9,6 +9,7 @@
           <div class="parent-menu">
             <ul>
               <li ref="parentMenu" v-for="(item, index) in menuList" :key="item.id" @click="getsonMenuList(item, index)" :class="pathOneMenuActive ? (item.menuUrl == pathOneMenuActive ? 'active' : '') : (index == oneMenuIndex ? 'active' : '')">
+                <img :src="pathOneMenuActive ? (item.menuUrl == pathOneMenuActive ? item.activeIcon : item.icon) : (index == oneMenuIndex ? item.activeIcon : item.icon)">
                 <router-link :to="item.menuUrl">{{item.menuName}}</router-link>
               </li>
             </ul>
@@ -71,6 +72,7 @@
 <script>
 import draggable from 'vuedraggable'
 import store from '@/store/index'
+import {mapGetters} from 'vuex'
 export default {
   components: {
     draggable
@@ -124,7 +126,8 @@ export default {
               orgName: data.orgName,
               orgRegion: data.orgRegion
             }
-            sessionStorage.setItem('cluser', JSON.stringify(cluser))
+            // sessionStorage.setItem('cluser', JSON.stringify(cluser))
+            that.$store.commit('setCluser', cluser)
             that.account = data.account
             that.name = data.name
             that.orgName = data.orgName
@@ -139,30 +142,31 @@ export default {
     },
     // 获取菜单
     getMenuList() {
-      // this.$request.post(
-      //   `/api/saotx/menu/all`,
-      //   {
-      //     service: 'browser'
-      //   },
-      //   true,
-      //   res => {
-      //     if (res.ret === '200000') {
-      //       this.menuList = res.data
-      //       sessionStorage.menu = JSON.stringify(res.data)
-      //       // this.sonMenuList = res.data[0].nodeList
-      //       // this.initGrandsonMenu(this.sonMenuList[0])
-      //       this.menuActive()
-      //     } else {
-      //       this.$message.error(res.message)
-      //     }
-      //   }
-      // ),
-      //   err => {
-      //     console.log(err)
-      //   }
-      this.menuList = JSON.parse(sessionStorage.getItem('menu'))
-      // console.log(this.menuList)
-      this.menuActive()
+      this.$request.post(
+        `/api/saotx/menu/all`,
+        {
+          service: 'browser'
+        },
+        true,
+        res => {
+          if (res.ret === '200000') {
+            this.menuList = res.data
+            this.$store.commit('setMenu', res.data)
+            // sessionStorage.menu = JSON.stringify(res.data)
+            // this.sonMenuList = res.data[0].nodeList
+            // this.initGrandsonMenu(this.sonMenuList[0])
+            this.menuActive()
+          } else {
+            this.$message.error(res.message)
+          }
+        }
+      ),
+        err => {
+          console.log(err)
+        }
+      // this.menuList = this.$store.state.menu
+      // // console.log(this.menuList)
+      // this.menuActive()
     },
     // 页面刷新的时候 加载对应的菜单样式
     menuActive() {
@@ -199,6 +203,7 @@ export default {
       this.pathThreeMenuActive = ''
       this.oneMenuIndex = index
       this.towMenuIndex = 0
+      this.threeMenuIndex = 0
       this.sonMenuList = item.nodeList
       this.nowMenuName = item.menuName
       this.initGrandsonMenu(this.sonMenuList[0])
@@ -208,6 +213,7 @@ export default {
       this.pathTowMenuActive = ''
       this.pathThreeMenuActive = ''
       this.towMenuIndex = index
+      this.threeMenuIndex = 0
       this.initGrandsonMenu(item)
     },
     // 获取页面详情
@@ -265,6 +271,7 @@ export default {
   background: #d9e0e7;
   .el-aside {
     height: 100%;
+    user-select:none;
     background-color: #283543;
     ul {
       text-align: center;
@@ -276,30 +283,44 @@ export default {
     }
     .left {
       float: left;
-      width: 40%;
+      width: 96px;
       .logo {
-        width: 90px;
+        width: 100%;
         height: 65px;
         line-height: 65px;
         text-align: center;
         img {
-          width: 50px;
+          width: 30px;
           vertical-align: middle;
+        }
+      }
+      .parent-menu {
+        li {
+          text-align: left;
+          padding-left: 18px;
+          padding-bottom: 1px;
+          box-sizing: border-box;
+        }
+        img {
+          vertical-align: -5%;
+          max-width: 14px;
+          max-height: 14px;
+          margin-right: 5px;
         }
       }
       a {
         color: #fff;
       }
       li.active {
-        background-color: #f8f8f8;
-        a {
-          color: #333;
-        }
+        background-color: #3289FF;
+        // a {
+        //   color: #333;
+        // }
       }
     }
     .right {
       float: left;
-      width: 60%;
+      width: 120px;
       height: 100%;
       background-color: #fff;
       .menuName {
@@ -377,7 +398,9 @@ export default {
             text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
+            /*! autoprefixer: off */
+    				-webkit-box-orient: vertical;
+    				/* autoprefixer: on */
             width: 70px !important;
           }
         }

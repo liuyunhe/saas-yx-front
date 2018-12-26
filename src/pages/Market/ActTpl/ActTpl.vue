@@ -1,5 +1,5 @@
 <template>
-  <!-- 
+  <!--
   Author: chenxin
   Create Date: 2018-10-18
   Description: 活动模板
@@ -17,20 +17,20 @@
             </el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="时间段">
+            <el-form-item label="创建时间">
               <el-col>
-                <el-date-picker size="small" type="date" placeholder="开始时间" v-model="actListParams.ctime" style="width: 100%;"></el-date-picker>
+                <el-date-picker size="small" type="date" placeholder="开始时间" v-model="actListParams.ctime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
               </el-col>
             </el-form-item>
           </el-col>
           <el-col :span="7">
             <el-form-item label="关键词">
-              <el-input size="small" v-model="actListParams.keyword" placeholder="请输入关键词"></el-input>
+              <el-input size="small" v-model="actListParams.keywords" placeholder="请输入关键词"></el-input>
             </el-form-item>
           </el-col>
           <el-col>
             <!-- 按钮 -->
-            <el-button type="primary" size="small" @click="getActList()">查询</el-button>
+            <el-button type="primary" size="small" @click="queryActList()">查询</el-button>
             <el-button type="primary" size="small" @click="resetSearch()">重置</el-button>
           </el-col>
         </el-row>
@@ -61,42 +61,52 @@
       <el-button class="mt20" type="danger" @click="batchDel">批量删除</el-button>
       <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="actListParams.pageNo" layout="total, prev, pager, next, jumper" :total="total">
       </el-pagination>
-      <!-- 新建活动模板弹框 -->
-      <el-dialog :visible.sync="addActDialogVisible" width="900px" :close-on-click-modal="false">
-        <div class="act-wrap">
-          <div class="title">
-            <ul>
-              <li v-for="(item, index) in actFormName" :key="index" @click="getCheckedAct(item, index)" :class="index == nowActiveIndex ? 'active' : ''">{{item.name}}</li>
-            </ul>
-            <div style="clear: both"></div>
+    </el-card>
+    <!-- 新建活动模板弹框 -->
+    <el-dialog :visible.sync="addActDialogVisible" width="900px" :close-on-click-modal="false">
+      <div class="act-wrap">
+        <div class="title">
+          <ul>
+            <li v-for="(item, index) in actFormName" :key="index" @click="getCheckedAct(item, index)" :class="index == nowActiveIndex ? 'active' : ''">{{item.name}}</li>
+          </ul>
+          <div style="clear: both"></div>
+        </div>
+        <div v-if="actForms">
+          <div class="act-item" v-for="item in actForms" :key="item.id">
+            <img :src="item.extUrl" :alt="item.name">
+            <p>{{item.name}}<i class="el-icon-circle-plus" @click="goAddActTpl(item.code)"></i></p>
           </div>
-          <div v-if="actForms">
+          <!-- <div v-if="actForms">
             <div class="act-item" v-for="item in actForms" :key="item.id">
               <img :src="item.extUrl" :alt="item.name">
-              <p>{{item.name}}<i class="el-icon-circle-plus" @click="goAddActTpl(item.code)"></i></p>
+              <p>{{item.name}}<i class="el-icon-circle-plus" @click="goAddActTpl()"></i></p>
             </div>
-          </div>
-          <div v-else>暂无</div>
+          </div> -->
         </div>
+        <div v-else>暂无</div>
         <el-col :span="24" v-if="actForms">
           <el-pagination class="mt20" background @size-change="actHandleSizeChange" @current-change="actHandleCurrentChange" :current-page="actParams.pageNo" :page-size="actParams.pageSize" layout="total, prev, pager, next, jumper" :total="actTotal">
           </el-pagination>
         </el-col>
         <div style="clear: both"></div>
-      </el-dialog>
-    </el-card>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
+import addAct from './AddAct'
 export default {
+  components: {
+    addAct
+  },
   data() {
     return {
       selectOption: [],
-      keyword: '',
+      keywords: '',
       actListParams: {
         ctime: '',
         form: '',
-        keyword: '',
+        keywords: '',
         pageNo: 1,
         pageSize: 10
       },
@@ -140,6 +150,8 @@ export default {
   beforeRouteLeave(to, from, next) {
     // console.log(to)
     // console.log(from)
+    // console.log(to.path)
+    // if (to.path == '/market/actTpl/addAct') return next()
     next()
   },
   methods: {
@@ -196,6 +208,7 @@ export default {
     addAct() {
       this.addActDialogVisible = true
       this.actParams.pcode = ''
+      this.actParams.pageNo = 1
       this.nowActiveIndex = 0
       this.getAct()
     },
@@ -207,6 +220,7 @@ export default {
         true,
         res => {
           if (res.ret == '200000') {
+            this.actForms = []
             this.actForms = res.data.list
             this.actTotal = res.data.page.count
           } else {
@@ -242,18 +256,25 @@ export default {
     getCheckedAct(item, index) {
       this.nowActiveIndex = index
       this.actParams.pcode = item.code
+      this.actParams.pageNo = 1
       // if (index == 0) {
       //   this.actParams.pcode = ''
       // } else {
       //   this.actParams.pcode = 'form-cate' + index
       // }
       this.getAct()
+    }, 
+    // 按条件查询活动模板
+    queryActList() {
+      this.actListParams.pageNo = 1
+      this.getActList()
     },
     // 重置条件查询活动模板
     resetSearch() {
       this.actListParams.ctime = ''
       this.actListParams.form = ''
-      this.actListParams.keyword = ''
+      this.actListParams.keywords = ''
+      this.actListParams.pageNo = 1
       this.getActList()
     },
     // 删除模板
@@ -317,6 +338,11 @@ export default {
         res => {
           if (res.ret === '200000') {
             this.$message.success('删除成功')
+            this.actListParams.ctime = ''
+            this.actListParams.form = ''
+            this.actListParams.keywords = ''
+            this.actListParams.pageNo = 1
+            this.actListParams.pageSize = 10
             this.getActList()
           } else {
             this.$message.error(res.message)
@@ -343,15 +369,23 @@ export default {
     },
     // 跳转到新建活动模板页面
     goAddActTpl(code) {
-    	if(code=='act-103'){
+    	if(code=='act-100'){//翻钻石
+    		this.$router.push('/market/actTpl/addAct')//先注释之前的，暂时改为答题
+    	}else if(code=='act-103'){//砸金蛋
     		this.$router.push('/market/actTpl/addActEgg')
-    	}else {
-    		this.$router.push('/market/actTpl/addAct')
-    	} 
+    	}else if(code=='act-102'){//点元宝
+          this.$router.push('/market/actTpl/AddWingAct')
+      }else if(code=='act-101'){//九宫格
+        this.$router.push('/market/actTpl/AddActSudoku')
+      }else if(code == 'act-104'){
+        this.$router.push('/market/actTpl/AddActFanpaizi')
+      }else if(code=='act-501'){   		
+				this.$router.push('/market/actTpl/addActQuestion')
+    	}
     },
-    // 每当 pagesize 变化，会触发 这个函数
+    // 每当 pageSize 变化，会触发 这个函数
     handleSizeChange(newSize) {
-      this.actListParams.pagesize = newSize
+      this.actListParams.pageSize = newSize
       this.getActList()
     },
     // 每当 页码值发生变化，会触发这个函数
@@ -361,7 +395,7 @@ export default {
     },
     // 活动弹窗分页
     actHandleSizeChange(newSize) {
-      this.actParams.pagesize = newSize
+      this.actParams.pageSize = newSize
       this.getAct()
     },
     // 活动弹窗分页
@@ -370,11 +404,37 @@ export default {
       this.getAct()
     },
     edit(code,id){
-    	if(code=='act-103'){
-    		this.$router.push('/market/actTpl/addActEgg?id=' + id)
-    	}else {
-    		this.$router.push('/market/actTpl/addAct?id=' + id)
-    	} 	
+      switch (code) {
+        case 'act-101':
+          this.$router.push('/market/actTpl/AddActSudoku?id=' + id)
+          break;
+        case 'act-102':
+          this.$router.push('/market/actTpl/AddWingAct?id=' + id)
+          break;
+        case 'act-103':
+          this.$router.push('/market/actTpl/addActEgg?id=' + id)
+          break;
+        case 'act-104':
+          this.$router.push('/market/actTpl/addActFanpaizi?id=' + id)
+          break;
+        case 'act-501':
+          this.$router.push('/market/actTpl/addActQuestion?id=' + id)
+          break;
+        default:
+          this.$router.push('/market/actTpl/addAct?id=' + id)
+          break;
+      }
+    	// if(code=='act-103'){
+    	// 	this.$router.push('/market/actTpl/addActEgg?id=' + id)
+    	// }else if(code=='act-102'){//点元宝
+      //       this.$router.push('/market/actTpl/AddWingAct?id=' + id)
+      //   }else if(code=='act-101'){//九宫格
+      //       this.$router.push('/market/actTpl/AddActSudoku?id=' + id)
+      //   }else if(code == 'act-104'){
+      //     this.$router.push('/market/actTpl/addActFanpaizi?id=' + id)
+      //   }else{
+    	// 	this.$router.push('/market/actTpl/addAct?id=' + id)
+    	// }
     }
   }
 }
