@@ -50,7 +50,7 @@
         </el-form-item>
       </el-form>
       <el-dialog :close-on-click-modal="false" :visible.sync="dataListVisible" width="800px">
-        <el-form inline="">
+        <el-form inline label-width="40px">
           <el-form-item label="名称">
             <el-input v-model="queryParams.name"></el-input>
           </el-form-item>
@@ -59,7 +59,7 @@
             <el-button plain @click="reset">重置</el-button>
           </el-form-item>
         </el-form>
-        <div style="height: 600px; overflow: auto;">
+        <div style="height: 500px; overflow: auto;">
           <el-table  v-loading="loading" class="mb20" ref="doubleCardTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @select-all="handleSelectionAllChange" @select="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="name" label="名称"></el-table-column>

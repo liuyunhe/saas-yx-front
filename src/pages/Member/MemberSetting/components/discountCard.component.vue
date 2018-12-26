@@ -22,16 +22,27 @@
       </el-form-item>
     </el-form>
     <el-dialog title="选择折扣卡" :close-on-click-modal="false" :visible.sync="dataListVisible" width="800px">
-      <el-table class="mb20" ref="doubleCardTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @select-all="handleSelectionAllChange" @select="handleSelectionChange">
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="name" label="姓名"></el-table-column>
-        <el-table-column prop="valueAlias" label="倍数"></el-table-column>
-        <el-table-column label="图片">
-          <template slot-scope="scope">
-            <img :src="scope.row.icon" width="50" alt="">
-          </template>
-        </el-table-column>
-      </el-table>
+      <el-form inline label-width="40px">
+        <el-form-item label="名称">
+          <el-input v-model="queryParams.name"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="getDoubleCardList">查询</el-button>
+          <el-button plain @click="reset">重置</el-button>
+        </el-form-item>
+      </el-form>
+      <div style="height: 500px; overflow: auto;">
+        <el-table ref="doubleCardTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @select-all="handleSelectionAllChange" @select="handleSelectionChange">
+          <el-table-column type="selection" width="55"></el-table-column>
+          <el-table-column prop="name" label="姓名"></el-table-column>
+          <el-table-column prop="valueAlias" label="倍数"></el-table-column>
+          <el-table-column label="图片">
+            <template slot-scope="scope">
+              <img :src="scope.row.icon" width="50" alt="">
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
       <el-button type="primary" size="medium" @click="confirmChecked">选择勾选的折扣卡</el-button>
     </el-dialog>
   </el-card>
@@ -42,6 +53,7 @@ export default {
   data() {
     return {
       queryParams: {
+        name: '',
         type: 2,
         subType: 201,
         pageNo: 1,
@@ -153,6 +165,10 @@ export default {
         }
         this.$message.error(res.message)
       })
+    },
+    reset() {
+      this.queryParams.name = ''
+      this.getDoubleCardList()
     },
     handleCurrentChange(newPage) {
       this.queryParams.pageNo = newPage
