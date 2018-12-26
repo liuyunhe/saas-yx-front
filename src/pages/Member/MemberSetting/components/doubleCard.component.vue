@@ -11,7 +11,7 @@
       <el-form-item v-if="params" v-for="(item, index) in params" :key="index">
         <span style="display: inline-block; width: 70px">{{item.awardName}}</span>
         投放数量：
-        <el-input-number v-model="item.totalNum" :precision="0" :min="0" controls-position="right"></el-input-number>
+        <el-input-number :disabled="item.id ? true : false" v-model="item.totalNum" :precision="0" :min="0" controls-position="right"></el-input-number>
         <span class="mr20" v-if="item.id" style="font-size: 12px; color: #aaa;">
           剩余数量：{{item.totalNum - item.stockNum}}个
         </span>

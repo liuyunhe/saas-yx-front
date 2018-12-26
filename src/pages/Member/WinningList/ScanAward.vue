@@ -221,6 +221,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.el-card {
+  min-width: 1100px;
+}
 .el-input {
   max-width: 300px;
 }

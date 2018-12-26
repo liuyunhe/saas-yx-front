@@ -8,7 +8,7 @@
       <el-form label-width="100px" :rules="rules">
         <el-form-item label="销区：" prop="areas">
           河北省
-          <el-select v-model="areas" multiple collapse-tags class="ml20" placeholder="请选择区">
+          <el-select v-model="areas" multiple collapse-tags class="ml20" placeholder="请选择区" @change="checkAll">
             <el-option v-if="cityList" v-for="(item, index) in cityList" :key="index" :label="item.name" :value="item.code"></el-option>
           </el-select>
         </el-form-item>
@@ -78,7 +78,8 @@ export default {
       TfPond: false,
       form: {},
       flag: false,
-      stop: false
+      stop: false,
+      oldSelectList: ['1']
     }
   },
   watch: {
@@ -130,6 +131,7 @@ export default {
           this.form = res.data
           this.form[0].areas.forEach(item => {
             this.areas.push(item.cityCode)
+            this.oldSelectList.push(item.cityCode)
           })
           if (this.form.length > 2) {
             this.form[2].areas.forEach(item => {
@@ -158,7 +160,11 @@ export default {
     },
     getCityList() {
       this.$request.post('/api/saotx/dim/regionByMultiParent', { parentArr: ['130000'] }, true, res => {
-        if (res.ret === '200000') return this.cityList = res.data
+        if (res.ret === '200000') {
+          this.cityList = [{ code: '000000', name: '全部'}]
+          this.cityList.push(...res.data)
+          return
+        }
         this.$meaasge.error(res.message)
       })
     },
@@ -198,6 +204,31 @@ export default {
       if (index < list.awards.length - 1) {
         index++
         this.test(list, index)
+      }
+    },
+    checkAll(val) {
+      let allValue = []
+      for (let item of this.cityList) {
+        allValue.push(item.code)
+      }
+      const oldVal = this.oldSelectList.length === 1 ? [] : this.oldSelectList[1]
+      if (val.includes('000000')) this.areas = allValue
+      if (oldVal.includes('000000') && !val.includes('000000')) this.areas = []
+      if (oldVal.includes('000000') && val.includes('000000')) {
+        const index = val.indexOf('000000')
+        val.splice(index, 1)
+        this.areas = val
+      }
+      if (!oldVal.includes('000000') && !val.includes('000000')) {
+        if (val.length === allValue.length - 1) {
+          this.areas = ['000000'].concat(val)
+        }
+      }
+      this.oldSelectList[1] = this.areas
+      if (this.areas.length == 0) {
+        this.areaList = []
+        this.selectAreaList = []
+        return
       }
     },
     save() {
@@ -247,7 +278,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container {
-  width: 1200px;
+  width: 1000px;
   margin: 20px auto 0;
 }
 .el-input-number {
