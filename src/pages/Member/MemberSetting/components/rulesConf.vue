@@ -112,27 +112,27 @@ export default {
       disableAreaName: [],
       doubleArr: [],
       discountArr: [],
-      status: false
+      status: false,
+      // stop: true
     }
   },
   watch: {
-    doubleArr: function(val) {
-      // console.log(this.form.shareAwards)
-      this.form.shareAwards.map((item, index) => {
-        if (item.awardType == 202) {
-          this.form.shareAwards.splice(index, 1)
-        }
-      })
-      this.form.shareAwards.push(...val)
-    },
-    discountArr: function(val) {
-      this.form.shareAwards.map((item, index) => {
-        if (item.awardType == 201) {
-          this.form.shareAwards.splice(index, 1)
-        }
-      })
-      this.form.shareAwards.push(...val)
-    }
+    // doubleArr: function(val) {
+    //   this.form.shareAwards.map((item, index) => {
+    //     if (item.awardType == 202) {
+    //       this.form.shareAwards.splice(index, 1)
+    //     }
+    //   })
+    //   this.form.shareAwards.push(...val)
+    // },
+    // discountArr: function(val) {
+    //   this.form.shareAwards.map((item, index) => {
+    //     if (item.awardType == 201) {
+    //       this.form.shareAwards.splice(index, 1)
+    //     }
+    //   })
+    //   this.form.shareAwards.push(...val)
+    // }
   },
   created () {
     this.getActDetail()
@@ -173,8 +173,6 @@ export default {
                 this.doubleArr.push(item)
               }
             })
-          } else {
-            this.form.shareAwards = []
           }
         } 
       })
@@ -203,6 +201,8 @@ export default {
     nextStep() {
       if (!this.form.lotteryStime) return this.$message.error('请选择开奖时间')
       this.form.lotteryStime = this.form.lotteryStime.split(':').join('')
+      this.form.shareAwards = []
+      this.form.shareAwards = [...this.discountArr, ...this.doubleArr]
       this.$request.post('/api/saotx/md/somExt', this.form, true, res => {
         if (res.ret === '200000') return this.$emit('nextStep', this.form.activityCode)
         this.$message.error(res.message)
