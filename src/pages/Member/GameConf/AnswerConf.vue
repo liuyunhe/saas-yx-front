@@ -11,7 +11,7 @@
         </el-form-item>
         <common-conf v-if="status" class="mt20" :params="type1" :type="1"></common-conf>
         <common-conf v-if="status" class="mt20" :params="type201" :type="201"></common-conf>
-        <common-conf v-if="status" class="mt20" :params="type202" :type="202"></common-conf>
+        <!-- <common-conf v-if="status" class="mt20" :params="type202" :type="202"></common-conf> -->
         <common-conf v-if="status" class="mt20" :params="type3" :type="3"></common-conf>
         <common-conf v-if="status" class="mt20" :params="type6" :type="6"></common-conf>
       </el-form>
