@@ -1,7 +1,7 @@
 <template>
   <section class="sort-manage-container">
     <div class="add-new-category">
-      <el-button type="primary" size="small fr"  @click="addCategory('1','0')">新建一级分类</el-button>
+      <el-button type="primary" size="small"  @click="addCategory('1','0')">新建一级分类</el-button>
     </div>
     <el-tree
         v-loading="listLoading"
