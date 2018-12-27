@@ -12,7 +12,7 @@
           </el-col>
           <el-col :span="10">
             <el-form-item label="中奖时段：">
-              <el-date-picker @change="handleTimeLimit" v-model="queryTimeArr" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+              <el-date-picker @change="handleTimeLimit" v-model="queryTimeArr" format="yyyy-MM-dd" :clearable="false" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -133,14 +133,26 @@ export default {
         "loginId": sessionStorage.getItem("access_loginId")
       },
       sourceFiles: [],
-      loading: true
+      loading: true,
+      nowDate: '',
+      oldDate: ''
     }
   },
   created() {
-    this.getAwardList()
+    this.getNowDate()
+    // this.getAwardList()
     this.getProvList()
   },
   methods: {
+    getNowDate() {
+      let nowDate = new Date().getTime()
+      let oldDate = (nowDate - (60 * 60 * 24 * 29 * 1000))
+      this.nowDate = new Date(nowDate).Format('yyyy-MM-dd')
+      this.oldDate = new Date(oldDate).Format('yyyy-MM-dd')
+      this.queryTimeArr = [this.oldDate, this.nowDate]
+      this.handleTimeLimit()
+      this.getAwardList()
+    },
     getAwardList() {
       this.$request.post('/api/saotx/md/orders', this.queryParams, true, res => {
         if (res.ret === '200000') {
@@ -161,8 +173,8 @@ export default {
       this.queryParams.activityCode = 'ACT-ZCQ2JKDU6EP8'
       this.queryParams.awardProv = []
       this.queryParams.awardCity = []
-      this.queryParams.stime = ''
-      this.queryParams.etime = ''
+      this.queryParams.stime = this.oldDate
+      this.queryParams.etime = this.nowDate
       this.queryParams.status = ''
       this.queryParams.orderCode = ''
       this.queryParams.awardType = ''
@@ -170,7 +182,7 @@ export default {
       this.queryParams.keywords = ''
       this.queryParams.pageNo = 1
       this.queryParams.pageSize = 10
-      this.queryTimeArr = ''
+      this.queryTimeArr = [this.oldDate, this.nowDate]
       this.selectedOptions = []
       this.getAwardList()
     },
