@@ -177,6 +177,7 @@
 					true,
 					res => {
 						var data = res || [];
+						data.unshift({name:'全国'})
 						that.proviceList = data;
 						that.proviceList.forEach((item) => {
 							if(item.code == proId) {
