@@ -28,8 +28,8 @@
             <el-select v-model="selectedCityIndex" placeholder="请选择"  @change="getAreaList">
               <el-option v-if="cityList" v-for="(item, index) in cityList" :key="item.code" :label="item.name" :value="index"></el-option>
             </el-select>
-            <el-select v-model="selectedAreaIndex" placeholder="请选择" @change="selectDisable">
-              <el-option v-if="areaList" v-for="(item, index) in areaList" :key="item.code" :label="item.name" :value="index"></el-option>
+            <el-select v-model="selectedAreaIndex" placeholder="请选择" no-data-text="请先选择市" @change="selectDisable">
+              <el-option v-if="areaList" v-for="(item, index) in areaList" :disabled="item.disable" :key="item.code" :label="item.name" :value="index"></el-option>
             </el-select>
             <el-col class="mt20">
               <el-tag v-if="disableAreaName.length != 0" v-for="(item, index) in disableAreaName" :key="index" @close="handleClose(item)" type="info" color="#fff" :closable="true" size="medium">{{item}}</el-tag>
@@ -189,7 +189,14 @@ export default {
     // 获取县级列表
     getAreaList(index) {
       this.$request.post('/api/saotx/dim/regionByMultiParent', { parentArr: [this.cityList[index].code] }, true, res => {
-        if (res.ret === '200000') return this.areaList = res.data
+        if (res.ret === '200000') {
+          res.data.map(item => {
+            item.disable = false
+          })
+          this.areaList = res.data
+          this.areaListDisable(index)
+          return
+        }
         this.$meaasge.error(res.message)
       })
     },
@@ -226,6 +233,21 @@ export default {
       this.disableAreaName.splice(index, 1)
       this.form.districtBlacklist.splice(index, 1)
     },
+    areaListDisable(index) {
+      var DisableCityList = []
+      this.disableAreaName.forEach(item => {
+        if (item.indexOf(this.cityList[index]) !== 1) {
+          DisableCityList.push(item)
+        }
+      })
+      DisableCityList.forEach(item => {
+        this.areaList.forEach(d => {
+          if (item.indexOf(d.name) != -1) {
+            d.disable = true
+          }
+        })
+      })
+    },
     handleBlack() {
       this.form.blackList.map(item => {
         let disableArea = item.provName + ' ' + item.cityName + ' ' + item.districtName
@@ -237,7 +259,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container {
-  width: 1200px;
+  width: 1000px;
   margin: 20px auto 0;
 }
 .el-form {

@@ -38,7 +38,8 @@
           荷石币
         </span>
         <span v-if="outRange[0].materialId">
-          {{outRange[0].awardName}} 
+          {{outRange[0].awardValue}}
+          荷石币
           <el-button type="text" @click="getPrizeList(6)">更换</el-button>  
         </span>
         <!-- <el-input-number v-model="form.score" :precision="0" :min="0" :max="1000" controls-position="right"></el-input-number> -->
