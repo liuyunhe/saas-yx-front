@@ -596,7 +596,11 @@
 						var scanUvArr=[];
 						if(data.length != 0) {
 							data.forEach(item=>{
-								showDateArr.push(item.statTime);
+								if(item.statTime) {
+									showDateArr.push(item.statTime);
+								}else {
+									showDateArr.push(item.weekNo);
+								}								
 								scanPvArr.push(item.scanPv);
 								scanCodeArr.push(item.scanCode);
 								scanUvArr.push(item.scanUv);
@@ -672,7 +676,11 @@
 						var showX=[];
 						if(data.length != 0) {
 							data.forEach(item=>{
-								showX.push(item.statTime);
+								if(item.statTime) {
+									showX.push(item.statTime);
+								}else {
+									showX.push(item.weekNo);
+								}
 								awardPayPvArr.push(item.awardPayPv);
 								awardPutPvArr.push(item.awardPutPv);
 								drawPvArr.push(item.drawPv);
@@ -752,7 +760,11 @@
 						var showX=[];
 						if(data.length != 0) {
 							data.forEach(item=>{
-								showX.push(item.statTime);
+								if(item.statTime) {
+									showX.push(item.statTime);
+								}else {
+									showX.push(item.weekNo);
+								}
 								scanCodeArr.push(item.scanCode);
 								scanPairArr.push(item.scanPair);
 							})
