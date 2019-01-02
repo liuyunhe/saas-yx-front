@@ -30,7 +30,8 @@
           <el-input-number :disabled="item.id ? true : false" v-if="type == 3" v-model="item.totalNum" @change="calculate(index)" :precision="0" :min="0" controls-position="right"></el-input-number>
           <el-input-number :disabled="item.id ? true : false" v-if="type == 6" v-model="item.totalNum" @change="calculate(index)" :precision="0" :min="0" controls-position="right"></el-input-number>
           <span class="mr20" v-if="item.id" style="font-size: 12px; color: #aaa;">
-            剩余数量：{{item.totalNum - item.stockNum}}个
+            <span v-if="type == 3">剩余数量：{{item.totalNum - item.redNumStock}}个</span>
+            <span v-else>剩余数量：{{item.totalNum - item.stockNum}}个</span>
           </span>
           <!-- <span v-if="type == 3">总金额{{isNaN(totlaMoney[index]) ? '' : totlaMoney[index]}}元</span> -->
           <span v-if="type == 3">
@@ -127,7 +128,7 @@ export default {
         this.totalRedNum = null
         this.totalSurplusNul = null
         this.params.map(item => {
-          this.totalSurplusNul += (item.totalNum - item.stockNum) * item.minred.toFixed(2)
+          this.totalSurplusNul += (item.totalNum - item.redNumStock) * item.minred.toFixed(2)
           this.totalRedNum += item.totalNum * item.minred.toFixed(2)
         })
         this.totalSurplusNul = this.totalSurplusNul.toFixed(2)
