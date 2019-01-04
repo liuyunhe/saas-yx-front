@@ -16,7 +16,7 @@
           剩余数量：{{item.totalNum - item.stockNum}}个
         </span>
         中奖概率：
-        <el-input-number v-model="item.probability" style="width: 90px" :precision="0" :min="0" :max="100" controls-position="right"></el-input-number>%
+        <el-input-number v-model="item.probability" :precision="2" :min="0" :max="100" controls-position="right"></el-input-number>%
         <el-button class="ml20" type="danger" @click="del(item, index)">删除</el-button>
         <el-button type="primary" v-if="item.id" @click="add(item.id, index)">增库</el-button>
       </el-form-item>
