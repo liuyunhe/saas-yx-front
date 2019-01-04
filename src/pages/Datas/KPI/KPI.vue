@@ -182,7 +182,9 @@ export default {
   created() {
     let _now = new Date();
     _now.setTime(_now.getTime()-24*60*60*1000);
-    this.yesterday = _now.getFullYear()+"-" + (_now.getMonth()+1) + "-" + _now.getDate();
+    let month = _now.getMonth() + 1; // 月份从0开始
+    let day = _now.getDate();
+    this.yesterday = _now.getFullYear() + "-" + (month<10?("0"+month):month) + "-" + (day<10?("0"+day):day);
 
     let _this = this;
     _this.loadJsonDatas();
