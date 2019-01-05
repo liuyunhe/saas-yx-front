@@ -168,8 +168,8 @@ export default {
         this.$meaasge.error(res.message)
       })
     },
+    // 添加定投
     addTf(val) {
-      console.log(this.form)
       if (!val) {
         this.form.splice(2, 1)
       } else {
@@ -186,7 +186,8 @@ export default {
         })
       }
     },
-    test(list, index) {
+    // 防止用户输入重复的名次
+    handleRepetitive(list, index) {
       var sNum = list.awards[index].srange
       var eNum = list.awards[index].erange
       for (let i = index + 1; i < list.awards.length; i++) {
@@ -196,16 +197,17 @@ export default {
           this.$message.error('名次不能重复')
           this.stop = true
           // console.log('重复的名次：' + srange + '-' + erange + `\n` + '被重复的名次：' + sNum + '-' + eNum)
-          return 
+          return
         } else {
           this.stop = false
         }
       }
       if (index < list.awards.length - 1) {
         index++
-        this.test(list, index)
+        this.handleRepetitive(list, index)
       }
     },
+    // 之前的全选逻辑
     checkAll(val) {
       let allValue = []
       for (let item of this.cityList) {
@@ -235,10 +237,10 @@ export default {
       // this.form.map(item => {
       //   item.outRange[0].srange = item.awards[item.awards.length - 1].erange + 1
       // })
-      // this.test(this.form[0], 0)
+      // this.handleRepetitive(this.form[0], 0)
       this.form.forEach((item, index) => {
         if (index != 0 && this.stop) return
-        this.test(item, 0)
+        this.handleRepetitive(item, 0)
       })
       if (this.stop) return
       this.form[0].areas = []
