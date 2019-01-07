@@ -316,6 +316,9 @@ const img = {
                 size: [317, 103]
             }
     	}
+    },
+    ACT_FANZUANSHI: {
+        
     }
 }
 

@@ -71,10 +71,11 @@
           </ul>
           <div style="clear: both"></div>
         </div>
-        <div v-if="actForms">
+        <div v-if="actForms.length !== 0">
           <div class="act-item" v-for="item in actForms" :key="item.id">
             <img :src="item.extUrl" :alt="item.name">
             <p>{{item.name}}<i class="el-icon-circle-plus" @click="goAddActTpl(item.code)"></i></p>
+            <p class="desc">123</p>
           </div>
           <!-- <div v-if="actForms">
             <div class="act-item" v-for="item in actForms" :key="item.id">
@@ -456,6 +457,8 @@ export default {
     }
     p {
       i {
+        // position: relative;
+        // top: 20px;
         float: right;
         font-size: 20px;
         color: #409eff;
@@ -464,5 +467,9 @@ export default {
       }
     }
   }
+}
+.desc {
+  margin: 14px 0 0 0;
+  overflow: hidden;
 }
 </style>
