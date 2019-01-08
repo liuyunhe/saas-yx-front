@@ -2,7 +2,7 @@
     <!--
     Author: mgx
     Create Date: 2018-11-09
-    Description: 新建点元宝活动模板
+    Description: 新建九宫格活动模板
     -->
     <div class="addActTamConf-container">
         <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -471,6 +471,7 @@
             upGameImgSuccess(resule) {
                 if (resule.ret === '200000')
                     return (this.defaultConf.img.kists[this.gameIndex].url = resule.data.accessUrl)
+                    return (this.defaultConf.img.item0[this.gameIndex].url = resule.data.accessUrl)
                 this.$message.error(resule.message)
             },
             // 上传中奖按钮图片
