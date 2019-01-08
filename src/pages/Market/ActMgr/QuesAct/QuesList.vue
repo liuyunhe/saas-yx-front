@@ -11,7 +11,9 @@
 			</el-steps>
 			<!--新建和查询部分-->
 			<el-button type="primary" size="small" @click="addQues()">新增题目</el-button>
-			<el-button type="primary" size="small" @click="addBatch()">批量导入</el-button>
+			<el-upload :action="uploadURL" :headers="headerObj" :on-success="addBatch"accept='.xlsx' :show-file-list="false"class='upload-txt'>
+                <el-button size="small" type="primary">批量导入</el-button>
+            </el-upload>
 			<!--<el-button type="primary" size="small" @click="addQues()">初始化题目</el-button>-->
 			<br />
            	 关键字：<el-input size="small" v-model="keywords" placeholder="请输入关键词"class='keywords'></el-input>
@@ -68,6 +70,12 @@
 	      loading:false,
 	      max:5,
 	      total:10,
+	      headerObj: {
+	        loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
+	        token: sessionStorage.getItem('access_token'),
+	        CLIENTSESSIONID: sessionStorage.getItem('CLIENTSESSIONID')
+	      },
+	      uploadURL: '/api/saotx/actquest/import?actCode='+this.actCode,
 	    }
 	  },
 	  watch: {
@@ -85,7 +93,15 @@
 	            '/market/actTpl/quesEdit?id='+this.id+'&actCode='+this.actCode+'&form='+this.form
 	        )
 	  	},
-	  	addBatch(){},
+	  	addBatch(resule){
+	  		if (resule.ret === '200000') {
+	  			this.page=1;
+	  			this.keywords='';
+	  			this.getList();
+	  			return this.$message.success('导入成功!')
+	  		}
+      		this.$message.error(resule.message)
+	  	},
 	  	editItem(item){
 	  		this.$router.push(
 	            '/market/actTpl/quesEdit?quesId=' + item.id+'&id='+this.id+'&actCode='+this.actCode+'&form='+this.form	        )
@@ -94,7 +110,9 @@
 	  	search(){
 	  		this.getList();
 	  	},
-	  	removeItem(item){},
+	  	removeItem(item){
+	  		
+	  	},
 	  	getList(){
 	  		this.$request.post('/api/saotx/actquest/list', {
 	  			pageNo: this.page,
@@ -173,5 +191,8 @@
 		display: flex;
 		justify-content: center;
 		margin-top: 30px;
+	}
+	.upload-txt {
+		display: inline-block;
 	}
 </style>
