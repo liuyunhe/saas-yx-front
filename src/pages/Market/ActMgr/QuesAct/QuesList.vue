@@ -146,7 +146,8 @@
 	  		this.$request.post('/api/saotx/actquest/list', {
 	  			pageNo: this.page,
 				pageSize: this.max,
-				keywords:this.keywords
+				keywords:this.keywords,
+				actCode:this.actCode
 	  		}, true, res => {
 		        if (res.ret == '200000') {
 		        	this.total = res.data.page.count;
