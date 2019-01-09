@@ -402,7 +402,7 @@ export default {
                 if (res.ok) {
                     this.business = 2;
                     this.dataForm = res.data || {};
-                    this.dataForm.datetime = [this.dataForm.stimeStr, this.dataForm.stimeStr];
+                    this.dataForm.datetime = [this.dataForm.stimeStr, this.dataForm.etimeStr];
                 } else {
                     this.$message.error(res.msg);
                 }
