@@ -18,6 +18,7 @@
 			<br />
            	 关键字：<el-input size="small" v-model="keywords" placeholder="请输入关键词"class='keywords'></el-input>
            	<el-button type="primary" size="small" @click="search()"class='search'>查询</el-button>
+           	<el-button type="primary" size="small" @click="reset()"class='search'>重置</el-button>
            	
 	    </el-card>
 	    <el-card class='table-part'>
@@ -93,6 +94,10 @@
 	            '/market/actTpl/quesEdit?id='+this.id+'&actCode='+this.actCode+'&form='+this.form
 	        )
 	  	},
+	  	reset(){
+	  		this.page=1;
+	  		this.keywords='';
+	  	},
 	  	addBatch(resule){
 	  		if (resule.ret === '200000') {
 	  			this.page=1;
@@ -111,7 +116,31 @@
 	  		this.getList();
 	  	},
 	  	removeItem(item){
-	  		
+	  		var that = this
+	      this.$confirm('确定要删除该问题？')
+	        .then(_ => {
+	          that.deleteQues(item)
+	        })
+	        .catch(_ => {})
+	  	},
+	  	deleteQues(item){
+	  		this.$request.post('/api/saotx/actquest/delete', {
+	  			actQuest:{
+	        		id:item.id,
+	        		quesId:item.quesId,
+	        		actCode:item.actCode,
+	        		quesTitle:item.quesTitle,
+	        		quesType:item.quesType
+	        	},
+	        	actAnsw:item.actAnsw
+	  		}, true, res => {
+		        if (res.ret == '200000') {
+		        	this.$message.success('删除成功!')
+		        	this.getList();
+		        	return
+		        }
+		        this.$message.error(res.messgae)
+		    })
 	  	},
 	  	getList(){
 	  		this.$request.post('/api/saotx/actquest/list', {
