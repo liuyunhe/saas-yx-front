@@ -123,7 +123,6 @@
 			getUserInfo() {
 				var that = this;
 				this.$request.post('/api/saotx/user/cluser', {}, true, (res) => {
-					console.log(res)
 					if(res.ret == '200000') {
 						var data = res.data || {};
 						that.$store.commit('setCluser', res.data)
@@ -139,7 +138,6 @@
 				this.$request.post(`/api/saotx/menu/all`, {
 						service: 'browser'
 					}, true, res => {
-						console.log(res)
 						if(res.ret === '200000') {
 							this.menuList = res.data
 							this.sonMenuList = res.data[0].nodeList

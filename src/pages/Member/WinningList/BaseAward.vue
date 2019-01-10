@@ -1,132 +1,268 @@
 <template>
   <div class="container">
     <el-card>
-      <el-form ref="form" :model="form" label-width="80px">
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="活动名称">
-              <el-input v-model="form.name"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="中奖时段">
-              <el-select v-model="form.region" placeholder="请选择活动区域">
-                <el-option label="区域一" value="shanghai"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="奖品类型">
-              <el-select v-model="form.region" placeholder="请选择活动区域">
-                <el-option label="区域一" value="shanghai"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
+      <el-form ref="form" :model="queryParams" label-width="90px">
         <el-row>
           <el-col :span="6">
-            <el-form-item label="订单状态">
-              <el-select v-model="form.region" placeholder="请选择">
-                <el-option label="区域一" value="shanghai"></el-option>
+            <el-form-item label="活动名称：">
+              <el-select v-model="queryParams.activityCode">
+                <el-option v-for="(item, index) in actName" :label="item.name" :value="item.code" :key="index"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="关键词">
-              <el-col :span="6">
-                <el-select v-model="form.region" placeholder="请选择">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                </el-select>
-              </el-col>
-              <el-col :span="12">
-                <el-input v-model="form.name" placeholder="请输入"></el-input>
-              </el-col>
+            <el-form-item label="中奖时段：">
+              <el-date-picker @change="handleTimeLimit" v-model="queryTimeArr" format="yyyy-MM-dd" :clearable="false" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="中奖地区">
-              <el-select v-model="form.region" placeholder="请选择活动区域">
-                <el-option label="区域一" value="shanghai"></el-option>
+          <el-col :span="8">
+            <el-form-item label="奖品类型：">
+              <el-select :clearable="true" v-model="queryParams.awardType" placeholder="请选择活动区域">
+                <el-option v-for="(item, index) in awardTypeList" :label="item.name" :value="item.type" :key="index"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="订单状态：">
+              <el-select :clearable="true" v-model="queryParams.status" placeholder="请选择">
+                <el-option v-for="(item, index) in orderStatusList" :key="index" :label="item.name" :value="item.status"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="关键词：">
+              <el-col :span="10">
+                <el-select :clearable="true" v-model="queryParams.selType" placeholder="请选择">
+                  <el-option v-for="(item, index) in keywordsTypeList" :value="item.type" :label="item.name" :key="index"></el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="14">
+                <el-input v-model="queryParams.keywords" :disabled="queryParams.selType ? false : true" placeholder="请输入"></el-input>
+              </el-col>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="中奖地区：">
+              <el-cascader  :clearable="true" :options="provList" @change="handleRegion" v-model="selectedOptions" @active-item-change="handleItemChange" :props="props"></el-cascader>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
-      <el-button type="primary">查询</el-button>
-      <el-button>重置</el-button>
+      <el-button type="primary" @click="queryAwardList">查询</el-button>
+      <el-button @click="reset">重置</el-button>
       <el-upload
         class="upload"
-        action="/api/saotx/order/import"
+        action="/api/saotx/md/import"
         :headers="headers"
         :on-success="handleSourceFileSuccess"
         :on-remove="handleSourceFileRemove"
         :file-list="sourceFiles"
+        :before-upload="beforeAvatarUpload"
         :auto-upload="true">
           <el-button type="primary" plain>导入物流信息</el-button>
       </el-upload>
       <el-button type="primary" plain @click="exportData">导出搜索结果</el-button>
     </el-card>
     <el-card class="mt20">
-      <el-table border :stripe="true" :data="awardList" tooltip-effect="dark" style="width: 100%">
-        <el-table-column align="center" type="selection" width="55"></el-table-column>
-        <el-table-column align="center" prop="name" label="订单号"></el-table-column>
-        <el-table-column align="center" prop="name" label="中将人"></el-table-column>
-        <el-table-column align="center" prop="name" label="中将人手机号"></el-table-column>
-        <el-table-column align="center" prop="name" label="奖品类型"></el-table-column>
-        <el-table-column align="center" prop="name" label="奖品名称"></el-table-column>
-        <el-table-column align="center" label="中奖时间">
-          <template slot-scope="scope">{{ scope.row.name }}</template>
-        </el-table-column>
-        <el-table-column align="center" prop="name" label="中奖地区"></el-table-column>
-        <el-table-column align="center" prop="name" label="状态"></el-table-column>
-        <el-table-column align="center" label="操作项">
-          <template slot-scope="scope"><el-button type="text" v-if="scope.row.status == 2 || scope.row.status == 3">详情</el-button></template>
-        </el-table-column>
-      </el-table>
-      <el-pagination class="mt20" background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="params.pageNo" :page-size="params.pageSize" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
+      <common-list :awardList="awardList" :loading="loading"></common-list>
+      <el-pagination class="mt20" background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryParams.pageNo" :page-size="queryParams.pageSize" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
     </el-card>
   </div>
 </template>
 <script>
+import commonList from './components/commonList'
 export default {
+  components: {
+    commonList
+  },
   data() {
     return {
-      form: {},
-      awardList: [
-        // 模拟数据  状态 status = 1 => 已领取 status = 2 => 待发货  status = 3 => 已发货 status = 4 => 待领取
-        { name: 'test', status: 1 },
-        { name: 'test', status: 2 },
-        { name: 'test', status: 2 },
-        { name: 'test', status: 1 },
-        { name: 'test', status: 4 },
-        { name: 'test', status: 3 },
-        { name: 'test', status: 3 },
-        { name: 'test', status: 3 },
-        { name: 'test', status: 3 },
-        { name: 'test', status: 3 },
-        { name: 'test', status: 3 },
-      ],
-      params: {
+      queryParams: {
+        activityCode: 'ACT-ZCQ2JKDU6EP8',
+        awardProv: [],
+        awardCity: [],
+        stime: '',
+        etime: '',
+        orderCode: '',
+        awardType: '',
+        selType: '',
+        keywords: '',
         pageNo: 1,
         pageSize: 10,
-        pcode: ''
+        status: ''
       },
-      total: 11,
+      queryTimeArr: [],
+      actName: [
+        {name: '会员日活动', code: 'ACT-ZCQ2JKDU6EP8'},
+        {name: '大转盘', code: 'ACT-VS6X49FJ5357'},
+        {name: '答题', code: 'ACT-1911YB84P681'},
+      ],
+      orderStatusList: [
+        {name: '待领取', status: 1},
+        {name: '已发货', status: 2},
+        // {name: '接口类奖品调用异常', status: 3},
+        {name: '已领取', status: 6},
+        // {name: '待发货', status: 7},
+      ],
+      awardTypeList: [
+        {name: '实物', type: 1},
+        {name: '翻倍卡', type: 202},
+        {name: '折扣卡', type: 201},
+        {name: '红包', type: 3},
+        {name: '积分', type: 6},
+      ],
+      keywordsTypeList: [
+        {name: '订单号', type: 1},
+        {name: '姓名/手机号', type: 2},
+      ],
+      props: {
+        label: 'name',
+        value: 'name',
+        children: 'children'
+      },
+      selectedOptions: [],
+      provList: [],
+      cityList: [],
+      form: {},
+      awardList: [],
+      total: 0,
       headers: {
         "token": sessionStorage.getItem("access_token"),
         "loginId": sessionStorage.getItem("access_loginId")
       },
-      sourceFiles: []
+      sourceFiles: [],
+      loading: true,
+      nowDate: '',
+      oldDate: ''
     }
   },
+  created() {
+    this.getNowDate()
+    // this.getAwardList()
+    this.getProvList()
+  },
   methods: {
-    getAwardList() {},
+    getNowDate() {
+      let nowDate = new Date().getTime()
+      let oldDate = (nowDate - (60 * 60 * 24 * 29 * 1000))
+      this.nowDate = new Date(nowDate).Format('yyyy-MM-dd')
+      this.oldDate = new Date(oldDate).Format('yyyy-MM-dd')
+      this.queryTimeArr = [this.oldDate, this.nowDate]
+      this.handleTimeLimit()
+      this.getAwardList()
+    },
+    getAwardList() {
+      this.$request.post('/api/saotx/md/orders', this.queryParams, true, res => {
+        if (res.ret === '200000') {
+          this.awardList = res.data.list
+          this.total = res.data.page.count
+          this.loading = false
+          return
+        }
+        this.$message.error(res.message)
+      })
+    },
+    queryAwardList() {
+      this.queryParams.pageNo = 1
+      this.queryParams.pageSize = 10
+      this.getAwardList()
+    },
+    reset() {
+      this.queryParams.activityCode = 'ACT-ZCQ2JKDU6EP8'
+      this.queryParams.awardProv = []
+      this.queryParams.awardCity = []
+      this.queryParams.stime = this.oldDate
+      this.queryParams.etime = this.nowDate
+      this.queryParams.status = ''
+      this.queryParams.orderCode = ''
+      this.queryParams.awardType = ''
+      this.queryParams.selType = null
+      this.queryParams.keywords = ''
+      this.queryParams.pageNo = 1
+      this.queryParams.pageSize = 10
+      this.queryTimeArr = [this.oldDate, this.nowDate]
+      this.selectedOptions = []
+      this.getAwardList()
+    },
+    getProvList() {
+      this.$request.post('/api/saotx/dim/regionByMultiParent', {
+        parentArr: []
+      }, true, res => {
+        if (res.ret === '200000') {
+          res.data.map((item) => {
+            item.children = []
+          })
+          this.provList = res.data
+          return
+        }
+        this.$message.error(res.message)
+      })
+    },
+    getCityList(val, index) {
+      this.cityList = []
+      let params = []
+      params.push(val)
+      this.$request.post('/api/saotx/dim/regionByMultiParent', { parentArr: params }, true, res => {
+          if (res.ret === '200000') {
+            this.cityList = res.data
+            this.$set(this.provList[index], 'children', this.cityList)
+            return
+          }
+          this.$message.error(res.message)
+        }
+      )
+    },
+    handleRegion() {
+      if (this.selectedOptions.length != 0) {
+        // 省份要传名称
+        // this.provList.forEach(item => {
+        //   if (this.selectedOptions[0] == item.code) {
+        //     this.queryParams.awardProv = [item.name]
+        //     return
+        //   }
+        // })
+        this.queryParams.awardProv = [this.selectedOptions[0]]
+        this.queryParams.awardCity = [this.selectedOptions[1]]
+      } else {
+        this.queryParams.awardProv = []
+        this.queryParams.awardCity = []
+      }
+    },
+    handleTimeLimit() {
+      if (!this.queryTimeArr) {
+        this.queryParams.stime = ''
+        this.queryParams.etime = ''
+      } else {
+        let stime = new Date(this.queryTimeArr[0]).getTime()
+        let etime = new Date(this.queryTimeArr[1]).getTime()
+        if (((etime - stime) / 1000 / 3600 /24) > 30) {
+          this.$message.error('中奖时段间隔查询不能超过30天')
+          this.queryTimeArr = ''
+          this.queryParams.stime = ''
+          this.queryParams.etime = ''
+        } else {
+          this.queryParams.stime = this.queryTimeArr[0]
+          this.queryParams.etime = this.queryTimeArr[1]
+        }
+      }
+    },
+    async handleItemChange(val) {
+      this.provList.forEach((item, index) => {
+        if (val.indexOf(item.name) > -1 && !item.children.length) {
+          this.getCityList(item.code, index)
+          return
+        }
+      })
+    },
     exportData(){//导出
-      var url = "/api/saotx/order/export"
+      var that = this
+      var url = "/api/saotx/md/orderExport"
       var xhr = new XMLHttpRequest()
       var formData = new FormData()
-      for(var attr in this.form) {
-        formData.append(attr, this.form[attr])
+      for(var attr in this.queryParams) {
+        formData.append(attr, this.queryParams[attr])
       }
       xhr.overrideMimeType("text/plain; charset=x-user-defined")
       xhr.open('POST', url, true)
@@ -167,17 +303,27 @@ export default {
       this.sourceFiles = []; // 清空上传文件内容的引用
     },
     handleSizeChange(newSize) {
-      this.params.pageSize = newSize
+      this.queryParams.pageSize = newSize
       this.getAwardList()
     },
     handleCurrentChange(newPage) {
-      this.params.pageNo = newPage
+      this.queryParams.pageNo = newPage
       this.getAwardList()
+    },
+    beforeAvatarUpload(file) {
+      const xlsOrXlsx = file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      if (!xlsOrXlsx) {
+        this.$message.error('上传文件的格式只支持 XLS 或 XLSX !')
+      }
+      return xlsOrXlsx
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+.el-card {
+  min-width: 1100px;
+}
 .el-input {
   max-width: 300px;
 }

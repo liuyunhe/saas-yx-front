@@ -2,13 +2,13 @@
   <el-card>
     <el-form :model="item" v-for="(item, index) in params" :key="index" inline>
       <el-form-item label="规格:">
-        <el-select v-model="item.snArr" class="ml20" style="width: 240px;" multiple placeholder="请选择" collapse-tags @change="handleRepeat(index)">
+        <el-select v-model="item.snArr" class="ml10" style="width: 240px;" multiple placeholder="请选择" collapse-tags @change="handleRepeat(index)">
           <el-option v-if="item" :disabled="item.disable" v-for="item in brandList[index]" :key="item.id" :label="item.allName" :value="item.sn"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="扫码获得:">
-        <el-input-number v-model="item.score" :precision="0" :min="0" controls-position="right"></el-input-number> 荷石币
-        <el-input-number v-model="item.luck" :precision="0" :min="0" controls-position="right"></el-input-number> 幸运值
+        <el-input-number class="ml10" v-model="item.score" :precision="0" :min="0" controls-position="right"></el-input-number> 荷石币
+        <el-input-number class="ml10" v-model="item.luck" :precision="0" :min="0" controls-position="right"></el-input-number> 幸运值
       </el-form-item>
       <el-form-item>
         <el-button type="primary" v-if="index == 0" @click="add">新增</el-button>
@@ -89,7 +89,6 @@ export default {
               result = newSn
             }
           })
-          console.log(result)
           this.brandList.forEach(item => {
             item.forEach(d => {
               if (d.sn == result) {
@@ -97,6 +96,7 @@ export default {
               }
             })
           })
+          this.oldSnArr[i] = JSON.parse(JSON.stringify(this.params[i].snArr))
           // 添加地区
         } else if (this.oldSnArr[i].length < this.params[i].snArr.length) {
           let result = ''
@@ -122,6 +122,7 @@ export default {
               })
             }
           })
+          this.oldSnArr[i] = JSON.parse(JSON.stringify(this.params[i].snArr))
         }
       }
     },
@@ -137,22 +138,27 @@ export default {
     },
     del(index) {
       this.$confirm('是否删除该项规则?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.params.splice(index, 1)
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })          
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.params.splice(index, 1)
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
         })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })          
+      })
     }
   }
 }
 </script>
+<style lang="scss" scoped>
+.ml10 {
+  margin-left: 10px;
+}
+</style>

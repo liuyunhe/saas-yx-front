@@ -1,11 +1,11 @@
 <template>
   <div class="content">
-    <el-form-item label="名次设置：">
+    <el-form-item label="名次设置：" prop="srange">
       <div class="mb20" v-for="(item, i) in params" :key="i">
         <div v-if="item.rangeType == 1">
-          <el-input-number v-model="item.srange" :precision="0" :min="0" controls-position="right" @change="calculate(i)"></el-input-number>
+          <el-input-number style="width: 90px;" v-model="item.srange" :precision="0" :min="1" controls-position="right" @change="calculate(i)"></el-input-number>
           —
-          <el-input-number v-model="item.erange" :precision="0" :min="0" controls-position="right" @change="calculate(i)"></el-input-number>
+          <el-input-number style="width: 90px;" v-model="item.erange" :precision="0" :min="1" controls-position="right" @change="calculate(i)"></el-input-number>
           名，红包面额
           <!-- <el-input-number v-model="item.awardValue" :precision="2" :min="0" :max="500" controls-position="right" @change="calculate(item)"></el-input-number>
           元 -->
@@ -28,9 +28,9 @@
         </div>
       </div>
     </el-form-item>
-    <el-form-item>
+    <el-form-item label="排名以外：" prop="awardName">
       <!-- <el-checkbox class="mr20" v-model="type" :true-label="2" :false-label="1" @change="toggle">排名以外</el-checkbox> -->
-      <div>排名以外</div>
+      <!-- <div>排名以外</div> -->
       <div>
         可获得
         <span v-if="!outRange[0].materialId">
@@ -38,13 +38,14 @@
           荷石币
         </span>
         <span v-if="outRange[0].materialId">
-          {{outRange[0].awardName}} 
+          {{outRange[0].awardValue}}
+          荷石币
           <el-button type="text" @click="getPrizeList(6)">更换</el-button>  
         </span>
         <!-- <el-input-number v-model="form.score" :precision="0" :min="0" :max="1000" controls-position="right"></el-input-number> -->
       </div>
     </el-form-item>
-    <el-dialog title="选择积分" :close-on-click-modal="false" :visible.sync="prizeListVisible" width="800px">
+    <el-dialog :title="titleName" :close-on-click-modal="false" :visible.sync="prizeListVisible" width="800px">
       <el-table class="mb20" ref="doubleCardTable" :data="dataList" tooltip-effect="dark" style="width: 100%">
         <el-table-column type="index" width="50"></el-table-column>
         <el-table-column prop="name" label="名称"></el-table-column>
@@ -71,7 +72,8 @@ export default {
       index: null,
       prizeListVisible: false,
       dataList: [],
-      totlaMoney: []
+      totlaMoney: [],
+      titleName: ''
     }
   },
   created () {
@@ -143,6 +145,11 @@ export default {
       this.prizeListVisible = false
     },
     getPrizeList(type, index) {
+      if(type === 3) {
+        this.titleName = '选择红包'
+      } else if (type === 6) {
+        this.titleName = '选择荷石币'
+      }
       let queryParams = {
         type: type,
         pageSize: -1
@@ -171,9 +178,24 @@ export default {
       })
     },
     del(index) {
-      this.params.splice(index, 1)
-      this.params.map((item, index) => {
-        if (item.rangeType == 2) return this.index = index
+      this.$confirm('是否删除该项规则?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.params.splice(index, 1)
+        this.params.map((item, index) => {
+          if (item.rangeType == 2) return this.index = index
+        })
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })          
       })
     }
   }

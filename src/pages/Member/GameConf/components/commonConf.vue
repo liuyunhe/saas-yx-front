@@ -1,66 +1,78 @@
 <template>
-  <div v-if="params.length != 0">
+  <div>
     <el-card>
       <div slot="header" class="clearfix">
-        <span v-if="type == 1">实物</span>
-        <span v-if="type == 202">翻倍卡</span>
-        <span v-if="type == 201">折扣卡</span>
-        <span v-if="type == 3">红包</span>
+        <span>{{prizeType[type].title}}</span>
         <span v-if="type == 3" style="color: #999;">投入总金额：{{totalRedNum}}元  剩余总金额：{{totalSurplusNul}}元</span>
-        <span v-if="type == 6">积分</span>
       </div>
       <el-form>
         <el-form-item>
-          <span v-if="type == 1">选择实物：</span>
-          <span v-if="type == 202">选择翻倍卡：</span>
-          <span v-if="type == 201">选择折扣卡：</span>
-          <span v-if="type == 3">选择红包：</span>
-          <span v-if="type == 6">选择荷石币：</span>
+          <span>{{prizeType[type].titleName}}</span>
           <el-button icon="el-icon-plus" @click="getMaterialList"></el-button>
         </el-form-item>
         <el-form-item v-if="params" v-for="(item, index) in params" :key="index">
-          <span v-if="item.awardType == 1">实物名称</span>
-          <span v-if="item.awardType == 202">翻倍卡</span>
-          <span v-if="item.awardType == 201">折扣值</span>
-          <span v-if="item.awardType == 3">面额</span>
-          <span v-if="item.awardType == 6">面额</span>
-          <span v-if="item.awardType == 1">{{item.awardName}}</span>
-          <span v-else>{{item.minred}}</span>
-          <span v-if="item.awardType == 202">倍</span>
-          <span v-if="item.awardType == 201">折</span>
-          <span v-if="item.awardType == 3">元</span>
-          <span v-if="item.awardType == 6">荷石币</span>
-          投放数量：
-          <el-input-number v-if="type == 1 || type == 202 || type == 201" v-model="item.totalNum" :precision="0" :min="0" controls-position="right"></el-input-number>
-          <el-input-number v-if="type == 3" v-model="item.totalNum" @change="calculate(index)" :precision="0" :min="0" controls-position="right"></el-input-number>
-          <el-input-number v-if="type == 6" v-model="item.totalNum" @change="calculate(index)" :precision="0" :min="0" controls-position="right"></el-input-number>
-          <span class="mr20" v-if="item.id" style="font-size: 12px; color: #aaa;">
-            剩余数量：{{item.totalNum - item.stockNum}}个
+          <!-- <span v-if="type == 1">
+            <el-input style="width: 90px" :disabled="true" :value="prizeType[type].awardName"></el-input>
           </span>
-          <span v-if="type == 3">总金额{{isNaN(totlaMoney[index]) ? '' : totlaMoney[index]}}元</span>
-          <span v-if="type == 6">总荷石币{{isNaN(totlaMoney[index]) ? '' : totlaMoney[index]}}</span>
+          <span v-else>{{prizeType[type].awardName}}</span> -->
+          <span>{{prizeType[type].awardName}}</span>
+          <!-- <span v-if="item.awardType == 1">{{item.awardName}}</span> -->
+          <span v-if="item.awardType == 1">
+            <el-input style="width: 120px" :disabled="true" :value="item.awardName"></el-input>
+          </span>
+          <!-- <span v-else>{{item.minred}}</span> -->
+          <span v-else>
+            <el-input style="width: 80px" :disabled="true" :value="item.minred"></el-input>
+          </span>
+          <span>{{prizeType[type].units}}</span>
+          投放数量：
+          <el-input-number :disabled="item.id ? true : false" v-if="type == 1 || type == 202 || type == 201" v-model="item.totalNum" :precision="0" :min="0" controls-position="right"></el-input-number>
+          <el-input-number :disabled="item.id ? true : false" v-if="type == 3" v-model="item.totalNum" @change="calculate(index)" :precision="0" :min="0" controls-position="right"></el-input-number>
+          <el-input-number :disabled="item.id ? true : false" v-if="type == 6" v-model="item.totalNum" @change="calculate(index)" :precision="0" :min="0" controls-position="right"></el-input-number>
+          <span class="mr20" v-if="item.id" style="font-size: 12px; color: #aaa;">
+            <span v-if="type == 3">剩余数量：{{item.totalNum - item.redNumStock}}个</span>
+            <span v-else>剩余数量：{{item.totalNum - item.stockNum}}个</span>
+          </span>
+          <!-- <span v-if="type == 3">总金额{{isNaN(totlaMoney[index]) ? '' : totlaMoney[index]}}元</span> -->
+          <span v-if="type == 3">
+            总金额
+            <el-input style="width: 100px" :value="isNaN(totlaMoney[index]) ? '' : totlaMoney[index]" :disabled="true"></el-input>
+            元
+          </span>
+          <!-- <span v-if="type == 6">总荷石币{{isNaN(totlaMoney[index]) ? '' : totlaMoney[index]}}</span> -->
+          <span v-if="type == 6">
+            总荷石币
+            <el-input style="width: 100px" :value="isNaN(totlaMoney[index]) ? '' : totlaMoney[index]" :disabled="true"></el-input>
+          </span>
           中奖概率：
-          <el-input-number v-model="item.probability" style="width: 90px" :precision="0" :min="0" :max="100" controls-position="right"></el-input-number>%
+          <el-input-number v-model="item.probability" :precision="2" :min="0" :max="100" controls-position="right"></el-input-number>%
           <el-button class="ml20" type="danger" @click="del(item, index)">删除</el-button>
           <el-button type="primary" v-if="item.id" @click="add(item.id, index)">增库</el-button>
         </el-form-item>
       </el-form>
       <el-dialog :close-on-click-modal="false" :visible.sync="dataListVisible" width="800px">
-        <el-table  v-loading="loading" class="mb20" ref="doubleCardTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @select-all="handleSelectionAllChange" @select="handleSelectionChange">
-          <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column prop="name" label="姓名"></el-table-column>
-          <el-table-column prop="valueAlias" label="倍数"></el-table-column>
-          <el-table-column label="图片">
-            <template slot-scope="scope">
-              <img :src="scope.row.icon" width="50" alt="">
-            </template>
-          </el-table-column>
-        </el-table>
-        <el-button type="primary" v-if="type == 1" size="medium" @click="confirmChecked">选择勾选的实物</el-button>
-        <el-button type="primary" v-if="type == 3" size="medium" @click="confirmChecked">选择勾选的红包</el-button>
-        <el-button type="primary" v-if="type == 202" size="medium" @click="confirmChecked">选择勾选的翻倍卡</el-button>
-        <el-button type="primary" v-if="type == 201" size="medium" @click="confirmChecked">选择勾选的折扣卡</el-button>
-        <el-button type="primary" v-if="type == 6" size="medium" @click="confirmChecked">选择勾选的积分</el-button>
+        <el-form inline label-width="40px">
+          <el-form-item label="名称">
+            <el-input v-model="queryParams.name"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="getMaterialList">查询</el-button>
+            <el-button plain @click="reset">重置</el-button>
+          </el-form-item>
+        </el-form>
+        <div style="height: 500px; overflow: auto;">
+          <el-table  v-loading="loading" class="mb20" ref="doubleCardTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @select-all="handleSelectionAllChange" @select="handleSelectionChange">
+            <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column prop="name" label="名称"></el-table-column>
+            <el-table-column prop="valueAlias" :label="prizeType[type].tableName"></el-table-column>
+            <el-table-column label="图片">
+              <template slot-scope="scope">
+                <img :src="scope.row.icon" width="50">
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+        <el-button type="primary" size="medium" @click="confirmChecked">{{prizeType[type].btnText}}</el-button>
       </el-dialog>
     </el-card>
   </div>
@@ -72,10 +84,18 @@ export default {
     return {
       loading: true,
       queryParams: {
+        name: '',
         type: 2,
         subType: null,
         pageNo: 1,
         pageSize: -1
+      },
+      prizeType: {
+        1: {tableName: '', btnText: '选择勾选的实物', titleName: '选择实物：', title: '实物', awardName: '实物名称', units: ''},
+        3: {tableName: '金额', btnText: '选择勾选的红包', titleName: '选择红包：', title: '红包', awardName: '面额', units: '元'},
+        202: {tableName: '倍数', btnText: '选择勾选的翻倍卡', titleName: '选择翻倍卡：', title: '翻倍卡', awardName: '翻倍卡', units: '倍'},
+        201: {tableName: '折扣', btnText: '选择勾选的折扣卡', titleName: '选择折扣卡：', title: '折扣卡', awardName: '折扣值', units: '折'},
+        6: {tableName: '荷石币', btnText: '选择勾选的积分', titleName: '选择荷石币：', title: '荷石币', awardName: '面额', units: '荷石币'},
       },
       dataList: [],
       dataListVisible: false,
@@ -108,12 +128,11 @@ export default {
         this.totalRedNum = null
         this.totalSurplusNul = null
         this.params.map(item => {
-          this.totalSurplusNul += (item.totalNum - item.stockNum) * item.minred.toFixed(2)
+          this.totalSurplusNul += (item.totalNum - item.redNumStock) * item.minred.toFixed(2)
+          this.totalRedNum += item.totalNum * item.minred.toFixed(2)
         })
-        this.totlaMoney.forEach(item => {
-          this.totalRedNum += parseFloat(item)
-        })
-
+        this.totalSurplusNul = this.totalSurplusNul.toFixed(2)
+        this.totalRedNum = this.totalRedNum.toFixed(2)
       } else if (this.type == 6) {
         if (index != undefined) {
           let total = (this.params[index].totalNum * this.params[index].score)
@@ -135,7 +154,7 @@ export default {
     },
     handleSelectionChange(selection, row) {
       this.selectedItem = selection
-      // console.log(this.selectedItem)
+      console.log(this.selectedItem)
     },
     handleSelectionAllChange(selection) {
       this.selectedItem = selection
@@ -177,7 +196,7 @@ export default {
           if (res.ret === '200000') {
             this.$message.success('增库成功')
             this.params[index].totalNum += Number(value)
-            this.calculate()
+            this.calculate(index)
           } else {
             this.$message.error(res.message)
           }
@@ -190,13 +209,27 @@ export default {
       })
     },
     del(row, index) {
-      this.params.splice(index, 1)
-      this.selectedItem.forEach((item, i) => {
-        if (item.id == row.poolId) return this.selectedItem.splice(i, 1)
+      this.$confirm('是否删除该项?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.params.splice(index, 1)
+        this.selectedItem.forEach((item, i) => {
+          if (item.id == row.poolId) return this.selectedItem.splice(i, 1)
+        })
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })          
       })
     },
     getMaterialList() {
-      console.log(this.type)
       switch (this.type) {
         case 1:
           this.queryParams.type = 1
@@ -231,6 +264,10 @@ export default {
         }
         this.$message.error(res.message)
       })
+    },
+    reset() {
+      this.queryParams.name = ''
+      this.getMaterialList()
     },
     handleCurrentChange(newPage) {
       this.queryParams.pageNo = newPage

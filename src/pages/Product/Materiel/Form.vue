@@ -24,7 +24,8 @@
           <el-input size="small" type="number" v-model="form.marketMoney"></el-input>
         </el-form-item>
         <el-form-item label="礼品图片" prop="pic">
-          <el-upload class="avatar-uploader" :disabled="id?true:false" size="small"
+          <!-- <el-upload class="avatar-uploader" :disabled="id?true:false" size="small" -->
+          <el-upload class="avatar-uploader" size="small"
             action="/api/saotx/attach/commonAliUpload"
             :headers="headers"
             :show-file-list="false"
@@ -46,7 +47,8 @@
         </el-form-item>
         <!-- 虚拟物料有此项内容 -->
         <el-form-item v-if="metraFlag=='virtual'" label="卡密文件" prop="sourceCode">
-          <el-upload class="upload-demo" :disabled="id?true:false" size="small"
+          <!-- <el-upload class="upload-demo" :disabled="id?true:false" size="small" -->
+          <el-upload class="upload-demo" size="small"
             action="/api/saotx/metra/import"
             :headers="headers"
             :data="form"

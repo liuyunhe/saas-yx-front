@@ -89,6 +89,9 @@ export default {
     this.getProvList()
   },
   methods: {
+    getOrderDetail() {
+      
+    },
     clg() {
       console.log(this.selectedOptions)
     },

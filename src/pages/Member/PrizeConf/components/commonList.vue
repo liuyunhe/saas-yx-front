@@ -74,6 +74,7 @@ export default {
   created () {
     if (!this.type) {
       this.$router.push('/memberday/material/prizeList?type=1')
+      return
     }
     this.getPrizeList()
   },

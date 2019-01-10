@@ -24,7 +24,7 @@
               </el-tooltip>
               <el-tooltip popper-class="mytooltip" content="从系统有数据记录开始到前一天，总共产生的扫码次数的实时数值，包含重复扫码的情况" placement="top">
                 <p>
-                  历史扫码总次数：<span id="scan_day_rate">{{hisScanData.totalCode}}</span><em>&nbsp;次</em>
+                  历史扫码总次数：<span id="scan_day_rate">{{hisScanData.totalPv}}</span><em>&nbsp;次</em>
                 </p>
               </el-tooltip>
             </div>
@@ -36,7 +36,7 @@
               </el-tooltip>
               <el-tooltip popper-class="mytooltip" content="从系统有数据记录开始到前一天，参与扫码活动的总用户数的实时数值，对历史所有扫码用户的id进行了去重处理" placement="top">
                 <p>
-                  历史扫码总人数：<span id="scan_user_rate">{{hisScanData.totalPv}}</span><em>&nbsp;人</em>
+                  历史扫码总人数：<span id="scan_user_rate">{{hisScanData.totalUv}}</span><em>&nbsp;人</em>
                 </p>
               </el-tooltip>
             </div>
@@ -48,7 +48,7 @@
               </el-tooltip>
               <el-tooltip popper-class="mytooltip" content="从系统有数据记录开始到前一天，总共产生的扫码总烟包数的实时数值，去除历史重复扫码后的扫码数" placement="top">
                 <p>
-                  历史扫码总烟包数：<span id="scan_code_rate">{{hisScanData.totalUv}}</span><em>&nbsp;个</em>
+                  历史扫码总烟包数：<span id="scan_code_rate">{{hisScanData.totalCode}}</span><em>&nbsp;个</em>
                 </p>
               </el-tooltip>
             </div>
@@ -175,10 +175,17 @@ export default {
       // ===================== 规格指标列表 =======================
       prodSort: false,
       prodSortInfo: {prop:'scanCodes',order:'descending'},
-      prodTableDatas: []
+      prodTableDatas: [],
+      yesterday: ""
     }
   },
   created() {
+    let _now = new Date();
+    _now.setTime(_now.getTime()-24*60*60*1000);
+    let month = _now.getMonth() + 1; // 月份从0开始
+    let day = _now.getDate();
+    this.yesterday = _now.getFullYear() + "-" + (month<10?("0"+month):month) + "-" + (day<10?("0"+day):day);
+
     let _this = this;
     _this.loadJsonDatas();
 
@@ -311,7 +318,7 @@ export default {
     // 同一周期进行查询
     getPageTopDatas() {
       // 历史扫码情况数据
-      this.$request.post('/record/statistics/getHistoryScanUv', {key: "scantimes"}, true, (res)=>{
+      this.$request.post('/record/statistics/getHistoryScanUv', {statTime: this.yesterday}, true, (res)=>{
         let datas = res || [];
         //datas = [{"scanTotalCode":34323151,"scanTotalPv":47093856,"scanTotalUv":4325241}];
         if(datas.length>0&&datas[0]) {

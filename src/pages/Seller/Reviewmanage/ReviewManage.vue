@@ -545,7 +545,7 @@
         if(arr.length > 0){
           this.batchPass = false
           arr.map((e,i) => {
-            idsArr.push(e.id)
+            idsArr.push(e.sellerId)
           })
           this.ids = idsArr.join(",")
         }else{

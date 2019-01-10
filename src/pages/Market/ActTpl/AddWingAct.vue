@@ -389,9 +389,12 @@ export default {
     },
     // 上传游戏图片
     upGameImgSuccess(resule) {
-      if (resule.ret === '200000')
-        return (this.defaultConf.img.kists[this.gameIndex].url = resule.data.accessUrl)
-      this.$message.error(resule.message)
+        if (resule.ret === '200000'){
+            this.defaultConf.img['yuanbao0'+[this.gameIndex+1]].url = resule.data.accessUrl
+            return (this.defaultConf.img.kists[this.gameIndex].url = resule.data.accessUrl)
+        }else{
+            this.$message.error(resule.message)
+        }
     },
     // 上传中奖按钮图片
     upYesWinningImgBtn(resule) {
@@ -628,12 +631,13 @@ export default {
           display: flex;
           margin-bottom: 10px;
           .img-con {
-            width: 25%;
+            width: 180px;
             display: flex;
             justify-content: center;
             align-items: center;
             img {
-              width: 100%;
+              // width: 100%;
+              height: 80%;
             }
           }
         }

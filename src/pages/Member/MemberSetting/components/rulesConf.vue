@@ -1,20 +1,20 @@
 <template>
   <div class="container">
-    <el-form :modal="form">
-      <el-form-item label="选号设置：">
+    <el-form :modal="form" :rules="rules">
+      <el-form-item label="选号设置：" prop="scanTimes">
         <span>每扫</span>
         <el-input-number controls-position="right" :min="0" v-model="form.scanTimes" :precision="0"></el-input-number>
         <span>包烟可参与一次选号</span>
       </el-form-item>
-      <el-form-item label="开奖时间：">
+      <el-form-item label="开奖时间：" prop="lotteryStime">
         <span>每周六</span>
         <el-time-picker style="width: 130px;" align="center" :editable="false" v-model="form.lotteryStime" format="HH:mm" value-format="HH:mm" placeholder="请选择时间"></el-time-picker>
       </el-form-item>
-      <el-form label-position="top">
-        <el-form-item label="规格参数：">
+      <el-form label-position="top" :rules="rules2">
+        <el-form-item label="规格参数：" prop="snGiveSets">
           <norm-conf class="ml40" v-if="status" :params="form.snGiveSets"></norm-conf>
         </el-form-item>
-        <el-form-item label="分享设置：">
+        <el-form-item label="分享设置：" prop="form">
           <share-conf class="ml40" v-if="status" :params="form" :double="doubleArr" :discount="discountArr"></share-conf>
         </el-form-item>
         <el-form-item label="转赠设置：">
@@ -22,14 +22,14 @@
         </el-form-item>
         <el-form-item label="中奖地区黑名单设置：">
           <div class="ml40">
-            <el-select v-model="selectedProv" placeholder="请选择" @change="getCityList">
+            <el-select v-model="selectedProv" placeholder="请选择">
               <el-option  value="130000" label="河北省"></el-option>
             </el-select>
             <el-select v-model="selectedCityIndex" placeholder="请选择"  @change="getAreaList">
               <el-option v-if="cityList" v-for="(item, index) in cityList" :key="item.code" :label="item.name" :value="index"></el-option>
             </el-select>
-            <el-select v-model="selectedAreaIndex" placeholder="请选择" @change="selectDisable">
-              <el-option v-if="areaList" v-for="(item, index) in areaList" :key="item.code" :label="item.name" :value="index"></el-option>
+            <el-select v-model="selectedAreaIndex" placeholder="请选择" no-data-text="请先选择市" @change="selectDisable">
+              <el-option v-if="areaList" v-for="(item, index) in areaList" :disabled="item.disable" :key="item.code" :label="item.name" :value="index"></el-option>
             </el-select>
             <el-col class="mt20">
               <el-tag v-if="disableAreaName.length != 0" v-for="(item, index) in disableAreaName" :key="index" @close="handleClose(item)" type="info" color="#fff" :closable="true" size="medium">{{item}}</el-tag>
@@ -56,9 +56,18 @@ export default {
   },
   props: ['activityCode'],
   data() {
+    // 只是为了显示表单的必填标识 *  没实质性用处
+    var tips = (rule, value, callback) => {
+      // callback()
+    }
     return {
       rules: {
-        // scanTimes: [{required: true}]
+        scanTimes: [{required: true, validator: tips}],
+        lotteryStime: [{required: true, validator: tips}]
+      },
+      rules2: {
+        snGiveSets: [{required: true, validator: tips}],
+        form: [{required: true, validator: tips}]
       },
       form: {
         // activityCode: this.activityCode,
@@ -103,27 +112,27 @@ export default {
       disableAreaName: [],
       doubleArr: [],
       discountArr: [],
-      status: false
+      status: false,
+      // stop: true
     }
   },
   watch: {
-    doubleArr: function(val) {
-      // console.log(this.form.shareAwards)
-      this.form.shareAwards.map((item, index) => {
-        if (item.awardType == 202) {
-          this.form.shareAwards.splice(index, 1)
-        }
-      })
-      this.form.shareAwards.push(...val)
-    },
-    discountArr: function(val) {
-      this.form.shareAwards.map((item, index) => {
-        if (item.awardType == 201) {
-          this.form.shareAwards.splice(index, 1)
-        }
-      })
-      this.form.shareAwards.push(...val)
-    }
+    // doubleArr: function(val) {
+    //   this.form.shareAwards.map((item, index) => {
+    //     if (item.awardType == 202) {
+    //       this.form.shareAwards.splice(index, 1)
+    //     }
+    //   })
+    //   this.form.shareAwards.push(...val)
+    // },
+    // discountArr: function(val) {
+    //   this.form.shareAwards.map((item, index) => {
+    //     if (item.awardType == 201) {
+    //       this.form.shareAwards.splice(index, 1)
+    //     }
+    //   })
+    //   this.form.shareAwards.push(...val)
+    // }
   },
   created () {
     this.getActDetail()
@@ -164,8 +173,6 @@ export default {
                 this.doubleArr.push(item)
               }
             })
-          } else {
-            this.form.shareAwards = []
           }
         } 
       })
@@ -180,13 +187,22 @@ export default {
     // 获取县级列表
     getAreaList(index) {
       this.$request.post('/api/saotx/dim/regionByMultiParent', { parentArr: [this.cityList[index].code] }, true, res => {
-        if (res.ret === '200000') return this.areaList = res.data
+        if (res.ret === '200000') {
+          res.data.map(item => {
+            item.disable = false
+          })
+          this.areaList = res.data
+          this.areaListDisable(index)
+          return
+        }
         this.$meaasge.error(res.message)
       })
     },
     nextStep() {
       if (!this.form.lotteryStime) return this.$message.error('请选择开奖时间')
       this.form.lotteryStime = this.form.lotteryStime.split(':').join('')
+      this.form.shareAwards = []
+      this.form.shareAwards = [...this.discountArr, ...this.doubleArr]
       this.$request.post('/api/saotx/md/somExt', this.form, true, res => {
         if (res.ret === '200000') return this.$emit('nextStep', this.form.activityCode)
         this.$message.error(res.message)
@@ -209,12 +225,28 @@ export default {
       }
       this.selectedCityIndex = ''
       this.selectedAreaIndex = ''
+      this.areaList = []
     },
     // 删除黑名单
     handleClose(tag) {
       let index = this.disableAreaName.indexOf(tag)
       this.disableAreaName.splice(index, 1)
       this.form.districtBlacklist.splice(index, 1)
+    },
+    areaListDisable(index) {
+      var DisableCityList = []
+      this.disableAreaName.forEach(item => {
+        if (item.indexOf(this.cityList[index]) !== 1) {
+          DisableCityList.push(item)
+        }
+      })
+      DisableCityList.forEach(item => {
+        this.areaList.forEach(d => {
+          if (item.indexOf(d.name) != -1) {
+            d.disable = true
+          }
+        })
+      })
     },
     handleBlack() {
       this.form.blackList.map(item => {
@@ -227,7 +259,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container {
-  width: 1200px;
+  width: 1000px;
   margin: 20px auto 0;
 }
 .el-form {

@@ -131,8 +131,8 @@
 					this.drawScanDate();
 					this.drawScanResult();
 					this.drawNumTime();
-					this.drawmapTime('');
-					this.drawmapRange('');
+					this.drawmapTime("山西省");
+					this.drawmapRange("山西省");
 					this.drawScanAllRange();
 					this.drawMoney();
 					this.drawProduct();
@@ -233,8 +233,8 @@
 				this.drawScanDate();
 				this.drawScanResult();
 				this.drawNumTime();
-				this.drawmapTime();
-				this.drawmapRange();
+				this.drawmapTime("山西省");
+				this.drawmapRange("山西省");
 				this.drawScanAllRange();
 				this.drawMoney();
 				this.drawProduct();

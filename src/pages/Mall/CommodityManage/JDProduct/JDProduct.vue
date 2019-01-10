@@ -1,6 +1,9 @@
 <template>
   <section class="build-product-container">
     <div class="box-container">
+      <div style="margin-bottom:20px;">
+        <el-button type="primary" size="small" @click="addJDProduct">新建商品</el-button>
+      </div>
       <!--查询表单-->
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;margin-bottom: 0">
         <el-form :inline="true" :model="filters" label-width="100px">
@@ -102,7 +105,6 @@
             <el-button type="primary" size="small" @click="sortBySales">按销量排序</el-button>
             <el-button type="primary" size="small" @click="sortByScore">按兑换值排序</el-button>
             <el-button type="primary" size="small" @click="sortByTime">按创建时间排序</el-button>
-            <el-button type="primary" size="small" @click="addJDProduct">新建商品</el-button>
           </el-form-item>
         </el-form>
       </el-col>

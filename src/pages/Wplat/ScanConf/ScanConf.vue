@@ -140,6 +140,7 @@
 												<el-button type="primary">更换图片</el-button>
 											</el-upload>
 										</div>
+										<p class='tip-text'>*图片建议尺寸为750*460px,格式为*.jpg\*.bmp\*.png\*.gif</p>
 									</div>
 									<el-button slot="reference"></el-button>
 								</el-popover>
@@ -206,6 +207,7 @@
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
 										</div>
+										<p class='tip-text'>*图片建议尺寸为178*178px,格式为*.jpg\*.bmp\*.png\*.gif</p>
 										<div class="back">
 											背景图片：<img :src="addlist.conf.has.gzh.bg" alt=""v-show='addlist.conf.has.gzh.bg' />
 											<div class="img-div"v-show='!addlist.conf.has.gzh.bg'></div>
@@ -213,6 +215,7 @@
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
 										</div>
+										<p class='tip-text'>*图片建议尺寸为750*364px,格式为*.jpg\*.bmp\*.png\*.gif</p>
 									</div>
 									<el-button slot="reference"></el-button>
 								</el-popover>
@@ -265,19 +268,23 @@
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz3">
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
+											<p class='tip-text'>*图片建议尺寸为217*199px,格式为*.jpg\*.bmp\*.png\*.gif</p>
 											<br /><br />
 											<div>提示语：</div>
+											<br />
 											<el-input v-model="addlist.conf.not.yz.tip" placeholder="请输入内容"maxlength='20'></el-input>
 											<br /> 按钮图片：
 											<img :src="addlist.conf.not.yz.btnIcon" alt="" />
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz4">
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
+											<p class='tip-text'>*图片建议尺寸为354*63px,格式为*.jpg\*.bmp\*.png\*.gif</p>
 											<br /> 背景图片：
 											<img :src="addlist.conf.not.yz.bg" alt="" />
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz5">
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
+											<p class='tip-text'>*图片建议尺寸为750*462px,格式为*.jpg\*.bmp\*.png\*.gif</p>
 										</div>
 									</div>
 									<el-button slot="reference"></el-button>
@@ -310,12 +317,14 @@
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
 										</div>
+										<p class='tip-text'>*图片建议尺寸为178*178px,格式为*.jpg\*.bmp\*.png\*.gif</p>
 										<div class="back">
 											背景图片：<img :src="addlist.conf.not.gzh.bg" alt="" />
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz7">
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
 										</div>
+										<p class='tip-text'>*图片建议尺寸为750*460px,格式为*.jpg\*.bmp\*.png\*.gif</p>
 									</div>
 									<el-button slot="reference"></el-button>
 								</el-popover>
