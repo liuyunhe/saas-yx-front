@@ -220,7 +220,7 @@
 									<el-button slot="reference"></el-button>
 								</el-popover>
 								<img :src="addlist.conf.has.gzh.qrIcon" alt="" />
-								<p>关注公众号<span>{{addlist.conf.has.gzh.name}}</span>{{addlist.conf.has.gzh.note}}</p>
+								<p class='guanzhu-text'>关注公众号<span>{{addlist.conf.has.gzh.name}}</span>{{addlist.conf.has.gzh.note}}</p>
 								
 							</div>
 							<div class="menu-part">
@@ -329,7 +329,7 @@
 									<el-button slot="reference"></el-button>
 								</el-popover>
 								<img :src="addlist.conf.not.gzh.qrIcon" alt="" />
-								<p>关注公众号<span>"{{addlist.conf.not.gzh.name}}"</span>{{addlist.conf.not.gzh.note}}</p>
+								<p class='guanzhu-text'>关注公众号<span>"{{addlist.conf.not.gzh.name}}"</span>{{addlist.conf.not.gzh.note}}</p>
 								
 							</div>
 							<div class="menu-part">
