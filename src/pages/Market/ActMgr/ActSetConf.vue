@@ -32,11 +32,20 @@
           <el-date-picker v-model="actTime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" :editable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="活动图片：" prop="banner">
+        <!-- 常规图片上传 -->
+        <el-form-item label="活动图片：" prop="banner" v-if="form !== 'act-301'">
           <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
             <img v-if="confData.banner" :src="confData.banner" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*270像素；格式png、jpg；大小不超过2M</div>
+          </el-upload>
+        </el-form-item>
+        <!-- 红包雨图片上传 -->
+        <el-form-item label="活动图片：" prop="banner" v-else>
+          <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
+            <img v-if="confData.banner" :src="confData.banner" class="avatar red-packet">
+            <i v-else class="el-icon-plus avatar-uploader-icon red-packet"></i>
+            <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：200像素*200像素；格式png、jpg；大小不超过2M</div>
           </el-upload>
         </el-form-item>
         <el-form-item v-if="form == 'act-301'" label="参与次数：" prop="number">
@@ -296,11 +305,19 @@ export default {
   height: 108px;
   line-height: 108px;
   text-align: center;
+  &.red-packet {
+    width: 100px;
+    height: 100px;
+  }
 }
 .avatar {
   width: 300px;
   height: 108px;
   display: block;
+  &.red-packet {
+     width: 100px;
+    height: 100px;
+  }
 }
 .quill-editor {
   width: 420px;
