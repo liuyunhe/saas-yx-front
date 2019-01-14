@@ -109,7 +109,10 @@ props: ['id'],
         let that = this;
         that.page = key;
         if(key == 4) {
-            that.editData = [that.conf.commonImg.getBtn];
+            that.editData = [           	
+            	that.conf.commonImg.getAwardBg,
+            	that.conf.commonImg.getBtn
+            ];
             that.editType = 'common';
         }else if(key == 1) {
             that.editData = [that.conf.img.normal.bg];
