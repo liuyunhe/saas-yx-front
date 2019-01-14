@@ -52,7 +52,7 @@
         <el-table-column prop="statusName" label="状态" align="center"></el-table-column>
         <el-table-column label="操作" align="center" width="220px">
           <template slot-scope="scope">
-            <el-button size="mini" type="primary" @click="edit(scope.row.form,scope.row.id)">编辑</el-button>
+            <el-button size="mini" type="primary" @click="goAddActTpl(scope.row.form,scope.row.id)">编辑</el-button>
             <el-button size="mini" type="success" @click="$router.push('/market/actTpl/actSetConf?form=' + scope.row.form + '&tplCode=' + scope.row.tplCode)">投放</el-button>
             <el-button size="mini" @click="delAct(scope.row.id)" type="danger">删除</el-button>
           </template>
@@ -71,10 +71,10 @@
           </ul>
           <div style="clear: both"></div>
         </div>
-        <div v-if="actForms">
+        <div v-if="actForms.length !== 0">
           <div class="act-item" v-for="item in actForms" :key="item.id">
             <img :src="item.extUrl" :alt="item.name">
-            <p>{{item.name}}<i class="el-icon-circle-plus" @click="goAddActTpl(item.code)"></i></p>
+            <p>{{item.name}}<i class="el-icon-circle-plus" @click="goAddActTpl(item.code, '')"></i></p>
           </div>
           <!-- <div v-if="actForms">
             <div class="act-item" v-for="item in actForms" :key="item.id">
@@ -346,22 +346,6 @@ export default {
         this.batchRemoveIdList.push(item.id)
       })
     },
-    // 跳转到新建活动模板页面
-    goAddActTpl(code) {
-    	if(code=='act-100'){//翻钻石
-    		this.$router.push('/market/actTpl/addAct')//先注释之前的，暂时改为答题
-    	}else if(code=='act-103'){//砸金蛋
-    		this.$router.push('/market/actTpl/addActEgg')
-    	}else if(code=='act-102'){//点元宝
-          this.$router.push('/market/actTpl/AddWingAct')
-      }else if(code=='act-101'){//九宫格
-        this.$router.push('/market/actTpl/AddActSudoku')
-      }else if(code == 'act-104'){
-        this.$router.push('/market/actTpl/AddActFanpaizi')
-      }else if(code=='act-501'){   		
-				this.$router.push('/market/actTpl/addActQuestion')
-    	}
-    },
     // 每当 pageSize 变化，会触发 这个函数
     handleSizeChange(newSize) {
       this.actListParams.pageSize = newSize
@@ -382,7 +366,23 @@ export default {
       this.actParams.pageNo = newPage
       this.getAct()
     },
-    edit(code,id){
+    // 跳转到新建活动模板页面
+    // goAddActTpl(code) {
+    // 	if(code=='act-100'){//翻钻石
+    // 		this.$router.push('/market/actTpl/addAct')//先注释之前的，暂时改为答题
+    // 	}else if(code=='act-103'){//砸金蛋
+    // 		this.$router.push('/market/actTpl/addActEgg')
+    // 	}else if(code=='act-102'){//点元宝
+    //       this.$router.push('/market/actTpl/AddWingAct')
+    //   }else if(code=='act-101'){//九宫格
+    //     this.$router.push('/market/actTpl/AddActSudoku')
+    //   }else if(code == 'act-104'){
+    //     this.$router.push('/market/actTpl/AddActFanpaizi')
+    //   }else if(code=='act-501'){   		
+		// 		this.$router.push('/market/actTpl/addActQuestion')
+    // 	}
+    // },
+    goAddActTpl(code,id){
       switch (code) {
         case 'act-101':
           this.$router.push('/market/actTpl/AddActSudoku?id=' + id)
@@ -399,7 +399,10 @@ export default {
         case 'act-501':
           this.$router.push('/market/actTpl/addActQuestion?id=' + id)
           break;
-        default:
+        case 'act-301':
+          this.$router.push('/market/actTpl/addActRedPacked?id=' + id)
+          break;
+        case 'act-100':
           this.$router.push('/market/actTpl/addAct?id=' + id)
           break;
       }
@@ -456,6 +459,8 @@ export default {
     }
     p {
       i {
+        // position: relative;
+        // top: 20px;
         float: right;
         font-size: 20px;
         color: #409eff;

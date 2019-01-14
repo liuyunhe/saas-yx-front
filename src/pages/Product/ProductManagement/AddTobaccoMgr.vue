@@ -55,7 +55,8 @@
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               >
-            <img v-if="filters.smallPic" width="160" height="280" :src="filters.smallPic" class="avatar">
+            <img v-if="filters.smallPic" width="160" height="300" :src="filters.smallPic" class="avatar">
+            <div slot="tip" class="el-upload__tip">* 图片建议尺寸为 160*300px格式为jpg\bmp\png\gif</div>
           </el-upload>
         </div>
         <div class="add-tobaccomgr-form-title">产品信息</div>
@@ -183,8 +184,8 @@
 </style>
 <style>
   .tobacco-pic .el-upload {
-    width: 162px;
-    height: 282px;
+    width: 160px;
+    height: 300px;
 
   }
 </style>

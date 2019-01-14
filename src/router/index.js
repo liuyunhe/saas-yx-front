@@ -41,7 +41,8 @@ const IntegralExchDayPage = () => import(/* webpackChunkName: "henanReport" */ '
 const ActTpl = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/ActTpl')
 const ActMgc = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActMgr')
 const AddAct = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddAct')
-const Hongbaoyu = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/Hongbaoyu.ActTpl')
+const Hongbaoyu = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddRedPacked')
+const redPut = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/RedPacket/RedPacketPut')
 const Fanpaizi = () => import(/*webpackChunkName: '"fanpaizi" */'@/pages/Market/ActTpl/Fanpaizi.ActTpl')
 const Jiugongge = () => import(/*webpackChunkName: '"jiugongge" */'@/pages/Market/ActTpl/Jiugongge.ActTpl')
 const AddActEgg = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddActEgg')
@@ -305,18 +306,19 @@ export default new Router({
         { path: '/market', name: '营销'},
         { path: '/market/actTpl', name: '活动模板', component: ActTpl },
         { path: '/market/actMgr', name: '活动管理', component: ActMgc },
-        { path: '/market/actTpl/addAct', name: '新建活动模板配置', component: AddAct, props: (router) => ({id: router.query.id})},
-        { path: '/market/actTpl/addActRedPacked', name: '新建活动模板配置', component: Hongbaoyu, props: (router) => ({id: router.query.id})},
-        { path: '/market/actTpl/addActEgg', name: '新建砸金蛋活动模板配置', component: AddActEgg, props: (router) => ({id: router.query.id})},
-        { path: '/market/actTpl/addActFanpaizi', name: '翻牌子活动', component: Fanpaizi, props: (router) => ({id: router.query.id})},
-        { path: '/market/actTpl/addActJiugongge', name: '九宫格活动', component: Jiugongge, props: (router) => ({id: router.query.id})},
-        { path: '/market/actTpl/addWingAct', name: '新建点元宝活动模板配置', component: AddWingAct, props: (router) => ({id: router.query.id})},
-        { path: '/market/actTpl/AddActSudoku', name: '新建九宫格活动模板配置', component: AddActSudoku, props: (router) => ({id: router.query.id})},
-        { path: '/market/actTpl/addActQuestion', name: '新建答题活动模板配置', component: AddActQuestion, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/addAct', name: '新建活动模板配置', component: AddAct, props: (router) => ({id: router.query.id, edit: router.query.edit})},
+        { path: '/market/actTpl/addActRedPacked', name: '新建红包雨活动模板配置', component: Hongbaoyu, props: (router) => ({id: router.query.id, edit: router.query.edit})},
+        { path: '/market/actTpl/addActEgg', name: '新建砸金蛋活动模板配置', component: AddActEgg, props: (router) => ({id: router.query.id, edit: router.query.edit})},
+        { path: '/market/actTpl/addActFanpaizi', name: '翻牌子活动', component: Fanpaizi, props: (router) => ({id: router.query.id, edit: router.query.edit})},
+        { path: '/market/actTpl/addActJiugongge', name: '九宫格活动', component: Jiugongge, props: (router) => ({id: router.query.id, edit: router.query.edit})},
+        { path: '/market/actTpl/addWingAct', name: '新建点元宝活动模板配置', component: AddWingAct, props: (router) => ({id: router.query.id, edit: router.query.edit})},
+        { path: '/market/actTpl/AddActSudoku', name: '新建九宫格活动模板配置', component: AddActSudoku, props: (router) => ({id: router.query.id, edit: router.query.edit})},
+        { path: '/market/actTpl/addActQuestion', name: '新建答题活动模板配置', component: AddActQuestion, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/actSetConf', name: '基础设置', component: ActSetConf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode, id: router.query.id, clone: router.query.clone,}) },
         { path: '/market/actTpl/quesActSetConf', name: '题目设置', component: QuesList, props: (router) => ({id: router.query.id, actCode: router.query.actCode,form: router.query.form}) },
         { path: '/market/actTpl/quesEdit', name: '题目编辑', component: QuesEdit, props: (router) => ({quesId: router.query.quesId,id: router.query.id, actCode: router.query.actCode,form: router.query.form}) },
         { path: '/market/actTpl/actPutConf', name: '投放设置', component: ActPutConf, props: (router) => ({id: router.query.id, actCode: router.query.actCode,form: router.query.form}) },
+        { path: '/market/actTpl/redPut', name: '投放设置', component: redPut, props: (router) => ({id: router.query.id, actCode: router.query.actCode,form: router.query.form}) },
         // 订单
         { path: '/orders', name: '订单' },
         { path: '/orders/seller', name: '零售户订单', component: KPI },

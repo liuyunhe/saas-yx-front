@@ -84,7 +84,6 @@ export default {
       },
       onUploadClick (index) {
           let that = this;
-          console.log(index)
           that.editIndex = index;
       }
   }

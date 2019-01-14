@@ -82,7 +82,7 @@
                 </div>
                 <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 640*1600px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                 <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 {{defaultConf.img.title.width}} x {{defaultConf.img.title.height}}px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
-                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 120*120*.jpg\ *.bmp\ *.png\ *.gif</p>
+                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 125*125*.jpg\ *.bmp\ *.png\ *.gif</p>
               </div>
 
             </el-card>
@@ -210,7 +210,7 @@
 </template>
 <script>
 export default {
-  props: ['id'],
+  props: ['id', 'edit'],
   data() {
     return {
         defaultConf: {
@@ -249,107 +249,107 @@ export default {
     this.getActDetail()
   },
   methods: {
-      getImage(name, suffix) {
-          var base= "https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/";
-          var suffix = suffix ? suffix : this.suffix;
-          return  base + name + "." + suffix;
-      },
-      getStyle(w, h, x, y) {
-          var wp = w.toString().indexOf('%') > -1;
-          var hp = h.toString().indexOf('%') > -1;
-          var ratio= 0.4;
-          var pcRatio= 0.5;
-          return {
-              style: {
-                  "max-width": wp ? w : Math.floor(w * ratio) + 'px',
-                  "max-height": hp ? h : Math.floor(h * ratio) + 'px',
-                  transform: "translate(" + Math.floor(x * ratio) + "px," + Math.floor(y * ratio) + "px)"
-              },
-              'c-style': {
-                  "max-width": wp ? w : Math.floor(w * pcRatio) + 'px',
-                  "max-height": hp ? h : Math.floor(h * pcRatio) + 'px',
-                  transform: "translate(" + Math.floor(x * pcRatio) + "px," + Math.floor(y * pcRatio) + "px)"
-              }
-          }
-      },
-      getAllImage() {
-          var _this = this;
-          var urls = {};
-          var nameSuffix = "yuanbao0";
-          var imgSize = [
-              [111, 127],
-              [130, 146],
-              [123, 124],
-              [125, 144],
-              [114, 112],
-              [147, 144]
-          ];
-          var imgPosition = [
-              [41, 614],
-              [207, 530],
-              [317, 409],
-              [348, 615],
-              [484, 499],
-              [547, 604]
-          ];
-          urls.kists=[];
-          for (var i = 1; i <= imgSize.length; i++) {
-              var width = imgSize[i - 1][0];
-              var height = imgSize[i - 1][1];
-              var left = imgPosition[i - 1][0];
-              var top = imgPosition[i - 1][1];
-              var ratio = 0.4;
-              urls[nameSuffix + i]  = {
-                  url: _this.getImage(nameSuffix + i,"png"),
-                  width: width,
-                  height: height,
-                  left: left,
-                  top: top,
-                  style: _this.getStyle(width, height, left, top).style,
-                  'c-style': _this.getStyle(width, height, left, top)["c-style"],
-              };
-              urls.kists.push(urls[nameSuffix + i])
-          }
-          urls.bg = {
-              url: _this.getImage("yuanbao-bg", "jpg"),
-              width: "100%",
-              height: "100%",
-              left: 0,
-              top: 0,
-              style: _this.getStyle('100%', '100%', 0, 0)
-          };
-          urls.title = {
-              url: _this.getImage("yuanbao-title","png"),
-              width: 587,
-              height: 244,
-              left: 83,
-              top: 57,
-              style: _this.getStyle(587, 244, 83, 57).style,
-              'c-style': _this.getStyle(587, 244, 83, 57)["c-style"],
-          };
-          urls.tips = {
-              url: _this.getImage("JGG_HDJN","png"),
-              width: 98,
-              height: 103,
-              left: 638,
-              top: 38,
-              style: _this.getStyle(98, 103, 638, 38).style,
-              'c-style': _this.getStyle(98, 103, 638, 38)["c-style"],
-          };
-          urls.award = {
-              url:
-                  "https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/djlq_btn.png"
-          };
-          urls.noAward = {
-              url:
-                  "https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/cry75@2x.png"
-          };
-          urls.zxNoAwardBtn = {
-              url: "https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/know-btn.png"
-          }
-          console.log(urls);
-          return urls;
-      },
+    getImage(name, suffix) {
+        var base= "https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/";
+        var suffix = suffix ? suffix : this.suffix;
+        return  base + name + "." + suffix;
+    },
+    getStyle(w, h, x, y) {
+        var wp = w.toString().indexOf('%') > -1;
+        var hp = h.toString().indexOf('%') > -1;
+        var ratio= 0.4;
+        var pcRatio= 0.5;
+        return {
+            style: {
+                "max-width": wp ? w : Math.floor(w * ratio) + 'px',
+                "max-height": hp ? h : Math.floor(h * ratio) + 'px',
+                transform: "translate(" + Math.floor(x * ratio) + "px," + Math.floor(y * ratio) + "px)"
+            },
+            'c-style': {
+                "max-width": wp ? w : Math.floor(w * pcRatio) + 'px',
+                "max-height": hp ? h : Math.floor(h * pcRatio) + 'px',
+                transform: "translate(" + Math.floor(x * pcRatio) + "px," + Math.floor(y * pcRatio) + "px)"
+            }
+        }
+    },
+    getAllImage() {
+        var _this = this;
+        var urls = {};
+        var nameSuffix = "yuanbao0";
+        var imgSize = [
+            [111, 127],
+            [130, 146],
+            [123, 124],
+            [125, 144],
+            [114, 112],
+            [147, 144]
+        ];
+        var imgPosition = [
+            [41, 614],
+            [207, 530],
+            [317, 409],
+            [348, 615],
+            [484, 499],
+            [547, 604]
+        ];
+        urls.kists=[];
+        for (var i = 1; i <= imgSize.length; i++) {
+            var width = imgSize[i - 1][0];
+            var height = imgSize[i - 1][1];
+            var left = imgPosition[i - 1][0];
+            var top = imgPosition[i - 1][1];
+            var ratio = 0.4;
+            urls[nameSuffix + i]  = {
+                url: _this.getImage(nameSuffix + i,"png"),
+                width: width,
+                height: height,
+                left: left,
+                top: top,
+                style: _this.getStyle(width, height, left, top).style,
+                'c-style': _this.getStyle(width, height, left, top)["c-style"],
+            };
+            urls.kists.push(urls[nameSuffix + i])
+        }
+        urls.bg = {
+            url: _this.getImage("yuanbao-bg", "jpg"),
+            width: "100%",
+            height: "100%",
+            left: 0,
+            top: 0,
+            style: _this.getStyle('100%', '100%', 0, 0)
+        };
+        urls.title = {
+            url: _this.getImage("yuanbao-title","png"),
+            width: 587,
+            height: 244,
+            left: 83,
+            top: 57,
+            style: _this.getStyle(587, 244, 83, 57).style,
+            'c-style': _this.getStyle(587, 244, 83, 57)["c-style"],
+        };
+        urls.tips = {
+            url: _this.getImage("JGG_HDJN","png"),
+            width: 98,
+            height: 103,
+            left: 638,
+            top: 38,
+            style: _this.getStyle(98, 103, 638, 38).style,
+            'c-style': _this.getStyle(98, 103, 638, 38)["c-style"],
+        };
+        urls.award = {
+            url:
+                "https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/djlq_btn.png"
+        };
+        urls.noAward = {
+            url:
+                "https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/cry75@2x.png"
+        };
+        urls.zxNoAwardBtn = {
+            url: "https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/know-btn.png"
+        }
+        console.log(urls);
+        return urls;
+    },
     getActDetail() {
       if (this.id) {
         this.$request.post('/api/saotx/acttpl/detail', { id: this.id }, true, res => {
@@ -364,6 +364,22 @@ export default {
           } else {
             this.$message.error(res.message)
           }
+        })
+      } else if (this.edit) {
+        this.$request.post('/api/saotx/act/pubTpl', {actCode: this.edit}, true, res => {
+            if (res.ret === '200000') {
+            this.addActParams = res.data
+            this.addActParams.name = JSON.parse(res.data.conf).title
+            this.addActParams.note = JSON.parse(res.data.conf).description
+            this.defaultConf = JSON.parse(res.data.conf)
+            if (res.data.statusName == '未投放') {
+                this.isPut = false
+            } else {
+                this.isPut = true
+            }
+            } else {
+            this.$message.error(res.message)
+            }
         })
       }
     },
@@ -414,6 +430,17 @@ export default {
       this.defaultConf.title = this.addActParams.name
       this.defaultConf.description = this.addActParams.note
       this.addActParams.conf = JSON.stringify(this.defaultConf)
+      if (this.edit) {
+        this.$request.post('/api/saotx/act/mpubTpl', this.addActParams, true, res => {
+            if (res.ret === '200000') {
+              this.$message.success('保存成功')
+              this.$router.push('/market/actMgr')
+            } else {
+              this.$message.error(res.message)
+            }
+        })
+        return
+      }
       this.$request.post('/api/saotx/acttpl/saveOrModify', this.addActParams, true, res => {
         if (res.ret === '200000') {
           // 投放

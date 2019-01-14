@@ -16,38 +16,47 @@
 			  <el-step title="投放设置"></el-step>
 			</el-steps>
       <el-form ref="actSetConfRef" :model="confData" label-width="150px" :rules="confRules">
-        <el-form-item label="活动名称" prop="actName">
-          <el-input v-model="confData.actName"maxLength='15'placeholder='请输入活动名称，15字以内'></el-input>
+        <el-form-item label="活动名称：" prop="actName">
+          <el-input v-model="confData.actName" maxLength='15' placeholder='请输入活动名称，15字以内'></el-input>
         </el-form-item>
-        <el-form-item label="活动描述" prop="note">
-          <el-input type="textarea" v-model="confData.note" :rows="3" resize="none"maxLength='15'placeholder='请输入活动描述，15字以内'></el-input>
+        <el-form-item label="活动描述：" prop="note">
+          <el-input type="textarea" v-model="confData.note" :rows="3" resize="none" maxLength='15' placeholder='请输入活动描述，15字以内'></el-input>
         </el-form-item>
-        <el-form-item label="优先级" prop="idx">
+        <el-form-item label="优先级：" prop="idx" v-if="form != 'act-301'">
           <el-select v-model="confData.idx" placeholder="请选择">
             <el-option v-for="(val, key, index) in idxSelect" :key="index" :label="val" :value="key">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="活动时间" prop="date">
-          <el-date-picker v-model="actTime" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" :editable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+        <el-form-item label="活动时间：" prop="date">
+          <el-date-picker v-model="actTime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" :editable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="活动图片" prop="banner">
+        <el-form-item label="活动图片：" prop="banner">
           <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
             <img v-if="confData.banner" :src="confData.banner" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*270像素；格式png、jpg；大小不超过2M</div>
           </el-upload>
         </el-form-item>
-        <el-form-item label="活动说明" prop="desc">
+        <el-form-item v-if="form == 'act-301'" label="参与次数：" prop="number">
+          每人每场可参与
+          <el-input-number v-model="redConf.joinNum" :precision="0" :min="1" controls-position="right"></el-input-number>
+          次
+        </el-form-item>
+        <el-form-item v-if="form == 'act-301'" label="分享设置：" prop="isShare">
+          <el-radio v-model="redConf.share" :label="1">开启分享</el-radio>
+          <el-radio v-model="redConf.share" :label="0">关闭分享</el-radio>
+        </el-form-item>
+        <el-form-item label="活动说明：" prop="desc">
           <quill-editor ref="myTextEditor" v-model="confData.actDesc" :options="editorOption" placeholder="请输入活动说明，300字以内" @blur="onEditorBlur($event)">
           </quill-editor>
         </el-form-item>
-        <el-form-item label="答题时间" prop="quesTime" v-show='form=="act-501"'>
+        <el-form-item label="答题时间：" prop="quesTime" v-show='form=="act-501"'>
         	<el-radio v-model="extInfo.limited" :label="1">不限</el-radio>
   				<el-radio v-model="extInfo.limited" :label="2">总时间限<input v-model="extInfo.time" type='number' class='limited-time' @input='limitNum'/>秒</el-radio>
         </el-form-item>
-        <el-form-item label="是否在落地页显示">
+        <el-form-item label="是否在落地页显示：">
           <el-radio v-model="confData.showStatus" :label="1">是</el-radio>
           <el-radio v-model="confData.showStatus" :label="0">否</el-radio>
         </el-form-item>
@@ -95,6 +104,16 @@ export default {
         callback()
       }
     }
+    var valideShare = (rules, value, callback) => {
+      callback()
+    } 
+    var valideNumber = (rules, value, callback) => {
+      if (this.redConf.joinNum) {
+        callback()
+      } else {
+        callback(new Error('请输入参与次数'))
+      }
+    } 
     return {
       // 富文本设置
       editorOption: {
@@ -118,13 +137,18 @@ export default {
         actName: '',
         banner: '',
         form: '',
-        idx: '',
+        idx: '1',
         note: '',
         stimeStr: '',
         etimeStr: '',
         showStatus: 1,
         tplCode: '',
-        extInfo:''
+        extInfo: '',
+        number: ''
+      },
+      redConf: {
+        joinNum: 1,
+        share: 0
       },
       confRules: {
         actName: [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
@@ -132,7 +156,9 @@ export default {
         date: [{ required: true, validator: validateDate, trigger: 'change' }],
         idx: [{ required: true, validator: validateIdx, trigger: 'change' }],
         banner: [{ required: true, validator: validateBanner }],
-        desc: [{ required: true, validator: validateDesc }]
+        desc: [{ required: true, validator: validateDesc }],
+        number: [{ required: true, validator: valideNumber }],
+        isShare: [{ required: true, validator: valideShare }]
       },
       actTime: [],
       uploadURL: '/api/saotx/attach/commonAliUpload',
@@ -176,10 +202,11 @@ export default {
             for (let key in this.confData) {
               this.confData[key] = res.data.act[key]
             }
-            console.log(this.confData)
           } else {
             this.confData = res.data.act
           }
+          if (this.form == 'act-301') this.redConf = JSON.parse(this.confData.extInfo)
+          console.log(this.redConf)
           this.confData.idx = this.confData.idx + ''
           this.actTime.push(this.confData.stimeStr)
           this.actTime.push(this.confData.etimeStr)
@@ -220,13 +247,16 @@ export default {
           this.confData.extInfo=JSON.stringify(this.extInfo);
           this.confData.tplCode = this.tplCode
         }
+        if (this.form == 'act-301') this.confData.extInfo = JSON.stringify(this.redConf)
         this.$request.post('/api/saotx/act/saveOrModify', this.confData, true, res => {
           if (res.ret === '200000') {
           	if(this.form=='act-501'){
           		return this.$router.push(
               '/market/actTpl/quesActSetConf?id=' + res.data.id + '&actCode=' + res.data.actCode+'&form='+this.form
             	)
-          	}else {
+          	} else if (this.form=='act-301') {
+              return this.$router.push(`/market/actTpl/redPut?id=${res.data.id}&actCode=${res.data.actCode}`)
+            } else {
           		return this.$router.push(
               '/market/actTpl/actPutConf?id=' + res.data.id + '&actCode=' + res.data.actCode
             	)
