@@ -114,6 +114,8 @@ const SettingAccount = () => import(/* webpackChunkName: "setting" */ '@/pages/S
 const SettingRole = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/User/Role.vue')
 // 设置-账号管理-零售户管理
 const SettingSeller = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Seller.vue')
+// 设置-菜单管理-系统菜单管理
+const SettingSystemMenu = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Resources/SystemMenu.vue')
 
 //菜单配置
 const MenuConf = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/MenuConf/MenuConf.vue')
@@ -387,6 +389,8 @@ export default new Router({
         { path: '/setting/logs', name: '日志管理', component: SettingLogs },
         { path: '/setting/seller', name: '零售户管理', component: SettingSeller },
         { path: '/setting/mall', name: '积分设置', component: KPI },
+        { path: '/setting/resource', name: '资源管理', redirect: '/setting/resource/smenu' },
+        { path: '/setting/resource/smenu', name: '菜单管理', component: SettingSystemMenu },
         // 会员日
         { path: '/memberday', name: '会员日', redirect: '/memberday/material' },
         { path: '/memberday/material', name: '物料', redirect: '/memberday/material/prizeList', props: (route) => ({type: '1'}) },
