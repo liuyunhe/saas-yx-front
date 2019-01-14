@@ -47,6 +47,7 @@ const Jiugongge = () => import(/*webpackChunkName: '"jiugongge" */'@/pages/Marke
 const AddActEgg = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddActEgg')
 const AddWingAct = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddWingAct')
 const AddActSudoku = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddActSudoku')
+const AddRound = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddRound')
 const AddActQuestion = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddQuestion.ActTpl')
 const ActSetConf = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActSetConf')
 const ActPutConf = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActPutConf')
@@ -314,6 +315,7 @@ export default new Router({
         { path: '/market/actTpl/addActJiugongge', name: '九宫格活动', component: Jiugongge, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/addWingAct', name: '新建点元宝活动模板配置', component: AddWingAct, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/AddActSudoku', name: '新建九宫格活动模板配置', component: AddActSudoku, props: (router) => ({id: router.query.id})},
+        { path: '/market/actTpl/AddRound', name: '新建大转盘活动模板配置', component: AddRound, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/addActQuestion', name: '新建答题活动模板配置', component: AddActQuestion, props: (router) => ({id: router.query.id})},
         { path: '/market/actTpl/actSetConf', name: '基础设置', component: ActSetConf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode, id: router.query.id, clone: router.query.clone,}) },
         { path: '/market/actTpl/quesActSetConf', name: '题目设置', component: QuesList, props: (router) => ({id: router.query.id, actCode: router.query.actCode,form: router.query.form}) },
