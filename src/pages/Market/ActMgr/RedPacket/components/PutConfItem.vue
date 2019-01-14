@@ -143,7 +143,7 @@ export default {
           this.putTabs[this.tabsIndex].push({ title: '常规奖项' + i, name: i - 1 + ''})
         }
         this.putTabsValue[this.tabsIndex] = '0'
-        this.data.strategyArr[this.tabsIndex].awardArr.splice(targetName - 1, 1)
+        this.data.strategyArr[this.tabsIndex].awardArr.splice(targetName, 1)
       }
     },
     add() {

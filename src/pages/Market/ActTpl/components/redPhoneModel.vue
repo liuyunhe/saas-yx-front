@@ -22,7 +22,7 @@
         <div class="page2 page" v-show="page == 2">
           <img :src="imgData.rules.bg.url" class="bg" title="点击编辑" @mousemove="active()" @mouseout="unActive()">
           <img :src="imgData.rules.rulesBtn.url" class="rules-btn">
-          <img :src="imgData.rules.btnImg.url" class="btn">
+          <div :style="{background: `url('${imgData.rules.btnImg.url}') no-repeat center / 100% 100%`}" class="btn">返回</div>
         </div>
         <div class="page3 page" v-show="page == 3">
           <img :src="imgData.downCount.bg.url" class="bg">
@@ -212,6 +212,13 @@ export default {
     left: 42px;
     width: 216px;
     height: 39px;
+    font-size: 26px;
+    letter-spacing: 10px;
+    line-height: 39px;
+    text-align: center;
+    color: #fff;
+    padding-left: 10px;
+    box-sizing: border-box;
   }
 }
 .page3,
