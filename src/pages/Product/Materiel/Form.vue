@@ -33,6 +33,7 @@
             :before-upload="beforeAvatarUpload">
             <img v-if="form.pic" :src="form.pic" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <div slot="tip" class="el-upload__tip">* 图片建议尺寸为 178*178px格式为jpg\bmp\png\gif</div>
           </el-upload>
         </el-form-item>
         <el-form-item :label="'库存（'+materielUnit[metraFlag]+'）'" prop="stock">

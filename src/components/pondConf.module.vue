@@ -5,29 +5,29 @@
   Description: 活动投放设置组件
   -->
   <div class="pond">
-    <el-form ref="form" :model="awae" label-width="100px">
-      <el-form-item label="N次必中:" v-if="nWin">
+    <el-form ref="form" :model="awae" label-width="100px" :rules="rules">
+      <el-form-item label="N次必中:" v-if="nWin" prop="n">
         用户第 <el-input-number v-model="awae.n" :min="0" controls-position="right"></el-input-number> 个抽奖必中
       </el-form-item>
-      <el-form-item label="奖品类型:">
+      <el-form-item label="奖品类型:" prop="type">
         <el-select v-model="awae.awardType" :disabled="awae.id ? true : false" placeholder="请选择" @change="resetPrize">
           <el-option v-for="item in prizeList" :key="item.type" :label="item.name" :value="item.type">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="奖品名称:">
+      <el-form-item label="奖品名称:" prop="name">
         <el-col :span="10">
           <el-input v-model="awae.prizeName" :disabled="awae.id ? true : false" placeholder="请输入奖品名称"></el-input>
         </el-col>
       </el-form-item>
       <template v-if="awae.awardType == '1'">
-        <el-form-item label="选择物品:">
+        <el-form-item label="选择物品:" prop="pool">
           <!-- <el-button  @click="getEntityList">选择</el-button> -->
           <el-button v-if="!awae.awardPic" @click="getList">选择</el-button>
           <img style="border: 1px dotted #ccc" v-if="awae.awardPic" :src="awae.awardPic" @click="isEdit && getList">
           <span>{{awae.poolName}}</span>
         </el-form-item>
-        <el-form-item label="投放数量:">
+        <el-form-item label="投放数量:" prop="putNum">
           <el-input-number v-model="awae.totalNum" :disabled="awae.id ? true : false" :min="0" controls-position="right"></el-input-number> 个
           <span v-if="awae.id ? true : false">
             剩余<el-input-number v-model="residue" :disabled="true"></el-input-number>个
@@ -36,13 +36,13 @@
         </el-form-item>
       </template>
       <template v-if="awae.awardType == '2'">
-        <el-form-item label="选择物品:">
+        <el-form-item label="选择物品:" prop="pool">
           <!-- <el-button  @click="getVirtualList">选择</el-button> -->
           <el-button v-if="!awae.awardPic" @click="getList">选择</el-button>
           <img v-if="awae.awardPic" :src="awae.awardPic" @click="awae.id ? true : false && getList">
           <span>{{awae.poolName}}</span>
         </el-form-item>
-        <el-form-item label="投放数量:">
+        <el-form-item label="投放数量:" prop="putNum">
           <el-input-number v-model="awae.totalNum" :disabled="awae.id ? true : false" :min="0" controls-position="right"></el-input-number> 个
           <span v-if="awae.id ? true : false">
             剩余<el-input-number v-model="residue" :disabled="true"></el-input-number>个
@@ -51,19 +51,19 @@
         </el-form-item>
       </template>
       <template v-if="awae.awardType == '3'">
-        <el-form-item label="红包池:">
+        <el-form-item label="红包池:" prop="pool">
           <!-- <el-button  @click="getRedpacklList">选择</el-button> -->
           <el-button v-if="!awae.awardPic" @click="getList">选择</el-button>
           <img v-if="awae.awardPic" :src="awae.awardPic" @click="awae.id ? true : false && getList">
           <span>{{awae.poolName}}</span>
         </el-form-item>
         <!-- <el-col :span="10"> -->
-        <el-form-item label="红包面额:">
+        <el-form-item label="红包面额:" prop="redNum">
           <el-input-number v-model="awae.redMoney" :disabled="awae.id ? true : false" :precision="2" :min="0" controls-position="right" @change="countRedTotal"></el-input-number> 元
         </el-form-item>
         <!-- </el-col>
         <el-col :span="14"> -->
-        <el-form-item label="投放数量:">
+        <el-form-item label="投放数量:" prop="putNum">
           <el-input-number v-model="awae.totalNum" :disabled="awae.id ? true : false" :min="0" controls-position="right" @change="countRedTotal"></el-input-number> 个
           <span v-if="awae.id ? true : false">
             剩余<el-input-number v-model="residue" :disabled="true"></el-input-number>个
@@ -71,29 +71,29 @@
           </span>
         </el-form-item>
         <!-- </el-col> -->
-        <el-form-item label="红包金额:">
+        <el-form-item label="红包金额:" prop="redTotal">
           <el-input-number disabled v-model="totalRed" :min="0" controls-position="right"></el-input-number> 元
         </el-form-item>
       </template>
       <template v-if="awae.awardType == '6'">
-        <el-form-item label="选择积分:">
+        <el-form-item label="选择积分:" prop="pool">
           <!-- <el-button  @click="getIntegrallList">选择</el-button> -->
           <el-button v-if="!awae.awardPic" @click="getList">选择</el-button>
           <img v-if="awae.awardPic" :src="awae.awardPic" @click="awae.id ? true : false && getList">
           <span>{{awae.poolName}}</span>
         </el-form-item>
-        <el-form-item label="投放数量:">
+        <el-form-item label="投放数量:" prop="putNum">
           <el-input-number v-model="awae.totalNum" :disabled="awae.id ? true : false" :min="0" controls-position="right"></el-input-number> 个
           <span v-if="awae.id ? true : false">
             剩余<el-input-number v-model="residue" :disabled="true"></el-input-number>个
             <el-button @click="addRepertory">增库</el-button>
           </span>
         </el-form-item>
-        <el-form-item label="积分面额:">
+        <el-form-item label="积分面额:" prop="intTotal">
           <el-input-number v-model="awae.integral" :disabled="awae.id ? true : false" :min="0" controls-position="right"></el-input-number> 分
         </el-form-item>
       </template>
-      <el-form-item label="中奖概率:">
+      <el-form-item label="中奖概率:" prop="probability">
         <el-input-number v-model="awae.probability" :min="0" :max="100" controls-position="right"></el-input-number> %
       </el-form-item>
       <el-form-item>
@@ -112,7 +112,7 @@
       </el-form-item>
       <el-form-item>
         <el-checkbox v-model="awae.guideGzh" :checked="awae.guideGzh == 1 ? true : false" :true-label=1 :false-label=0>中奖后引导关注公众号</el-checkbox>
-        <el-checkbox v-model="awae.hasPdMaxOut" @change="resetPdMaxOut">每天出奖总次数限制</el-checkbox>
+        <el-checkbox v-if="!isRed" v-model="awae.hasPdMaxOut" @change="resetPdMaxOut">每天出奖总次数限制</el-checkbox>
         <span v-if="awae.hasPdMaxOut">
           <el-input-number v-model="awae.pdMaxOut" :min="0" controls-position="right"></el-input-number> 次
         </span>
@@ -173,7 +173,7 @@
 </template>
 <script>
 export default {
-  props: ['awae', 'prizeType', 'nWin'],
+  props: ['awae', 'prizeType', 'nWin', 'isRed'],
   data() {
     var validateImgUrl = (rule, value, callback) => {
       if (this.awae.awardPic) {
@@ -182,10 +182,24 @@ export default {
         callback(new Error('请选择奖品'))
       }
     }
+    var tips = (rule, value, callback) => {
+      // callback()
+    }
     return {
       // awae: this.awae,
       prizeList: this.prizeType,
-
+      rules: {
+        n: [{required: true, validator: tips}],
+        type: [{required: true, validator: tips}],
+        name: [{required: true, validator: tips}],
+        probability: [{required: true, validator: tips}],
+        redNum: [{required: true, validator: tips}],
+        pool: [{required: true, validator: tips}],
+        putNum: [{required: true, validator: tips}],
+        intTotal: [{required: true, validator: tips}],
+        redTotal: [{required: true, validator: tips}],
+        // pool: [{required: true, validator: tips}],
+      },
       title: '选择物品',
       list: [],
       params: {
@@ -226,6 +240,7 @@ export default {
     // } else {
     //   this.isEdit = false
     // }
+    // console.log(this.awae)
   },
   methods: {
     // 选择奖品
