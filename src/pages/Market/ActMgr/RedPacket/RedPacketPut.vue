@@ -123,7 +123,8 @@ export default {
       selectedAreaArr: [],
       isDisabled: false,
       isShow: false,
-      statusDisabled: false
+      statusDisabled: false,
+      isChange: false
     }
   },
   created() {
@@ -131,10 +132,12 @@ export default {
   },
   methods: {
     brandDone(arr) {
+      this.isChange = true
       this.selectedBrandArr = arr.selectB
       this.selectedSnArr = arr.selectSB
     },
     areaDone(arr) {
+      this.isChange = true
       this.selectedPrevArr = arr.selectP
       this.selectedCityArr = arr.selectC
       this.selectedAreaArr = arr.selectA
@@ -153,6 +156,8 @@ export default {
       })
     },
     save() {
+      // if (this.selectedBrandArr.length == 0 || this.selectedSnArr.length == 0) return this.$message.error('请选择品牌')
+      // if (this.selectedPrevArr.length == 0 || this.selectedCityArr.length == 0) return this.$message.error('请选择地区')
       // 不是全部地区  清除选中地区里面的全部选项
       if (!this.isDisabled) {
         if(this.selectedCityArr.indexOf('000000') != -1) {
@@ -166,13 +171,15 @@ export default {
         }
       }
       // 给每个场次都添加地区和品牌
-      this.data.strategyArr.map(item => {
-        if (this.selectedPrevArr.length !== 0) item.areas.provinceArr = this.selectedPrevArr
-        if (this.selectedCityArr.length !== 0) item.areas.cityArr = this.selectedCityArr
-        if (this.selectedAreaArr.length !== 0) item.areas.districtArr = this.selectedAreaArr
-        if (this.selectedBrandArr.length !== 0) item.brandArr = this.selectedBrandArr
-        if (this.selectedSnArr.length !== 0) item.snArr = this.selectedSnArr
-      })
+      if (this.isChange) {
+        this.data.strategyArr.map(item => {
+          item.areas.provinceArr = this.selectedPrevArr
+          item.areas.cityArr = this.selectedCityArr
+          item.areas.districtArr = this.selectedAreaArr
+          item.brandArr = this.selectedBrandArr
+          item.snArr = this.selectedSnArr
+        })
+      }
       this.$request.post('/api/saotx/act/somRedtf', this.data, true, res => {
         if (res.ret === '200000') {
           this.$message.success('保存成功')

@@ -54,6 +54,7 @@ export default {
       this.$request.post( '/api/saotx/prod/list', { brandCodeArr: this.selectBrand, pageSize: '-1' }, true, res => {
           if (res.ret === '200000') {
             this.brandSonList = res.data.list
+            this.done()
             return
           }
           this.$message.error(res.message)

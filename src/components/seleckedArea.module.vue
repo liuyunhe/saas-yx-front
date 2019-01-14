@@ -130,6 +130,7 @@ export default {
           if (res.ret === '200000' && res.data.length > 0) {
             this.cityList = [{ code: '000000', name: '全部'}]
             this.cityList.push(...res.data)
+            this.done()
             return
           }
           this.message.error(res.message)
