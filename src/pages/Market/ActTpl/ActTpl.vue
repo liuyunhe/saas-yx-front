@@ -360,6 +360,8 @@ export default {
         this.$router.push('/market/actTpl/AddActFanpaizi')
       }else if(code=='act-501'){   		
 				this.$router.push('/market/actTpl/addActQuestion')
+    	}else if(code=='act-105'){//大转盘
+				this.$router.push('/market/actTpl/AddRound')
     	}
     },
     // 每当 pageSize 变化，会触发 这个函数
@@ -398,6 +400,9 @@ export default {
           break;
         case 'act-501':
           this.$router.push('/market/actTpl/addActQuestion?id=' + id)
+          break;
+        case 'act-105':
+          this.$router.push('/market/actTpl/addRound?id=' + id)
           break;
         default:
           this.$router.push('/market/actTpl/addAct?id=' + id)

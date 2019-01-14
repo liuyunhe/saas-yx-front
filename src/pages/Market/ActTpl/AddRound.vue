@@ -18,12 +18,15 @@
                             <p>{{addActParams.name}}</p>
                         </div>
                         <div class="content">
-                            <img class="bg" :src="defaultConf.img.bg.url" alt="" title="点击编辑" @click="showEditConIndex = 1":style="defaultConf.img.bg.style"/>
-                            <img class="top" :src="defaultConf.img.title.url" alt="" title="点击编辑" @click="showEditConIndex = 2" :style="defaultConf.img.title.style"/>
-                            <img class="subTitle" :src="defaultConf.img.subTitle.url" alt="" title="点击编辑" @click="showEditConIndex = 3" :style="defaultConf.img.subTitle.style" />
-                            <img class="kits" :src="defaultConf.img.tips.url" alt="" title="点击编辑" @click="showEditConIndex = 4" :style="defaultConf.img.tips.style"/>
-                            <img class="game-con" :src="defaultConf.img.yxContentBg.url"  @click="showEditConIndex = 5" alt="" title="点击编辑"  :style="defaultConf.img.yxContentBg.style"/>
-                            <img class="game-con" :src="item.url" v-for="item in defaultConf.img.kists" :key="item.key" @click="showEditConIndex = 6" alt="" title="点击编辑"  :style="item.style"/>
+                            <div class="bg"><img :src="defaultConf.img.bg.url" alt="" title="点击编辑" @click="showEditConIndex = 1"></div>
+                            <div class="top"><img :src="defaultConf.img.title.url" alt="" title="点击编辑" @click="showEditConIndex = 2" ></div>
+                            <div class="kits"><img :src="defaultConf.img.tips.url" alt="" title="点击编辑" @click="showEditConIndex = 3" ></div>
+                            <div class="btm"><img :src="defaultConf.img.btm.url" alt="" title="点击编辑" @click="showEditConIndex = 4" ></div>
+                            <div class="mid"><img :src="defaultConf.img.mid.url" alt="" title="点击编辑" @click="showEditConIndex = 5" ></div>
+                            <div class="btn"><img :src="defaultConf.img.btn.url" alt="" title="点击编辑" @click="showEditConIndex = 6" ></div>
+                            <!--<div class="game-con">-->
+                            <!--<div class="" v-for="item in defaultConf.img.kists" :key="item.key" @click="showEditConIndex = 4"><img :src="item.url"  alt="" :style="item.style"></div>-->
+                            <!--</div>-->
                         </div>
                         <div class="footer"></div>
                     </div>
@@ -59,16 +62,7 @@
                                         </el-upload>
                                     </div>
                                 </div>
-                                <div class="edit-subTitle-img" v-if="showEditConIndex == 3">
-                                    <p class="img-title">活动标题：</p>
-                                    <div class="img-con"><img :src="defaultConf.img.subTitle.url" alt=""></div>
-                                    <div class="btn-con">
-                                        <el-upload :action="uploadURL" :headers="headerObj" :on-success="upSubTitleImgSuccess" :show-file-list="false">
-                                            <el-button size="small" type="primary">更换图片</el-button>
-                                        </el-upload>
-                                    </div>
-                                </div>
-                                <div class="edit-kits-img" v-if="showEditConIndex == 4">
+                                <div class="edit-kits-img" v-if="showEditConIndex == 3">
                                     <p class="img-title">活动锦囊：</p>
                                     <div class="img-con"><img :src="defaultConf.img.tips.url" alt=""></div>
                                     <div class="btn-con">
@@ -77,31 +71,36 @@
                                         </el-upload>
                                     </div>
                                 </div>
-                                <div class="edit-kits-img" v-if="showEditConIndex == 5">
-                                    <p class="img-title">操作区背景图：</p>
-                                    <div class="img-con"><img :src="defaultConf.img.yxContentBg.url" alt=""></div>
+                                <div class="edit-kits-img" v-if="showEditConIndex == 4">
+                                    <p class="img-title">转盘底图：</p>
+                                    <div class="img-con"><img :src="defaultConf.img.btm.url" alt=""></div>
                                     <div class="btn-con">
-                                        <el-upload :action="uploadURL" :headers="headerObj" :on-success="upBGridImgSuccess" :show-file-list="false">
+                                        <el-upload :action="uploadURL" :headers="headerObj" :on-success="upBtmImgSuccess" :show-file-list="false">
                                             <el-button size="small" type="primary">更换图片</el-button>
                                         </el-upload>
                                     </div>
                                 </div>
-                                <div class="edit-game-img" v-if="showEditConIndex == 6">
-                                    <div v-for="(item, index) in defaultConf.img.kists" :key="item.key">
-                                        <p class="img-title">{{index==4?'抽奖按钮:':'方格' + (index + 1) + ':'}}</p>
-                                        <div class="img-con"><img :src="item.url" alt=""></div>
-                                        <div class="btn-con">
-                                            <el-upload :action="uploadURL" :headers="headerObj" :on-success="upGameImgSuccess" :show-file-list="false">
-                                                <el-button size="small" type="primary" @click="getGameIndex(index)">更换图片</el-button>
-                                            </el-upload>
-                                        </div>
+                                <div class="edit-kits-img" v-if="showEditConIndex == 5">
+                                    <p class="img-title">转盘旋转图：</p>
+                                    <div class="img-con"><img :src="defaultConf.img.mid.url" alt=""></div>
+                                    <div class="btn-con">
+                                        <el-upload :action="uploadURL" :headers="headerObj" :on-success="upMidImgSuccess" :show-file-list="false">
+                                            <el-button size="small" type="primary">更换图片</el-button>
+                                        </el-upload>
+                                    </div>
+                                </div>
+                                <div class="edit-kits-img" v-if="showEditConIndex == 6">
+                                    <p class="img-title">抽奖按钮：</p>
+                                    <div class="img-con"><img :src="defaultConf.img.btn.url" alt=""></div>
+                                    <div class="btn-con">
+                                        <el-upload :action="uploadURL" :headers="headerObj" :on-success="upBtnImgSuccess" :show-file-list="false">
+                                            <el-button size="small" type="primary">更换图片</el-button>
+                                        </el-upload>
                                     </div>
                                 </div>
                                 <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 640*1600px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                                 <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 {{defaultConf.img.title.width}} x {{defaultConf.img.title.height}}px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
-                                <p class="tips" v-if="showEditConIndex == 3">* * 图片建议尺寸为 550 x 100px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
-                                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 120*120*.jpg\ *.bmp\ *.png\ *.gif</p>
-
+                                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 120*120*.jpg\ *.bmp\ *.png\ *.gif</p>
                             </div>
 
                         </el-card>
@@ -228,296 +227,241 @@
     </div>
 </template>
 <script>
-    export default {
-        props: ['id'],
-        data() {
-            return {
-                defaultConf: {
-                    title: null,
-                    description: "",
-                    ratio: 0.4,
-                    img: this.getAllImage()
-                },
-                activeName: 'home',
-                addActParams: {
-                    conf: '',
-                    form: 'act-101',
-                    id: '',
-                    name: '',
-                    note: ''
-                },
-                addActRules: {
-                    name: [
-                        { required: true, message: '请输入模板名称', trigger: 'blur' },
-                        { max: 15, message: '长度不能超过 15 个字符', trigger: 'blur' }
-                    ]
-                },
-                uploadURL: '/api/saotx/attach/commonAliUpload',
-                headerObj: {
-                    loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
-                    token: sessionStorage.getItem('access_token'),
-                    CLIENTSESSIONID: sessionStorage.getItem('CLIENTSESSIONID')
-                },
-                gameIndex: null, // 游戏区域图片索引
-                showEditConIndex: 1, // 显示图片编辑器的序号
-                isPut: true // 是否投放 默认投放
-            }
+  export default {
+    props: ['id'],
+    data() {
+      return {
+        defaultConf: {
+          title: null,
+          description: "",
+          ratio: 0.4,
+          img: this.getAllImage()
         },
-        computed: {},
-        created() {
-            this.getActDetail()
+        activeName: 'home',
+        addActParams: {
+          conf: '',
+          form: 'act-105',
+          id: '',
+          name: '',
+          note: ''
         },
-        methods: {
-            getImage(name, suffix) {
-                var base= "https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/";
-                var suffix = suffix ? suffix : this.suffix;
-                return  base + name + "." + suffix;
-            },
-            getNewImage: function(name, suffix) {
-                var newBase="https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/";
-                var suffix = suffix ? suffix : this.suffix;
-                return newBase + name + "." + suffix;
-            },
-            getStyle(w, h, x, y) {
-                var ratio=0.4;
-                var pcRatio=0.5;
-                var wp = w.toString().indexOf('%') > -1;
-                var hp = h.toString().indexOf('%') > -1;
-                return {
-                    style: {
-                        "max-width": wp ? w : Math.floor(w * ratio) + 'px',
-                        "max-height": hp ? h :Math.floor(h * ratio) + 'px',
-                        transform: "translate(" + Math.floor(x * ratio) + "px," + Math.floor(y * ratio) + "px)"
-                    },
-                    'c-style': {
-                        "max-width": wp ? w : Math.floor(w * pcRatio) + 'px',
-                        "max-height": hp ? h : Math.floor(h * pcRatio) + 'px',
-                        transform: "translate(" + Math.floor(x * pcRatio) + "px," + Math.floor(y * pcRatio) + "px)"
-                    }
-                }
-            },
-            getAllImage() {
-                var _this = this;
-                var urls = {};
-                var nameSuffix = "item0";
-                var imgSize = [
-                    [195, 162],
-                    [130, 146],
-                    [123, 124],
-                    [125, 144],
-                    [114, 112],
-                    [147, 144]
-                ];
-                var imgPosition = [
-                    [70, 632],
-                    [265, 632],
-                    [460, 632],
-                    [70, 794],
-                    [265, 794],
-                    [460, 794],
-                    [70, 956],
-                    [265, 956],
-                    [460, 956]
-                ];
-                urls.kists=[];
-                for (var i = 1; i <= imgPosition.length; i++) {
-                    var width = imgSize[0][0];
-                    var height = imgSize[0][1];
-                    var left = imgPosition[i - 1][0];
-                    var top = imgPosition[i - 1][1];
-                    var pos = 0;
-                    i == 1 || i == 2 || i == 3 || i == 7
-                    ? pos = i : i == 6
-                    ? pos = 4 : i == 9
-                    ? pos = 5 : i == 8
-                    ? pos = 6 : i == 4
-                    ? pos = 8 : i == 5
-                    ? pos = 9 : '';
-                    var ratio = 0.4;
-                    if(i != 5 ){
-                        urls[nameSuffix + i] = {
-                            url: _this.getNewImage('item_bg',"png"),
-                            width: width,
-                            height: height,
-                            left: left,
-                            top: top,
-                            pos: pos,
-                            style:  _this.getStyle(width, height, left, top).style,
-                            'c-style': _this.getStyle(width, height, left, top)["c-style"],
-                        };
-                        urls.kists.push(urls[nameSuffix + i])
-                    }else {
-                        urls[nameSuffix + i] = {
-                            url: _this.getNewImage("jgg_ljcj","png"),
-                            width: width,
-                            height: height,
-                            left: left,
-                            top: top,
-                            pos: pos,
-                            style:  _this.getStyle(width, height, left, top).style,
-                            'c-style': _this.getStyle(width, height, left, top)["c-style"],
-                        };
-                        urls.kists.push(urls[nameSuffix + i])
-                    }
-
-                }
-                urls.bg = {
-                    url: _this.getNewImage("jiugongge-bg","png"),
-                    width: "100%",
-                    height: "100%",
-                    left: 0,
-                    top: 0,
-                    style: _this.getStyle('100%', '100%', 0, 0)
-                };
-                urls.title = {
-                    url: _this.getNewImage("jgg-banner","png"),
-                    width: 622,
-                    height: 357,
-                    left: 63,
-                    top: 130,
-                    style: _this.getStyle(622, 357, 63, 130).style,
-                    'c-style':  _this.getStyle(622, 357, 63, 130)["c-style"],
-                };
-                urls.subTitle = {
-                    url: _this.getImage("JGG_title_text","png"),
-                    width: 550,
-                    height: 100,
-                    left: 80,
-                    top: 500,
-                    style: _this.getStyle(550, 100, 80, 500).style,
-                    'c-style':  _this.getStyle(550, 100, 80, 500)["c-style"],
-                };
-                urls.tips = {
-                    url: _this.getImage("JGG_HDJN","png"),
-                    width: 98,
-                    height: 103,
-                    left: 638,
-                    top: 38,
-                    style: _this.getStyle(98, 103, 638, 38).style,
-                    'c-style': _this.getStyle(98, 103, 638, 38)["c-style"],
-                };
-                urls.yxContentBg = {
-                    url: _this.getImage("content-bg","png"),
-                    width: 650,
-                    height: 550,
-                    left: 35,
-                    top: 600,
-                    style: _this.getStyle(650, 550, 35, 600).style,
-                    'c-style': _this.getStyle(650, 550, 35, 600)["c-style"],
-                };
-
-                urls.award = {
-                    url: _this.getImage("djlq_btn","png")
-                };
-                urls.noAward = {
-                    url: _this.getImage("cry75@2x","png")
-                };
-                urls.zxNoAwardBtn = {
-                    url: _this.getNewImage("know-btn","png")
-                }
-                console.log(urls);
-                return urls;
-            },
-            getActDetail() {
-                if (this.id) {
-                    this.$request.post('/api/saotx/acttpl/detail', { id: this.id }, true, res => {
-                        if (res.ret === '200000') {
-                            this.addActParams = res.data
-                            this.defaultConf = JSON.parse(res.data.conf)
-                            if (res.data.statusName == '未投放') {
-                                this.isPut = false
-                            } else {
-                                this.isPut = true
-                            }
-                        } else {
-                            this.$message.error(res.message)
-                        }
-                    })
-                }
-            },
-            // 上传背景
-            upBgImgSuccess(resule) {
-                console.log(resule)
-                if (resule.ret === '200000') return (this.defaultConf.img.bg.url = resule.data.accessUrl)
-                this.$message.error(resule.message)
-            },
-            // 上传头部标题
-            upTopImgSuccess(resule) {
-                if (resule.ret === '200000') return (this.defaultConf.img.title.url = resule.data.accessUrl)
-                this.$message.error(resule.message)
-            },
-            // 上传头部副标题
-            upSubTitleImgSuccess(resule) {
-                if (resule.ret === '200000') return (this.defaultConf.img.subTitle.url = resule.data.accessUrl)
-                this.$message.error(resule.message)
-            },
-            // 上传活动锦囊
-            upTipsImgSuccess(resule) {
-                if (resule.ret === '200000') return (this.defaultConf.img.tips.url = resule.data.accessUrl)
-                this.$message.error(resule.message)
-            },
-            // 获取点击的游戏区域图片的索引
-            getGameIndex(index) {
-                this.gameIndex = index
-            },
-            // 上传操作区背景图片
-            upBGridImgSuccess(resule) {
-                if (resule.ret === '200000')
-                    return (this.defaultConf.img.yxContentBg.url = resule.data.accessUrl)
-                this.$message.error(resule.message)
-            },
-
-            // 上传游戏图片
-            upGameImgSuccess(resule) {
-                if (resule.ret === '200000'){
-                    this.defaultConf.img['item0'+[this.gameIndex+1]].url = resule.data.accessUrl
-                    return (this.defaultConf.img.kists[this.gameIndex].url = resule.data.accessUrl)
-                }else{
-                    this.$message.error(resule.message)
-                }
-            },
-            // 上传中奖按钮图片
-            upYesWinningImgBtn(resule) {
-                if (resule.ret === '200000') return (this.defaultConf.img.award.url = resule.data.accessUrl)
-                this.$message.error(resule.message)
-            },
-            // 上传未中奖图片
-            upNotWinningImg(resule) {
-                if (resule.ret === '200000') return (this.defaultConf.img.noAward.url = resule.data.accessUrl)
-                this.$message.error(resule.message)
-            },
-            // 上传未中奖按钮图片
-            upNotWinningImgBtn(resule) {
-                if (resule.ret === '200000') return (this.defaultConf.img.zxNoAwardBtn.url = resule.data.accessUrl)
-                this.$message.error(resule.message)
-            },
-            // 保存进入下一步
-            saveActTpl() {
-                if (!this.addActParams.name) return this.$message.warning('请输入模板名称')
-                this.defaultConf.title = this.addActParams.name
-                this.defaultConf.description = this.addActParams.note
-                this.addActParams.conf = JSON.stringify(this.defaultConf)
-                this.$request.post('/api/saotx/acttpl/saveOrModify', this.addActParams, true, res => {
-                    if (res.ret === '200000') {
-                        // 投放
-                        if (this.isPut) {
-                            // 跳到活动基本信息页
-                            this.$router.push(
-                                '/market/actTpl/actSetConf?form=' + res.data.form + '&tplCode=' + res.data.tplCode
-                            )
-                        } else {
-                            // 不投放
-                            // 跳到活动模板
-                            this.$router.push('/market/actTpl')
-                        }
-                        this.$message.success('保存成功!')
-                        return
-                    }
-                    this.$message.error(res.message)
-                })
-            }
+        addActRules: {
+          name: [
+            { required: true, message: '请输入模板名称', trigger: 'blur' },
+            { max: 15, message: '长度不能超过 15 个字符', trigger: 'blur' }
+          ]
+        },
+        uploadURL: '/api/saotx/attach/commonAliUpload',
+        headerObj: {
+          loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
+          token: sessionStorage.getItem('access_token'),
+          CLIENTSESSIONID: sessionStorage.getItem('CLIENTSESSIONID')
+        },
+        gameIndex: null, // 游戏区域图片索引
+        showEditConIndex: 1, // 显示图片编辑器的序号
+        isPut: true // 是否投放 默认投放
+      }
+    },
+    computed: {},
+    created() {
+      this.getActDetail()
+    },
+    methods: {
+      getImage(name, suffix) {
+        var base= "https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/";
+        var suffix = suffix ? suffix : this.suffix;
+        return  base + name + "." + suffix;
+      },
+      getStyle(w, h, x, y) {
+        var wp = w.toString().indexOf('%') > -1;
+        var hp = h.toString().indexOf('%') > -1;
+        var ratio= 0.4;
+        var pcRatio= 0.5;
+        return {
+          style: {
+            "max-width": wp ? w : Math.floor(w * ratio) + 'px',
+            "max-height": hp ? h : Math.floor(h * ratio) + 'px',
+            transform: "translate(" + Math.floor(x * ratio) + "px," + Math.floor(y * ratio) + "px)"
+          },
+          'c-style': {
+            "max-width": wp ? w : Math.floor(w * pcRatio) + 'px',
+            "max-height": hp ? h : Math.floor(h * pcRatio) + 'px',
+            transform: "translate(" + Math.floor(x * pcRatio) + "px," + Math.floor(y * pcRatio) + "px)"
+          }
         }
+      },
+      getAllImage() {
+        var _this = this;
+        var urls = {};
+        var nameSuffix = "yuanbao0";
+
+        urls.bg = {
+          url: _this.getImage("round-bg", "png"),
+          width: "100%",
+          height: "100%",
+          left: 0,
+          top: 0,
+          style: _this.getStyle('100%', '100%', 0, 0)
+        };
+        urls.title = {
+          url: _this.getImage("round-title","png"),
+          width: 734,
+          height: 276,
+          left: 13,
+          top: 137,
+          style: _this.getStyle(734, 276, 13, 137).style,
+          'c-style': _this.getStyle(734, 276, 13, 137)["c-style"],
+        };
+        urls.tips = {
+          url: _this.getImage("round-tips","png"),
+          width: 86,
+          height: 97,
+          left: 655,
+          top: 8,
+          style: _this.getStyle(86, 97, 655, 8).style,
+          'c-style': _this.getStyle(98, 103, 638, 38)["c-style"],
+        };
+        urls.btm = {
+          url: _this.getImage("round-btm","png"),
+          width: 686,
+          height: 676,
+          left: 31,
+          top: 384,
+          style: _this.getStyle(686, 676, 31, 384).style,
+          'c-style': _this.getStyle(686, 676, 31, 384)["c-style"],
+        };
+        urls.mid = {
+          url: _this.getImage("round-mid","png"),
+          width: 496,
+          height: 496,
+          left: 109,
+          top: 109,
+          style: _this.getStyle(496, 496, 109, 109).style,
+          'c-style': _this.getStyle(496, 496, 109, 109)["c-style"],
+        };
+        urls.btn = {
+          url: _this.getImage("round-btn","png"),
+          width: 209,
+          height: 240,
+          left: 300,
+          top: 272,
+          style: _this.getStyle(209, 240, 300, 272).style,
+          'c-style': _this.getStyle(209, 240, 300, 272)["c-style"],
+        };
+        urls.award = {
+          url:
+            "https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/djlq_btn.png"
+        };
+        urls.noAward = {
+          url:
+            "https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/cry75@2x.png"
+        };
+        urls.zxNoAwardBtn = {
+          url: "https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/know-btn.png"
+        }
+        console.log(urls);
+        return urls;
+      },
+      getActDetail() {
+        if (this.id) {
+          this.$request.post('/api/saotx/acttpl/detail', { id: this.id }, true, res => {
+            if (res.ret === '200000') {
+              this.addActParams = res.data
+              this.defaultConf = JSON.parse(res.data.conf)
+              if (res.data.statusName == '未投放') {
+                this.isPut = false
+              } else {
+                this.isPut = true
+              }
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+        }
+      },
+      // 上传背景
+      upBgImgSuccess(resule) {
+        console.log(resule)
+        if (resule.ret === '200000') return (this.defaultConf.img.bg.url = resule.data.accessUrl)
+        this.$message.error(resule.message)
+      },
+      // 上传头部标题
+      upTopImgSuccess(resule) {
+        if (resule.ret === '200000') return (this.defaultConf.img.title.url = resule.data.accessUrl)
+        this.$message.error(resule.message)
+      },
+      // 上传活动锦囊
+      upTipsImgSuccess(resule) {
+        if (resule.ret === '200000') return (this.defaultConf.img.tips.url = resule.data.accessUrl)
+        this.$message.error(resule.message)
+      },
+      // 上传转盘底图
+      upBtmImgSuccess(resule) {
+        if (resule.ret === '200000') return (this.defaultConf.img.btm.url = resule.data.accessUrl)
+        this.$message.error(resule.message)
+      },
+      // 上传转盘图片
+      upMidImgSuccess(resule) {
+        if (resule.ret === '200000') return (this.defaultConf.img.mid.url = resule.data.accessUrl)
+        this.$message.error(resule.message)
+      },
+      // 上传转盘按钮图片
+      upBtnImgSuccess(resule) {
+        if (resule.ret === '200000') return (this.defaultConf.img.btn.url = resule.data.accessUrl)
+        this.$message.error(resule.message)
+      },
+      // 获取点击的游戏区域图片的索引
+      getGameIndex(index) {
+        this.gameIndex = index
+      },
+      // 上传游戏图片
+      upGameImgSuccess(resule) {
+        if (resule.ret === '200000')
+          return (this.defaultConf.img.kists[this.gameIndex].url = resule.data.accessUrl)
+        this.$message.error(resule.message)
+      },
+      // 上传中奖按钮图片
+      upYesWinningImgBtn(resule) {
+        if (resule.ret === '200000') return (this.defaultConf.img.award.url = resule.data.accessUrl)
+        this.$message.error(resule.message)
+      },
+      // 上传未中奖图片
+      upNotWinningImg(resule) {
+        if (resule.ret === '200000') return (this.defaultConf.img.noAward.url = resule.data.accessUrl)
+        this.$message.error(resule.message)
+      },
+      // 上传未中奖按钮图片
+      upNotWinningImgBtn(resule) {
+        if (resule.ret === '200000') return (this.defaultConf.img.zxNoAwardBtn.url = resule.data.accessUrl)
+        this.$message.error(resule.message)
+      },
+      // 保存进入下一步
+      saveActTpl() {
+        if (!this.addActParams.name) return this.$message.warning('请输入模板名称')
+        this.defaultConf.title = this.addActParams.name
+        this.defaultConf.description = this.addActParams.note
+        this.addActParams.conf = JSON.stringify(this.defaultConf)
+        this.$request.post('/api/saotx/acttpl/saveOrModify', this.addActParams, true, res => {
+          if (res.ret === '200000') {
+            // 投放
+            if (this.isPut) {
+              // 跳到活动基本信息页
+              this.$router.push(
+                '/market/actTpl/actSetConf?form=' + res.data.form + '&tplCode=' + res.data.tplCode
+              )
+            } else {
+              // 不投放
+              // 跳到活动模板
+              this.$router.push('/market/actTpl')
+            }
+            this.$message.success('保存成功!')
+            return
+          }
+          this.$message.error(res.message)
+        })
+      }
     }
+  }
 </script>
 <style lang="scss" scoped>
     .el-tabs {
@@ -558,28 +502,48 @@
                         }
                     }
                     .top {
-                          position: absolute;
-                          left: 0;
-                          top:0;
-                       /* top: 30px;
-                          left: 50%;*/
-                          transform: translateX(-50%);
-                          /*width: 275px;
-                          height: 144px;*/
-                          img {
-                              width: 100%;
-                              height: 100%;
-                          }
-                      }
-                    .subTitle {
                         position: absolute;
-                        left: 0;
-                        top:0;
-                  /*      top: 200px;
-                        left: 50%;*/
+                        top: 55px;
+                        left: 50%;
                         transform: translateX(-50%);
-                    /*    width: 220px;
-                        height: 33px;*/
+                        width: 293px;
+                        height: 110px;
+                        img {
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                    .btm{
+                        position: absolute;
+                        top:154px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        width: 274px;
+                        height: 270px;
+                        img {
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                    .btn{
+                        position: absolute;
+                        top:231px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        width: 84px;
+                        height: 96px;
+                        img {
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                    .mid{
+                        position: absolute;
+                        top:187px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        width: 198px;
+                        height: 198px;
                         img {
                             width: 100%;
                             height: 100%;
@@ -587,12 +551,10 @@
                     }
                     .kits{
                         position: absolute;
-                        left: 0;
-                        top:0;
-                   /*     top: 15px;
-                        left: 92%;*/
+                        top: 4px;
+                        left: 92%;
                         transform: translateX(-50%);
-                        width: 40px;
+                        width: 34px;
                         height: 40px;
                         img {
                             width: 100%;
@@ -602,7 +564,14 @@
                     .game-con {
                         position: absolute;
                         left: 0;
-                        top:0;
+                        top: 0;
+                        /*bottom: 42px;
+                        width: 100%;
+                        height: 144px;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        flex-wrap: wrap;*/
                         .game-item {
                             width: 25%;
                             height: 50%;
@@ -706,18 +675,6 @@
                             }
                         }
                     }
-                    .edit-subTitle-img {
-                        display: flex;
-                        .img-con {
-                            width: 40%;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            img {
-                                width: 100%;
-                            }
-                        }
-                    }
                     .edit-kits-img {
                         display: flex;
                         .img-con {
@@ -734,12 +691,13 @@
                         display: flex;
                         margin-bottom: 10px;
                         .img-con {
-                            width: 25%;
+                            width: 180px;
                             display: flex;
                             justify-content: center;
                             align-items: center;
                             img {
-                                width: 100%;
+                                // width: 100%;
+                                height: 80%;
                             }
                         }
                     }
@@ -783,16 +741,6 @@
         .top:hover {
             transform: translateX(-50%) scale(0.99);
         }
-        .subTitle:hover {
-            transform: scale(0.99);
-            cursor: pointer;
-            filter: brightness(60%);
-            border: 2px dotted #fff;
-            box-sizing: border-box;
-        }
-        .subTitle:hover {
-            transform: translateX(-50%) scale(0.99);
-        }
         .kits:hover {
             transform: scale(0.99);
             cursor: pointer;
@@ -812,6 +760,27 @@
         }
         .game-con:hover {
             transform: translateX(-50%) scale(0.99);
+        }
+        .btm:hover{
+            transform: translateX(-50%) scale(0.99);
+            cursor: pointer;
+            filter: brightness(60%);
+            border: 2px dotted #fff;
+            box-sizing: border-box;
+        }
+        .mid:hover{
+            transform: translateX(-50%) scale(0.99);
+            cursor: pointer;
+            filter: brightness(60%);
+            border: 2px dotted #fff;
+            box-sizing: border-box;
+        }
+        .btn:hover{
+            transform: translateX(-50%) scale(0.99);
+            cursor: pointer;
+            filter: brightness(60%);
+            border: 2px dotted #fff;
+            box-sizing: border-box;
         }
     }
     .btn {
