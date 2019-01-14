@@ -44,7 +44,7 @@ const commonImg = {
     },
     getAwardBg:{
     	name: '中奖弹框',
-        index: 'award_bg',
+        index: 'getAwardBg',
         url: handle.getUrl('ques_award_bg', 2),
         pos: [0, 400],
         size: [563, 638]
