@@ -141,6 +141,7 @@
 											</el-upload>
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*460px格式为jpg\bmp\png\gif</div>
 										</div>
+										<p class='tip-text'>*图片建议尺寸为750*460px,格式为*.jpg\*.bmp\*.png\*.gif</p>
 									</div>
 									<el-button slot="reference"></el-button>
 								</el-popover>
@@ -208,6 +209,7 @@
 											</el-upload>
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 178*178px格式为jpg\bmp\png\gif</div>
 										</div>
+										<p class='tip-text'>*图片建议尺寸为178*178px,格式为*.jpg\*.bmp\*.png\*.gif</p>
 										<div class="back">
 											背景图片：<img :src="addlist.conf.has.gzh.bg" alt=""v-show='addlist.conf.has.gzh.bg' />
 											<div class="img-div"v-show='!addlist.conf.has.gzh.bg'></div>
@@ -216,11 +218,12 @@
 											</el-upload>
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*365px格式为jpg\bmp\png\gif</div>
 										</div>
+										<p class='tip-text'>*图片建议尺寸为750*364px,格式为*.jpg\*.bmp\*.png\*.gif</p>
 									</div>
 									<el-button slot="reference"></el-button>
 								</el-popover>
 								<img :src="addlist.conf.has.gzh.qrIcon" alt="" />
-								<p>关注公众号<span>{{addlist.conf.has.gzh.name}}</span>{{addlist.conf.has.gzh.note}}</p>
+								<p class='guanzhu-text'>关注公众号<span>{{addlist.conf.has.gzh.name}}</span>{{addlist.conf.has.gzh.note}}</p>
 								
 							</div>
 							<div class="menu-part">
@@ -271,6 +274,7 @@
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 217*199px格式为jpg\bmp\png\gif</div>
 											<br /><br />
 											<div>提示语：</div>
+											<br />
 											<el-input v-model="addlist.conf.not.yz.tip" placeholder="请输入内容"maxlength='20'></el-input>
 											<br /> 按钮图片：
 											<img :src="addlist.conf.not.yz.btnIcon" alt="" />
@@ -317,6 +321,7 @@
 											</el-upload>
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 178*178px格式为jpg\bmp\png\gif</div>
 										</div>
+										<p class='tip-text'>*图片建议尺寸为178*178px,格式为*.jpg\*.bmp\*.png\*.gif</p>
 										<div class="back">
 											背景图片：<img :src="addlist.conf.not.gzh.bg" alt="" />
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz7">
@@ -324,11 +329,12 @@
 											</el-upload>
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*365px格式为jpg\bmp\png\gif</div>
 										</div>
+										<p class='tip-text'>*图片建议尺寸为750*460px,格式为*.jpg\*.bmp\*.png\*.gif</p>
 									</div>
 									<el-button slot="reference"></el-button>
 								</el-popover>
 								<img :src="addlist.conf.not.gzh.qrIcon" alt="" />
-								<p>关注公众号<span>"{{addlist.conf.not.gzh.name}}"</span>{{addlist.conf.not.gzh.note}}</p>
+								<p class='guanzhu-text'>关注公众号<span>"{{addlist.conf.not.gzh.name}}"</span>{{addlist.conf.not.gzh.note}}</p>
 								
 							</div>
 							<div class="menu-part">

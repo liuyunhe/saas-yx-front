@@ -2,7 +2,7 @@
     <!--
     Author: mgx
     Create Date: 2018-11-09
-    Description: 新建点元宝活动模板
+    Description: 新建九宫格活动模板
     -->
     <div class="addActTamConf-container">
         <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -132,12 +132,16 @@
                         <div class="content">
                             <div class="bg"><img :src="defaultConf.img.bg.url"></div>
                             <div class="winning">
-                                <div class="prize-con">
-                                    <div class="close">X</div>
-                                    <img class="pic" src="https://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/test/5279354775674C718BC4C6E46A963B72.png" alt="">
-                                    <h3>奖品名称</h3>
-                                    <p>请在24小时内领取</p>
-                                    <img class="prize-btn" :src="defaultConf.img.award.url" alt="">
+                                <div class="prize-con award-con">
+                                	    <img :src="defaultConf.img.award_bg.url"class='award-alert' alt="" />
+                                		<div class="close">X</div>
+	                                    <img class="pic" src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/award_img.png" alt="">
+	                                    <div class="award-text">
+	                                    	<h3>奖品名称</h3>
+	                                    	<p>请在24小时内领取</p>
+	                                    </div>
+	                                    
+	                                    <img class="prize-btn" :src="defaultConf.img.award.url" alt="">                      
                                 </div>
                             </div>
                         </div>
@@ -149,6 +153,16 @@
                                 <span>编辑图片</span>
                             </div>
                             <div class="edit-con">
+                            	<div class="edit-winning-img">
+                                    <p class="img-title">弹框:</p>
+                                    <div class="img-con alert-con"><img :src="defaultConf.img.award_bg.url" alt=""></div>
+                                    <div class="btn-con">
+                                        <el-upload :action="uploadURL" :headers="headerObj" :on-success="upYesWinningImgBg" :show-file-list="false">
+                                            <el-button size="small" type="primary">更换图片</el-button>
+                                        </el-upload>
+                                    </div>
+                                </div>
+                                <p class="tips">* 图片建议尺寸为 563*638px格式为jpg\bmp\png\gif</p>
                                 <div class="edit-winning-img">
                                     <p class="img-title">按钮:</p>
                                     <div class="img-con"><img :src="defaultConf.img.award.url" alt=""></div>
@@ -158,7 +172,7 @@
                                         </el-upload>
                                     </div>
                                 </div>
-                                <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
+                                <p class="tips">* 图片建议尺寸为247*54px格式为jpg\bmp\png\gif</p>
                             </div>
                         </el-card>
                     </div>
@@ -408,7 +422,10 @@
                 };
 
                 urls.award = {
-                    url: _this.getImage("djlq_btn","png")
+                    url: _this.getImage("jiugongge_award_btn","png")
+                };
+                urls.award_bg = {
+                    url: _this.getImage("jiugongge_award_bg","png")
                 };
                 urls.noAward = {
                     url: _this.getImage("cry75@2x","png")
@@ -486,13 +503,20 @@
 
             // 上传游戏图片
             upGameImgSuccess(resule) {
-                if (resule.ret === '200000')
+                if (resule.ret === '200000'){
+                    this.defaultConf.img['item0'+[this.gameIndex+1]].url = resule.data.accessUrl
                     return (this.defaultConf.img.kists[this.gameIndex].url = resule.data.accessUrl)
-                this.$message.error(resule.message)
+                }else{
+                    this.$message.error(resule.message)
+                }
             },
             // 上传中奖按钮图片
             upYesWinningImgBtn(resule) {
                 if (resule.ret === '200000') return (this.defaultConf.img.award.url = resule.data.accessUrl)
+                this.$message.error(resule.message)
+            },
+            upYesWinningImgBg(resule) {
+                if (resule.ret === '200000') return (this.defaultConf.img.award_bg.url = resule.data.accessUrl)
                 this.$message.error(resule.message)
             },
             // 上传未中奖图片
@@ -650,6 +674,66 @@
                             height: 100%;
                             color: #fff;
                             text-align: center;
+                            &.award-con {
+                            	.award-alert {
+	                            	width:220px;
+	                            	height: 280px;
+	                            	position: absolute;
+	                            	left: 50%;
+	                            	transform: translate(-50%);
+	                            	top:80px;
+	                            }
+	                            .close {
+	                                position: absolute;
+	                                transform: translate(236px, 80px);
+	                                width: 20px;
+	                                height: 20px;
+	                                line-height: 20px;
+	                                text-align: center;
+	                                border: 1px solid #fff;
+	                                border-radius: 50%;
+	                            }
+	                            .pic {
+	                                max-width: 120px;
+	                                // max-height: 200px;
+	                                margin-top: 84px;
+	                                margin-right: 20px;
+	                                position: absolute;
+	                                top:70px;
+	                                left: 50%;
+	                                transform: translate(-50%);
+	                            }
+	                            .award-text {
+	                            	position: absolute;
+	                            	top:240px;
+	                            	left: 50%;
+	                            	transform: translate(-50%);
+	                            }
+	                            h3 {
+	                            	margin-bottom: 5px;
+	                            }
+	                            p {
+	                                color: #fff;
+	                                margin: 0;
+	                            }
+	                            .prize-btn {
+	                                margin-top: 20px;
+	                                max-width: 138px;
+	                                max-height: 34px;
+	                                position: absolute;
+	                                top:290px;
+	                                transform: translate(-50%);
+	                                left: 50%;
+	                            }
+                            }
+                            .award-alert {
+                            	width:220px;
+                            	height: 280px;
+                            	position: absolute;
+                            	left: 50%;
+                            	transform: translate(-50%);
+                            	top:80px;
+                            }
                             .close {
                                 position: absolute;
                                 transform: translate(232px, 56px);
@@ -704,6 +788,14 @@
                         text-align: center;
                         border: 1px solid #ccc;
                         margin: 0 10px;
+                        
+                    }
+                    .alert-con {
+                    	padding: 3px;
+                    	img {
+                    		height: 100%;
+                    		object-fit: contain;
+                    	}
                     }
                     .btn-con {
                         position: relative;

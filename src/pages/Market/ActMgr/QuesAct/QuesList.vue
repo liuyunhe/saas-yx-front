@@ -11,11 +11,14 @@
 			</el-steps>
 			<!--新建和查询部分-->
 			<el-button type="primary" size="small" @click="addQues()">新增题目</el-button>
-			<el-button type="primary" size="small" @click="addBatch()">批量导入</el-button>
+			<el-upload :action="uploadURL" :headers="headerObj" :on-success="addBatch"accept='.xlsx' :show-file-list="false"class='upload-txt'>
+                <el-button size="small" type="primary">批量导入</el-button>
+            </el-upload>
 			<!--<el-button type="primary" size="small" @click="addQues()">初始化题目</el-button>-->
 			<br />
            	 关键字：<el-input size="small" v-model="keywords" placeholder="请输入关键词"class='keywords'></el-input>
            	<el-button type="primary" size="small" @click="search()"class='search'>查询</el-button>
+           	<el-button type="primary" size="small" @click="reset()"class='search'>重置</el-button>
            	
 	    </el-card>
 	    <el-card class='table-part'>
@@ -68,6 +71,12 @@
 	      loading:false,
 	      max:5,
 	      total:10,
+	      headerObj: {
+	        loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
+	        token: sessionStorage.getItem('access_token'),
+	        CLIENTSESSIONID: sessionStorage.getItem('CLIENTSESSIONID')
+	      },
+	      uploadURL: '/api/saotx/actquest/import?actCode='+this.actCode,
 	    }
 	  },
 	  watch: {
@@ -85,7 +94,19 @@
 	            '/market/actTpl/quesEdit?id='+this.id+'&actCode='+this.actCode+'&form='+this.form
 	        )
 	  	},
-	  	addBatch(){},
+	  	reset(){
+	  		this.page=1;
+	  		this.keywords='';
+	  	},
+	  	addBatch(resule){
+	  		if (resule.ret === '200000') {
+	  			this.page=1;
+	  			this.keywords='';
+	  			this.getList();
+	  			return this.$message.success('导入成功!')
+	  		}
+      		this.$message.error(resule.message)
+	  	},
 	  	editItem(item){
 	  		this.$router.push(
 	            '/market/actTpl/quesEdit?quesId=' + item.id+'&id='+this.id+'&actCode='+this.actCode+'&form='+this.form	        )
@@ -94,12 +115,39 @@
 	  	search(){
 	  		this.getList();
 	  	},
-	  	removeItem(item){},
+	  	removeItem(item){
+	  		var that = this
+	      this.$confirm('确定要删除该问题？')
+	        .then(_ => {
+	          that.deleteQues(item)
+	        })
+	        .catch(_ => {})
+	  	},
+	  	deleteQues(item){
+	  		this.$request.post('/api/saotx/actquest/delete', {
+	  			actQuest:{
+	        		id:item.id,
+	        		quesId:item.quesId,
+	        		actCode:item.actCode,
+	        		quesTitle:item.quesTitle,
+	        		quesType:item.quesType
+	        	},
+	        	actAnsw:item.actAnsw
+	  		}, true, res => {
+		        if (res.ret == '200000') {
+		        	this.$message.success('删除成功!')
+		        	this.getList();
+		        	return
+		        }
+		        this.$message.error(res.messgae)
+		    })
+	  	},
 	  	getList(){
 	  		this.$request.post('/api/saotx/actquest/list', {
 	  			pageNo: this.page,
 				pageSize: this.max,
-				keywords:this.keywords
+				keywords:this.keywords,
+				actCode:this.actCode
 	  		}, true, res => {
 		        if (res.ret == '200000') {
 		        	this.total = res.data.page.count;
@@ -173,5 +221,8 @@
 		display: flex;
 		justify-content: center;
 		margin-top: 30px;
+	}
+	.upload-txt {
+		display: inline-block;
 	}
 </style>

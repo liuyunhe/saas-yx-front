@@ -13,7 +13,7 @@
 				</div>
 			</div>
 			<div class="content" v-show='contentShow' v-loading='loading'>
-				<div class="title">菜单栏</div>
+				<div class="title">菜单栏<span>(*图片建议尺寸为80*70px,格式为*.jpg\*.bmp\*.png\*.gif)</span></div>
 				<div class="select-btn">
 					<label for="">底色: </label>
 					<el-color-picker v-model="colorValue" @change="colorChange" class='color-select'></el-color-picker>
@@ -456,7 +456,11 @@
 		margin-bottom: 10px;
 		border-bottom: 1px solid #eee;
 	}
-	
+	.title span {
+		font-size: 12px;
+		color:#aaa;
+		margin-left: 10px;
+	}
 	.icon-con {
 		/*border-bottom: 1px solid #ccc;*/
 	}

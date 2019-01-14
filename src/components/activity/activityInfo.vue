@@ -1,12 +1,12 @@
 <template>
     <div id="root">
         <el-form ref="infoForm" :model="info" :rules="rules" :hideRequiredAsterisk="state.require" label-width="100px" label-position="top">
-            <el-form-item label="活动名称：" prop="title">
-                <el-input placeholder="请输入活动名称" v-model="info.title" @input="titleInput" maxlength="15"></el-input>
+            <el-form-item label="模板名称：" prop="title">
+                <el-input placeholder="请输入模板名称" v-model="info.title" @input="titleInput" maxlength="15"></el-input>
                 <span class="words-tips">{{info.title.length}}/{{titleLength}}</span>
             </el-form-item>
-            <el-form-item label="活动描述：" prop="desc">
-                <el-input placeholder="请输入活动名称" v-model="info.desc" type="textarea" @input="descInput" maxlength="50" resize="false"></el-input>
+            <el-form-item label="模板描述：" prop="desc">
+                <el-input placeholder="请输入模板描述" v-model="info.desc" type="textarea" @input="descInput" maxlength="50" resize="false"></el-input>
                 <span class="words-tips">{{info.desc.length}}/{{descLength}}</span>
             </el-form-item>
         </el-form>
