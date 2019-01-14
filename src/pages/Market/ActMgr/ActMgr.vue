@@ -88,7 +88,7 @@
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="stop(scope.row.id)">暂停</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="over(scope.row.id)">结束</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 4" @click="del(scope.row.id)">删除</a>
-            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status != 4 && scope.row.status != 0" @click="test(scope.row.form, scope.row.actCode)">活动模板</a>
+            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status != 4 && scope.row.status != 0" @click="editTpl(scope.row.form, scope.row.actCode)">活动模板</a>
           </template>
         </el-table-column>
       </el-table>
@@ -289,7 +289,17 @@ export default {
       firstScanLogList: [],
       nWinLogList: [],
       fixationLogList: [],
-      loading: true
+      loading: true,
+      formPath: {
+        'act-101': '/market/actTpl/AddActSudoku?edit=',
+        'act-102': '/market/actTpl/AddWingAct?edit=',
+        'act-103': '/market/actTpl/addActEgg?edit=',
+        'act-104': '/market/actTpl/addActFanpaizi?edit=',
+        'act-501': '/market/actTpl/addActQuestion?edit=',
+        'act-301': '/market/actTpl/addActRedPacked?edit=',
+        'act-105': '/market/actTpl/addRound?edit=',
+        'act-100': '/market/actTpl/addAct?edit='
+      }
     }
   },
   created() {
@@ -668,32 +678,34 @@ export default {
         this.$message.error(res.message)
       })
     },
-    test(form, code) {
-      console.log(form, code)
-      // return
-       switch (form) {
-        case 'act-101':
-          this.$router.push('/market/actTpl/AddActSudoku?edit=' + code)
-          break; 
-        case 'act-102':
-          this.$router.push('/market/actTpl/AddWingAct?edit=' + code)
-          break;
-        case 'act-103':
-          this.$router.push('/market/actTpl/addActEgg?edit=' + code)
-          break;
-        case 'act-104':
-          this.$router.push('/market/actTpl/addActFanpaizi?edit=' + code)
-          break;
-        case 'act-501':
-          this.$router.push('/market/actTpl/addActQuestion?edit=' + code)
-          break;
-        case 'act-301':
-          this.$router.push('/market/actTpl/addActRedPacked?edit=' + code)
-          break;
-        case 'act-100':
-          this.$router.push('/market/actTpl/addAct?edit=' + code)
-          break;
-      }
+    editTpl(form, code) {
+      this.$router.push(this.formPath[form] + code)
+      //  switch (form) {
+      //   case 'act-101':
+      //     this.$router.push('/market/actTpl/AddActSudoku?edit=' + code)
+      //     break; 
+      //   case 'act-102':
+      //     this.$router.push('/market/actTpl/AddWingAct?edit=' + code)
+      //     break;
+      //   case 'act-103':
+      //     this.$router.push('/market/actTpl/addActEgg?edit=' + code)
+      //     break;
+      //   case 'act-104':
+      //     this.$router.push('/market/actTpl/addActFanpaizi?edit=' + code)
+      //     break;
+      //   case 'act-501':
+      //     this.$router.push('/market/actTpl/addActQuestion?edit=' + code)
+      //     break;
+      //   case 'act-301':
+      //     this.$router.push('/market/actTpl/addActRedPacked?edit=' + code)
+      //     break;
+      //   case 'act-100':
+      //     this.$router.push('/market/actTpl/addAct?edit=' + code)
+      //     break;
+      //   case 'act-105':
+      //     this.$router.push('/market/actTpl/addRound?edit=' + code)
+      //     break;
+      // }
       // this.$request.post('/api/saotx/act/pubTpl', {actCode: code}, true, res => {
       //   if (res.ret === '200000') {
       //     console.dir(JSON.parse(res.data.conf).img)

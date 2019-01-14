@@ -127,7 +127,17 @@ export default {
       },
       actTotal: null,
       actForms: [],
-      loading: true
+      loading: true,
+      formPath: {
+        'act-101': '/market/actTpl/AddActSudoku?id=',
+        'act-102': '/market/actTpl/AddWingAct?id=',
+        'act-103': '/market/actTpl/addActEgg?id=',
+        'act-104': '/market/actTpl/addActFanpaizi?id=',
+        'act-501': '/market/actTpl/addActQuestion?id=',
+        'act-301': '/market/actTpl/addActRedPacked?id=',
+        'act-105': '/market/actTpl/addRound?id=',
+        'act-100': '/market/actTpl/addAct?id='
+      }
     }
   },
   created() {
@@ -385,49 +395,8 @@ export default {
       this.getAct()
     },
     // 跳转到新建活动模板页面
-    // goAddActTpl(code) {
-    // 	if(code=='act-100'){//翻钻石
-    // 		this.$router.push('/market/actTpl/addAct')//先注释之前的，暂时改为答题
-    // 	}else if(code=='act-103'){//砸金蛋
-    // 		this.$router.push('/market/actTpl/addActEgg')
-    // 	}else if(code=='act-102'){//点元宝
-    //       this.$router.push('/market/actTpl/AddWingAct')
-    //   }else if(code=='act-101'){//九宫格
-    //     this.$router.push('/market/actTpl/AddActSudoku')
-    //   }else if(code == 'act-104'){
-    //     this.$router.push('/market/actTpl/AddActFanpaizi')
-    //   }else if(code=='act-501'){   		
-		// 		this.$router.push('/market/actTpl/addActQuestion')
-    // 	}
-    // },
     goAddActTpl(code,id){
-      switch (code) {
-        case 'act-101':
-          this.$router.push('/market/actTpl/AddActSudoku?id=' + id)
-          break;
-        case 'act-102':
-          this.$router.push('/market/actTpl/AddWingAct?id=' + id)
-          break;
-        case 'act-103':
-          this.$router.push('/market/actTpl/addActEgg?id=' + id)
-          break;
-        case 'act-104':
-          this.$router.push('/market/actTpl/addActFanpaizi?id=' + id)
-          break;
-        case 'act-501':
-          this.$router.push('/market/actTpl/addActQuestion?id=' + id)
-          break;
-        case 'act-301':
-          this.$router.push('/market/actTpl/addActRedPacked?id=' + id)
-          break;
-        case 'act-100':
-        case 'act-105':
-          this.$router.push('/market/actTpl/addRound?id=' + id)
-          break;
-        default:
-          this.$router.push('/market/actTpl/addAct?id=' + id)
-          break;
-      }
+      this.$router.push(this.formPath[code] + id)
     }
   }
 }
