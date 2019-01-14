@@ -87,9 +87,9 @@
                     <el-form-item label="活动时间" prop="datetime">
                         <el-date-picker size="small"
                             v-model="dataForm.datetime"
+                            format="yyyy-MM-dd HH:mm:ss"
                             value-format="yyyy-MM-dd HH:mm:ss"
                             type="datetimerange"
-                            :default-time="['00:00:00', '23:59:59']"
                             range-separator="至"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期">
@@ -323,11 +323,19 @@ export default {
     methods: {
         currentChange(pageNo) {
             // 分页pageNo变更监听
-            this.list(event, pageNo);
+            if(this.business==1) {
+                this.list(event, pageNo);
+            } else if(this.business==3) {
+                this.listRank(event, pageNo);
+            }
         },
         sizeChange(pageSize) {
-            // 分页pageSize变更监听
-            this.list(event, null, pageSize);
+            // 分页pageSize变更监听\
+            if(this.business==1) {
+                this.list(event, null, pageSize);
+            } else if(this.business==3) {
+                this.listRank(event, null, pageSize);
+            }
         },
         // page = {"pageCount":总页数, "count":总数据条数}
         initPagination(page) {
@@ -394,7 +402,7 @@ export default {
                 if (res.ok) {
                     this.business = 2;
                     this.dataForm = res.data || {};
-                    this.$set(this.dataForm, 'datetime', [this.dataForm.stimeStr, this.dataForm.etimeStr])
+                    this.$set(this.dataForm, 'datetime', [this.dataForm.stimeStr, this.dataForm.etimeStr]);
                 } else {
                     this.$message.error(res.msg);
                 }

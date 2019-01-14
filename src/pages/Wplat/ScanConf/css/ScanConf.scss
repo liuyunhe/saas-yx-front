@@ -4,6 +4,10 @@ p {
 .require {
     color:red;
 }
+.tip-text {
+    font-size: 12px;
+    color:#aaa;
+}
 .title-info,.not-title {
     label {
         text-align: left;
@@ -13,6 +17,11 @@ p {
         line-height: 30px;
         border-bottom: 1px solid #eee;
     }
+}
+.guanzhu-text {
+    font-size: 12px;
+    margin-top: 23px;
+    color:#fff;
 }
 .yz-info {
     .back {
@@ -324,12 +333,12 @@ p {
             }
             .yz {
                 width: 300px;
-                height: 130px;
+                height: 184px;
                 background: #ccc;
                 position: relative;
                 margin-bottom: 10px;
                 background-repeat: no-repeat;
-                background-size: 300px 130px;
+                background-size: 300px 184px;
                 border: 1px solid #fff;
                 &:hover {
                     border: 1px dashed #0099FF;
@@ -358,10 +367,10 @@ p {
                 .yz-click {
                     button {
                         width: 300px;
-                        height: 130px;
+                        height: 184px;
                     }
                     width:300px;
-                    height: 120px;
+                    height: 184px;
                     position: absolute;
                     top:0;
                     left:0;
@@ -371,15 +380,15 @@ p {
                 .right {
                     width: 300px;
                     height: 130px;
-                    padding-left: 70px;
-                    padding-top: 10px;
+                    padding-left: 80px;
+                    padding-top: 30px;
                     position: relative;
                     box-sizing: border-box;
                     font-size: 12px;
                     span {
                         position: absolute;
-                        right:10px;
-                        top:10px;
+                        right:15px;
+                        top:25px;
                         border:1px solid #ccc;
                         border-radius: 3px;
                         padding: 3px;
@@ -387,10 +396,10 @@ p {
                 }
                 .left {
                     width: 57px;
-                    height: 110px;
+                    height: 130px;
                     position: absolute;
                     left: 10px;
-                    top: 10px;
+                    top: 25px;
                     background: #fff;
                 }
             }
@@ -528,11 +537,11 @@ p {
             }
             .not-yz {
                 width: 300px;
-                height: 192px;
+                height: 184px;
                 position: relative;
                 margin-bottom: 10px;
                 background-repeat: no-repeat;
-                background-size: 300px 192px;
+                background-size: 300px 184px;
                 text-align: center;
                 border: 1px solid #fff;
                 &:hover {
@@ -547,15 +556,15 @@ p {
                 .btn-img {
                     width: 140px;
                     height: 25px;
-                    margin-top: 10px;
+                    margin-top: 5px;
                 }
                 .not-yz-click {
                     button {
                         width: 300px;
-                        height: 130px;
+                        height: 184px;
                     }
                     width:300px;
-                    height: 192px;
+                    height: 184px;
                     position: absolute;
                     top:0;
                     left:0;

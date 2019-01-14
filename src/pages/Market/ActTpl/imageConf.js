@@ -17,9 +17,9 @@ const commonImg = {
     close: {
         name: '关闭按钮',
         index: 'close',
-        url: handle.getUrl('home_close', 2),
-        pos: [632, 141],
-        size: [60, 60]
+        url: handle.getUrl('close_icon', 2),
+        pos: [600, 115],
+        size: [56, 56]
     },
     awardText: {
         name: '关闭按钮',
@@ -31,9 +31,9 @@ const commonImg = {
     award: {
         name: '中奖图片',
         index: 'award',
-        url: handle.getUrl('ic-awardgift', 2),
+        url: handle.getUrl('award_img', 2),
         pos: [0, 0],
-        size: [620, 345]
+        size: [283, 234]
     },
     noAward: {
         name: '未获奖图片',
@@ -42,12 +42,19 @@ const commonImg = {
         pos: [85, 373],
         size: [620, 345]
     },
+    getAwardBg:{
+    	name: '中奖弹框',
+        index: 'getAwardBg',
+        url: handle.getUrl('ques_award_bg', 2),
+        pos: [0, 400],
+        size: [563, 638]
+    },
     getBtn: {
         name: '领取按钮',
         index: 'getBtn',
-        url: handle.getUrl('djlq_btn', 2),
-        pos: [0, 933],
-        size: [373, 84]
+        url: handle.getUrl('ques_award_btn', 2),
+        pos: [0, 763],
+        size: [247, 54]
     },
     knowBtn: {
         name: '知道了按钮',

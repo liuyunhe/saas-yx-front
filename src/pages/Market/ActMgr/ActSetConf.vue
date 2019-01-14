@@ -246,14 +246,18 @@ export default {
     nextStep() {
       this.$refs.actSetConfRef.validate(valid => {
         if (!valid) return this.$message.error('请完善表单数据!')
-        if(this.extInfo.limited==1){
-        	if(this.extInfo.time<=0 || !this.extInfo.time){
-        		 return this.$message.error('请填写时间限制的具体值!')
-        	}
-        }
+        if(this.form=='act-501'){
+        	if(this.extInfo.limited==1){
+	        	if(this.extInfo.time<=0 || !this.extInfo.time){
+	        		 return this.$message.error('请填写时间限制的具体值!')
+	        	}
+	        }
+        }       
         if (!this.id) {
           this.confData.form = this.form;
-          this.confData.extInfo=JSON.stringify(this.extInfo);
+          if(this.form=='act-501'){
+          	this.confData.extInfo=JSON.stringify(this.extInfo);
+          }         
           this.confData.tplCode = this.tplCode
         }
         if (this.form == 'act-301') this.confData.extInfo = JSON.stringify(this.redConf)

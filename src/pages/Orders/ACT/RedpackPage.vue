@@ -41,6 +41,9 @@
                     <el-form-item label="至" size="small" >
                         <el-date-picker v-model="form.etime" type="date" placeholder="选择日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd"> </el-date-picker>
                     </el-form-item>
+                    <el-form-item label="中奖人手机号" size="small">
+                        <el-input  v-model="form.winnerMobile" placeholder="请输入手机号"></el-input>
+                    </el-form-item>
                 </el-row>
                 <el-form-item>
                     <el-row><el-button size="small" type="primary" v-on:click="queryData">查询</el-button>
@@ -105,6 +108,7 @@
                     stime:"",
                     status:"",
                     metraType: 3,
+                    winnerMobile:"",
                     pageNo: 1,
                     pageSize: 10,
                 },
@@ -269,6 +273,7 @@
                     status: '', // 发货状态
                     stime: '', // 开始时间
                     etime: '', // 结束时间
+                    winnerMobile:'',
                     pageNo: 1,
                     pageSize: 10
                 }
