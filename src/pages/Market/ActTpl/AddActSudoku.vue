@@ -469,9 +469,12 @@
 
             // 上传游戏图片
             upGameImgSuccess(resule) {
-                if (resule.ret === '200000')
+                if (resule.ret === '200000'){
+                    this.defaultConf.img['item0'+[this.gameIndex+1]].url = resule.data.accessUrl
                     return (this.defaultConf.img.kists[this.gameIndex].url = resule.data.accessUrl)
-                this.$message.error(resule.message)
+                }else{
+                    this.$message.error(resule.message)
+                }
             },
             // 上传中奖按钮图片
             upYesWinningImgBtn(resule) {

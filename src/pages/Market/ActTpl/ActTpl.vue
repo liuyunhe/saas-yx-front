@@ -118,12 +118,6 @@ export default {
       delDialogVisible: false, // 显示/隐藏删除弹窗
       actFormName: [
         { name: '全部', code: '' }
-        // { name: '抽奖活动' },
-        // { name: '集道具活动' },
-        // { name: '红包雨活动' },
-        // { name: '竞猜活动' },
-        // { name: '问答活动' },
-        // { name: '自定义活动' }
       ],
       nowActiveIndex: 0,
       actParams: {
@@ -169,16 +163,6 @@ export default {
           } else {
             this.$message.error(res.message)
           }
-          // // 测试
-          // if (res.ret === '200000') {
-          //   for (let i = 0; i < 10; i++) {
-          //     this.actList.push(res.data.list[0])
-          //   }
-          //   console.log(this.actList)
-          //   this.actListParams.pageNo = 1
-          //   this.pageSize = 10
-          //   this.total = 30
-          // }
         },
         err => {
           console.log(err)
@@ -257,11 +241,6 @@ export default {
       this.nowActiveIndex = index
       this.actParams.pcode = item.code
       this.actParams.pageNo = 1
-      // if (index == 0) {
-      //   this.actParams.pcode = ''
-      // } else {
-      //   this.actParams.pcode = 'form-cate' + index
-      // }
       this.getAct()
     }, 
     // 按条件查询活动模板
@@ -429,17 +408,6 @@ export default {
           this.$router.push('/market/actTpl/addAct?id=' + id)
           break;
       }
-    	// if(code=='act-103'){
-    	// 	this.$router.push('/market/actTpl/addActEgg?id=' + id)
-    	// }else if(code=='act-102'){//点元宝
-      //       this.$router.push('/market/actTpl/AddWingAct?id=' + id)
-      //   }else if(code=='act-101'){//九宫格
-      //       this.$router.push('/market/actTpl/AddActSudoku?id=' + id)
-      //   }else if(code == 'act-104'){
-      //     this.$router.push('/market/actTpl/addActFanpaizi?id=' + id)
-      //   }else{
-    	// 	this.$router.push('/market/actTpl/addAct?id=' + id)
-    	// }
     }
   }
 }

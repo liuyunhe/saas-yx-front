@@ -8,6 +8,11 @@
             <div class="space"></div>
             <el-form :inline="true" :model="form" class="demo-form-inline">
                 <el-row>
+                    <el-form-item>
+                        <el-button size="small"   type="primary" v-on:click="addProduct">新建礼品</el-button>
+                    </el-form-item>
+                </el-row>
+                <el-row>
                     <el-form-item label="关键字:" size="small" >
                         <el-select v-model="selectallKyeType" placeholder="全部">
                             <el-option v-for="(item,index) in allKeyWordActData" :key="item.id" :label="item.name" :value="item.id"></el-option>
@@ -31,7 +36,6 @@
                     <el-form-item>
                         <el-button size="small"  type="primary" v-on:click="queryData">查询</el-button>
                         <el-button size="small"  v-on:click="resetData">重置</el-button>
-                        <el-button size="small"   type="primary" v-on:click="addProduct">新建礼品</el-button>
                     </el-form-item>
                 </el-row>
             </el-form>

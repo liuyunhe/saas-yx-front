@@ -323,11 +323,19 @@ export default {
     methods: {
         currentChange(pageNo) {
             // 分页pageNo变更监听
-            this.list(event, pageNo);
+            if(this.business==1) {
+                this.list(event, pageNo);
+            } else if(this.business==3) {
+                this.listRank(event, pageNo);
+            }
         },
         sizeChange(pageSize) {
-            // 分页pageSize变更监听
-            this.list(event, null, pageSize);
+            // 分页pageSize变更监听\
+            if(this.business==1) {
+                this.list(event, null, pageSize);
+            } else if(this.business==3) {
+                this.listRank(event, null, pageSize);
+            }
         },
         // page = {"pageCount":总页数, "count":总数据条数}
         initPagination(page) {
