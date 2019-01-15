@@ -73,7 +73,7 @@
 <script>
 import superPop from './components/superPop'
 export default {
-  props: ['orderCode'],
+  props: ['orderCode', 'tsUuid'],
   components: {
     superPop
   },
@@ -108,7 +108,7 @@ export default {
   },
   methods: {
     getOrderDetail() {
-      this.$request.post('/api/saotx/md/orderd', { orderCode: this.orderCode }, true, res => {
+      this.$request.post('/api/saotx/md/orderd', { orderCode: this.orderCode, tsUuid: this.tsUuid }, true, res => {
         if (res.ret === '200000') {
           this.orderData = res.data
           if (this.orderData.province) this.selectedOptions.push(this.orderData.province)
