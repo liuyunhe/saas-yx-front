@@ -48,7 +48,6 @@
 					</li>
 				</ul>
 				<div class="add" v-show='addShow' @click='addShowFn()'><span>+</span>添加导航</div>
-				<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 80*70px格式为jpg\bmp\png\gif</div>
 			</div>
 
 		</div>
