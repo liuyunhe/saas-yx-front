@@ -97,10 +97,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 640*1600px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1208px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                                 <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 {{defaultConf.img.title.width}} x {{defaultConf.img.title.height}}px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                                 <p class="tips" v-if="showEditConIndex == 3">* * 图片建议尺寸为 550 x 100px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                                 <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 120*120*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 196*162*.jpg\ *.bmp\ *.png\ *.gif</p>
 
                             </div>
 
@@ -243,7 +244,7 @@
 </template>
 <script>
     export default {
-        props: ['id'],
+        props: ['id', 'edit'],
         data() {
             return {
                 defaultConf: {
@@ -450,6 +451,22 @@
                             this.$message.error(res.message)
                         }
                     })
+                } else if (this.edit) {
+                    this.$request.post('/api/saotx/act/pubTpl', {actCode: this.edit}, true, res => {
+                        if (res.ret === '200000') {
+                        this.addActParams = res.data
+                        this.addActParams.name = JSON.parse(res.data.conf).title
+                        this.addActParams.note = JSON.parse(res.data.conf).description
+                        this.defaultConf = JSON.parse(res.data.conf)
+                        if (res.data.statusName == '未投放') {
+                            this.isPut = false
+                        } else {
+                            this.isPut = true
+                        }
+                        } else {
+                        this.$message.error(res.message)
+                        }
+                    })
                 }
             },
             // 上传背景
@@ -518,6 +535,17 @@
                 this.defaultConf.title = this.addActParams.name
                 this.defaultConf.description = this.addActParams.note
                 this.addActParams.conf = JSON.stringify(this.defaultConf)
+                if (this.edit) {
+                    this.$request.post('/api/saotx/act/mpubTpl', this.addActParams, true, res => {
+                        if (res.ret === '200000') {
+                            this.$message.success('保存成功')
+                            this.$router.push('/market/actMgr')
+                        } else {
+                            this.$message.error(res.message)
+                        }
+                    })
+                    return
+                }
                 this.$request.post('/api/saotx/acttpl/saveOrModify', this.addActParams, true, res => {
                     if (res.ret === '200000') {
                         // 投放

@@ -5,7 +5,7 @@
 				<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/top.png" alt="" />
 				<div class="click-con" :style="{background:colorValue}">
 					<ul>
-						<li v-for='(value,key) in typeArr' @click='activeShow(value)' :class='{active:activeFlag==value.type}'>
+						<li v-for='(value,key) in typeArr' :key="key" @click='activeShow(value)' :class='{active:activeFlag==value.type}'>
 							<img :src="value.icon" alt="" class='first' />
 							<img :src="value.activeIcon" class='second' alt="" />
 						</li>
@@ -20,13 +20,13 @@
 					<el-button type="primary" plain @click='resetColor' size='small'>重置</el-button>
 				</div>
 				<ul class="icon-con">
-					<li v-for='(value,key) in typeArr'>
+					<li v-for='(value,key) in typeArr' :key="key">
 						<span class='close' :dataId='key' @click='handleClose' v-if="value.del==1">×</span>
 						<div class="icon-text"><span>图标 {{key+1}}</span></div>
 						<div class="icon-init">
 							初始状态
 							<div class="img-con" :style='{background:colorValue}'>
-								<img :src="value.icon" class='img-pre' alt="" />
+								<img :src="value.icon" class='img-pre' width="56" height="49" alt="" />
 								<!--<div>{{value.name}}</div>-->
 							</div>
 							<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="handleAvatarSuccess2">
@@ -37,10 +37,10 @@
 						<div class="icon-active">
 							按下状态
 							<div class="img-con" :style='{background:colorValue}'>
-								<img :src="value.activeIcon" alt="" />
+								<img :src="value.activeIcon" width="56" height="49" alt="" />
 								<!--<div>{{value.name}}</div>-->
 							</div>
-							<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false"@click='getCurr(key,1)' :on-success="handleAvatarSuccess2">
+							<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" @click='getCurr(key,1)' :on-success="handleAvatarSuccess2">
 								<el-button type="primary" plain @click='getCurr(key,1)'>修改</el-button>
 							</el-upload>
 							<!--<button class='btn btn-primary edit' :num='key' @click='getCurr(key)' flag='1'>修改</button>-->
@@ -48,7 +48,7 @@
 					</li>
 				</ul>
 				<div class="add" v-show='addShow' @click='addShowFn()'><span>+</span>添加导航</div>
-
+				<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 80*70px格式为jpg\bmp\png\gif</div>
 			</div>
 
 		</div>
@@ -97,7 +97,7 @@
 					</el-upload>
 				</div>
 			</div>
-			<!-- /.modal-content -->
+			 /.modal-content -->
 		<!--</div>-->
 		<div class="save">
 			<el-button type="primary" @click='navSave()' size='small'>保存</el-button>
@@ -519,8 +519,8 @@
 	}
 	
 	.icon-con li .img-con img {
-		width: 55px;
-		height: 55px;
+		/* width: 55px; */
+		/* height: 55px; */
 		object-fit: contain;
 	}
 	

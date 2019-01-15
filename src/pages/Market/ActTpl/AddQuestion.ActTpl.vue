@@ -65,7 +65,7 @@ import activityInfo from "@/components/activity/activityInfo";
 import activityImageEditor from "@/components/activity/activityImageEditor";
 import img from './imageConf'
 export default {
-props: ['id'],
+props: ['id', 'edit'],
   data() {
     return {
       defaultActive: "1",
@@ -143,6 +143,7 @@ props: ['id'],
         value ? this.conf.description = value : this.description = '';
     },
     edit(e){
+        console.log(e)
         let that = this;
         let index = e.index;
         let type = index.indexOf('item') > -1 ? 'item' : 'normal';
@@ -183,6 +184,25 @@ props: ['id'],
     getActDetail() {
         let that = this;
         let conf = null;
+        if (this.edit) {
+            this.$request.post('/api/saotx/act/pubTpl', {actCode: this.edit}, true, res => {
+                if (res.ret === '200000') {
+                    conf = JSON.parse(res.data.conf);
+                    that.conf.img = JSON.parse(conf.img);
+                    that.conf.commonImg = JSON.parse(conf.commonImg);
+                    that.conf.description = res.data.note;
+                    that.conf.title = res.data.name;
+                    that.conf.id = res.data.id;
+                    if (res.data.statusName == '未投放') {
+                        that.isPublish = false
+                    } else {
+                        that.isPublish = true
+                    }
+                } else {
+                    this.$message.error(res.message)
+                }
+            })
+        }
         if(!that.id) return;
         that.$request.post('/api/saotx/acttpl/detail', { id: that.id }, true, res => {
             if (res.ret === '200000') {
@@ -192,11 +212,11 @@ props: ['id'],
                 that.conf.description = res.data.note;
                 that.conf.title = res.data.name;
                 that.conf.id = res.data.id;
-            if (res.data.statusName == '未投放') {
-                that.isPublish = false
-            } else {
-                that.isPublish = true
-            }
+                if (res.data.statusName == '未投放') {
+                    that.isPublish = false
+                } else {
+                    that.isPublish = true
+                }
             } else {
             this.$message.error(res.message)
             }
@@ -213,6 +233,17 @@ props: ['id'],
       that.conf.conf = JSON.stringify(that.conf.conf);
       that.conf.name = that.conf.title;
       that.conf.note = that.conf.description;
+      if (this.edit) {
+        this.$request.post('/api/saotx/act/mpubTpl', that.conf, true, res => {
+            if (res.ret === '200000') {
+              this.$message.success('保存成功')
+              this.$router.push('/market/actMgr')
+            } else {
+              this.$message.error(res.message)
+            }
+        })
+        return
+      }
       that.$request.post('/api/saotx/acttpl/saveOrModify', that.conf, true, res => {
         if (res.ret === '200000') {
           // 投放

@@ -195,7 +195,7 @@
 </template>
 <script>
 export default {
-  props: ['id'],
+  props: ['id', 'edit'],
   data() {
     return {
       activeName: 'home',
@@ -294,6 +294,22 @@ export default {
             this.$message.error(res.message)
           }
         })
+      } else if (this.edit) {
+        this.$request.post('/api/saotx/act/pubTpl', {actCode: this.edit}, true, res => {
+            if (res.ret === '200000') {
+            this.addActParams = res.data
+            this.addActParams.name = JSON.parse(res.data.conf).title
+            this.addActParams.note = JSON.parse(res.data.conf).description
+            this.defaultConf = JSON.parse(res.data.conf)
+            if (res.data.statusName == '未投放') {
+                this.isPut = false
+            } else {
+                this.isPut = true
+            }
+            } else {
+            this.$message.error(res.message)
+            }
+        })
       }
     },
     // 上传背景
@@ -337,6 +353,17 @@ export default {
       if (!this.addActParams.name) return this.$message.warning('请输入模板名称')
       this.configItem.title=this.addActParams.name;
       this.addActParams.conf = JSON.stringify(this.configItem)
+      if (this.edit) {
+        this.$request.post('/api/saotx/act/mpubTpl', this.addActParams, true, res => {
+            if (res.ret === '200000') {
+              this.$message.success('保存成功')
+              this.$router.push('/market/actMgr')
+            } else {
+              this.$message.error(res.message)
+            }
+        })
+        return
+      }
       this.$request.post('/api/saotx/acttpl/saveOrModify', this.addActParams, true, res => {
         if (res.ret === '200000') {
           // 投放

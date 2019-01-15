@@ -72,7 +72,7 @@
                 </div>
                 <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1208px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 730*280px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 82*72px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 155*132px格式为jpg\bmp\png\gif</p>
               </div>
 
             </el-card>
@@ -107,7 +107,7 @@
                   <img class="pic" :src="configItem.drawImgUrl" alt="">
                   <h3>奖品名称</h3>
                   <p>请在24小时内领取</p>
-                  <img class="prize-btn" src="https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/djlq_btn.png" alt="">
+                  <img class="prize-btn" :src="configItem.getBtn" alt="">
                 </div>
               </div>
             </div>
@@ -121,9 +121,11 @@
               <div class="edit-con">
                 <div class="edit-winning-img">
                   <p class="img-title">按钮:</p>
-                  <div class="img-con"><img src="https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/djlq_btn.png" alt=""></div>
+                  <div class="img-con"><img :src="configItem.getBtn" alt=""></div>
                   <div class="btn-con">
-                    <el-button type="primary" size="small">更换图片</el-button>
+                    <el-upload :action="uploadURL" :headers="headerObj" :on-success="upGetBtnImgSuccess" :show-file-list="false">
+                      <el-button type="primary" size="small">更换图片</el-button>
+                    </el-upload>
                   </div>
                 </div>
                 <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
@@ -141,7 +143,7 @@
                   <div class="close">X</div>
                   <img class="pic" :src="configItem.cryImgUrl" alt="">
                   <h3>很遗憾，未中奖</h3>
-                  <img class="prize-btn" src="https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/djlq_btn.png" alt="">
+                  <img class="prize-btn" :src="configItem.knowBtn" alt="">
                 </div>
               </div>
             </div>
@@ -167,9 +169,11 @@
               <div class="edit-con">
                 <div class="edit-notWinning-img">
                   <p class="img-title">按钮:</p>
-                  <div class="img-con"><img src="https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/djlq_btn.png" alt=""></div>
+                  <div class="img-con"><img :src="configItem.knowBtn" alt=""></div>
                   <div class="btn-con">
-                    <el-button type="primary" size="small">更换图片</el-button>
+                    <el-upload :action="uploadURL" :headers="headerObj" :on-success="upKnowBtnImgSuccess" :show-file-list="false">
+                      <el-button type="primary" size="small">更换图片</el-button>
+                    </el-upload>
                   </div>
                 </div>
                 <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
@@ -189,7 +193,7 @@
 </template>
 <script>
 export default {
-  props: ['id'],
+  props: ['id', 'edit'],
   data() {
     return {
       activeName: 'home',
@@ -209,6 +213,8 @@ export default {
       configItem: {
         title: '',
         description: '',
+        getBtn: 'https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/djlq_btn.png',
+        knowBtn: 'https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/know-btn.png',
         headerImgUrl:
           'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi-header.png',
         bgImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi-bg.png',
@@ -287,6 +293,7 @@ export default {
           if (res.ret === '200000') {
             this.addActParams = res.data
             this.configItem = JSON.parse(res.data.conf)
+            console.log(this.configItem)
             if (res.data.statusName == '未投放') {
               this.isPut = false
             } else {
@@ -296,6 +303,22 @@ export default {
             this.$message.error(res.message)
           }
         })
+      } else if (this.edit) {
+          this.$request.post('/api/saotx/act/pubTpl', {actCode: this.edit}, true, res => {
+              if (res.ret === '200000') {
+              this.addActParams = res.data
+              this.addActParams.name = JSON.parse(res.data.conf).title
+              this.addActParams.note = JSON.parse(res.data.conf).description
+              this.defaultConf = JSON.parse(res.data.conf)
+              if (res.data.statusName == '未投放') {
+                  this.isPut = false
+              } else {
+                  this.isPut = true
+              }
+              } else {
+              this.$message.error(res.message)
+              }
+          })
       }
     },
     // 上传背景
@@ -317,6 +340,17 @@ export default {
     getGameIndex(index) {
       this.gameIndex = index
     },
+    upKnowBtnImgSuccess(resule) {
+      if (resule.ret === '200000')
+        return (this.configItem.knowBtn = resule.data.accessUrl)
+      this.$message.error(resule.message)
+    },
+    // 上传点击领取图片
+    upGetBtnImgSuccess(resule) {
+      if (resule.ret === '200000')
+        return (this.configItem.getBtn = resule.data.accessUrl)
+      this.$message.error(resule.message)
+    },
     // 上传游戏图片
     upGameImgSuccess(resule) {
       if (resule.ret === '200000')
@@ -334,6 +368,17 @@ export default {
       this.configItem.title = this.addActParams.name
       this.configItem.description = this.addActParams.note
       this.addActParams.conf = JSON.stringify(this.configItem)
+      if (this.edit) {
+        this.$request.post('/api/saotx/act/mpubTpl', this.addActParams, true, res => {
+            if (res.ret === '200000') {
+              this.$message.success('保存成功')
+              this.$router.push('/market/actMgr')
+            } else {
+              this.$message.error(res.message)
+            }
+        })
+        return
+      }
       this.$request.post('/api/saotx/acttpl/saveOrModify', this.addActParams, true, res => {
         if (res.ret === '200000') {
           // 投放

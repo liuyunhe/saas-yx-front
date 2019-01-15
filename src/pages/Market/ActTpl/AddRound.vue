@@ -228,7 +228,7 @@
 </template>
 <script>
   export default {
-    props: ['id'],
+    props: ['id', 'edit'],
     data() {
       return {
         defaultConf: {
@@ -377,6 +377,22 @@
               this.$message.error(res.message)
             }
           })
+        } else if (this.edit) {
+            this.$request.post('/api/saotx/act/pubTpl', {actCode: this.edit}, true, res => {
+                if (res.ret === '200000') {
+                this.addActParams = res.data
+                this.addActParams.name = JSON.parse(res.data.conf).title
+                this.addActParams.note = JSON.parse(res.data.conf).description
+                this.defaultConf = JSON.parse(res.data.conf)
+                if (res.data.statusName == '未投放') {
+                    this.isPut = false
+                } else {
+                    this.isPut = true
+                }
+                } else {
+                this.$message.error(res.message)
+                }
+            })
         }
       },
       // 上传背景
