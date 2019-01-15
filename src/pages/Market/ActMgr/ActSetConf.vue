@@ -175,11 +175,11 @@ export default {
             for (let key in this.confData) {
               this.confData[key] = res.data.act[key]
             }
-            console.log(this.confData)
           } else {
             this.confData = res.data.act
           }
-          this.confData.idx = this.confData.idx + ''
+          this.confData.idx = this.confData.idx + '';
+          this.extInfo=JSON.parse(this.confData.extInfo)
           this.actTime.push(this.confData.stimeStr)
           this.actTime.push(this.confData.etimeStr)
           return
@@ -222,6 +222,10 @@ export default {
           	this.confData.extInfo=JSON.stringify(this.extInfo);
           }         
           this.confData.tplCode = this.tplCode
+        }else {
+        	if(this.form=='act-501'){
+          	this.confData.extInfo=JSON.stringify(this.extInfo);
+          } 
         }
         this.$request.post('/api/saotx/act/saveOrModify', this.confData, true, res => {
           if (res.ret === '200000') {
