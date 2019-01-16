@@ -162,12 +162,12 @@ props: ['id', 'edit'],
         if (that.edit) {
             that.$request.post('/api/saotx/act/pubTpl', {actCode: this.edit}, true, res => {
                 if (res.ret === '200000') {
-                conf = JSON.parse(res.data.conf);
-                that.conf.img = JSON.parse(conf.img);
-                that.conf.commonImg = JSON.parse(conf.commonImg);
-                that.conf.description = res.data.note;
-                that.conf.title = res.data.name;
-                that.conf.id = res.data.id;
+                    conf = JSON.parse(res.data.conf);
+                    that.conf.img = JSON.parse(conf.img);
+                    that.conf.commonImg = JSON.parse(conf.commonImg);
+                    that.conf.description = conf.desc;
+                    that.conf.title = conf.title
+                    that.conf.id = res.data.id;
                 if (res.data.statusName == '未投放') {
                     that.isPublish = false
                 } else {
@@ -202,15 +202,17 @@ props: ['id', 'edit'],
     save() {
       let that = this;
       if (!that.conf.title) return this.$message.warning('请输入模板名称');
-      if (that.conf.title.length > 15) return this.$message.warning('模板名称不能超过15个字符');
-      if (that.conf.description.length > 50) return this.$message.warning('模板描述不能超过50个字符');
+    //   if (that.conf.title.length > 15) return this.$message.warning('模板名称不能超过15个字符');
+    //   if (that.conf.description.length > 50) return this.$message.warning('模板描述不能超过50个字符');
+        
       that.conf.conf.img = JSON.stringify(that.conf.img);
       that.conf.conf.commonImg = JSON.stringify(that.conf.commonImg);
       that.conf.conf.title = that.conf.title;
-      that.conf.conf.desc = that.conf.desc;
+      that.conf.conf.desc = that.conf.description;
       that.conf.conf = JSON.stringify(that.conf.conf);
       that.conf.name = that.conf.title;
       that.conf.note = that.conf.description;
+      console.log(JSON.parse(that.conf.conf))
       that.$request.post('/api/saotx/acttpl/saveOrModify', that.conf, true, res => {
         if (res.ret === '200000') {
           // 投放
