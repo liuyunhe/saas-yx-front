@@ -22,7 +22,7 @@
                         imgKey ="ACT_FANPAIZI" 
                         :imgData="conf.img"
                         :commonImg =  "conf.commonImg"
-                        @edit="edit" />
+                        @edit="editPhone" />
                 </el-col>
                 <el-col :span="14">
                     <activity-info 
@@ -63,7 +63,7 @@ import activityInfo from "@/components/activity/activityInfo";
 import activityImageEditor from "@/components/activity/activityImageEditor";
 import img from './imageConf'
 export default {
-props: ['id'],
+props: ['id', 'edit'],
   data() {
     return {
       defaultActive: "1",
@@ -73,6 +73,7 @@ props: ['id'],
       page: 1,
       isPublish: false,
       conf : {
+        actCode: '',
         form: 'act-104',
         id: '',
         description: '',
@@ -128,7 +129,7 @@ props: ['id'],
         let value = e.value;
         value ? this.conf.description = value : this.description = '';
     },
-    edit(e){
+    editPhone(e){
         let that = this;
         let index = e.index;
         let type = index.indexOf('item') > -1 ? 'item' : 'normal';
@@ -159,6 +160,27 @@ props: ['id'],
     getActDetail() {
         let that = this;
         let conf = null;
+        if (that.edit) {
+            that.$request.post('/api/saotx/act/pubTpl', {actCode: this.edit}, true, res => {
+                if (res.ret === '200000') {
+                    conf = JSON.parse(res.data.conf);
+                    that.conf.img = JSON.parse(conf.img);
+                    that.conf.commonImg = JSON.parse(conf.commonImg);
+                    that.conf.description = conf.desc;
+                    that.conf.title = conf.title
+                    that.conf.id = res.data.id;
+                    that.conf.actCode = res.data.actCode
+                if (res.data.statusName == '未投放') {
+                    that.isPublish = false
+                } else {
+                    that.isPublish = true
+                }
+                } else {
+                this.$message.error(res.message)
+                }
+            })
+            return 
+        }
         if(!that.id) return;
         that.$request.post('/api/saotx/acttpl/detail', { id: that.id }, true, res => {
             if (res.ret === '200000') {
@@ -182,15 +204,27 @@ props: ['id'],
     save() {
       let that = this;
       if (!that.conf.title) return this.$message.warning('请输入模板名称');
-      if (that.conf.title.length > 15) return this.$message.warning('模板名称不能超过15个字符');
-      if (that.conf.description.length > 50) return this.$message.warning('模板描述不能超过50个字符');
+    //   if (that.conf.title.length > 15) return this.$message.warning('模板名称不能超过15个字符');
+    //   if (that.conf.description.length > 50) return this.$message.warning('模板描述不能超过50个字符');
+        
       that.conf.conf.img = JSON.stringify(that.conf.img);
       that.conf.conf.commonImg = JSON.stringify(that.conf.commonImg);
       that.conf.conf.title = that.conf.title;
-      that.conf.conf.desc = that.conf.desc;
+      that.conf.conf.desc = that.conf.description;
       that.conf.conf = JSON.stringify(that.conf.conf);
       that.conf.name = that.conf.title;
       that.conf.note = that.conf.description;
+      if (this.edit) {
+        this.$request.post('/api/saotx/act/mpubTpl', that.conf, true, res => {
+            if (res.ret === '200000') {
+              this.$message.success('保存成功')
+              this.$router.push('/market/actMgr')
+            } else {
+              this.$message.error(res.message)
+            }
+        })
+        return
+      }
       that.$request.post('/api/saotx/acttpl/saveOrModify', that.conf, true, res => {
         if (res.ret === '200000') {
           // 投放

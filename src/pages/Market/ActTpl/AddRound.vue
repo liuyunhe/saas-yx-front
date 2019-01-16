@@ -457,6 +457,17 @@
         this.defaultConf.title = this.addActParams.name
         this.defaultConf.description = this.addActParams.note
         this.addActParams.conf = JSON.stringify(this.defaultConf)
+        if (this.edit) {
+            this.$request.post('/api/saotx/act/mpubTpl', this.addActParams, true, res => {
+                if (res.ret === '200000') {
+                this.$message.success('保存成功')
+                this.$router.push('/market/actMgr')
+                } else {
+                this.$message.error(res.message)
+                }
+            })
+            return
+        }
         this.$request.post('/api/saotx/acttpl/saveOrModify', this.addActParams, true, res => {
           if (res.ret === '200000') {
             // 投放
