@@ -215,9 +215,8 @@ export default {
             this.confData = res.data.act
           }
           if (this.form == 'act-301') this.redConf = JSON.parse(this.confData.extInfo)
-          console.log(this.redConf)
           this.confData.idx = this.confData.idx + ''
-          this.extInfo=JSON.parse(this.confData.extInfo)
+          if (this.redConf.extInfo) this.extInfo=JSON.parse(this.confData.extInfo)
           this.actTime.push(this.confData.stimeStr)
           this.actTime.push(this.confData.etimeStr)
           return
