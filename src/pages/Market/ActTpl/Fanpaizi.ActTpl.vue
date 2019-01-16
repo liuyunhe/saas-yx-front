@@ -73,6 +73,7 @@ props: ['id', 'edit'],
       page: 1,
       isPublish: false,
       conf : {
+        actCode: '',
         form: 'act-104',
         id: '',
         description: '',
@@ -168,6 +169,7 @@ props: ['id', 'edit'],
                     that.conf.description = conf.desc;
                     that.conf.title = conf.title
                     that.conf.id = res.data.id;
+                    that.conf.actCode = res.data.actCode
                 if (res.data.statusName == '未投放') {
                     that.isPublish = false
                 } else {
@@ -212,7 +214,17 @@ props: ['id', 'edit'],
       that.conf.conf = JSON.stringify(that.conf.conf);
       that.conf.name = that.conf.title;
       that.conf.note = that.conf.description;
-      console.log(JSON.parse(that.conf.conf))
+      if (this.edit) {
+        this.$request.post('/api/saotx/act/mpubTpl', that.conf, true, res => {
+            if (res.ret === '200000') {
+              this.$message.success('保存成功')
+              this.$router.push('/market/actMgr')
+            } else {
+              this.$message.error(res.message)
+            }
+        })
+        return
+      }
       that.$request.post('/api/saotx/acttpl/saveOrModify', that.conf, true, res => {
         if (res.ret === '200000') {
           // 投放
