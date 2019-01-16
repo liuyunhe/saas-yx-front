@@ -141,7 +141,7 @@
 											</el-upload>
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*460px格式为jpg\bmp\png\gif</div>
 										</div>
-										<p class='tip-text'>*图片建议尺寸为750*460px,格式为*.jpg\*.bmp\*.png\*.gif</p>
+										
 									</div>
 									<el-button slot="reference"></el-button>
 								</el-popover>
@@ -209,7 +209,7 @@
 											</el-upload>
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 178*178px格式为jpg\bmp\png\gif</div>
 										</div>
-										<p class='tip-text'>*图片建议尺寸为178*178px,格式为*.jpg\*.bmp\*.png\*.gif</p>
+										
 										<div class="back">
 											背景图片：<img :src="addlist.conf.has.gzh.bg" alt=""v-show='addlist.conf.has.gzh.bg' />
 											<div class="img-div"v-show='!addlist.conf.has.gzh.bg'></div>
@@ -218,7 +218,7 @@
 											</el-upload>
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*365px格式为jpg\bmp\png\gif</div>
 										</div>
-										<p class='tip-text'>*图片建议尺寸为750*364px,格式为*.jpg\*.bmp\*.png\*.gif</p>
+										
 									</div>
 									<el-button slot="reference"></el-button>
 								</el-popover>
@@ -321,7 +321,7 @@
 											</el-upload>
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 178*178px格式为jpg\bmp\png\gif</div>
 										</div>
-										<p class='tip-text'>*图片建议尺寸为178*178px,格式为*.jpg\*.bmp\*.png\*.gif</p>
+										
 										<div class="back">
 											背景图片：<img :src="addlist.conf.not.gzh.bg" alt="" />
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz7">
@@ -329,7 +329,7 @@
 											</el-upload>
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*365px格式为jpg\bmp\png\gif</div>
 										</div>
-										<p class='tip-text'>*图片建议尺寸为750*460px,格式为*.jpg\*.bmp\*.png\*.gif</p>
+										
 									</div>
 									<el-button slot="reference"></el-button>
 								</el-popover>

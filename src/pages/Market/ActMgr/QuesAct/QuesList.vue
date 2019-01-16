@@ -23,7 +23,12 @@
 	    </el-card>
 	    <el-card class='table-part'>
 	    	<el-table :data="tableData" v-loading="loading" style="width: 100%"border>
-	    		<el-table-column type="expand">
+	    		
+				<el-table-column type="index" label="序号" align="center">
+				</el-table-column>
+				<el-table-column prop="quesTitle" label="题目名称" align="center">
+				</el-table-column>
+				<el-table-column type="expand"label="答案">
 			      <template slot-scope="props">
 			        <el-form label-position="left" inline class="demo-table-expand">
 			          <el-form-item label="题目名称：">
@@ -38,10 +43,7 @@
 			        </el-form>
 			      </template>
 			    </el-table-column>
-				<el-table-column type="index" label="序号" align="center">
-				</el-table-column>
-				<el-table-column prop="quesTitle" label="题目名称" align="center">
-				</el-table-column>
+
 				<el-table-column label="操作" align="center"width='200px'>
 					<template slot-scope="scope">							
 						<el-button type='primary' size="small" @click="editItem(scope.row)">编辑</el-button>

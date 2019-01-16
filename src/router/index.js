@@ -401,7 +401,7 @@ export default new Router({
         { path: '/memberday/draw', name: '会员日开奖', component: Draw },
         { path: '/memberday/order', redirect: '/memberday/order/baseAward'},
         { path: '/memberday/order/baseAward', name: '中奖名单-常规', component: BaseAward },
-        { path: '/memberday/order/commonAwardDetail', name: '常规奖详情', component: CommonAwardDetail, props: (route) => ({orderCode: route.query.orderCode}) },
+        { path: '/memberday/order/commonAwardDetail', name: '常规奖详情', component: CommonAwardDetail, props: (route) => ({orderCode: route.query.orderCode, tsUuid: route.query.tsUuid}) },
         { path: '/memberday/order/scanAward', name: '中奖名单-扫码贡献奖', component: ScanAward },
         { path: '/memberday/order/superAward', name: '中奖名单-超级金荷奖', component: SuperAward },
         // { path: '/memberday/order/superAwardDetail', name: '金荷奖详情', component: SuperAwardDetail, props: (route) => ({orderCode: route.query.orderCode}) },

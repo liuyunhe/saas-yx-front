@@ -217,6 +217,7 @@ export default {
           if (this.form == 'act-301') this.redConf = JSON.parse(this.confData.extInfo)
           console.log(this.redConf)
           this.confData.idx = this.confData.idx + ''
+          this.extInfo=JSON.parse(this.confData.extInfo)
           this.actTime.push(this.confData.stimeStr)
           this.actTime.push(this.confData.etimeStr)
           return
@@ -259,6 +260,10 @@ export default {
           	this.confData.extInfo=JSON.stringify(this.extInfo);
           }         
           this.confData.tplCode = this.tplCode
+        }else {
+        	if(this.form=='act-501'){
+          	this.confData.extInfo=JSON.stringify(this.extInfo);
+          } 
         }
         if (this.form == 'act-301') this.confData.extInfo = JSON.stringify(this.redConf)
         this.$request.post('/api/saotx/act/saveOrModify', this.confData, true, res => {
