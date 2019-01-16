@@ -21,10 +21,10 @@
                 </el-row>
                 <el-row>
                     <el-form-item label="时间段:"  size="small" >
-                        <el-date-picker v-model="form.startTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd hh:mm" value-format="yyyy-MM-dd hh:mm"> </el-date-picker>
+                        <el-date-picker v-model="form.startTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm"> </el-date-picker>
                     </el-form-item>
                     <el-form-item label="至" size="small" >
-                        <el-date-picker v-model="form.endTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd hh:mm" value-format="yyyy-MM-dd hh:mm"> </el-date-picker>
+                        <el-date-picker v-model="form.endTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm"> </el-date-picker>
                     </el-form-item>
                     <el-form-item label="订单状态:"  size="small" >
                         <el-select v-model="form.status" placeholder="请选择">
