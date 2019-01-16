@@ -24,7 +24,7 @@
                         imgKey ="ACT_QUESTION" 
                         :imgData="conf.img"
                         :commonImg =  "conf.commonImg"
-                        @edit="edit" />
+                        @edit="editPhone" />
                 </el-col>
                 <el-col :span="14">
                     <activity-info 
@@ -142,7 +142,7 @@ props: ['id', 'edit'],
         let value = e.value;
         value ? this.conf.description = value : this.description = '';
     },
-    edit(e){
+    editPhone(e){
         console.log(e)
         let that = this;
         let index = e.index;
@@ -202,6 +202,7 @@ props: ['id', 'edit'],
                     this.$message.error(res.message)
                 }
             })
+            return
         }
         if(!that.id) return;
         that.$request.post('/api/saotx/acttpl/detail', { id: that.id }, true, res => {

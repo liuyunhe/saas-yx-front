@@ -22,7 +22,7 @@
                         imgKey ="ACT_FANPAIZI" 
                         :imgData="conf.img"
                         :commonImg =  "conf.commonImg"
-                        @edit="edit" />
+                        @edit="editPhone" />
                 </el-col>
                 <el-col :span="14">
                     <activity-info 
@@ -63,7 +63,7 @@ import activityInfo from "@/components/activity/activityInfo";
 import activityImageEditor from "@/components/activity/activityImageEditor";
 import img from './imageConf'
 export default {
-props: ['id'],
+props: ['id', 'edit'],
   data() {
     return {
       defaultActive: "1",
@@ -128,7 +128,7 @@ props: ['id'],
         let value = e.value;
         value ? this.conf.description = value : this.description = '';
     },
-    edit(e){
+    editPhone(e){
         let that = this;
         let index = e.index;
         let type = index.indexOf('item') > -1 ? 'item' : 'normal';
@@ -159,6 +159,26 @@ props: ['id'],
     getActDetail() {
         let that = this;
         let conf = null;
+        if (that.edit) {
+            that.$request.post('/api/saotx/act/pubTpl', {actCode: this.edit}, true, res => {
+                if (res.ret === '200000') {
+                conf = JSON.parse(res.data.conf);
+                that.conf.img = JSON.parse(conf.img);
+                that.conf.commonImg = JSON.parse(conf.commonImg);
+                that.conf.description = res.data.note;
+                that.conf.title = res.data.name;
+                that.conf.id = res.data.id;
+                if (res.data.statusName == '未投放') {
+                    that.isPublish = false
+                } else {
+                    that.isPublish = true
+                }
+                } else {
+                this.$message.error(res.message)
+                }
+            })
+            return 
+        }
         if(!that.id) return;
         that.$request.post('/api/saotx/acttpl/detail', { id: that.id }, true, res => {
             if (res.ret === '200000') {
