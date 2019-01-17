@@ -45,7 +45,7 @@
                   <p class="img-title">背景图片:</p>
                   <div class="img-con"><img :src="configItem.bgImgUrl" alt=""></div>
                   <div class="btn-con">
-                    <el-upload :action="uploadURL" :headers="headerObj" :on-success="upBgImgSuccess" :show-file-list="false">
+                    <el-upload :action="uploadURL" :before-upload="beforeAvatarUpload" :headers="headerObj" :on-success="upBgImgSuccess" :show-file-list="false">
                       <el-button size="small" type="primary">更换图片</el-button>
                     </el-upload>
                   </div>
@@ -54,7 +54,7 @@
                   <p class="img-title">活动标题:</p>
                   <div class="img-con"><img :src="configItem.headerImgUrl" alt=""></div>
                   <div class="btn-con">
-                    <el-upload :action="uploadURL" :headers="headerObj" :on-success="upTopImgSuccess" :show-file-list="false">
+                    <el-upload :action="uploadURL" :before-upload="beforeAvatarUpload" :headers="headerObj" :on-success="upTopImgSuccess" :show-file-list="false">
                       <el-button size="small" type="primary">更换图片</el-button>
                     </el-upload>
                   </div>
@@ -64,15 +64,15 @@
                     <p class="img-title">{{'钻石' + (index + 1) + ':'}}</p>
                     <div class="img-con"><img :src="item.imgUrl" alt=""></div>
                     <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upGameImgSuccess" :show-file-list="false">
+                      <el-upload :action="uploadURL" :before-upload="beforeAvatarUpload" :headers="headerObj" :on-success="upGameImgSuccess" :show-file-list="false">
                         <el-button size="small" type="primary" @click="getGameIndex(index)">更换图片</el-button>
                       </el-upload>
                     </div>
                   </div>
                 </div>
-                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1208px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 730*280px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 155*132px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1208px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 700*350px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 186*162px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
               </div>
 
             </el-card>
@@ -123,12 +123,12 @@
                   <p class="img-title">按钮:</p>
                   <div class="img-con"><img :src="configItem.getBtn" alt=""></div>
                   <div class="btn-con">
-                    <el-upload :action="uploadURL" :headers="headerObj" :on-success="upGetBtnImgSuccess" :show-file-list="false">
+                    <el-upload :action="uploadURL" :before-upload="beforeAvatarUpload" :headers="headerObj" :on-success="upGetBtnImgSuccess" :show-file-list="false">
                       <el-button type="primary" size="small">更换图片</el-button>
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
+                <p class="tips">* 图片建议尺寸为 344*84px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
               </div>
             </el-card>
           </div>
@@ -159,24 +159,24 @@
                   <p class="img-title">图片:</p>
                   <div class="img-con"><img :src="configItem.cryImgUrl" alt=""></div>
                   <div class="btn-con">
-                    <el-upload :action="uploadURL" :headers="headerObj" :on-success="upNotWinningImgSuccess" :show-file-list="false">
+                    <el-upload :action="uploadURL" :before-upload="beforeAvatarUpload" :headers="headerObj" :on-success="upNotWinningImgSuccess" :show-file-list="false">
                       <el-button size="small" type="primary">更换图片</el-button>
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
+                <p class="tips">* 图片建议尺寸为 620*344px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
               </div>
               <div class="edit-con">
                 <div class="edit-notWinning-img">
                   <p class="img-title">按钮:</p>
                   <div class="img-con"><img :src="configItem.knowBtn" alt=""></div>
                   <div class="btn-con">
-                    <el-upload :action="uploadURL" :headers="headerObj" :on-success="upKnowBtnImgSuccess" :show-file-list="false">
+                    <el-upload :action="uploadURL" :before-upload="beforeAvatarUpload" :headers="headerObj" :on-success="upKnowBtnImgSuccess" :show-file-list="false">
                       <el-button type="primary" size="small">更换图片</el-button>
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
+                <p class="tips">* 图片建议尺寸为 290*74px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
               </div>
             </el-card>
           </div>
@@ -362,6 +362,13 @@ export default {
       if (resule.ret === '200000') return (this.configItem.cryImgUrl = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
+    beforeAvatarUpload(file) {
+      const IMGTYPE = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/bmp' || file.type === 'image/gif'
+      if (!IMGTYPE) {
+        this.$message.error('上传图片只能是 JPG 、 PNG 、 GIF 、 BMP 格式!')
+      }
+      return IMGTYPE
+    },
     // 保存进入下一步
     saveActTpl() {
       if (!this.addActParams.name) return this.$message.warning('请输入模板名称')
@@ -543,12 +550,20 @@ export default {
       .edit-con {
         // 公共样式
         .img-con {
-          width: 30%;
-          height: 130px;
-          line-height: 130px;
-          text-align: center;
-          border: 1px solid #ccc;
+          position: relative;
+          width: 100px;
+          height: 100px;
+          border: 1px dashed #d9d9d9;
+          border-radius: 6px;
           margin: 0 10px;
+          img {
+            position: absolute;
+            top:50%; 
+            left:50%;
+            transform: translate(-50%,-50%);
+            max-width: 90%;
+            max-height: 90%;
+          }
         }
         .btn-con {
           position: relative;
@@ -566,27 +581,27 @@ export default {
         }
         .edit-top-img {
           display: flex;
-          .img-con {
-            width: 40%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            img {
-              width: 90%;
-            }
-          }
+          // .img-con {
+          //   width: 40%;
+          //   display: flex;
+          //   justify-content: center;
+          //   align-items: center;
+          //   img {
+          //     width: 90%;
+          //   }
+          // }
         }
         .edit-game-img > div {
           display: flex;
           margin-bottom: 10px;
-          .img-con {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            img {
-              width: 150px;
-            }
-          }
+          // .img-con {
+          //   display: flex;
+          //   justify-content: center;
+          //   align-items: center;
+          //   img {
+          //     width: 150px;
+          //   }
+          // }
         }
         .edit-winning-img {
           display: flex;
@@ -596,14 +611,14 @@ export default {
         }
         .edit-notWinning-img {
           display: flex;
-          .img-con {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            img {
-              width: 100%;
-            }
-          }
+          // .img-con {
+          //   display: flex;
+          //   justify-content: center;
+          //   align-items: center;
+          //   img {
+          //     width: 100%;
+          //   }
+          // }
         }
       }
       .tips {

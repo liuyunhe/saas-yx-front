@@ -2,7 +2,7 @@
   <div class="root">
     <div class="content mt20" v-for="(item, index) in data.strategyArr" :key="index">
       <el-form-item label="场次时间：" prop="time">
-        <el-date-picker v-model="timeObj[index]" @change="time(index)" :picker-options="pickerOptions" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+        <el-date-picker v-model="timeObj[index]" @change="time(index)" :time-arrow-control="true" :picker-options="pickerOptions" arrow-control format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
       </el-form-item>
       <div @mouseover="tabsIndex = index">
         <el-tabs v-model="putTabsValue[index]" type="card" editable @edit="putTabsEdit">
@@ -120,8 +120,8 @@ export default {
       })
     },
     time(i) {
-      this.data.strategyArr[i].tf.stimeStr = this.timeObj[i][0]
-      this.data.strategyArr[i].tf.etimeStr = this.timeObj[i][1]
+      // this.data.strategyArr[i].tf.stimeStr = this.timeObj[i][0]
+      // this.data.strategyArr[i].tf.etimeStr = this.timeObj[i][1]
     },
     putTabsEdit(targetName, action) {
       let len = this.data.strategyArr[this.tabsIndex].awardArr.length

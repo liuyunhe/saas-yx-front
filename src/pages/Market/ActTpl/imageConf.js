@@ -108,21 +108,21 @@ const img = {
                 index: 'contentBg',
                 url: handle.getUrl('fanpaizi-bg2', 2),
                 pos: [32, 400],
-                size: [693, 724]
+                size: [726, 730]
             },
             title: {
                 name: '标题',
                 index: 'title',
                 url: handle.getUrl('fanpaizi-title', 2),
-                pos: [70, 100],
-                size: [550, 270]
+                pos: [30, 100],
+                size: [620, 270]
             },
             tips: {
                 name: '活动锦囊',
                 index: 'tips',
                 url: handle.getUrl('fanpaizi-tips', 2),
-                pos: [654, 32],
-                size: [92, 106]
+                pos: [599, 32],
+                size: [120, 160]
             },
         },
         item: {
@@ -130,37 +130,37 @@ const img = {
                 name: '牌子',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [89, 571],
-                size: [173, 237]
+                size: [175, 240]
             },
             item1: {
                 name: '牌子2',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [287, 571],
-                size: [173, 237]
+                size: [175, 240]
             },
             item2: {
                 name: '牌子3',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [486, 571],
-                size: [173, 237]
+                size: [175, 240]
             },
             item3: {
                 name: '牌子4',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [89, 826],
-                size: [173, 237]
+                size: [175, 240]
             },
             item4: {
                 name: '牌子5',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [287, 826],
-                size: [173, 237]
+                size: [175, 240]
             },
             item5: {
                 name: '牌子6',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [486, 826],
-                size: [173, 237]
+                size: [175, 240]
             },
         }
     },
@@ -337,7 +337,7 @@ const img = {
                 name: '红包',
                 index: 'redPacket',
                 url: handle.getUrl('red_img', 2),
-                size: [170, 188],
+                size: [240, 265],
                 style: [
                     {w: '45px', h: '50px', t: '50px', l: '190px'},
                     {w: '58px', h: '65px', t: '84px', l: '100px'},
@@ -366,14 +366,14 @@ const img = {
                 index: 'rulesBtn',
                 url: handle.getUrl('red_rules_btn', 2),
                 pos: [0, 0],
-                size: [129, 36]
+                size: [130, 36]
             },
             btnImg: {
                 name: '按钮图片',
                 index: 'btnImg',
                 url: handle.getUrl('red_rules_btn_img', 2),
                 pos: [0, 0],
-                size: [540, 97]
+                size: [540, 96]
             }
         },
         downCount: {
@@ -431,16 +431,16 @@ const img = {
             drawBtn2: {
                 name: '抽奖按钮2',
                 index: 'drawBtn2',
-                url: handle.getUrl('red_draw_btn2', 2),
-                pos: [],
-                size: []
+                url: handle.getUrl('red_draw_btn1', 2),
+                pos: [246, 754],
+                size: [258, 66]
             },
             tipsImg: {
                 name: '提示语弹窗',
                 index: 'tipsImg',
                 url: handle.getUrl('red_tips_img', 2),
                 pos: [92, 111],
-                size: [528, 463]
+                size: [528, 462]
             },
             tipsBtn1: {
                 name: '提示按钮1',

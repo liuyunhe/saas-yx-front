@@ -52,11 +52,11 @@
             'height': imgData.tips.notWinImg.size[1] * 0.4 +'px',
             'left': imgData.tips.notWinImg.pos[0] * 0.4 + 'px',
             'top': imgData.tips.notWinImg.pos[1] * 0.4 + 'px'}">
-          <img :src="imgData.tips.drawBtn1.url" :style="{
-            'width': imgData.tips.drawBtn1.size[0] * 0.4 + 'px',
-            'height': imgData.tips.drawBtn1.size[1] * 0.4 +'px',
-            'left': imgData.tips.drawBtn1.pos[0] * 0.4 + 'px',
-            'top': imgData.tips.drawBtn1.pos[1] * 0.4 + 'px'}">
+          <img :src="imgData.tips.drawBtn2.url" :style="{
+            'width': imgData.tips.drawBtn2.size[0] * 0.4 + 'px',
+            'height': imgData.tips.drawBtn2.size[1] * 0.4 +'px',
+            'left': imgData.tips.drawBtn2.pos[0] * 0.4 + 'px',
+            'top': imgData.tips.drawBtn2.pos[1] * 0.4 + 'px'}">
         </div>
         <div class="page8 page" v-show="page == 8">
           <div class="tipsDialog">

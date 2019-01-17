@@ -12,18 +12,22 @@
           <el-input v-model="shareConf.shareDesc" style="width: 70%;" type="textarea" :rows="2" placeholder="请输入内容"></el-input>
         </el-form-item>
         <el-form-item label="分享图标：">
-          <div class="img">
-            <img :src="editData[0].url">
+          <div>
+            <div class="img">
+              <img :src="editData[0].url">
+            </div>
+            <el-upload 
+            :action="uploadApi" 
+            :headers="headerObj" 
+            class="upload" 
+            :show-file-list="false" 
+            :on-success="uploadSuccess"
+            :before-upload="beforeAvatarUpload"
+            :on-error="uploadError">
+              <el-button type="primary" size="small">点击上传</el-button>
+            </el-upload>
+            <div slot="tip" class="el-upload__tip">* 图片建议尺寸为 200*200px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
           </div>
-          <el-upload 
-          :action="uploadApi" 
-          :headers="headerObj" 
-          class="upload" 
-          :show-file-list="false" 
-          :on-success="uploadSuccess"
-          :on-error="uploadError">
-            <el-button type="primary" size="small">点击上传</el-button>
-          </el-upload>
         </el-form-item>
       </el-form>
     </el-card>
@@ -51,7 +55,14 @@ export default {
     uploadError (err) {
         let that = this;
         alert('图片上传失败')
-    }
+    },
+    beforeAvatarUpload(file) {
+      const IMGTYPE = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/bmp' || file.type === 'image/gif'
+      if (!IMGTYPE) {
+        this.$message.error('上传图片只能是 JPG 、 PNG 、 GIF 、 BMP 格式!')
+      }
+      return IMGTYPE
+    },
   }
 }
 </script>
@@ -73,15 +84,18 @@ export default {
 }
 .img {
   display: inline-block;
-  width: 114px;
-  height: 102px;
-  line-height: 102px;
-  text-align: center;
-  border: 1px solid rgb(223, 223, 223);
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
   img {
-    width: 74px;
-    height: 74px;
-    vertical-align: middle;
+    position: absolute;
+    top:50%; 
+    left:50%;
+    transform: translate(-50%,-50%);
+    max-width: 90%;
+    max-height: 90%;
   }
 }
 .upload {
