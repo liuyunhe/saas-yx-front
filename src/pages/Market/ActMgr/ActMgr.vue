@@ -83,7 +83,7 @@
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status != 4" @click="edit(scope.row.id,scope.row.form)">编辑</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 2" @click="post(scope.row.id)">发布</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 3" @click="post(scope.row.id)">发布</a>
-            <a style="color: #347ab7" href="javascript:;" @click="clone(scope.row.id)">复制</a>
+            <a style="color: #347ab7" href="javascript:;" @click="clone(scope.row.id,scope.row.form)">复制</a>
             <a style="color: #347ab7" href="javascript:;" @click="getLogList(scope.row.actCode)">投放日志</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="stop(scope.row.id)">暂停</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="over(scope.row.id)">结束</a>
@@ -579,8 +579,8 @@ export default {
     	// }
     },
     // 复制
-    clone(id) {
-      this.$router.push('/market/actTpl/actSetConf?id=' + id + '&clone=1')
+    clone(id,form) {
+      this.$router.push('/market/actTpl/actSetConf?id=' + id + '&clone=1&form='+form)
     },
     // 发布
     async post(id) {

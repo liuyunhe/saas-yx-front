@@ -24,7 +24,7 @@
                         imgKey ="ACT_QUESTION" 
                         :imgData="conf.img"
                         :commonImg =  "conf.commonImg"
-                        @edit="edit" />
+                        @edit="editTpl" />
                 </el-col>
                 <el-col :span="14">
                     <activity-info 
@@ -142,7 +142,7 @@ props: ['id', 'edit'],
         let value = e.value;
         value ? this.conf.description = value : this.description = '';
     },
-    edit(e){
+    editTpl(e){
         console.log(e)
         let that = this;
         let index = e.index;
