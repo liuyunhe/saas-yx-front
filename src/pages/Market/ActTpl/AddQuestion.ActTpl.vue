@@ -202,6 +202,7 @@ props: ['id', 'edit'],
                     this.$message.error(res.message)
                 }
             })
+            return
         }
         if(!that.id) return;
         that.$request.post('/api/saotx/acttpl/detail', { id: that.id }, true, res => {

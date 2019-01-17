@@ -101,7 +101,25 @@ export default {
             this.$message.error(res.message)
           }
         })
-      }
+      } else if (this.edit) {
+        this.$request.post('/api/saotx/act/pubTpl', {actCode: this.edit}, true, res => {
+          if (res.ret === '200000') {
+            conf = JSON.parse(res.data.conf);
+            this.conf.img = JSON.parse(conf.img);
+            this.conf.commonImg = JSON.parse(conf.commonImg);
+            this.conf.description = res.data.note;
+            this.conf.title = res.data.name;
+            this.conf.id = res.data.id;
+            if (res.data.statusName == '未投放') {
+                this.isPublish = false
+            } else {
+                this.isPublish = true
+            }
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+        }
     },
     switchMenu(key, keyPath) {
       this.page = key

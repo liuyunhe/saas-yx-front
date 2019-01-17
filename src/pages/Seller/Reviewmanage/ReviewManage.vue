@@ -20,7 +20,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item :size="'small'" label="业态">
+          <el-form-item :size="'small'" label="业态" style="display:none">
             <el-select
                 v-model="filters.commercial"
                 placeholder="请选择"
@@ -33,7 +33,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item :size="'small'" label="区域">
+          <el-form-item :size="'small'" label="区域" style="display:none">
             <el-select
                 v-model="filters.district"
                 placeholder="请选择"
@@ -45,17 +45,6 @@
                   :value="item.code">
               </el-option>
             </el-select>
-          </el-form-item>
-          <el-form-item :size="'small'" label="关键词">
-            <el-input placeholder="请输入内容" v-model="filters.keywords" class="input-with-select" style="width: 300px">
-              <el-select v-model="filters.searchType" slot="prepend" @change="inputWithSelectChange" placeholder="请选择" style="width: 120px">
-                <el-option label="联系人名称" value="1"></el-option>
-                <el-option label="联系人电话" value="2"></el-option>
-                <el-option label="烟草证号" value="3"></el-option>
-                <el-option label="门店名称" value="4"></el-option>
-                <el-option label="业务员名称" value="5"></el-option>
-              </el-select>
-            </el-input>
           </el-form-item>
           <el-form-item :size="'small'" label="时间区间">
             <el-date-picker
@@ -69,7 +58,18 @@
                 style="width: 350px">
             </el-date-picker>
           </el-form-item>
-
+          <el-form-item :size="'small'" label="关键词">
+            <el-input placeholder="请输入内容" v-model="filters.keywords" class="input-with-select" style="width: 300px">
+              <el-select v-model="filters.searchType" slot="prepend" @change="inputWithSelectChange" placeholder="请选择" style="width: 120px">
+                <el-option label="联系人名称" value="1" style="display:none"></el-option>
+                <el-option label="联系人电话" value="2"></el-option>
+                <el-option label="烟草证号" value="3"></el-option>
+                <el-option label="门店名称" value="4" style="display:none"></el-option>
+                <el-option label="业务员名称" value="5" style="display:none"></el-option>
+              </el-select>
+            </el-input>
+          </el-form-item>
+          
           <div></div>
           <el-form-item size="small" label="位置：" prop="addrProvince">
             <el-select
@@ -147,6 +147,7 @@
               label="门店名称"
               width="120">
           </el-table-column>
+          <!-- 
           <el-table-column
               prop="ownerName"
               label="经营人姓名"
@@ -174,20 +175,23 @@
               <span v-else-if="scope.row.commercial == '7'">{{ "其他" }}</span>
             </template>
           </el-table-column>
+          -->
           <el-table-column
-              prop="contactName"
+              prop="ownerName"
               label="联系人姓名"
               width="120">
           </el-table-column>
           <el-table-column
-              prop="contactPhone"
+              prop="phoneNo"
               label="联系人电话"
               width="120">
           </el-table-column>
+          <!--
           <el-table-column
               prop="salesManNames"
               label="业务员">
           </el-table-column>
+          -->
           <el-table-column
               prop="applyTime"
               label="申请时间"

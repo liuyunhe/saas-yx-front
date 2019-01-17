@@ -309,7 +309,7 @@ export default {
               this.addActParams = res.data
               this.addActParams.name = JSON.parse(res.data.conf).title
               this.addActParams.note = JSON.parse(res.data.conf).description
-              this.defaultConf = JSON.parse(res.data.conf)
+              this.configItem = JSON.parse(res.data.conf)
               if (res.data.statusName == '未投放') {
                   this.isPut = false
               } else {

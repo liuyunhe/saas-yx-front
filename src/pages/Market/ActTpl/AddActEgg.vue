@@ -300,7 +300,8 @@ export default {
             this.addActParams = res.data
             this.addActParams.name = JSON.parse(res.data.conf).title
             this.addActParams.note = JSON.parse(res.data.conf).description
-            this.defaultConf = JSON.parse(res.data.conf)
+            // this.defaultConf = JSON.parse(res.data.conf)
+            this.configItem = JSON.parse(res.data.conf)
             if (res.data.statusName == '未投放') {
                 this.isPut = false
             } else {
@@ -352,6 +353,7 @@ export default {
     saveActTpl() {
       if (!this.addActParams.name) return this.$message.warning('请输入模板名称')
       this.configItem.title=this.addActParams.name;
+      this.configItem.description = this.addActParams.note
       this.addActParams.conf = JSON.stringify(this.configItem)
       if (this.edit) {
         this.$request.post('/api/saotx/act/mpubTpl', this.addActParams, true, res => {
