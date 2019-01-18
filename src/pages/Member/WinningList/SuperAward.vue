@@ -62,7 +62,7 @@
         <el-table-column align="center" prop="term" label="中奖时间"></el-table-column>
         <el-table-column align="center" label="中奖地区">
           <template slot-scope="scope">
-            <span>{{scope.row.awardProvince}}-{{scope.row.awardCity}}{{scope.row.awardDistrict ? '-' + scope.row.awardDistrict : ''}}</span>
+            <span>{{scope.row.awardProvince}}{{scope.row.awardCity ? '-' + scope.row.awardCity : ''}}{{scope.row.awardDistrict ? '-' + scope.row.awardDistrict : ''}}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="状态">

@@ -261,7 +261,7 @@ export default {
                 position: absolute;
                 object-fit:cover;
             }
-            .contentBg, .title, .contentBg{
+            .contentBg, .contentBg{
                 left: 50%!important;
                 transform: translateX(-50%);
             }

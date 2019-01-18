@@ -16,11 +16,12 @@
                     class="upload" 
                     :show-file-list="showFile" 
                     :on-success="uploadSuccess"
+                    :before-upload="beforeAvatarUpload"
                     :on-error="uploadError">
                         <el-button type="primary" size="small" @click="onUploadClick(itemRepeat && type == 'item' ? 'item0' : img.index)">点击上传</el-button>
                         
                     </el-upload>
-                    <div slot="tip" class="el-upload__tip">*图片建议尺寸为：{{img.size[0]}} x {{img.size[1]}}px；建议格式为：jpg/png/bmp/gif</div>
+                    <div slot="tip" class="el-upload__tip">* 图片建议尺寸为 {{img.size[0]}}*{{img.size[1]}}px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
                 </div>
             </div>
             <div v-if="type == 'item' && !itemRepeat" class="edit item-pic">
@@ -35,6 +36,7 @@
                     class="upload" 
                     :show-file-list="showFile" 
                     :on-success="uploadSuccess"
+                    :before-upload="beforeAvatarUpload"
                     :on-error="uploadError">
                         <el-button type="primary" size="small" @click="onUploadClick(index)">点击上传</el-button>
                     </el-upload>
@@ -85,7 +87,14 @@ export default {
       onUploadClick (index) {
           let that = this;
           that.editIndex = index;
-      }
+      },
+      beforeAvatarUpload(file) {
+        const IMGTYPE = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/bmp' || file.type === 'image/gif'
+        if (!IMGTYPE) {
+          this.$message.error('上传图片只能是 JPG 、 PNG 、 GIF 、 BMP 格式!')
+        }
+        return IMGTYPE
+      },
   }
 };
 </script>
@@ -109,16 +118,19 @@ export default {
       }
       .img-container {
         display: inline-block;
-        width: 200px;
-        height: 140px;
-        text-align: center;
-        border: 1px solid rgb(223, 223, 223);
-        line-height: 140px;
-        margin-left: 20px;
+        position: relative;
+        width: 100px;
+        height: 100px;
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        margin: 0 10px;
         & > img {
+          position: absolute;
+          top:50%; 
+          left:50%;
+          transform: translate(-50%,-50%);
           max-width: 90%;
           max-height: 90%;
-          vertical-align: middle;
         }
       }
       .upload {

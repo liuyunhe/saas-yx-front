@@ -43,7 +43,7 @@ import activityInfo from "@/components/activity/activityInfo"
 import activityImageEditor from "@/components/activity/activityImageEditor"
 import shareConf from './components/shareConf'
 export default {
-  props: ['id'],
+  props: ['id', 'edit'],
   components: {
     activityInfo,
     activityImageEditor,
@@ -68,7 +68,8 @@ export default {
         conf: {img: '', commonImg: '', title: '', desc: ''},
         name: '',
         note: '',
-        share: {shareTitle: '', shareDesc: ''}
+        share: {shareTitle: '', shareDesc: ''},
+        actCode: ''
       }
     }
   },
@@ -81,8 +82,8 @@ export default {
   },
   methods: {
     getDetail() {
+      let conf
       if (this.id) {
-        let conf
         this.$request.post('/api/saotx/acttpl/detail', { id: this.id }, true, res => {
           if (res.ret === '200000') {
               conf = JSON.parse(res.data.conf)
@@ -105,11 +106,13 @@ export default {
         this.$request.post('/api/saotx/act/pubTpl', {actCode: this.edit}, true, res => {
           if (res.ret === '200000') {
             conf = JSON.parse(res.data.conf);
+            this.conf.actCode = res.data.actCode
             this.conf.img = JSON.parse(conf.img);
             this.conf.commonImg = JSON.parse(conf.commonImg);
-            this.conf.description = res.data.note;
-            this.conf.title = res.data.name;
+            this.conf.description = conf.desc;
+            this.conf.title = conf.title;
             this.conf.id = res.data.id;
+            this.conf.share = JSON.parse(conf.share)
             if (res.data.statusName == '未投放') {
                 this.isPublish = false
             } else {
@@ -156,7 +159,7 @@ export default {
         case '7':
           this.editData = [
             this.conf.img.tips.notWinImg,
-            this.conf.img.tips.drawBtn1,
+            this.conf.img.tips.drawBtn2,
           ]
           break;
         case '8':
@@ -211,11 +214,22 @@ export default {
       this.conf.conf.img = JSON.stringify(this.conf.img)
       this.conf.conf.commonImg = JSON.stringify(this.conf.commonImg)
       this.conf.conf.title = this.conf.title
-      this.conf.conf.desc = this.conf.desc
+      this.conf.conf.desc = this.conf.description
       this.conf.conf['share'] = JSON.stringify(this.conf.share)
       this.conf.conf = JSON.stringify(this.conf.conf)
       this.conf.name = this.conf.title
       this.conf.note = this.conf.description
+      if (this.edit) {
+        this.$request.post('/api/saotx/act/mpubTpl', this.conf, true, res => {
+            if (res.ret === '200000') {
+              this.$message.success('保存成功')
+              this.$router.push('/market/actMgr')
+            } else {
+              this.$message.error(res.message)
+            }
+        })
+        return
+      }
       this.$request.post('/api/saotx/acttpl/saveOrModify', this.conf, true, res => {
         if (res.ret === '200000') {
           // 投放
