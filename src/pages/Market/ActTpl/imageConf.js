@@ -295,7 +295,7 @@ const img = {
                 name: '标题',
                 index: 'title',
                 url: handle.getUrl('ques_title', 2),
-                pos: [70, 100],
+                pos: [18, 100],
                 size: [720, 468]
             },
             tips: {
