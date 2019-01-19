@@ -2,7 +2,7 @@
   <div class="review-manage-container">
     <div class="box-container">
       <div class="add-new-seller">
-        <el-button type="primary" size="small fr" style="margin-bottom:15px "  @click="addNewSeller()">新建零售户</el-button>
+        <el-button type="primary" size="small" style="display:none;margin-bottom:15px "  @click="addNewSeller()">新建零售户</el-button>
       </div>
       <!--查询表单-->
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;margin-bottom: 0">
