@@ -78,8 +78,8 @@ props: ['id', 'edit'],
         id: '',
         description: '',
         title: '',
-        img: img.img.ACT_FANPAIZI,
-        commonImg: img.commonImg,
+        img: JSON.parse(JSON.stringify(img.img.ACT_FANPAIZI)),
+        commonImg: JSON.parse(JSON.stringify(img.commonImg)),
         conf: {img: '', commonImg: '', title: '', desc: ''},
         name: '',
         note: ''
@@ -108,7 +108,10 @@ props: ['id', 'edit'],
         let that = this;
         that.page = key;
         if(key == 4) {
-            that.editData = [that.conf.commonImg.getBtn];
+            that.editData = [           	
+            	that.conf.commonImg.getAwardBg,
+            	that.conf.commonImg.getBtn
+            ];
             that.editType = 'common';
         }else if(key == 1) {
             that.editData = [that.conf.img.normal.bg];

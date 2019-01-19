@@ -56,6 +56,20 @@ const commonImg = {
         pos: [0, 763],
         size: [247, 54]
     },
+    getAwardBgPai:{
+    	name: '中奖弹框',
+        index: 'getAwardBg',
+        url: handle.getUrl('ques_award_bg', 2),
+        pos: [0, 400],
+        size: [563, 638]
+    },
+    getBtnPai: {
+        name: '领取按钮',
+        index: 'getBtn',
+        url: handle.getUrl('ques_award_btn', 2),
+        pos: [0, 763],
+        size: [247, 54]
+    },
     knowBtn: {
         name: '知道了按钮',
         index: 'knowBtn',
@@ -281,7 +295,7 @@ const img = {
                 name: '标题',
                 index: 'title',
                 url: handle.getUrl('ques_title', 2),
-                pos: [70, 100],
+                pos: [18, 100],
                 size: [720, 468]
             },
             tips: {
