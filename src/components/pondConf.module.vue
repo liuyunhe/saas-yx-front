@@ -24,7 +24,7 @@
         <el-form-item label="选择物品:" prop="pool">
           <!-- <el-button  @click="getEntityList">选择</el-button> -->
           <el-button v-if="!awae.awardPic" @click="getList">选择</el-button>
-          <img style="border: 1px dotted #ccc" v-if="awae.awardPic" :src="awae.awardPic" @click="isEdit && getList">
+          <img style="border: 1px dotted #ccc" v-if="awae.awardPic" :src="awae.awardPic" @click="!awae.id && getList()">
           <span>{{awae.poolName}}</span>
         </el-form-item>
         <el-form-item label="投放数量:" prop="putNum">

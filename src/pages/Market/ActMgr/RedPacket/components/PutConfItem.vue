@@ -4,10 +4,14 @@
       <el-form-item label="场次时间：" prop="time">
         <el-date-picker v-model="timeObj[index]" @change="time(index)" :time-arrow-control="true" :picker-options="pickerOptions" arrow-control format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
       </el-form-item>
+      <el-form-item label="查看状态：">
+        <el-button plain type="primary" @click="initStatus(index)">刷新状态</el-button>
+        <span class="ml20 info">{{statusInfoObj[index]}}</span>
+      </el-form-item>
       <div @mouseover="tabsIndex = index">
         <el-tabs v-model="putTabsValue[index]" type="card" editable @edit="putTabsEdit">
           <el-tab-pane :key="i" v-for="(tab, i) in putTabs[index]" :label="tab.title" :name="tab.name">
-            <pond-conf :lazy="true" :awae="item.awardArr[i]" :prizeType="prizeType" :isRed="true"></pond-conf>
+            <pond-conf :awae="item.awardArr[i]" :prizeType="prizeType" :time="item.tf"></pond-conf>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -16,9 +20,11 @@
   </div>
 </template>
 <script>
-import pondConf from '@/components/pondConf.module'
+import pondConf from './redPondConf'
 export default {
-  props: ['data'],
+  props: {
+    data: { type: Object, required: true }
+  },
   components: {
     pondConf
   },
@@ -26,6 +32,7 @@ export default {
     return {
       tabsIndex: null,
       timeObj: {},
+      statusInfoObj: {},
       prizeType: [
         { name: '实物礼品', type: 1 },
         { name: '虚拟礼品', type: 2 },
@@ -96,6 +103,9 @@ export default {
     this.handleTime()
   },
   methods: {
+    initStatus(i) {
+      // this.$set(this.statusInfoObj, i, msg)
+    },
     handleTabs() {
       this.data.strategyArr.forEach((item, index) => {
         this.$set(this.timeObj, index, [])
@@ -120,8 +130,8 @@ export default {
       })
     },
     time(i) {
-      // this.data.strategyArr[i].tf.stimeStr = this.timeObj[i][0]
-      // this.data.strategyArr[i].tf.etimeStr = this.timeObj[i][1]
+      this.data.strategyArr[i].tf.stimeStr = this.timeObj[i][0]
+      this.data.strategyArr[i].tf.etimeStr = this.timeObj[i][1]
     },
     putTabsEdit(targetName, action) {
       let len = this.data.strategyArr[this.tabsIndex].awardArr.length
@@ -164,6 +174,10 @@ export default {
 }
 .el-tabs /deep/ .el-tabs__new-tab {
   margin-right: 10px;
+}
+.info {
+  font-size: 12px;
+  color: #c0c4cc;
 }
 </style>
 

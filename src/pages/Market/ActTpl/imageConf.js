@@ -382,28 +382,28 @@ const img = {
                 index: 'bg',
                 url: handle.getUrl('red_downCount_bg', 2),
                 pos: [643, 299],
-                size: [80, 207]
+                size: [750, 1208]
             },
             num1: {
                 name: '数字1',
                 index: 'num1',
                 url: handle.getUrl('red_num1', 2),
                 pos: [643, 299],
-                size: [80, 207]
+                size: [150, 214]
             },
             num2: {
                 name: '数字2',
                 index: 'num2',
                 url: handle.getUrl('red_num2', 2),
                 pos: [639, 303],
-                size: [143, 211]
+                size: [150, 214]
             },
             num3: {
                 name: '数字3',
                 index: 'num3',
                 url: handle.getUrl('red_num3', 2),
                 pos: [300, 639],
-                size: [149, 215]
+                size: [150, 214]
             }
         },
         tips: {
@@ -411,15 +411,15 @@ const img = {
                 name: '中奖弹窗',
                 index: 'winningImg',
                 url: handle.getUrl('red_winning_img', 2),
-                pos: [46, 166],
-                size: [704, 548]
+                pos: [46, 200],
+                size: [610, 500]
             },
             notWinImg: {
                 name: '未中奖弹窗',
                 index: 'notWinImg',
                 url: handle.getUrl('red_notWin_img', 2),
                 pos: [46, 200],
-                size: [609, 497]
+                size: [610, 500]
             },
             drawBtn1: {
                 name: '抽奖按钮1',

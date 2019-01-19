@@ -100,8 +100,8 @@ export default {
       },
       statusList: [
         {name: '待领取', status: 1},
-        {name: '已发货', status: 2},
         {name: '已领取', status: 6},
+        {name: '已发货', status: 2},
         {name: '待审核', status: 11},
         {name: '审核通过', status: 12},
         {name: '审核不通过', status: 14},
