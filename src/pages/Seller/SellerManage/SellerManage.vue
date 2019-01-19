@@ -63,7 +63,6 @@
                 v-model="filters.time"
                 type="datetimerange"
                 placeholder="选择日期时间"
-                default-value="yyyy-MM-dd HH:mm"
                 value-format="yyyy-MM-dd HH:mm"
                 range-separator="至"
                 start-placeholder="开始日期"
@@ -202,6 +201,11 @@
               prop="phoneNo"
               label="联系人电话"
               width="120">
+          </el-table-column>
+          <el-table-column label="位置">
+            <template slot-scope="scope">
+              <span>{{scope.row.addrProvinceName}}</span><span v-if="scope.row.addrProvinceName!=scope.row.addrCityName">{{scope.row.addrCityName}}</span><span>{{scope.row.addrAreaName}}</span><span>{{scope.row.addrDetail}}</span>
+            </template>
           </el-table-column>
           <el-table-column
               prop="salesManNames"
@@ -600,7 +604,7 @@
         this.filters.searchType = ''
         //模糊搜索内容
         this.filters.keywords = ''
-        
+
         this.filters.time = [];
         //开始时间
         this.filters.appStartTime = ''
