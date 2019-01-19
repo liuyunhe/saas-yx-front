@@ -200,6 +200,11 @@
               <span>{{ new Date(scope.row.applyTime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
             </template>
           </el-table-column>
+          <el-table-column label="位置">
+            <template slot-scope="scope">
+              <span>{{scope.row.addrProvinceName}}</span><span v-if="scope.row.addrProvinceName!=scope.row.addrCityName">{{scope.row.addrCityName}}</span><span>{{scope.row.addrAreaName}}</span><span>{{scope.row.addrDetail}}</span>
+            </template>
+          </el-table-column>
           <el-table-column
               prop="authStatus"
               label="状态">
@@ -523,6 +528,8 @@
         this.filters.searchType = '',
         //模糊搜索内容
         this.filters.keywords = '',
+
+        this.filters.time = [];
         //开始时间
         this.filters.appStartTime = '',
         //结束时间
