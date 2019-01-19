@@ -63,6 +63,7 @@
                 v-model="filters.time"
                 type="datetimerange"
                 placeholder="选择日期时间"
+                default-value="yyyy-MM-dd HH:mm"
                 value-format="yyyy-MM-dd HH:mm"
                 range-separator="至"
                 start-placeholder="开始日期"
@@ -599,6 +600,8 @@
         this.filters.searchType = ''
         //模糊搜索内容
         this.filters.keywords = ''
+        
+        this.filters.time = [];
         //开始时间
         this.filters.appStartTime = ''
         //结束时间
