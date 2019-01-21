@@ -58,14 +58,14 @@ const commonImg = {
     },
     getAwardBgPai:{
     	name: '中奖弹框',
-        index: 'getAwardBg',
+        index: 'getAwardBgPai',
         url: handle.getUrl('ques_award_bg', 2),
         pos: [0, 400],
         size: [563, 638]
     },
     getBtnPai: {
         name: '领取按钮',
-        index: 'getBtn',
+        index: 'getBtnPai',
         url: handle.getUrl('ques_award_btn', 2),
         pos: [0, 763],
         size: [247, 54]
