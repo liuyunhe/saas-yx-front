@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <!-- 确认发货弹窗 -->
-    <el-dialog :visible.sync="deliverDialogVisible" width="400px" top="35vh" :close-on-click-modal="false" @close="reset">
+    <el-dialog :visible.sync="openDialog" width="400px" top="35vh" :close-on-click-modal="false" @close="reset">
       <h3>确认发货</h3>
       <el-form label-width="100px">
         <el-form-item label="物流订单号：">
@@ -12,7 +12,7 @@
         </el-form-item>
         <div class="btn">
           <el-button type="primary" @click="confirm">确认</el-button>
-          <el-button plain @click="deliverDialogVisible = false">取消</el-button>
+          <el-button plain @click="openDialog = false">取消</el-button>
         </div>
       </el-form>
     </el-dialog>
@@ -54,7 +54,7 @@
 </template>
 <script>
 export default {
-  props: ['params'],
+  props: ['openDialog', 'params'],
   data() {
     return {
       deliverDialogVisible: false,
@@ -132,7 +132,8 @@ h3 {
   padding: 0;
 }
 .btn {
-  text-align: center;
+  padding-left: 200px;
+  text-align: left;
 }
 .img {
   vertical-align: bottom;
