@@ -87,6 +87,16 @@
                                     </div>
                                 </div>
                                 <div class="edit-game-img" v-if="showEditConIndex == 6">
+                                	<div>
+                                		<p class="img-title">方格反面:</p>
+	                                    <div class="img-con"><img :src="defaultConf.img.translateStyle.url" alt=""></div>
+	                                    <div class="btn-con">
+	                                        <el-upload :action="uploadURL" :headers="headerObj" :on-success="upTransformImgSuccess" :show-file-list="false">
+	                                            <el-button size="small" type="primary">更换图片</el-button>
+	                                        </el-upload>
+	                                    </div>
+                                	</div>
+                                	
                                     <div v-for="(item, index) in defaultConf.img.kists" :key="item.key">
                                         <p class="img-title">{{index==4?'抽奖按钮:':'方格' + (index + 1) + ':'}}</p>
                                         <div class="img-con"><img :src="item.url" alt=""></div>
@@ -183,10 +193,12 @@
                         <div class="content">
                             <div class="bg"><img :src="defaultConf.img.bg.url"></div>
                             <div class="not-winning">
-                                <div class="prize-con">
+                                <div class="prize-con award-con">
                                     <div class="close">X</div>
-                                    <img class="pic" :src="defaultConf.img.noAward.url" alt="">
-                                    <h3>很遗憾，未中奖</h3>
+                                    <img class="award-alert" :src="defaultConf.img.noAward.url" alt="">
+                                    <div class="award-no-text">
+                                    	<h3>很遗憾，未中奖</h3>
+                                    </div>                                   
                                     <img class="prize-btn" :src="defaultConf.img.zxNoAwardBtn.url" alt="">
                                 </div>
                             </div>
@@ -376,6 +388,14 @@
                     }
 
                 }
+                urls.translateStyle = {
+                    url: _this.getNewImage("translateStyle","png"),
+                    width: "100%",
+                    height: "100%",
+                    left: 0,
+                    top: 0,
+                    style: _this.getStyle('100%', '100%', 0, 0)
+                };
                 urls.bg = {
                     url: _this.getNewImage("jiugongge-bg","png"),
                     width: "100%",
@@ -428,10 +448,10 @@
                     url: _this.getImage("jiugongge_award_bg","png")
                 };
                 urls.noAward = {
-                    url: _this.getImage("cry75@2x","png")
+                    url: _this.getNewImage("no-award-alert","png")
                 };
                 urls.zxNoAwardBtn = {
-                    url: _this.getNewImage("know-btn","png")
+                    url: _this.getNewImage("no-award-btn","png")
                 }
                 console.log(urls);
                 return urls;
@@ -478,6 +498,11 @@
             // 上传头部标题
             upTopImgSuccess(resule) {
                 if (resule.ret === '200000') return (this.defaultConf.img.title.url = resule.data.accessUrl)
+                this.$message.error(resule.message)
+            },
+            // 上传头部标题
+            upTransformImgSuccess(resule) {
+                if (resule.ret === '200000') return (this.defaultConf.img.translateStyle.url = resule.data.accessUrl)
                 this.$message.error(resule.message)
             },
             // 上传头部副标题
@@ -709,6 +734,13 @@
 	                            	left: 50%;
 	                            	transform: translate(-50%);
 	                            }
+	                            .award-no-text {
+	                            	position: absolute;
+	                            	top:255px;
+	                            	left: 50%;
+	                            	transform: translate(-50%);
+	                            	color:#666;
+	                            }
 	                            h3 {
 	                            	margin-bottom: 5px;
 	                            }
@@ -764,6 +796,9 @@
                         .prize-con {
                             .pic {
                                 margin-right: 0;
+                            }
+                            .prize-btn {
+                            	max-width: 138px !important;
                             }
                         }
                     }
