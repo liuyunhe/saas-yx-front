@@ -219,7 +219,8 @@ export default new Router({
       path: '/login',
       name: 'Login',
       // leaf:true,
-      component: Login
+      component: Login,
+      props: (route) => ({message:route.query.message})
     },
     {
       path: '/find',

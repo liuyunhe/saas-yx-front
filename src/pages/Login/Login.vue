@@ -44,6 +44,7 @@
 //import NProgress from 'nprogress'
 
 export default {
+  props: ['message'],
   data() {
     return {
       username: localStorage.getItem('username'),
@@ -76,6 +77,9 @@ export default {
     	this.codeSrc = location.origin + '/api/sys/login/verifyCode?'+this.ran
     }
     
+    if(this.message) {
+      this.$message.error(this.message);
+    }
   },
   methods: {
     submitLogin() {
