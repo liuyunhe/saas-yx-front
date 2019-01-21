@@ -157,7 +157,6 @@ props: ['id', 'edit'],
         }
     },
     editPic (e) {
-    	console.log(e)
         let that = this, 
             type = e.type, 
             index = e.index, 
