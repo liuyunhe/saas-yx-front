@@ -60,11 +60,13 @@
         <span class="mr20">下单时间：{{new Date(orderData.ctime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
         <span>状态：{{orderData.orderStatus}}</span>
       </el-col>
-      <super-pop v-if="superConfVisible" @taggle="taggle" @refresh="refresh" :params="orderData"></super-pop>
+      <super-pop v-if="superConfVisible" :openDialog="openDialogFlag" @taggle="taggle" @refresh="refresh" :params="orderData"></super-pop>
       <el-col class="btn">
         <!-- <el-button type="primary" v-if="orderData.activityCode == 'ACT-ZCQ2JKDAAAAA' && orderData.status == 2" @click="save">订单跟踪</el-button> -->
-        <el-button type="primary" v-if="orderData.activityCode !== 'ACT-ZCQ2JKDAAAAA' && orderData.status !== 2" @click="save">保存</el-button>
-        <el-button v-if="orderData.activityCode !== 'ACT-ZCQ2JKDAAAAA'" @click="$router.go(-1)">返回</el-button>
+        <!-- <el-button type="primary" v-if="orderData.activityCode !== 'ACT-ZCQ2JKDAAAAA' && orderData.status !== 2" @click="save">保存</el-button> -->
+        <el-button type="primary" v-if="orderData.status == 7 || orderData.status == 6" @click="save(0)">保存</el-button>
+        <el-button type="primary" v-if="orderData.activityCode == 'ACT-ZCQ2JKDAAAAA' && orderData.status == 7 || orderData.status == 6" @click="save(1)">确认发货</el-button>
+        <el-button v-if="orderData.status != 2 || orderData.activityCode != 'ACT-ZCQ2JKDAAAAA'" @click="$router.go(-1)">返回</el-button>
       </el-col>
     </el-card>
   </div>
@@ -98,7 +100,8 @@ export default {
         children: 'children'
       },
       selectedOptions: [],
-      superConfVisible: false
+      superConfVisible: false,
+      openDialogFlag: false
     }
   },
   created() {
@@ -151,22 +154,28 @@ export default {
         })
       }
     },
-    save() {
-      if (this.orderData.activityCode != 'ACT-ZCQ2JKDAAAAA') {
+    save(val) {
+      if (!val) {
+        this.orderData.send = 0
         this.$request.post('/api/saotx/md/modifyOrder', this.orderData, true, res => {
-          if (res.ret === '200000') return this.$message.success('保存成功')
+          if (res.ret === '200000') {
+            this.$message.success('保存成功')
+            this.getOrderDetail()
+            return
+          }
           this.$message.error(res.message)
         })
         return
       }
       this.orderData.send = 1
-      // this.superConfVisible = true
+      this.openDialogFlag = true
     },
     taggle() {
-      // this.superConfVisible = false
+      this.openDialogFlag = false
     },
     refresh() {
       this.getOrderDetail()
+      this.openDialogFlag = false
     },
     reverseCheckedCity() {
       if (this.provList.length != 0) {
