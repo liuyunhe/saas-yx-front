@@ -539,7 +539,8 @@ export default {
           height: 130px;
           line-height: 130px;
           text-align: center;
-          border: 1px solid #ccc;
+          border: 1px dashed #d9d9d9;
+    			border-radius: 6px;
           margin: 0 10px;
         }
         .act-tip-img {
