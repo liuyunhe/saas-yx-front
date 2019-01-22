@@ -2,7 +2,7 @@
     <!--
     Author: mgx
     Create Date: 2018-11-09
-    Description: 新建点元宝活动模板
+    Description: 新建九宫格活动模板
     -->
     <div class="addActTamConf-container">
         <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -87,6 +87,16 @@
                                     </div>
                                 </div>
                                 <div class="edit-game-img" v-if="showEditConIndex == 6">
+                                	<div>
+                                		<p class="img-title">方格反面:</p>
+	                                    <div class="img-con"><img :src="defaultConf.img.translateStyle.url" alt=""></div>
+	                                    <div class="btn-con">
+	                                        <el-upload :action="uploadURL" :headers="headerObj" :on-success="upTransformImgSuccess" :show-file-list="false">
+	                                            <el-button size="small" type="primary">更换图片</el-button>
+	                                        </el-upload>
+	                                    </div>
+                                	</div>
+                                	
                                     <div v-for="(item, index) in defaultConf.img.kists" :key="item.key">
                                         <p class="img-title">{{index==4?'抽奖按钮:':'方格' + (index + 1) + ':'}}</p>
                                         <div class="img-con"><img :src="item.url" alt=""></div>
@@ -97,10 +107,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 640*1600px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1208px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                                 <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 {{defaultConf.img.title.width}} x {{defaultConf.img.title.height}}px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                                 <p class="tips" v-if="showEditConIndex == 3">* * 图片建议尺寸为 550 x 100px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                                 <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 120*120*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 196*162*.jpg\ *.bmp\ *.png\ *.gif</p>
 
                             </div>
 
@@ -131,12 +142,16 @@
                         <div class="content">
                             <div class="bg"><img :src="defaultConf.img.bg.url"></div>
                             <div class="winning">
-                                <div class="prize-con">
-                                    <div class="close">X</div>
-                                    <img class="pic" src="https://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/test/5279354775674C718BC4C6E46A963B72.png" alt="">
-                                    <h3>奖品名称</h3>
-                                    <p>请在24小时内领取</p>
-                                    <img class="prize-btn" :src="defaultConf.img.award.url" alt="">
+                                <div class="prize-con award-con">
+                                	    <img :src="defaultConf.img.award_bg.url"class='award-alert' alt="" />
+                                		<div class="close">X</div>
+	                                    <img class="pic" src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/award_img.png" alt="">
+	                                    <div class="award-text">
+	                                    	<h3>奖品名称</h3>
+	                                    	<p>请在24小时内领取</p>
+	                                    </div>
+	                                    
+	                                    <img class="prize-btn" :src="defaultConf.img.award.url" alt="">                      
                                 </div>
                             </div>
                         </div>
@@ -148,6 +163,16 @@
                                 <span>编辑图片</span>
                             </div>
                             <div class="edit-con">
+                            	<div class="edit-winning-img">
+                                    <p class="img-title">弹框:</p>
+                                    <div class="img-con alert-con"><img :src="defaultConf.img.award_bg.url" alt=""></div>
+                                    <div class="btn-con">
+                                        <el-upload :action="uploadURL" :headers="headerObj" :on-success="upYesWinningImgBg" :show-file-list="false">
+                                            <el-button size="small" type="primary">更换图片</el-button>
+                                        </el-upload>
+                                    </div>
+                                </div>
+                                <p class="tips">* 图片建议尺寸为 563*638px格式为jpg\bmp\png\gif</p>
                                 <div class="edit-winning-img">
                                     <p class="img-title">按钮:</p>
                                     <div class="img-con"><img :src="defaultConf.img.award.url" alt=""></div>
@@ -157,7 +182,7 @@
                                         </el-upload>
                                     </div>
                                 </div>
-                                <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
+                                <p class="tips">* 图片建议尺寸为247*54px格式为jpg\bmp\png\gif</p>
                             </div>
                         </el-card>
                     </div>
@@ -168,10 +193,12 @@
                         <div class="content">
                             <div class="bg"><img :src="defaultConf.img.bg.url"></div>
                             <div class="not-winning">
-                                <div class="prize-con">
+                                <div class="prize-con award-con">
                                     <div class="close">X</div>
-                                    <img class="pic" :src="defaultConf.img.noAward.url" alt="">
-                                    <h3>很遗憾，未中奖</h3>
+                                    <img class="award-alert" :src="defaultConf.img.noAward.url" alt="">
+                                    <div class="award-no-text">
+                                    	<h3>很遗憾，未中奖</h3>
+                                    </div>                                   
                                     <img class="prize-btn" :src="defaultConf.img.zxNoAwardBtn.url" alt="">
                                 </div>
                             </div>
@@ -229,7 +256,7 @@
 </template>
 <script>
     export default {
-        props: ['id'],
+        props: ['id', 'edit'],
         data() {
             return {
                 defaultConf: {
@@ -361,6 +388,14 @@
                     }
 
                 }
+                urls.translateStyle = {
+                    url: _this.getNewImage("translateStyle","png"),
+                    width: "100%",
+                    height: "100%",
+                    left: 0,
+                    top: 0,
+                    style: _this.getStyle('100%', '100%', 0, 0)
+                };
                 urls.bg = {
                     url: _this.getNewImage("jiugongge-bg","png"),
                     width: "100%",
@@ -407,13 +442,16 @@
                 };
 
                 urls.award = {
-                    url: _this.getImage("djlq_btn","png")
+                    url: _this.getImage("jiugongge_award_btn","png")
+                };
+                urls.award_bg = {
+                    url: _this.getImage("jiugongge_award_bg","png")
                 };
                 urls.noAward = {
-                    url: _this.getImage("cry75@2x","png")
+                    url: _this.getNewImage("no-award-alert","png")
                 };
                 urls.zxNoAwardBtn = {
-                    url: _this.getNewImage("know-btn","png")
+                    url: _this.getNewImage("no-award-btn","png")
                 }
                 console.log(urls);
                 return urls;
@@ -433,6 +471,22 @@
                             this.$message.error(res.message)
                         }
                     })
+                } else if (this.edit) {
+                    this.$request.post('/api/saotx/act/pubTpl', {actCode: this.edit}, true, res => {
+                        if (res.ret === '200000') {
+                        this.addActParams = res.data
+                        this.addActParams.name = JSON.parse(res.data.conf).title
+                        this.addActParams.note = JSON.parse(res.data.conf).description
+                        this.defaultConf = JSON.parse(res.data.conf)
+                        if (res.data.statusName == '未投放') {
+                            this.isPut = false
+                        } else {
+                            this.isPut = true
+                        }
+                        } else {
+                        this.$message.error(res.message)
+                        }
+                    })
                 }
             },
             // 上传背景
@@ -444,6 +498,11 @@
             // 上传头部标题
             upTopImgSuccess(resule) {
                 if (resule.ret === '200000') return (this.defaultConf.img.title.url = resule.data.accessUrl)
+                this.$message.error(resule.message)
+            },
+            // 上传头部标题
+            upTransformImgSuccess(resule) {
+                if (resule.ret === '200000') return (this.defaultConf.img.translateStyle.url = resule.data.accessUrl)
                 this.$message.error(resule.message)
             },
             // 上传头部副标题
@@ -481,6 +540,10 @@
                 if (resule.ret === '200000') return (this.defaultConf.img.award.url = resule.data.accessUrl)
                 this.$message.error(resule.message)
             },
+            upYesWinningImgBg(resule) {
+                if (resule.ret === '200000') return (this.defaultConf.img.award_bg.url = resule.data.accessUrl)
+                this.$message.error(resule.message)
+            },
             // 上传未中奖图片
             upNotWinningImg(resule) {
                 if (resule.ret === '200000') return (this.defaultConf.img.noAward.url = resule.data.accessUrl)
@@ -497,6 +560,17 @@
                 this.defaultConf.title = this.addActParams.name
                 this.defaultConf.description = this.addActParams.note
                 this.addActParams.conf = JSON.stringify(this.defaultConf)
+                if (this.edit) {
+                    this.$request.post('/api/saotx/act/mpubTpl', this.addActParams, true, res => {
+                        if (res.ret === '200000') {
+                            this.$message.success('保存成功')
+                            this.$router.push('/market/actMgr')
+                        } else {
+                            this.$message.error(res.message)
+                        }
+                    })
+                    return
+                }
                 this.$request.post('/api/saotx/acttpl/saveOrModify', this.addActParams, true, res => {
                     if (res.ret === '200000') {
                         // 投放
@@ -625,6 +699,73 @@
                             height: 100%;
                             color: #fff;
                             text-align: center;
+                            &.award-con {
+                            	.award-alert {
+	                            	width:220px;
+	                            	height: 280px;
+	                            	position: absolute;
+	                            	left: 50%;
+	                            	transform: translate(-50%);
+	                            	top:80px;
+	                            }
+	                            .close {
+	                                position: absolute;
+	                                transform: translate(236px, 80px);
+	                                width: 20px;
+	                                height: 20px;
+	                                line-height: 20px;
+	                                text-align: center;
+	                                border: 1px solid #fff;
+	                                border-radius: 50%;
+	                            }
+	                            .pic {
+	                                max-width: 120px;
+	                                // max-height: 200px;
+	                                margin-top: 84px;
+	                                margin-right: 20px;
+	                                position: absolute;
+	                                top:70px;
+	                                left: 50%;
+	                                transform: translate(-50%);
+	                            }
+	                            .award-text {
+	                            	position: absolute;
+	                            	top:240px;
+	                            	left: 50%;
+	                            	transform: translate(-50%);
+	                            }
+	                            .award-no-text {
+	                            	position: absolute;
+	                            	top:255px;
+	                            	left: 50%;
+	                            	transform: translate(-50%);
+	                            	color:#666;
+	                            }
+	                            h3 {
+	                            	margin-bottom: 5px;
+	                            }
+	                            p {
+	                                color: #fff;
+	                                margin: 0;
+	                            }
+	                            .prize-btn {
+	                                margin-top: 20px;
+	                                max-width: 138px;
+	                                max-height: 34px;
+	                                position: absolute;
+	                                top:290px;
+	                                transform: translate(-50%);
+	                                left: 50%;
+	                            }
+                            }
+                            .award-alert {
+                            	width:220px;
+                            	height: 280px;
+                            	position: absolute;
+                            	left: 50%;
+                            	transform: translate(-50%);
+                            	top:80px;
+                            }
                             .close {
                                 position: absolute;
                                 transform: translate(232px, 56px);
@@ -634,6 +775,7 @@
                                 text-align: center;
                                 border: 1px solid #fff;
                                 border-radius: 50%;
+                                z-index: 9;
                             }
                             .pic {
                                 max-width: 196px;
@@ -655,6 +797,9 @@
                         .prize-con {
                             .pic {
                                 margin-right: 0;
+                            }
+                            .prize-btn {
+                            	max-width: 138px !important;
                             }
                         }
                     }
@@ -679,6 +824,14 @@
                         text-align: center;
                         border: 1px solid #ccc;
                         margin: 0 10px;
+                        
+                    }
+                    .alert-con {
+                    	padding: 3px;
+                    	img {
+                    		height: 100%;
+                    		object-fit: contain;
+                    	}
                     }
                     .btn-con {
                         position: relative;
