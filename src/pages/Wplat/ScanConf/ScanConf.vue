@@ -135,11 +135,11 @@
 											<el-checkbox v-model="addlist.conf.has.yz.detailFlag"></el-checkbox>
 										</div>
 										<div class="back">
-											背景图片：<img :src="addlist.conf.has.yz.bg" alt=""v-show='addlist.conf.has.yz.bg' /><div class="img-div"v-show='!addlist.conf.has.yz.bg'></div>
+											背景图片：<div class="img-div"v-show='addlist.conf.has.yz.bg'><img :src="addlist.conf.has.yz.bg" alt="" /></div><div class="img-div"v-show='!addlist.conf.has.yz.bg'><p>+</p></div>
 											<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz">
 												<el-button type="primary">更换图片</el-button>
 											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*460px格式为jpg\bmp\png\gif</div>
+											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*340px格式为jpg\bmp\png\gif</div>
 										</div>
 										
 									</div>
@@ -203,20 +203,21 @@
 											<el-input size='mini' v-model="addlist.conf.has.gzh.note" class='gInput' placeholder="请输入内容"maxlength='20'></el-input>
 										</div>
 										<div class="back">
-											二维码：<img :src="addlist.conf.has.gzh.qrIcon" alt="" />
+											二维码： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div class="img-div"v-show='addlist.conf.has.gzh.qrIcon'><img :src="addlist.conf.has.gzh.qrIcon" alt="" /></div>
+											<div class="img-div"v-show='!addlist.conf.has.gzh.qrIcon'><p>+</p></div>
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz1">
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 178*178px格式为jpg\bmp\png\gif</div>
+											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 234*234px格式为jpg\bmp\png\gif</div>
 										</div>
 										
 										<div class="back">
-											背景图片：<img :src="addlist.conf.has.gzh.bg" alt=""v-show='addlist.conf.has.gzh.bg' />
-											<div class="img-div"v-show='!addlist.conf.has.gzh.bg'></div>
+											背景图片： &nbsp;&nbsp;<div class="img-div"v-show='addlist.conf.has.gzh.bg'><img :src="addlist.conf.has.gzh.bg" alt="" /></div>
+											<div class="img-div"v-show='!addlist.conf.has.gzh.bg'><p>+</p></div>
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz2">
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*365px格式为jpg\bmp\png\gif</div>
+											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*510px格式为jpg\bmp\png\gif</div>
 										</div>
 										
 									</div>
@@ -267,27 +268,30 @@
 										<p>未扫码页面顶部配置</p>
 										<br />
 										<div class="back">
-											logo图片：<img :src="addlist.conf.not.yz.logoIcon" alt="" />
+											logo图片：
+											<div class="img-div"v-show='addlist.conf.not.yz.logoIcon'><img :src="addlist.conf.not.yz.logoIcon" alt="" /></div>
+											<div class="img-div"v-show='!addlist.conf.not.yz.logoIcon'><p>+</p></div>
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz3">
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 217*199px格式为jpg\bmp\png\gif</div>
+											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 171*169px格式为jpg\bmp\png\gif</div>
 											<br /><br />
-											<div>提示语：</div>
-											<br />
-											<el-input v-model="addlist.conf.not.yz.tip" placeholder="请输入内容"maxlength='20'></el-input>
-											<br /> 按钮图片：
-											<img :src="addlist.conf.not.yz.btnIcon" alt="" />
+											<span>提示语：</span>&nbsp;&nbsp;&nbsp;
+											<el-input v-model="addlist.conf.not.yz.tip" placeholder="请输入内容"maxlength='20'class='gInput'></el-input>
+											<br /><br /> 按钮图片：
+											<div class="img-div"v-show='addlist.conf.not.yz.btnIcon'><img :src="addlist.conf.not.yz.btnIcon" alt="" /></div>
+											<div class="img-div"v-show='!addlist.conf.not.yz.btnIcon'><p>+</p></div>
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz4">
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 364*73px格式为jpg\bmp\png\gif</div>
+											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 364*72px格式为jpg\bmp\png\gif</div>
 											<br /> 背景图片：
-											<img :src="addlist.conf.not.yz.bg" alt="" />
+											<div class="img-div"v-show='addlist.conf.not.yz.bg'><img :src="addlist.conf.not.yz.bg" alt="" /></div>
+											<div class="img-div"v-show='!addlist.conf.not.yz.bg'><p>+</p></div>
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz5">
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*460px格式为jpg\bmp\png\gif</div>
+											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*538px格式为jpg\bmp\png\gif</div>
 										</div>
 									</div>
 									<el-button slot="reference"></el-button>
@@ -306,28 +310,32 @@
 										<p>未扫码页面底部配置</p>
 										<br />
 										<div class="name">
-											<div>公众号名称：</div>
+											<span>公众号名称：</span>
 											<el-input size='mini' v-model="addlist.conf.not.gzh.name" class='gInput' placeholder="请输入内容"maxlength='10'></el-input>
 										</div>
 										<br />
 										<div class="name">
-											<div>说明：</div>
+											<span>说明：</span>
 											<el-input size='mini' v-model="addlist.conf.not.gzh.note" class='gInput' placeholder="请输入内容"maxlength='20'></el-input>
 										</div>
 										<div class="back">
-											二维码：<img :src="addlist.conf.not.gzh.qrIcon" alt="" />
+											二维码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											<div class="img-div"v-show='addlist.conf.not.gzh.qrIcon'><img :src="addlist.conf.not.gzh.qrIcon" alt="" /></div>
+											<div class="img-div"v-show='!addlist.conf.not.gzh.qrIcon'><p>+</p></div>
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz6">
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 178*178px格式为jpg\bmp\png\gif</div>
+											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 234*234px格式为jpg\bmp\png\gif</div>
 										</div>
 										
 										<div class="back">
-											背景图片：<img :src="addlist.conf.not.gzh.bg" alt="" />
+											背景图片：&nbsp;&nbsp;&nbsp;&nbsp;
+											<div class="img-div"v-show='addlist.conf.not.gzh.bg'><img :src="addlist.conf.not.gzh.bg" alt="" /></div>
+											<div class="img-div"v-show='!addlist.conf.not.gzh.bg'><p>+</p></div>
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz7">
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*365px格式为jpg\bmp\png\gif</div>
+											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*510px格式为jpg\bmp\png\gif</div>
 										</div>
 										
 									</div>
