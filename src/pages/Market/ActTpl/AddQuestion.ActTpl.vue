@@ -187,6 +187,7 @@ props: ['id', 'edit'],
         if (this.edit) {
             this.$request.post('/api/saotx/act/pubTpl', {actCode: this.edit}, true, res => {
                 if (res.ret === '200000') {
+                    this.conf.actCode = res.data.actCode
                     conf = JSON.parse(res.data.conf);
                     that.conf.img = JSON.parse(conf.img);
                     that.conf.commonImg = JSON.parse(conf.commonImg);
