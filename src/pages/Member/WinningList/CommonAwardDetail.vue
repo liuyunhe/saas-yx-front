@@ -55,25 +55,26 @@
           <el-input :disabled="orderData.status == 2" type="textarea" autosize resize="none" placeholder="请输入内容" v-model="orderData.detail"></el-input>
         </el-form-item>
       </el-form>
-      <el-col><span>收货人信息</span></el-col>
+      <el-col><span>订单跟踪</span></el-col>
       <el-col class="mt20 mb20 ml20">
         <span class="mr20">下单时间：{{new Date(orderData.ctime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
         <span>状态：{{orderData.orderStatus}}</span>
       </el-col>
+      <super-pop v-if="superConfVisible" :openDialog="openDialogFlag" @taggle="taggle" @refresh="refresh" :params="orderData"></super-pop>
       <el-col class="btn">
-        <el-button type="primary" v-if="orderData.activityCode == 'ACT-ZCQ2JKDAAAAA' && orderData.status == 2" @click="save">订单跟踪</el-button>
-        <el-button type="primary" v-if="orderData.activityCode == 'ACT-ZCQ2JKDAAAAA' && orderData.status !== 2" @click="save">确认发货</el-button>
-        <el-button type="primary" v-if="orderData.activityCode !== 'ACT-ZCQ2JKDAAAAA' && orderData.status !== 2" @click="save">保存</el-button>
-        <el-button @click="$router.go(-1)">返回</el-button>
+        <!-- <el-button type="primary" v-if="orderData.activityCode == 'ACT-ZCQ2JKDAAAAA' && orderData.status == 2" @click="save">订单跟踪</el-button> -->
+        <!-- <el-button type="primary" v-if="orderData.activityCode !== 'ACT-ZCQ2JKDAAAAA' && orderData.status !== 2" @click="save">保存</el-button> -->
+        <el-button type="primary" v-if="orderData.status == 7 || orderData.status == 6" @click="save(0)">保存</el-button>
+        <el-button type="primary" v-if="orderData.activityCode == 'ACT-ZCQ2JKDAAAAA' && orderData.status == 7 || orderData.status == 6" @click="save(1)">确认发货</el-button>
+        <el-button v-if="orderData.status != 2 || orderData.activityCode != 'ACT-ZCQ2JKDAAAAA'" @click="$router.go(-1)">返回</el-button>
       </el-col>
     </el-card>
-    <super-pop v-if="superConfVisible" @taggle="taggle" @refresh="refresh" :params="orderData"></super-pop>
   </div>
 </template>
 <script>
 import superPop from './components/superPop'
 export default {
-  props: ['orderCode'],
+  props: ['orderCode', 'tsUuid'],
   components: {
     superPop
   },
@@ -99,7 +100,8 @@ export default {
         children: 'children'
       },
       selectedOptions: [],
-      superConfVisible: false
+      superConfVisible: false,
+      openDialogFlag: false
     }
   },
   created() {
@@ -108,9 +110,10 @@ export default {
   },
   methods: {
     getOrderDetail() {
-      this.$request.post('/api/saotx/md/orderd', { orderCode: this.orderCode }, true, res => {
+      this.$request.post('/api/saotx/md/orderd', { orderCode: this.orderCode, tsUuid: this.tsUuid }, true, res => {
         if (res.ret === '200000') {
           this.orderData = res.data
+          if (this.orderData.activityCode == 'ACT-ZCQ2JKDAAAAA') this.superConfVisible = true
           if (this.orderData.province) this.selectedOptions.push(this.orderData.province)
           if (this.orderData.city) {
             this.selectedOptions.push(this.orderData.city)
@@ -151,22 +154,28 @@ export default {
         })
       }
     },
-    save() {
-      if (this.orderData.activityCode != 'ACT-ZCQ2JKDAAAAA') {
+    save(val) {
+      if (!val) {
+        this.orderData.send = 0
         this.$request.post('/api/saotx/md/modifyOrder', this.orderData, true, res => {
-          if (res.ret === '200000') return this.$message.success('保存成功')
+          if (res.ret === '200000') {
+            this.$message.success('保存成功')
+            this.getOrderDetail()
+            return
+          }
           this.$message.error(res.message)
         })
         return
       }
       this.orderData.send = 1
-      this.superConfVisible = true
+      this.openDialogFlag = true
     },
     taggle() {
-      this.superConfVisible = false
+      this.openDialogFlag = false
     },
     refresh() {
       this.getOrderDetail()
+      this.openDialogFlag = false
     },
     reverseCheckedCity() {
       if (this.provList.length != 0) {

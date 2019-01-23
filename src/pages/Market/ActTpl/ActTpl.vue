@@ -52,7 +52,7 @@
         <el-table-column prop="statusName" label="状态" align="center"></el-table-column>
         <el-table-column label="操作" align="center" width="220px">
           <template slot-scope="scope">
-            <el-button size="mini" type="primary" @click="edit(scope.row.form,scope.row.id)">编辑</el-button>
+            <el-button size="mini" type="primary" @click="goAddActTpl(scope.row.form,scope.row.id)">编辑</el-button>
             <el-button size="mini" type="success" @click="$router.push('/market/actTpl/actSetConf?form=' + scope.row.form + '&tplCode=' + scope.row.tplCode)">投放</el-button>
             <el-button size="mini" @click="delAct(scope.row.id)" type="danger">删除</el-button>
           </template>
@@ -71,10 +71,10 @@
           </ul>
           <div style="clear: both"></div>
         </div>
-        <div v-if="actForms">
+        <div v-if="actForms.length !== 0">
           <div class="act-item" v-for="item in actForms" :key="item.id">
             <img :src="item.extUrl" :alt="item.name">
-            <p>{{item.name}}<i class="el-icon-circle-plus" @click="goAddActTpl(item.code)"></i></p>
+            <p>{{item.name}}<i class="el-icon-circle-plus" @click="goAddActTpl(item.code, '')"></i></p>
           </div>
           <!-- <div v-if="actForms">
             <div class="act-item" v-for="item in actForms" :key="item.id">
@@ -127,7 +127,17 @@ export default {
       },
       actTotal: null,
       actForms: [],
-      loading: true
+      loading: true,
+      formPath: {
+        'act-101': '/market/actTpl/AddActSudoku?id=',
+        'act-102': '/market/actTpl/AddWingAct?id=',
+        'act-103': '/market/actTpl/addActEgg?id=',
+        'act-104': '/market/actTpl/addActFanpaizi?id=',
+        'act-501': '/market/actTpl/addActQuestion?id=',
+        'act-301': '/market/actTpl/addActRedPacked?id=',
+        'act-105': '/market/actTpl/addRound?id=',
+        'act-100': '/market/actTpl/addAct?id='
+      }
     }
   },
   created() {
@@ -384,30 +394,9 @@ export default {
       this.actParams.pageNo = newPage
       this.getAct()
     },
-    edit(code,id){
-      switch (code) {
-        case 'act-101':
-          this.$router.push('/market/actTpl/AddActSudoku?id=' + id)
-          break;
-        case 'act-102':
-          this.$router.push('/market/actTpl/AddWingAct?id=' + id)
-          break;
-        case 'act-103':
-          this.$router.push('/market/actTpl/addActEgg?id=' + id)
-          break;
-        case 'act-104':
-          this.$router.push('/market/actTpl/addActFanpaizi?id=' + id)
-          break;
-        case 'act-501':
-          this.$router.push('/market/actTpl/addActQuestion?id=' + id)
-          break;
-        case 'act-105':
-          this.$router.push('/market/actTpl/addRound?id=' + id)
-          break;
-        default:
-          this.$router.push('/market/actTpl/addAct?id=' + id)
-          break;
-      }
+    // 跳转到新建活动模板页面
+    goAddActTpl(code,id){
+      this.$router.push(this.formPath[code] + id)
     }
   }
 }
@@ -461,6 +450,8 @@ export default {
     }
     p {
       i {
+        // position: relative;
+        // top: 20px;
         float: right;
         font-size: 20px;
         color: #409eff;

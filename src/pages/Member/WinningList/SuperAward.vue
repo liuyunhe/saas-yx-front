@@ -62,7 +62,7 @@
         <el-table-column align="center" prop="term" label="中奖时间"></el-table-column>
         <el-table-column align="center" label="中奖地区">
           <template slot-scope="scope">
-            <span>{{scope.row.awardProvince}}-{{scope.row.awardCity}}{{scope.row.awardDistrict ? '-' + scope.row.awardDistrict : ''}}</span>
+            <span>{{scope.row.awardProvince}}{{scope.row.awardCity ? '-' + scope.row.awardCity : ''}}{{scope.row.awardDistrict ? '-' + scope.row.awardDistrict : ''}}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="状态">
@@ -72,7 +72,7 @@
           </template>
         </el-table-column>
         <el-table-column align="center" label="操作项">
-          <template slot-scope="scope"><el-button type="text" v-if="scope.row.awardType == 1 && scope.row.status != 1" @click="goDetailPage(scope.row.orderCode)">详情</el-button></template>
+          <template slot-scope="scope"><el-button type="text" v-if="scope.row.awardType == 1 && scope.row.status != 1" @click="goDetailPage(scope.row.orderCode, scope.row.tsUuid)">详情</el-button></template>
         </el-table-column>
       </el-table>
       <el-pagination class="mt20" background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryParams.pageNo" :page-size="queryParams.pageSize" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
@@ -100,8 +100,8 @@ export default {
       },
       statusList: [
         {name: '待领取', status: 1},
-        {name: '已发货', status: 2},
         {name: '已领取', status: 6},
+        {name: '已发货', status: 2},
         {name: '待审核', status: 11},
         {name: '审核通过', status: 12},
         {name: '审核不通过', status: 14},
@@ -181,9 +181,12 @@ export default {
         this.$message.error(res.message)
       })
     },
-    goDetailPage(code) {
+    goDetailPage(code, tsUuid) {
       // this.$router.push('/memberday/superAwardDetail?orderCode=' + code)
-       this.$router.push('/memberday/order/commonAwardDetail?orderCode=' + code)
+      let toUrl = "/memberday/order/commonAwardDetail";
+      toUrl += "?orderCode=" + (code?code:"");
+      toUrl += "&tsUuid=" + (tsUuid?tsUuid:"");
+      this.$router.push(toUrl);
     },
     getProvList() {
       this.$request.post('/api/saotx/dim/regionByMultiParent', {

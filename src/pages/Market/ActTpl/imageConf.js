@@ -17,9 +17,9 @@ const commonImg = {
     close: {
         name: '关闭按钮',
         index: 'close',
-        url: handle.getUrl('home_close', 2),
-        pos: [632, 141],
-        size: [60, 60]
+        url: handle.getUrl('close_icon', 2),
+        pos: [600, 115],
+        size: [56, 56]
     },
     awardText: {
         name: '关闭按钮',
@@ -31,9 +31,9 @@ const commonImg = {
     award: {
         name: '中奖图片',
         index: 'award',
-        url: handle.getUrl('ic-awardgift', 2),
+        url: handle.getUrl('award_img', 2),
         pos: [0, 0],
-        size: [620, 345]
+        size: [283, 234]
     },
     noAward: {
         name: '未获奖图片',
@@ -42,12 +42,33 @@ const commonImg = {
         pos: [85, 373],
         size: [620, 345]
     },
+    getAwardBg:{
+    	name: '中奖弹框',
+        index: 'getAwardBg',
+        url: handle.getUrl('ques_award_bg', 2),
+        pos: [0, 400],
+        size: [563, 638]
+    },
     getBtn: {
         name: '领取按钮',
         index: 'getBtn',
-        url: handle.getUrl('djlq_btn', 2),
-        pos: [0, 933],
-        size: [373, 84]
+        url: handle.getUrl('ques_award_btn', 2),
+        pos: [0, 763],
+        size: [247, 54]
+    },
+    getAwardBgPai:{
+    	name: '中奖弹框',
+        index: 'getAwardBgPai',
+        url: handle.getUrl('pai-alert-bg', 2),
+        pos: [0, 400],
+        size: [563, 638]
+    },
+    getBtnPai: {
+        name: '领取按钮',
+        index: 'getBtnPai',
+        url: handle.getUrl('pai-btn', 2),
+        pos: [0, 763],
+        size: [247, 54]
     },
     knowBtn: {
         name: '知道了按钮',
@@ -101,21 +122,21 @@ const img = {
                 index: 'contentBg',
                 url: handle.getUrl('fanpaizi-bg2', 2),
                 pos: [32, 400],
-                size: [693, 724]
+                size: [726, 730]
             },
             title: {
                 name: '标题',
                 index: 'title',
                 url: handle.getUrl('fanpaizi-title', 2),
-                pos: [70, 100],
-                size: [550, 270]
+                pos: [30, 100],
+                size: [620, 270]
             },
             tips: {
                 name: '活动锦囊',
                 index: 'tips',
                 url: handle.getUrl('fanpaizi-tips', 2),
-                pos: [654, 32],
-                size: [92, 106]
+                pos: [599, 32],
+                size: [120, 160]
             },
         },
         item: {
@@ -123,37 +144,37 @@ const img = {
                 name: '牌子',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [89, 571],
-                size: [173, 237]
+                size: [175, 240]
             },
             item1: {
                 name: '牌子2',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [287, 571],
-                size: [173, 237]
+                size: [175, 240]
             },
             item2: {
                 name: '牌子3',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [486, 571],
-                size: [173, 237]
+                size: [175, 240]
             },
             item3: {
                 name: '牌子4',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [89, 826],
-                size: [173, 237]
+                size: [175, 240]
             },
             item4: {
                 name: '牌子5',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [287, 826],
-                size: [173, 237]
+                size: [175, 240]
             },
             item5: {
                 name: '牌子6',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [486, 826],
-                size: [173, 237]
+                size: [175, 240]
             },
         }
     },
@@ -274,7 +295,7 @@ const img = {
                 name: '标题',
                 index: 'title',
                 url: handle.getUrl('ques_title', 2),
-                pos: [70, 100],
+                pos: [18, 100],
                 size: [720, 468]
             },
             tips: {
@@ -316,6 +337,149 @@ const img = {
                 size: [317, 103]
             }
     	}
+    },
+    ACT_HONGBAOYU: {
+        normal: {
+            bg: {
+                name: '背景',
+                index: 'bg',
+                url: handle.getUrl('red_bg', 2),
+                pos: [0, 0],
+                size: [750, 1208]
+            },
+            redPacket: {
+                name: '红包',
+                index: 'redPacket',
+                url: handle.getUrl('red_img', 2),
+                size: [240, 265],
+                style: [
+                    {w: '45px', h: '50px', t: '50px', l: '190px'},
+                    {w: '58px', h: '65px', t: '84px', l: '100px'},
+                    {w: '61px', h: '68px', t: '145px', l: '35px'},
+                    {w: '55px', h: '61px', t: '148px', l: '129px'},
+                    {w: '55px', h: '61px', t: '121px', l: '202px'},
+                    {w: '73px', h: '82px', t: '225px', l: '-21px'},
+                    {w: '69px', h: '76px', t: '213px', l: '60px'},
+                    {w: '72px', h: '79px', t: '241px', l: '134px'},
+                    {w: '68px', h: '75px', t: '194px', l: '211px'},
+                    {w: '91px', h: '100px', t: '321px', l: '33px'},
+                    {w: '75px', h: '82px', t: '321px', l: '190px'}
+                ]
+            }
+        },
+        rules: {
+            bg: {
+                name: '背景',
+                index: 'bg',
+                url: handle.getUrl('red_rules_bg', 2),
+                pos: [0, 0],
+                size: [750, 1208]
+            },
+            rulesBtn: {
+                name: '规则按钮',
+                index: 'rulesBtn',
+                url: handle.getUrl('red_rules_btn', 2),
+                pos: [0, 0],
+                size: [130, 36]
+            },
+            btnImg: {
+                name: '按钮图片',
+                index: 'btnImg',
+                url: handle.getUrl('red_rules_btn_img', 2),
+                pos: [0, 0],
+                size: [540, 96]
+            }
+        },
+        downCount: {
+            bg: {
+                name: '背景',
+                index: 'bg',
+                url: handle.getUrl('red_downCount_bg', 2),
+                pos: [643, 299],
+                size: [750, 1208]
+            },
+            num1: {
+                name: '数字1',
+                index: 'num1',
+                url: handle.getUrl('red_num1', 2),
+                pos: [643, 299],
+                size: [150, 214]
+            },
+            num2: {
+                name: '数字2',
+                index: 'num2',
+                url: handle.getUrl('red_num2', 2),
+                pos: [639, 303],
+                size: [150, 214]
+            },
+            num3: {
+                name: '数字3',
+                index: 'num3',
+                url: handle.getUrl('red_num3', 2),
+                pos: [300, 639],
+                size: [150, 214]
+            }
+        },
+        tips: {
+            winningImg: {
+                name: '中奖弹窗',
+                index: 'winningImg',
+                url: handle.getUrl('red_winning_img', 2),
+                pos: [46, 200],
+                size: [610, 500]
+            },
+            notWinImg: {
+                name: '未中奖弹窗',
+                index: 'notWinImg',
+                url: handle.getUrl('red_notWin_img', 2),
+                pos: [46, 200],
+                size: [610, 500]
+            },
+            drawBtn1: {
+                name: '抽奖按钮1',
+                index: 'drawBtn1',
+                url: handle.getUrl('red_draw_btn1', 2),
+                pos: [246, 754],
+                size: [258, 66]
+            },
+            drawBtn2: {
+                name: '抽奖按钮2',
+                index: 'drawBtn2',
+                url: handle.getUrl('red_draw_btn1', 2),
+                pos: [246, 754],
+                size: [258, 66]
+            },
+            tipsImg: {
+                name: '提示语弹窗',
+                index: 'tipsImg',
+                url: handle.getUrl('red_tips_img', 2),
+                pos: [92, 111],
+                size: [528, 462]
+            },
+            tipsBtn1: {
+                name: '提示按钮1',
+                index: 'tipsBtn1',
+                url: handle.getUrl('red_tips_btn1', 2),
+                pos: [114, 609],
+                size: [227, 66]
+            },
+            tipsBtn2: {
+                name: '提示按钮2',
+                index: 'tipsBtn2',
+                url: handle.getUrl('red_tips_btn2', 2),
+                pos: [389, 609],
+                size: [227, 66]
+            },
+        },
+        share: {
+            icon: {
+                name: '分享图标',
+                index: 'icon',
+                url: handle.getUrl('red_share_img', 2),
+                pos: [],
+                size: []
+            }
+        }
     }
 }
 
