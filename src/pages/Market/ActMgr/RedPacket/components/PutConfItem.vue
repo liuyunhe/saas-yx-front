@@ -2,16 +2,16 @@
   <div class="root">
     <div class="content mt20" v-for="(item, index) in data.strategyArr" :key="index">
       <el-form-item label="场次时间：" prop="time">
-        <el-date-picker v-model="timeObj[index]" @change="time(index)" :time-arrow-control="true" :picker-options="pickerOptions" arrow-control format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+        <el-date-picker v-model="timeObj[index]" :disabled="isDisableObj[index]" @change="time(index)" :time-arrow-control="true" :picker-options="pickerOptions" arrow-control format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
       </el-form-item>
       <el-form-item label="查看状态：">
-        <el-button plain type="primary" @click="initStatus(index)">刷新状态</el-button>
+        <el-button plain type="primary" @click="initStatus(item.tf, index)">刷新状态</el-button>
         <span class="ml20 info">{{statusInfoObj[index]}}</span>
       </el-form-item>
       <div @mouseover="tabsIndex = index">
         <el-tabs v-model="putTabsValue[index]" type="card" editable @edit="putTabsEdit">
           <el-tab-pane :key="i" v-for="(tab, i) in putTabs[index]" :label="tab.title" :name="tab.name">
-            <pond-conf :awae="item.awardArr[i]" :prizeType="prizeType" :time="item.tf"></pond-conf>
+            <pond-conf :awae="item.awardArr[i]" :prizeType="prizeType" :isDisable="isDisableObj[index]"></pond-conf>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -94,8 +94,10 @@ export default {
           stimeStr: '', // yyyy-MM-dd HH:mm:ss
           etimeStr: ''
         },
-        tfType: 'common'
-      }
+        tfType: 'common',
+      },
+      isDisableObj: {},
+      initData: {}
     }
   },
   created() {
@@ -103,11 +105,27 @@ export default {
     this.handleTime()
   },
   methods: {
-    initStatus(i) {
-      // this.$set(this.statusInfoObj, i, msg)
+    initStatus(d, i) {
+      let msg
+      this.$request.post('/api/saotx/act/initRedWin', {actCode: d.actCode, tfCode: d.tfCode}, true, res => {
+        this.initData = JSON.parse(res.data).content
+        // console.log(this.initData.data.ts)
+        if (this.initData.code == '200') {
+          if (this.initData.data.init) {
+            msg = `${this.initData.data.ts}, 初始化成功! 奖品数：${this.initData.data.rrTfInfo.totalNum}, 剩余：${this.initData.data.rrTfInfo.restNum}`
+          } else {
+            msg = `${this.initData.data.ts}, 未初始化!`
+          }
+        } else {
+          msg = `${this.initData.data.ts}, ${this.initData.msg}`
+        }
+        this.$set(this.statusInfoObj, i, msg)
+      })
     },
     handleTabs() {
       this.data.strategyArr.forEach((item, index) => {
+        this.$set(this.isDisableObj, index, Boolean)
+        this.handleDisable(item, index)
         this.$set(this.timeObj, index, [])
         if (index !== 0) {
           this.putTabs.push([{ title: '常规奖项1', name: '0'}])
@@ -132,6 +150,15 @@ export default {
     time(i) {
       this.data.strategyArr[i].tf.stimeStr = this.timeObj[i][0]
       this.data.strategyArr[i].tf.etimeStr = this.timeObj[i][1]
+    },
+    handleDisable(item, i) {
+      let nowTime = item.tf.sysTime
+      let stime = new Date(item.tf.stimeStr)
+      if (stime - nowTime  < 900000) {
+        this.isDisableObj[i] = true
+      } else {
+        this.isDisableObj[i] = false
+      }
     },
     putTabsEdit(targetName, action) {
       let len = this.data.strategyArr[this.tabsIndex].awardArr.length
