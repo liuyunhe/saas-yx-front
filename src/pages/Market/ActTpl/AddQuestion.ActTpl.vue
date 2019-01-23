@@ -190,8 +190,8 @@ props: ['id', 'edit'],
                     conf = JSON.parse(res.data.conf);
                     that.conf.img = JSON.parse(conf.img);
                     that.conf.commonImg = JSON.parse(conf.commonImg);
-                    that.conf.description = res.data.note;
-                    that.conf.title = res.data.name;
+                    that.conf.description = conf.desc;
+                    that.conf.title = conf.title;
                     that.conf.id = res.data.id;
                     if (res.data.statusName == '未投放') {
                         that.isPublish = false
@@ -230,7 +230,7 @@ props: ['id', 'edit'],
       that.conf.conf.img = JSON.stringify(that.conf.img);
       that.conf.conf.commonImg = JSON.stringify(that.conf.commonImg);
       that.conf.conf.title = that.conf.title;
-      that.conf.conf.desc = that.conf.desc;
+      that.conf.conf.desc = that.conf.description;
       that.conf.conf = JSON.stringify(that.conf.conf);
       that.conf.name = that.conf.title;
       that.conf.note = that.conf.description;

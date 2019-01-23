@@ -63,7 +63,7 @@ export default {
         id: '',
         description: '',
         title: '',
-        img: img.img.ACT_HONGBAOYU,
+        img: {},
         commonImg: img.commonImg,
         conf: {img: '', commonImg: '', title: '', desc: ''},
         name: '',
@@ -74,6 +74,7 @@ export default {
     }
   },
   created() {
+    this.conf.img = JSON.parse(JSON.stringify(img.img.ACT_HONGBAOYU))
     this.getDetail()
     this.editData = [
       this.conf.img.normal.bg,
@@ -191,7 +192,7 @@ export default {
       switch (this.page) {
         case '1':
           this.conf.img['normal'][index].url = url
-          this.editData[0].url = url
+          // this.editData[0].url = url
           break;
         case '2':
           this.conf.img['rules'][index].url = url

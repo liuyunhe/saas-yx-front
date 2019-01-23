@@ -106,7 +106,7 @@
 </template>
 <script>
 export default {
-  props: ['awae', 'prizeType', 'time'],
+  props: ['awae', 'prizeType', 'isDisable'],
   data() {
     var validateImgUrl = (rule, value, callback) => {
       if (this.awae.awardPic) {
@@ -121,7 +121,7 @@ export default {
     return {
       // awae: this.awae,
       prizeList: this.prizeType,
-      isDisable: false,
+      // isDisable: false,
       rules: {
         n: [{required: true, validator: tips}],
         type: [{required: true, validator: tips}],
@@ -167,7 +167,7 @@ export default {
       integralList: [],
       integralTotal: 0,
       integralVisible: false,
-      nowTime: this.time.sysTime,
+      // nowTime: this.time.sysTime,
       imgStyle: { cursor: 'pointer' }
     }
   },
@@ -189,24 +189,13 @@ export default {
       }
     }
   },
-  watch: {
-    nowTime(val) {
-      console.log(val)
-      let stime = new Date(this.time.stimeStr)
-      if (val - stime < 900000) {
-        this.isDisable = true
-      } else {
-        this.isDisable = false
-      }
-    }
-  },
   created() {
     // if (this.awae.id) {
     //   this.isEdit = true
     // } else {
     //   this.isEdit = false
     // }
-    this.handleIsDisable()
+    // this.handleIsDisable()
   },
   methods: {
     // 选择奖品
@@ -227,7 +216,6 @@ export default {
       this.awae.redTotalMoney = ''
       this.awae.integral = ''
       this.params.metraFlag = this.typeObj.metraObj[val]
-      console.log(val)
     },
     handleIsDisable() {
       if (!this.awae.id) return

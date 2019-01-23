@@ -96,7 +96,7 @@
 	                                        </el-upload>
 	                                    </div>
                                 	</div>
-                                	
+
                                     <div v-for="(item, index) in defaultConf.img.kists" :key="item.key">
                                         <p class="img-title">{{index==4?'抽奖按钮:':'方格' + (index + 1) + ':'}}</p>
                                         <div class="img-con"><img :src="item.url" alt=""></div>
@@ -107,10 +107,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1208px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
-                                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 {{defaultConf.img.title.width}} x {{defaultConf.img.title.height}}px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
-                                <p class="tips" v-if="showEditConIndex == 3">* * 图片建议尺寸为 550 x 100px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
-                                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 120*120*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1208px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 690*360px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 680*100px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 120*120px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 5">* 图片建议尺寸为 655x552px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                                 <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 196*162*.jpg\ *.bmp\ *.png\ *.gif</p>
 
                             </div>
@@ -150,8 +151,8 @@
 	                                    	<h3>奖品名称</h3>
 	                                    	<p>请在24小时内领取</p>
 	                                    </div>
-	                                    
-	                                    <img class="prize-btn" :src="defaultConf.img.award.url" alt="">                      
+
+	                                    <img class="prize-btn" :src="defaultConf.img.award.url" alt="">
                                 </div>
                             </div>
                         </div>
@@ -172,7 +173,7 @@
                                         </el-upload>
                                     </div>
                                 </div>
-                                <p class="tips">* 图片建议尺寸为 563*638px格式为jpg\bmp\png\gif</p>
+                                <p class="tips">* 图片建议尺寸为 562*638px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                                 <div class="edit-winning-img">
                                     <p class="img-title">按钮:</p>
                                     <div class="img-con"><img :src="defaultConf.img.award.url" alt=""></div>
@@ -182,7 +183,7 @@
                                         </el-upload>
                                     </div>
                                 </div>
-                                <p class="tips">* 图片建议尺寸为247*54px格式为jpg\bmp\png\gif</p>
+                                <p class="tips">* 图片建议尺寸为 280*60px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                             </div>
                         </el-card>
                     </div>
@@ -198,7 +199,7 @@
                                     <img class="award-alert" :src="defaultConf.img.noAward.url" alt="">
                                     <div class="award-no-text">
                                     	<h3>很遗憾，未中奖</h3>
-                                    </div>                                   
+                                    </div>
                                     <img class="prize-btn" :src="defaultConf.img.zxNoAwardBtn.url" alt="">
                                 </div>
                             </div>
@@ -220,7 +221,7 @@
                                         </el-upload>
                                     </div>
                                 </div>
-                                <p class="tips">* 图片建议尺寸为 620 x 345*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips">* 图片建议尺寸为 562*638px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                             </div>
                         </el-card>
                     </div>
@@ -239,7 +240,7 @@
                                         </el-upload>
                                     </div>
                                 </div>
-                                <p class="tips">* 图片建议尺寸为 290 × 74px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips">* 图片建议尺寸为 280*60px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                             </div>
                         </el-card>
                     </div>
@@ -406,16 +407,16 @@
                 };
                 urls.title = {
                     url: _this.getNewImage("jgg-banner","png"),
-                    width: 622,
-                    height: 357,
+                    width: 690,
+                    height: 360,
                     left: 63,
                     top: 130,
-                    style: _this.getStyle(622, 357, 63, 130).style,
-                    'c-style':  _this.getStyle(622, 357, 63, 130)["c-style"],
+                    style: _this.getStyle(690, 360, 63, 130).style,
+                    'c-style':  _this.getStyle(690, 360, 63, 130)["c-style"],
                 };
                 urls.subTitle = {
                     url: _this.getImage("JGG_title_text","png"),
-                    width: 550,
+                    width: 680,
                     height: 100,
                     left: 80,
                     top: 500,
@@ -424,21 +425,21 @@
                 };
                 urls.tips = {
                     url: _this.getImage("JGG_HDJN","png"),
-                    width: 98,
-                    height: 103,
+                    width: 120,
+                    height: 120,
                     left: 638,
                     top: 38,
-                    style: _this.getStyle(98, 103, 638, 38).style,
-                    'c-style': _this.getStyle(98, 103, 638, 38)["c-style"],
+                    style: _this.getStyle(120, 120, 638, 38).style,
+                    'c-style': _this.getStyle(120, 120, 638, 38)["c-style"],
                 };
                 urls.yxContentBg = {
                     url: _this.getImage("content-bg","png"),
-                    width: 650,
-                    height: 550,
+                    width: 655,
+                    height: 552,
                     left: 35,
                     top: 600,
-                    style: _this.getStyle(650, 550, 35, 600).style,
-                    'c-style': _this.getStyle(650, 550, 35, 600)["c-style"],
+                    style: _this.getStyle(655, 552, 35, 600).style,
+                    'c-style': _this.getStyle(655, 552, 35, 600)["c-style"],
                 };
 
                 urls.award = {
@@ -818,13 +819,13 @@
                 .edit-con {
                     // 公共样式
                     .img-con {
-                        width: 30%;
-                        height: 130px;
+                        width: 100px;
+                        height: 100px;
                         line-height: 130px;
                         text-align: center;
                         border: 1px solid #ccc;
                         margin: 0 10px;
-                        
+
                     }
                     .alert-con {
                     	padding: 3px;
@@ -850,7 +851,8 @@
                     .edit-top-img {
                         display: flex;
                         .img-con {
-                            width: 40%;
+                            width: 100px;
+                            height: 100px;
                             display: flex;
                             justify-content: center;
                             align-items: center;
@@ -862,7 +864,8 @@
                     .edit-subTitle-img {
                         display: flex;
                         .img-con {
-                            width: 40%;
+                            width: 100px;
+                            height: 100px;
                             display: flex;
                             justify-content: center;
                             align-items: center;
@@ -874,7 +877,8 @@
                     .edit-kits-img {
                         display: flex;
                         .img-con {
-                            width: 25%;
+                            width: 100px;
+                            height: 100px;
                             display: flex;
                             justify-content: center;
                             align-items: center;
@@ -887,7 +891,8 @@
                         display: flex;
                         margin-bottom: 10px;
                         .img-con {
-                            width: 25%;
+                            width: 100px;
+                            height: 100px;
                             display: flex;
                             justify-content: center;
                             align-items: center;
