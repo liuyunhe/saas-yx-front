@@ -3,7 +3,7 @@
     <div class="content mt20" v-for="(item, index) in data.strategyArr" :key="index">
       <el-form-item label="场次时间：" prop="time">
         <el-date-picker v-model="timeObj[index]" :disabled="isDisableArr[index]" @change="time(index)" :time-arrow-control="true" :picker-options="pickerOptions" arrow-control format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
-        <el-button type="danger" class="del-btn" @click="del(index)">删除场次</el-button>
+        <el-button type="danger" class="del-btn" v-if="index !== 0" @click="del(index)">删除场次</el-button>
       </el-form-item>
       <el-form-item label="初始化奖池：">
         <el-button plain type="primary" :disabled="btnDisableArr[index]" @click="initStatus(item.tf, index)">初始化奖池</el-button>
@@ -104,7 +104,7 @@ export default {
   },
   created() {
     this.handleTabs()
-    this.handleTime()
+    // this.handleTime()
   },
   methods: {
     initStatus(d, i) {
@@ -124,11 +124,13 @@ export default {
         this.$set(this.statusInfoArr, i, msg)
       })
     },
+    // 处理后台返回的数据 渲染出来
     handleTabs() {
       this.data.strategyArr.forEach((item, index) => {
         // this.$set(this.isDisableArr, index, Boolean)
         // this.$set(this.btnDisableArr, index, Boolean)
         this.handleDisable(item, index)
+        this.handleTime(item)
         // this.$set(this.timeObj, index, [])
         if (index !== 0) {
           this.putTabs.push([{ title: '常规奖项1', name: '0'}])
@@ -141,20 +143,19 @@ export default {
         })
       })
     },
-    handleTime() {
-      this.data.strategyArr.forEach((d, i) => {
+    // 处理时间
+    handleTime(d) {
+      // this.data.strategyArr.forEach((d, i) => {
         if (d.tf.stimeStr && d.tf.etimeStr) {
-          // this.$set(this.timeObj, i, [])
-          // this.timeObj[i].push(d.tf.stimeStr)
-          // this.timeObj[i].push(d.tf.etimeStr)
           this.timeObj.push([d.tf.stimeStr, d.tf.etimeStr])
         }
-      })
+      // })
     },
     time(i) {
       this.data.strategyArr[i].tf.stimeStr = this.timeObj[i][0]
       this.data.strategyArr[i].tf.etimeStr = this.timeObj[i][1]
     },
+    // 处理时间和刷新按钮禁用状态
     handleDisable(item, i) {
       let nowTime = item.tf.sysTime
       let stime = new Date(item.tf.stimeStr)
@@ -176,6 +177,7 @@ export default {
         this.btnDisableArr.push(true)
       }
     },
+    // tabs的添加和删除
     putTabsEdit(targetName, action) {
       let len = this.data.strategyArr[this.tabsIndex].awardArr.length
       if (action === 'add') {
@@ -199,6 +201,7 @@ export default {
         this.data.strategyArr[this.tabsIndex].awardArr.splice(targetName, 1)
       }
     },
+    // 添加场次
     add() {
       let newData = JSON.parse(JSON.stringify(this.defaultAwae))
       // let len = this.data.strategyArr.length
@@ -208,7 +211,10 @@ export default {
       this.putTabsValue.push('0')
       this.$set(this.btnDisableArr,  this.data.strategyArr.length - 1, true)
     },
+    // 删除场次
     del(i) {
+      // 第一场不删
+      if (i == 0) return
       this.$confirm('是否删除该场次?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
