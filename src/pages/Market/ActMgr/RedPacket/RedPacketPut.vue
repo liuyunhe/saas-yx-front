@@ -33,7 +33,7 @@
           <el-switch v-model="data.act.status" :disabled="statusDisabled" :active-value="1" :inactive-value="2"></el-switch>
         </el-form-item>
         <el-button type="primary" @click="save">保存</el-button>
-        <el-button plain>取消</el-button>
+        <el-button plain @click="$router.push('/market/actMgr')">取消</el-button>
       </el-form>
     </el-card>
   </div>
@@ -194,7 +194,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .el-form {
-  width: 1000px;
+  width: 800px;
   margin: 0 auto;
 }
 .high {

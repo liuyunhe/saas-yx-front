@@ -2,16 +2,17 @@
   <div class="root">
     <div class="content mt20" v-for="(item, index) in data.strategyArr" :key="index">
       <el-form-item label="场次时间：" prop="time">
-        <el-date-picker v-model="timeObj[index]" :disabled="isDisableObj[index]" @change="time(index)" :time-arrow-control="true" :picker-options="pickerOptions" arrow-control format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+        <el-date-picker v-model="timeObj[index]" :disabled="isDisableArr[index]" @change="time(index)" :time-arrow-control="true" :picker-options="pickerOptions" arrow-control format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+        <el-button type="danger" class="del-btn" @click="del(index)">删除场次</el-button>
       </el-form-item>
-      <el-form-item label="查看状态：">
-        <el-button plain type="primary" @click="initStatus(item.tf, index)">刷新状态</el-button>
-        <span class="ml20 info">{{statusInfoObj[index]}}</span>
+      <el-form-item label="初始化奖池：">
+        <el-button plain type="primary" :disabled="btnDisableArr[index]" @click="initStatus(item.tf, index)">初始化奖池</el-button>
+        <span class="ml20 info">{{statusInfoArr[index]}}</span>
       </el-form-item>
       <div @mouseover="tabsIndex = index">
         <el-tabs v-model="putTabsValue[index]" type="card" editable @edit="putTabsEdit">
           <el-tab-pane :key="i" v-for="(tab, i) in putTabs[index]" :label="tab.title" :name="tab.name">
-            <pond-conf :awae="item.awardArr[i]" :prizeType="prizeType" :isDisable="isDisableObj[index]"></pond-conf>
+            <pond-conf :awae="item.awardArr[i]" :prizeType="prizeType" :isDisable="isDisableArr[index]"></pond-conf>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -31,8 +32,10 @@ export default {
   data() {
     return {
       tabsIndex: null,
-      timeObj: {},
-      statusInfoObj: {},
+      timeObj: [],
+      statusInfoArr: [],
+      isDisableArr: [],
+      btnDisableArr: [],
       prizeType: [
         { name: '实物礼品', type: 1 },
         { name: '虚拟礼品', type: 2 },
@@ -96,7 +99,6 @@ export default {
         },
         tfType: 'common',
       },
-      isDisableObj: {},
       initData: {}
     }
   },
@@ -112,21 +114,22 @@ export default {
         // console.log(this.initData.data.ts)
         if (this.initData.code == '200') {
           if (this.initData.data.init) {
-            msg = `${this.initData.data.ts}, 初始化成功! 奖品数：${this.initData.data.rrTfInfo.totalNum}, 剩余：${this.initData.data.rrTfInfo.restNum}`
+            msg = `${this.initData.data.ts}, 初始化成功! 奖品总数：${this.initData.data.rrTfInfo.totalNum}, 剩余：${this.initData.data.rrTfInfo.restNum}`
           } else {
             msg = `${this.initData.data.ts}, 未初始化!`
           }
         } else {
           msg = `${this.initData.data.ts}, ${this.initData.msg}`
         }
-        this.$set(this.statusInfoObj, i, msg)
+        this.$set(this.statusInfoArr, i, msg)
       })
     },
     handleTabs() {
       this.data.strategyArr.forEach((item, index) => {
-        this.$set(this.isDisableObj, index, Boolean)
+        // this.$set(this.isDisableArr, index, Boolean)
+        // this.$set(this.btnDisableArr, index, Boolean)
         this.handleDisable(item, index)
-        this.$set(this.timeObj, index, [])
+        // this.$set(this.timeObj, index, [])
         if (index !== 0) {
           this.putTabs.push([{ title: '常规奖项1', name: '0'}])
           // this.$set(this.putTabs, index, [{ title: '常规奖项1', name: '0'}])
@@ -141,9 +144,10 @@ export default {
     handleTime() {
       this.data.strategyArr.forEach((d, i) => {
         if (d.tf.stimeStr && d.tf.etimeStr) {
-          this.$set(this.timeObj, i, [])
-          this.timeObj[i].push(d.tf.stimeStr)
-          this.timeObj[i].push(d.tf.etimeStr)
+          // this.$set(this.timeObj, i, [])
+          // this.timeObj[i].push(d.tf.stimeStr)
+          // this.timeObj[i].push(d.tf.etimeStr)
+          this.timeObj.push([d.tf.stimeStr, d.tf.etimeStr])
         }
       })
     },
@@ -154,10 +158,22 @@ export default {
     handleDisable(item, i) {
       let nowTime = item.tf.sysTime
       let stime = new Date(item.tf.stimeStr)
+      // 小于15分钟内不允许编辑
       if (stime - nowTime  < 900000) {
-        this.isDisableObj[i] = true
+        this.isDisableArr.push(true)      
       } else {
-        this.isDisableObj[i] = false
+        this.isDisableArr.push(false)
+      }
+      // 保存并且发布 才能刷新状态
+      if (item.tf.actCode && item.tf.tfCode && this.data.act.status == 1) {
+        // 场次时间结束也不能刷新
+        if (new Date(item.tf.stimeStr).getTime() >= new Date(item.tf.etimeStr).getTime()) {
+          this.btnDisableArr.push(true)
+        } else {
+          this.btnDisableArr.push(false)
+        }
+      } else {
+        this.btnDisableArr.push(true)
       }
     },
     putTabsEdit(targetName, action) {
@@ -190,6 +206,31 @@ export default {
       this.data.strategyArr.push(newData)
       this.putTabs.push([{ title: '常规奖项1', name: '0'}])
       this.putTabsValue.push('0')
+      this.$set(this.btnDisableArr,  this.data.strategyArr.length - 1, true)
+    },
+    del(i) {
+      this.$confirm('是否删除该场次?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.timeObj.splice(i, 1)
+        this.data.strategyArr.splice(i, 1)
+        this.putTabs.splice(i, 1)
+        this.putTabsValue.splice(i, 1)
+        this.statusInfoArr.splice(i, 1)
+        this.isDisableArr.splice(i, 1)
+        this.btnDisableArr.splice(i, 1)
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })          
+      })
     }
   }
 }
@@ -205,6 +246,10 @@ export default {
 .info {
   font-size: 12px;
   color: #c0c4cc;
+}
+.del-btn {
+    float: right;
+    margin-right: 20px;
 }
 </style>
 
