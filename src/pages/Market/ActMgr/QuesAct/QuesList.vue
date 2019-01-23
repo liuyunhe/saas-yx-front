@@ -99,6 +99,7 @@
 	  	reset(){
 	  		this.page=1;
 	  		this.keywords='';
+	  		this.search();
 	  	},
 	  	addBatch(resule){
 	  		if (resule.ret === '200000') {
