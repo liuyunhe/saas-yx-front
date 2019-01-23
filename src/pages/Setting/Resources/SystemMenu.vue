@@ -1,3 +1,7 @@
+/**
+* 超级管理员管理菜单
+* 1. 管理系统system级别的菜单：service='saas'
+*/
 <template>
   <div class="menu-container">
     <div class="lcontent">
