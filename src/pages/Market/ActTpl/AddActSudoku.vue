@@ -96,7 +96,7 @@
 	                                        </el-upload>
 	                                    </div>
                                 	</div>
-                                	
+
                                     <div v-for="(item, index) in defaultConf.img.kists" :key="item.key">
                                         <p class="img-title">{{index==4?'抽奖按钮:':'方格' + (index + 1) + ':'}}</p>
                                         <div class="img-con"><img :src="item.url" alt=""></div>
@@ -107,10 +107,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1208px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
-                                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 {{defaultConf.img.title.width}} x {{defaultConf.img.title.height}}px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
-                                <p class="tips" v-if="showEditConIndex == 3">* * 图片建议尺寸为 550 x 100px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
-                                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 120*120*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1208px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 690*360px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 680*100px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 120*120px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                                 <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 196*162*.jpg\ *.bmp\ *.png\ *.gif</p>
 
                             </div>
@@ -150,8 +150,8 @@
 	                                    	<h3>奖品名称</h3>
 	                                    	<p>请在24小时内领取</p>
 	                                    </div>
-	                                    
-	                                    <img class="prize-btn" :src="defaultConf.img.award.url" alt="">                      
+
+	                                    <img class="prize-btn" :src="defaultConf.img.award.url" alt="">
                                 </div>
                             </div>
                         </div>
@@ -198,7 +198,7 @@
                                     <img class="award-alert" :src="defaultConf.img.noAward.url" alt="">
                                     <div class="award-no-text">
                                     	<h3>很遗憾，未中奖</h3>
-                                    </div>                                   
+                                    </div>
                                     <img class="prize-btn" :src="defaultConf.img.zxNoAwardBtn.url" alt="">
                                 </div>
                             </div>
@@ -824,7 +824,7 @@
                         text-align: center;
                         border: 1px solid #ccc;
                         margin: 0 10px;
-                        
+
                     }
                     .alert-con {
                     	padding: 3px;

@@ -80,9 +80,10 @@
                     </div>
                   </div>
                 </div>
-                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 640*1600px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
-                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 {{defaultConf.img.title.width}} x {{defaultConf.img.title.height}}px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
-                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 125*125*.jpg\ *.bmp\ *.png\ *.gif</p>
+                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1208px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 586*244px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 120*120px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 125*125px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
               </div>
 
             </el-card>
@@ -138,7 +139,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
+                <p class="tips">* 图片建议尺寸为 344*84px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
               </div>
             </el-card>
           </div>
@@ -174,7 +175,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 620 x 345*.jpg\ *.bmp\ *.png\ *.gif</p>
+                <p class="tips">* 图片建议尺寸为 620*344px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
               </div>
             </el-card>
           </div>
@@ -193,7 +194,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 290 × 74px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                <p class="tips">* 图片建议尺寸为 290*74px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
               </div>
             </el-card>
           </div>
@@ -320,21 +321,21 @@ export default {
         };
         urls.title = {
             url: _this.getImage("yuanbao-title","png"),
-            width: 587,
+            width: 586,
             height: 244,
             left: 83,
             top: 57,
-            style: _this.getStyle(587, 244, 83, 57).style,
-            'c-style': _this.getStyle(587, 244, 83, 57)["c-style"],
+            style: _this.getStyle(586, 244, 83, 57).style,
+            'c-style': _this.getStyle(586, 244, 83, 57)["c-style"],
         };
         urls.tips = {
             url: _this.getImage("JGG_HDJN","png"),
-            width: 98,
-            height: 103,
+            width: 120,
+            height: 120,
             left: 638,
             top: 38,
-            style: _this.getStyle(98, 103, 638, 38).style,
-            'c-style': _this.getStyle(98, 103, 638, 38)["c-style"],
+            style: _this.getStyle(120, 120, 638, 38).style,
+            'c-style': _this.getStyle(120, 120, 638, 38)["c-style"],
         };
         urls.award = {
             url:
@@ -609,9 +610,9 @@ export default {
       .edit-con {
         // 公共样式
         .img-con {
-          width: 30%;
-          height: 130px;
-          line-height: 130px;
+          width: 100px;
+          height: 100px;
+          line-height: 100px;
           text-align: center;
           border: 1px solid #ccc;
           margin: 0 10px;
@@ -633,7 +634,8 @@ export default {
         .edit-top-img {
           display: flex;
           .img-con {
-            width: 40%;
+            width: 100px;
+            height: 100px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -645,7 +647,8 @@ export default {
         .edit-kits-img {
           display: flex;
           .img-con {
-            width: 25%;
+            width: 100px;
+            height: 100px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -658,7 +661,8 @@ export default {
           display: flex;
           margin-bottom: 10px;
           .img-con {
-            width: 180px;
+            width: 100px;
+            width: 100px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -677,6 +681,8 @@ export default {
         .edit-notWinning-img {
           display: flex;
           .img-con {
+            width: 100px;
+            width: 100px;
             display: flex;
             justify-content: center;
             align-items: center;
