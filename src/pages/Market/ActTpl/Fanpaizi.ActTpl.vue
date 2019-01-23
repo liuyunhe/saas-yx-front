@@ -22,6 +22,7 @@
                         imgKey ="ACT_FANPAIZI" 
                         :imgData="conf.img"
                         :commonImg =  "conf.commonImg"
+                       	flag="pai"
                         @edit="editPhone" />
                 </el-col>
                 <el-col :span="14">
@@ -108,9 +109,9 @@ props: ['id', 'edit'],
         let that = this;
         that.page = key;
         if(key == 4) {
-            that.editData = [           	
-            	that.conf.commonImg.getAwardBg,
-            	that.conf.commonImg.getBtn
+            that.editData = [     
+            	that.conf.commonImg.getAwardBgPai,
+            	that.conf.commonImg.getBtnPai
             ];
             that.editType = 'common';
         }else if(key == 1) {

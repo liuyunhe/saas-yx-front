@@ -8,7 +8,34 @@
         :props="defaultProps" 
         :filter-node-method="filterNode" 
         ref="treeDatas"
-        @node-click="treeNodeClick"></el-tree>
+        :expand-on-click-node="false"
+        @node-click="treeNodeClick">
+        <!--
+        <span class="custom-tree-node" slot-scope="{ node, data }">
+          <span>{{ node.label }}</span>
+          <span class="custom-tree-oper">
+            <el-button
+              type="text"
+              size="mini"
+              @click="() => append(data)">
+              edit
+            </el-button>
+            <el-button v-if="data.lv<3"
+              type="text"
+              size="mini"
+              @click="() => append(data)">
+              +
+            </el-button>
+            <el-button
+              type="text"
+              size="mini"
+              @click="() => remove(node, data)">
+              -
+            </el-button>
+          </span>
+        </span>  
+        -->
+      </el-tree>
     </div>
 
     <div class="rcontent">
@@ -78,7 +105,7 @@
         </el-form-item>
         <el-form-item label="上级菜单" prop="parentCode">
           <el-cascader size="small" 
-            v-model="menuForm.parent" 
+            v-model="menuForm.parents" 
             placeholder="请选择"
             :props="menuProps" 
             :options="menuParentDatas" 
@@ -88,6 +115,31 @@
         </el-form-item>
         <el-form-item label="链接地址" prop="menuUrl">
           <el-input size="small" v-model="menuForm.menuUrl" placeholder="请输入页面访问url，不能超过100个字符"></el-input>
+        </el-form-item>
+        <el-form-item label="默认图标">
+          <el-upload class="avatar-uploader" :show-file-list="false"
+            action="/api/saotx/attach/commonAliUpload"
+            :headers="headers"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <img v-if="menuForm.icon" :src="menuForm.icon" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <span slot="tip" class="el-upload__tip">图片建议尺寸为14*14px</span>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="选中图标">
+          <el-upload class="avatar-uploader" :show-file-list="false"
+            action="/api/saotx/attach/commonAliUpload"
+            :headers="headers"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <img v-if="menuForm.activeIcon" :src="menuForm.activeIcon" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <span slot="tip" class="el-upload__tip">图片建议尺寸为14*14px</span>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="备注描述">
+          <el-input size="small" type="textarea" :rows="2" v-model="menuForm.note" placeholder=""></el-input>
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio v-model="menuForm.status" :label="1">启用</el-radio>
@@ -132,6 +184,10 @@
         }
       };
       return {
+        headers:{
+          'loginId':sessionStorage.getItem('access_loginId'),
+          'token':sessionStorage.getItem('access_token')
+        },
         loading: false, // 是否查询中
         form: {
           menuName: "",
@@ -157,9 +213,13 @@
           id: "",
           menuCode: "",
           menuName: "",
-          parent: [],
+          parents: [],
+          oldParentCode: "", // 记录编辑前菜单的父编码，服务目录结构变更操作
           parentCode: "",
           menuUrl: "",
+          icon: "",
+          activeIcon: "",
+          note: "",
           status: ""
         },
         menuFormRules: {
@@ -167,7 +227,8 @@
           menuName: [{required:true, validator:validMenuName, trigger:'blur'}],
           menuUrl: [{required:true, validator:validMenuUrl, trigger:'blur'}],
           status: [{required:true, message:'状态不能为空！', trigger:'blur'}]
-        }
+        },
+        menuClickNode: null // 左侧树菜单被点击的节点
       };
     },
     watch: {
@@ -178,13 +239,16 @@
     created() {
       this.initTree();
     },
+    mounted() {
+      //document.querySelector('.el-tree-node').addEventListener('mouseover', function() {});
+    },
     methods: {
       filterNode(value, data) {
         if (!value) return true;
         return data.menuName.indexOf(value) !== -1;
       },
       initTree() {
-        this.$request.post('/api/saotx/menu/all', {service:"saas"}, true, (res)=>{
+        this.$request.post('/api/saotx/menu/alldata', {service:"saas"}, true, (res)=>{
           if (res.ret == '200000') {
             this.treeDatas = res.data || [];
             this.tableList = res.data || [];
@@ -219,6 +283,7 @@
           }
         }
         this.tableList = this.tableOriList;
+        this.menuClickNode = nodeData;
       },
       currentChange(pageNo) {
         // 分页pageNo变更监听
@@ -264,24 +329,29 @@
           id: row.id,
           menuCode: row.menuCode,
           menuName: row.menuName,
+          oldParentCode: parentCode,
           parentCode: parentCode,
           menuUrl: row.menuUrl,
+          icon: row.icon,
+          activeIcon: row.activeIcon,
+          note: row.note,
           status: row.status
         };
+        // 处理编辑框中父级内容的初始化
         if(parentCode) {
-          this.menuForm.parent = [];
+          this.menuForm.parents = [];
           for(let i=0;i<this.menuParentDatas.length;i++) {
             let tmp = this.menuParentDatas[i];
             if(parentCode==tmp.menuCode) {
-              this.menuForm.parent.push(tmp.parent);
-              this.menuForm.parent.push(parentCode);
+              this.menuForm.parents.push(tmp.parent);
+              this.menuForm.parents.push(parentCode);
               return;
             } else {
               for(let j=0;j<tmp.nodeList.length;j++) {
                 let tmp1 = tmp.nodeList[j];
                 if(parentCode==tmp1.menuCode) {
-                  this.menuForm.parent.push(tmp1.parent);
-                  this.menuForm.parent.push(parentCode);
+                  this.menuForm.parents.push(tmp1.parent);
+                  this.menuForm.parents.push(parentCode);
                   return;
                 }
               }
@@ -302,7 +372,7 @@
           params.service = "saas";
           this.$request.post('/api/saotx/menu/modifyStatus', params, true, (res)=>{
             if (res.ret == '200000') {
-              //this.list();
+              this.initTree();
               this.menuFormCancel('menuForm');
               this.$message({type: 'success', message: '操作成功!'});
             } else {
@@ -318,9 +388,13 @@
           id: "",
           menuCode: "",
           menuName: "",
-          parent: [],
+          parents: [],
+          oldParentCode: "",
           parentCode: "",
           menuUrl: "",
+          icon: "",
+          activeIcon: "",
+          note: "",
           status: ""
         };
         this.$refs[form].clearValidate();
@@ -329,14 +403,14 @@
       menuFormOk(form) {
         this.$refs[form].validate((valid) => {
           if (valid) {
-            if(this.menuForm.parent&&this.menuForm.parent.length>0) {
-              this.menuForm.parentCode = this.menuForm.parent[this.menuForm.parent.length-1];
+            if(this.menuForm.parents&&this.menuForm.parents.length>0) {
+              this.menuForm.parentCode = this.menuForm.parents[this.menuForm.parents.length-1];
             } else {
               this.menuForm.parentCode = "";
             }
             this.$request.post('/api/saotx/menu/somsys', this.menuForm, true, (res)=>{
               if (res.ret == '200000') {
-                //this.list();
+                this.initTree();
                 this.menuFormCancel('menuForm');
                 this.$message({type: 'success', message: '操作成功!'});
               } else {
@@ -351,6 +425,42 @@
 </script>
 
 <style lang="scss" scoped>
+  ::-webkit-scrollbar-track-piece { //滚动条凹槽的颜色，还可以设置边框属性
+    background-color:#f8f8f8;
+  }
+  ::-webkit-scrollbar {//滚动条的宽度
+    width:0px;
+    height:9px;
+  }
+  ::-webkit-scrollbar-thumb {//滚动条的设置
+    background-color:#dddddd;
+    background-clip:padding-box;
+    min-height:28px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color:#fff;
+  }
+  .avatar-uploader {
+    height: 30px;
+  }
+  .avatar-uploader /deep/ .el-upload {
+    background-color:#e9f1f9;
+    width: 30px;
+    height: 30px;
+    img {
+      position: relative;
+      top: 2px;
+    }
+  }
+  .avatar-uploader-icon {
+    width:30px;
+    height:20px;
+  }
+  .el-upload__tip {
+    position: relative;
+    top: -10px;
+    margin-left: 20px;
+  }
   .menu-container {
     width: 100%;
     .space {
@@ -380,9 +490,18 @@
     }
 
     .el-dialog {
-      .el-input, .el-cascader {
+      .el-input, .el-cascader, .el-textarea {
         width: 400px;
       }
+    }
+
+    .custom-tree-node {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      padding-right: 8px;
     }
   }
 </style>

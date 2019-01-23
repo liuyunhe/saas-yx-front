@@ -33,25 +33,16 @@ http.interceptors.request.use(
 );
 http.interceptors.response.use(
   function (response) {
-
     // Do something with response data
-
-
     if(response.data.ret == '100405') {
-      alert(response.data.message || "请重新登陆！")
-      router.push({
-        path:"/login"
-      })
+      //alert(response.data.message || "请重新登陆！")
+      router.push({path:"/login?message="+ (response.data.message || "请重新登陆！")})
     }else if(response.data.ret == '100408') {
-      alert(response.data.message ||"此帐号已在其他地方登录，您已被迫下线！")
-      router.push({
-        path:"/login"
-      })
+      //alert(response.data.message ||"此帐号已在其他地方登录，您已被迫下线！")
+      router.push({path:"/login?message="+ (response.data.message || "此帐号已在其他地方登录，您已被迫下线！")})
     }else if(response.data.ret == '100409') {
-      alert(response.data.message ||"密码时限超出，请修改密码！")
-      router.push({
-        path:"/login"
-      })
+      //alert(response.data.message ||"密码时限超出，请修改密码！")
+      router.push({path:"/login?message="+ (response.data.message || "密码时限超出，请修改密码！")})
     }
 
     NProgress.done()
@@ -59,8 +50,7 @@ http.interceptors.response.use(
     if (response.headers['content-type'] == "application/vnd.ms-excel") {
       //do something
     }
-
-
+    
     return response;
   },
   function (error) {
@@ -71,9 +61,7 @@ http.interceptors.response.use(
       } else if (error.response.status === 401) {
         // define window.app=vm in main.js
         // window.app.$message.error('请求要求用户的身份认证！');
-        router.push({
-          path:"/login"
-        })
+        router.push({path:"/login"})
       } else if (error.response.status === 403) {
         alert('服务器理解请求客户端的请求，但是拒绝执行此请求！');
       } else if (error.response.status === 404) {

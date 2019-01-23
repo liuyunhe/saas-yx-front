@@ -24,6 +24,7 @@
                         imgKey ="ACT_QUESTION" 
                         :imgData="conf.img"
                         :commonImg =  "conf.commonImg"
+                        flag="ques"
                         @edit="editTpl" />
                 </el-col>
                 <el-col :span="14">
@@ -110,8 +111,8 @@ props: ['id', 'edit'],
         that.page = key;
         if(key == 4) {
             that.editData = [           	
-            	that.conf.commonImg.getAwardBgPai,
-            	that.conf.commonImg.getBtnPai
+            	that.conf.commonImg.getAwardBg,
+            	that.conf.commonImg.getBtn
             ];
             that.editType = 'common';
         }else if(key == 1) {
@@ -157,7 +158,6 @@ props: ['id', 'edit'],
         }
     },
     editPic (e) {
-    	console.log(e)
         let that = this, 
             type = e.type, 
             index = e.index, 

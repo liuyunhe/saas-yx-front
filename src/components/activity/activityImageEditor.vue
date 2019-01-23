@@ -87,6 +87,7 @@ export default {
       onUploadClick (index) {
           let that = this;
           that.editIndex = index;
+          console.log(that.editIndex)
       },
       beforeAvatarUpload(file) {
         const IMGTYPE = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/bmp' || file.type === 'image/gif'
