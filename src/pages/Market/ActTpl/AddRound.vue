@@ -98,9 +98,12 @@
                                         </el-upload>
                                     </div>
                                 </div>
-                                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 640*1600px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
-                                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 {{defaultConf.img.title.width}} x {{defaultConf.img.title.height}}px格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
-                                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 120*120*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1208px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 734*276px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 120*120px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 686*676px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 5">* 图片建议尺寸为 483*483px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 209*240px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                             </div>
 
                         </el-card>
@@ -156,7 +159,7 @@
                                         </el-upload>
                                     </div>
                                 </div>
-                                <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
+                                <p class="tips">* 图片建议尺寸为 344*84px格式为jpg\bmp\png\gif</p>
                             </div>
                         </el-card>
                     </div>
@@ -669,8 +672,8 @@
                 .edit-con {
                     // 公共样式
                     .img-con {
-                        width: 30%;
-                        height: 130px;
+                        width: 100px!important;
+                        height: 100px!important;
                         line-height: 130px;
                         text-align: center;
                         border: 1px solid #ccc;
@@ -741,7 +744,8 @@
                             justify-content: center;
                             align-items: center;
                             img {
-                                width: 100%;
+                                max-width: 100%;
+                                max-height: 100%;
                             }
                         }
                     }

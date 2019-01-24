@@ -46,7 +46,7 @@
           </el-form-item>
         </div>
         <div class="add-tobaccomgr-form-title">产品图片</div>
-        <div class="add-tobaccomgr-form-container" style="padding: 30px 0">
+        <div class="add-tobaccomgr-form-container" style="padding-bottom: 30px">
           <el-upload
               action="/api/saotx/attach/commonAliUpload"
               list-type="picture-card"
@@ -55,8 +55,9 @@
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               >
-            <img v-if="filters.smallPic" width="160" height="300" :src="filters.smallPic" class="avatar">
-            <div slot="tip" class="el-upload__tip">* 图片建议尺寸为 160*300px格式为jpg\bmp\png\gif</div>
+            <img v-if="filters.smallPic" width="53" height="100" :src="filters.smallPic" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <div slot="tip" class="el-upload__tip">* 图片建议尺寸为 160*300px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
           </el-upload>
         </div>
         <div class="add-tobaccomgr-form-title">产品信息</div>
@@ -184,8 +185,9 @@
 </style>
 <style>
   .tobacco-pic .el-upload {
-    width: 160px;
-    height: 300px;
+    width: 55px;
+    height: 102px;
+    line-height: 110px;
 
   }
 </style>

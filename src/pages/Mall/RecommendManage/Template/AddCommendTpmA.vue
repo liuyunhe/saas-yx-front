@@ -27,9 +27,10 @@
               :show-file-list="false"
               :on-success="handleAvatarSuccess1"
           >
-            <img v-if="ruleForm.image1" width="710" height="240" :src="ruleForm.image1" class="avatar">
+            <img v-if="ruleForm.image1" width="100" height="34" :src="ruleForm.image1" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <div class="pic-tips">上传图片的最佳尺寸：710像素*240像素;格式png，jpg;大小不超过2M</div>
+          <div class="pic-tips">* 图片建议尺寸为 710*240px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
         </el-form-item>
         <div></div>
 
@@ -48,9 +49,10 @@
               :show-file-list="false"
               :on-success="handleAvatarSuccess2"
           >
-            <img v-if="ruleForm.image2" width="200" height="125" :src="ruleForm.image2" class="avatar">
+            <img v-if="ruleForm.image2" width="100" height="63" :src="ruleForm.image2" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <div class="pic-tips">上传图片的最佳尺寸：230像素*144像素;格式png，jpg;大小不超过2M</div>
+          <div class="pic-tips">* 图片建议尺寸为 230*144px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
         </el-form-item>
         <div></div>
 
@@ -69,9 +71,11 @@
               :show-file-list="false"
               :on-success="handleAvatarSuccess3"
           >
-            <img v-if="ruleForm.image3" width="200" height="125" :src="ruleForm.image3" class="avatar">
+            <img v-if="ruleForm.image3" width="100" height="63" :src="ruleForm.image3" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <div class="pic-tips">上传图片的最佳尺寸：230像素*144像素;格式png，jpg;大小不超过2M</div>
+          <div class="pic-tips">* 图片建议尺寸为 230*144px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
+
         </el-form-item>
         <div></div>
 
@@ -90,9 +94,10 @@
               :show-file-list="false"
               :on-success="handleAvatarSuccess4"
           >
-            <img v-if="ruleForm.image4" width="200" height="125" :src="ruleForm.image4" class="avatar">
+            <img v-if="ruleForm.image4" width="100" height="63" :src="ruleForm.image4" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <div class="pic-tips">上传图片的最佳尺寸：230像素*144像素;格式png，jpg;大小不超过2M</div>
+          <div class="pic-tips">* 图片建议尺寸为 230*144px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
         </el-form-item>
         <div></div>
 
@@ -221,13 +226,14 @@
 </style>
 <style>
   .add-commend-form-container .product-img .el-upload {
-    width: 202px;
-    height: 127px;
-
+    width: 102px;
+    height: 65px;
+    line-height: 73px;
   }
   .add-commend-form-container .main-product-img .el-upload {
-    width: 712px;
-    height: 242px;
+    width: 102px;
+    height: 36px;
+    line-height: 44px;
 
   }
 
