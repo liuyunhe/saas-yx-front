@@ -5,7 +5,7 @@
   Description: 活动基础设置
   -->
   <div class="actSetConf-container">
-    <el-breadcrumb separator-class="el-icon-arrow-right">
+    <el-breadcrumb separator-class="el-icon-arrow-right"v-show='form!="act-501"'>
       <el-breadcrumb-item>活动管理</el-breadcrumb-item>
       <el-breadcrumb-item>基础设置</el-breadcrumb-item>
     </el-breadcrumb>   

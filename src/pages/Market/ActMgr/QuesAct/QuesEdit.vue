@@ -1,8 +1,5 @@
 <template>
 	<div class="ques-edit-root">
-		<el-breadcrumb separator-class="el-icon-arrow-right">
-	      <el-breadcrumb-item>题目设置</el-breadcrumb-item>
-	    </el-breadcrumb>
 	    <el-card>
 	    	<el-steps :active="stepActive" finish-status="success"align-center class='step-style'>
 			  <el-step title="基础设置"></el-step>
