@@ -26,9 +26,10 @@
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
           >
-            <img v-if="ruleForm.image" width="200" height="125" :src="ruleForm.image" class="avatar">
+            <img v-if="ruleForm.image" width="100" height="75" :src="ruleForm.image" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <div class="pic-tips">上传图片的最佳尺寸：750像素*468像素；格式png、jpg；大小不超过2M</div>
+          <div class="pic-tips">* 图片建议尺寸为 750*468px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
         </el-form-item>
         <div></div>
         <el-form-item size="small" label="商品类型：" prop="giftType">
@@ -119,9 +120,10 @@
               :show-file-list="false"
               :on-success="handleAvatarSuccessUrl"
           >
-            <img v-if="ruleForm.url" width="200" height="200" :src="ruleForm.url" class="avatar">
+            <img v-if="ruleForm.url" width="100" height="100" :src="ruleForm.url" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <div class="pic-tips">此图用于商品详情展示；尺寸：宽750像素；格式png、jpg；大小不超过2M</div>
+          <div class="pic-tips">* 图片建议尺寸为 宽750px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
         </el-form-item>
         <div></div>
         <el-form-item label="状态：" prop="status" size="small">
@@ -165,14 +167,14 @@
 </style>
 <style>
   .product-img .el-upload {
-    width: 202px;
-    height: 127px;
-
+    width: 102px;
+    height: 77px;
+    line-height: 85px;
   }
   .product-url .el-upload {
-    width: 202px;
-    height: 202px;
-
+    width: 102px;
+    height: 102px;
+    line-height: 110px;
   }
 </style>
 <script>

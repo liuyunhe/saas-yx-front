@@ -1,8 +1,5 @@
 <template>
 	<div class="ques-edit-root">
-		<el-breadcrumb separator-class="el-icon-arrow-right">
-	      <el-breadcrumb-item>题目设置</el-breadcrumb-item>
-	    </el-breadcrumb>
 	    <el-card>
 	    	<el-steps :active="stepActive" finish-status="success"align-center class='step-style'>
 			  <el-step title="基础设置"></el-step>
@@ -12,14 +9,14 @@
 			<div class="title">{{titleName}}</div>
            	<el-form label-width="100px"class='ques-part'>
 		        <el-form-item label="题目名称">
-		          <el-input v-model="detailData.quesTitle"class='ques-input'></el-input>
+		          <el-input v-model="detailData.quesTitle"class='ques-input'type="textarea" maxlength="100" resize="false"placeholder="请输入答案（最多输入100个字）"></el-input>
 		        </el-form-item>
 		        <el-form-item label="题目答案">
 		          <span>(限最多四个)</span>
 		        </el-form-item>
 		        <el-form-item label=""v-for='(item,key) in detailData.actAnsw':key='key'>
 		          <el-checkbox v-model="item.answFlag"class='answer-checkbox'></el-checkbox>
-		          <el-input size="small" v-model="item.answName" placeholder="请输入答案"class='answer'></el-input>
+		          <el-input size="small" v-model="item.answName" placeholder="请输入答案（最多输入15个字）"class='answer'maxlength="15"></el-input>
 		          <span class='add'v-show='addFlag'@click='add(key)'>+</span>
 		          <span class='remove'v-show='key>1'@click='remove(key)'>-</span>
 		          

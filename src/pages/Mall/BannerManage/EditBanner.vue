@@ -104,8 +104,8 @@
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
         >
-          <img v-if="ruleForm.image" width="375" height="145" :src="ruleForm.image" class="avatar">
-          <div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*270px格式为jpg\bmp\png\gif</div>
+          <img v-if="ruleForm.image" width="100" height="100" :src="ruleForm.image" class="avatar">
+          <div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*420px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
         </el-upload>
       </el-form-item>
       <div></div>
@@ -132,8 +132,8 @@
 
 <style>
   .add-banner-container .banner-img .el-upload {
-    width: 375px;
-    height: 145px;
+    width: 110px;
+    height: 100px;
 
   }
 

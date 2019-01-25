@@ -137,7 +137,8 @@
 										<div class="back">
 											背景图片：<div class="img-div"v-show='addlist.conf.has.yz.bg'><img :src="addlist.conf.has.yz.bg" alt="" /></div><div class="img-div"v-show='!addlist.conf.has.yz.bg'><p>+</p></div>
 											<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz">
-												<el-button type="primary">更换图片</el-button>
+												<el-button type="primary"v-if='addlist.conf.has.yz.bg'>更换图片</el-button>
+												<el-button size='small' type="primary"v-if='!addlist.conf.has.yz.bg'>上传图片</el-button>
 											</el-upload>
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*340px格式为jpg\bmp\png\gif</div>
 										</div>
@@ -215,7 +216,8 @@
 											背景图片： &nbsp;&nbsp;<div class="img-div"v-show='addlist.conf.has.gzh.bg'><img :src="addlist.conf.has.gzh.bg" alt="" /></div>
 											<div class="img-div"v-show='!addlist.conf.has.gzh.bg'><p>+</p></div>
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz2">
-												<el-button size='small' type="primary">更换图片</el-button>
+												<el-button size='small' type="primary"v-if='addlist.conf.has.gzh.bg'>更换图片</el-button>
+												<el-button size='small' type="primary"v-if='!addlist.conf.has.gzh.bg'>上传图片</el-button>
 											</el-upload>
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*510px格式为jpg\bmp\png\gif</div>
 										</div>
@@ -333,7 +335,7 @@
 											<div class="img-div"v-show='addlist.conf.not.gzh.bg'><img :src="addlist.conf.not.gzh.bg" alt="" /></div>
 											<div class="img-div"v-show='!addlist.conf.not.gzh.bg'><p>+</p></div>
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz7">
-												<el-button size='small' type="primary">更换图片</el-button>
+												<el-button size='small' type="primary"v-show='addlist.conf.not.gzh.bg'>更换图片</el-button>
 											</el-upload>
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*510px格式为jpg\bmp\png\gif</div>
 										</div>
