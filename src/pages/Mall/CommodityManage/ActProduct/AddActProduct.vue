@@ -52,9 +52,10 @@
                                     :headers="headers"
                                     :show-file-list="false"
                                     :on-success="handleAvatarSuccess">
-                                <img v-if="filters.image" width="200" height="125" :src="filters.image" class="avatar">
+                                <img v-if="filters.image" width="100" height="74" :src="filters.image" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                             </el-upload>
-                            <div class="pic-tips">上传图片的最佳尺寸：750像素*468像素；格式png、jpg；大小不超过2M</div>
+                            <div class="pic-tips">* 图片建议尺寸为 380*280px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
                         </el-form-item>
                     </el-row>
                     <el-row>
@@ -344,9 +345,9 @@
 
 </style>
 <style>
-    .tobacco-pic .el-upload {
-        width: 162px;
-        height: 282px;
-
+    .product-img .el-upload {
+        width: 102px;
+        height: 76px;
+        line-height: 84px;
     }
 </style>
