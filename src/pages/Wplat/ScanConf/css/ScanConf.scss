@@ -4,6 +4,10 @@ p {
 .require {
     color:red;
 }
+.tip-text {
+    font-size: 12px;
+    color:#aaa;
+}
 .title-info,.not-title {
     label {
         text-align: left;
@@ -14,6 +18,28 @@ p {
         border-bottom: 1px solid #eee;
     }
 }
+.guanzhu-text {
+    font-size: 12px;
+    margin-top: 21px;
+    color:#fff;
+}
+.img-div {
+            width:100px;
+            height: 100px;
+            border:1px dashed #d9d9d9;
+            border-radius: 4px;
+            display: inline-block;
+            vertical-align: middle;
+            background: #fff;
+            font-size: 60px;
+            text-align: center;
+            color:#d9d9d9;
+            font-weight: 100;
+            p {
+                padding-top: 30px;
+                border:none;
+            }
+        }
 .yz-info {
     .back {
         margin: 10px 0 10px 0;
@@ -26,10 +52,19 @@ p {
         .img-div {
             width:100px;
             height: 100px;
-            border:1px solid #666;
+            border:1px dashed #d9d9d9;
+            border-radius: 4px;
             display: inline-block;
             vertical-align: middle;
-            background: #ccc;
+            background: #fff;
+            font-size: 60px;
+            text-align: center;
+            color:#d9d9d9;
+            font-weight: 100;
+            p {
+                padding-top: 30px;
+                border:none;
+            }
         }
         .avatar-uploader {
             display: inline-block;
@@ -56,10 +91,19 @@ p {
         .img-div {
             width:100px;
             height: 100px;
-            border:1px solid #666;
+            border:1px dashed #d9d9d9;
+            border-radius: 4px;
             display: inline-block;
             vertical-align: middle;
-            background: #ccc;
+            background: #fff;
+            font-size: 60px;
+            text-align: center;
+            color:#d9d9d9;
+            font-weight: 100;
+            p {
+                padding-top: 30px;
+                border:none;
+            }
         }
         .avatar-uploader {
             display: inline-block;
@@ -104,6 +148,10 @@ p {
         border-bottom: 1px solid #eee;
         
     }
+    .gInput {
+        width: 250px;
+    }
+    
 }
 
 .not-qr-info {
@@ -124,6 +172,17 @@ p {
         padding: 0 10px 0 10px;
         line-height: 30px;
         border-bottom: 1px solid #eee;
+        
+    }
+    .gInput {
+        width: 250px;
+    }
+    .name {
+        span {
+            display: inline-block;
+            width:85px;
+            text-align: justify;
+        }
         
     }
 }
@@ -324,12 +383,12 @@ p {
             }
             .yz {
                 width: 300px;
-                height: 130px;
+                height: 136px;
                 background: #ccc;
                 position: relative;
                 margin-bottom: 10px;
                 background-repeat: no-repeat;
-                background-size: 300px 130px;
+                background-size: 300px 136px;
                 border: 1px solid #fff;
                 &:hover {
                     border: 1px dashed #0099FF;
@@ -358,10 +417,10 @@ p {
                 .yz-click {
                     button {
                         width: 300px;
-                        height: 130px;
+                        height: 136px;
                     }
                     width:300px;
-                    height: 120px;
+                    height: 136px;
                     position: absolute;
                     top:0;
                     left:0;
@@ -371,15 +430,15 @@ p {
                 .right {
                     width: 300px;
                     height: 130px;
-                    padding-left: 70px;
-                    padding-top: 10px;
+                    padding-left: 80px;
+                    padding-top: 20px;
                     position: relative;
                     box-sizing: border-box;
                     font-size: 12px;
                     span {
                         position: absolute;
-                        right:10px;
-                        top:10px;
+                        right:15px;
+                        top:15px;
                         border:1px solid #ccc;
                         border-radius: 3px;
                         padding: 3px;
@@ -387,33 +446,33 @@ p {
                 }
                 .left {
                     width: 57px;
-                    height: 110px;
+                    height: 100px;
                     position: absolute;
                     left: 10px;
-                    top: 10px;
+                    top: 18px;
                     background: #fff;
                 }
             }
             .qr {
                 width: 300px;
-                height: 130px;
+                height: 204px;
                 background: #ccc;
                 position: relative;
                 text-align: center;
-                padding-top: 20px;
                 background-repeat: no-repeat;
-                background-size: 310px 150px;
+                background-size: 300px 204px;
                 border: 1px solid #fff;
+                overflow: hidden;
                 &:hover {
                     border: 1px dashed #0099FF;
                 }
                 .qr-click {
                     button {
                         width: 300px;
-                        height: 120px;
+                        height: 204px;
                     }
                     width:300px;
-                    height: 130px;
+                    height: 204px;
                     position: absolute;
                     bottom:0;
                     left:0;
@@ -421,8 +480,9 @@ p {
                     opacity: 0;
                 }
                 img {
-                    width: 80px;
-                    height: 80px;
+                    width: 93px;
+                    height: 93px;
+                    margin-top: 45px;
                 }
                 span {
                     color: #FF4D51;
@@ -528,34 +588,34 @@ p {
             }
             .not-yz {
                 width: 300px;
-                height: 192px;
+                height: 215px;
                 position: relative;
                 margin-bottom: 10px;
                 background-repeat: no-repeat;
-                background-size: 300px 192px;
+                background-size: 300px 215px;
                 text-align: center;
                 border: 1px solid #fff;
                 &:hover {
                     border: 1px dashed #0099FF;
                 }
                 .not-img {
-                    width: 100px;
-                    height: 100px;
-                    margin-top: 10px;
+                    width: 68px;
+                    height: 69px;
+                    margin-top: 60px;
                     margin-bottom: 10px;
                 }
                 .btn-img {
-                    width: 140px;
-                    height: 25px;
-                    margin-top: 10px;
+                    width: 145px;
+                    height: 30px;
+                    margin-top: 5px;
                 }
                 .not-yz-click {
                     button {
                         width: 300px;
-                        height: 130px;
+                        height: 215px;
                     }
                     width:300px;
-                    height: 192px;
+                    height: 215px;
                     position: absolute;
                     top:0;
                     left:0;
@@ -579,24 +639,24 @@ p {
             }
             .not-qr {
                 width: 300px;
-                height: 130px;
+                height: 204px;
                 background: #ccc;
                 position: relative;
                 text-align: center;
-                padding-top: 20px;
                 background-repeat: no-repeat;
-                background-size: 300px 150px;
+                background-size: 300px 204px;
                 border: 1px solid #fff;
+                overflow: hidden;
                 &:hover {
                     border: 1px dashed #0099FF;
                 }
                 .not-qr-click {
                     button {
                         width: 300px;
-                        height: 130px;
+                        height: 204px;
                     }
                     width:300px;
-                    height: 130px;
+                    height: 204px;
                     position: absolute;
                     top:0;
                     left:0;
@@ -604,8 +664,9 @@ p {
                     opacity: 0;
                 }
                 img {
-                    width: 80px;
-                    height: 80px;
+                    width: 93px;
+                    height: 93px;
+                    margin-top: 45px;
                 }
                 span {
                     color: #FF4D51;

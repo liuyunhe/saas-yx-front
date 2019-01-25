@@ -24,7 +24,8 @@
                         imgKey ="ACT_QUESTION" 
                         :imgData="conf.img"
                         :commonImg =  "conf.commonImg"
-                        @edit="edit" />
+                        flag="ques"
+                        @edit="editTpl" />
                 </el-col>
                 <el-col :span="14">
                     <activity-info 
@@ -65,7 +66,7 @@ import activityInfo from "@/components/activity/activityInfo";
 import activityImageEditor from "@/components/activity/activityImageEditor";
 import img from './imageConf'
 export default {
-props: ['id'],
+props: ['id', 'edit'],
   data() {
     return {
       defaultActive: "1",
@@ -79,8 +80,8 @@ props: ['id'],
         id: '',
         description: '',
         title: '',
-        img: img.img.ACT_QUESTION,
-        commonImg: img.commonImg,
+        img: JSON.parse(JSON.stringify(img.img.ACT_QUESTION)),
+        commonImg: JSON.parse(JSON.stringify(img.commonImg)),
         conf: {img: '', commonImg: '', title: '', desc: ''},
         name: '',
         note: ''
@@ -109,7 +110,10 @@ props: ['id'],
         let that = this;
         that.page = key;
         if(key == 4) {
-            that.editData = [that.conf.commonImg.getBtn];
+            that.editData = [           	
+            	that.conf.commonImg.getAwardBg,
+            	that.conf.commonImg.getBtn
+            ];
             that.editType = 'common';
         }else if(key == 1) {
             that.editData = [that.conf.img.normal.bg];
@@ -139,7 +143,8 @@ props: ['id'],
         let value = e.value;
         value ? this.conf.description = value : this.description = '';
     },
-    edit(e){
+    editTpl(e){
+        console.log(e)
         let that = this;
         let index = e.index;
         let type = index.indexOf('item') > -1 ? 'item' : 'normal';
@@ -153,7 +158,6 @@ props: ['id'],
         }
     },
     editPic (e) {
-    	console.log(e)
         let that = this, 
             type = e.type, 
             index = e.index, 
@@ -180,6 +184,27 @@ props: ['id'],
     getActDetail() {
         let that = this;
         let conf = null;
+        if (this.edit) {
+            this.$request.post('/api/saotx/act/pubTpl', {actCode: this.edit}, true, res => {
+                if (res.ret === '200000') {
+                    this.conf.actCode = res.data.actCode
+                    conf = JSON.parse(res.data.conf);
+                    that.conf.img = JSON.parse(conf.img);
+                    that.conf.commonImg = JSON.parse(conf.commonImg);
+                    that.conf.description = conf.desc;
+                    that.conf.title = conf.title;
+                    that.conf.id = res.data.id;
+                    if (res.data.statusName == '未投放') {
+                        that.isPublish = false
+                    } else {
+                        that.isPublish = true
+                    }
+                } else {
+                    this.$message.error(res.message)
+                }
+            })
+            return
+        }
         if(!that.id) return;
         that.$request.post('/api/saotx/acttpl/detail', { id: that.id }, true, res => {
             if (res.ret === '200000') {
@@ -189,11 +214,11 @@ props: ['id'],
                 that.conf.description = res.data.note;
                 that.conf.title = res.data.name;
                 that.conf.id = res.data.id;
-            if (res.data.statusName == '未投放') {
-                that.isPublish = false
-            } else {
-                that.isPublish = true
-            }
+                if (res.data.statusName == '未投放') {
+                    that.isPublish = false
+                } else {
+                    that.isPublish = true
+                }
             } else {
             this.$message.error(res.message)
             }
@@ -206,10 +231,21 @@ props: ['id'],
       that.conf.conf.img = JSON.stringify(that.conf.img);
       that.conf.conf.commonImg = JSON.stringify(that.conf.commonImg);
       that.conf.conf.title = that.conf.title;
-      that.conf.conf.desc = that.conf.desc;
+      that.conf.conf.desc = that.conf.description;
       that.conf.conf = JSON.stringify(that.conf.conf);
       that.conf.name = that.conf.title;
       that.conf.note = that.conf.description;
+      if (this.edit) {
+        this.$request.post('/api/saotx/act/mpubTpl', that.conf, true, res => {
+            if (res.ret === '200000') {
+              this.$message.success('保存成功')
+              this.$router.push('/market/actMgr')
+            } else {
+              this.$message.error(res.message)
+            }
+        })
+        return
+      }
       that.$request.post('/api/saotx/acttpl/saveOrModify', that.conf, true, res => {
         if (res.ret === '200000') {
           // 投放

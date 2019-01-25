@@ -7,8 +7,9 @@
             <div class="phone-body">
                 <div class="cover" v-if="page != 1 && page !=6">
                     <img 
-                        v-if="page != 2 && page != 3"
+                        v-if="page != 2 && page != 3 && page != 4 && page != 7"
                         :src="commonImg.close.url" alt=""
+                        class='close_icon'
                         :style="{
                             'width': commonImg.close.size[0] * 0.4 + 'px',
                             'height': commonImg.close.size[1] * 0.4 + 'px',
@@ -85,7 +86,25 @@
                 <div class="page page3" v-show="page == 3">
                     <img :src="commonImg.myAward.url" alt="">
                 </div>
-                <div class="page page4" v-show="page == 4">
+                <div class="page page4" v-show="page == 4 && flag=='ques'">
+                	<img                     
+                        :src="commonImg.close.url" alt=""
+                        class='close_icon'
+                        :style="{
+                            'width': commonImg.close.size[0] * 0.4 + 'px',
+                            'height': commonImg.close.size[1] * 0.4 + 'px',
+                            'left': commonImg.close.pos[0] * 0.4 + 'px',
+                            'top': commonImg.close.pos[1] * 0.4 + 'px',
+                        }"
+                    >
+                	<img 
+                		:src="commonImg.getAwardBg.url"alt=""
+                		class="award-alert"
+                		:style="{
+                            'width': commonImg.getAwardBg.size[0] * 0.4 + 'px',
+                            'height': commonImg.getAwardBg.size[1] * 0.4 + 'px'
+                        }"
+                		 />
                     <img 
                         :src="commonImg.award.url" alt="" 
                         class="award-pic" 
@@ -105,6 +124,47 @@
                             'width': commonImg.getBtn.size[0] * 0.4 + 'px',
                             'height': commonImg.getBtn.size[1] * 0.4 + 'px',
                             'top': commonImg.getBtn.pos[1] * 0.42 + 'px'
+                        }"
+                        >
+                </div>
+                <div class="page page4" v-show="page == 4 && flag=='pai'">
+                	<img                     
+                        :src="commonImg.close.url" alt=""
+                        class='close_icon'
+                        :style="{
+                            'width': commonImg.close.size[0] * 0.4 + 'px',
+                            'height': commonImg.close.size[1] * 0.4 + 'px',
+                            'left': commonImg.close.pos[0] * 0.4 + 'px',
+                            'top': commonImg.close.pos[1] * 0.4 + 'px',
+                        }"
+                    >
+                	<img 
+                		:src="commonImg.getAwardBgPai.url"alt=""
+                		class="award-alert"
+                		:style="{
+                            'width': commonImg.getAwardBgPai.size[0] * 0.4 + 'px',
+                            'height': commonImg.getAwardBgPai.size[1] * 0.4 + 'px'
+                        }"
+                		 />
+                    <img 
+                        :src="commonImg.award.url" alt="" 
+                        class="award-pic" 
+                        :style="{
+                            'width': commonImg.award.size[0] * 0.4 + 'px',
+                            'height': commonImg.award.size[1] * 0.4 + 'px'
+                        }"
+                    >
+                    <div class="award-text">
+                        <h2>奖品名称</h2>
+                        <p>请在24小时内领取</p>
+                    </div>
+                    <img 
+                        :src="commonImg.getBtnPai.url" alt="" 
+                        class="award-btn"
+                        :style="{
+                            'width': commonImg.getBtnPai.size[0] * 0.4 + 'px',
+                            'height': commonImg.getBtnPai.size[1] * 0.4 + 'px',
+                            'top': commonImg.getBtnPai.pos[1] * 0.42 + 'px'
                         }"
                         >
                 </div>
@@ -177,6 +237,10 @@ export default {
         },
         commonImg: {
             type: [Array, Object]
+        },
+        flag:{
+        	type: String,
+            default: ""
         }
     },
     data () {
@@ -234,6 +298,7 @@ export default {
                 height: 100%;
                 background: rgba($color: #000000, $alpha: 0.8);
                 z-index: 1;
+                
             }
             & img{
                 box-sizing: border-box;
@@ -241,7 +306,7 @@ export default {
                 position: absolute;
                 object-fit:cover;
             }
-            .contentBg, .title, .contentBg{
+            .contentBg, .contentBg{
                 left: 50%!important;
                 transform: translateX(-50%);
             }
@@ -263,18 +328,30 @@ export default {
                     width: 100%;
                     height: 100%;
                 }
+                .award-alert {
+                	left: 50%;
+                    top:100px;
+                    transform: translateX(-50%);
+                }
                 .award-pic{
                     left: 47%;
-                    top: 84.4px;
+                    top: 150px;
                     transform: translateX(-50%);
                     &.no-award{
                         left: 50%;
                     }
                 }
+                .close_icon {
+                	z-index: 5;
+                }
                 .award-text{
                     color: white;
                     text-align:  center;
-                    margin-top: 311px;
+                    position:absolute;
+                    top:240px;
+                    left:50%;
+                    transform:translate(-50%);
+                    z-index:3;
                     & h2, & p{
                         margin: 5px;
                     }

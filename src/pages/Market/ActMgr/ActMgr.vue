@@ -42,7 +42,7 @@
                 </el-option>
               </el-select>
               <el-select size="small" :disabled="isDisabled" v-model="selectCityList" multiple collapse-tags placeholder="请选择" @change="selectArea">
-                <el-option v-if="cityList" v-for="item in cityList" :key="item.code" :label="item.name" :value="item.code">
+                <el-option v-for="item in cityList" :key="item.code" :label="item.name" :value="item.code">
                 </el-option>
               </el-select>
               <el-checkbox size="small" v-model="isDisabled" label="全部地区" border></el-checkbox>
@@ -83,11 +83,12 @@
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status != 4" @click="edit(scope.row.id,scope.row.form)">编辑</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 2" @click="post(scope.row.id)">发布</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 3" @click="post(scope.row.id)">发布</a>
-            <a style="color: #347ab7" href="javascript:;" @click="clone(scope.row.id)">复制</a>
+            <a style="color: #347ab7" href="javascript:;" @click="clone(scope.row.id,scope.row.form)">复制</a>
             <a style="color: #347ab7" href="javascript:;" @click="getLogList(scope.row.actCode)">投放日志</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="stop(scope.row.id)">暂停</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="over(scope.row.id)">结束</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 4" @click="del(scope.row.id)">删除</a>
+            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status != 4 && scope.row.status != 0" @click="editTpl(scope.row.form, scope.row.actCode)">活动模板</a>
           </template>
         </el-table-column>
       </el-table>
@@ -103,10 +104,11 @@
           </ul>
           <div style="clear: both"></div>
         </div>
-        <div v-if="actForms">
+        <div v-if="actForms.length !== 0">
           <div class="act-item" v-for="item in actForms" :key="item.id">
             <img :src="item.extUrl" :alt="item.name">
             <p class="act-name">{{item.name}}</p>
+            <p class="desc">{{item.note ? item.note : '暂无活动说明~'}}</p>
             <div class="btn">
               <el-button type="primary" size="small">预览</el-button>
               <el-button type="primary" size="small" @click="goPut(item)">投放</el-button>
@@ -287,7 +289,17 @@ export default {
       firstScanLogList: [],
       nWinLogList: [],
       fixationLogList: [],
-      loading: true
+      loading: true,
+      formPath: {
+        'act-101': '/market/actTpl/AddActSudoku?edit=',
+        'act-102': '/market/actTpl/AddWingAct?edit=',
+        'act-103': '/market/actTpl/addActEgg?edit=',
+        'act-104': '/market/actTpl/addActFanpaizi?edit=',
+        'act-501': '/market/actTpl/addActQuestion?edit=',
+        'act-301': '/market/actTpl/addActRedPacked?edit=',
+        'act-105': '/market/actTpl/addRound?edit=',
+        'act-100': '/market/actTpl/addAct?edit='
+      }
     }
   },
   created() {
@@ -300,6 +312,9 @@ export default {
         this.selectCityList = []
         this.queryActParams.provinceCodeArr = ['000000']
         this.queryActParams.cityCodeArr = ['000000']
+      } else {
+        this.queryActParams.provinceCodeArr = []
+        this.queryActParams.cityCodeArr = []
       }
     },
     actTime: function(val) {
@@ -557,15 +572,15 @@ export default {
 
     // 编辑
     edit(id,form) {
-    	if(form=='act-501'){
+    	// if(form=='act-501'){
     		this.$router.push('/market/actTpl/actSetConf?id=' + id+'&form='+form)
-    	}else {
-    		this.$router.push('/market/actTpl/actSetConf?id=' + id)
-    	}
+    	// }else {
+    		// this.$router.push('/market/actTpl/actSetConf?id=' + id)
+    	// }
     },
     // 复制
-    clone(id) {
-      this.$router.push('/market/actTpl/actSetConf?id=' + id + '&clone=1')
+    clone(id,form) {
+      this.$router.push('/market/actTpl/actSetConf?id=' + id + '&clone=1&form='+form)
     },
     // 发布
     async post(id) {
@@ -662,6 +677,40 @@ export default {
         }
         this.$message.error(res.message)
       })
+    },
+    editTpl(form, code) {
+      this.$router.push(this.formPath[form] + code)
+      //  switch (form) {
+      //   case 'act-101':
+      //     this.$router.push('/market/actTpl/AddActSudoku?edit=' + code)
+      //     break; 
+      //   case 'act-102':
+      //     this.$router.push('/market/actTpl/AddWingAct?edit=' + code)
+      //     break;
+      //   case 'act-103':
+      //     this.$router.push('/market/actTpl/addActEgg?edit=' + code)
+      //     break;
+      //   case 'act-104':
+      //     this.$router.push('/market/actTpl/addActFanpaizi?edit=' + code)
+      //     break;
+      //   case 'act-501':
+      //     this.$router.push('/market/actTpl/addActQuestion?edit=' + code)
+      //     break;
+      //   case 'act-301':
+      //     this.$router.push('/market/actTpl/addActRedPacked?edit=' + code)
+      //     break;
+      //   case 'act-100':
+      //     this.$router.push('/market/actTpl/addAct?edit=' + code)
+      //     break;
+      //   case 'act-105':
+      //     this.$router.push('/market/actTpl/addRound?edit=' + code)
+      //     break;
+      // }
+      // this.$request.post('/api/saotx/act/pubTpl', {actCode: code}, true, res => {
+      //   if (res.ret === '200000') {
+      //     console.dir(JSON.parse(res.data.conf).img)
+      //   }
+      // })
     }
   }
 }
@@ -690,6 +739,7 @@ export default {
   
 }
 .act-name {
+  margin: 10px 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -721,5 +771,14 @@ export default {
 }
 .el-pagination {
   margin-top: 20px;
+}
+.desc {
+  color: #a0a0a0;
+  margin: 0;
+  margin-bottom: 10px;
+  // margin: 14px 0 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

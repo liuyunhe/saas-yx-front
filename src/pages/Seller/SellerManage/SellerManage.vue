@@ -2,8 +2,9 @@
   <div class="seller-manage-container">
     <div class="box-container">
       <div class="add-new-seller clearfix">
-        <el-button type="primary" size="small fr"  @click="addNewSeller()">新建零售户</el-button>
+        <el-button type="primary" size="small"  @click="addNewSeller()">新建零售户</el-button>
       </div>
+      <div style="height:20px"></div>
       <!--查询表单-->
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;margin-bottom: 0">
         <el-form :inline="true" :model="filters" label-width="90px">
@@ -20,7 +21,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item :size="'small'" label="业态：">
+          <el-form-item :size="'small'" label="业态：" style="display:none">
             <el-select
                 v-model="filters.commercial"
                 placeholder="请选择"
@@ -33,7 +34,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item :size="'small'" label="区域：">
+          <el-form-item :size="'small'" label="区域：" style="display:none">
             <el-select
                 v-model="filters.district"
                 placeholder="请选择"
@@ -112,7 +113,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item class="large" :size="'small'" label="是否打印店码：">
+          <el-form-item class="large" :size="'small'" label="是否打印店码：" style="display:none">
             <el-select
                 v-model="filters.isPrint"
                 placeholder="请选择"
@@ -129,10 +130,12 @@
           <el-form-item class="mr0" :size="'small'">
             <el-button type="primary" size="small" @click="commitForm">查询</el-button>
             <el-button size="small" class="important" @click="getStatus">重置</el-button>
+            <!--
             <el-button type="primary" size="small" @click="getListNewList(1)">按入驻时间排序</el-button>
             <el-button type="primary" size="small" @click="getListNewList(2)">按粉丝数排序</el-button>
             <el-button type="primary" size="small" @click="getListNewList(3)">按业绩排序</el-button>
             <el-button type="primary" size="small" @click="getListNewList(5)">按积分排序</el-button>
+            -->
             <el-button type="primary" size="small" @click="exportSeller">导出零售户</el-button>
           </el-form-item>
         </el-form>
@@ -142,7 +145,7 @@
     <div class="box-container">
       <!--列表-->
       <el-col class="crm-table-wrap" v-loading="listLoading" :span="24">
-        <el-table
+        <el-table @sort-change="sortDatasChange"
             :data="newList"
             style="width: 100%">
           <el-table-column
@@ -160,6 +163,7 @@
               label="门店名称"
               width="120">
           </el-table-column>
+          <!--
           <el-table-column
               prop="ownerName"
               label="经营人姓名"
@@ -187,33 +191,41 @@
               <span v-else-if="scope.row.commercial == '7'">{{ "其他" }}</span>
             </template>
           </el-table-column>
+          -->
           <el-table-column
-              prop="contactName"
+              prop="ownerName"
               label="联系人姓名"
               width="120">
           </el-table-column>
           <el-table-column
-              prop="contactPhone"
+              prop="phoneNo"
               label="联系人电话"
               width="120">
+          </el-table-column>
+          <el-table-column label="位置">
+            <template slot-scope="scope">
+              <span>{{scope.row.addrProvinceName}}</span><span v-if="scope.row.addrProvinceName!=scope.row.addrCityName">{{scope.row.addrCityName}}</span><span>{{scope.row.addrAreaName}}</span><span>{{scope.row.addrDetail}}</span>
+            </template>
           </el-table-column>
           <el-table-column
               prop="salesManNames"
               label="业务员">
           </el-table-column>
-
+          <!--
           <el-table-column
               prop="score"
               label="积分">
           </el-table-column>
-          <el-table-column
-              prop="applyTime"
+          -->
+          <el-table-column sortable="custom"
+              prop="passTime"
               label="入驻时间"
               width="200">
             <template slot-scope="scope">
               <span>{{ new Date(scope.row.applyTime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
             </template>
           </el-table-column>
+          <!--
           <el-table-column
               prop="printQrCodeCount"
               label="是否打印二维码">
@@ -246,6 +258,7 @@
               <span >{{ `￥${scope.row.wallet.balance}` }}</span>
             </template>
           </el-table-column>
+          -->
           <el-table-column
               prop="status"
               label="状态">
@@ -422,7 +435,7 @@
 
           //查询排序类型
           sortType:1,
-          sortValue:1,
+          sortValue:1
 
 
         },
@@ -493,6 +506,14 @@
       // sortByTime(){
       //   this.getListJD("byTime")
       // },
+      sortDatasChange({column, prop, order}) {
+        if("descending"==order) {
+          this.filters.sortValue = 1;
+        } else {
+          this.filters.sortValue = 0;
+        }
+        this.getListNewList(1);
+      },
       //获取列表
       getListNewList(type) {
         let params = {
@@ -583,6 +604,8 @@
         this.filters.searchType = ''
         //模糊搜索内容
         this.filters.keywords = ''
+
+        this.filters.time = [];
         //开始时间
         this.filters.appStartTime = ''
         //结束时间

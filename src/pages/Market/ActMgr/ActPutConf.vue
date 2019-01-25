@@ -22,7 +22,7 @@
             </el-option>
           </el-select>
           <el-select v-model="selectSonBrand" multiple collapse-tags placeholder="请选择" @change="restrictSonBrand">
-            <el-option v-if="brandSonList" v-for="item in brandSonList" :key="item.id" :label="item.allName" :value="item.sn">
+            <el-option v-for="item in brandSonList" :key="item.id" :label="item.allName" :value="item.sn">
             </el-option>
           </el-select>
           <!-- 暂时不做 -->
@@ -34,11 +34,11 @@
             </el-option>
           </el-select>
           <el-select v-model="selectCityList" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择" @change="getAreaList">
-            <el-option v-if="cityList" v-for="item in cityList" :key="item.code" :label="item.name" :value="item.code">
+            <el-option v-for="item in cityList" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
           </el-select>
           <el-select v-model="selectAreaList" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择" @change="selectAll">
-            <el-option v-if="areaList" v-for="item in areaList" :key="item.code" :label="item.name" :value="item.code">
+            <el-option v-for="item in areaList" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
           </el-select>
           <el-checkbox v-model="isDisabled" label="全部地区" border></el-checkbox>
@@ -93,7 +93,7 @@
                         </el-option>
                       </el-select>
                       <el-select v-model="specialBrand.snArr" multiple placeholder="请选择">
-                        <el-option v-if="brandSonList" v-for="item in specialBrandSonList" :disabled="item.disabled" :key="item.id" :label="item.name" :value="item.sn">
+                        <el-option v-for="item in specialBrandSonList" :disabled="item.disabled" :key="item.id" :label="item.name" :value="item.sn">
                         </el-option>
                       </el-select>
                       <!-- 暂时不做 -->
@@ -105,11 +105,11 @@
                         </el-option>
                       </el-select>
                       <el-select v-model="specialAreas.cityArr" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择">
-                        <el-option v-if="cityList" v-for="item in specialCityList" :key="item.code" :disabled="item.disabled" :label="item.name" :value="item.code">
+                        <el-option v-for="item in specialCityList" :key="item.code" :disabled="item.disabled" :label="item.name" :value="item.code">
                         </el-option>
                       </el-select>
                       <el-select v-model="specialAreas.districtArr" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择">
-                        <el-option v-if="areaList" v-for="item in specialAreaList" :key="item.code" :disabled="item.disabled" :label="item.name" :value="item.code">
+                        <el-option v-for="item in specialAreaList" :key="item.code" :disabled="item.disabled" :label="item.name" :value="item.code">
                         </el-option>
                       </el-select>
                       <!-- <el-checkbox v-model="isDisabled" label="全部地区" border></el-checkbox> -->
