@@ -3,26 +3,26 @@
     <el-card>
       <el-form ref="form" :model="queryParams" label-width="110px">
         <el-row>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="状态：">
               <el-select :clearable="true" v-model="checkedStatus" placeholder="请选择活动区域">
                 <el-option v-for="(item, index) in statusList" :label="item.name" :value="item.status" :key="index"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="10">
             <el-form-item label="中奖时间：">
               <el-date-picker  @change="handleTimeLimit" v-model="queryTimeArr" format="yyyy-MM-dd" :clearable="false" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="订单号：">
               <el-input v-model="queryParams.orderCode"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="姓名/手机号：">
               <el-input v-model="queryParams.keywords" placeholder="请输入"></el-input>
             </el-form-item>

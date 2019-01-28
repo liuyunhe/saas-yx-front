@@ -106,7 +106,7 @@
         </div>
         <div v-if="actForms.length !== 0">
           <div class="act-item" v-for="item in actForms" :key="item.id">
-            <img :src="item.extUrl" :alt="item.name">
+            <img style="height: 282px;" :src="item.extUrl" :alt="item.name">
             <p class="act-name">{{item.name}}</p>
             <p class="desc">{{item.note ? item.note : '暂无活动说明~'}}</p>
             <div class="btn">
@@ -780,5 +780,8 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.el-select {
+  width: 180px;
 }
 </style>

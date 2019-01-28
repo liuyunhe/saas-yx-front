@@ -157,18 +157,19 @@ export default {
     },
     // 处理时间和刷新按钮禁用状态
     handleDisable(item, i) {
-      let nowTime = item.tf.sysTime
-      let stime = new Date(item.tf.stimeStr)
+      let nowTime = item.tf.sysTime,
+          stime = new Date(item.tf.stimeStr).getTime(),
+          etime = new Date(item.tf.etimeStr).getTime()
       // 小于15分钟内不允许编辑
       if (stime - nowTime  < 900000) {
-        this.isDisableArr.push(true)      
+        this.isDisableArr.push(true)
       } else {
         this.isDisableArr.push(false)
       }
       // 保存并且发布 才能刷新状态
       if (item.tf.actCode && item.tf.tfCode && this.data.act.status == 1) {
         // 场次时间结束也不能刷新
-        if (new Date(item.tf.stimeStr).getTime() >= new Date(item.tf.etimeStr).getTime()) {
+        if (nowTime >= etime) {
           this.btnDisableArr.push(true)
         } else {
           this.btnDisableArr.push(false)
