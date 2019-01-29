@@ -3,7 +3,7 @@
     <div class="content mt20" v-for="(item, index) in data.strategyArr" :key="index">
       <el-form-item label="场次时间：" prop="time">
         <el-date-picker v-model="timeObj[index]" :disabled="isDisableArr[index]" @change="time(index)" :time-arrow-control="true" :picker-options="pickerOptions" arrow-control format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
-        <el-button type="danger" class="del-btn" v-if="index !== 0" @click="del(index)">删除场次</el-button>
+        <el-button type="danger" class="del-btn" v-if="index !== 0 && !item.tf.id" @click="del(index)">删除场次</el-button>
       </el-form-item>
       <el-form-item label="初始化奖池：">
         <el-button plain type="primary" :disabled="btnDisableArr[index]" @click="initStatus(item.tf, index)">初始化奖池</el-button>
@@ -94,7 +94,7 @@ export default {
         brandArr: [],
         snArr: [],
         tf: {
-          stimeStr: '', // yyyy-MM-dd HH:mm:ss
+          stimeStr: '', // yyyy-MM-dd HH:mm
           etimeStr: ''
         },
         tfType: 'common',

@@ -13,8 +13,11 @@
       </el-select>
     </el-form-item>
     <el-form-item label="活动时间：" prop="date">
-      <el-date-picker v-model="actTime" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" :editable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
-      </el-date-picker>
+      <!-- <el-date-picker v-model="actTime" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" type="datetimerange" :editable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+      </el-date-picker> -->
+      <el-date-picker v-model="form.stimeStr" :disabled="timeDisable" type="datetime" placeholder="选择开始时间"></el-date-picker>
+      至
+      <el-date-picker v-model="form.etimeStr" type="datetime" placeholder="选择结束时间"></el-date-picker>
     </el-form-item>
     <el-form-item label="活动图片：" prop="banner">
       <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :on-error="upBannerImgErr" :show-file-list="false">
@@ -44,10 +47,12 @@ export default {
   },
   data() {
     var validateDate = (rule, value, callback) => {
-      if (this.actTime && this.actTime.length === 2) {
-        callback()
-      } else {
+      if (!this.form.stimeStr || !this.form.etimeStr) {
         callback(new Error('请选择活动时间'))
+      } else if (this.form.stimeStr >= this.form.etimeStr){
+        callback(new Error('开始时间必须小于结束时间'))
+      } else {
+        callback()
       }
     }
     var validateIdx = (rule, value, callback) => {
@@ -84,6 +89,8 @@ export default {
         placeholder: '请输入活动说明'
       },
       active: 0,
+      value1: '',
+      value2: '',
       form: {
         activityCode: '', 
         activityName: '',
@@ -96,7 +103,7 @@ export default {
         activityDoc: '',
         showStatus: 1
       },
-       backupsForm: {},
+      backupsForm: {},
       idxSelect: [
         { name: '高', idx: 500 },
         { name: '中', idx: 300 },
@@ -110,7 +117,8 @@ export default {
         banner: [{ required: true, validator: validateBanner }],
         desc: [{ required: true, validator: validateDesc }]
       },
-      actTime: [],
+      // actTime: [],
+      timeDisable: false,
       uploadURL: '/api/saotx/attach/commonAliUpload',
       headerObj: {
         loginId: sessionStorage.getItem('access_loginId'),
@@ -119,17 +127,17 @@ export default {
       }
     }
   },
-  watch: {
-    actTime: function(val) {
-      if (val && val.length === 2) {
-        this.form.stimeStr = this.actTime[0]
-        this.form.etimeStr = this.actTime[1]
-      } else {
-        this.form.stimeStr = ''
-        this.form.etimeStr = ''
-      }
-    },
-  },
+  // watch: {
+  //   actTime: function(val) {
+  //     if (val && val.length === 2) {
+  //       this.form.stimeStr = this.actTime[0]
+  //       this.form.etimeStr = this.actTime[1]
+  //     } else {
+  //       this.form.stimeStr = ''
+  //       this.form.etimeStr = ''
+  //     }
+  //   },
+  // },
   created() {
     this.getActData()
   },
@@ -140,10 +148,20 @@ export default {
         if (res.ret === '200000') {
           this.form = res.data
           this.backupsForm = JSON.parse(JSON.stringify(res.data))
-          this.actTime.push(this.form.stimeStr)
-          this.actTime.push(this.form.etimeStr)
+          if (this.form.stimeStr) {
+            this.handleDisableTime()
+          }
+          // this.actTime.push(this.form.stimeStr)
+          // this.actTime.push(this.form.etimeStr)
         }
       })
+    },
+    handleDisableTime() {
+      let newTime = new Date().getTime(),
+          stime = new Date(this.form.stimeStr).getTime()
+          if (newTime >= stime) {
+            this.timeDisable = true
+          }
     },
     // 上传活动图片
     upBannerImg(resule) {
@@ -190,7 +208,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .el-form {
-  width: 520px;
+  width: 600px;
   margin: 40px auto;
 }
 .el-input {
@@ -214,7 +232,11 @@ export default {
 }
 
 .textarea /deep/ .el-textarea__inner{
+  width: 300px;
  font-family:"Microsoft" !important;
+}
+.el-date-editor {
+  width: 210px;
 }
 </style>
 
