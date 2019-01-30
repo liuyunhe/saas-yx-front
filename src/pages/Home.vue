@@ -396,7 +396,8 @@ export default {
           span {
             overflow: hidden;
             text-overflow: ellipsis;
-            display: -webkit-box;
+            display: inline-block;
+            white-space: pre;
             -webkit-line-clamp: 1;
             /*! autoprefixer: off */
     				-webkit-box-orient: vertical;
