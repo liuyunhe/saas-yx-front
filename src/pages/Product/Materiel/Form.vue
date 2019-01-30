@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="materiel">
     <el-card class="box-card">
       <el-form :model="form" :rules="rules" ref="form" label-width="150px">
         <el-form-item :label="materielName[metraFlag]+'名称'" prop="name">
@@ -31,9 +31,9 @@
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
-            <img v-if="form.pic" :src="form.pic" class="avatar">
+            <img v-if="form.pic" :src="form.pic" class="avatar" width="100" height="74">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            <div slot="tip" class="el-upload__tip">* 图片建议尺寸为 178*178px格式为jpg\bmp\png\gif</div>
+            <div slot="tip" class="el-upload__tip">* 图片建议尺寸为380*280px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
           </el-upload>
         </el-form-item>
         <el-form-item :label="'库存（'+materielUnit[metraFlag]+'）'" prop="stock">
@@ -291,27 +291,20 @@ export default {
   .el-select.materiel-type {
     width: 200px;
   }
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
+
   .avatar-uploader .el-upload:hover {
     border-color: #409EFF;
   }
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
     text-align: center;
   }
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
+</style>
+<style>
+   .materiel .avatar-uploader .el-upload {
+    width: 102px;
+    height:76px;
+    line-height: 84px;
   }
 </style>

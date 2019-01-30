@@ -84,8 +84,8 @@
                             <span class="pl36">拉新排行榜为零售户在活动时间内新增粉丝的扫码烟包量，不含活动之前粉丝的扫码烟包数。</span>
                         </p>
                     </el-form-item>
-                    <el-form-item label="活动时间" prop="datetime">
-                        <el-date-picker size="small"
+                    <el-form-item label="活动时间" prop="stimeStr">
+                        <!--<el-date-picker size="small"
                             v-model="dataForm.datetime"
                             format="yyyy-MM-dd HH:mm:ss"
                             value-format="yyyy-MM-dd HH:mm:ss"
@@ -93,7 +93,10 @@
                             range-separator="至"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期">
-                        </el-date-picker>
+                        </el-date-picker>-->
+                        <el-date-picker v-model="dataForm.stimeStr" type="datetime" placeholder="选择开始日期"></el-date-picker>
+                        至
+                        <el-date-picker v-model="dataForm.etimeStr" type="datetime" placeholder="选择结束日期"></el-date-picker>
                     </el-form-item>
                     <el-form-item label="活动规则" prop="ruleHtml">
                         <el-input size="small" type="textarea" :rows="10" v-model="dataForm.ruleHtml" placeholder="请输入内容"></el-input>
@@ -249,6 +252,15 @@
 <script>
 export default {
     data() {
+        var validDatetime = (rule, value, callback) => {
+            if( !this.dataForm.stimeStr || !this.dataForm.etimeStr ) {
+                callback(new Error('活动时间不能为空！'));
+            } else if( this.dataForm.stimeStr >= this.dataForm.etimeStr ) {
+                callback(new Error('活动开始时间必须小于活动结束时间！'));
+            } else {
+                callback();
+            }
+        };
         return {
             loading: false,
             business: 1, // 当前页面展示内容：1-业绩活动列表；2-业绩新增或修改form表单；3-业绩排行结果查询
@@ -282,7 +294,9 @@ export default {
                 achievementType: [{required:true, message:'请选择活动类型', trigger:'blur'}],
                 periodName: [{required:true, message:'请输入活动名称', trigger:'blur'}],
                 ruleHtml: [{required:true, message:'请输入活动规则', trigger:'blur'}],
-                datetime: [{required:true, message:'请选择活动时间', trigger:'blur'}],
+                //datetime: [{required:true, message:'请选择活动时间', trigger:'blur'}],
+                stimeStr: [{required:true, validator:validDatetime, trigger:'blur'}],
+                etimeStr: [{required:true, validator:validDatetime, trigger:'blur'}],
                 templateId: [{required:true, message:'请输入微信消息模板ID', trigger:'blur'}]
             },
 
@@ -447,8 +461,8 @@ export default {
             }
             this.$refs[form].validate((valid) => {
                 if (valid) {
-                    this.dataForm.stimeStr = this.dataForm.datetime[0];
-                    this.dataForm.etimeStr = this.dataForm.datetime[1];
+                    //this.dataForm.stimeStr = this.dataForm.datetime[0];
+                    //this.dataForm.etimeStr = this.dataForm.datetime[1];
                     this.$request.post('/lsh/seller-manager/achieve/saveOrModify', this.dataForm, true, (res)=>{
                         if (res.ok) {
                             this.$message({type:'success', message:"数据保存成功！"});
@@ -476,6 +490,7 @@ export default {
                 awards: []
             }
             this.business = 1;
+            this.$refs['dataForm'].clearValidate();
         },
         // 查询某个活动内的奖励设置
         periodAwardList() {
@@ -595,6 +610,7 @@ export default {
                 templateUrl: '',
                 sendScope: 2
             };
+            this.$refs['tplMsgForm'].clearValidate();
         },
         confirmSendMsg(form) {
             this.$refs[form].validate((valid) => {
@@ -630,8 +646,11 @@ export default {
     .space {position:relative;width:100%;height:20px;}
     .pl36 {padding-left:36px;}
     .form-note {font-size: 12px;color:#aaa;line-height:20px;}
-    .el-input, .el-date-editor, .el-textarea {
+    .el-input, .el-textarea {
         width: 600px;
+    }
+    .el-date-editor {
+        width: 288px;
     }
     .search-block {
         .el-input, .el-select {
