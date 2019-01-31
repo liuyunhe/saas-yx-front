@@ -31,9 +31,9 @@
         <el-form-item label="活动时间：" prop="date">
           <!-- <el-date-picker v-model="actTime" :time-arrow-control="true" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" :editable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker> -->
-          <el-date-picker v-model="confData.stimeStr" :disabled="timeDisable" type="datetime" placeholder="选择开始时间"></el-date-picker>
+          <el-date-picker v-model="confData.stimeStr" :disabled="timeDisable" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择开始时间"></el-date-picker>
           至
-          <el-date-picker v-model="confData.etimeStr" type="datetime" placeholder="选择结束时间"></el-date-picker>
+          <el-date-picker v-model="confData.etimeStr" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择结束时间"></el-date-picker>
         </el-form-item>
         <!-- 常规图片上传 -->
         <el-form-item label="活动图片：" prop="banner" v-if="form !== 'act-301'">

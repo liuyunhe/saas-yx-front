@@ -782,6 +782,6 @@ export default {
   white-space: nowrap;
 }
 .el-select {
-  width: 180px;
+  width: 210px;
 }
 </style>
