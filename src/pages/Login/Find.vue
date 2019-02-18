@@ -4,7 +4,7 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="ui-navbar-header navbar-header">
-						<img src="../../assets/img/logo.png" class="ui-navbar-logo">
+						<img src="../../assets/img/logo-new.png" class="ui-navbar-logo">
 					</div>
 				</div>
 			</div>
@@ -204,7 +204,10 @@
 		height: 50px;
 		img {
 			margin-top: 6px;
-			margin-left: 20px;
+			margin-left: 50px;
+			width:40px;
+			height: 40px;
+			object-fit: contain;
 		}
 	}
 	

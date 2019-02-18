@@ -916,6 +916,8 @@
 								item.per3=item.scanUv/that.cityMax*100;
 							})
 							that.cityScanList=data;
+						}else {
+							that.cityScanList=data;
 						}
 						
 					},

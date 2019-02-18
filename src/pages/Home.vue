@@ -396,11 +396,14 @@ export default {
           span {
             overflow: hidden;
             text-overflow: ellipsis;
-            display: -webkit-box;
+            /*display: -webkit-box;
+            display: -moz-box;*/
+           	display: inline-block;
             -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
             /*! autoprefixer: off */
-    				-webkit-box-orient: vertical;
     				/* autoprefixer: on */
+    				white-space: pre;
             width: 70px !important;
           }
         }
