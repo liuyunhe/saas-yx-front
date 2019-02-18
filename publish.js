@@ -9,6 +9,7 @@ module.exports = function () {
         node_ssh    = require('node-ssh'),
         colors      = require('colors/safe'),
         dateFormat  = require('dateformat'),
+        fs          = require('fs'),
         argv        = process.argv,
         exec        = require('child_process').exec,
         IPs			= [{
@@ -183,6 +184,7 @@ module.exports = function () {
             center.exec('rm -rf ' + file + ' ' + O + '/').then(function (result) {
                 process.stdout.write(colors.blue('\x20\x20\x20 del successfully!\n'));
                 deferred.resolve(true);
+                delDir('zip')
             });
             return deferred.promise;
         }
@@ -200,7 +202,22 @@ module.exports = function () {
             process.stdout.write(colors.red('Wrong Message: \n'))
             process.stdout.write(colors.red(error.message + '\n'))
         }
-
+        // 删除本地zip文件
+        function delDir(path){
+            let files = []
+            if(fs.existsSync(path)){
+                files = fs.readdirSync(path)
+                files.forEach((file, index) => {
+                    let curPath = path + "/" + file
+                    if(fs.statSync(curPath).isDirectory()){
+                        delDir(curPath)
+                    } else {
+                        fs.unlinkSync(curPath)
+                    }
+                });
+                fs.rmdirSync(path);
+            }
+        }
 
         Q.fcall(BUILD)
             // .then(COPY)
