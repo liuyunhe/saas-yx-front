@@ -20,9 +20,9 @@
             <div class="content">
               <div class="bg"><img :src="configItem.bgImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 1"></div>
               <div class="top"><img :src="configItem.headerImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 2"></div>
-              <!-- <div class="kits"><img :src="defaultConf.img.tips.url" alt="" title="点击编辑" @click="showEditConIndex = 3" ></div> -->
+              <div class="kits"><img :src="configItem.kitsUrl" alt="" title="点击编辑" @click="showEditConIndex = 3" ></div>
               <div class="game-con">
-                <div class="game-item" v-for="item in configItem.iconUrl" :key="item.key" @click="showEditConIndex = 3"><img :src="item.imgUrl" alt=""></div>
+                <div class="game-item" v-for="item in configItem.iconUrl" :key="item.key" @click="showEditConIndex = 4"><img :src="item.imgUrl" alt=""></div>
               </div>
             </div>
             <div class="footer"></div>
@@ -59,7 +59,16 @@
                     </el-upload>
                   </div>
                 </div>
-                <div class="edit-game-img" v-if="showEditConIndex == 3">
+                <div class="edit-kits-img" v-if="showEditConIndex == 3">
+                  <p class="img-title">活动锦囊:</p>
+                  <div class="img-con"><img :src="configItem.kitsUrl" alt=""></div>
+                  <div class="btn-con">
+                    <el-upload :action="uploadURL" :before-upload="beforeAvatarUpload" :headers="headerObj" :on-success="upKitsImgSuccess" :show-file-list="false">
+                      <el-button size="small" type="primary">更换图片</el-button>
+                    </el-upload>
+                  </div>
+                </div>
+                <div class="edit-game-img" v-if="showEditConIndex == 4">
                   <div v-for="(item, index) in configItem.iconUrl" :key="item.key">
                     <p class="img-title">{{'钻石' + (index + 1) + ':'}}</p>
                     <div class="img-con"><img :src="item.imgUrl" alt=""></div>
@@ -72,7 +81,8 @@
                 </div>
                 <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1208px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                 <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 700*350px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
-                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 186*162px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 78*97px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 186*162px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
               </div>
 
             </el-card>
@@ -218,6 +228,7 @@ export default {
         headerImgUrl:
           'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi-header.png',
         bgImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi-bg.png',
+        kitsUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/fanzuanshi-tips.png',
         iconUrl: [
           {
             key: 1,
@@ -334,6 +345,11 @@ export default {
     // 上传头部标题
     upTopImgSuccess(resule) {
       if (resule.ret === '200000') return (this.configItem.headerImgUrl = resule.data.accessUrl)
+      this.$message.error(resule.message)
+    },
+    // 上传活动锦囊
+    upKitsImgSuccess(resule) {
+      if (resule.ret === '200000') return (this.configItem.kitsUrl = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
     // 获取点击的游戏区域图片的索引
@@ -460,11 +476,10 @@ export default {
         }
         .kits{
           position: absolute;
-          top: 15px;
-          left: 92%;
-          transform: translateX(-50%);
-          width: 40px;
-          height: 40px;
+          top: 21px;
+          left: 260px;
+          width: 31px;
+          height: 39px;
           img {
             width: 100%;
             height: 100%;
@@ -579,7 +594,8 @@ export default {
             height: 100%;
           }
         }
-        .edit-top-img {
+        .edit-top-img,
+        .edit-kits-img {
           display: flex;
           // .img-con {
           //   width: 40%;
@@ -633,7 +649,8 @@ export default {
 .el-tabs .el-tab-pane:first-child {
   .bg:hover,
   .game-item:hover,
-  .top:hover {
+  .top:hover,
+  .kits:hover {
     transform: scale(0.99);
     cursor: pointer;
     filter: brightness(60%);
