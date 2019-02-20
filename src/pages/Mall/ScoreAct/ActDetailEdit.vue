@@ -94,10 +94,10 @@
                   </div>
                 </div>
 
-                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*890px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 424*225px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 748*616px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 448*125px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*890px,格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 424*225px,格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 750*2008px,格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 448*126px,格式为jpg\bmp\png\gif</p>
               </div>
 
             </el-card>
@@ -141,7 +141,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
+                <p class="tips">* 图片建议尺寸为 480*480px,格式为jpg\bmp\png\gif</p>
               </div>
               <div class="edit-con">
                 <div class="edit-winning-img">
@@ -153,7 +153,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
+                <p class="tips">* 图片建议尺寸为 195*64px,格式为jpg\bmp\png\gif</p>
               </div>
               <div class="edit-con">
                 <div class="edit-winning-img">
@@ -165,7 +165,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
+                <p class="tips">* 图片建议尺寸为 195*64px,格式为jpg\bmp\png\gif</p>
               </div>
             </el-card>
           </div>
@@ -208,7 +208,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
+                <p class="tips">* 图片建议尺寸为480*480px,格式为jpg\bmp\png\gif</p>
               </div>
               <div class="edit-con">
                 <div class="edit-notWinning-img">
@@ -220,7 +220,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
+                <p class="tips">* 图片建议尺寸为 195*64px,格式为jpg\bmp\png\gif</p>
               </div>
             </el-card>
           </div>
@@ -268,6 +268,7 @@
         					<img :src="addActParams.banner" alt=""class='bannerUrl'v-if="addActParams.banner!=''" />
                     	</el-upload>
         			</div>
+        			<p class="tips">* 图片建议尺寸为 750*270px,格式为jpg\bmp\png\gif</p>
         			<br /><br /><br />
         			消耗积分：<el-input v-model="addActParams.score" placeholder="请输入需要消耗的积分"size='small'class='act-score'maxLength='4'></el-input>积分	
         			<br /><span class='space'></span><span>（用户参与活动每次需要消耗的积分数）</span>
