@@ -152,7 +152,6 @@ export default {
       // })
     },
     time(i) {
-      console.log(this.timeObj)
       if (this.timeObj.length >= 2) {
         let currentTimeArr = this.timeObj[i]
         this.timeObj.forEach((item, index) => {
@@ -164,7 +163,6 @@ export default {
             this.$message.error('场次时间不能重复!')
             // this.timeObj[i] = null
             this.$set(this.timeObj, i, null)
-            console.log(this.timeObj)
             return
           }
         })

@@ -178,7 +178,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .el-form {
-  width: 800px;
+  width: 1000px;
   margin: 0 auto;
 }
 .high {
