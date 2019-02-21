@@ -80,10 +80,11 @@
           <span>企业管理员</span>
         </el-form-item>
         <el-form-item label="登录账号" prop="account">
-          <el-input size="small" v-model="authForm.account" placeholder="登录账号" :disabled="authForm.roleId?true:false"></el-input>
+          <el-input size="small" v-model="authForm.account" placeholder="系统平台唯一性。例：xxx-admin；user1" :disabled="authForm.roleId?true:false"></el-input>
         </el-form-item>
         <el-form-item label="登录密码" prop="pwd" v-show="authForm.roleId?false:true">
           <el-input size="small" v-model="authForm.pwd" disabled ></el-input>
+          <div class="error-tip">初始登录密码系统默认生成，用户首次登录时需及时修改</div>
         </el-form-item>
         <el-form-item label="手机号" prop="mobile">
           <el-input size="small" v-model="authForm.mobile"></el-input>
@@ -91,9 +92,9 @@
         <el-form-item label="角色">
           <span>企业管理员角色</span>
         </el-form-item>
-        <el-form-item label="菜单权限">
+        <el-form-item label="菜单权限" prop="menusValid">
           <div class="menu-tree">
-            <el-tree 
+            <el-tree
               :data="treeDatas" 
               :props="menuProps" 
               ref="treeDatas"
@@ -102,6 +103,7 @@
               show-checkbox>
             </el-tree>
           </div>
+          <el-input type="hidden" size="small" v-model="authForm.menusValid"></el-input>
         </el-form-item>
         <el-form-item label="状态" prop="roleStatus">
           <el-radio v-model="authForm.roleStatus" :label="1">启用</el-radio>
@@ -119,9 +121,10 @@
 <script>
   export default {
     data() {
-      var validMenuCode = (rule, value, callback) => {
-        if( value.length>30 ) {
-            callback(new Error('菜单编码不能超过30个字符！'));
+      var validMenu = (rule, value, callback) => {
+        let checkedKeys = this.$refs.treeDatas.getCheckedKeys();
+        if( !checkedKeys ) {
+            callback(new Error('菜单权限不能为空！'));
         } else {
             callback();
         }
@@ -163,6 +166,12 @@
           roleName: "",
           menus: "",
           roleStatus: ""
+        },
+        authFormRules: {
+          orgId: [{required:true, message:'企业名称不能为空！', trigger:'blur'}],
+          account: [{required:true, message:'登录账号不能为空！', trigger:'blur'}],
+          menusValid: [{required:true, validator:validMenu, trigger:'blur'}],
+          roleStatus: [{required:true, message:'状态不能为空！', trigger:'blur'}]
         }
       };
     },
@@ -274,18 +283,18 @@
         this.$refs['authForm'].clearValidate();
       },
       authFormOk(form) {
+        let fieldResult = this.$refs[form].validateField('menus');
+        console.log("111-"+fieldResult);
+        
         this.$refs[form].validate((valid) => {
           if (valid) {
             let halfCheckedKeys = this.$refs.treeDatas.getHalfCheckedKeys();
-            console.log("1->"+halfCheckedKeys);
             let checkedKeys = this.$refs.treeDatas.getCheckedKeys();
-            console.log("2->"+checkedKeys);
             let allMenus = (halfCheckedKeys?halfCheckedKeys:"")||"";
-            console.log("3->"+allMenus);
             allMenus += checkedKeys?((allMenus?",":"")+checkedKeys):"";
-            console.log("4->"+allMenus);
-            return;
             this.authForm.menus = allMenus;
+            console.log(this.authForm);
+            return;
             this.$request.post('/api/saotx/auth/somAuth', this.authForm, true, (res)=>{
               if (res.ret == '200000') {
                 this.authFormCancel();
@@ -326,5 +335,9 @@
     width: 400px;
     height: 240px;
     overflow-y: scroll;
+  }
+  .error-tip {
+    font-size: 12px;
+    color: #c8ccd3;
   }
 </style>
