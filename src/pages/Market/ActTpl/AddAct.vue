@@ -112,11 +112,14 @@
             <div class="content">
               <div class="bg"><img :src="configItem.bgImgUrl"></div>
               <div class="winning">
-                <div class="prize-con">
+                <div class="prize-con award-con">
+                	<img :src="configItem.award_bg"class='award-alert' alt="" />
                   <div class="close">X</div>
                   <img class="pic" :src="configItem.drawImgUrl" alt="">
-                  <h3>奖品名称</h3>
-                  <p>请在24小时内领取</p>
+                  <div class="award-text">
+                  	<h3>奖品名称</h3>
+                  	<p>请在24小时内领取</p>
+                  </div>                  
                   <img class="prize-btn" :src="configItem.getBtn" alt="">
                 </div>
               </div>
@@ -129,6 +132,16 @@
                 <span>编辑图片</span>
               </div>
               <div class="edit-con">
+              	<div class="edit-winning-img">
+                  <p class="img-title">弹框:</p>
+                  <div class="img-con"><img :src="configItem.award_bg" alt=""></div>
+                  <div class="btn-con">
+                    <el-upload :action="uploadURL" :before-upload="beforeAvatarUpload" :headers="headerObj" :on-success="upAwardBgSuccess" :show-file-list="false">
+                      <el-button type="primary" size="small">更换图片</el-button>
+                    </el-upload>
+                  </div>
+                </div>
+                <p class="tips">* 图片建议尺寸为 344*84px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                 <div class="edit-winning-img">
                   <p class="img-title">按钮:</p>
                   <div class="img-con"><img :src="configItem.getBtn" alt=""></div>
@@ -149,10 +162,12 @@
             <div class="content">
               <div class="bg"><img :src="configItem.bgImgUrl"></div>
               <div class="not-winning">
-                <div class="prize-con">
+                <div class="prize-con award-con">
                   <div class="close">X</div>
-                  <img class="pic" :src="configItem.cryImgUrl" alt="">
-                  <h3>很遗憾，未中奖</h3>
+                  <img class="award-alert" :src="configItem.cryImgUrl" alt="">
+                  <div class="award-no-text">
+                    <h3>很遗憾，未中奖</h3>
+                  </div>
                   <img class="prize-btn" :src="configItem.knowBtn" alt="">
                 </div>
               </div>
@@ -223,8 +238,9 @@ export default {
       configItem: {
         title: '',
         description: '',
-        getBtn: 'https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/djlq_btn.png',
-        knowBtn: 'https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/know-btn.png',
+        getBtn: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/zuan_award_btn.png',
+        award_bg:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/zuan_award_bg.png',
+        knowBtn: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/zuan_no_award_btn.png',
         headerImgUrl:
           'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi-header.png',
         bgImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi-bg.png',
@@ -279,8 +295,8 @@ export default {
           }
         ],
         drawImgUrl:
-          'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zhongjiang74@2x.png',
-        cryImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/cry75@2x.png'
+          'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/award_img.png',
+        cryImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/zuan_no_award_bg.png'
       },
       uploadURL: '/api/saotx/attach/commonAliUpload',
       headerObj: {
@@ -365,6 +381,11 @@ export default {
     upGetBtnImgSuccess(resule) {
       if (resule.ret === '200000')
         return (this.configItem.getBtn = resule.data.accessUrl)
+      this.$message.error(resule.message)
+    },
+    upAwardBgSuccess(resule) {
+      if (resule.ret === '200000')
+        return (this.configItem.award_bg = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
     // 上传游戏图片
@@ -517,6 +538,65 @@ export default {
             height: 100%;
             color: #fff;
             text-align: center;
+            &.award-con {
+                            	.award-alert {
+	                            	width:220px;
+	                            	height: 280px;
+	                            	position: absolute;
+	                            	left: 50%;
+	                            	transform: translate(-50%);
+	                            	top:80px;
+	                            }
+	                            .close {
+	                                position: absolute;
+	                                transform: translate(236px, 80px);
+	                                width: 20px;
+	                                height: 20px;
+	                                line-height: 20px;
+	                                text-align: center;
+	                                border: 1px solid #fff;
+	                                border-radius: 50%;
+	                            }
+	                            .pic {
+	                                max-width: 120px;
+	                                // max-height: 200px;
+	                                margin-top: 84px;
+	                                margin-right: 20px;
+	                                position: absolute;
+	                                top:70px;
+	                                left: 50%;
+	                                transform: translate(-50%);
+	                            }
+	                            .award-text {
+	                            	position: absolute;
+	                            	top:240px;
+	                            	left: 50%;
+	                            	transform: translate(-50%);
+	                            }
+	                            .award-no-text {
+	                            	position: absolute;
+	                            	top:255px;
+	                            	left: 50%;
+	                            	transform: translate(-50%);
+	                            	color:#666;
+	                            }
+	                            h3 {
+	                            	margin-bottom: 5px;
+	                            }
+	                            p {
+	                                color: #fff;
+	                                margin: 0;
+	                            }
+	                            .prize-btn {
+	                                margin-top: 20px;
+	                                max-width: 138px;
+	                                max-height: 34px;
+	                                position: absolute;
+	                                top:290px;
+	                                transform: translate(-50%);
+	                                left: 50%;
+	                            }
+                            }
             .close {
               position: absolute;
               transform: translate(232px, 56px);
@@ -578,6 +658,7 @@ export default {
             transform: translate(-50%,-50%);
             max-width: 90%;
             max-height: 90%;
+            object-fit: contain;
           }
         }
         .btn-con {
