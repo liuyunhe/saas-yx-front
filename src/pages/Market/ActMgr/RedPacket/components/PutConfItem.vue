@@ -152,6 +152,28 @@ export default {
       // })
     },
     time(i) {
+      console.log(this.timeObj)
+      if (this.timeObj.length >= 2) {
+        let currentTimeArr = this.timeObj[i]
+        this.timeObj.forEach((item, index) => {
+          if (index == i) return
+          if (!item) return
+          let booleanA = item[0] <= currentTimeArr[0] && item[1] >= currentTimeArr[0],
+              booleanB = item[0] <= currentTimeArr[1] && item[1] >= currentTimeArr[1]
+          if (booleanA || booleanB) {
+            this.$message.error('场次时间不能重复!')
+            // this.timeObj[i] = null
+            this.$set(this.timeObj, i, null)
+            console.log(this.timeObj)
+            return
+          }
+        })
+      }
+      if (!this.timeObj[i]) {
+        this.data.strategyArr[i].tf.stimeStr = ''
+        this.data.strategyArr[i].tf.etimeStr = ''
+        return
+      }
       this.data.strategyArr[i].tf.stimeStr = this.timeObj[i][0]
       this.data.strategyArr[i].tf.etimeStr = this.timeObj[i][1]
     },
