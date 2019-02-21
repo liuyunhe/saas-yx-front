@@ -307,13 +307,13 @@
 							</el-table-column>
 							<el-table-column prop="image" label="礼品图片" >
 								<template   slot-scope="scope">            
-			                    	<img :src="scope.row.image"  min-width="70" height="70" />
+			                    	<img :src="scope.row.image"  min-width="100" height="70" />
 			                	</template> 
 							</el-table-column>
 							<el-table-column prop="giftType" label="礼品分类" >
 							</el-table-column>
-							<el-table-column prop="shopQuantity" label="库存" >
-							</el-table-column>
+							<!--<el-table-column prop="shopQuantity" label="库存" >
+							</el-table-column>-->
 						</el-table>
 						<el-pagination layout="total,prev, pager, next,jumper" background :total="total" @current-change="myCallback" :page-size="max" class="pagination-css">
 						</el-pagination>
@@ -329,7 +329,7 @@
         				<li v-for='(item,key) in priceList':key='key'>
         					<div><img :src="item.image" alt="" /></div>
         					<div>{{item.productName}}</div>
-        					<div>奖品数量：<input type="number"v-model="item.quantity" :disabled='item.abled'min='1'class='award-num'@input="spliceLength(item)" />个
+        					<div>奖品数量：<input type="number"v-model="item.quantity" :disabled='item.abled'min='1'class='award-num' />个
         					</div>
         					<div><span class='require-icon'>*</span>中奖概率：<input type="number"max='100'min='0' v-model="item.probability"class='award-percent'@change='checkAll' />%</div>
         					<div><el-button type="primary"@click='remove(key)'>删除</el-button></div>
@@ -457,11 +457,11 @@ export default {
     this.getActDetail()
   },
   methods: {
-  	spliceLength(item){
-  		var len=(item.shopQuantity+'').length;
-  		console.log(item.quantity)
-  		if(item.quantity.length>len)item.quantity=item.quantity.slice(0,len)
-  	},
+//	spliceLength(item){
+//		var len=(item.shopQuantity+'').length;
+//		console.log(item.quantity)
+//		if(item.quantity.length>len)item.quantity=item.quantity.slice(0,len)
+//	},
     getActDetail() {
       if (this.addActParams.id) {
         this.$request.post('/sc/saotx/game/getGameById', { id: this.addActParams.id }, true, res => {
