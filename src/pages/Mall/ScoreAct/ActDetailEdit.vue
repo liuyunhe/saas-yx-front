@@ -329,7 +329,9 @@
         				<li v-for='(item,key) in priceList':key='key'>
         					<div><img :src="item.image" alt="" /></div>
         					<div>{{item.productName}}</div>
-        					<div>奖品数量：<input type="number"v-model="item.quantity" :disabled='item.abled'min='1'class='award-num' />个
+        					<div>
+        						<div>奖品数量：<input type="number"v-model="item.allquantity" :disabled='item.abled'min='1'class='award-num'@input='seam(item)' />个</div>
+        						<div class='award-has'>剩余{{item.quantity}}个</div>
         					</div>
         					<div><span class='require-icon'>*</span>中奖概率：<input type="number"max='100'min='0' v-model="item.probability"class='award-percent'@change='checkAll' />%</div>
         					<div><el-button type="primary"@click='remove(key)'>删除</el-button></div>
@@ -338,7 +340,7 @@
 					  				title="增加库存"
 					  				:visible.sync="addQuantityShow"
 					  				width="50%">
-					  				增加库存： <el-input type='number'min='0'max='99999' v-model="addQ" placeholder="请输入增加数量"size='small'class='act-name'maxLength='5'></el-input> 件
+					  				增加库存： <el-input type='number' v-model="addQ" placeholder="请输入增加数量"size='small'class='act-name' oninput="if(value.length > 5)value = value.slice(0, 5)"></el-input> 件
 					  				<br />	
 					  				<span slot="footer" class="dialog-footer">
 					    				<el-button @click="addQuantityShow = false">取 消</el-button>
@@ -457,11 +459,23 @@ export default {
     this.getActDetail()
   },
   methods: {
-//	spliceLength(item){
-//		var len=(item.shopQuantity+'').length;
-//		console.log(item.quantity)
-//		if(item.quantity.length>len)item.quantity=item.quantity.slice(0,len)
-//	},
+		spliceLength(item){
+			var len=(item.shopQuantity+'').length;
+			if(item.quantity.length>len)item.quantity=item.quantity.slice(0,len)
+		},
+		spliceLength1(str){
+			if(str.length>6){
+				this.addQ=str.slice(0,6)
+			}
+		},
+		seam(item){
+			if(item.allquantity.length!=0){
+				item.quantity=item.allquantity;
+			}else {
+				item.quantity=0;
+			}
+			
+		},
     getActDetail() {
       if (this.addActParams.id) {
         this.$request.post('/sc/saotx/game/getGameById', { id: this.addActParams.id }, true, res => {
@@ -563,7 +577,7 @@ export default {
     			image:item.image,
     			status:this.addActParams.status,
     			probability:'',
-    			quantity:'',
+    			quantity:0,
     			type:item.giftType,
     			score:item.score,
     			bingo_image:item.image,
@@ -810,11 +824,16 @@ export default {
 					&:nth-child(3){
 						width:180px;
 						text-align: center;
-						line-height: 60px;
+						line-height: 40px;
 						.award-num {
 							width:80px;
 							height: 20px;
-							margin-right: 5px;
+						}
+						.award-has {
+							height: 20px;
+							line-height: 20px;
+							text-align: left;
+							padding-left: 8px;
 						}
 					}
 					&:nth-child(4){
