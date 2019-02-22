@@ -92,7 +92,7 @@
         <el-form-item label="角色">
           <span>企业管理员角色</span>
         </el-form-item>
-        <el-form-item label="菜单权限" prop="menusValid">
+        <el-form-item label="菜单权限" required>
           <div class="menu-tree">
             <el-tree
               :data="treeDatas" 
@@ -103,7 +103,7 @@
               show-checkbox>
             </el-tree>
           </div>
-          <el-input type="hidden" size="small" v-model="authForm.menusValid"></el-input>
+          <div class="el-form-item__error" v-show="menusValidErr">菜单授权不能为空！</div>
         </el-form-item>
         <el-form-item label="状态" prop="roleStatus">
           <el-radio v-model="authForm.roleStatus" :label="1">启用</el-radio>
@@ -121,14 +121,6 @@
 <script>
   export default {
     data() {
-      var validMenu = (rule, value, callback) => {
-        let checkedKeys = this.$refs.treeDatas.getCheckedKeys();
-        if( !checkedKeys ) {
-            callback(new Error('菜单权限不能为空！'));
-        } else {
-            callback();
-        }
-      };
       return {
         headers:{
           'loginId':sessionStorage.getItem('access_loginId'),
@@ -154,6 +146,7 @@
         },
         defaultCheckedMenus: [], // [1, 2, 3]
 
+        menusValidErr: false,
         authForm: {
           show: false,
           roleId: "",
@@ -170,7 +163,6 @@
         authFormRules: {
           orgId: [{required:true, message:'企业名称不能为空！', trigger:'blur'}],
           account: [{required:true, message:'登录账号不能为空！', trigger:'blur'}],
-          menusValid: [{required:true, validator:validMenu, trigger:'blur'}],
           roleStatus: [{required:true, message:'状态不能为空！', trigger:'blur'}]
         }
       };
@@ -283,18 +275,18 @@
         this.$refs['authForm'].clearValidate();
       },
       authFormOk(form) {
-        let fieldResult = this.$refs[form].validateField('menus');
-        console.log("111-"+fieldResult);
-        
         this.$refs[form].validate((valid) => {
-          if (valid) {
+          let checkedKeys = this.$refs.treeDatas.getCheckedKeys();
+          if( checkedKeys&&checkedKeys.length>0 ) {
+            this.menusValidErr = false;
+          } else {
+            this.menusValidErr = true;
+          }
+          if (valid&&!this.menusValidErr) {
             let halfCheckedKeys = this.$refs.treeDatas.getHalfCheckedKeys();
-            let checkedKeys = this.$refs.treeDatas.getCheckedKeys();
             let allMenus = (halfCheckedKeys?halfCheckedKeys:"")||"";
             allMenus += checkedKeys?((allMenus?",":"")+checkedKeys):"";
             this.authForm.menus = allMenus;
-            console.log(this.authForm);
-            return;
             this.$request.post('/api/saotx/auth/somAuth', this.authForm, true, (res)=>{
               if (res.ret == '200000') {
                 this.authFormCancel();
