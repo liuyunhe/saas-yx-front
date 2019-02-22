@@ -96,7 +96,6 @@
 	                                        </el-upload>
 	                                    </div>
                                 	</div>
-
                                     <div v-for="(item, index) in defaultConf.img.kists" :key="item.key">
                                         <p class="img-title">{{index==4?'抽奖按钮:':'方格' + (index + 1) + ':'}}</p>
                                         <div class="img-con"><img :src="item.url" alt=""></div>
@@ -824,7 +823,6 @@
                         text-align: center;
                         border: 1px solid #ccc;
                         margin: 0 10px;
-
                     }
                     .alert-con {
                     	padding: 3px;
