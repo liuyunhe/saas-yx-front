@@ -151,7 +151,6 @@
 	                                    	<h3>奖品名称</h3>
 	                                    	<p>请在24小时内领取</p>
 	                                    </div>
-
 	                                    <img class="prize-btn" :src="defaultConf.img.award.url" alt="">
                                 </div>
                             </div>

@@ -141,7 +141,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 344*84px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                <p class="tips">* 图片建议尺寸为 562*638px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                 <div class="edit-winning-img">
                   <p class="img-title">按钮:</p>
                   <div class="img-con"><img :src="configItem.getBtn" alt=""></div>
@@ -151,7 +151,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 344*84px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                <p class="tips">* 图片建议尺寸为 280*60px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
               </div>
             </el-card>
           </div>
@@ -181,7 +181,7 @@
               </div>
               <div class="edit-con">
                 <div class="edit-notWinning-img">
-                  <p class="img-title">图片:</p>
+                  <p class="img-title">弹框:</p>
                   <div class="img-con"><img :src="configItem.cryImgUrl" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :before-upload="beforeAvatarUpload" :headers="headerObj" :on-success="upNotWinningImgSuccess" :show-file-list="false">
@@ -189,7 +189,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 620*344px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                <p class="tips">* 图片建议尺寸为 562*638px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
               </div>
               <div class="edit-con">
                 <div class="edit-notWinning-img">
@@ -201,7 +201,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 290*74px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                <p class="tips">* 图片建议尺寸为 280*60px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
               </div>
             </el-card>
           </div>
@@ -556,6 +556,7 @@ export default {
 	                                text-align: center;
 	                                border: 1px solid #fff;
 	                                border-radius: 50%;
+	                                z-index: 2;
 	                            }
 	                            .pic {
 	                                max-width: 120px;
