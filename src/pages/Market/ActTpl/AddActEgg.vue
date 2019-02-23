@@ -106,7 +106,7 @@
 							<div class="winning">
 								<div class="prize-con award-con">
 									<img :src="configItem.drawBgUrl" class='award-alert' alt="" />
-									<div class="close">X</div>
+									<div class="close"><img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/close_icon.png" alt="" /></div>
 									<img class="pic" :src="configItem.drawImgUrl" alt="">
 									<div class="award-text">
 										<h3>奖品名称</h3>
@@ -158,7 +158,7 @@
 							<div class="bg"><img :src="configItem.bgImgUrl"></div>
 							<div class="not-winning">								
 								<div class="prize-con award-con">
-									<div class="close">X</div>
+									<div class="close"><img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/close_icon.png" alt="" /></div>
 									<img class="award-alert" :src="configItem.cryImgUrl" alt="">
 									<div class="award-no-text">
 										<h3>很遗憾，未中奖</h3>
@@ -524,15 +524,19 @@
 									top: 80px;
 								}
 								.close {
-									position: absolute;
-									transform: translate(236px, 80px);
-									width: 20px;
-									height: 20px;
-									line-height: 20px;
-									text-align: center;
-									border: 1px solid #fff;
-									border-radius: 50%;
-								}
+	                                position: absolute;	                           
+	                                width: 26px;
+	                                height: 26px;	                             
+	                                z-index: 2;
+	                                bottom:75px;
+	                                left: 50%;
+	                                transform: translateX(-50%);
+	                                img {
+	                                	width:100%;
+	                                	height: 100%;
+	                                	object-fit: contain;
+	                                }
+	                            }
 								.pic {
 									max-width: 120px;
 									// max-height: 200px;
@@ -580,17 +584,6 @@
 								left: 50%;
 								transform: translate(-50%);
 								top: 80px;
-							}
-							.close {
-								position: absolute;
-								transform: translate(232px, 56px);
-								width: 20px;
-								height: 20px;
-								line-height: 20px;
-								text-align: center;
-								border: 1px solid #fff;
-								border-radius: 50%;
-								z-index: 9;
 							}
 							.pic {
 								max-width: 196px;

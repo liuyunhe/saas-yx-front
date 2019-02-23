@@ -18,8 +18,8 @@ const commonImg = {
         name: '关闭按钮',
         index: 'close',
         url: handle.getUrl('close_icon', 2),
-        pos: [600, 115],
-        size: [56, 56]
+        pos: [350, 950],
+        size: [65, 65]
     },
     awardText: {
         name: '关闭按钮',
@@ -38,9 +38,16 @@ const commonImg = {
     noAward: {
         name: '未获奖图片',
         index: 'noAward',
-        url: handle.getUrl('cry75@2x', 1),
-        pos: [85, 373],
-        size: [620, 345]
+        url: handle.getUrl('ques-no-award-bg', 2),
+        pos: [0, 400],
+        size: [563, 638]
+    },
+    noAwardPai: {
+        name: '未获奖图片',
+        index: 'noAwardPai',
+        url: handle.getUrl('pai-no-award-bg', 2),
+        pos: [0, 400],
+        size: [563, 638]
     },
     getAwardBg:{
     	name: '中奖弹框',
@@ -73,9 +80,16 @@ const commonImg = {
     knowBtn: {
         name: '知道了按钮',
         index: 'knowBtn',
-        url: handle.getUrl('know-btn', 2),
-        pos: [231, 905],
-        size: [290, 74]
+        url: handle.getUrl('ques-no-award-btn', 2),
+        pos: [0, 763],
+        size: [247, 54]
+    },
+    knowBtnPai: {
+        name: '知道了按钮',
+        index: 'knowBtnPai',
+        url: handle.getUrl('pai-no-award-btn', 2),
+        pos: [0, 763],
+        size: [247, 54]
     },
     myAward: {
         name: '我的奖品',
