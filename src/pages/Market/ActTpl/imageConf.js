@@ -303,7 +303,7 @@ const img = {
                 index: 'contentBg',
                 url: handle.getUrl('ques_btn_2', 2),
                 pos: [80, 1050],
-                size: [317, 103]
+                size: [318, 102]
             },
             title: {
                 name: '标题',
@@ -348,7 +348,7 @@ const img = {
                 index: 'QuesbtnBg',
                 url: handle.getUrl('ques_btn_1', 2),
                 pos: [220, 1050],
-                size: [317, 103]
+                size: [318, 102]
             }
     	}
     },
@@ -475,7 +475,7 @@ const img = {
                 index: 'tipsBtn1',
                 url: handle.getUrl('red_tips_btn1', 2),
                 pos: [114, 609],
-                size: [227, 66]
+                size: [230, 66]
             },
             tipsBtn2: {
                 name: '提示按钮2',
