@@ -102,8 +102,8 @@
                                 <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 734*276px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                                 <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 120*120px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                                 <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 686*676px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
-                                <p class="tips" v-if="showEditConIndex == 5">* 图片建议尺寸为 483*483px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
-                                <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 209*240px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 5">* 图片建议尺寸为 469*469，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                                <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 210*240px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                             </div>
 
                         </el-card>

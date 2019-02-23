@@ -276,7 +276,7 @@
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz3">
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 171*169px格式为jpg\bmp\png\gif</div>
+											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 170*170px格式为jpg\bmp\png\gif</div>
 											<br /><br />
 											<span>提示语：</span>&nbsp;&nbsp;&nbsp;
 											<el-input v-model="addlist.conf.not.yz.tip" placeholder="请输入内容"maxlength='20'class='gInput'></el-input>
