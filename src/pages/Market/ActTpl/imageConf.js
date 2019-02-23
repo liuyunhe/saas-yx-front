@@ -40,56 +40,56 @@ const commonImg = {
         index: 'noAward',
         url: handle.getUrl('ques-no-award-bg', 2),
         pos: [0, 400],
-        size: [563, 638]
+        size: [562, 638]
     },
     noAwardPai: {
         name: '未获奖图片',
         index: 'noAwardPai',
         url: handle.getUrl('pai-no-award-bg', 2),
         pos: [0, 400],
-        size: [563, 638]
+        size: [562, 638]
     },
     getAwardBg:{
     	name: '中奖弹框',
         index: 'getAwardBg',
         url: handle.getUrl('ques_award_bg', 2),
         pos: [0, 400],
-        size: [563, 638]
+        size: [562, 638]
     },
     getBtn: {
         name: '领取按钮',
         index: 'getBtn',
         url: handle.getUrl('ques_award_btn', 2),
         pos: [0, 763],
-        size: [247, 54]
+        size: [280, 60]
     },
     getAwardBgPai:{
     	name: '中奖弹框',
         index: 'getAwardBgPai',
         url: handle.getUrl('pai-alert-bg', 2),
         pos: [0, 400],
-        size: [563, 638]
+        size: [562, 638]
     },
     getBtnPai: {
         name: '领取按钮',
         index: 'getBtnPai',
         url: handle.getUrl('pai-btn', 2),
         pos: [0, 763],
-        size: [247, 54]
+        size: [280, 60]
     },
     knowBtn: {
         name: '知道了按钮',
         index: 'knowBtn',
         url: handle.getUrl('ques-no-award-btn', 2),
         pos: [0, 763],
-        size: [247, 54]
+        size: [280, 60]
     },
     knowBtnPai: {
         name: '知道了按钮',
         index: 'knowBtnPai',
         url: handle.getUrl('pai-no-award-btn', 2),
         pos: [0, 763],
-        size: [247, 54]
+        size: [280, 60]
     },
     myAward: {
         name: '我的奖品',

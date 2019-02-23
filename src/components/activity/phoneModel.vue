@@ -323,7 +323,7 @@ export default {
                 box-sizing: border-box;
                 transition: all 0.2s linear;
                 position: absolute;
-                object-fit:cover;
+                object-fit:contain;
             }
             .contentBg, .contentBg{
                 left: 50%!important;
