@@ -41,9 +41,9 @@
               :show-file-list="false"
               :on-success="handleAvatarSuccessUrl"
           >
-            <img v-if="ruleForm.icon" width="146" height="146" :src="ruleForm.icon" class="avatar">
+            <img v-if="ruleForm.icon" width="118" height="118" :src="ruleForm.icon" class="avatar">
           </el-upload>
-          <div class="pic-tips">提示：建议尺寸：60像素*60像素；格式png，jpg；大小不超过2M；</div>
+          <div class="pic-tips">提示：建议尺寸：118像素*118像素；格式png，jpg；大小不超过2M；</div>
         </el-form-item>
         <el-form-item label="状态：" prop="statusType" size="small">
           <el-radio v-model="ruleForm.statusType" label="1">启用</el-radio>
