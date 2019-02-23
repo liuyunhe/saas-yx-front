@@ -100,6 +100,7 @@
               ref="treeDatas"
               node-key="menuCode"
               :default-checked-keys="defaultCheckedMenus"
+              :default-expanded-keys="defaultExpanded"
               show-checkbox>
             </el-tree>
           </div>
@@ -144,7 +145,8 @@
           label: 'menuName',
           children: 'nodeList'
         },
-        defaultCheckedMenus: [], // [1, 2, 3]
+        defaultCheckedMenus: [], // [1, 2, 3]默认选中的节点
+        defaultExpanded: [], // 默认展开的节点
 
         menusValidErr: false,
         authForm: {
@@ -273,6 +275,10 @@
         };
         this.$refs.treeDatas.setCheckedKeys([]);
         this.$refs['authForm'].clearValidate();
+        let allDatas = this.$refs.treeDatas.store._getAllNodes();
+        for(let i=0;i<allDatas.length;i++) {
+          allDatas[i].expanded = false;
+        }
       },
       authFormOk(form) {
         this.$refs[form].validate((valid) => {
