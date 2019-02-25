@@ -384,7 +384,7 @@ export default {
                     width: 100%;
                     font-weight: bold;
                     font-size: 16px;
-                    color: #666;
+                    color: #fff;
                     text-align: center;
                     top: 265px;
                 }

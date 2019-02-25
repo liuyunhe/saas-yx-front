@@ -516,12 +516,12 @@
 							text-align: center;
 							&.award-con {
 								.award-alert {
-									width: 220px;
-									height: 280px;
+									width: 225px;
+									height: 255px;
 									position: absolute;
 									left: 50%;
 									transform: translate(-50%);
-									top: 80px;
+									top: 100px;
 								}
 								.close {
 	                                position: absolute;	                           
@@ -569,10 +569,10 @@
 								}
 								.prize-btn {
 									margin-top: 20px;
-									max-width: 138px;
-									max-height: 34px;
+									max-width: 114px;
+									max-height: 24px;
 									position: absolute;
-									top: 290px;
+									top: 295px;
 									transform: translate(-50%);
 									left: 50%;
 								}
@@ -596,8 +596,8 @@
 							}
 							.prize-btn {
 								margin-top: 20px;
-								max-width: 138px;
-								max-height: 34px;
+								max-width: 114px;
+								max-height: 24px;
 							}
 						}
 					}
