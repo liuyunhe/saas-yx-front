@@ -228,7 +228,8 @@ export default new Router({
       path: '/find',
       name: 'Find',
       // leaf:true,
-      component: Find
+      component: Find,
+      props: (route) => ({f:route.query.f, account:route.query.account})
     },
     {
       path: '/',
