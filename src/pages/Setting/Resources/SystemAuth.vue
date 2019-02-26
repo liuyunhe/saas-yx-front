@@ -44,6 +44,7 @@
         <el-table-column prop="orgName" label="企业名称" align="center"></el-table-column>
         <el-table-column prop="account" label="登录账号" align="center"></el-table-column>
         <el-table-column prop="name" label="姓名" align="center"></el-table-column>
+        <el-table-column prop="mobile" label="手机号" align="center"></el-table-column>
         <el-table-column prop="roleName" label="角色" align="center"></el-table-column>
         <el-table-column label="状态" align="center">
           <template slot-scope="scope">
@@ -58,10 +59,8 @@
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button size="mini" @click="edit(scope.$index, scope.row)">编辑</el-button>
-            <!--
-            <el-button size="mini" v-show="scope.row.roleStatus==1" @click="remove(scope.$index, scope.row)">停用</el-button>
-            <el-button size="mini" v-show="scope.row.roleStatus==0" @click="remove(scope.$index, scope.row)">启用</el-button>
-            -->
+            <el-button size="mini" v-show="scope.row.roleStatus==1" @click="modifyStatus(scope.row, 0)">停用</el-button>
+            <el-button size="mini" v-show="scope.row.roleStatus==0" @click="modifyStatus(scope.row, 1)">启用</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -263,6 +262,35 @@
           }
         });
         this.authForm.show = true;
+      },
+      modifyStatus(_row, _status) { 
+        let _title = "";
+        if(_status==1) {
+          _title = "启用后，该企业的账号恢复使用SAAS平台，确定操作吗？";
+        } else if(_status==0) {
+          _title = "停用后，该企业的账号将无法使用SAAS平台，确定操作吗？";
+        } else {
+          return;
+        }
+        this.$confirm(_title, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        }).then(() => {
+          let params = {};
+          params.roleId = _row.roleId;
+          params.orgId = _row.orgId;
+          params.roleStatus = _status;
+          this.$request.post('/api/saotx/auth/mauthStatus', params, true, (res)=>{
+            if (res.ret == '200000') {
+              this.list();
+              this.$message({type: 'success', message: '操作成功!'});
+            } else {
+              this.$message.error(res.message);
+            }
+          });
+        }).catch(() => {/** 取消 */});
       },
       authFormCancel() {
         this.authForm = {
