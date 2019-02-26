@@ -19,6 +19,12 @@
             <el-option v-for="org in allOrgs" :class="org.auth==1?'':'hide'" :key="org.orgId" :label="org.orgName" :value="org.orgId"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="登录账号">
+          <el-input size="small" v-model="form.account"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号">
+          <el-input size="small" v-model="form.mobile"></el-input>
+        </el-form-item>
         <div></div>
         <el-form-item>
           <el-button size="small" type="primary" @click="list">查询</el-button>
@@ -132,7 +138,9 @@
         form: {
           pageNo: 1,
           pageSize: 10,
-          orgId: ""
+          orgId: "",
+          account: "",
+          mobile: ""
         },
         tableList: [], // 列表展示内容，包括查询条件后的数据展示
         pagination: {
@@ -203,14 +211,11 @@
       resetForm() {
         this.form = {
           pageNo: 1,
-          pageSize: 10, 
-          operType: "", // 操作类型
-          stime: "", // 开始时间：年-月-日 时:分:秒
-          etime: "", // 结束时间：年-月-日 时:分:秒
-          userName: "" // 用户名
+          pageSize: 10,
+          orgId: "",
+          account: "",
+          mobile: ""
         };
-        let _now = new Date();
-        this.form.time = [_now.Format("yyyy-MM-dd")+" 00:00:00", _now];
         this.list();
       },
       // page = {"pageCount":总页数, "count":总数据条数}
