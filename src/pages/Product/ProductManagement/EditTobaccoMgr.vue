@@ -57,7 +57,6 @@
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
           >
-            <i class="el-icon-plus"></i>
             <img v-if="filters.smallPic" width="53" height="100" :src="filters.smallPic" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             <div slot="tip" class="el-upload__tip">* 图片建议尺寸为 160*300px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
