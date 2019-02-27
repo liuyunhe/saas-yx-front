@@ -40,7 +40,7 @@
 						<el-table-column label="操作" align="center">
 							<template slot-scope="scope">
 								<el-button @click="use(scope.row)" type="text" size="small" v-show='scope.row.status==2?true:false'>启用</el-button>
-								<el-button @click="removeItem(scope.row)" type="text" size="small">删除</el-button>
+								<el-button @click="removeItem(scope.row)" type="text" size="small" v-show='scope.row.status!=1?true:false'>删除</el-button>
 								<el-button type="text" size="small" @click="editItem(scope.row)">编辑</el-button>
 							</template>
 						</el-table-column>
