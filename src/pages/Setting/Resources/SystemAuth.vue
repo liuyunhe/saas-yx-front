@@ -73,7 +73,7 @@
       </el-pagination>
     </el-card>
 
-    <el-dialog title="企业授权管理" width="550px" center :visible.sync="authForm.show" @closed="authFormCancel()">
+    <el-dialog title="企业授权管理" width="550px" center :visible.sync="authForm.show" :show-close="false">
       <el-form :model="authForm" :rules="authFormRules" ref="authForm" class="form" label-width="80px">
         <el-form-item label="企业名称" prop="orgId">
           <el-select size="small" v-model="authForm.orgId" placeholder="全部" :disabled="authForm.roleId?true:false">
