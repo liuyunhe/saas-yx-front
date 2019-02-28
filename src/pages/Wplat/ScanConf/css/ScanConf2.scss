@@ -226,6 +226,17 @@ p {
                 height: 480px;
                 object-fit: cover;
             }
+            .loading-box {
+                width:100px;
+                height: 20px;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                .inner-box {
+                    width:60px;
+                    height: 20px;
+                }
+            }
         }
         .loading-edit {
             float: left;

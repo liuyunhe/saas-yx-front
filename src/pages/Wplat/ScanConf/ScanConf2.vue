@@ -39,6 +39,9 @@
 							<div class="phone-top"></div>
 							<div class="loading-bg">
 								<img :src="addlist.conf.loading.bg" alt="" />
+								<div class="loading-box":style="{border:'1px solid '+addlist.conf.loading.color+''}">
+									<div class="inner-box"></div>
+								</div>
 							</div>
 							<div class="phone-bottom"></div>
 						</div>
@@ -220,25 +223,7 @@
 								<div class="bot-img"v-show='addlist.conf.has.yz.botFlag'>
 									<img :src="addlist.conf.has.yz.botImg" alt="" />
 								</div>
-							</div>
-							<div class="qr">
-								<el-popover placement="right" width="400" trigger="click" class='qr-click'>
-									<div class="qr-info">
-										<p>活动底图配置（未配置活动情况下显示）</p>
-										<br />
-										<div class='edit-con'>
-											<span class='labels'>活动底图：</span>
-											<div class="img-div"><img :src="addlist.conf.has.yz.feedbackImg" alt="" /></div>
-									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadFeed">
-												<el-button type="primary">更换图片</el-button>
-											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*120px格式为jpg\bmp\png\gif</div>
-										</div>
-									</div>
-									<el-button slot="reference"></el-button>
-								</el-popover>
-								<img :src="addlist.conf.has.gzh.bg" alt="" />
-							</div>
+							</div>							
 							<div class="menu-part">
 								<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/menu.png" alt="" />
 							</div>
@@ -429,14 +414,7 @@
 								note: '本页面含有烟草产品信息，未满十八周岁请勿继续访问',	
 								feedbackFlag:true,
 								feedbackImg:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/not.png',
-							},
-							gzh: {
-								bg: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
-							},
-							activity: {
-								show: false,
-								tpl: 1 //1为轮播
-							}
+							}							
 						},
 						not: {
 							title: {
