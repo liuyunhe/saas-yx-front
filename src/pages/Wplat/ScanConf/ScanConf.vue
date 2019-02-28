@@ -66,7 +66,6 @@
 			</div>
 		</el-dialog>		
 		<div class="add-part" v-show='addShow'>
-			<span @click='backMain' class='backMain'>返回</span>
 			<div class="title">扫码落地页配置</div>
 			<el-tabs v-model="activeName" @tab-click="tabPartClick">
 				<el-tab-pane label="模板设置" name="third">

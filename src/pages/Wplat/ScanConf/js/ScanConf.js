@@ -286,25 +286,30 @@ export default {
 		addSure(item) {
 			var that = this;
 			this.addlist.type = item.type;
-			this.addTplShow = false;
-			this.addShow = true;
-			this.activeName='third'
-			this.listShow = false;
-			this.$request.post(
-				'/api/saotx/prod/listBrand', {
-					pageSize: -1
-				},
-				true,
-				res => {
-					if(res.ret == '200000') {
-						var data = res.data.list || [];
-						that.brandList = data;
+			if(item.type=='SCMB-002'){
+				this.addTplShow = false;
+				this.addShow = true;
+				this.activeName='third'
+				this.listShow = false;
+				this.$request.post(
+					'/api/saotx/prod/listBrand', {
+						pageSize: -1
+					},
+					true,
+					res => {
+						if(res.ret == '200000') {
+							var data = res.data.list || [];
+							that.brandList = data;
+						}
+					},
+					err => {
+						console.log(err)
 					}
-				},
-				err => {
-					console.log(err)
-				}
-			)
+				)
+			}else if(item.type=='SCMB-001'){
+				this.$router.push('/weplat/down2');
+			}
+			
 		},
 		snCallback(flag) {
 			var that = this;
