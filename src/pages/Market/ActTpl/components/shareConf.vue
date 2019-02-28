@@ -6,7 +6,7 @@
       </div>
       <el-form label-width="100px">
         <el-form-item label="分享标题：">
-          <el-input maxlength="15" v-model="shareConf.shareTitle" type="text" :maxlength="15"></el-input>
+          <el-input v-model="shareConf.shareTitle" type="text" :maxlength="15"></el-input>
         </el-form-item>
         <el-form-item label="分享说明：">
           <el-input maxlength="30" v-model="shareConf.shareDesc" style="width: 70%;" type="textarea" :rows="2" placeholder="请输入内容"></el-input>
