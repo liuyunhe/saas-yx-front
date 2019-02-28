@@ -29,8 +29,11 @@
           </el-select>
         </el-form-item>
         <el-form-item label="活动时间：" prop="date">
-          <el-date-picker v-model="actTime" :time-arrow-control="true" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" :editable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
-          </el-date-picker>
+          <!-- <el-date-picker v-model="actTime" :time-arrow-control="true" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" :editable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+          </el-date-picker> -->
+          <el-date-picker v-model="confData.stimeStr" :disabled="timeDisable" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择开始时间"></el-date-picker>
+          至
+          <el-date-picker v-model="confData.etimeStr" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择结束时间"></el-date-picker>
         </el-form-item>
         <!-- 常规图片上传 -->
         <el-form-item label="活动图片：" prop="banner" v-if="form !== 'act-301'">
@@ -86,10 +89,12 @@ export default {
   },
   data() {
     var validateDate = (rule, value, callback) => {
-      if (this.actTime && this.actTime.length === 2) {
-        callback()
-      } else {
+      if (!this.confData.stimeStr || !this.confData.etimeStr) {
         callback(new Error('请选择活动时间'))
+      } else if (this.confData.stimeStr >= this.confData.etimeStr){
+        callback(new Error('开始时间必须小于结束时间'))
+      } else {
+        callback()
       }
     }
     var validateIdx = (rule, value, callback) => {
@@ -169,7 +174,8 @@ export default {
         number: [{ required: true, validator: valideNumber }],
         isShare: [{ required: true, validator: valideShare }]
       },
-      actTime: [],
+      // actTime: [],
+      timeDisable: false,
       uploadURL: '/api/saotx/attach/commonAliUpload',
       headerObj: {
         loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
@@ -179,17 +185,17 @@ export default {
       stepActive:0,
     }
   },
-  watch: {
-    actTime: function(val) {
-      if (val && val.length === 2) {
-        this.confData.stimeStr = this.actTime[0]
-        this.confData.etimeStr = this.actTime[1]
-      } else {
-        this.confData.stimeStr = ''
-        this.confData.etimeStr = ''
-      }
-    }
-  },
+  // watch: {
+  //   actTime: function(val) {
+  //     if (val && val.length === 2) {
+  //       this.confData.stimeStr = this.actTime[0]
+  //       this.confData.etimeStr = this.actTime[1]
+  //     } else {
+  //       this.confData.stimeStr = ''
+  //       this.confData.etimeStr = ''
+  //     }
+  //   }
+  // },
   created() {
     this.getDetail()
     this.getIdxSelect()
@@ -217,12 +223,22 @@ export default {
           if (this.form == 'act-301') this.redConf = JSON.parse(this.confData.extInfo)
           this.confData.idx = this.confData.idx + ''
           if (this.redConf.extInfo) this.extInfo=JSON.parse(this.confData.extInfo)
-          this.actTime.push(this.confData.stimeStr)
-          this.actTime.push(this.confData.etimeStr)
+          if (this.confData.stimeStr && this.confData.etimeStr) {
+            this.handleDisableTime()
+          }
+          // this.actTime.push(this.confData.stimeStr)
+          // this.actTime.push(this.confData.etimeStr)
           return
         }
         this.$message.error(res.messgae)
       })
+    },
+    handleDisableTime() {
+      let newTime = new Date().getTime(),
+        stime = new Date(this.form.stimeStr).getTime()
+        if (newTime >= stime) {
+          this.timeDisable = true
+        }
     },
     // 获取优先级
     getIdxSelect() {
@@ -338,5 +354,8 @@ export default {
 	border-radius: 4px;
 	border:none;
 	border:1px solid #ccc;
+}
+.el-date-editor {
+  width: 210px;
 }
 </style>

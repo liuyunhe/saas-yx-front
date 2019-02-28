@@ -40,7 +40,7 @@
 						<el-table-column label="操作" align="center">
 							<template slot-scope="scope">
 								<el-button @click="use(scope.row)" type="text" size="small" v-show='scope.row.status==2?true:false'>启用</el-button>
-								<el-button @click="removeItem(scope.row)" type="text" size="small">删除</el-button>
+								<el-button @click="removeItem(scope.row)" type="text" size="small" v-show='scope.row.status!=1?true:false'>删除</el-button>
 								<el-button type="text" size="small" @click="editItem(scope.row)">编辑</el-button>
 							</template>
 						</el-table-column>
@@ -276,7 +276,7 @@
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz3">
 												<el-button size='small' type="primary">更换图片</el-button>
 											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 171*169px格式为jpg\bmp\png\gif</div>
+											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 170*170px格式为jpg\bmp\png\gif</div>
 											<br /><br />
 											<span>提示语：</span>&nbsp;&nbsp;&nbsp;
 											<el-input v-model="addlist.conf.not.yz.tip" placeholder="请输入内容"maxlength='20'class='gInput'></el-input>

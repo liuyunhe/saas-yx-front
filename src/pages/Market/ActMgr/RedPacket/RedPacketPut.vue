@@ -1,9 +1,5 @@
 <template>
   <div class="container">
-    <el-steps :active="stepActive" finish-status="success" align-center class='step-style' v-show='form=="act-501"'>
-      <el-step title="基础设置"></el-step>
-      <el-step title="投放设置"></el-step>
-    </el-steps>
     <el-card>
       <el-form label-width="110px" :rules="rules">
         <el-form-item label="品牌规格：" prop="brand">
@@ -20,15 +16,6 @@
           }" :isDis="isDisabled"></selected-area>
         </el-form-item>
         <put-conf v-if="isShow" :data="data"></put-conf>
-        <!-- <div class="high mt20">
-          高级设置
-          <el-switch v-model="highFlag"></el-switch>
-        </div>
-        <div class="share" v-show="highFlag">
-          分享设置：
-          <el-radio v-model="shareFlag" :label="true">开启分享</el-radio>
-          <el-radio v-model="shareFlag" :label="false">关闭分享</el-radio>
-        </div> -->
         <el-form-item class="mt20" label="是否立即发布：">
           <el-switch v-model="data.act.status" :disabled="statusDisabled" :active-value="1" :inactive-value="2"></el-switch>
         </el-form-item>
@@ -59,9 +46,6 @@ export default {
         area: [{required: true, validator: tips}],
         time: [{required: true, validator: tips}]
       },
-      // highFlag: false,
-      // shareFlag: false,
-      // isPut: false,
       data: {
         act: {
           actCode: '',
@@ -194,7 +178,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .el-form {
-  width: 800px;
+  width: 1000px;
   margin: 0 auto;
 }
 .high {

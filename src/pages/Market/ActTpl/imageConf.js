@@ -18,8 +18,8 @@ const commonImg = {
         name: '关闭按钮',
         index: 'close',
         url: handle.getUrl('close_icon', 2),
-        pos: [600, 115],
-        size: [56, 56]
+        pos: [350, 950],
+        size: [65, 65]
     },
     awardText: {
         name: '关闭按钮',
@@ -38,44 +38,58 @@ const commonImg = {
     noAward: {
         name: '未获奖图片',
         index: 'noAward',
-        url: handle.getUrl('cry75@2x', 1),
-        pos: [85, 373],
-        size: [620, 345]
+        url: handle.getUrl('ques-no-award-bg', 2),
+        pos: [0, 400],
+        size: [562, 638]
+    },
+    noAwardPai: {
+        name: '未获奖图片',
+        index: 'noAwardPai',
+        url: handle.getUrl('pai-no-award-bg', 2),
+        pos: [0, 400],
+        size: [562, 638]
     },
     getAwardBg:{
     	name: '中奖弹框',
         index: 'getAwardBg',
         url: handle.getUrl('ques_award_bg', 2),
         pos: [0, 400],
-        size: [563, 638]
+        size: [562, 638]
     },
     getBtn: {
         name: '领取按钮',
         index: 'getBtn',
         url: handle.getUrl('ques_award_btn', 2),
         pos: [0, 763],
-        size: [247, 54]
+        size: [280, 60]
     },
     getAwardBgPai:{
     	name: '中奖弹框',
         index: 'getAwardBgPai',
         url: handle.getUrl('pai-alert-bg', 2),
         pos: [0, 400],
-        size: [563, 638]
+        size: [562, 638]
     },
     getBtnPai: {
         name: '领取按钮',
         index: 'getBtnPai',
         url: handle.getUrl('pai-btn', 2),
         pos: [0, 763],
-        size: [247, 54]
+        size: [280, 60]
     },
     knowBtn: {
         name: '知道了按钮',
         index: 'knowBtn',
-        url: handle.getUrl('know-btn', 2),
-        pos: [231, 905],
-        size: [290, 74]
+        url: handle.getUrl('ques-no-award-btn', 2),
+        pos: [0, 763],
+        size: [280, 60]
+    },
+    knowBtnPai: {
+        name: '知道了按钮',
+        index: 'knowBtnPai',
+        url: handle.getUrl('pai-no-award-btn', 2),
+        pos: [0, 763],
+        size: [280, 60]
     },
     myAward: {
         name: '我的奖品',
@@ -289,7 +303,7 @@ const img = {
                 index: 'contentBg',
                 url: handle.getUrl('ques_btn_2', 2),
                 pos: [80, 1050],
-                size: [317, 103]
+                size: [318, 102]
             },
             title: {
                 name: '标题',
@@ -334,7 +348,7 @@ const img = {
                 index: 'QuesbtnBg',
                 url: handle.getUrl('ques_btn_1', 2),
                 pos: [220, 1050],
-                size: [317, 103]
+                size: [318, 102]
             }
     	}
     },
@@ -461,7 +475,7 @@ const img = {
                 index: 'tipsBtn1',
                 url: handle.getUrl('red_tips_btn1', 2),
                 pos: [114, 609],
-                size: [227, 66]
+                size: [230, 66]
             },
             tipsBtn2: {
                 name: '提示按钮2',
