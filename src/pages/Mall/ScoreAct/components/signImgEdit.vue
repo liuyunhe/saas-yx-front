@@ -62,27 +62,27 @@ export default {
   },
   methods: {
     uploadSuccess (res, file, fileList) {
+      let that = this;
+      let url = res.data.accessUrl;
+      that.$emit('picChange', {url: url, index: that.editIndex});
+    },
+    uploadError (err) {
         let that = this;
-        let url = res.data.accessUrl;
-        that.$emit('picChange', {url: url, index: that.editIndex});
-      },
-      uploadError (err) {
-          let that = this;
-          console.log(err)
-          alert('图片上传失败')
-      },
-      onUploadClick (index) {
-          let that = this;
-          that.editIndex = index;
-          // console.log(that.editIndex)
-      },
-      beforeAvatarUpload(file) {
-        const IMGTYPE = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/bmp' || file.type === 'image/gif'
-        if (!IMGTYPE) {
-          this.$message.error('上传图片只能是 JPG 、 PNG 、 GIF 、 BMP 格式!')
-        }
-        return IMGTYPE
-      },
+        console.log(err)
+        alert('图片上传失败')
+    },
+    onUploadClick (index) {
+        let that = this;
+        that.editIndex = index;
+        // console.log(that.editIndex)
+    },
+    beforeAvatarUpload(file) {
+      const IMGTYPE = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/bmp' || file.type === 'image/gif'
+      if (!IMGTYPE) {
+        this.$message.error('上传图片只能是 JPG 、 PNG 、 GIF 、 BMP 格式!')
+      }
+      return IMGTYPE
+    },
   }
 }
 </script>

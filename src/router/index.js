@@ -120,6 +120,8 @@ const SettingSeller = () => import(/* webpackChunkName: "setting" */ '@/pages/Se
 const SettingSystemMenu = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Resources/SystemMenu.vue')
 // 设置-资源管理-企业授权
 const SettingSystemAuth = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Resources/SystemAuth.vue')
+// 设置-会员设置-会员任务设置
+const memberConfTask = () =>import(/* webpackChunkName: "mall" */ '../pages/Mall/ScoreAct/signActEdit')
 
 //菜单配置
 const MenuConf = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/MenuConf/MenuConf.vue')
@@ -173,8 +175,6 @@ const editCommendTpmC = () => import(/* webpackChunkName: "mall" */ '../pages/Ma
 const scoreAct = () =>import(/* webpackChunkName: "mall" */ '../pages/Mall/ScoreAct/ActList')
 // 商城 - 积分活动编辑
 const scoreActEdit = () =>import(/* webpackChunkName: "mall" */ '../pages/Mall/ScoreAct/ActDetailEdit')
-// 商城 - 签到活动编辑
-const scoreSignActEdit = () =>import(/* webpackChunkName: "mall" */ '../pages/Mall/ScoreAct/signActEdit')
 //零售户-审核管理
 const reviewmanage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/Reviewmanage/ReviewManage')
 //零售户-审核详情
