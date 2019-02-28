@@ -6,7 +6,7 @@
             </div>
             <div v-if="type == 'normal' || (type == 'item' &&itemRepeat) || type == 'common'" class="edit normal-pic">
                 <div class="edit-container" v-for="(img, index) in editData" :key="index + img">
-                    <h4>编辑{{img.name}}：</h4>
+                    <h4>{{img.name}}：</h4>
                     <div class="img-container">
                         <img :src="img.url" alt="">
                     </div>
@@ -18,7 +18,7 @@
                     :on-success="uploadSuccess"
                     :before-upload="beforeAvatarUpload"
                     :on-error="uploadError">
-                        <el-button type="primary" size="small" @click="onUploadClick(itemRepeat && type == 'item' ? 'item0' : img.index)">点击上传</el-button>
+                        <el-button type="primary" size="small" @click="onUploadClick(itemRepeat && type == 'item' ? 'item0' : img.index)">更换图片</el-button>
                         
                     </el-upload>
                     <div slot="tip" class="el-upload__tip">* 图片建议尺寸为 {{img.size[0]}}*{{img.size[1]}}px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
@@ -26,7 +26,7 @@
             </div>
             <div v-if="type == 'item' && !itemRepeat" class="edit item-pic">
                 <div class="edit-container" v-for="(img, index) in editData" :key="index + img">
-                    <h4>编辑{{img.name}}：</h4>
+                    <h4>{{img.name}}：</h4>
                     <div class="img-container">
                         <img :src="img.url" alt="">
                     </div>
@@ -38,7 +38,7 @@
                     :on-success="uploadSuccess"
                     :before-upload="beforeAvatarUpload"
                     :on-error="uploadError">
-                        <el-button type="primary" size="small" @click="onUploadClick(index)">点击上传</el-button>
+                        <el-button type="primary" size="small" @click="onUploadClick(index)">更换图片</el-button>
                     </el-upload>
                 </div>
             </div>
