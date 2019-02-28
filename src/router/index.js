@@ -121,7 +121,9 @@ const SettingSystemMenu = () => import(/* webpackChunkName: "setting" */ '@/page
 // 设置-资源管理-企业授权
 const SettingSystemAuth = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Resources/SystemAuth.vue')
 // 设置-会员设置-会员任务设置
-const memberConfTask = () =>import(/* webpackChunkName: "mall" */ '../pages/Mall/ScoreAct/signActEdit')
+const memberTaskSign = () =>import(/* webpackChunkName: "mall" */ '@/pages/Setting/Member/TaskConf/signActEdit')
+// 设置-会员设置-全局设置
+const GlobalConf = () =>import(/* webpackChunkName: "mall" */ '@/pages/Setting/Member/GlobalConf/GlobalConf')
 
 //菜单配置
 const MenuConf = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/MenuConf/MenuConf.vue')
@@ -402,8 +404,7 @@ export default new Router({
         { path: '/mall/product/act/addActProduct', name: '新建活动物料管理', component: AddActProduct },
         { path: '/mall/product/act/editActProduct', name: '编辑活动物料管理', component: EditActProduct,props: (route) => ({pid:route.query.pid})},
         { path: '/mall/score', name:'积分活动', component:scoreAct},
-        { path: '/mall/score/edit', name:'活动编辑', component:scoreActEdit},
-        { path: '/mall/score/signEdit', name:'签到活动编辑', component:scoreSignActEdit},
+        { path: '/mall/score/edit', name:'积分活动', component:scoreActEdit},
         // 设置
         { path: '/setting', name: '设置'},
         { path: '/setting/user', name: '账户设置' },
@@ -414,7 +415,13 @@ export default new Router({
         { path: '/setting/logs', name: '日志管理', component: SettingLogs },
         { path: '/setting/seller', name: '零售户管理', component: SettingSeller },
         { path: '/setting/mall', name: '积分设置', component: KPI },
-        { path: '/setting/resource', name: '资源管理' },
+        // { path: '/setting/resource', name: '资源管理' },memberTaskSign
+        { path: '/setting/memberConf', name: '会员设置' },
+        { path: '/setting/memberConf/global', name: '全局设置', component: GlobalConf },
+        { path: '/setting/memberConf/grade', name: '会员等级设置', component: memberTaskSign },
+        { path: '/setting/memberConf/rights', name: '会员权益设置', component: memberTaskSign },
+        { path: '/setting/memberConf/task', name: '会员任务设置', component: memberTaskSign },
+        { path: '/setting/memberConf/task/sign', name: '会员任务设置', component: memberTaskSign },
         // { path: '/setting/resource', name: '资源管理', redirect: '/setting/resource/smenu' },
         { path: '/setting/resource/smenu', name: '菜单管理', component: SettingSystemMenu },
         { path: '/setting/resource/smgrOrgRole', name: '菜单管理', component: SettingSystemAuth },
