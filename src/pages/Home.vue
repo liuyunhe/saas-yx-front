@@ -4,7 +4,7 @@
       <el-aside width="216px">
         <div class="left">
           <div class="logo">
-            <img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/top_logo_mini.png" alt="">
+            <img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/top_logo_mini.png" alt="">
           </div>
           <div class="parent-menu">
             <ul>

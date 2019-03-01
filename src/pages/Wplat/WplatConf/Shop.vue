@@ -3,7 +3,7 @@
 		<div class="jump-set">
 			<router-link to='/weplat/down'>去设置扫码落地页<span class='el-icon-arrow-right'></span></router-link>
 		</div>
-		<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/shop.png" alt="" />
+		<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/shop.png" alt="" />
 	</div>
 </template>
 

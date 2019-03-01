@@ -329,7 +329,7 @@
             //   allName: this.filters.allName,
             //     brandCode: this.filters.brandCode,
             //     prodName: this.filters.prodName,
-            //     //   smallPic: "http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/test/7BF882CD2DB24E958ABF5CFB29FF0CAE.png"
+            //     //   smallPic: ""
             //     type: "prod1",
             //     unitType: this.filters.unitType
             // },

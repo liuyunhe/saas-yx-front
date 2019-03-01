@@ -84,7 +84,7 @@
 					<div class="ipone">
 						<div class="header"></div>
 						<div class="content">
-							<div class="bg"><img src="https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/huodongshuoming.png"></div>
+							<div class="bg"><img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/huodongshuoming.png"></div>
 						</div>
 						<div class="footer"></div>
 					</div>
@@ -93,7 +93,7 @@
 					<div class="ipone">
 						<div class="header"></div>
 						<div class="content">
-							<div class="bg"><img src="https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/wodedjiangpin.png"></div>
+							<div class="bg"><img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/wodedjiangpin.png"></div>
 						</div>
 						<div class="footer"></div>
 					</div>
@@ -106,7 +106,7 @@
 							<div class="winning">
 								<div class="prize-con award-con">
 									<img :src="configItem.drawBgUrl" class='award-alert' alt="" />
-									<div class="close"><img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/close_icon.png" alt="" /></div>
+									<div class="close"><img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/close_icon.png" alt="" /></div>
 									<img class="pic" :src="configItem.drawImgUrl" alt="">
 									<div class="award-text">
 										<h3>奖品名称</h3>
@@ -158,7 +158,7 @@
 							<div class="bg"><img :src="configItem.bgImgUrl"></div>
 							<div class="not-winning">								
 								<div class="prize-con award-con">
-									<div class="close"><img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/close_icon.png" alt="" /></div>
+									<div class="close"><img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/close_icon.png" alt="" /></div>
 									<img class="award-alert" :src="configItem.cryImgUrl" alt="">
 									<div class="award-no-text">
 										<h3>很遗憾，未中奖</h3>
@@ -240,49 +240,49 @@
 				},
 				iconUrl: [{
 						key: 1,
-						imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
+						imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
 						$$hashKey: 'object:378'
 					},
 					{
 						key: 2,
-						imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
+						imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
 						$$hashKey: 'object:379'
 					},
 					{
 						key: 3,
-						imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
+						imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
 						$$hashKey: 'object:380'
 					},
 					{
 						key: 4,
-						imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
+						imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
 						$$hashKey: 'object:381'
 					},
 					{
 						key: 5,
-						imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
+						imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
 						$$hashKey: 'object:382'
 					},
 					{
 						key: 6,
-						imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
+						imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
 						$$hashKey: 'object:383'
 					}
 				],
 				configItem: {
 					title: '',
 					description: '',
-					headerImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg-title.png',
-					bgImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/eggBg.png',
-					actTip: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg-top.png',
+					headerImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg-title.png',
+					bgImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/eggBg.png',
+					actTip: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg-top.png',
 					awardUrl: [{
-						imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zhongjiang74@2x.png'
+						imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/zhongjiang74@2x.png'
 					}],
-					drawBgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg-award-bg.png',
-					drawImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/award_img.png',
-					drawBtnUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg-award-btn.png',
-					cryImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg-no-award-bg.png',
-					cryBtnUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/egg-no-award-btn.png'
+					drawBgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg-award-bg.png',
+					drawImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/award_img.png',
+					drawBtnUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg-award-btn.png',
+					cryImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg-no-award-bg.png',
+					cryBtnUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg-no-award-btn.png'
 				},
 				uploadURL: '/api/saotx/attach/commonAliUpload',
 				headerObj: {
@@ -430,7 +430,7 @@
 					position: relative;
 					width: 100%;
 					height: 66px;
-					background: url('http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/937@2x.png') center no-repeat;
+					background: url('http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/937@2x.png') center no-repeat;
 					p {
 						position: absolute;
 						bottom: 0;
@@ -612,7 +612,7 @@
 				.footer {
 					width: 100%;
 					height: 64px;
-					background: url('http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/phone-footer@2x.png') center no-repeat;
+					background: url('http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/phone-footer@2x.png') center no-repeat;
 				}
 			}
 			.edit-box {

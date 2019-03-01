@@ -230,7 +230,7 @@
 								
 							</div>
 							<div class="menu-part">
-									<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/menu.png" alt="" />
+									<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/menu.png" alt="" />
 								</div>
 							<div class="phone-bottom"></div>
 
@@ -348,7 +348,7 @@
 								
 							</div>
 							<div class="menu-part">
-									<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/menu.png" alt="" />
+									<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/menu.png" alt="" />
 								</div>
 							<div class="phone-bottom"></div>
 						</div>

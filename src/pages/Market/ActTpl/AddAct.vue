@@ -92,7 +92,7 @@
           <div class="ipone">
             <div class="header"></div>
             <div class="content">
-              <div class="bg"><img src="https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/huodongshuoming.png"></div>
+              <div class="bg"><img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/huodongshuoming.png"></div>
             </div>
             <div class="footer"></div>
           </div>
@@ -101,7 +101,7 @@
           <div class="ipone">
             <div class="header"></div>
             <div class="content">
-              <div class="bg"><img src="https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/wodedjiangpin.png"></div>
+              <div class="bg"><img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/wodedjiangpin.png"></div>
             </div>
             <div class="footer"></div>
           </div>
@@ -114,7 +114,7 @@
               <div class="winning">
                 <div class="prize-con award-con">
                 	<img :src="configItem.award_bg"class='award-alert' alt="" />
-                  <div class="close"><img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/close_icon.png" alt="" /></div>
+                  <div class="close"><img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/close_icon.png" alt="" /></div>
                   <img class="pic" :src="configItem.drawImgUrl" alt="">
                   <div class="award-text">
                   	<h3>奖品名称</h3>
@@ -163,7 +163,7 @@
               <div class="bg"><img :src="configItem.bgImgUrl"></div>
               <div class="not-winning">
                 <div class="prize-con award-con">
-                  <div class="close"><img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/close_icon.png" alt="" /></div>
+                  <div class="close"><img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/close_icon.png" alt="" /></div>
                   <img class="award-alert" :src="configItem.cryImgUrl" alt="">
                   <div class="award-no-text">
                     <h3>很遗憾，未中奖</h3>
@@ -238,65 +238,65 @@ export default {
       configItem: {
         title: '',
         description: '',
-        getBtn: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/zuan_award_btn.png',
-        award_bg:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/zuan_award_bg.png',
-        knowBtn: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/zuan_no_award_btn.png',
+        getBtn: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/zuan_award_btn.png',
+        award_bg:'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/zuan_award_bg.png',
+        knowBtn: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/zuan_no_award_btn.png',
         headerImgUrl:
-          'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi-header.png',
-        bgImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi-bg.png',
-        kitsUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/fanzuanshi-tips.png',
+          'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/zuanshi-header.png',
+        bgImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/zuanshi-bg.png',
+        kitsUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/fanzuanshi-tips.png',
         iconUrl: [
           {
             key: 1,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi.png',
+            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/zuanshi.png',
             $$hashKey: 'object:378'
           },
           {
             key: 2,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi.png',
+            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/zuanshi.png',
             $$hashKey: 'object:379'
           },
           {
             key: 3,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi.png',
+            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/zuanshi.png',
             $$hashKey: 'object:380'
           },
           {
             key: 4,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi.png',
+            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/zuanshi.png',
             $$hashKey: 'object:381'
           },
           {
             key: 5,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi.png',
+            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/zuanshi.png',
             $$hashKey: 'object:382'
           },
           {
             key: 6,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi.png',
+            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/zuanshi.png',
             $$hashKey: 'object:383'
           },
           {
             key: 7,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi.png',
+            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/zuanshi.png',
             $$hashKey: 'object:384'
           },
           {
             key: 8,
-            imgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi.png',
+            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/zuanshi.png',
             $$hashKey: 'object:385'
           }
         ],
-        iconAwardImg: 'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zuanshi.png',
+        iconAwardImg: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/zuanshi.png',
         awardUrl: [
           {
             imgUrl:
-              'http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/zhongjiang74@2x.png'
+              'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/zhongjiang74@2x.png'
           }
         ],
         drawImgUrl:
-          'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/award_img.png',
-        cryImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/zuan_no_award_bg.png'
+          'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/award_img.png',
+        cryImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/zuan_no_award_bg.png'
       },
       uploadURL: '/api/saotx/attach/commonAliUpload',
       headerObj: {
@@ -458,7 +458,7 @@ export default {
         position: relative;
         width: 100%;
         height: 66px;
-        background: url('http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/937@2x.png')
+        background: url('http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/937@2x.png')
           center no-repeat;
         p {
           position: absolute;
@@ -628,7 +628,7 @@ export default {
       .footer {
         width: 100%;
         height: 64px;
-        background: url('http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/phone-footer@2x.png')
+        background: url('http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/phone-footer@2x.png')
           center no-repeat;
       }
     }
