@@ -323,6 +323,7 @@ export default {
       width: 120px;
       height: 100%;
       background-color: #fff;
+      overflow: auto;
       .menuName {
         height: 50px;
         line-height: 50px;
