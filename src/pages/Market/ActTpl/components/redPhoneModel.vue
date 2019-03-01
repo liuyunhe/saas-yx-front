@@ -80,8 +80,8 @@
         <div class="page9 page" v-show="page == 9">
           <div class="text">
             <h3 class="title" v-html="shareConf.shareTitle ? shareConf.shareTitle : '扫码验真'"></h3>
-            <p class="desc" v-html="shareConf.shareDesc ? shareConf.shareDesc : '扫码验真精彩送不停，更多好礼等级拿！'"></p>
-            <dic class="img"><img :src="imgData.share.icon.url"></dic>
+            <div class="desc" v-html="shareConf.shareDesc ? shareConf.shareDesc : '扫码验真精彩送不停，更多好礼等级拿！'"></div>
+            <div class="img"><img :src="imgData.share.icon.url"></div>
           </div>
         </div>
       </div>
@@ -231,27 +231,33 @@ export default {
   background: url('http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/red_share_bg.png') no-repeat center / 100% 100%;
   .text {
     position: absolute;
-    top: 87px;
-    left: 59px;
+    top: 66px;
+    left: 56px;
     width: 208px;
     height: 66px;
     color: #333;
-    padding: 10px;
+    padding: 8px;
     box-sizing: border-box;
   }
   .title {
     margin: 0;
-    font-size: 12px;
+    font-size: 14px;
   }
   .desc {
     margin: 0;
     width: 150px;
+    height: 32px;
     font-size: 12px;
+    color: #898989;
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow:hidden;
+    text-overflow:ellipsis;
   }
   .img {
     position: absolute;
-    top: 13px;
-    right: 10px;
+    top: 18px;
+    right: 6px;
     width: 40px;
     height: 40px;
     img {

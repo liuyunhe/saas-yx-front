@@ -449,9 +449,11 @@
             }
             this.$request.post('/api/saotx/menu/somsys', this.menuForm, true, (res)=>{
               if (res.ret == '200000') {
+                this.$message({type: 'success', message: '操作成功！刷新页面后可见菜单展示！'});
                 this.initTree();
                 this.menuFormCancel('menuForm');
-                this.$message({type: 'success', message: '操作成功!'});
+                // 刷新页面重新加载授权菜单效果
+                // location.reload();
               } else {
                 this.$message.error(res.message);
               }

@@ -81,7 +81,7 @@
                 </div>
                 <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1208px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                 <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 700*350px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
-                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 78*97px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
+                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 120*120px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
                 <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 186*162px，格式为*.jpg\ *.bmp\ *.png\ *.gif</p>
               </div>
 

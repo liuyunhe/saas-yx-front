@@ -73,7 +73,7 @@
 									</div>
 								</div>
 								<p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1208px格式为jpg\bmp\png\gif</p>
-								<p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 730*280px格式为jpg\bmp\png\gif</p>
+								<p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 580*266px格式为jpg\bmp\png\gif</p>
 								<p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 74*90px格式为jpg\bmp\png\gif</p>
 							</div>
 
