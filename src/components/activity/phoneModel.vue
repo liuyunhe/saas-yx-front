@@ -271,7 +271,7 @@ export default {
 
     },
     mounted () {
-
+		this.edit('bg')
     },
     computed: {
     },
