@@ -74,16 +74,22 @@
             <el-table-column prop="menuName" label="菜单姓名" align="center"></el-table-column>
             <el-table-column prop="parent.menuName" label="上级菜单" align="center"></el-table-column>
             <el-table-column prop="menuUrl" label="链接地址" align="center"></el-table-column>
-            <el-table-column prop="statusName" label="状态" align="center" width="100px"></el-table-column>
+            <el-table-column label="创建时间" align="center" width="100px">
+                <template slot-scope="scope">
+                    <div :class="scope.row.status==1?'used':'unused'">{{scope.row.statusName}}</div>
+                </template>
+            </el-table-column>
             <el-table-column label="创建时间" align="center" width="160px">
                 <template slot-scope="scope">
                     {{new Date(scope.row.ctime).Format("yyyy-MM-dd hh:mm:ss")}}
                 </template>
             </el-table-column>
-            <el-table-column label="操作" align="center" width="200">
+            <el-table-column label="操作" align="center" width="230">
                 <template slot-scope="scope">
                     <el-button size="mini" @click="edit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button size="mini" @click="remove(scope.$index, scope.row)">删除</el-button>
+                    <el-button size="mini" @click="modifyStatus(scope.row.id, 1)" v-if="scope.row.status==2">启用</el-button>
+                    <el-button size="mini" type="danger" @click="modifyStatus(scope.row.id, 2)" v-if="scope.row.status==1">禁用</el-button>
+                    <el-button size="mini" type="danger" @click="remove(scope.$index, scope.row)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -99,7 +105,7 @@
       </el-card>
     </div>
 
-    <el-dialog title="菜单资源管理" width="550px" center :visible.sync="menuForm.show" @closed="menuFormCancel('menuForm')">
+    <el-dialog :title="(menuForm.id?'编辑':'新建') + '菜单资源管理'" width="550px" center :visible.sync="menuForm.show" @closed="menuFormCancel('menuForm')">
       <el-form :model="menuForm" :rules="menuFormRules" ref="menuForm" class="form" label-width="80px">
         <el-form-item label="菜单编码" prop="menuCode">
           <el-input size="small" v-model="menuForm.menuCode" placeholder="请输入不超过30个字符" :disabled="menuForm.id?true:false"></el-input>
@@ -363,8 +369,37 @@
           }
         }
       },
+      modifyStatus(_id, _status) {
+        let _title = "";
+        if(_status==1) {
+          _title = "启用后，所有授权过此菜单的企业中都将变更为启用，确定操作吗？";
+        } else if(_status==2) {
+          _title = "禁用后，所有授权过此菜单的企业中都将变更为禁用，确定操作吗？";
+        } else {
+          return;
+        }
+        this.$confirm(_title, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        }).then(() => {
+          let params = {};
+          params.id = _id;
+          params.status = _status;
+          params.service = "saas";
+          this.$request.post('/api/saotx/menu/modifyStatus', params, true, (res)=>{
+            if (res.ret == '200000') {
+              this.initTree();
+              this.$message({type: 'success', message: '操作成功!'});
+            } else {
+              this.$message.error(res.message);
+            }
+          });
+        }).catch(() => {/** 取消 */});
+      },
       remove(idx, row) {
-        this.$confirm('删除后，此菜单将从所有组织公司中去除，确认操作吗？', '提示', {
+        this.$confirm('删除后，所有授权过此菜单的企业中都将被删除，确定操作吗？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning',
@@ -414,9 +449,11 @@
             }
             this.$request.post('/api/saotx/menu/somsys', this.menuForm, true, (res)=>{
               if (res.ret == '200000') {
+                this.$message({type: 'success', message: '操作成功！刷新页面后可见菜单展示！'});
                 this.initTree();
                 this.menuFormCancel('menuForm');
-                this.$message({type: 'success', message: '操作成功!'});
+                // 刷新页面重新加载授权菜单效果
+                // location.reload();
               } else {
                 this.$message.error(res.message);
               }
@@ -489,6 +526,22 @@
         overflow: auto;
         table {
           height: 100%;
+          .used::before, .unused::before {
+            content: '';
+            display: inline-table;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            position: relative;
+            top: -8px;
+            left: -5px;
+          }
+          .used::before {
+            background-color: green;
+          }
+          .unused::before {
+            background-color: red;
+          }
         }
       }
     }
