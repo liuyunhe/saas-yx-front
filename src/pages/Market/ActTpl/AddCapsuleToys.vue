@@ -418,10 +418,10 @@ export default {
           }
         ],
         drawImgUrl:
-          'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudannd-award-pop.png',
-        drawBtnUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudanniudan-awardBtn.png',
-        cryImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudannd-noaward.png',
-        cryBtnUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudannd-zxNoAwardBtn.png'
+          'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-award-pop.png',
+        drawBtnUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/niudan-awardBtn.png',
+        cryImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-noaward.png',
+        cryBtnUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-zxNoAwardBtn.png'
       },
       uploadURL: '/api/saotx/attach/commonAliUpload',
       headerObj: {
