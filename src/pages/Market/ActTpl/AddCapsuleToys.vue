@@ -139,7 +139,7 @@
                 <p class="tips" v-if="showEditConIndex == 7">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 8">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
 
-                <div class="edit-game-img" v-if="showEditConIndex == 6">
+                <div class="edit-game-img" v-if="showEditConIndex == 6" style="margin-top: 30px">
                   <div>
                     <p class="img-title">扭蛋一开奖：左</p>
                     <div class="img-con act-tip-img"><img :src="configItem.egg1left" alt=""></div>
@@ -151,7 +151,7 @@
                   </div>
                 </div>
                 <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
-                <div class="edit-game-img" v-if="showEditConIndex == 6">
+                <div class="edit-game-img" v-if="showEditConIndex == 6" style="margin-top: 30px">
                   <div>
                     <p class="img-title">扭蛋一开奖：右</p>
                     <div class="img-con act-tip-img"><img :src="configItem.egg1right" alt=""></div>
@@ -163,7 +163,7 @@
                   </div>
                 </div>
                 <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
-                <div class="edit-game-img" v-if="showEditConIndex == 7">
+                <div class="edit-game-img" v-if="showEditConIndex == 7" style="margin-top: 30px">
                   <div>
                     <p class="img-title">扭蛋二开奖：左</p>
                     <div class="img-con act-tip-img"><img :src="configItem.egg2left" alt=""></div>
@@ -175,7 +175,7 @@
                   </div>
                 </div>
                 <p class="tips" v-if="showEditConIndex == 7">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
-                <div class="edit-game-img" v-if="showEditConIndex == 7">
+                <div class="edit-game-img" v-if="showEditConIndex == 7" style="margin-top: 30px">
                   <div>
                     <p class="img-title">扭蛋二开奖：右</p>
                     <div class="img-con act-tip-img"><img :src="configItem.egg2right" alt=""></div>
@@ -187,7 +187,7 @@
                   </div>
                 </div>
                 <p class="tips" v-if="showEditConIndex == 7">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
-                <div class="edit-game-img" v-if="showEditConIndex == 8">
+                <div class="edit-game-img" v-if="showEditConIndex == 8" style="margin-top: 30px">
                   <div>
                     <p class="img-title">扭蛋三开奖：左</p>
                     <div class="img-con act-tip-img"><img :src="configItem.egg3left" alt=""></div>
@@ -199,7 +199,7 @@
                   </div>
                 </div>
                 <p class="tips" v-if="showEditConIndex == 8">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
-                <div class="edit-game-img" v-if="showEditConIndex == 8">
+                <div class="edit-game-img" v-if="showEditConIndex == 8" style="margin-top: 30px">
                   <div>
                     <p class="img-title">扭蛋三开奖：右</p>
                     <div class="img-con act-tip-img"><img :src="configItem.egg3right" alt=""></div>
@@ -418,7 +418,7 @@ export default {
           }
         ],
         drawImgUrl:
-          'http://weiopn.oss-cn-beijing.aliyuncs.com/wx_hebei/img/niudan/nd-award-pop.png',
+          'http://weiopn.oss-cn-beijing.aliyuncs.com/wx_hebei/img/niudan/nd-award-bg.png',
         drawBtnUrl:'http://weiopn.oss-cn-beijing.aliyuncs.com/wx_hebei/img/niudan/niudan-awardBtn.png',
         cryImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/wx_hebei/img/niudan/nd-noaward.png',
         cryBtnUrl:'http://weiopn.oss-cn-beijing.aliyuncs.com/wx_hebei/img/niudan/nd-zxNoAwardBtn.png'
