@@ -3,7 +3,7 @@
     <ul>
       <li v-for="(item, index) in data" :key="index">
         连续签到
-        <el-input-number v-model="item.continuSignDay" :controls="false" :min="0" :precision="0"></el-input-number>
+        <el-input-number v-model="item.continuSignDay" @change="noRepeat(item.continuSignDay, index)" :controls="false" :min="0" :precision="0"></el-input-number>
         天，额外可获得
         <el-input-number v-model="item.extraScore" :controls="false" :min="0" :precision="0"></el-input-number>
         积分
@@ -27,11 +27,20 @@ export default {
     return {}
   },
   created() {
-    console.log(this.data)
+    // console.log(this.data)
   },
   methods: {
+    noRepeat(val, i) {
+      this.data.forEach((item, index) => {
+        if (i == index) return
+        if (item.continuSignDay == val) {
+          this.$message.error('连续签到天数不能重复!')
+        }
+      })
+    },
     add(i) {
-      this.data.push({continuSignDay: null, extraScore: null, extraGrowth: null})
+      if (this.data.length >= 10) return this.$message.error('连续签到设置不能超过10项!')
+      this.data.push({continuSignDay: 0, extraScore: 0, extraGrowth: 0})
     },
     del(i) {
       this.$confirm('是否删除该项?', '提示', {

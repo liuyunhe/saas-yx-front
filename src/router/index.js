@@ -124,6 +124,7 @@ const SettingSystemAuth = () => import(/* webpackChunkName: "setting" */ '@/page
 const memberTaskSign = () =>import(/* webpackChunkName: "mall" */ '@/pages/Setting/Member/TaskConf/signActEdit')
 // 设置-会员设置-全局设置
 const GlobalConf = () =>import(/* webpackChunkName: "mall" */ '@/pages/Setting/Member/GlobalConf/GlobalConf')
+const TaskConf = () =>import(/* webpackChunkName: "mall" */ '@/pages/Setting/Member/TaskConf/TaskList')
 
 //菜单配置
 const MenuConf = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/MenuConf/MenuConf.vue')
@@ -420,8 +421,8 @@ export default new Router({
         { path: '/setting/memberConf/global', name: '全局设置', component: GlobalConf },
         { path: '/setting/memberConf/grade', name: '会员等级设置', component: memberTaskSign },
         { path: '/setting/memberConf/rights', name: '会员权益设置', component: memberTaskSign },
-        { path: '/setting/memberConf/task', name: '会员任务设置', component: memberTaskSign },
-        { path: '/setting/memberConf/task/sign', name: '会员任务设置', component: memberTaskSign },
+        { path: '/setting/memberConf/task', name: '会员任务设置', component: TaskConf },
+        { path: '/setting/memberConf/task/sign', name: '会员签到任务设置', component: memberTaskSign, props: (route) => ({code:route.query.code, id:route.query.id}) },
         // { path: '/setting/resource', name: '资源管理', redirect: '/setting/resource/smenu' },
         { path: '/setting/resource/smenu', name: '菜单管理', component: SettingSystemMenu },
         { path: '/setting/resource/smgrOrgRole', name: '菜单管理', component: SettingSystemAuth },

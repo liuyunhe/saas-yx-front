@@ -1,10 +1,12 @@
 <template>
   <div class="content">
     <div class="phone-wrapper" v-if="conf.imgObj">
-      <div class="phone-header">{{conf.title}}</div>
+      <div class="phone-header">
+        <h4>{{conf.title}}</h4>
+      </div>
       <div class="phone-body">
         <div v-if="page == 1 || page == 8">
-          <img class="bg" :src="conf.imgObj.page1.bg.url" @click="sendImgType(conf.imgObj.page1.bg.type)" :style="{
+          <img class="bg page1-bg" :src="conf.imgObj.page1.bg.url" @click="sendImgType(conf.imgObj.page1.bg.type)" :style="{
             'width': conf.imgObj.page1.bg.size[0] * 0.4 + 'px',
             'height': conf.imgObj.page1.bg.size[1] * 0.4 +'px',
             'left': conf.imgObj.page1.bg.pos[0] * 0.4 + 'px',
@@ -247,7 +249,7 @@ export default {
       // background: skyblue;
       margin-right: 5px;
       margin-left: 5px;
-      margin-bottom: 5px;
+      margin-bottom: 2px;
       border-radius: 50%;
       transition: all 0.2s linear;
     }
@@ -299,7 +301,7 @@ export default {
   height: 484px;
   z-index: 999;
 }
-.bg:hover,
+.page1-bg:hover,
 .rules-btn:hover,
 .draw-btn:hover,
 .calendar:hover {

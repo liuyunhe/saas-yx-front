@@ -8,7 +8,7 @@
         <el-input v-model="queryStr"></el-input>
       </el-form-item>
       <el-form-item label="礼品类型">
-        <el-select v-model="giftType" class="type" placeholder="请选择礼品类型">
+        <el-select v-model="queryParmes.giftType" class="type" placeholder="请选择礼品类型" clearable>
           <el-option v-for="(val, key) in giftType" :key="key" :label="val" :value="key"></el-option>
         </el-select>
       </el-form-item>
@@ -41,7 +41,7 @@
     </div>
     <div class="btn">
       <el-button type="primary" @click="confirm">确定</el-button>
-      <el-button plain="">取消</el-button>
+      <el-button plain @click="close">取消</el-button>
     </div>
   </div>
 </template>
@@ -87,6 +87,11 @@ export default {
     }
   },
   created() {
+    // this.queryParmes.pageNo = 1
+    // this.queryParmes.pageSize = 5
+    // this.queryParmes.productId = null
+    // this.queryParmes.productName = ''
+    // this.queryParmes.giftType = null
     this.getPrize()
   },
   methods: {
@@ -109,6 +114,9 @@ export default {
     },
     confirm() {
       this.$emit('getSelectedGoodsArr', this.selectedGoodsArr)
+    },
+    close() {
+      this.$emit('close')
     },
     // selectedAll(selection) {
     //   console.log(selection)

@@ -24,17 +24,17 @@
             <share-conf @shareChange="editPic" :shareConf="conf.share" :editData="editData"></share-conf>
           </div>
           <div v-if="page == 8">
-            <sign-conf :conf="data" :goodsArr="selectedGoodsArr" @getPrize="getPrize"></sign-conf>
+            <sign-conf :conf="data" @getPrize="getPrize"></sign-conf>
           </div>
         </el-col>
       </el-row>
       <div class="btn mt20">
-        <el-button type="primary" @click="clg">保存</el-button>
-        <el-button plain>返回</el-button>
+        <el-button type="primary" @click="save">保存</el-button>
+        <el-button plain @click="$router.go(-1)">返回</el-button>
       </div>
     </el-card>
     <el-dialog width="800px" :close-on-click-modal="false" :visible.sync="dialogVisible">
-      <dialog-module @getSelectedGoodsArr="getSelectedGoodsArr"></dialog-module>
+      <dialog-module @getSelectedGoodsArr="getSelectedGoodsArr" @close="close"></dialog-module>
     </el-dialog>
   </div>
 </template>
@@ -49,6 +49,7 @@ import signConf from './components/signConf'
 import dialogModule from './components/dialogModule'
 import activityImgPage1 from './components/signImgEdit'
 export default {
+  props: ['code', 'id'],
   components: {
     menuConf,
     phoneModule,
@@ -70,8 +71,8 @@ export default {
       
       signDayArr: [1, 2, 4, 5, 6, 7, 10, 20],
       conf: {
-        form: '',
-        id: '',
+        // form: '',
+        // id: '',
         description: '',
         title: '',
         imgObj: {},
@@ -88,7 +89,7 @@ export default {
       selectedGoodsArr: [],
       data: {
         sactBset:{
-          taskCode:'MEMBER_SIGN',
+          taskCode: '',
           actName: '', // 活动名称
           signNote: '', // 签到规则
           share: null, // 分享：0-不分享；1-分享
@@ -99,6 +100,7 @@ export default {
           initBtImage: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/center-sign-btn.png', // 按钮初始图片
           pressBtImage: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/center-signEnd-btn.png', // 按钮按下图片
           drawSignDay: null, //累计签到N天可参与抽奖
+          pageInfo: ''
         },
         contItems: [
           {
@@ -117,16 +119,15 @@ export default {
     this.editData.push(this.conf.imgObj.page7.icon)
     // this.firstStyle['margin-left'] = this.days * 40 + 9 + 'px'
     // console.log(this.conf.imgObj)
-    this.getTaskList()
-    // this.getPutDetail()
+    this.getPutDetail()
   },
   methods: {
-    getTaskList() {
-      this.$request.post('/sc/saotx/act/findList', {}, true, res => {})
-    },
     getPutDetail() {
-      this.$request.post('/sc/saotx/act/bsDetail', {id: 1}, true, res => {
-
+      this.$request.post('/sc/saotx/act/bsDetail', {id: this.id}, true, res => {
+        if (res.ret === '200000') {
+          this.data = res.data
+          res.data.sactBset.pageInfo ? this.conf = JSON.parse(res.data.sactBset.pageInfo) : ''
+        }
       })
     },
     editPic(e) {
@@ -149,6 +150,41 @@ export default {
     },
     getSelectedGoodsArr(arr) {
       this.selectedGoodsArr = arr
+      this.dialogVisible = false
+      let idArr = []
+      if (this.data.gameItems && this.data.gameItems.length > 0) {
+        this.data.gameItems.forEach(item => {
+          idArr.push(item.id)
+        })
+      }
+      this.selectedGoodsArr.map(item => {
+        let i = idArr.indexOf(item.id)
+        if (i != -1) {
+          return this.$message.warning('请不要选择重复的奖品')
+        } else {
+          if (!this.data.gameItems) {
+            this.$set(this.data, 'gameItems', [])
+          }
+          this.data.gameItems.push({
+            orgId: item.orgId,
+            gameId: this.code,
+            gameName: '',
+            productId: item.productId,
+            productName: item.productName,
+            image: item.image,
+            status: item.status,
+            probability: 0,
+            type: item.giftType,
+            score: item.score,
+            bingo_image: item.image,
+            shopQuantity: item.shopQuantity,
+            quantity: null,
+            allquantity: 0
+          })
+        }
+      })
+    },
+    close() {
       this.dialogVisible = false
     },
     handleDayNum() {
@@ -199,6 +235,32 @@ export default {
       let value = e.value;
       value ? this.conf.description = value : this.description = '';
     },
+    save() {
+      if (this.conf.description == '' || this.conf.title == '') return this.$message.error('首页/模板名称或描述不能为空!')
+      if (this.isRepeat(this.data.contItems, 'continuSignDay')) return this.$message.error('连续签到天数不能重复!')
+      let jsonStr = JSON.stringify(this.conf)
+      this.data.sactBset.pageInfo = jsonStr
+      this.$request.post('/sc/saotx/act/saveBSet', this.data, true, res => {
+        if (res.ret === '200000') {
+          this.$message.success('保存成功')
+          setTimeout(() => {
+            this.$router.push('/setting/memberConf/task')
+          }, 1000)
+        }
+      })
+    },
+    isRepeat(obj, d) {
+      let hash = [],
+          flag = false
+      obj.forEach((item, i) => {
+        if (hash.indexOf(item[d]) == -1) {
+          hash.push(item[d])
+        } else {
+          flag = true
+        }
+      })
+      return flag
+    }
   }
 }
 </script>

@@ -1,11 +1,11 @@
 <template>
   <div class="content">
     <div class="title ml20 mb20">基础设置</div>
-    <el-form label-width="100px">
-      <el-form-item label="活动名称：">
-        <el-input v-model="conf.sactBset.actName"></el-input>
+    <el-form label-width="100px" :rules="rules">
+      <el-form-item label="活动名称：" prop="actName">
+        <el-input v-model="conf.sactBset.actName" :max="15" :min="1"></el-input>
       </el-form-item>
-      <el-form-item label="签到入口：">
+      <el-form-item label="签到入口：" prop="signImg">
         <div class="start ml20">
           <p>初始状态</p>
           <div class="con">
@@ -40,25 +40,25 @@
           </el-upload>
         </div>
       </el-form-item>
-      <el-form-item label="签到规则：">
+      <el-form-item label="签到规则：" prop="signNote">
         <!-- <el-input v-model="conf.sactBset.actNote" class="textarea" type="textarea" :rows="2"></el-input> -->
         <quill-editor ref="myTextEditor" v-model="conf.sactBset.signNote" :options="editorOption" placeholder="请输入活动说明，300字以内" @blur="onEditorBlur($event)"></quill-editor>
       </el-form-item>
-      <el-form-item label="分享设置：">
+      <el-form-item label="分享设置：" prop="share">
         <el-radio v-model="conf.sactBset.share" :label="1">开启分享</el-radio>
         <el-radio v-model="conf.sactBset.share" :label="0">关闭分享</el-radio>
       </el-form-item>
     </el-form>
     <div class="title ml20 mb20">签到设置</div>
-    <el-form label-width="120px">
-      <el-form-item label="常规签到奖励：">
+    <el-form label-width="130px" :rules="signRules">
+      <el-form-item label="常规签到奖励：" prop="awards">
         每日签到获得
         <el-input-number v-model="conf.sactBset.score" :controls="false" :min="0" :precision="0"></el-input-number>
         积分
         <el-input-number v-model="conf.sactBset.growth" :controls="false" :min="0" :precision="0"></el-input-number>
         成长值
       </el-form-item>
-      <el-form-item label="连续签到奖励：">
+      <el-form-item label="连续签到奖励：" prop="signAwards">
         <el-radio v-model="conf.sactBset.continuSignFlg" :label="0">关闭</el-radio>
         <el-radio v-model="conf.sactBset.continuSignFlg" :label="1">开启</el-radio>
         <sign-item v-show="conf.sactBset.continuSignFlg === 1" :data="conf.contItems"></sign-item>
@@ -66,20 +66,20 @@
       </el-form-item>
     </el-form>
     <div class="title ml20 mb20">抽奖设置</div>
-      <el-form label-width="120px">
-        <el-form-item label="是否关联抽奖：">
+      <el-form label-width="130px" :rules="draw">
+        <el-form-item label="是否关联抽奖：" prop="drawChanceFlg">
           <el-radio v-model="conf.sactBset.drawChanceFlg" :label="0">不关联</el-radio>
           <el-radio v-model="conf.sactBset.drawChanceFlg" :label="1">关联</el-radio>
         </el-form-item>
-        <el-form-item label="抽奖要求：">
+        <el-form-item label="抽奖要求：" prop="drawSignDay">
           累计签到
           <el-input-number v-model="conf.sactBset.drawSignDay" :controls="false" :min="0" :precision="0"></el-input-number>
           天，可参与抽奖
         </el-form-item>
       </el-form>
     <div class="title ml20 mb20">奖项设置</div>
-    <el-form label-width="100px">
-      <el-form-item label="选择奖品：">
+    <el-form label-width="100px" :rules="prize">
+      <el-form-item label="选择奖品：" prop="selected">
         <el-button icon="el-icon-plus" @click="getPrize"></el-button>
       </el-form-item>
       <!-- <el-form-item label="所选礼品：">
@@ -87,7 +87,7 @@
       </el-form-item> -->
     </el-form>
     <p class="ml20">所选礼品：</p>
-    <prize-conf v-show="goodsArr.length != 0" :data="conf.gameItems" class="ml20"></prize-conf>
+    <prize-conf v-if="conf.gameItems" :data="conf.gameItems" class="ml20"></prize-conf>
   </div>
 </template>
 <script>
@@ -101,16 +101,42 @@ export default {
     quillEditor
   },
   props: {
-    goodsArr: {
-      required: true
-    },
     conf: {
       type: Object,
       required: true
     }
   },
   data() {
+    var validateDesc = (rule, value, callback) => {
+      if (!this.conf.sactBset.signNote) {
+        callback(new Error('请输入活动说明'))
+      } else {
+        callback()
+      }
+    }
+    var tips = (rule, value, callback) => {
+      // callback()
+    }
     return {
+      rules: {
+        actName: [{ required: true, message: '请输入活动名称', trigger: 'blur' },],
+        signNote: [{ required: true, validator: validateDesc }],
+        signImg: [{required: true, validator: tips}],
+        share: [{required: true, validator: tips}]
+        
+      },
+      signRules: {
+        awards: [{required: true, validator: tips}],
+        signAwards: [{required: true, validator: tips}]
+      },
+      draw: {
+        draw: [{required: true, validator: tips}],
+        drawChanceFlg: [{required: true, validator: tips}],
+        drawSignDay: [{required: true, validator: tips}]
+      },
+      prize: {
+        selected: [{required: true, validator: tips}]
+      },
       // 富文本设置
       editorOption: {
         modules: {
