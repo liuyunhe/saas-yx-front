@@ -5,7 +5,7 @@
         <img :src="item.image" width="40px">
         <p>{{item.productName}}</p>
         奖品数量：
-        <el-input-number @change="watch" :disabled="item.id ? true : false" v-model="item.allquantity" :controls="false" :min="0" :precision="0"></el-input-number>
+        <el-input-number @change="sync(index)" :disabled="item.id ? true : false" v-model="item.allquantity" :controls="false" :min="0" :precision="0"></el-input-number>
         个
         <span>*</span>
         中奖概率
@@ -13,7 +13,7 @@
         %
         <el-button type="danger" @click="del(index)">删除</el-button>
         <el-button type="primary" v-if="item.id" @click="addRepertory(index)">增库</el-button>
-        <span class="residual">剩余{{item.quantity}}个</span>
+        <span class="residual" v-if="item.quantity != 0">剩余{{item.quantity}}个</span>
       </el-form-item>
     </el-form>
   </div>
@@ -46,8 +46,8 @@ export default {
         })          
       })
     },
-    wacth() {
-      this.data.quantity = this.data.allquantity
+    sync(i) {
+      this.data[i].quantity = this.data[i].allquantity
     },
     addRepertory(i) {
       this.$prompt('请输入数字', '增库', {

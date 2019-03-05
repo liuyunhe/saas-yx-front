@@ -24,7 +24,7 @@
             <share-conf @shareChange="editPic" :shareConf="conf.share" :editData="editData"></share-conf>
           </div>
           <div v-if="page == 8">
-            <sign-conf :conf="data" @getPrize="getPrize"></sign-conf>
+            <sign-conf v-if="data.sactBset" :conf="data" @getPrize="getPrize"></sign-conf>
           </div>
         </el-col>
       </el-row>
