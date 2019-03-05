@@ -286,7 +286,7 @@ export default {
 		addSure(item) {
 			var that = this;
 			this.addlist.type = item.type;
-			if(item.type=='SCMB-002'){
+			if(item.type=='SCMB-001'){
 				this.addTplShow = false;
 				this.addShow = true;
 				this.activeName='third'
@@ -306,7 +306,7 @@ export default {
 						console.log(err)
 					}
 				)
-			}else if(item.type=='SCMB-001'){
+			}else if(item.type=='SCMB-002'){
 				this.$router.push('/weplat/down2');
 			}
 			
