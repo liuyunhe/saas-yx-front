@@ -22,7 +22,7 @@
                 <img :src="configItem.gameBtn" alt=""@click="showEditConIndex = 4" />
               </div>
               <!--<div class="game-rule">
-              	<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/rule.png" alt="" />
+              	<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/rule.png" alt="" />
               </div>-->
               
             </div>
@@ -400,18 +400,18 @@ export default {
         title: '',
         description: '',
         headerImgUrl:
-          'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/tigger-title.png',
-        bgImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/tigger-bg.png',
-        gameBg:'http://weiopn.oss-cn-beijing.aliyuncs.com/pan.png',
-        gameBtn:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/tigger-btn.png',
-        gameBtnActive:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/tigger-btn.png',
+          'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/tigger-title.png',
+        bgImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/scoremall/activity/tigger-bg.png',
+        gameBg:'http://qrmkt.oss-cn-beijing.aliyuncs.com/scoremall/activity/pan.png',
+        gameBtn:'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/tigger-btn.png',
+        gameBtnActive:'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/tigger-btn.png',
         drawImgUrl:
-          'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/hasPrice.png',
-        drawBtnLeftUrl:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/hasPrice-left.png',
-        drawBtnRightUrl:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/hasPrice-right.png',
-        cryImgUrl: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/notPrice.png',
-        cryBtnLeftUrl:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/notPrice-left.png',
-        cryBtnRightUrl:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/notPrice-right.png'
+          'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/hasPrice.png',
+        drawBtnLeftUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/hasPrice-left.png',
+        drawBtnRightUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/hasPrice-right.png',
+        cryImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/notPrice.png',
+        cryBtnLeftUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/notPrice-left.png',
+        cryBtnRightUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/notPrice-right.png'
       },
       
       uploadURL: '/api/saotx/attach/commonAliUpload',
@@ -873,7 +873,7 @@ export default {
         position: relative;
         width: 100%;
         height: 66px;
-        background: url('http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/937@2x.png')
+        background: url('http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/937@2x.png')
           center no-repeat;
         p {
           position: absolute;
@@ -1112,7 +1112,7 @@ export default {
       .footer {
         width: 100%;
         height: 64px;
-        background: url('http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/phone-footer@2x.png')
+        background: url('http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/phone-footer@2x.png')
           center no-repeat;
       }
     }

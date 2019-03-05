@@ -6,12 +6,12 @@
 		<el-tabs v-model="activeName" @tab-click="handleClick">
 			<el-tab-pane label="扫码落地页面" name="first">
 				<div>
-					<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/has.png" alt="" />
+					<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/has.png" alt="" />
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="未扫码页面" name="second">
 				<div>
-					<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/not.png" alt="" />
+					<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/not.png" alt="" />
 				</div>
 			</el-tab-pane>
 		</el-tabs>
