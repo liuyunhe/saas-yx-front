@@ -20,6 +20,10 @@
             <div class="content phone">
               <div class="bg"><img :src="configItem.bgImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 1"></div>
               <div class="top"><img :src="configItem.headerImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 2"></div>
+              <img :src="configItem.egg2ImgUrl" class="egg7" alt="" @click="showEditConIndex = 7">
+              <img :src="configItem.egg3ImgUrl" class="egg8" alt="" @click="showEditConIndex = 8">
+              <img :src="configItem.egg1ImgUrl" class="egg9" alt="" @click="showEditConIndex = 6">
+
               <img :src="configItem.egg3ImgUrl" class="egg2" alt="" @click="showEditConIndex = 8">
               <img :src="configItem.egg3ImgUrl" class="egg4" alt="" @click="showEditConIndex = 8">
               <img :src="configItem.egg2ImgUrl" class="egg6" alt="" @click="showEditConIndex = 7">
@@ -699,6 +703,30 @@ export default {
           top:230px;
           z-index: 1;
         }
+        .egg7{
+          width: 50px;
+          height: 50px;
+          position: absolute;
+          left: 100px;
+          top:211px;
+          z-index: 1;
+        }
+        .egg8{
+          width: 50px;
+          height: 50px;
+          position: absolute;
+          left: 138px;
+          top:207px;
+          z-index: 1;
+        }
+        .egg9{
+          width: 50px;
+          height: 50px;
+          position: absolute;
+          left: 173px;
+          top:213px;
+          z-index: 1;
+        }
         .bg {
           width: 100%;
           height: 100%;
@@ -928,6 +956,9 @@ export default {
   .egg4:hover,
   .egg5:hover,
   .egg6:hover,
+  .egg7:hover,
+  .egg8:hover,
+  .egg9:hover,
   .box:hover{
     transform: scale(0.99);
     cursor: pointer;
