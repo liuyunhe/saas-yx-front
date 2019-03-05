@@ -168,14 +168,13 @@
                         }"
                         >
                 </div>
-                <div class="page page5" v-if="page == 5">
+                <div class="page page5" v-if="page == 5 && flag=='ques'">
                     <img 
                         :src="commonImg.noAward.url" alt="" 
-                        class="award-pic no-award"
+                        class="award-alert"
                         :style="{
                             'width': commonImg.noAward.size[0] * 0.4 + 'px',
-                            'height': commonImg.noAward.size[1] * 0.4 + 'px',
-                            'top': commonImg.noAward.pos[1] * 0.42 + 'px'
+                            'height': commonImg.noAward.size[1] * 0.4 + 'px'                            
                         }"
                         />
                     <p>很遗憾，未中奖</p>
@@ -186,6 +185,26 @@
                             'width': commonImg.knowBtn.size[0] * 0.4 + 'px',
                             'height': commonImg.knowBtn.size[1] * 0.4 + 'px',
                             'top': commonImg.knowBtn.pos[1] * 0.42 + 'px'
+                        }"
+                    >
+                </div>
+                <div class="page page5" v-if="page == 5 && flag=='pai'">
+                    <img 
+                        :src="commonImg.noAwardPai.url" alt="" 
+                       class="award-alert"
+                        :style="{
+                            'width': commonImg.noAwardPai.size[0] * 0.4 + 'px',
+                            'height': commonImg.noAwardPai.size[1] * 0.4 + 'px'                            
+                        }"
+                        />
+                    <p>很遗憾，未中奖</p>
+                    <img 
+                        :src="commonImg.knowBtnPai.url" alt="" 
+                        class="award-btn"
+                        :style="{
+                            'width': commonImg.knowBtnPai.size[0] * 0.4 + 'px',
+                            'height': commonImg.knowBtnPai.size[1] * 0.4 + 'px',
+                            'top': commonImg.knowBtnPai.pos[1] * 0.42 + 'px'
                         }"
                     >
                 </div>
@@ -252,7 +271,7 @@ export default {
 
     },
     mounted () {
-
+		this.edit('bg')
     },
     computed: {
     },
@@ -304,7 +323,7 @@ export default {
                 box-sizing: border-box;
                 transition: all 0.2s linear;
                 position: absolute;
-                object-fit:cover;
+                object-fit:contain;
             }
             .contentBg, .contentBg{
                 left: 50%!important;
@@ -365,11 +384,12 @@ export default {
                     width: 100%;
                     font-weight: bold;
                     font-size: 16px;
-                    color: white;
+                    color: #fff;
                     text-align: center;
-                    top: 308px;
+                    top: 265px;
                 }
             }
+            
             .errorBtn {
             	top:360px !important
             }
@@ -402,6 +422,7 @@ export default {
                 }
                 .error-text{
 	                	top:260px !important;
+	                	color:#fff !important;
 	                }
         }
         .phone-footer{
