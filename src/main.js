@@ -159,13 +159,13 @@ Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 }
 
 router.beforeEach((to, from, next) => {
   //登录规则
-  if (to.path === '/login' || to.path === '/find') {
+  if (to.path === '/login') {
     sessionStorage.removeItem('access_token');
     return next()
   }
   const tokenStr = window.sessionStorage.getItem('access_token')
-  if (!tokenStr) return next('/login')
-  if (to.path === '/datas/kpi' || to.path === '/home') return next()
+  if (!tokenStr&&tokenStr!=null) return next('/login')
+  if (to.path === '/datas/kpi' || to.path === '/home' || to.path === '/find') return next()
   // console.log(to)
   // console.log(from)
   // if(!from.path){

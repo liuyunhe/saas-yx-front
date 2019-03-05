@@ -4,7 +4,7 @@
       <el-aside width="216px">
         <div class="left">
           <div class="logo">
-            <img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/top_logo_mini.png" alt="">
+            <img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/top_logo_mini.png" alt="">
           </div>
           <div class="parent-menu">
             <ul>
@@ -347,6 +347,7 @@ export default {
       width: 120px;
       height: 100%;
       background-color: #fff;
+      overflow: auto;
       .menuName {
         height: 50px;
         line-height: 50px;
@@ -420,9 +421,8 @@ export default {
           span {
             overflow: hidden;
             text-overflow: ellipsis;
-            /*display: -webkit-box;
-            display: -moz-box;*/
-           	display: inline-block;
+            display: inline-block;
+            white-space: pre;
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
             /*! autoprefixer: off */

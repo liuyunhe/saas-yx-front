@@ -52,7 +52,7 @@
                         <div class="box">
                             <em class="ng-binding">{{showNum.total}}</em>家<br>累计零售户
                         </div>
-                        <img src="https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/ic-total.png">
+                        <img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/ic-total.png">
                     </div>
                     <div style="display: none;">
                         <div class="box">
@@ -64,7 +64,7 @@
                         <div class="box">
                             <em class="ng-binding">{{showNum.new}}</em>家<br>新增零售户
                         </div>
-                        <img src="https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/ic-new.png">
+                        <img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/ic-new.png">
                     </div>
                 </div>
             </div>

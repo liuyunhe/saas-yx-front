@@ -4,13 +4,13 @@
 
 			<div class='nav-item'>
 				<div class="right_btn" :style="{background:colorValue}">立即兑换</div>
-				<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/pro_detail.png" alt="" />
+				<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/pro_detail.png" alt="" />
 			</div>
 			<div class='nav-item'>
 				<div class="click-con" :style="{background:colorValue}">
 					确认领取
 				</div>
-				<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/pro_btn.png" alt="" />
+				<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/pro_btn.png" alt="" />
 			</div>
 
 		</div>

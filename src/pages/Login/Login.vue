@@ -124,31 +124,30 @@ export default {
           that.$router.push({
             name: 'Find'
           })
+        } else if (res.ret == '100411') {// 初始密码需要修改
+          var data = res.data || {}
+          sessionStorage.setItem('access_token', data.token)
+          sessionStorage.setItem('access_loginId', data.loginId)
+          that.$confirm(res.message).then(() => {
+            that.modifyPwd();
+          }).catch(() => {});
         } else {
           that.$message.error(res.message)
           that.srcClick()
         }
       })
     },
-    // getMenuList() {
-    //   this.$request.post('/api/saotx/menu/all',{ service: 'browser'}, true, res => {
-    //     if (res.ret === '200000') {
-    //       // sessionStorage.menu = JSON.stringify(res.data)
-    //       this.$store.commit('getMenu', res.data)
-    //       this.$router.replace({name: '数据'})
-    //     } else {
-    //       this.$message.error(res.message)
-    //     }
-    //   })
-    // },
+    
     srcClick(e) {
       this.ran+=1;
       this.codeSrc += this.ran
     },
     forget() {
-      this.$router.push({
-        name: 'Find'
-      })
+      this.$router.push({path:'/find?f=f&account='});
+      //this.$router.push({name: 'Find'})
+    },
+    modifyPwd() {
+      this.$router.push({path:'/find?f=m&account='+this.username});
     }
   },
   watch: {
@@ -164,7 +163,7 @@ export default {
 </script>
 
 <style scoped>
-@import 'https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/css/font-awesome.min.css'
+@import 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/css/font-awesome.min.css'
   /**
  * Create Date: 2018-09-25
  * Description: login

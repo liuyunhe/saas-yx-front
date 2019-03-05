@@ -119,8 +119,8 @@ props: ['id', 'edit'],
             that.editType = 'normal';
         }else if(key == 5) {
             that.editData = [
-                that.conf.commonImg.noAward,
-                that.conf.commonImg.knowBtn
+                that.conf.commonImg.noAwardPai,
+                that.conf.commonImg.knowBtnPai
             ];
             that.editType = 'common'
         }

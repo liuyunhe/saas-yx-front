@@ -96,7 +96,6 @@
 	                                        </el-upload>
 	                                    </div>
                                 	</div>
-
                                     <div v-for="(item, index) in defaultConf.img.kists" :key="item.key">
                                         <p class="img-title">{{index==4?'抽奖按钮:':'方格' + (index + 1) + ':'}}</p>
                                         <div class="img-con"><img :src="item.url" alt=""></div>
@@ -123,7 +122,7 @@
                     <div class="ipone">
                         <div class="header"></div>
                         <div class="content">
-                            <div class="bg"><img src="https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/huodongshuoming.png"></div>
+                            <div class="bg"><img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/huodongshuoming.png"></div>
                         </div>
                         <div class="footer"></div>
                     </div>
@@ -132,7 +131,7 @@
                     <div class="ipone">
                         <div class="header"></div>
                         <div class="content">
-                            <div class="bg"><img src="https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/wodedjiangpin.png"></div>
+                            <div class="bg"><img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/wodedjiangpin.png"></div>
                         </div>
                         <div class="footer"></div>
                     </div>
@@ -145,13 +144,12 @@
                             <div class="winning">
                                 <div class="prize-con award-con">
                                 	    <img :src="defaultConf.img.award_bg.url"class='award-alert' alt="" />
-                                		<div class="close">X</div>
-	                                    <img class="pic" src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/award_img.png" alt="">
+                                		<div class="close"><img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/close_icon.png" alt="" /></div>
+	                                    <img class="pic" src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/award_img.png" alt="">
 	                                    <div class="award-text">
 	                                    	<h3>奖品名称</h3>
 	                                    	<p>请在24小时内领取</p>
 	                                    </div>
-
 	                                    <img class="prize-btn" :src="defaultConf.img.award.url" alt="">
                                 </div>
                             </div>
@@ -195,7 +193,7 @@
                             <div class="bg"><img :src="defaultConf.img.bg.url"></div>
                             <div class="not-winning">
                                 <div class="prize-con award-con">
-                                    <div class="close">X</div>
+                                    <div class="close"><img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/close_icon.png" alt="" /></div>
                                     <img class="award-alert" :src="defaultConf.img.noAward.url" alt="">
                                     <div class="award-no-text">
                                     	<h3>很遗憾，未中奖</h3>
@@ -297,12 +295,12 @@
         },
         methods: {
             getImage(name, suffix) {
-                var base= "https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/";
+                var base= "https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/";
                 var suffix = suffix ? suffix : this.suffix;
                 return  base + name + "." + suffix;
             },
             getNewImage: function(name, suffix) {
-                var newBase="https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/";
+                var newBase="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/";
                 var suffix = suffix ? suffix : this.suffix;
                 return newBase + name + "." + suffix;
             },
@@ -607,7 +605,7 @@
                     position: relative;
                     width: 100%;
                     height: 66px;
-                    background: url('http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/937@2x.png')
+                    background: url('http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/937@2x.png')
                     center no-repeat;
                     p {
                         position: absolute;
@@ -702,22 +700,26 @@
                             text-align: center;
                             &.award-con {
                             	.award-alert {
-	                            	width:220px;
-	                            	height: 280px;
+	                            	width:225px;
+	                            	height: 255px;
 	                            	position: absolute;
 	                            	left: 50%;
 	                            	transform: translate(-50%);
-	                            	top:80px;
+	                            	top:100px;
 	                            }
 	                            .close {
-	                                position: absolute;
-	                                transform: translate(236px, 80px);
-	                                width: 20px;
-	                                height: 20px;
-	                                line-height: 20px;
-	                                text-align: center;
-	                                border: 1px solid #fff;
-	                                border-radius: 50%;
+	                                position: absolute;	                           
+	                                width: 26px;
+	                                height: 26px;	                             
+	                                z-index: 2;
+	                                bottom:75px;
+	                                left: 50%;
+	                                transform: translateX(-50%);
+	                                img {
+	                                	width:100%;
+	                                	height: 100%;
+	                                	object-fit: contain;
+	                                }
 	                            }
 	                            .pic {
 	                                max-width: 120px;
@@ -751,10 +753,10 @@
 	                            }
 	                            .prize-btn {
 	                                margin-top: 20px;
-	                                max-width: 138px;
-	                                max-height: 34px;
+	                                max-width: 114px;
+	                                max-height: 24px;
 	                                position: absolute;
-	                                top:290px;
+	                                top:295px;
 	                                transform: translate(-50%);
 	                                left: 50%;
 	                            }
@@ -767,17 +769,6 @@
                             	transform: translate(-50%);
                             	top:80px;
                             }
-                            .close {
-                                position: absolute;
-                                transform: translate(232px, 56px);
-                                width: 20px;
-                                height: 20px;
-                                line-height: 20px;
-                                text-align: center;
-                                border: 1px solid #fff;
-                                border-radius: 50%;
-                                z-index: 9;
-                            }
                             .pic {
                                 max-width: 196px;
                                 // max-height: 200px;
@@ -789,8 +780,8 @@
                             }
                             .prize-btn {
                                 margin-top: 20px;
-                                max-width: 138px;
-                                max-height: 34px;
+                                max-width: 114px;
+                                max-height: 24px;
                             }
                         }
                     }
@@ -808,7 +799,7 @@
                 .footer {
                     width: 100%;
                     height: 64px;
-                    background: url('http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/phone-footer@2x.png')
+                    background: url('http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/phone-footer@2x.png')
                     center no-repeat;
                 }
             }
@@ -825,7 +816,6 @@
                         text-align: center;
                         border: 1px solid #ccc;
                         margin: 0 10px;
-
                     }
                     .alert-con {
                     	padding: 3px;
@@ -915,6 +905,8 @@
                             align-items: center;
                             img {
                                 width: 100%;
+                                height: 100%;
+                                object-fit: contain;
                             }
                         }
                     }

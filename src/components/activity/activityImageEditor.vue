@@ -28,7 +28,7 @@
             </div>
             <div v-if="type == 'item' && !itemRepeat" class="edit item-pic">
                 <div class="edit-container" v-for="(img, index) in editData" :key="index + img">
-                    <h4>编辑{{img.name}}：</h4>
+                    <h4>{{img.name}}：</h4>
                     <div class="img-container">
                         <img :src="img.url" alt="">
                     </div>
@@ -40,7 +40,7 @@
                     :on-success="uploadSuccess"
                     :before-upload="beforeAvatarUpload"
                     :on-error="uploadError">
-                        <el-button type="primary" size="small" @click="onUploadClick(index)">点击上传</el-button>
+                        <el-button type="primary" size="small" @click="onUploadClick(index)">更换图片</el-button>
                     </el-upload>
                 </div>
             </div>

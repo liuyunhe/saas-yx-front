@@ -19,6 +19,12 @@
             <el-option v-for="org in allOrgs" :class="org.auth==1?'':'hide'" :key="org.orgId" :label="org.orgName" :value="org.orgId"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="登录账号">
+          <el-input size="small" v-model="form.account"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号">
+          <el-input size="small" v-model="form.mobile"></el-input>
+        </el-form-item>
         <div></div>
         <el-form-item>
           <el-button size="small" type="primary" @click="list">查询</el-button>
@@ -38,6 +44,7 @@
         <el-table-column prop="orgName" label="企业名称" align="center"></el-table-column>
         <el-table-column prop="account" label="登录账号" align="center"></el-table-column>
         <el-table-column prop="name" label="姓名" align="center"></el-table-column>
+        <el-table-column prop="mobile" label="手机号" align="center"></el-table-column>
         <el-table-column prop="roleName" label="角色" align="center"></el-table-column>
         <el-table-column label="状态" align="center">
           <template slot-scope="scope">
@@ -52,10 +59,8 @@
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button size="mini" @click="edit(scope.$index, scope.row)">编辑</el-button>
-            <!--
-            <el-button size="mini" v-show="scope.row.roleStatus==1" @click="remove(scope.$index, scope.row)">停用</el-button>
-            <el-button size="mini" v-show="scope.row.roleStatus==0" @click="remove(scope.$index, scope.row)">启用</el-button>
-            -->
+            <el-button size="mini" v-show="scope.row.roleStatus==1" @click="modifyStatus(scope.row, 0)">停用</el-button>
+            <el-button size="mini" v-show="scope.row.roleStatus==0" @click="modifyStatus(scope.row, 1)">启用</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -68,7 +73,7 @@
       </el-pagination>
     </el-card>
 
-    <el-dialog title="企业授权管理" width="550px" center :visible.sync="authForm.show" @closed="authFormCancel()">
+    <el-dialog title="企业授权管理" width="550px" center :visible.sync="authForm.show" :show-close="false">
       <el-form :model="authForm" :rules="authFormRules" ref="authForm" class="form" label-width="80px">
         <el-form-item label="企业名称" prop="orgId">
           <el-select size="small" v-model="authForm.orgId" placeholder="全部" :disabled="authForm.roleId?true:false">
@@ -92,7 +97,7 @@
         <el-form-item label="角色">
           <span>企业管理员角色</span>
         </el-form-item>
-        <el-form-item label="菜单权限" prop="menusValid">
+        <el-form-item label="菜单权限" required>
           <div class="menu-tree">
             <el-tree
               :data="treeDatas" 
@@ -100,10 +105,12 @@
               ref="treeDatas"
               node-key="menuCode"
               :default-checked-keys="defaultCheckedMenus"
+              :default-expanded-keys="defaultExpanded"
+              @check-change="treeCheckChange"
               show-checkbox>
             </el-tree>
           </div>
-          <el-input type="hidden" size="small" v-model="authForm.menusValid"></el-input>
+          <div class="el-form-item__error" v-show="menusValidErr">菜单授权不能为空！</div>
         </el-form-item>
         <el-form-item label="状态" prop="roleStatus">
           <el-radio v-model="authForm.roleStatus" :label="1">启用</el-radio>
@@ -121,14 +128,6 @@
 <script>
   export default {
     data() {
-      var validMenu = (rule, value, callback) => {
-        let checkedKeys = this.$refs.treeDatas.getCheckedKeys();
-        if( !checkedKeys ) {
-            callback(new Error('菜单权限不能为空！'));
-        } else {
-            callback();
-        }
-      };
       return {
         headers:{
           'loginId':sessionStorage.getItem('access_loginId'),
@@ -139,28 +138,38 @@
         form: {
           pageNo: 1,
           pageSize: 10,
-          orgId: ""
+          orgId: "",
+          account: "",
+          mobile: ""
         },
         tableList: [], // 列表展示内容，包括查询条件后的数据展示
         pagination: {
           total: 0
         },
 
+        disabledMenu: "sysOrgResMgr,sysMenuMgr,resourceMgr,", // 不允许授权的菜单
+        cascadeMenuController: {
+          "seller": "sellerothermanage,",
+          "mall": "mallSysConf,"
+        },
+        menuTreeDatas: [],
         treeDatas: [],
         menuProps: {
           value: 'menuCode',
           label: 'menuName',
           children: 'nodeList'
         },
-        defaultCheckedMenus: [], // [1, 2, 3]
+        defaultCheckedMenus: [], // [1, 2, 3]默认选中的节点
+        defaultExpanded: [], // 默认展开的节点
 
+        menusValidErr: false,
         authForm: {
           show: false,
           roleId: "",
           orgId: "",
           account: "",
           name: "企业管理员",
-          pwd: "123Qaz!@#",
+          pwd: "123456",
           mobile: "",
           roleCode: "",
           roleName: "",
@@ -170,7 +179,6 @@
         authFormRules: {
           orgId: [{required:true, message:'企业名称不能为空！', trigger:'blur'}],
           account: [{required:true, message:'登录账号不能为空！', trigger:'blur'}],
-          menusValid: [{required:true, validator:validMenu, trigger:'blur'}],
           roleStatus: [{required:true, message:'状态不能为空！', trigger:'blur'}]
         }
       };
@@ -201,22 +209,60 @@
       getAllMenus() {
         this.$request.post('/api/saotx/menu/alldata', {service: "saas"}, true, (res)=>{
           if (res.ret == '200000') {
-            this.treeDatas = res.data||{};
+            let _menuTree = res.data||[];
+            if(this.disabledMenu) {
+              this.reverseDisabled(_menuTree);
+            }
+            this.menuTreeDatas = _menuTree
+            this.treeDatas = _menuTree;
           }
         });
+      },
+      /**
+       * 递归处理菜单树内容
+       * @param menuTreeDatas 菜单树内容
+       * @param cascadeDisabled 级联处理的菜单
+       * @param _checked 级联处理的菜单可用性
+       */
+      reverseDisabled(menuTreeDatas, cascadeDisabled, _checked) {
+        for(let i=0;i<menuTreeDatas.length;i++) {
+          if(menuTreeDatas[i].nodeList&&menuTreeDatas[i].nodeList.length>0) {
+            this.reverseDisabled(menuTreeDatas[i].nodeList, cascadeDisabled, _checked);
+          }
+          if(cascadeDisabled) {
+            if(cascadeDisabled.indexOf(menuTreeDatas[i].menuCode+",")!=-1) {
+              menuTreeDatas[i].disabled = !_checked;
+              this.$refs.treeDatas.setChecked(menuTreeDatas[i].menuCode, _checked, false);
+            }
+          } else {
+            menuTreeDatas[i].disabled = false;
+            if(this.disabledMenu.indexOf(menuTreeDatas[i].menuCode+",")!=-1) {
+              menuTreeDatas[i].disabled = true;
+            }
+            for(let key in this.cascadeMenuController) {
+              if(this.cascadeMenuController[key].indexOf(menuTreeDatas[i].menuCode+",")!=-1) {
+                menuTreeDatas[i].disabled = true;
+                //this.$refs.treeDatas.setChecked(menuTreeDatas[i].menuCode, false, false);
+              }
+            }
+          }
+        }
+      },
+      treeCheckChange(data, checked, indeterminate) {
+        let cascadeDisabled = this.cascadeMenuController[data.menuCode];
+        if( cascadeDisabled ) {
+          this.reverseDisabled(this.treeDatas, cascadeDisabled, checked);
+        }
       },
       // 重置查询
       resetForm() {
         this.form = {
           pageNo: 1,
-          pageSize: 10, 
-          operType: "", // 操作类型
-          stime: "", // 开始时间：年-月-日 时:分:秒
-          etime: "", // 结束时间：年-月-日 时:分:秒
-          userName: "" // 用户名
+          pageSize: 10,
+          orgId: "",
+          account: "",
+          mobile: ""
         };
-        let _now = new Date();
-        this.form.time = [_now.Format("yyyy-MM-dd")+" 00:00:00", _now];
         this.list();
       },
       // page = {"pageCount":总页数, "count":总数据条数}
@@ -235,6 +281,14 @@
           this.loading = false;
           if (res.ret == '200000') {
               this.tableList = res.data.list || [];
+              for(let i=0;i<this.tableList.length;i++) {
+                let tmp = this.tableList[i];
+                for(let j=0;j<this.allOrgs.length;j++) {
+                  if(tmp.orgId==this.allOrgs[j].orgId) {
+                    this.allOrgs[j].auth = 1;
+                  }
+                }
+              }
               this.initPagination(res.data.page||{});
           } else {
               this.$message.error(res.message);
@@ -265,6 +319,35 @@
         });
         this.authForm.show = true;
       },
+      modifyStatus(_row, _status) { 
+        let _title = "";
+        if(_status==1) {
+          _title = "启用后，该企业的账号恢复使用SAAS平台，确定操作吗？";
+        } else if(_status==0) {
+          _title = "停用后，该企业的账号将无法使用SAAS平台，确定操作吗？";
+        } else {
+          return;
+        }
+        this.$confirm(_title, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        }).then(() => {
+          let params = {};
+          params.roleId = _row.roleId;
+          params.orgId = _row.orgId;
+          params.roleStatus = _status;
+          this.$request.post('/api/saotx/auth/mauthStatus', params, true, (res)=>{
+            if (res.ret == '200000') {
+              this.list();
+              this.$message({type: 'success', message: '操作成功!'});
+            } else {
+              this.$message.error(res.message);
+            }
+          });
+        }).catch(() => {/** 取消 */});
+      },
       authFormCancel() {
         this.authForm = {
           show: false,
@@ -272,7 +355,7 @@
           orgId: "",
           account: "",
           name: "企业管理员",
-          pwd: "123Qaz!@#",
+          pwd: "123456",
           mobile: "",
           roleCode: "",
           roleName: "",
@@ -281,20 +364,24 @@
         };
         this.$refs.treeDatas.setCheckedKeys([]);
         this.$refs['authForm'].clearValidate();
+        let allDatas = this.$refs.treeDatas.store._getAllNodes();
+        for(let i=0;i<allDatas.length;i++) {
+          allDatas[i].expanded = false;
+        }
       },
       authFormOk(form) {
-        let fieldResult = this.$refs[form].validateField('menus');
-        console.log("111-"+fieldResult);
-        
         this.$refs[form].validate((valid) => {
-          if (valid) {
+          let checkedKeys = this.$refs.treeDatas.getCheckedKeys();
+          if( checkedKeys&&checkedKeys.length>0 ) {
+            this.menusValidErr = false;
+          } else {
+            this.menusValidErr = true;
+          }
+          if (valid&&!this.menusValidErr) {
             let halfCheckedKeys = this.$refs.treeDatas.getHalfCheckedKeys();
-            let checkedKeys = this.$refs.treeDatas.getCheckedKeys();
             let allMenus = (halfCheckedKeys?halfCheckedKeys:"")||"";
             allMenus += checkedKeys?((allMenus?",":"")+checkedKeys):"";
             this.authForm.menus = allMenus;
-            console.log(this.authForm);
-            return;
             this.$request.post('/api/saotx/auth/somAuth', this.authForm, true, (res)=>{
               if (res.ret == '200000') {
                 this.authFormCancel();

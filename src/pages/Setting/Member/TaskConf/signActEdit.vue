@@ -87,29 +87,28 @@ export default {
       imgType: 1,
       editData: [],
       selectedGoodsArr: [],
-      data: {
-        sactBset:{
-          taskCode: '',
-          actName: '', // 活动名称
-          signNote: '', // 签到规则
-          share: null, // 分享：0-不分享；1-分享
-          score: null, // 常规-积分
-          growth: null, // 常规-成长值
-          drawChanceFlg: null, // 是否关联抽奖：0不关联，1关联
-          continuSignFlg: null, // 连续签到奖励是否开启：0否, 1是
-          initBtImage: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/center-sign-btn.png', // 按钮初始图片
-          pressBtImage: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/center-signEnd-btn.png', // 按钮按下图片
-          drawSignDay: null, //累计签到N天可参与抽奖
-          pageInfo: ''
-        },
-        contItems: [
-          {
-            continuSignDay: null, // 累计签到N天可获得奖励
-            extraScore: null, // 额外-获得积分
-            extraGrowth: null // 额外-获得成长值
-          }
-        ]
-      }
+      data: {},
+      sactBset:{
+        taskCode: '',
+        actName: '', // 活动名称
+        signNote: '', // 签到规则
+        share: null, // 分享：0-不分享；1-分享
+        score: null, // 常规-积分
+        growth: null, // 常规-成长值
+        drawChanceFlg: null, // 是否关联抽奖：0不关联，1关联
+        continuSignFlg: null, // 连续签到奖励是否开启：0否, 1是
+        initBtImage: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/center-sign-btn.png', // 按钮初始图片
+        pressBtImage: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/center-signEnd-btn.png', // 按钮按下图片
+        drawSignDay: null, //累计签到N天可参与抽奖
+        pageInfo: ''
+      },
+      contItems: [
+        {
+          continuSignDay: null, // 累计签到N天可获得奖励
+          extraScore: null, // 额外-获得积分
+          extraGrowth: null // 额外-获得成长值
+        }
+      ]
     }
   },
   created() {
@@ -126,7 +125,22 @@ export default {
       this.$request.post('/sc/saotx/act/bsDetail', {id: this.id}, true, res => {
         if (res.ret === '200000') {
           this.data = res.data
+          if (!this.data.contItems) {
+            this.data.contItems = []
+            this.data.contItems.push(
+              {
+                continuSignDay: 0,
+                extraScore: 0,
+                extraGrowth: 0
+              } 
+            )
+          }
+          if (!this.data.sactBset) {
+            // this.data.sactBset = JSON.parse(JSON.stringify(this.sactBset))
+            this.$set(this.data, 'sactBset', JSON.parse(JSON.stringify(this.sactBset)))
+          }
           res.data.sactBset.pageInfo ? this.conf = JSON.parse(res.data.sactBset.pageInfo) : ''
+          console.log(this.data)
         }
       })
     },
