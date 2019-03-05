@@ -307,9 +307,9 @@
 						that.loading1=false;
 						var data = res || [];
 						if(data.length != 0) {
-							var scanAvgPv = !!data[0].scanAvgPv ? data[0].scanAvgPv : 0; //次数
-							var scanAvgCode = !!data[0].scanAvgCode ? data[0].scanAvgCode : 0; //烟包数
-							var scanAvgUv = !!data[0].scanAvgUv ? data[0].scanAvgUv : 0; //人数
+							var scanAvgPv = !!data[0].scanAvgPv ? data[0].scanAvgPv/10000 : 0; //次数
+							var scanAvgCode = !!data[0].scanAvgCode ? data[0].scanAvgCode/10000 : 0; //烟包数
+							var scanAvgUv = !!data[0].scanAvgUv ? data[0].scanAvgUv/10000 : 0; //人数
 						} else {
 							var scanAvgPv = 0; //次数
 							var scanAvgCode = 0; //烟包数
