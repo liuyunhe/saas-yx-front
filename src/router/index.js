@@ -217,6 +217,11 @@ const PrizeList = () => import(/* webpackChunkName: "member" */ '@/pages/Member/
 const Turn = () => import(/* webpackChunkName: "member" */ '@/pages/Member/GameConf/TurnConf')
 const Answer = () => import(/* webpackChunkName: "member" */ '@/pages/Member/GameConf/AnswerConf')
 
+// 用户
+const Mgr = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Mgr/Mgr')
+const Black = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Black/Black')
+const Growth = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Growth/Growth')
+const Rights = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Rights/Rights')
 
 Vue.use(Router)
 
@@ -447,6 +452,13 @@ export default new Router({
         { path: '/memberday/material/prizeList', name: '会员日奖品列表', component: PrizeList, props: (route) => ({type: route.query.type}) },
         { path: '/memberday/turn', name: '大转盘活动管理', component: Turn },
         { path: '/memberday/qa', name: '大转盘活动管理', component: Answer },
+
+        // 用户
+        { path: '/customer', name: '用户' },
+        { path: '/customer/mgr', name: '用户管理', component: Mgr },
+        { path: '/customer/lvl', name: '等级权益管理', component: Rights },
+        { path: '/customer/growth', name: '成长值任务管理', component: Growth },
+        { path: '/customer/black', name: '黑名单管理', component: Black },
       ]
     },
     {
