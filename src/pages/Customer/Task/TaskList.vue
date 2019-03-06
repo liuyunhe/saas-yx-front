@@ -3,13 +3,13 @@
     <el-card>
       <div class="conf-act-list">
         <ul>
-          <li v-for="(item, index) in actList" @click="goToDetail(item)" :key="index">
-            <div class="img" :style="{'background': `url(${item.taskImg}) no-repeat center / 100% 100%`}"></div>
+          <li v-for="(item, index) in actList" :key="index">
+            <div class="img"  @click="goToDetail(item)" :style="{'background': `url(${item.taskImg}) no-repeat center / 100% 100%`}"></div>
             <div class="con">
               <div class="text">
                 <div class="title">{{item.taskName}}</div>
                 <div class="switch">
-                  <el-switch v-model="item.status" :active-value="1" :inactive-value="0"></el-switch>
+                  <el-switch v-model="item.status" @change="openOrClose(item.status, item.id)" :active-value="1" :inactive-value="0"></el-switch>
                 </div>
               </div>
               <div class="desc">{{item.taskDetail}}</div>
@@ -56,7 +56,16 @@ export default {
       })
     },
     goToDetail(item) {
-      this.$router.push(`/setting/memberConf/task/sign?code=${item.taskCode}&id=${item.id}`)
+      this.$router.push(`/customer/task/sign?code=${item.taskCode}&id=${item.id}`)
+    },
+    openOrClose(status, id) {
+      this.$request.post('/sc/saotx/act/update', {id, status}, true, res => {
+        if (res.ret === '200000') {
+          this.$message.success(status ? '开启成功' : '关闭成功')
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     }
   }
 }
@@ -67,13 +76,13 @@ export default {
   width: 300px;
   height: 280px;
   border: 1px solid #ccc;
-  cursor: pointer;
   box-sizing: border-box;
   border-radius: 2px;
   .img {
     display: block;
     width: 100%;
     height: 180px;
+    cursor: pointer;
   }
   .con {
     position: relative;

@@ -121,11 +121,6 @@ const SettingSeller = () => import(/* webpackChunkName: "setting" */ '@/pages/Se
 const SettingSystemMenu = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Resources/SystemMenu.vue')
 // 设置-资源管理-企业授权
 const SettingSystemAuth = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Resources/SystemAuth.vue')
-// 设置-会员设置-会员任务设置
-const memberTaskSign = () =>import(/* webpackChunkName: "mall" */ '@/pages/Setting/Member/TaskConf/signActEdit')
-// 设置-会员设置-全局设置
-const GlobalConf = () =>import(/* webpackChunkName: "mall" */ '@/pages/Setting/Member/GlobalConf/GlobalConf')
-const TaskConf = () =>import(/* webpackChunkName: "mall" */ '@/pages/Setting/Member/TaskConf/TaskList')
 
 //菜单配置
 const MenuConf = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/MenuConf/MenuConf.vue')
@@ -217,6 +212,13 @@ const PrizeList = () => import(/* webpackChunkName: "member" */ '@/pages/Member/
 const Turn = () => import(/* webpackChunkName: "member" */ '@/pages/Member/GameConf/TurnConf')
 const Answer = () => import(/* webpackChunkName: "member" */ '@/pages/Member/GameConf/AnswerConf')
 
+// 用户
+const Mgr = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Mgr/Mgr')
+const Black = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Black/Black')
+const Task = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/TaskList')
+const Rights = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Rights/Rights')
+// 会员任务设置
+const memberTaskSign = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/signActEdit')
 
 Vue.use(Router)
 
@@ -420,14 +422,6 @@ export default new Router({
         { path: '/setting/logs', name: '日志管理', component: SettingLogs },
         { path: '/setting/seller', name: '零售户管理', component: SettingSeller },
         { path: '/setting/mall', name: '积分设置', component: KPI },
-        // { path: '/setting/resource', name: '资源管理' },memberTaskSign
-        { path: '/setting/memberConf', name: '会员设置' },
-        { path: '/setting/memberConf/global', name: '全局设置', component: GlobalConf },
-        { path: '/setting/memberConf/grade', name: '会员等级设置', component: memberTaskSign },
-        { path: '/setting/memberConf/rights', name: '会员权益设置', component: memberTaskSign },
-        { path: '/setting/memberConf/task', name: '会员任务设置', component: TaskConf },
-        { path: '/setting/memberConf/task/sign', name: '会员签到任务设置', component: memberTaskSign, props: (route) => ({code:route.query.code, id:route.query.id}) },
-        // { path: '/setting/resource', name: '资源管理', redirect: '/setting/resource/smenu' },
         { path: '/setting/resource/smenu', name: '菜单管理', component: SettingSystemMenu },
         { path: '/setting/resource/smgrOrgRole', name: '菜单管理', component: SettingSystemAuth },
         // 会员日
@@ -448,6 +442,14 @@ export default new Router({
         { path: '/memberday/material/prizeList', name: '会员日奖品列表', component: PrizeList, props: (route) => ({type: route.query.type}) },
         { path: '/memberday/turn', name: '大转盘活动管理', component: Turn },
         { path: '/memberday/qa', name: '大转盘活动管理', component: Answer },
+
+        // 用户
+        { path: '/customer', name: '用户' },
+        { path: '/customer/mgr', name: '用户管理', component: Mgr },
+        { path: '/customer/lvl', name: '等级权益管理', component: Rights },
+        { path: '/customer/task', name: '任务管理', component: Task },
+        { path: '/customer/black', name: '黑名单管理', component: Black },
+        { path: '/customer/task/sign', name: '会员签到任务设置', component: memberTaskSign, props: (route) => ({code:route.query.code, id:route.query.id}) },
       ]
     },
     {
