@@ -9,7 +9,7 @@
               <div class="text">
                 <div class="title">{{item.taskName}}</div>
                 <div class="switch">
-                  <el-switch v-model="item.status" :active-value="1" :inactive-value="0"></el-switch>
+                  <el-switch v-model="item.status" @change="openOrClose(item.status, item.id)" :active-value="1" :inactive-value="0"></el-switch>
                 </div>
               </div>
               <div class="desc">{{item.taskDetail}}</div>
@@ -57,6 +57,15 @@ export default {
     },
     goToDetail(item) {
       this.$router.push(`/customer/task/sign?code=${item.taskCode}&id=${item.id}`)
+    },
+    openOrClose(status, id) {
+      this.$request.post('/sc/saotx/act/update', {id, status}, true, res => {
+        if (res.ret === '200000') {
+          this.$message.success(status ? '开启成功' : '关闭成功')
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     }
   }
 }

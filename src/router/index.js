@@ -421,14 +421,6 @@ export default new Router({
         { path: '/setting/logs', name: '日志管理', component: SettingLogs },
         { path: '/setting/seller', name: '零售户管理', component: SettingSeller },
         { path: '/setting/mall', name: '积分设置', component: KPI },
-        // { path: '/setting/resource', name: '资源管理' },memberTaskSign
-        // { path: '/setting/memberConf', name: '会员设置' },
-        // { path: '/setting/memberConf/global', name: '全局设置', component: GlobalConf },
-        // { path: '/setting/memberConf/grade', name: '会员等级设置', component: memberTaskSign },
-        // { path: '/setting/memberConf/rights', name: '会员权益设置', component: memberTaskSign },
-        // { path: '/setting/memberConf/task', name: '会员任务设置', component: TaskConf },
-        // { path: '/setting/memberConf/task/sign', name: '会员签到任务设置', component: memberTaskSign, props: (route) => ({code:route.query.code, id:route.query.id}) },
-        // { path: '/setting/resource', name: '资源管理', redirect: '/setting/resource/smenu' },
         { path: '/setting/resource/smenu', name: '菜单管理', component: SettingSystemMenu },
         { path: '/setting/resource/smgrOrgRole', name: '菜单管理', component: SettingSystemAuth },
         // 会员日
