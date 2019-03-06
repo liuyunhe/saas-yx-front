@@ -46,6 +46,9 @@ export default {
       },
     }
   },
+  created() {
+    console.log(this.editData[0])
+  },
   methods: {
     uploadSuccess (res, file, fileList) {
       let that = this;

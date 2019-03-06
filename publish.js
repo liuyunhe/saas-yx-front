@@ -192,6 +192,7 @@ module.exports = function () {
         // 第九步，成功提示
         var SUCCESS = function () {
             var deferred = Q.defer();
+            center.dispose();
             process.stdout.write(colors.green('\x20PUBLISH SUCCESSFULLY!\n'));
             deferred.resolve(true);
             return deferred.promise
