@@ -239,7 +239,11 @@ export default {
         true,
         res => {
           if (res.ret == '200000') {
-            this.actFormName.push(...res.data.list)
+            res.data.list.forEach(item => {
+              if (item.code != 'form-cate6') {
+                this.actFormName.push(item)
+              }
+            })
             // this.getAct()
           } else {
             this.$message.error(res.message)
