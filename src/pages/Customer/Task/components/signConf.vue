@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="title ml20 mb20">基础设置</div>
-    <el-form label-width="100px" :rules="rules">
+    <el-form label-width="100px" :model="conf.sactBset" :rules="rules">
       <el-form-item label="活动名称：" prop="actName">
         <el-input v-model="conf.sactBset.actName" :max="15" :min="1"></el-input>
       </el-form-item>
