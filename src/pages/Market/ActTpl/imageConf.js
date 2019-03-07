@@ -627,7 +627,7 @@ const img = {
             icon: {
                 name: '分享图标',
                 index: 'icon',
-                url: handle.getUrl('red_share_img', 2),
+                url: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/sign-share-icon.png',
                 pos: [],
                 size: []
             }
