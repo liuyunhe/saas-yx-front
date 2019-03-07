@@ -1,20 +1,7 @@
+<!-- Description: 自定义活动基础设置-->
 <template>
-  <!-- 
-  Author: chenxin
-  Create Date: 2018-10-18
-  Description: 活动基础设置
-  -->
   <div class="actSetConf-container">
-    <el-breadcrumb separator-class="el-icon-arrow-right" v-show='form!="act-501"'>
-      <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-      <el-breadcrumb-item>基础设置</el-breadcrumb-item>
-    </el-breadcrumb>   
     <el-card>
-    	<el-steps :active="stepActive" finish-status="success" align-center class='step-style' v-show='form=="act-501"'>
-			  <el-step title="基础设置"></el-step>
-			  <el-step title="题目设置"></el-step>
-			  <el-step title="投放设置"></el-step>
-			</el-steps>
       <el-form ref="actSetConfRef" :model="confData" label-width="150px" :rules="confRules">
         <el-form-item label="活动名称：" prop="actName">
           <el-input v-model="confData.actName" maxLength='15' placeholder='请输入活动名称，15字以内'></el-input>
@@ -23,7 +10,7 @@
           <el-input type="textarea" v-model="confData.note" :rows="3" resize="none" maxLength='15' placeholder='请输入活动描述，15字以内'></el-input>
         </el-form-item>
         <el-form-item label="优先级：" prop="idx" v-if="form != 'act-301'">
-          <el-select v-model="confData.idx" placeholder="请选择">
+          <el-select v-model="confData.idx" placeholder="请选择" class="select-one">
             <el-option v-for="(val, key, index) in idxSelect" :key="index" :label="val" :value="key">
             </el-option>
           </el-select>
@@ -51,29 +38,50 @@
             <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：200像素*200像素；格式png、jpg；大小不超过2M</div>
           </el-upload>
         </el-form-item>
-        <el-form-item v-if="form == 'act-301'" label="参与次数：" prop="number">
-          每人每场可参与
-          <el-input-number v-model="redConf.joinNum" :precision="0" :min="1" controls-position="right"></el-input-number>
-          次
-        </el-form-item>
-        <el-form-item v-if="form == 'act-301'" label="分享设置：" prop="isShare">
-          <el-radio v-model="redConf.share" :label="1">开启分享</el-radio>
-          <el-radio v-model="redConf.share" :label="0">关闭分享</el-radio>
-        </el-form-item>
         <el-form-item label="活动说明：" prop="desc">
           <quill-editor ref="myTextEditor" v-model="confData.actDesc" :options="editorOption" placeholder="请输入活动说明，300字以内" @blur="onEditorBlur($event)">
           </quill-editor>
         </el-form-item>
-        <el-form-item label="答题时间：" prop="quesTime" v-show='form=="act-501"'>
-        	<el-radio v-model="extInfo.limited" :label="1">不限</el-radio>
-  				<el-radio v-model="extInfo.limited" :label="2">总时间限<input v-model="extInfo.time" type='number' class='limited-time' @input='limitNum'/>秒</el-radio>
+        <el-form-item label="品牌规格：" prop="selectProductList">
+          <el-select v-model="confData.selectBrand" multiple collapse-tags placeholder="请选择" @change="getProductList" class="select-two">
+            <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
+            </el-option>
+          </el-select>
+          <el-select v-model="confData.selectProductList" multiple collapse-tags placeholder="请选择" @change="restrictSonBrand" class="select-two">
+            <el-option v-for="item in productList" :key="item.id" :label="item.allName" :value="item.sn">
+            </el-option>
+          </el-select>
+          <!-- 暂时不做 -->
+          <!-- <el-button type="primary" @click="brandVisible = true" class="ml20">已选明细</el-button> -->
+        </el-form-item>
+        <el-form-item label="地区：" prop="selectCityList">
+          <el-select size="small" v-model="confData.selectProvList" multiple collapse-tags filterable placeholder="请选择" @change="getCityList" class="select-three">
+            <el-option v-for="item in provList" :key="item.code" :label="item.name" :value="item.code">
+            </el-option>
+          </el-select>
+          <el-select size="small" v-model="confData.selectCityList" multiple collapse-tags filterable placeholder="请选择" @change="getDistrictList" class="select-three">
+            <el-option v-for="item in cityList" :key="item.code" :label="item.name" :value="item.code">
+            </el-option>
+          </el-select>
+          <el-select size="small" v-model="confData.selectDistrictList" multiple collapse-tags filterable placeholder="请选择" class="select-three">
+            <el-option v-for="item in districtList" :key="item.code" :label="item.name" :value="item.code">
+            </el-option>
+          </el-select>
+          <!--el-checkbox v-model="isDisabled" label="全部地区" border></el-checkbox-->
+          <!-- 暂时不做 -->
+          <!-- <el-button type="primary" @click="regionVisible = true" class="ml20">已选明细</el-button> -->
+        </el-form-item>
+        <el-form-item label="活动链接：" prop="link">
+          <el-input v-model="confData.link" placeholder='请输入活动链接'></el-input>
         </el-form-item>
         <el-form-item label="是否在落地页显示：">
-          <el-radio v-model="confData.showStatus" :label="1">是</el-radio>
-          <el-radio v-model="confData.showStatus" :label="0">否</el-radio>
+          <el-switch v-model="confData.showStatus"></el-switch>
+        </el-form-item>
+        <el-form-item label="是否立即发布：">
+          <el-switch v-model="confData.status"></el-switch>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="nextStep">保存并进入下一步</el-button>
+          <el-button type="primary" @click="nextStep">保存发布</el-button>
           <el-button @click="$router.push('/market/actTpl')">返回列表</el-button>
         </el-form-item>
       </el-form>
@@ -118,16 +126,20 @@ export default {
         callback()
       }
     }
-    var valideShare = (rules, value, callback) => {
-      callback()
-    } 
-    var valideNumber = (rules, value, callback) => {
-      if (this.redConf.joinNum) {
+    var valideSelectProductList = (rules, value, callback) => {
+      if (this.confData.selectProductList.length>0) {
         callback()
       } else {
-        callback(new Error('请输入参与次数'))
+        callback(new Error('请选择品牌规格'))
       }
-    } 
+    }
+    var valideSelectCityList = (rules, value, callback) => {
+      if (this.confData.selectCityList.length>0) {
+        callback()
+      } else {
+        callback(new Error('请选择地区'))
+      }
+    }
     return {
       // 富文本设置
       editorOption: {
@@ -158,7 +170,13 @@ export default {
         showStatus: 1,
         tplCode: '',
         extInfo: '',
-        number: ''
+        status: 1,
+        selectBrand: [], // 选择的品牌
+        selectProductList: [], // 选择的产品
+        selectProvList: [], // 选择的省份
+        selectCityList: [], // 选择的城市
+        selectDistrictList: [], // 选择的区县
+        link: '' // 活动链接
       },
       redConf: {
         joinNum: 1,
@@ -171,8 +189,9 @@ export default {
         idx: [{ required: true, validator: validateIdx, trigger: 'change' }],
         banner: [{ required: true, validator: validateBanner }],
         desc: [{ required: true, validator: validateDesc }],
-        number: [{ required: true, validator: valideNumber }],
-        isShare: [{ required: true, validator: valideShare }]
+        selectProductList: [{ required: true, validator: valideSelectProductList }],
+        selectCityList: [{ required: true, validator: valideSelectCityList }],
+        link: [{ required: true, message: '请输入活动链接', trigger: 'blur' }]
       },
       // actTime: [],
       timeDisable: false,
@@ -183,20 +202,21 @@ export default {
         CLIENTSESSIONID: sessionStorage.getItem('CLIENTSESSIONID')
       },
       stepActive:0,
+
+      brandList: [], // 品牌
+      productList: [], // 产品
+
+      provList: [{code: '000000',name: '全国'}], // 省
+      cityList: [], // 市
+      districtList: [], // 区
+      allProv: [], // 所有省份：[{code:'',name:'',pcode:'',pname:''}, ...]
+      allCity: {}, // 所有城市：{'provCode': [{code:'',name:'',pcode:'',pname:''}], ...}
+      allDistrict: {}, // 所有区县：{'cityCode': [{code:'',name:'',pcode:'',pname:''}], ...}
     }
   },
-  // watch: {
-  //   actTime: function(val) {
-  //     if (val && val.length === 2) {
-  //       this.confData.stimeStr = this.actTime[0]
-  //       this.confData.etimeStr = this.actTime[1]
-  //     } else {
-  //       this.confData.stimeStr = ''
-  //       this.confData.etimeStr = ''
-  //     }
-  //   }
-  // },
   created() {
+    this.getBrandList();
+    this.getAllRegions();
     this.getDetail()
     this.getIdxSelect()
   },
@@ -208,7 +228,84 @@ export default {
   			this.extInfo.time=parseInt(str);
   		}
   		
-  	},
+    },
+    // 加载所有的省市区数据
+    getAllRegions() {
+      this.$request.post('/api/saotx/dim/allRegions', { withRight:true }, true, res => {
+        if (res.ret == '200000') {
+          let allAreas = res.data || {}; // {'province':[{code:'',name:'',pcode:'',pname:''}, ...], 'city':{'provCode': [{code:'',name:'',pcode:'',pname:''}], ...}, 'district':{'cityCode': [{code:'',name:'',pcode:'',pname:''}], ...}}
+          this.allProv = allAreas['province']||[];
+          this.allCity = allAreas['city']||{};
+          this.allDistrict = allAreas['district']||{};
+          this.provList = this.provList.concat(this.allProv);
+        } else {
+          this.$message.error(res.messgae);
+        }
+      })
+    },
+    getCityList() {
+      this.districtList = [];
+      this.confData.selectCityList = [];
+      this.confData.selectDistrictList = [];
+      if(this.confData.selectProvList.length>0) {
+        if(this.confData.selectProvList[this.confData.selectProvList.length-1]=='000000') {
+          // 最后一次点击是全国
+          this.confData.selectProvList = ['000000'];
+          this.cityList = [{code: '000000',name: '全国'}];
+          return;
+        } else if(this.confData.selectProvList.length>1&&this.confData.selectProvList[0]=='000000') {
+          this.confData.selectProvList.shift();
+        }
+        this.cityList = [];
+        let tmpList = [];
+        for(let i=0; i<this.confData.selectProvList.length; i++) {
+          let provCode = this.confData.selectProvList[i];
+          tmpList = tmpList.concat(this.allCity[provCode]);
+        }
+        this.cityList = tmpList;
+      } else {
+        this.cityList = [];
+      }
+    },
+    getDistrictList() {
+      this.districtList = [];
+      this.confData.selectDistrictList = [];
+      if(this.confData.selectProvList.length>0) {
+        if(this.confData.selectCityList[this.confData.selectCityList.length-1]=='000000') {
+          // 全国
+          return;
+        }
+        this.districtList = [];
+        let tmpList = [];
+        for(let i=0; i<this.confData.selectCityList.length; i++) {
+          let cityCode = this.confData.selectCityList[i];
+          tmpList = tmpList.concat(this.allDistrict[cityCode]);
+        }
+        this.districtList = tmpList;
+      } else {
+        this.districtList = [];
+      }
+    },
+    // 获取品牌列表
+    getBrandList() {
+      this.$request.post('/api/saotx/prod/listBrand', {pageSize: '-1'}, true, res => {
+        if (res.ret == '200000') {
+          this.brandList = res.data.list || [];
+          return;
+        }
+        this.$message.error(res.message);
+      })
+    },
+    // 获取子品牌列表
+    getProductList() {
+      this.$request.post('/api/saotx/prod/list', {brandCodeArr:this.confData.selectBrand, pageSize:'-1'}, true, res => {
+        if (res.ret == '200000') {
+          this.productList = res.data.list || [];
+          return;
+        }
+        this.$message.error(res.message);
+      });
+    },
     getDetail() {
       if (!this.id) return
       this.$request.post('/api/saotx/act/detail', { id: this.id }, true, res => {
@@ -281,7 +378,7 @@ export default {
           } 
         }
         if (this.form == 'act-301') this.confData.extInfo = JSON.stringify(this.redConf)
-        this.$request.post('/api/saotx/act/saveOrModify', this.confData, true, res => {
+        this.$request.post('/api/saotx/act/somtfSelf', this.confData, true, res => {
           if (res.ret === '200000') {
           	if(this.form=='act-501'){
           		return this.$router.push(
@@ -315,10 +412,23 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.el-input,
-.el-textarea {
-  width: 300px;
+.actSetConf-container {
+  .el-input,
+  .el-textarea,
+  .select-one {
+    width: 600px;
+  }
+  .select-two {
+    width: 297px;
+  }
+  .select-three {
+    width: 197px;
+  }
+  .el-date-editor {
+    width: 289px;
+  }
 }
+
 .step-style {
 	margin-bottom: 40px;
 }
@@ -344,7 +454,7 @@ export default {
   }
 }
 .quill-editor {
-  width: 420px;
+  width: 600px;
 }
 .limited-time {
 	width:60px;

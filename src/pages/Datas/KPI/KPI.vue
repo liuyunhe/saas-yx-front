@@ -116,8 +116,8 @@
 </template>
 <script>
 import ChinaMapEcharts from './ChinaMapEcharts'
-import China from './data/China'
-import latlng from './data/latlng'
+//import China from './data/China'
+//import latlng from './data/latlng'
 export default {
   data() {
     return {
@@ -227,29 +227,27 @@ export default {
   methods: {
     // 加载json数据
     loadJsonDatas() {
-      this.chinaJson = China || {};
-      this.chinaJsonLoaded = true;
-      this.latlngJson = latlng || {};
-      this.latlngJsonLoaded = true;
-      console.log(China);
-      console.log(latlng);
-      this.initMap();
+      //this.chinaJson = China || {};
+      //this.chinaJsonLoaded = true;
+      //this.latlngJson = latlng || {};
+      //this.latlngJsonLoaded = true;
+      //this.initMap();
       // 动态加载百度地图配置数据
-      //this.$request.get('/record/statics/home/kpi/china.json', {}, (res)=>{
-      //  this.chinaJson = res || {};
-      //  this.chinaJsonLoaded = true;
-      //  this.initMap();
-      //});
+      this.$request.get('/oss/new_platform/common/china.json', {}, (res)=>{
+        this.chinaJson = res || {};
+        this.chinaJsonLoaded = true;
+        this.initMap();
+      });
+      // 动态加载经纬度数据
+      this.$request.get('/oss/new_platform/common/latlng.json', {}, (res)=>{
+        this.latlngJson = res || {};
+        this.latlngJsonLoaded = true;
+        this.initMap();
+      });
       // 动态加载百度地图echart配置
       //this.$request.get('/record/statics/home/kpi/echartConf.json', {}, (res)=>{
       //  this.echartsConf = res || {};
       //  this.echartsConfLoaded = true;
-      //  this.initMap();
-      //});
-      // 动态加载经纬度数据
-      //this.$request.get('/record/statics/home/kpi/latlng.json', {}, (res)=>{
-      //  this.latlngJson = res || {};
-      //  this.latlngJsonLoaded = true;
       //  this.initMap();
       //});
       //this.$request.get('/record/statics/home/kpi/salesTblConf.json', {}, (res)=>{
