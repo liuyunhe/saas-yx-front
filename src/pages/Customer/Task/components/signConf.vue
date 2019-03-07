@@ -59,8 +59,8 @@
         成长值
       </el-form-item>
       <el-form-item label="连续签到奖励：" prop="signAwards">
-        <el-radio v-model="conf.sactBset.continuSignFlg" :label="0">关闭</el-radio>
-        <el-radio v-model="conf.sactBset.continuSignFlg" :label="1">开启</el-radio>
+        <el-radio v-model="conf.sactBset.continuSignFlg" :disabled="conf.sactBset.status" :label="0">关闭</el-radio>
+        <el-radio v-model="conf.sactBset.continuSignFlg" :disabled="conf.sactBset.status" :label="1">开启</el-radio>
         <sign-item v-show="conf.sactBset.continuSignFlg === 1" :data="conf.contItems"></sign-item>
         <div class="tips">发布后不可切换</div>
       </el-form-item>
