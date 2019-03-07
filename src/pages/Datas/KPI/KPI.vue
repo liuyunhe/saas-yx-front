@@ -116,6 +116,8 @@
 </template>
 <script>
 import ChinaMapEcharts from './ChinaMapEcharts'
+import China from './data/China'
+import latlng from './data/latlng'
 export default {
   data() {
     return {
@@ -187,7 +189,7 @@ export default {
     this.yesterday = _now.getFullYear() + "-" + (month<10?("0"+month):month) + "-" + (day<10?("0"+day):day);
 
     let _this = this;
-    _this.loadJsonDatas();
+    //_this.loadJsonDatas();
 
     // 下面开始为循环加载
     _this.getPageTopDatas();
@@ -219,15 +221,25 @@ export default {
     clearInterval( this.intervalHandle.rollScrollHandle );
     next();
   },
+  mounted() {
+    this.loadJsonDatas();
+  },
   methods: {
     // 加载json数据
     loadJsonDatas() {
+      this.chinaJson = China || {};
+      this.chinaJsonLoaded = true;
+      this.latlngJson = latlng || {};
+      this.latlngJsonLoaded = true;
+      console.log(China);
+      console.log(latlng);
+      this.initMap();
       // 动态加载百度地图配置数据
-      this.$request.get('/record/statics/home/kpi/china.json', {}, (res)=>{
-        this.chinaJson = res || {};
-        this.chinaJsonLoaded = true;
-        this.initMap();
-      });
+      //this.$request.get('/record/statics/home/kpi/china.json', {}, (res)=>{
+      //  this.chinaJson = res || {};
+      //  this.chinaJsonLoaded = true;
+      //  this.initMap();
+      //});
       // 动态加载百度地图echart配置
       //this.$request.get('/record/statics/home/kpi/echartConf.json', {}, (res)=>{
       //  this.echartsConf = res || {};
@@ -235,11 +247,11 @@ export default {
       //  this.initMap();
       //});
       // 动态加载经纬度数据
-      this.$request.get('/record/statics/home/kpi/latlng.json', {}, (res)=>{
-        this.latlngJson = res || {};
-        this.latlngJsonLoaded = true;
-        this.initMap();
-      });
+      //this.$request.get('/record/statics/home/kpi/latlng.json', {}, (res)=>{
+      //  this.latlngJson = res || {};
+      //  this.latlngJsonLoaded = true;
+      //  this.initMap();
+      //});
       //this.$request.get('/record/statics/home/kpi/salesTblConf.json', {}, (res)=>{
       //  this.salesTblConf = res || {};
       //});
