@@ -168,25 +168,25 @@
 					</el-table-column>
 					<el-table-column prop="cityName" label="市" width="100">
 					</el-table-column>
-					<el-table-column prop="scanPv" label="活动成本" width="100">
+					<el-table-column prop="activeCost" label="活动成本" width="100">
 					</el-table-column>
-					<el-table-column prop="effectScanPv" label="扫码率" width="100">
+					<el-table-column prop="saomalv" label="扫码率" width="100">
 					</el-table-column>
-					<el-table-column prop="scanUv" label="中奖率" width="100">
+					<el-table-column prop="zhongjianglv" label="中奖率" width="100">
 					</el-table-column>
-					<el-table-column prop="newScanUv" label="中奖面" width="200">
+					<el-table-column prop="zhongjiangmian" label="中奖面" width="200">
 					</el-table-column>
-					<el-table-column prop="drawPv" label="人均扫码烟包数" width="100">
+					<el-table-column prop="rjyouxiaosaomacishu" label="人均扫码烟包数" width="100">
 					</el-table-column>
-					<el-table-column prop="drawUv" label="人均中奖次数" width="100">
+					<el-table-column prop="rjzhongjiangcishu" label="人均中奖次数" width="100">
 					</el-table-column>
-					<el-table-column prop="redpacketCost" label="均次促销成本" width="100">
+					<el-table-column prop="juncicuxiaochengben" label="均次促销成本" width="100">
 					</el-table-column>
-					<el-table-column prop="salePromotionCost" label="人均促销成本" width="100">
+					<el-table-column prop="rjcuxiaochengben" label="人均促销成本" width="100">
 					</el-table-column>
-					<el-table-column prop="salePromotionCost" label="均次促销力度" width="100">
+					<el-table-column prop="juncicuxiaolidu" label="均次促销力度" width="100">
 					</el-table-column>
-					<el-table-column prop="salePromotionCost" label="零售费效比" width="100">
+					<el-table-column prop="lingshoufeixiaobi" label="零售费效比" width="100">
 					</el-table-column>
 				</el-table>
 				<el-table :data="tableData3"v-loading="loading" style="width: 100%" v-if="selectTab==3" >
@@ -206,9 +206,9 @@
 					</el-table-column>
 					<el-table-column prop="cityName" label="市" width="100">
 					</el-table-column>
-					<el-table-column prop="scanPv" label="奖品名称" width="100">
+					<el-table-column prop="awardName" label="奖品名称" width="100">
 					</el-table-column>
-					<el-table-column prop="effectScanPv" label="奖品数量" width="100">
+					<el-table-column prop="awardCnt	" label="奖品数量" width="100">
 					</el-table-column>
 				</el-table>
 				<el-table :data="tableData4"v-loading="loading" style="width: 100%" v-if="selectTab==4" >
@@ -228,9 +228,9 @@
 					</el-table-column>
 					<el-table-column prop="cityName" label="市" width="100">
 					</el-table-column>
-					<el-table-column prop="scanPv" label="奖品名称" width="100">
+					<el-table-column prop="awardName" label="奖品名称" width="100">
 					</el-table-column>
-					<el-table-column prop="effectScanPv" label="奖品数量" width="100">
+					<el-table-column prop="awardCnt" label="奖品数量" width="100">
 					</el-table-column>
 				</el-table>
 			</div>
