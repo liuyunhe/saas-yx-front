@@ -9,33 +9,23 @@
         <el-form-item label="活动描述：" prop="note">
           <el-input type="textarea" v-model="confData.note" :rows="3" resize="none" maxLength='15' placeholder='请输入活动描述，15字以内'></el-input>
         </el-form-item>
-        <el-form-item label="优先级：" prop="idx" v-if="form != 'act-301'">
+        <el-form-item label="优先级：" prop="idx">
           <el-select v-model="confData.idx" placeholder="请选择" class="select-one">
-            <el-option v-for="(val, key, index) in idxSelect" :key="index" :label="val" :value="key">
+            <el-option v-for="(val, key) in idxSelect" :key="key" :label="val" :value="key">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="活动时间：" prop="date">
-          <!-- <el-date-picker v-model="actTime" :time-arrow-control="true" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" :editable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
-          </el-date-picker> -->
           <el-date-picker v-model="confData.stimeStr" :disabled="timeDisable" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择开始时间"></el-date-picker>
           至
           <el-date-picker v-model="confData.etimeStr" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择结束时间"></el-date-picker>
         </el-form-item>
         <!-- 常规图片上传 -->
-        <el-form-item label="活动图片：" prop="banner" v-if="form !== 'act-301'">
+        <el-form-item label="活动图片：" prop="banner">
           <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
             <img v-if="confData.banner" :src="confData.banner" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*270像素；格式png、jpg；大小不超过2M</div>
-          </el-upload>
-        </el-form-item>
-        <!-- 红包雨图片上传 -->
-        <el-form-item label="活动图片：" prop="banner" v-else>
-          <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
-            <img v-if="confData.banner" :src="confData.banner" class="avatar red-packet">
-            <i v-else class="el-icon-plus avatar-uploader-icon red-packet"></i>
-            <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：200像素*200像素；格式png、jpg；大小不超过2M</div>
           </el-upload>
         </el-form-item>
         <el-form-item label="活动说明：" prop="desc">
@@ -51,8 +41,6 @@
             <el-option v-for="item in productList" :key="item.id" :label="item.allName" :value="item.sn">
             </el-option>
           </el-select>
-          <!-- 暂时不做 -->
-          <!-- <el-button type="primary" @click="brandVisible = true" class="ml20">已选明细</el-button> -->
         </el-form-item>
         <el-form-item label="地区：" prop="selectCityList">
           <el-select size="small" v-model="confData.selectProvList" multiple collapse-tags filterable placeholder="请选择" @change="getCityList" class="select-three">
@@ -67,22 +55,19 @@
             <el-option v-for="item in districtList" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
           </el-select>
-          <!--el-checkbox v-model="isDisabled" label="全部地区" border></el-checkbox-->
-          <!-- 暂时不做 -->
-          <!-- <el-button type="primary" @click="regionVisible = true" class="ml20">已选明细</el-button> -->
         </el-form-item>
         <el-form-item label="活动链接：" prop="link">
           <el-input v-model="confData.link" placeholder='请输入活动链接'></el-input>
         </el-form-item>
         <el-form-item label="是否在落地页显示：">
-          <el-switch v-model="confData.showStatus" active-value="1" inactive-value="0"></el-switch>
+          <el-switch v-model="confData.showStatus" :active-value="1" :inactive-value="0"></el-switch>
         </el-form-item>
         <el-form-item label="是否立即发布：">
-          <el-switch v-model="confData.status" active-value="1" inactive-value="2"></el-switch>
+          <el-switch v-model="confData.status" :active-value="1" :inactive-value="2" :disabled="statusDisabled"></el-switch>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="confirmSubmit">确定</el-button>
-          <el-button @click="$router.push('/market/actTpl')">返回列表</el-button>
+          <el-button @click="$router.push('/market/actMgr')">返回列表</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -127,14 +112,14 @@ export default {
       }
     }
     var valideSelectProductList = (rules, value, callback) => {
-      if (this.confData.selectProductList.length>0) {
+      if (this.confData.selectProductList&&this.confData.selectProductList.length>0) {
         callback()
       } else {
         callback(new Error('请选择品牌规格'))
       }
     }
     var valideSelectCityList = (rules, value, callback) => {
-      if (this.confData.selectCityList.length>0) {
+      if (this.confData.selectCityList&&this.confData.selectCityList.length>0) {
         callback()
       } else {
         callback(new Error('请选择地区'))
@@ -161,11 +146,11 @@ export default {
         actName: '', // 活动名称
         banner: '', // 活动入口banner
         form: this.form, // 活动类型
-        idx: '1', // 活动优先级
+        idx: '', // 活动优先级
         note: '', // 活动说明
         stimeStr: '', // 活动开始时间
         etimeStr: '', // 活动结束时间
-        showStatus: 1, // 活动是否在落地页展示：0-不展示；1-展示
+        showStatus: 0, // 活动是否在落地页展示：0-不展示；1-展示
         tplCode: '', // 活动投放使用的模板编码。自定义活动为空
         extInfo: '', // 活动扩展字段。自定义活动存储外链：{link: ''}
         status: 1, // 活动是否启用：1-启用；2-不启用
@@ -176,6 +161,7 @@ export default {
         selectDistrictList: [], // 选择的区县
         link: '' // 活动链接
       },
+      statusDisabled: false,
       strategyArr: [], // 活动投放策略
       extInfo: {},
       confRules: {
@@ -207,24 +193,35 @@ export default {
       allProv: [], // 所有省份：[{code:'',name:'',pcode:'',pname:''}, ...]
       allCity: {}, // 所有城市：{'provCode': [{code:'',name:'',pcode:'',pname:''}], ...}
       allDistrict: {}, // 所有区县：{'cityCode': [{code:'',name:'',pcode:'',pname:''}], ...}
+      
       initProd: false, // 是否编辑或复制时的页面品牌规格初始化
       initCity: false, // 是否编辑或复制时的页面城市初始化
       initDistrict: false // 是否编辑或复制时的页面区县初始化
     }
   },
   created() {
-    if( !this.id ) { // 为空说明是新增，可以直接初始化；否则在detail成功之后在初始化
-      this.getBrandList();
-      this.getAllRegions();
-    } else { // 编辑或复制
+    if( this.id&&this.id>0 ) {
+      // 编辑或复制
       this.initProd = true;
       this.initCity = true;
       this.initDistrict = true;
       this.getDetail();
+    } else {
+      this.initAjax();
     }
-    this.getIdxSelect();
   },
   methods: {
+    initAjax() {
+      this.getIdxSelect();
+      this.getBrandList();
+      this.getAllRegions();
+    },
+    // 获取优先级
+    getIdxSelect() {
+      this.$request.post('/api/saotx/act/idxSelect', {}, true, res => {
+        if (res.ret === '200000') return this.idxSelect = res.data
+      })
+    },
     // 加载所有的省市区数据
     getAllRegions() {
       this.$request.post('/api/saotx/dim/allRegions', { withRight:true }, true, res => {
@@ -238,9 +235,9 @@ export default {
           let strategy = this.strategyArr[0];
           if(strategy) {
             this.confData.selectProvList = strategy.areas.provinceArr||[];
-            if (this.initCity) {
-              this.getCityList();
-            }
+          }
+          if (this.initCity) {
+            this.getCityList();
           }
         } else {
           this.$message.error(res.messgae);
@@ -277,7 +274,9 @@ export default {
       }
       if (this.initCity) {
         let strategy = this.strategyArr[0];
-        this.confData.selectCityList = strategy.areas.cityArr||[];
+        if(strategy) {
+          this.confData.selectCityList = strategy.areas.cityArr||[];
+        }
         this.initCity = false;
       }
       if (this.initDistrict) {
@@ -290,6 +289,8 @@ export default {
       if(this.confData.selectProvList.length>0) {
         if(this.confData.selectCityList[this.confData.selectCityList.length-1]=='000000') {
           // 全国
+          this.confData.selectCityList = ['000000'];
+          this.districtList = [{code: '000000',name: '全国'}];
           return;
         }
         this.districtList = [];
@@ -304,7 +305,9 @@ export default {
       }
       if (this.initDistrict) {
         let strategy = this.strategyArr[0];
-        this.confData.initDistrict = strategy.areas.districtArr||[];
+        if(strategy) {
+          this.confData.selectDistrictList = strategy.areas.districtArr||[];
+        }
         this.initDistrict = false;
       }
     },
@@ -333,7 +336,9 @@ export default {
           this.productList = res.data.list || [];
           if (this.initProd) {
             let strategy = this.strategyArr[0];
-            this.confData.selectProductList = strategy.snArr||[];
+            if(strategy) {
+              this.confData.selectProductList = strategy.snArr||[];
+            }
             this.initProd = false;
           }
           return;
@@ -341,25 +346,50 @@ export default {
         this.$message.error(res.message);
       });
     },
+    copyDetailAttr(act) {
+      if(act.status == 1) {
+        this.statusDisabled = true;
+      }
+      // 处理活动链接
+      if (act.extInfo) {
+        this.extInfo = JSON.parse(act.extInfo);
+      }
+      this.confData = {
+        id: act.id||'', // 活动数据主键id
+        actCode: act.actCode||'', // 活动唯一编码
+        actDesc: act.actDesc||'', // 活动描述
+        actName: act.actName||'', // 活动名称
+        banner: act.banner||'', // 活动入口banner
+        form: this.form, // 活动类型
+        idx: act.idx+''||'', // 活动优先级
+        note: act.note||'', // 活动说明
+        stimeStr: act.stimeStr||'', // 活动开始时间
+        etimeStr: act.etimeStr||'', // 活动结束时间
+        showStatus: act.showStatus||1, // 活动是否在落地页展示：0-不展示；1-展示
+        tplCode: act.extInfo||'', // 活动投放使用的模板编码。自定义活动为空
+        extInfo: act.extInfo||'', // 活动扩展字段。自定义活动存储外链：{link: ''}
+        status: act.status||2, // 活动是否启用：1-启用；2-不启用
+        selectBrand: [], // 选择的品牌
+        selectProductList: [], // 选择的产品
+        selectProvList: [], // 选择的省份
+        selectCityList: [], // 选择的城市
+        selectDistrictList: [], // 选择的区县
+        link: this.extInfo['link']||'' // 活动链接
+      };
+      if (this.clone == '1') {// 复制
+        this.confData.id = '';
+        this.confData.actCode = '';
+      }
+      if (act.stimeStr && act.etimeStr) {
+        this.handleDisableTime()
+      }
+    },
     getDetail() {
       this.$request.post('/api/saotx/act/detail', { id: this.id }, true, res => {
         if (res.ret == '200000') {
-          this.confData = res.data.act;
+          this.copyDetailAttr(res.data.act);
           this.strategyArr = res.data.strategyArr;
-          if (this.clone == '1') {// 复制
-            this.confData.id = '';
-            this.confData.actCode = '';
-          }
-          // 处理活动链接
-          if (this.confData.extInfo) {
-            this.extInfo = JSON.parse(this.confData.extInfo);
-            this.confData.link = this.extInfo['link'];
-          }
-          if (this.confData.stimeStr && this.confData.etimeStr) {
-            this.handleDisableTime()
-          }
-          this.getBrandList();
-          this.getAllRegions();
+          this.initAjax();
           return
         }
         this.$message.error(res.messgae)
@@ -367,16 +397,10 @@ export default {
     },
     handleDisableTime() {
       let newTime = new Date().getTime(),
-        stime = new Date(this.form.stimeStr).getTime()
+        stime = new Date(this.confData.stimeStr).getTime()
         if (newTime >= stime) {
           this.timeDisable = true
         }
-    },
-    // 获取优先级
-    getIdxSelect() {
-      this.$request.post('/api/saotx/act/idxSelect', {}, true, res => {
-        if (res.ret === '200000') return this.idxSelect = res.data
-      })
     },
     // 上传活动图片
     upBannerImg(resule) {
@@ -399,10 +423,18 @@ export default {
           this.confData.extInfo = JSON.stringify(this.extInfo);
           let params = {};
           params.act = this.confData;
-          params.strategyArr = [{tfType:'common', snArr: this.confData.selectProductList, areas: {provinceArr:this.confData.selectProvList, cityArr:this.confData.selectCityList, districtArr:this.confData.selectDistrictList}}];
+          let strategyParams = {tf:{}, tfType:'common', snArr: this.confData.selectProductList, areas: {provinceArr:this.confData.selectProvList, cityArr:this.confData.selectCityList, districtArr:this.confData.selectDistrictList}};
+          let strategy = this.strategyArr[0];
+          if(strategy) {
+            strategyParams.tf['id'] = strategy.tf.id;
+            strategyParams.tf['tfCode'] = strategy.tf.tfCode;
+          }
+          params.strategyArr = [];
+          params.strategyArr.push(strategyParams);
           this.$request.post('/api/saotx/act/somtfSelf', params, true, res => {
             if (res.ret == '200000') {
               this.$message({type: 'success', message: '操作成功!'});
+              this.$router.push({path:"/market/actMgr"});
             } else {
               this.$message.error(res.message);
             }
