@@ -16,7 +16,7 @@
     <el-button class="mb20" type="primary" @click="getPrize">查询</el-button>
     <el-table v-loading="loading" @select="selected" @select-all="selected" ref="multipleTable" :border="true" :data="prizeList" tooltip-effect="dark" style="width: 100%">
       <el-table-column type="selection" width="55" align="center"></el-table-column>
-      <el-table-column prop="id" label="礼品ID" align="center"></el-table-column>
+      <el-table-column prop="productId" label="礼品ID" align="center"></el-table-column>
       <el-table-column prop="productName" label="礼品名称" align="center"></el-table-column>
       <el-table-column label="礼品图片" align="center">
         <template slot-scope="scope">
