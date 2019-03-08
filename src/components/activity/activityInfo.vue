@@ -2,11 +2,11 @@
     <div id="root">
         <el-form ref="infoForm" :model="info" :rules="rules" :hideRequiredAsterisk="state.require" label-width="100px" label-position="top">
             <el-form-item label="模板名称：" prop="title">
-                <el-input placeholder="请输入模板名称" v-model="title" @input="titleInput" maxlength="15"></el-input>
+                <el-input placeholder="请输入模板名称" v-model="info.title" @input="titleInput" maxlength="15"></el-input>
                 <span class="words-tips">{{info.title.length}}/{{titleLength}}</span>
             </el-form-item>
             <el-form-item label="模板描述：" prop="desc">
-                <el-input placeholder="请输入模板描述" v-model="desc" type="textarea" @input="descInput" maxlength="50" resize="false"></el-input>
+                <el-input placeholder="请输入模板描述" v-model="info.desc" type="textarea" @input="descInput" maxlength="50" resize="false"></el-input>
                 <span class="words-tips">{{info.desc.length}}/{{descLength}}</span>
             </el-form-item>
         </el-form>
@@ -50,6 +50,8 @@ export default {
         }
     },
     created () {
+        this.info.title = this.title
+        this.info.desc = this.desc
         let that = this;
         this.$watch('title', v => {
             that.info.title = v;
