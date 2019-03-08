@@ -12,16 +12,16 @@
       </div> -->
       <el-row>
         <el-col :span="8">
-          <phone-module @changeImg="changeImg" :conf="conf" :page="page"></phone-module>
+          <phone-module v-if="isShow" @changeImg="changeImg" :conf="conf" :page="page"></phone-module>
         </el-col>
         <el-col :span="15" class="ml20">
           <div v-if="page < 7">
-              <activity-info :title="conf.title" :desc="conf.description" @titleInput="titleInput" @descInput="descInput" v-if="page == 1"></activity-info>
-              <activity-image-editor v-if="page > 3" :editData="conf.imgObj['page' + page]" type="normal" :itemRepeat = "false" @picChange="editPic"></activity-image-editor>
-              <activity-img-page1 @picChange="editPic" v-if="page == 1" :imgObj="conf.imgObj.page1" :color="conf.activeStyle" :type="imgType"></activity-img-page1>
+              <activity-info :title="conf.title" :desc="conf.description" @titleInput="titleInput" @descInput="descInput" v-if="page == 1 && isShow"></activity-info>
+              <activity-image-editor v-if="page > 3 && isShow" :editData="conf.imgObj['page' + page]" type="normal" :itemRepeat = "false" @picChange="editPic"></activity-image-editor>
+              <activity-img-page1 @picChange="editPic" v-if="page == 1 && isShow" :imgObj="conf.imgObj.page1" :color="conf.activeStyle" :type="imgType"></activity-img-page1>
           </div>
           <div v-if="page == 7">
-            <share-conf @shareChange="editPic" :shareConf="conf.share" :editData="editData"></share-conf>
+            <share-conf v-if="editData" @shareChange="editPic" :shareConf="conf.share" :editData="editData"></share-conf>
           </div>
           <div v-if="page == 8">
             <sign-conf v-if="data.sactBset" :conf="data" @getPrize="getPrize"></sign-conf>
@@ -108,7 +108,8 @@ export default {
           extraScore: null, // 额外-获得积分
           extraGrowth: null // 额外-获得成长值
         }
-      ]
+      ],
+      isShow: false
     }
   },
   watch: {
@@ -122,8 +123,6 @@ export default {
   created() {
     this.handleDayNum()
     this.days = new Date(this.nowMonth + '.1').getDay()
-    this.conf.imgObj = JSON.parse(JSON.stringify(img.img.ACT_SIGN))
-    this.editData.push(this.conf.imgObj.page7.icon)
     // this.firstStyle['margin-left'] = this.days * 40 + 9 + 'px'
     // console.log(this.conf.imgObj)
     this.getPutDetail()
@@ -148,7 +147,11 @@ export default {
             this.$set(this.data, 'sactBset', JSON.parse(JSON.stringify(this.sactBset)))
           }
           res.data.sactBset.pageInfo ? this.conf = JSON.parse(res.data.sactBset.pageInfo) : ''
-          console.log(this.data)
+          if (!this.conf) {
+            this.conf.imgObj = JSON.parse(JSON.stringify(img.img.ACT_SIGN))
+          }
+          this.editData.push(this.conf.imgObj.page7.icon)
+          this.isShow = true
         }
       })
     },

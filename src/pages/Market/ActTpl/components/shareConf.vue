@@ -47,12 +47,13 @@ export default {
     }
   },
   created() {
-    console.log(this.editData[0])
+    // console.log(this.editData[0])
   },
   methods: {
     uploadSuccess (res, file, fileList) {
       let that = this;
       let url = res.data.accessUrl;
+      this.editData[0].url = url
       that.$emit('shareChange', {url: url});
     },
     uploadError (err) {

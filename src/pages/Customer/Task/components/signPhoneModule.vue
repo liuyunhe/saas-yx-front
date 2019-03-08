@@ -132,7 +132,7 @@
                     : '扫码验真精彩送不停，更多好礼等级拿！'
                 "
               ></p>
-              <dic class="img"><img :src="conf.imgObj.page7.icon.url"/></dic>
+              <dic class="img"><img :src="conf.imgObj.page7.icon.url + '?' + new Date().getTime()"/></dic>
             </div>
           </div>
         </div>

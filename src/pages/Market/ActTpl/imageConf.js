@@ -592,7 +592,7 @@ const img = {
             },
             btn: {
                 name: '未中奖按钮',
-                idnex: 'btn',
+                index: 'btn',
                 url: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/sign-konw-btn.png',
                 pos: [213, 822 - 143],
                 size: [316, 72]

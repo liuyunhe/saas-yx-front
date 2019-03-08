@@ -73,7 +73,7 @@
         </el-form-item>
         <el-form-item label="抽奖要求：" prop="drawSignDay">
           累计签到
-          <el-input-number v-model="conf.sactBset.drawSignDay" :controls="false" :min="0" :precision="0"></el-input-number>
+          <el-input-number v-model="conf.sactBset.drawSignDay" :controls="false" :min="1" :precision="0"></el-input-number>
           天，可参与抽奖
         </el-form-item>
       </el-form>

@@ -59,6 +59,25 @@ export default {
       this.$router.push(`/customer/task/sign?code=${item.taskCode}&id=${item.id}`)
     },
     openOrClose(status, id) {
+      if (!status) {
+        this.$confirm('是否关闭签到活动?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.switchAPI(status, id)
+        }).catch(() => {
+          this.getTaskList()
+          this.$message({
+            type: 'info',
+            message: '已取消关闭'
+          })          
+        })
+      } else {
+        this.switchAPI(status, id)
+      }
+    },
+    switchAPI(status, id) {
       this.$request.post('/sc/saotx/act/update', {id, status}, true, res => {
         if (res.ret === '200000') {
           this.$message.success(status ? '开启成功' : '关闭成功')
