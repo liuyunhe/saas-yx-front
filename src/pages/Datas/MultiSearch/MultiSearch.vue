@@ -116,8 +116,8 @@
 					<li v-for='(item,key) in tabList':class='{active:tabActive==key}'@click='itemSearch(key)'>{{item}}</li>
 				</ul>
 			</div>
-			<div class="result-table">
-				<el-table :data="tableData"v-loading="loading" style="width: 100%" >
+			<div class="result-table" >
+				<el-table :data="tableData"v-loading="loading" style="width: 100%" v-if="selectTab==1" >
 						<el-table-column prop="startTime" label="开始时间" width="200">
 						</el-table-column>
 						<el-table-column prop="endTime" label="结束时间" width="200">
@@ -150,8 +150,89 @@
 						</el-table-column>
 						<el-table-column prop="salePromotionCost" label="促销品总额" width="100">
 						</el-table-column>
-
 					</el-table>
+				<el-table :data="tableData2"v-loading="loading" style="width: 100%" v-if="selectTab==2" >
+					<el-table-column prop="startTime" label="开始时间" width="200">
+					</el-table-column>
+					<el-table-column prop="endTime" label="结束时间" width="200">
+					</el-table-column>
+					<el-table-column prop="productBrand" label="品牌" width="120">
+					</el-table-column>
+					<el-table-column prop="productName" label="规格" width="150">
+					</el-table-column>
+					<el-table-column prop="productPack" label="包装" width="120">
+					</el-table-column>
+					<el-table-column prop="saleZone" label="销区" width="200">
+					</el-table-column>
+					<el-table-column prop="provinceName" label="省" width="100">
+					</el-table-column>
+					<el-table-column prop="cityName" label="市" width="100">
+					</el-table-column>
+					<el-table-column prop="scanPv" label="活动成本" width="100">
+					</el-table-column>
+					<el-table-column prop="effectScanPv" label="扫码率" width="100">
+					</el-table-column>
+					<el-table-column prop="scanUv" label="中奖率" width="100">
+					</el-table-column>
+					<el-table-column prop="newScanUv" label="中奖面" width="200">
+					</el-table-column>
+					<el-table-column prop="drawPv" label="人均扫码烟包数" width="100">
+					</el-table-column>
+					<el-table-column prop="drawUv" label="人均中奖次数" width="100">
+					</el-table-column>
+					<el-table-column prop="redpacketCost" label="均次促销成本" width="100">
+					</el-table-column>
+					<el-table-column prop="salePromotionCost" label="人均促销成本" width="100">
+					</el-table-column>
+					<el-table-column prop="salePromotionCost" label="均次促销力度" width="100">
+					</el-table-column>
+					<el-table-column prop="salePromotionCost" label="零售费效比" width="100">
+					</el-table-column>
+				</el-table>
+				<el-table :data="tableData3"v-loading="loading" style="width: 100%" v-if="selectTab==3" >
+					<el-table-column prop="startTime" label="开始时间" width="200">
+					</el-table-column>
+					<el-table-column prop="endTime" label="结束时间" width="200">
+					</el-table-column>
+					<el-table-column prop="productBrand" label="品牌" width="120">
+					</el-table-column>
+					<el-table-column prop="productName" label="规格" width="150">
+					</el-table-column>
+					<el-table-column prop="productPack" label="包装" width="120">
+					</el-table-column>
+					<el-table-column prop="saleZone" label="销区" width="200">
+					</el-table-column>
+					<el-table-column prop="provinceName" label="省" width="100">
+					</el-table-column>
+					<el-table-column prop="cityName" label="市" width="100">
+					</el-table-column>
+					<el-table-column prop="scanPv" label="奖品名称" width="100">
+					</el-table-column>
+					<el-table-column prop="effectScanPv" label="奖品数量" width="100">
+					</el-table-column>
+				</el-table>
+				<el-table :data="tableData4"v-loading="loading" style="width: 100%" v-if="selectTab==4" >
+					<el-table-column prop="startTime" label="开始时间" width="200">
+					</el-table-column>
+					<el-table-column prop="endTime" label="结束时间" width="200">
+					</el-table-column>
+					<el-table-column prop="productBrand" label="品牌" width="120">
+					</el-table-column>
+					<el-table-column prop="productName" label="规格" width="150">
+					</el-table-column>
+					<el-table-column prop="productPack" label="包装" width="120">
+					</el-table-column>
+					<el-table-column prop="saleZone" label="销区" width="200">
+					</el-table-column>
+					<el-table-column prop="provinceName" label="省" width="100">
+					</el-table-column>
+					<el-table-column prop="cityName" label="市" width="100">
+					</el-table-column>
+					<el-table-column prop="scanPv" label="奖品名称" width="100">
+					</el-table-column>
+					<el-table-column prop="effectScanPv" label="奖品数量" width="100">
+					</el-table-column>
+				</el-table>
 			</div>
 		</div>
 
@@ -164,6 +245,7 @@
 	export default {
 		data() {
 			return {
+                selectTab:1,
 				startDate: new Date(new Date().getTime() - 24 * 60 * 60 * 1000).Format('yyyy-MM-dd'),//开始日期
 				startTime: '00:00',//开始时间
 				endDate: new Date().Format('yyyy-MM-dd'),//结束日期
@@ -191,6 +273,9 @@
 				tabList:['扫码数据','成本数据','现金红包数据','实物奖励数据'],//tab栏列表
 				loading:true,//table的加载样式
 				tableData:[],//表格数据
+                tableData2:[],//表格数据
+                tableData3:[],//表格数据
+                tableData4:[],//表格数据
         startDateTime: new Date().getTime() - 24 * 60 * 60 * 1000,
         endDateTime: new Date().getTime(),
 			};
@@ -596,12 +681,16 @@
 				let url='';
 				var that=this;
 				if(index==0){
+				    this.selectTab=1;
 					url='getMultiScanData'
 				}else if(index==1){
+                    this.selectTab=2;
 					url='getMultiKPIData'
 				}else if(index==2){
+                    this.selectTab=3;
 					url='getMultiCashData'
 				}else if(index==3){
+                    this.selectTab=4;
 					url='getMultiGoodData'
 				}
 				var specName='所有';
@@ -636,7 +725,16 @@
 							item.endTime=item.endTime.substr(0,10)+' '+item.endTime.substr(11,2)+':00';
 
 						})
-						that.tableData=data;
+						if(index==0){
+                            that.tableData=data;
+						}else if(index==1){
+                            that.tableData2=data;
+						}else if(index==2){
+                            that.tableData3=data;
+						}else if(index==3){
+                            that.tableData4=data;
+						}
+
 					},
 					err => {
 						console.log(err)
