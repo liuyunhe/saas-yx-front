@@ -208,7 +208,7 @@
 					</el-table-column>
 					<el-table-column prop="awardName" label="奖品名称" width="100">
 					</el-table-column>
-					<el-table-column prop="awardCnt	" label="奖品数量" width="100">
+					<el-table-column prop="awardCnt" label="奖品数量" width="100">
 					</el-table-column>
 				</el-table>
 				<el-table :data="tableData4"v-loading="loading" style="width: 100%" v-if="selectTab==4" >
