@@ -88,7 +88,7 @@
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="stop(scope.row.id)">暂停</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="over(scope.row.id)">结束</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 4" @click="del(scope.row.id)">删除</a>
-            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status != 4 && scope.row.status != 0" @click="editTpl(scope.row.form, scope.row.actCode)">活动模板</a>
+            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status != 4 && scope.row.status != 0 && scope.row.form.indexOf('act-6')==-1" @click="editTpl(scope.row.form, scope.row.actCode)">活动模板</a>
           </template>
         </el-table-column>
       </el-table>
@@ -580,7 +580,7 @@ export default {
     // 编辑
     edit(id,form) {
       let routerPath = null;
-      if(item.form=='act-601') {
+      if(form=='act-601') {
         routerPath = '/market/actTpl/actSetConfSelf';
       } else {
         routerPath = '/market/actTpl/actSetConf';

@@ -75,13 +75,13 @@
           <el-input v-model="confData.link" placeholder='请输入活动链接'></el-input>
         </el-form-item>
         <el-form-item label="是否在落地页显示：">
-          <el-switch v-model="confData.showStatus"></el-switch>
+          <el-switch v-model="confData.showStatus" active-value="1" inactive-value="0"></el-switch>
         </el-form-item>
         <el-form-item label="是否立即发布：">
-          <el-switch v-model="confData.status"></el-switch>
+          <el-switch v-model="confData.status" active-value="1" inactive-value="2"></el-switch>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="nextStep">保存发布</el-button>
+          <el-button type="primary" @click="confirmSubmit">确定</el-button>
           <el-button @click="$router.push('/market/actTpl')">返回列表</el-button>
         </el-form-item>
       </el-form>
@@ -153,24 +153,22 @@ export default {
         },
         placeholder: '请输入活动说明'
       },
-      extInfo:{
-      	limited:1,
-      	time:60
-      },
       idxSelect: {},
       confData: {
-        actDesc: '',
-        actName: '',
-        banner: '',
-        form: '',
-        idx: '1',
-        note: '',
-        stimeStr: '',
-        etimeStr: '',
-        showStatus: 1,
-        tplCode: '',
-        extInfo: '',
-        status: 1,
+        id: '', // 活动数据主键id
+        actCode: '', // 活动唯一编码
+        actDesc: '', // 活动描述
+        actName: '', // 活动名称
+        banner: '', // 活动入口banner
+        form: this.form, // 活动类型
+        idx: '1', // 活动优先级
+        note: '', // 活动说明
+        stimeStr: '', // 活动开始时间
+        etimeStr: '', // 活动结束时间
+        showStatus: 1, // 活动是否在落地页展示：0-不展示；1-展示
+        tplCode: '', // 活动投放使用的模板编码。自定义活动为空
+        extInfo: '', // 活动扩展字段。自定义活动存储外链：{link: ''}
+        status: 1, // 活动是否启用：1-启用；2-不启用
         selectBrand: [], // 选择的品牌
         selectProductList: [], // 选择的产品
         selectProvList: [], // 选择的省份
@@ -178,10 +176,8 @@ export default {
         selectDistrictList: [], // 选择的区县
         link: '' // 活动链接
       },
-      redConf: {
-        joinNum: 1,
-        share: 0
-      },
+      strategyArr: [], // 活动投放策略
+      extInfo: {},
       confRules: {
         actName: [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
         note: [{ required: true, message: '请输入活动描述', trigger: 'blur' }],
@@ -198,8 +194,7 @@ export default {
       uploadURL: '/api/saotx/attach/commonAliUpload',
       headerObj: {
         loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
-        token: sessionStorage.getItem('access_token'),
-        CLIENTSESSIONID: sessionStorage.getItem('CLIENTSESSIONID')
+        token: sessionStorage.getItem('access_token')
       },
       stepActive:0,
 
@@ -212,23 +207,24 @@ export default {
       allProv: [], // 所有省份：[{code:'',name:'',pcode:'',pname:''}, ...]
       allCity: {}, // 所有城市：{'provCode': [{code:'',name:'',pcode:'',pname:''}], ...}
       allDistrict: {}, // 所有区县：{'cityCode': [{code:'',name:'',pcode:'',pname:''}], ...}
+      initProd: false, // 是否编辑或复制时的页面品牌规格初始化
+      initCity: false, // 是否编辑或复制时的页面城市初始化
+      initDistrict: false // 是否编辑或复制时的页面区县初始化
     }
   },
   created() {
-    this.getBrandList();
-    this.getAllRegions();
-    this.getDetail()
-    this.getIdxSelect()
+    if( !this.id ) { // 为空说明是新增，可以直接初始化；否则在detail成功之后在初始化
+      this.getBrandList();
+      this.getAllRegions();
+    } else { // 编辑或复制
+      this.initProd = true;
+      this.initCity = true;
+      this.initDistrict = true;
+      this.getDetail();
+    }
+    this.getIdxSelect();
   },
   methods: {
-  	limitNum(){
-  		var len=4;
-  		if(this.extInfo.time.length>len){
-  			var str=this.extInfo.time.slice(0,len);
-  			this.extInfo.time=parseInt(str);
-  		}
-  		
-    },
     // 加载所有的省市区数据
     getAllRegions() {
       this.$request.post('/api/saotx/dim/allRegions', { withRight:true }, true, res => {
@@ -238,6 +234,14 @@ export default {
           this.allCity = allAreas['city']||{};
           this.allDistrict = allAreas['district']||{};
           this.provList = this.provList.concat(this.allProv);
+          // 处理地区
+          let strategy = this.strategyArr[0];
+          if(strategy) {
+            this.confData.selectProvList = strategy.areas.provinceArr||[];
+            if (this.initCity) {
+              this.getCityList();
+            }
+          }
         } else {
           this.$message.error(res.messgae);
         }
@@ -252,8 +256,13 @@ export default {
           // 最后一次点击是全国
           this.confData.selectProvList = ['000000'];
           this.cityList = [{code: '000000',name: '全国'}];
+          if (this.initCity) {
+            this.confData.selectCityList = ['000000'];
+            this.initCity = false;
+          }
           return;
         } else if(this.confData.selectProvList.length>1&&this.confData.selectProvList[0]=='000000') {
+          // 第一个点击的是全国，并且最后一个点击的非全国，则去除全国的选中
           this.confData.selectProvList.shift();
         }
         this.cityList = [];
@@ -265,6 +274,14 @@ export default {
         this.cityList = tmpList;
       } else {
         this.cityList = [];
+      }
+      if (this.initCity) {
+        let strategy = this.strategyArr[0];
+        this.confData.selectCityList = strategy.areas.cityArr||[];
+        this.initCity = false;
+      }
+      if (this.initDistrict) {
+        this.getDistrictList();
       }
     },
     getDistrictList() {
@@ -285,12 +302,25 @@ export default {
       } else {
         this.districtList = [];
       }
+      if (this.initDistrict) {
+        let strategy = this.strategyArr[0];
+        this.confData.initDistrict = strategy.areas.districtArr||[];
+        this.initDistrict = false;
+      }
     },
     // 获取品牌列表
     getBrandList() {
       this.$request.post('/api/saotx/prod/listBrand', {pageSize: '-1'}, true, res => {
         if (res.ret == '200000') {
           this.brandList = res.data.list || [];
+          // 处理产品规格
+          let strategy = this.strategyArr[0];
+          if(strategy) {
+            this.confData.selectBrand = strategy.brandArr||[];
+            if (this.initProd) {
+              this.getProductList();
+            }
+          }
           return;
         }
         this.$message.error(res.message);
@@ -301,30 +331,35 @@ export default {
       this.$request.post('/api/saotx/prod/list', {brandCodeArr:this.confData.selectBrand, pageSize:'-1'}, true, res => {
         if (res.ret == '200000') {
           this.productList = res.data.list || [];
+          if (this.initProd) {
+            let strategy = this.strategyArr[0];
+            this.confData.selectProductList = strategy.snArr||[];
+            this.initProd = false;
+          }
           return;
         }
         this.$message.error(res.message);
       });
     },
     getDetail() {
-      if (!this.id) return
       this.$request.post('/api/saotx/act/detail', { id: this.id }, true, res => {
         if (res.ret == '200000') {
-          if (this.clone == '1') {
-            for (let key in this.confData) {
-              this.confData[key] = res.data.act[key]
-            }
-          } else {
-            this.confData = res.data.act
+          this.confData = res.data.act;
+          this.strategyArr = res.data.strategyArr;
+          if (this.clone == '1') {// 复制
+            this.confData.id = '';
+            this.confData.actCode = '';
           }
-          if (this.form == 'act-301') this.redConf = JSON.parse(this.confData.extInfo)
-          this.confData.idx = this.confData.idx + ''
-          if (this.redConf.extInfo) this.extInfo=JSON.parse(this.confData.extInfo)
+          // 处理活动链接
+          if (this.confData.extInfo) {
+            this.extInfo = JSON.parse(this.confData.extInfo);
+            this.confData.link = this.extInfo['link'];
+          }
           if (this.confData.stimeStr && this.confData.etimeStr) {
             this.handleDisableTime()
           }
-          // this.actTime.push(this.confData.stimeStr)
-          // this.actTime.push(this.confData.etimeStr)
+          this.getBrandList();
+          this.getAllRegions();
           return
         }
         this.$message.error(res.messgae)
@@ -356,45 +391,23 @@ export default {
     onEditorBlur() {
       this.$refs.actSetConfRef.validateField('desc', valid => {})
     },
-    nextStep() {
+    // form表单提交
+    confirmSubmit() {
       this.$refs.actSetConfRef.validate(valid => {
-        if (!valid) return this.$message.error('请完善表单数据!')
-        if(this.form=='act-501'){
-        	if(this.extInfo.limited==1){
-	        	if(this.extInfo.time<=0 || !this.extInfo.time){
-	        		 return this.$message.error('请填写时间限制的具体值!')
-	        	}
-	        }
-        }       
-        if (!this.id) {
-          this.confData.form = this.form;
-          if(this.form=='act-501'){
-          	this.confData.extInfo=JSON.stringify(this.extInfo);
-          }         
-          this.confData.tplCode = this.tplCode
-        }else {
-        	if(this.form=='act-501'){
-          	this.confData.extInfo=JSON.stringify(this.extInfo);
-          } 
-        }
-        if (this.form == 'act-301') this.confData.extInfo = JSON.stringify(this.redConf)
-        this.$request.post('/api/saotx/act/somtfSelf', this.confData, true, res => {
-          if (res.ret === '200000') {
-          	if(this.form=='act-501'){
-          		return this.$router.push(
-              '/market/actTpl/quesActSetConf?id=' + res.data.id + '&actCode=' + res.data.actCode+'&form='+this.form
-            	)
-          	} else if (this.form=='act-301') {
-              return this.$router.push(`/market/actTpl/redPut?id=${res.data.id}&actCode=${res.data.actCode}`)
+        if (valid) {
+          this.extInfo = {link: this.confData.link};
+          this.confData.extInfo = JSON.stringify(this.extInfo);
+          let params = {};
+          params.act = this.confData;
+          params.strategyArr = [{tfType:'common', snArr: this.confData.selectProductList, areas: {provinceArr:this.confData.selectProvList, cityArr:this.confData.selectCityList, districtArr:this.confData.selectDistrictList}}];
+          this.$request.post('/api/saotx/act/somtfSelf', params, true, res => {
+            if (res.ret == '200000') {
+              this.$message({type: 'success', message: '操作成功!'});
             } else {
-          		return this.$router.push(
-              '/market/actTpl/actPutConf?id=' + res.data.id + '&actCode=' + res.data.actCode
-            	)
-          	}
-            
-          }
-          this.$message.error(res.message)
-        })
+              this.$message.error(res.message);
+            }
+          })
+        }
       })
     },
     beforeAvatarUpload(file) {
