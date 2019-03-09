@@ -288,7 +288,7 @@ export default new Router({
         // 微平台
         { path: '/weplat', name: '微平台'},
         { path: '/weplat/down', name: '扫码落地页', component: ScanConf },
-        { path: '/weplat/down2', name: '扫码落地页模板2设置', component: ScanConf2 },
+        { path: '/weplat/down2', name: '扫码落地页模板2设置', component: ScanConf2,props: (route) => ({id:route.query.id,type:route.query.type}) },
         { path: '/weplat/style', name: '平台风格', component: StyleConf },
         { path: '/weplat/mgr', redirect: '/weplat/mgr/scanCheck' },
         { path: '/weplat/mgr/scanCheck', name: '验真首页', component: wplatHome },

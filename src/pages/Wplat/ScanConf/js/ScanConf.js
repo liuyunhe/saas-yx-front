@@ -307,7 +307,7 @@ export default {
 					}
 				)
 			}else if(item.type=='SCMB-002'){
-				this.$router.push('/weplat/down2');
+				this.$router.push('/weplat/down2?type='+item.type);
 			}
 			
 		},
@@ -511,7 +511,8 @@ export default {
 		},
 		editItem(item) {
 			var that = this;
-			this.addTplShow = false;
+			if(item.type=='SCMB-001'){
+				this.addTplShow = false;
 			this.addShow = true;
 			this.listShow = false;
 			this.activeName='third'
@@ -572,6 +573,10 @@ export default {
 					console.log(err)
 				}
 			)
+			}else if(item.type=='SCMB-002'){
+				this.$router.push('/weplat/down2?type='+item.type+'&id='+item.id);
+			}
+			
 
 		},
 		remove(idArr) {

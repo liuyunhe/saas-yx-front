@@ -231,11 +231,11 @@
 									<el-button slot="reference"></el-button>
 								</el-popover>
 								<div class="img-top"v-show='addlist.conf.has.yz.botFlag'>
-									<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/scan-002-imgB.png" alt=""v-show='!addlist.conf.has.yz.productImg' />
+									<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/scan-002-imgB.png" alt=""v-show='!addlist.conf.has.yz.productImg' />
 									<img :src="addlist.conf.has.yz.productImg"v-show='addlist.conf.has.yz.productImg' alt="" />
 								</div>
 								<div class="img-top-big"v-show='!addlist.conf.has.yz.botFlag'>
-									<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/scan-002-img.png"v-show='!addlist.conf.has.yz.productImgBig' alt="" />
+									<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/scan-002-img.png"v-show='!addlist.conf.has.yz.productImgBig' alt="" />
 									<img :src="addlist.conf.has.yz.productImgBig"v-show='addlist.conf.has.yz.productImgBig' alt="" />
 								</div>
 								<div class="yz-text">
@@ -246,15 +246,15 @@
 									<img :src="addlist.conf.has.yz.feedbackImg"class='feedback'v-show='addlist.conf.has.yz.feedbackFlag' alt="" />
 								</div>
 								<div class="bot-img"v-show='addlist.conf.has.yz.botFlag'>
-									<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/scan-002-bot.png"v-show='!addlist.conf.has.yz.botImg' alt="" />
+									<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/scan-002-bot.png"v-show='!addlist.conf.has.yz.botImg' alt="" />
 									<img :src="addlist.conf.has.yz.botImg"v-show='addlist.conf.has.yz.botImg' alt="" />
 								</div>
 							</div>							
 							<div class="act-part">
-								<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/hehua-act.png" alt="" />
+								<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/hehua-act.png" alt="" />
 							</div>
 							<div class="menu-part">
-								<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/menu.png" alt="" />
+								<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/menu.png" alt="" />
 							</div>
 							<div class="phone-bottom"></div>
 
@@ -382,7 +382,7 @@
 							</div>
 							
 							<div class="menu-part">
-								<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/menu.png" alt="" />
+								<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/menu.png" alt="" />
 							</div>
 							<div class="phone-bottom"></div>
 						</div>
@@ -404,9 +404,10 @@
 
 <script>
 	export default {
-		props: [],
+		props: ['type','id'],
 		data() {
 			return {
+				type:this.type,
 				activeName: 'third',
 				uploadAdd: location.origin + '/api/saotx/attach/commonAliUpload',
 				imgHead: {
@@ -426,7 +427,7 @@
 					conf: {
 						loading:{
 							flag:1,
-							bg:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/loading-bg.png',
+							bg:'https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/loading-bg.png',
 							color:'#ccc'
 						},
 						has: {
@@ -443,7 +444,7 @@
 								productImg:'',
 								note: '本页面含有烟草产品信息，未满十八周岁请勿继续访问',	
 								feedbackFlag:1,
-								feedbackImg:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/feedback.png',
+								feedbackImg:'https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/feedback.png',
 							}							
 						},
 						not: {
@@ -452,16 +453,16 @@
 								note: ''
 							},
 							yz: {
-								logoIcon: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_head_qrcode_default.png',
+								logoIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_head_qrcode_default.png',
 								tip: '扫描烟包上的二维码，验证XXX真品',
-								btnIcon: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_btn_default.png',
-								bg: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_info_default.png'
+								btnIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_btn_default.png',
+								bg: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_info_default.png'
 							},
 							gzh: {
 								name: 'XXX',
 								note: '获取更多惊喜',
-								qrIcon: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
-								bg: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qr_default.png'
+								qrIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
+								bg: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qr_default.png'
 							}
 						}
 					},
@@ -476,7 +477,7 @@
 					conf: {
 						loading:{
 							flag:1,
-							bg:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/loading-bg.png',
+							bg:'https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/loading-bg.png',
 							color:'#ccc'
 						},
 						has: {
@@ -493,10 +494,7 @@
 								productImg:'',
 								note: '本页面含有烟草产品信息，未满十八周岁请勿继续访问',	
 								feedbackFlag:1,
-								feedbackImg:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/feedback.png',
-							},
-							gzh: {								
-								bg: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
+								feedbackImg:'https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/feedback.png',
 							}
 							
 						},
@@ -506,16 +504,16 @@
 								note: ''
 							},
 							yz: {
-								logoIcon: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_head_qrcode_default.png',
+								logoIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_head_qrcode_default.png',
 								tip: '扫描烟包上的二维码，验证XXX真品',
-								btnIcon: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_btn_default.png',
-								bg: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_info_default.png'
+								btnIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_btn_default.png',
+								bg: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_info_default.png'
 							},
 							gzh: {
 								name: 'XXX',
 								note: '获取更多惊喜',
-								qrIcon: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
-								bg: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qr_default.png'
+								qrIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
+								bg: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qr_default.png'
 							}
 						}
 					},
@@ -541,6 +539,53 @@
 					console.log(err)
 				}
 			)
+			this.addlist.type=this.type;
+			this.initList.type=this.type;
+		},
+		mounted(){
+			if(this.id){
+				this.$request.post(
+					'/api/saotx/orgtpl/detail', {
+						id: this.id
+					},
+					true,
+					res => {
+						if(res.ret == '200000') {
+							var data = res.data || [];
+							this.addlist.id = data.id;
+							this.addlist.name = data.name;
+							this.addlist.note = data.note;
+							this.addlist.type = data.type;
+							this.addlist.conf = JSON.parse(data.conf);
+							var list = [];
+							var blist = [];
+							data.snArr.forEach((item, i) => {
+								list.push({
+									allName: data.snNameArr[i],
+									sn: item
+								})
+							})
+							data.brandNameArr.forEach((val, j) => {
+								blist.push({
+									name: val,
+									brandCode: data.brandArr[j]
+								})
+							})
+							this.snList = list;
+							this.addlist.snArr = data.snArr;
+							this.brandList = blist;
+							this.selectBrand = data.brandArr;
+
+						} else {
+							this.$message.error(res.message);
+						}
+					},
+					err => {
+						console.log(err)
+					}
+				)
+			}
+
 		},
 		methods: {
 			snCallback(flag) {
@@ -671,15 +716,8 @@
 							this.$message({
 								message: '保存成功',
 								type: 'success'
-							});
-							that.addTplShow = false;
-							that.addShow = false;
-							that.listShow = true;
-							var str = JSON.stringify(that.initList);
-							that.addlist = JSON.parse(str);
-							this.selectBrand = [];
-							that.init();
-
+							});																					
+							this.$router.push('/weplat/down');
 						} else {
 							this.$message({
 								message: res.message,
@@ -725,15 +763,8 @@
 							this.$message({
 								message: '保存成功',
 								type: 'success'
-							});
-							that.addTplShow = false;
-							that.addShow = false;
-							that.listShow = true;
-							var str = JSON.stringify(that.initList);
-							that.addlist = JSON.parse(str);
-							this.selectBrand = [];
-							that.init();
-
+							});																					
+							this.$router.push('/weplat/down');
 						} else {
 							this.$message.error(res.message);
 						}
@@ -743,95 +774,6 @@
 					}
 				)
 			},
-			editItem(item) {
-				var that = this;
-				this.addTplShow = false;
-				this.addShow = true;
-				this.listShow = false;
-				this.activeName = 'third'
-				this.$request.post(
-					'/api/saotx/orgtpl/detail', {
-						id: item.id
-					},
-					true,
-					res => {
-						if(res.ret == '200000') {
-							var data = res.data || [];
-							that.addlist.id = data.id;
-							that.addlist.name = data.name;
-							that.addlist.note = data.note;
-							that.addlist.type = data.type;
-							that.addlist.conf = JSON.parse(item.conf);
-							var list = [];
-							var blist = [];
-							data.snArr.forEach((item, i) => {
-								list.push({
-									allName: data.snNameArr[i],
-									sn: item
-								})
-							})
-							data.brandNameArr.forEach((val, j) => {
-								blist.push({
-									name: val,
-									brandCode: data.brandArr[j]
-								})
-							})
-							that.snList = list;
-							that.addlist.snArr = data.snArr;
-							that.brandList = blist;
-							that.selectBrand = data.brandArr;
-
-						} else {
-							this.$message.error(res.message);
-						}
-					},
-					err => {
-						console.log(err)
-					}
-				)
-
-				this.$request.post(
-					'/api/saotx/prod/listBrand', {
-						pageSize: -1
-					},
-					true,
-					res => {
-						if(res.ret == '200000') {
-							var data = res.data.list || [];
-							that.brandList = data;
-
-						}
-					},
-					err => {
-						console.log(err)
-					}
-				)
-
-			},
-			use(item) {
-				this.$request.post(
-					'/api/saotx/orgtpl/use', {
-						id: item.id
-					},
-					true,
-					res => {
-						if(res.ret == '200000') {
-
-							this.$message({
-								message: '已启用',
-								type: 'success'
-							});
-							this.init();
-						} else {
-							this.$message.error(res.message);
-						}
-					},
-					err => {
-						console.log(err)
-					}
-				)
-			}
-
 		},
 	}
 </script>
