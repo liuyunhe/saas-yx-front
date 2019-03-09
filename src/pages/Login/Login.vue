@@ -118,7 +118,7 @@ export default {
           sessionStorage.setItem('access_loginId', data.loginId)
           // that.getMenuList()
           sessionStorage.setItem('ran',that.ran+1)
-          that.$router.replace({name: '数据'})
+          that.$router.replace({name: '首页'})
         } else if (res.ret == '100409') {
           that.$message.error(res.message)
           that.$router.push({
@@ -163,7 +163,7 @@ export default {
 </script>
 
 <style scoped>
-@import 'https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/css/font-awesome.min.css'
+@import 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/css/font-awesome.min.css'
   /**
  * Create Date: 2018-09-25
  * Description: login

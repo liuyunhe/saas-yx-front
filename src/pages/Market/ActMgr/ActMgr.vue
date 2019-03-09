@@ -88,7 +88,7 @@
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="stop(scope.row.id)">暂停</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="over(scope.row.id)">结束</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 4" @click="del(scope.row.id)">删除</a>
-            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status != 4 && scope.row.status != 0" @click="editTpl(scope.row.form, scope.row.actCode)">活动模板</a>
+            <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status != 4 && scope.row.status != 0 && scope.row.form.indexOf('act-6')==-1" @click="editTpl(scope.row.form, scope.row.actCode)">活动模板</a>
           </template>
         </el-table-column>
       </el-table>
@@ -110,12 +110,12 @@
             <p class="act-name">{{item.name}}</p>
             <p class="desc">{{item.note ? item.note : '暂无活动说明~'}}</p>
             <div class="btn">
-              <el-button type="primary" size="small">预览</el-button>
+              <el-button type="primary" size="small" v-if="item.form!='act-601'">预览</el-button>
               <el-button type="primary" size="small" @click="goPut(item)">投放</el-button>
             </div>
           </div>
         </div>
-        <div v-else>暂无</div>
+        <div v-else style="margin-top:200px;height:224px;width:100%;text-align:center;">暂无</div>
       </div>
       <el-col :span="24" v-show="actForms">
         <el-pagination background @size-change="actHandleSizeChange" @current-change="actHandleCurrentChange" :current-page="actParams.pageNo" :page-size="actParams.pageSize" layout="total, prev, pager, next, jumper" :total="actTotal">
@@ -463,8 +463,13 @@ export default {
         true,
         res => {
           if (res.ret == '200000') {
-            this.actForms = res.data.list
-            this.actTotal = res.data.page.count
+            this.actForms = res.data.list||[];
+            if( (!this.actForms||this.actForms.length==0)&&this.actParams.pcode=='form-cate6' ) {// 如果自定义活动类型下没有数据。则默认展示一条demo
+              this.actForms = [{extUrl:"https://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/act_tpl/act-tpl-104.png",form:"act-601",tplCode:'',name:'自定义活动',note:'',id:''}];
+              this.actTotal = 1;
+            } else {
+              this.actTotal = res.data.page.count;
+            }
           } else {
             this.$message.error(res.message)
           }
@@ -562,21 +567,26 @@ export default {
     },
     // 投放
     goPut(item) {
-      this.$router.push(
-        '/market/actTpl/actSetConf?form=' +
-          item.form +
-          '&tplCode=' +
-          item.tplCode
-      )
+      let routerPath = null;
+      if(item.form=='act-601') {
+        routerPath = '/market/actTpl/actSetConfSelf';
+      } else {
+        routerPath = '/market/actTpl/actSetConf';
+      }
+      routerPath += '?form='+item.form+'&tplCode='+item.tplCode;
+      this.$router.push(routerPath);
     },
 
     // 编辑
     edit(id,form) {
-    	// if(form=='act-501'){
-    		this.$router.push('/market/actTpl/actSetConf?id=' + id+'&form='+form)
-    	// }else {
-    		// this.$router.push('/market/actTpl/actSetConf?id=' + id)
-    	// }
+      let routerPath = null;
+      if(form=='act-601') {
+        routerPath = '/market/actTpl/actSetConfSelf';
+      } else {
+        routerPath = '/market/actTpl/actSetConf';
+      }
+      routerPath += '?form='+form+'&id='+id;
+      this.$router.push(routerPath);
     },
     // 复制
     clone(id,form) {

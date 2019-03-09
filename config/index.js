@@ -22,16 +22,12 @@ module.exports = {
       '/record': { // SAAS后端数据接口
         target: 'http://cs-data.saotianxia.com.cn/',
         changeOrigin: true,
-        pathRewrite: {
-          '^/record': ''
-        }
+        //pathRewrite: {'^/record': ''}
       },
       '/lsh': { // SAAS后端零售户接口
         target: 'http://cs-seller.saotianxia.vip/',
         changeOrigin: true,
-        pathRewrite: {
-          '^/lsh': ''
-        }
+        //pathRewrite: {'^/lsh': ''}
       },
       '/sc': { // SAAS后端积分商城接口
         target: 'http://cs-jfs.saotianxia.vip/',

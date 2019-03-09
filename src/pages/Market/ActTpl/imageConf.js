@@ -482,7 +482,7 @@ const img = {
                 index: 'tipsBtn2',
                 url: handle.getUrl('red_tips_btn2', 2),
                 pos: [389, 609],
-                size: [227, 66]
+                size: [230, 66]
             },
         },
         share: {
@@ -490,6 +490,144 @@ const img = {
                 name: '分享图标',
                 index: 'icon',
                 url: handle.getUrl('red_share_img', 2),
+                pos: [],
+                size: []
+            }
+        }
+    },
+    ACT_SIGN: {
+        page1: {
+            bg: {
+                name: '背景',
+                index: 'bg',
+                url: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/sign-bg.png',
+                type: 1,
+                pos: [0, 0],
+                size: [750, 1351]
+            },
+            drawBtn: {
+                name: '抽奖按钮',
+                index: 'drawBtn',
+                url: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/sign-btn.png',
+                type: 2,
+                pos: [153, 1181 - 143],
+                size: [461, 87]
+            },
+            calendarHeader: {
+                name: '日历头部背景',
+                index: 'calendarHeader',
+                url: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/sign-calendar-header.png',
+                type: 3,
+                // pos: [60, 518 - 143],
+                size: [630, 87],
+                pos: [0, 0],
+            },
+            calendarCon: {
+                name: '日历内容背景',
+                index: 'calendarCon',
+                url: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/sign-calendar-con.png',
+                type: 3,
+                // pos: [60, 625 - 143],
+                pos: [0, 107],
+                size: [630, 486]
+            },
+            rulesBtn: {
+                name: '规则按钮',
+                index: 'rulesBtn',
+                url: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/sign-rules-btn.png',
+                type: 4,
+                pos: [583, 5],
+                size: [146, 51]
+            }
+        },
+        page2: {
+            actNotes: {
+                name: '活动说明',
+                index: 'actNotes',
+                url: handle.getUrl('huodongshuoming', 2),
+                pos: [0, 0],
+                size: [750, 1208]
+            }
+        },
+        page3: {
+            myAward: {
+                name: '我的奖品',
+                index: 'myAward',
+                url: handle.getUrl('wodedjiangpin', 2),
+                pos: [0, 0],
+                size: [750, 1208]
+            }
+        },
+        page4: {
+            winningBg: {
+                name: '中奖背景',
+                index: 'winningBg',
+                url: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/sign-winning-bg.png',
+                pos: [105, 274 - 143],
+                size: [563, 638]
+            },
+            btn: {
+                name: '中奖按钮',
+                index: 'btn',
+                url: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/sign-get-btn.png',
+                pos: [224, 807 - 143],
+                size: [316, 72]
+            },
+            colseBtn: {
+                name: '关闭按钮',
+                index: 'closeBtn',
+                hidden: true,
+                url: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/sign-close-btn.png',
+                pos: [338, 974 - 143],
+                size: [78, 78]
+            }
+        },
+        page5: {
+            notWinBg: {
+                name: '未中奖背景',
+                index: 'notWinBg',
+                url: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/sign-notWin-bg.png',
+                pos: [94, 289 - 143],
+                size: [563, 638]
+            },
+            btn: {
+                name: '未中奖按钮',
+                index: 'btn',
+                url: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/sign-konw-btn.png',
+                pos: [213, 822 - 143],
+                size: [316, 72]
+            },
+            colseBtn: {
+                name: '关闭按钮',
+                index: 'closeBtn',
+                hidden: true,
+                url: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/sign-close-btn.png',
+                pos: [338, 974 - 143],
+                size: [78, 78]
+            }
+        },
+        page6: {
+            success: {
+                name: '签到成功背景',
+                index: 'success',
+                url: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/sign-success-bg.png',
+                pos: [105, 271 - 143],
+                size: [563, 641]
+            },
+            close: {
+                name: '关闭按钮',
+                index: 'closeBtn',
+                hidden: true,
+                url: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/sign-close-btn.png',
+                pos: [338, 974 - 143],
+                size: [78, 78]
+            }
+        },
+        page7: {
+            icon: {
+                name: '分享图标',
+                index: 'icon',
+                url: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/sign-share-icon.png',
                 pos: [],
                 size: []
             }

@@ -9,7 +9,7 @@
           <el-input v-model="shareConf.shareTitle" type="text" :maxlength="15"></el-input>
         </el-form-item>
         <el-form-item label="分享说明：">
-          <el-input v-model="shareConf.shareDesc" style="width: 70%;" type="textarea" :rows="2" placeholder="请输入内容"></el-input>
+          <el-input maxlength="30" v-model="shareConf.shareDesc" style="width: 70%;" type="textarea" :rows="2" placeholder="请输入内容"></el-input>
         </el-form-item>
         <el-form-item label="分享图标：">
           <div>
@@ -24,9 +24,9 @@
             :on-success="uploadSuccess"
             :before-upload="beforeAvatarUpload"
             :on-error="uploadError">
-              <el-button type="primary" size="small">点击上传</el-button>
+              <el-button type="primary" size="small">更换图片</el-button>
             </el-upload>
-            <div slot="tip" class="el-upload__tip">* 图片建议尺寸为 200*200px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
+            <div slot="tip" class="el-upload__tip">* 图片建议尺寸为 91*91px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
           </div>
         </el-form-item>
       </el-form>
@@ -46,10 +46,14 @@ export default {
       },
     }
   },
+  created() {
+    // console.log(this.editData[0])
+  },
   methods: {
     uploadSuccess (res, file, fileList) {
       let that = this;
       let url = res.data.accessUrl;
+      this.editData[0].url = url
       that.$emit('shareChange', {url: url});
     },
     uploadError (err) {

@@ -4,7 +4,7 @@
       <el-aside width="216px">
         <div class="left">
           <div class="logo">
-            <img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/top_logo_mini.png" alt="">
+            <img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/top_logo_mini.png" alt="">
           </div>
           <div class="parent-menu">
             <ul>
@@ -110,6 +110,26 @@ export default {
       this.getUserInfo()
       this.menuActive()
     },
+    goFirstSonMenu() {
+      let path = location.hash.replace('#', ''),
+          newPath = ''
+      if (path === '/home') {
+        if (this.menuList[0].nodeList.length > 0) {
+          if (this.menuList[0].nodeList[0].nodeList.length > 0) {
+            newPath = this.menuList[0].nodeList[0].nodeList[0].menuUrl
+          } else {
+            newPath = this.menuList[0].nodeList[0].menuUrl
+          }
+        } else {
+          newPath = this.menuList[0].menuUrl
+        }
+        this.$router.push(newPath)
+      }
+      // this.menuList.filter(item => {
+      //   return item.menuUrl == path
+      // })
+      // console.log(this.menuList.indexOf(path))
+    },
     getUserInfo() {
       var that = this
       this.$request.post(
@@ -156,6 +176,7 @@ export default {
             // this.sonMenuList = res.data[0].nodeList
             // this.initGrandsonMenu(this.sonMenuList[0])
             this.menuActive()
+            this.goFirstSonMenu()
           } else {
             this.$message.error(res.message)
           }
@@ -225,6 +246,9 @@ export default {
     initGrandsonMenu(son) {
       if (son.nodeList.length > 0) {
         this.grandsonMenuLisy = son.nodeList
+        if (location.hash.replace('#', '') == son.menuUrl) {
+          this.$router.push(son.nodeList[0].menuUrl)
+        }
       } else {
         this.grandsonMenuLisy = []
         this.grandsonMenuLisy.push(son)
@@ -323,6 +347,7 @@ export default {
       width: 120px;
       height: 100%;
       background-color: #fff;
+      overflow: auto;
       .menuName {
         height: 50px;
         line-height: 50px;
