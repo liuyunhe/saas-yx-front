@@ -12,36 +12,25 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': { // SAAS后端主接口
-          target: 'http://cs-sass.saotianxia.vip/',
+          target: 'http://cs-saas.qrmkt.cn/',
           // target: 'http://172.16.1.227:9999',
-          changeOrigin: true,
-          pathRewrite: {
-            '^/api': ''
-          }
+          changeOrigin: true
+          //pathRewrite: {'^/api': ''}
       },
       '/record': { // SAAS后端数据接口
-        target: 'http://cs-data.saotianxia.com.cn/',
-        changeOrigin: true,
+        target: 'http://cs-saas.qrmkt.cn/',
+        changeOrigin: true
         //pathRewrite: {'^/record': ''}
       },
       '/lsh': { // SAAS后端零售户接口
-        target: 'http://cs-seller.saotianxia.vip/',
-        changeOrigin: true,
+        target: 'http://cs-saas.qrmkt.cn/',
+        changeOrigin: true
         //pathRewrite: {'^/lsh': ''}
       },
       '/sc': { // SAAS后端积分商城接口
-        target: 'http://cs-jfs.saotianxia.vip/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/sc': ''
-        }
-      },
-      '/shop': {
-      	target: 'http://cs-jfc.saotianxia.vip/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/shop': ''
-        }
+        target: 'http://cs-saas.qrmkt.cn/',
+        changeOrigin: true
+        //pathRewrite: {'^/sc': ''}
       }
     },
     // Various Dev Server settings
