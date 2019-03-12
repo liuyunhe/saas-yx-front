@@ -533,13 +533,20 @@
 			},
 			drawScanTime(){
 				var that = this;
+				let flag=1;
+				if(that.city){
+					flag=3
+				}else {
+					flag=1
+				}
 				this.$request.post(
 					'/record/statistics/scanTimesHourTrendCtiy', {
 						kpiType: "pv",
 						provinceName: that.provice,
 						statTime: that.startTime,
 						statType: that.type1,
-						cityName: that.city
+						cityName: that.city,
+						flag:flag
 					},
 					true,
 					res => {
