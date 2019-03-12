@@ -94,9 +94,9 @@
                             start-placeholder="开始日期"
                             end-placeholder="结束日期">
                         </el-date-picker>-->
-                        <el-date-picker v-model="dataForm.stimeStr" type="datetime" placeholder="选择开始日期"></el-date-picker>
+                        <el-date-picker v-model="dataForm.stimeStr" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择开始日期"></el-date-picker>
                         至
-                        <el-date-picker v-model="dataForm.etimeStr" type="datetime" placeholder="选择结束日期"></el-date-picker>
+                        <el-date-picker v-model="dataForm.etimeStr" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择结束日期"></el-date-picker>
                     </el-form-item>
                     <el-form-item label="活动规则" prop="ruleHtml">
                         <el-input size="small" type="textarea" :rows="10" v-model="dataForm.ruleHtml" placeholder="请输入内容"></el-input>
