@@ -27,10 +27,19 @@
 			<div class="box">
 				<p class='title'>背景设置</p>
 				<ul>
-					<li v-for='(item,index) in backgroundList'>
-						<span>{{item.name}}</span>
-						<el-color-picker v-model="item.color" class='color-select'></el-color-picker>
-						<el-button size='small' @click='reset'>重置</el-button>
+					<li v-for='(item,index) in backgroundList'>		
+						<div v-if='index==0 || index==2'>
+							<span>{{item.name}}</span>
+							<el-color-picker v-model="item.color" class='color-select'></el-color-picker>
+							<el-button size='small' @click='reset'>重置</el-button>
+						</div>		
+						<div class="title"v-if='index==1'>热销商品</div>
+						<div class="title"v-if='index==2'>推荐位</div>
+						<div v-for='(v,i) in item.list'class='child-div'>
+							<span>{{v.name}}</span>
+							<el-color-picker v-model="v.color" class='color-select'></el-color-picker>
+							<el-button size='small' @click='reset'>重置</el-button>
+						</div>
 					</li>
 				</ul>
 			</div>
@@ -50,15 +59,18 @@
 			return {
 				backgroundList:[{
 					name:'整体背景色',
-					color:'#efefef'
-					
+					color:'#efefef',					
 				},
-				{
-					name:'热销商品背景色',
-					color:'#faedd3'
-					
+				{					
+					list:[{
+						name:'背景色',
+						color:'#faedd3'
+					},{
+						name:'标题色',
+						color:'#ea7d5e'
+					}]					
 				},{
-					name:'推荐位标题背景色',
+					name:'标题背景色',
 					color:'#ff7e27'
 				}]
 			}
@@ -182,17 +194,22 @@
 			.box {
 				border:1px solid #ccc;
 				margin:40px;
-				.title {
+				>.title {
 					padding-left: 20px;
 					font-size: 20px;
 					font-weight: bold;
+					border-bottom: 1px solid #ccc;
+					margin-bottom: 0;
+					padding-bottom: 18px;
 				}
 				ul {
+					padding: 0 20px;
 					li {
 						height: 100px;
-						border-top: 1px solid #ccc;
 						line-height: 100px;
 						padding-left: 20px;
+						position: relative;
+						border-radius: 4px;
 						span {
 							vertical-align: middle;
 							font-weight: bold;
@@ -205,6 +222,30 @@
 						.color-select {
 							vertical-align: middle;
 							margin-right: 20px;
+						}
+						&:nth-child(2) {
+							height: 180px;
+							padding-top: 60px;
+							background: #efefef;
+							box-sizing: border-box;
+						}
+						&:nth-child(3) {
+							padding-top: 40px;
+							background: #efefef;
+							box-sizing: border-box;
+							margin: 20px 0;
+							line-height: 50px;
+						}
+						.title {
+							position: absolute;
+							top:0;
+							left: 20px;
+							font-size: 17px;
+							font-weight: bold;
+							line-height: 40px;
+						}
+						.child-div {
+							line-height: 50px;
 						}
 					}
 				}

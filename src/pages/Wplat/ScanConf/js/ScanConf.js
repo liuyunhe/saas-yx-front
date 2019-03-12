@@ -58,25 +58,7 @@ export default {
 							show: false,
 							tpl: 1 //1为轮播
 						}
-					},
-					not: {
-						title: {
-							name: '',
-							note: ''
-						},
-						yz: {
-							logoIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_head_qrcode_default.png',
-							tip: '扫描烟包上的二维码，验证XXX真品',
-							btnIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_btn_default.png',
-							bg: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_info_default.png'
-						},
-						gzh: {
-							name: 'XXX',
-							note: '获取更多惊喜',
-							qrIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
-							bg: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qr_default.png'
-						}
-					}
+					}					
 				},
 				publish: 0
 			},
@@ -105,24 +87,6 @@ export default {
 						activity: {
 							show: true,
 							tpl: 1 //1为轮播
-						}
-					},
-					not: {
-						title: {
-							name: '',
-							note: ''
-						},
-						yz: {
-							logoIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_head_qrcode_default.png',
-							tip: '扫描烟包上的二维码，验证XXX真品',
-							btnIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_btn_default.png',
-							bg: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_info_default.png'
-						},
-						gzh: {
-							name: 'XXX',
-							note: '获取更多惊喜',
-							qrIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
-							bg: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qr_default.png'
 						}
 					}
 				},
@@ -364,31 +328,6 @@ export default {
 			var imgUrl = data && data.accessUrl;
 			this.addlist.conf.has.gzh.bg = imgUrl;
 		},
-		uploadYz3(res) {
-			var data = res.data || {};
-			var imgUrl = data && data.accessUrl;
-			this.addlist.conf.not.yz.logoIcon = imgUrl;
-		},
-		uploadYz4(res) {
-			var data = res.data || {};
-			var imgUrl = data && data.accessUrl;
-			this.addlist.conf.not.yz.btnIcon = imgUrl;
-		},
-		uploadYz5(res) {
-			var data = res.data || {};
-			var imgUrl = data && data.accessUrl;
-			this.addlist.conf.not.yz.bg = imgUrl;
-		},
-		uploadYz6(res) {
-			var data = res.data || {};
-			var imgUrl = data && data.accessUrl;
-			this.addlist.conf.not.gzh.qrIcon = imgUrl;
-		},
-		uploadYz7(res) {
-			var data = res.data || {};
-			var imgUrl = data && data.accessUrl;
-			this.addlist.conf.not.gzh.bg = imgUrl;
-		},
 		save() {
 			var that = this;
 			if(!that.addlist.name){
@@ -402,13 +341,6 @@ export default {
 				
 				this.$message({
 					message: '请填写已扫码页面的页面名称',
-					type: 'warning'
-				});
-				return;
-			}
-			if(!that.addlist.conf.not.title.name){
-				this.$message({
-					message: '请填写未扫码页面的页面名称',
 					type: 'warning'
 				});
 				return;
@@ -463,13 +395,6 @@ export default {
 			if(!that.addlist.conf.has.title.name){
 				this.$message({
 					message: '请填写已扫码页面的页面名称',
-					type: 'warning'
-				});
-				return;
-			}
-			if(!that.addlist.conf.not.title.name){
-				this.$message({
-					message: '请填写未扫码页面的页面名称',
 					type: 'warning'
 				});
 				return;
