@@ -1,9 +1,37 @@
 <template>
 	<div class="wplat-root">
-		<div class="jump-set">
-			<router-link to='/weplat/down'>去设置扫码落地页<span class='el-icon-arrow-right'></span></router-link>
+		<div class='left'>
+			<div class="phone">
+				<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/common/wplat/person_top.png" alt="" />
+				<div class="person-top">
+					<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/common/wplat/person_banner1.png" alt="" />
+					<div class="header-img">
+						<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/common/wplat/person_img.png" alt="" />
+					</div>
+				</div>
+				
+				
+				<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/common/wplat/person_bot_02.png" alt="" />
+			</div>
 		</div>
-		<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/person.png" alt="" />
+		<div class="right">
+			<div class="box">
+				<p class='title'>背景设置</p>
+				<ul>
+					<li v-for='(item,index) in backgroundList'>
+						<span>{{item.name}}</span>
+						<el-color-picker v-model="item.color" class='color-select'></el-color-picker>
+						<el-button size='small' @click='reset'>重置</el-button>
+					</li>
+				</ul>
+			</div>
+			<div class="save">
+				<div class="save-con">							
+					<el-button type="primary" @click='save'>保存</el-button>
+					<el-button type="primary" @click='init'>取消</el-button>
+				</div>		
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -14,33 +42,78 @@
 	.wplat-root {
 		background: #fff;
 		border-radius: 4px;
-		min-height: 500px;
+		min-height: 1200px;
 		color: #666;
 		position: relative;
-		img {
-			width:300px;
-			margin-top: 40px;
-			margin-left: 50px;
-			margin-bottom: 40px;
-		}
-		.jump-set {
-			a {
-				font-size: 16px;
-				color: #666;
-				line-height: 30px;
-				height: 30px;
-				text-shadow: 0 0 3px #ccc;
-				position: absolute;
-				right:30px;
-				top:15px;
-				cursor: pointer;
-				z-index: 3;
-				&:hover {
-					color:#ccc;
-					text-shadow: 0 0 3px #666;
-				}
+		.left {
+			float: left;
+			width: 300px;
+			padding-left: 50px;
+			padding-top:40px;
+			img {
+				width: 100%;				
 			}
-			
+			.person-top {
+				position: relative;
+			}
+			.header-img {
+				width:80px;
+				height: 40px;
+				position: absolute;
+				left: 20px;
+				bottom:20px;
+			}
+		}
+		.right {
+			height: 900px;
+			margin-left: 320px;
+			overflow: hidden;
+			.box {
+				border:1px solid #ccc;
+				margin:40px;
+				.title {
+					padding-left: 20px;
+					font-size: 20px;
+					font-weight: bold;
+				}
+				ul {
+					li {
+						height: 100px;
+						border-top: 1px solid #ccc;
+						line-height: 100px;
+						padding-left: 20px;
+						span {
+							vertical-align: middle;
+							font-weight: bold;
+							font-size: 16px;
+							width:130px;
+							display: inline-block;
+							text-align: right;
+							margin-right: 20px;
+						}
+						.color-select {
+							vertical-align: middle;
+							margin-right: 20px;
+						}
+					}
+				}
+			}	
+			.save {
+			    width:100%;
+			    height: 50px;
+			    background: #fff;
+			    position: absolute;
+			    bottom: 0;
+			    left: 0;
+			    .save-con {
+			        display: inline-block;
+			        margin: 0 auto;
+			        position: absolute;
+			        left: 50%;
+			        top:0;
+			        margin-left: -97px;
+			    }
+			}		
 		}
 	}
 </style>

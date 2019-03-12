@@ -129,6 +129,7 @@ const SignDetail = () => import(/* webpackChunkName: "setting" */ '@/pages/Setti
 const MenuConf = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/MenuConf/MenuConf.vue')
 //扫码落地页配置
 const ScanConf = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/ScanConf/ScanConf.vue')
+const ScanConf2 = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/ScanConf/ScanConf2.vue')
 //平台风格配置
 const StyleConf = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/StyleConf/StyleConf.vue')
 //微平台管理的四个子菜单
@@ -304,6 +305,7 @@ export default new Router({
         // 微平台
         { path: '/weplat', name: '微平台'},
         { path: '/weplat/down', name: '扫码落地页', component: ScanConf },
+        { path: '/weplat/down2', name: '扫码落地页模板2设置', component: ScanConf2,props: (route) => ({id:route.query.id,type:route.query.type}) },
         { path: '/weplat/style', name: '平台风格', component: StyleConf },
         { path: '/weplat/mgr'},
         // { path: '/weplat/mgr', redirect: '/weplat/mgr/scanCheck' },
