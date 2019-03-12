@@ -269,7 +269,7 @@ export default {
         if (res.ret === '200000') {
           this.$message.success('保存成功')
           setTimeout(() => {
-            this.$router.push('/customer/task')
+            this.$router.push('/setting/sign')
           }, 1000)
         }
       })
