@@ -120,8 +120,10 @@ const SettingRole = () => import(/* webpackChunkName: "setting" */ '@/pages/Sett
 const SettingSeller = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Seller.vue')
 // 设置-资源管理-系统菜单管理
 const SettingSystemMenu = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Resources/SystemMenu.vue')
-// 设置-资源管理-企业授权
+// 设置-资源管理-企业授权src\pages\Setting\Sign\Sign.vue
 const SettingSystemAuth = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Resources/SystemAuth.vue')
+const Sign = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Sign/Sign.vue')
+const SignDetail = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Sign/signActEdit.vue')
 
 //菜单配置
 const MenuConf = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/MenuConf/MenuConf.vue')
@@ -426,6 +428,8 @@ export default new Router({
         { path: '/setting/mall', name: '积分设置', component: KPI },
         { path: '/setting/resource/smenu', name: '菜单管理', component: SettingSystemMenu },
         { path: '/setting/resource/smgrOrgRole', name: '菜单管理', component: SettingSystemAuth },
+        { path: '/setting/sign', name: '菜单管理', component: Sign },
+        { path: '/setting/sign/detail', name: '菜单管理', component: SignDetail,  props: (route) => ({code:route.query.code, id:route.query.id})},
         // 会员日
         { path: '/memberday', name: '会员日' },
         // { path: '/memberday', name: '会员日', redirect: '/memberday/material' },
@@ -451,7 +455,7 @@ export default new Router({
         { path: '/customer/lvl', name: '等级权益管理', component: Rights },
         { path: '/customer/task', name: '任务管理', component: Task },
         { path: '/customer/black', name: '黑名单管理', component: Black },
-        { path: '/customer/task/sign', name: '会员签到任务设置', component: memberTaskSign, props: (route) => ({code:route.query.code, id:route.query.id}) },
+        // { path: '/customer/task/sign', name: '会员签到任务设置', component: memberTaskSign, props: (route) => ({code:route.query.code, id:route.query.id}) },
       ]
     },
     {
