@@ -163,7 +163,7 @@ export default {
 </script>
 
 <style scoped>
-@import 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/css/font-awesome.min.css'
+@import 'http://qoss.qrmkt.cn/common/css/font-awesome.min.css'
   /**
  * Create Date: 2018-09-25
  * Description: login

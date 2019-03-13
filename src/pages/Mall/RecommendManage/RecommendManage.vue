@@ -71,19 +71,19 @@
         <div class="tpm-img clearfix" style="display: flex">
           <div class="left"  @click="templateLink('A')">
             <div class="img">
-              <img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/scoremall/template1.png" alt="A模板">
+              <img src="http://qoss.qrmkt.cn/scoremall/template1.png" alt="A模板">
             </div>
             <p>A模板</p>
           </div>
           <div class="left">
             <div class="img" @click="templateLink('B')">
-              <img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/scoremall/template3.png" alt="B模板">
+              <img src="http://qoss.qrmkt.cn/scoremall/template3.png" alt="B模板">
             </div>
             <p>B模板</p>
           </div>
           <div class="left">
             <div class="img" @click="templateLink('C')">
-              <img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/scoremall/template2.png" alt="C模板">
+              <img src="http://qoss.qrmkt.cn/scoremall/template2.png" alt="C模板">
             </div>
             <p>C模板</p>
           </div>

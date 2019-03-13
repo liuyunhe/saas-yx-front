@@ -51,7 +51,7 @@ export default {
 						gzh: {
 							name: 'XXX',
 							note: '获得更多惊喜',
-							qrIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
+							qrIcon: 'http://qoss.qrmkt.cn/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
 							bg: ''
 						},
 						activity: {
@@ -81,7 +81,7 @@ export default {
 						gzh: {
 							name: 'XXX',
 							note: '获得更多惊喜',
-							qrIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
+							qrIcon: 'http://qoss.qrmkt.cn/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
 							bg: ''
 						},
 						activity: {

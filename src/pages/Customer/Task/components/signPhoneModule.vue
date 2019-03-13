@@ -324,7 +324,7 @@ export default {
 .share-bg {
   width: 300px;
   height: 484px;
-  background: url("http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/red_share_bg.png")
+  background: url("http://qoss.qrmkt.cn/new_platform/red_share_bg.png")
     no-repeat center / 100% 100%;
   .text {
     position: absolute;

@@ -97,8 +97,8 @@ export default {
         growth: null, // 常规-成长值
         drawChanceFlg: null, // 是否关联抽奖：0不关联，1关联
         continuSignFlg: null, // 连续签到奖励是否开启：0否, 1是
-        initBtImage: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/center-sign-btn.png', // 按钮初始图片
-        pressBtImage: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/qd/center-signEnd-btn.png', // 按钮按下图片
+        initBtImage: 'http://qoss.qrmkt.cn/common/qd/center-sign-btn.png', // 按钮初始图片
+        pressBtImage: 'http://qoss.qrmkt.cn/common/qd/center-signEnd-btn.png', // 按钮按下图片
         drawSignDay: null, //累计签到N天可参与抽奖
         pageInfo: ''
       },

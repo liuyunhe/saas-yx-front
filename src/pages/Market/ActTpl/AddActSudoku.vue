@@ -122,7 +122,7 @@
                     <div class="ipone">
                         <div class="header"></div>
                         <div class="content">
-                            <div class="bg"><img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/huodongshuoming.png"></div>
+                            <div class="bg"><img src="http://qoss.qrmkt.cn/new_platform/pc_front/huodongshuoming.png"></div>
                         </div>
                         <div class="footer"></div>
                     </div>
@@ -131,7 +131,7 @@
                     <div class="ipone">
                         <div class="header"></div>
                         <div class="content">
-                            <div class="bg"><img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/wodedjiangpin.png"></div>
+                            <div class="bg"><img src="http://qoss.qrmkt.cn/new_platform/pc_front/wodedjiangpin.png"></div>
                         </div>
                         <div class="footer"></div>
                     </div>
@@ -144,8 +144,8 @@
                             <div class="winning">
                                 <div class="prize-con award-con">
                                 	    <img :src="defaultConf.img.award_bg.url"class='award-alert' alt="" />
-                                		<div class="close"><img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/close_icon.png" alt="" /></div>
-	                                    <img class="pic" src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/award_img.png" alt="">
+                                		<div class="close"><img src="http://qoss.qrmkt.cn/new_platform/close_icon.png" alt="" /></div>
+	                                    <img class="pic" src="http://qoss.qrmkt.cn/new_platform/award_img.png" alt="">
 	                                    <div class="award-text">
 	                                    	<h3>奖品名称</h3>
 	                                    	<p>请在24小时内领取</p>
@@ -193,7 +193,7 @@
                             <div class="bg"><img :src="defaultConf.img.bg.url"></div>
                             <div class="not-winning">
                                 <div class="prize-con award-con">
-                                    <div class="close"><img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/close_icon.png" alt="" /></div>
+                                    <div class="close"><img src="http://qoss.qrmkt.cn/new_platform/close_icon.png" alt="" /></div>
                                     <img class="award-alert" :src="defaultConf.img.noAward.url" alt="">
                                     <div class="award-no-text">
                                     	<h3>很遗憾，未中奖</h3>
@@ -295,12 +295,12 @@
         },
         methods: {
             getImage(name, suffix) {
-                var base= "https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/";
+                var base= "http://qoss.qrmkt.cn/new_platform/pc_front/";
                 var suffix = suffix ? suffix : this.suffix;
                 return  base + name + "." + suffix;
             },
             getNewImage: function(name, suffix) {
-                var newBase="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/";
+                var newBase="http://qoss.qrmkt.cn/new_platform/";
                 var suffix = suffix ? suffix : this.suffix;
                 return newBase + name + "." + suffix;
             },
@@ -605,7 +605,7 @@
                     position: relative;
                     width: 100%;
                     height: 66px;
-                    background: url('http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/937@2x.png')
+                    background: url('http://qoss.qrmkt.cn/new_platform/pc_front/937@2x.png')
                     center no-repeat;
                     p {
                         position: absolute;
@@ -799,7 +799,7 @@
                 .footer {
                     width: 100%;
                     height: 64px;
-                    background: url('http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/phone-footer@2x.png')
+                    background: url('http://qoss.qrmkt.cn/new_platform/pc_front/phone-footer@2x.png')
                     center no-repeat;
                 }
             }

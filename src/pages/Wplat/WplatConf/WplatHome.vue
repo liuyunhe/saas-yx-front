@@ -3,7 +3,7 @@
 		<el-tabs v-model="activeName" @tab-click="handleClick">
 			<el-tab-pane label="扫码落地页面" name="first">
 				<div class='left'>
-					<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/has.png" alt="" />
+					<img src="http://qoss.qrmkt.cn/new_platform/pc/has.png" alt="" />
 				</div>
 				<div class="right">
 					<h2>扫码落地页，可根据产品规格进行自定义配置，赶快去设置吧</h2>
@@ -121,7 +121,7 @@
 								
 							</div>
 							<div class="menu-part">
-									<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/menu.png" alt="" />
+									<img src="http://qoss.qrmkt.cn/new_platform/pc/menu.png" alt="" />
 								</div>
 							<div class="phone-bottom"></div>
 						</div>
@@ -157,16 +157,16 @@
 								note: ''
 							},
 							yz: {
-								logoIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_head_qrcode_default.png',
+								logoIcon: 'http://qoss.qrmkt.cn/saas_platform/common/org_tpl/cc_head_qrcode_default.png',
 								tip: '扫描烟包上的二维码，验证XXX真品',
-								btnIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_btn_default.png',
-								bg: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_info_default.png'
+								btnIcon: 'http://qoss.qrmkt.cn/saas_platform/common/org_tpl/cc_btn_default.png',
+								bg: 'http://qoss.qrmkt.cn/saas_platform/common/org_tpl/cc_bg_info_default.png'
 							},
 							gzh: {
 								name: 'XXX',
 								note: '获取更多惊喜',
-								qrIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
-								bg: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qr_default.png'
+								qrIcon: 'http://qoss.qrmkt.cn/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
+								bg: 'http://qoss.qrmkt.cn/saas_platform/common/org_tpl/cc_bg_qr_default.png'
 							}
 						}
 					}
@@ -179,16 +179,16 @@
 								note: ''
 							},
 							yz: {
-								logoIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_head_qrcode_default.png',
+								logoIcon: 'http://qoss.qrmkt.cn/saas_platform/common/org_tpl/cc_head_qrcode_default.png',
 								tip: '扫描烟包上的二维码，验证XXX真品',
-								btnIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_btn_default.png',
-								bg: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_info_default.png'
+								btnIcon: 'http://qoss.qrmkt.cn/saas_platform/common/org_tpl/cc_btn_default.png',
+								bg: 'http://qoss.qrmkt.cn/saas_platform/common/org_tpl/cc_bg_info_default.png'
 							},
 							gzh: {
 								name: 'XXX',
 								note: '获取更多惊喜',
-								qrIcon: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
-								bg: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/org_tpl/cc_bg_qr_default.png'
+								qrIcon: 'http://qoss.qrmkt.cn/saas_platform/common/org_tpl/cc_bg_qrcode_default.png',
+								bg: 'http://qoss.qrmkt.cn/saas_platform/common/org_tpl/cc_bg_qr_default.png'
 							}
 						}
 					}

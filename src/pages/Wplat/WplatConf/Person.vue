@@ -2,16 +2,16 @@
 	<div class="wplat-root">
 		<div class='left'>
 			<div class="phone">
-				<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/common/wplat/person_top.png" alt="" />
+				<img src="http://qoss.qrmkt.cn/common/wplat/person_top.png" alt="" />
 				<div class="person-top">
-					<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/common/wplat/person_banner1.png" alt="" />
+					<img src="http://qoss.qrmkt.cn/common/wplat/person_banner1.png" alt="" />
 					<div class="header-img">
-						<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/common/wplat/person_img.png" alt="" />
+						<img src="http://qoss.qrmkt.cn/common/wplat/person_img.png" alt="" />
 					</div>
 				</div>
 				
 				
-				<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/common/wplat/person_bot_02.png" alt="" />
+				<img src="http://qoss.qrmkt.cn/common/wplat/person_bot_02.png" alt="" />
 			</div>
 		</div>
 		<div class="right">
