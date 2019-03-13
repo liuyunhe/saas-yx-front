@@ -134,7 +134,7 @@
                     </div>
                   </div>
                 </div>
-                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1373px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1600px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 730*280px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 750*930px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 128*103px格式为jpg\bmp\png\gif</p>
@@ -402,7 +402,7 @@ export default {
         description: '',
         headerImgUrl:
           'http://qoss.qrmkt.cn/common/niudan/nd-title.jpg',
-        bgImgUrl: 'http://qoss.qrmkt.cn/common/niudan/nd-bkg3.png',
+        bgImgUrl: 'http://qoss.qrmkt.cn/common/niudan/nd-bkg .png',
         actTip:'http://qoss.qrmkt.cn/common/niudan/hdjn.png',
         boxImgUrl:'http://qoss.qrmkt.cn/common/niudan/main.png',
         btnImgUrl:'http://qoss.qrmkt.cn/common/niudan/nd-btn.png',
