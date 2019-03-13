@@ -61,7 +61,7 @@
                   </div>
                   <el-popover
                       placement="right-end"
-                      title="标题"
+                      title="背景图片说明"
                       width="300"
                       trigger="hover">
                     <img src="http://qoss.qrmkt.cn/common/ddshu/act_tpl_tip.png" width="300" alt="">
