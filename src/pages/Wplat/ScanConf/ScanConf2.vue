@@ -237,11 +237,11 @@
 									<el-button slot="reference"></el-button>
 								</el-popover>
 								<div class="img-top"v-show='addlist.conf.has.yz.botFlag'>
-									<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/scan-002-imgB.png" alt=""v-show='!addlist.conf.has.yz.productImg' />
+									<img src="http://qoss.qrmkt.cn/new_platform/scan-002-imgB.png" alt=""v-show='!addlist.conf.has.yz.productImg' />
 									<img :src="addlist.conf.has.yz.productImg"v-show='addlist.conf.has.yz.productImg' alt="" />
 								</div>
 								<div class="img-top-big"v-show='!addlist.conf.has.yz.botFlag'>
-									<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/scan-002-img.png"v-show='!addlist.conf.has.yz.productImgBig' alt="" />
+									<img src="http://qoss.qrmkt.cn/new_platform/scan-002-img.png"v-show='!addlist.conf.has.yz.productImgBig' alt="" />
 									<img :src="addlist.conf.has.yz.productImgBig"v-show='addlist.conf.has.yz.productImgBig' alt="" />
 								</div>
 								<div class="yz-text">
@@ -252,15 +252,15 @@
 									<img :src="addlist.conf.has.yz.feedbackImg"class='feedback'v-show='addlist.conf.has.yz.feedbackFlag' alt="" />
 								</div>
 								<div class="bot-img"v-show='addlist.conf.has.yz.botFlag'>
-									<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/scan-002-bot.png"v-show='!addlist.conf.has.yz.botImg' alt="" />
+									<img src="http://qoss.qrmkt.cn/new_platform/scan-002-bot.png"v-show='!addlist.conf.has.yz.botImg' alt="" />
 									<img :src="addlist.conf.has.yz.botImg"v-show='addlist.conf.has.yz.botImg' alt="" />
 								</div>
 							</div>							
 							<div class="act-part">
-								<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/hehua-act.png" alt="" />
+								<img src="http://qoss.qrmkt.cn/new_platform/hehua-act.png" alt="" />
 							</div>
 							<div class="menu-part">
-								<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/menu.png" alt="" />
+								<img src="http://qoss.qrmkt.cn/new_platform/pc/menu.png" alt="" />
 							</div>
 							<div class="phone-bottom"></div>
 
@@ -305,7 +305,7 @@
 					conf: {
 						loading:{
 							flag:1,
-							bg:'https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/loading-bg.png',
+							bg:'http://qoss.qrmkt.cn/new_platform/loading-bg.png',
 							color:'#ccc'
 						},
 						has: {
@@ -337,7 +337,7 @@
 					conf: {
 						loading:{
 							flag:1,
-							bg:'https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/loading-bg.png',
+							bg:'http://qoss.qrmkt.cn/new_platform/loading-bg.png',
 							color:'#ccc'
 						},
 						has: {

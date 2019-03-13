@@ -20,6 +20,10 @@
             <div class="content phone">
               <div class="bg"><img :src="configItem.bgImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 1"></div>
               <div class="top"><img :src="configItem.headerImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 2"></div>
+              <img :src="configItem.egg2ImgUrl" class="egg7" alt="" @click="showEditConIndex = 7">
+              <img :src="configItem.egg3ImgUrl" class="egg8" alt="" @click="showEditConIndex = 8">
+              <img :src="configItem.egg1ImgUrl" class="egg9" alt="" @click="showEditConIndex = 6">
+
               <img :src="configItem.egg3ImgUrl" class="egg2" alt="" @click="showEditConIndex = 8">
               <img :src="configItem.egg3ImgUrl" class="egg4" alt="" @click="showEditConIndex = 8">
               <img :src="configItem.egg2ImgUrl" class="egg6" alt="" @click="showEditConIndex = 7">
@@ -130,7 +134,7 @@
                     </div>
                   </div>
                 </div>
-                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1373px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1600px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 730*280px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 750*930px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 128*103px格式为jpg\bmp\png\gif</p>
@@ -220,7 +224,7 @@
           <div class="ipone">
             <div class="header"></div>
             <div class="content">
-              <div class="bg"><img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/huodongshuoming.png"></div>
+              <div class="bg"><img src="http://qoss.qrmkt.cn/new_platform/pc_front/huodongshuoming.png"></div>
             </div>
             <div class="footer"></div>
           </div>
@@ -229,7 +233,7 @@
           <div class="ipone">
             <div class="header"></div>
             <div class="content">
-              <div class="bg"><img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/wodedjiangpin.png"></div>
+              <div class="bg"><img src="http://qoss.qrmkt.cn/new_platform/pc_front/wodedjiangpin.png"></div>
             </div>
             <div class="footer"></div>
           </div>
@@ -364,32 +368,32 @@ export default {
       iconUrl: [
           {
             key: 1,
-            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
+            imgUrl: 'http://qoss.qrmkt.cn/new_platform/egg.png',
             $$hashKey: 'object:378'
           },
           {
             key: 2,
-            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
+            imgUrl: 'http://qoss.qrmkt.cn/new_platform/egg.png',
             $$hashKey: 'object:379'
           },
           {
             key: 3,
-            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
+            imgUrl: 'http://qoss.qrmkt.cn/new_platform/egg.png',
             $$hashKey: 'object:380'
           },
           {
             key: 4,
-            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
+            imgUrl: 'http://qoss.qrmkt.cn/new_platform/egg.png',
             $$hashKey: 'object:381'
           },
           {
             key: 5,
-            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
+            imgUrl: 'http://qoss.qrmkt.cn/new_platform/egg.png',
             $$hashKey: 'object:382'
           },
           {
             key: 6,
-            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
+            imgUrl: 'http://qoss.qrmkt.cn/new_platform/egg.png',
             $$hashKey: 'object:383'
           }
         ],
@@ -397,31 +401,31 @@ export default {
         title: '',
         description: '',
         headerImgUrl:
-          'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-title.jpg',
-        bgImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-bkg3.png',
-        actTip:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/hdjn.png',
-        boxImgUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/main.png',
-        btnImgUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-btn.png',
-        egg1ImgUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/ball1.png',
-        egg2ImgUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/ball2.png',
-        egg3ImgUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/ball3.png',
-        egg1left:"http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-egg1-left.png",
-        egg1right:"http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-egg1-right.png",
-        egg2left:"http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-egg2-left.png",
-        egg2right:"http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-egg2-right.png",
-        egg3left:"http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-egg3-left.png",
-        egg3right:"http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-egg3-right.png",
+          'http://qoss.qrmkt.cn/common/niudan/nd-title.jpg',
+        bgImgUrl: 'http://qoss.qrmkt.cn/common/niudan/nd-bkg .png',
+        actTip:'http://qoss.qrmkt.cn/common/niudan/hdjn.png',
+        boxImgUrl:'http://qoss.qrmkt.cn/common/niudan/main.png',
+        btnImgUrl:'http://qoss.qrmkt.cn/common/niudan/nd-btn.png',
+        egg1ImgUrl:'http://qoss.qrmkt.cn/common/niudan/ball1.png',
+        egg2ImgUrl:'http://qoss.qrmkt.cn/common/niudan/ball2.png',
+        egg3ImgUrl:'http://qoss.qrmkt.cn/common/niudan/ball3.png',
+        egg1left:"http://qoss.qrmkt.cn/common/niudan/nd-egg1-left.png",
+        egg1right:"http://qoss.qrmkt.cn/common/niudan/nd-egg1-right.png",
+        egg2left:"http://qoss.qrmkt.cn/common/niudan/nd-egg2-left.png",
+        egg2right:"http://qoss.qrmkt.cn/common/niudan/nd-egg2-right.png",
+        egg3left:"http://qoss.qrmkt.cn/common/niudan/nd-egg3-left.png",
+        egg3right:"http://qoss.qrmkt.cn/common/niudan/nd-egg3-right.png",
         awardUrl: [
           {
             imgUrl:
-              'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/zhongjiang74@2x.png'
+              'http://qoss.qrmkt.cn/new_platform/pc_front/zhongjiang74@2x.png'
           }
         ],
         drawImgUrl:
-          'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-award-bg.png',
-        drawBtnUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/niudan-awardBtn.png',
-        cryImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-noaward.png',
-        cryBtnUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-zxNoAwardBtn.png',
+          'http://qoss.qrmkt.cn/common/niudan/nd-award-bg.png',
+        drawBtnUrl:'http://qoss.qrmkt.cn/common/niudan/niudan-awardBtn.png',
+        cryImgUrl: 'http://qoss.qrmkt.cn/common/niudan/nd-noaward.png',
+        cryBtnUrl:'http://qoss.qrmkt.cn/common/niudan/nd-zxNoAwardBtn.png',
       },
       uploadURL: '/api/saotx/attach/commonAliUpload',
       headerObj: {
@@ -699,6 +703,30 @@ export default {
           top:230px;
           z-index: 1;
         }
+        .egg7{
+          width: 50px;
+          height: 50px;
+          position: absolute;
+          left: 100px;
+          top:211px;
+          z-index: 1;
+        }
+        .egg8{
+          width: 50px;
+          height: 50px;
+          position: absolute;
+          left: 138px;
+          top:207px;
+          z-index: 1;
+        }
+        .egg9{
+          width: 50px;
+          height: 50px;
+          position: absolute;
+          left: 173px;
+          top:213px;
+          z-index: 1;
+        }
         .bg {
           width: 100%;
           height: 100%;
@@ -928,6 +956,9 @@ export default {
   .egg4:hover,
   .egg5:hover,
   .egg6:hover,
+  .egg7:hover,
+  .egg8:hover,
+  .egg9:hover,
   .box:hover{
     transform: scale(0.99);
     cursor: pointer;

@@ -229,7 +229,7 @@
 								
 							</div>
 							<div class="menu-part">
-									<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/menu.png" alt="" />
+									<img src="http://qoss.qrmkt.cn/new_platform/pc/menu.png" alt="" />
 								</div>
 							<div class="phone-bottom"></div>
 

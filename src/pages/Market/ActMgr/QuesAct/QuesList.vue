@@ -213,7 +213,7 @@
 				vertical-align: middle;
 				width:20px;
 				height: 20px;
-				background: url('http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/right_1.png') no-repeat center / contain;
+				background: url('http://qoss.qrmkt.cn/new_platform/right_1.png') no-repeat center / contain;
 			}
 		}
 	}

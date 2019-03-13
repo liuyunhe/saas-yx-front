@@ -50,6 +50,8 @@ export default {
         }
     },
     created () {
+        this.info.title = this.title
+        this.info.desc = this.desc
         let that = this;
         this.$watch('title', v => {
             that.info.title = v;

@@ -124,7 +124,7 @@ export default {
 }
 .phone-header {
   height: 66px;
-  background: url("http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/937@2x.png")
+  background: url("http://qoss.qrmkt.cn/new_platform/pc_front/937@2x.png")
     center no-repeat / cover;
   overflow: hidden;
   & h4 {
@@ -141,7 +141,7 @@ export default {
 }
 .phone-footer {
   height: 64px;
-  background: url("http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/phone-footer@2x.png")
+  background: url("http://qoss.qrmkt.cn/new_platform/pc_front/phone-footer@2x.png")
     center no-repeat/ cover;
 }
 .page {
@@ -228,7 +228,7 @@ export default {
   background: rgba(0, 0, 0, 0.6);
 }
 .page9 {
-  background: url('http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/red_share_bg.png') no-repeat center / 100% 100%;
+  background: url('http://qoss.qrmkt.cn/new_platform/red_share_bg.png') no-repeat center / 100% 100%;
   .text {
     position: absolute;
     top: 66px;

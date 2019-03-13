@@ -3,7 +3,7 @@
 		<!-- <el-container>
       <el-header>
         <div class="top-logo">
-          <img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/top_logo.png" alt="">
+          <img src="http://qoss.qrmkt.cn/new_platform/pc/top_logo.png" alt="">
         </div>
       </el-header>
       <el-container>
@@ -35,7 +35,7 @@
 			<el-aside width="200px">
 				<div class="left">
 					<div class="logo">
-						<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/top_logo_mini.png" alt="">
+						<img src="http://qoss.qrmkt.cn/new_platform/pc/top_logo_mini.png" alt="">
 					</div>
 					<div class="parent-menu">
 						<ul>
