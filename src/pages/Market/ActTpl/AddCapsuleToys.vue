@@ -51,6 +51,7 @@
               </div>
               <div class="edit-con">
                 <div class="edit-bg-img" v-if="showEditConIndex == 1">
+
                   <p class="img-title">背景图片:</p>
                   <div class="img-con"><img :src="configItem.bgImgUrl" alt=""></div>
                   <div class="btn-con">
@@ -58,6 +59,16 @@
                       <el-button size="small" type="primary">更换图片</el-button>
                     </el-upload>
                   </div>
+                  <el-popover
+                      placement="right-end"
+                      title="标题"
+                      width="300"
+                      trigger="hover">
+                    <img src="http://qoss.qrmkt.cn/common/ddshu/act_tpl_tip.png" width="300" alt="">
+                    <!--<el-button slot="reference">?</el-button>-->
+                    <div class="tip" slot="reference">?</div>
+                  </el-popover>
+
                 </div>
                 <div class="edit-top-img" v-if="showEditConIndex == 2">
                   <p class="img-title">活动标题:</p>
@@ -889,6 +900,30 @@ export default {
         }
         .edit-bg-img {
           display: flex;
+          position: relative;
+          .tip{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid #999;
+            color: #999;
+            line-height: 20px;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 210px;
+            font-size: 12px;
+            transform: none;
+            &:hover{
+              border-color: #409EFF;
+              color: #409EFF;
+              box-sizing: content-box;
+            }
+            &:active{
+              border-color: #409EFF;
+              color: #409EFF;
+            }
+          }
           img {
             align-items: center;
             height: 100%;
