@@ -2,25 +2,25 @@
 	<div class="wplat-root">		
 		<div class='left'>
 			<div class="phone" :style='{background:backgroundList[0].color}'>
-				<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/common/wplat/banner-top.png" alt="" />
-				<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/common/wplat/navs.png"class='navs' alt="" />
+				<img src="http://qoss.qrmkt.cn/common/wplat/banner-top.png" alt="" />
+				<img src="http://qoss.qrmkt.cn/common/wplat/navs.png"class='navs' alt="" />
 				<div class="hot">
-					<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/common/wplat/hot.png" alt="" />
+					<img src="http://qoss.qrmkt.cn/common/wplat/hot.png" alt="" />
 				</div>
 				<div class="hot-title">
-					<div class="hot-box":style='{background:backgroundList[1].color}'>
+					<div class="hot-box":style='{background:backgroundList[1].list[0].color}'>
 						
 					</div>
-					<p>最热销款*积分兑换即可到手</p>
+					<p :style='{color:backgroundList[1].list[1].color}'>最热销款*积分兑换即可到手</p>
 				</div>
-				<div class="hot-circle":style='{background:backgroundList[1].color}'>
-					<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/common/wplat/hot.png" alt="" />
+				<div class="hot-circle":style='{background:backgroundList[1].list[0].color}'>
+					<img src="http://qoss.qrmkt.cn/common/wplat/hot.png" alt="" />
 				</div>		
 				<div class="item-title">
 					<p :style='{background:backgroundList[2].color}'>电子专场</p>
 				</div>
-				<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/common/wplat/item.png" class='item' alt="" />
-				<img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/common/wplat/shop_bot.png" alt="" />
+				<img src="http://qoss.qrmkt.cn/common/wplat/item.png" class='item' alt="" />
+				<img src="http://qoss.qrmkt.cn/common/wplat/shop_bot.png" alt="" />
 			</div>
 		</div>
 		<div class="right">
