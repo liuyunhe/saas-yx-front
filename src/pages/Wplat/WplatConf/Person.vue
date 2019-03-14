@@ -46,7 +46,7 @@
 						<span>选择模板：</span>
 						<div class="template-right">
 							<ul>
-								<li v-for='(item,index) in template'@click='selectTpl(index)'>
+								<li v-for='(item,index) in template'@click='selectTpl(index)':class='{active:index==showTplIndex}'>
 									<div class="show">
 										<div v-for='i in item.count'></div>
 									</div>									
@@ -62,7 +62,7 @@
 									<img :src="iconList[i-1].url" alt="" />
 								</div>
 								<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadIcon">
-									<el-button type="primary"@click='getIndex(i)'>更换图片</el-button>
+									<el-button type="primary"@click='getIndex(i-1)'>更换图片</el-button>
 								</el-upload>
 							</div>
 						</div>
@@ -146,10 +146,15 @@
 					text:'2行8个',
 					count:8
 				}],
-				count:3,//选了几个图标
+				count:2,//选了几个图标
 				showTabIndex:1,//点击了哪个图标
-				iconList:[],//图标列表
-				editIndex:0
+				showTplIndex:0,
+				iconList:[{
+					url:''
+				},{
+					url:''
+				}],//图标列表
+				editIndex:0,//编辑图标的索引
 			}
 		},
 		created() {
@@ -162,11 +167,17 @@
 			selectTpl(index){
 				this.iconList=[];
 				this.count=index+2;
+				this.showTplIndex=index;
+				for(let i=0;i<this.count;i++){
+					this.iconList.push({
+						url:''
+					})
+				}
 			},
 			getIndex(index){
 				this.editIndex=index;
 			},
-			uploadIcon(){
+			uploadIcon(res){
 				var data = res.data || {};
 				var imgUrl = data && data.accessUrl;
 				this.iconList[this.editIndex].url=imgUrl;
@@ -373,6 +384,10 @@
 									margin-bottom: 20px;
 									vertical-align: top;
 									cursor: pointer;
+									&.active{
+										border:1px solid #999;
+										background: #F0F0F0;
+									}
 									&:hover {
 										border:1px solid #999;
 										background: #F0F0F0;
