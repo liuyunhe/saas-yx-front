@@ -1,6 +1,6 @@
 const conf = {
-    base: "https://weiopn.oss-cn-beijing.aliyuncs.com",
-    oldPath: '/pc_data_front/img/',
+    base: "http://qoss.qrmkt.cn",
+    oldPath: '/new_platform/pc_front/',
     newPath: '/new_platform/'
 }
 

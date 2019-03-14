@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       num: 1,
-      imgURL: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/test/55C8950F6B444C8887925C80B3B97B03.png'
+      imgURL: 'http://qoss.qrmkt.cn/saas_platform/test/55C8950F6B444C8887925C80B3B97B03.png'
     }
   },
   methods: {

@@ -71,9 +71,9 @@ export default {
       selectedTotalGoods: 0,
       selectedGoodsArr: [],
       dataObj: [
-        { id: 1, name: '123', pic: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/test/55C8950F6B444C8887925C80B3B97B03.png', type: '活动奖品', sort: '实物', stock: 123 },
-        { id: 1, name: '123', pic: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/test/55C8950F6B444C8887925C80B3B97B03.png', type: '活动奖品', sort: '实物', stock: 123 },
-        { id: 1, name: '123', pic: 'http://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/test/55C8950F6B444C8887925C80B3B97B03.png', type: '活动奖品', sort: '实物', stock: 123 }
+        { id: 1, name: '123', pic: 'http://qoss.qrmkt.cn/saas_platform/test/55C8950F6B444C8887925C80B3B97B03.png', type: '活动奖品', sort: '实物', stock: 123 },
+        { id: 1, name: '123', pic: 'http://qoss.qrmkt.cn/saas_platform/test/55C8950F6B444C8887925C80B3B97B03.png', type: '活动奖品', sort: '实物', stock: 123 },
+        { id: 1, name: '123', pic: 'http://qoss.qrmkt.cn/saas_platform/test/55C8950F6B444C8887925C80B3B97B03.png', type: '活动奖品', sort: '实物', stock: 123 }
       ],
       total: 3,
       prizeList: [],
