@@ -322,7 +322,7 @@
               </div>
               <div class="edit-con">
                 <div class="edit-notWinning-img">
-                  <p class="img-title">图片:</p>
+                  <p class="img-title">未中奖图片:</p>
                   <div class="img-con" style="width: 100px;height: 113px;line-height: 113px"><img :src="configItem.cryImgUrl"  alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upNotWinningImgSuccess" :show-file-list="false">
