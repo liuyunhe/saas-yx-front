@@ -51,6 +51,7 @@
               </div>
               <div class="edit-con">
                 <div class="edit-bg-img" v-if="showEditConIndex == 1">
+
                   <p class="img-title">背景图片:</p>
                   <div class="img-con"><img :src="configItem.bgImgUrl" alt=""></div>
                   <div class="btn-con">
@@ -58,6 +59,16 @@
                       <el-button size="small" type="primary">更换图片</el-button>
                     </el-upload>
                   </div>
+                  <el-popover
+                      placement="right-end"
+                      title="背景图片说明"
+                      width="300"
+                      trigger="hover">
+                    <img src="http://qoss.qrmkt.cn/common/ddshu/act_tpl_tip.png" width="300" alt="">
+                    <!--<el-button slot="reference">?</el-button>-->
+                    <div class="tip" slot="reference">?</div>
+                  </el-popover>
+
                 </div>
                 <div class="edit-top-img" v-if="showEditConIndex == 2">
                   <p class="img-title">活动标题:</p>
@@ -104,7 +115,7 @@
                 <div class="edit-game-img" v-if="showEditConIndex == 6">
                   <div>
                     <p class="img-title">扭蛋一</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg1ImgUrl" alt=""></div>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg1ImgUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg1ImgUrlSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -115,7 +126,7 @@
                 <div class="edit-game-img" v-if="showEditConIndex == 7">
                   <div>
                     <p class="img-title">扭蛋二</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg2ImgUrl" alt=""></div>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg2ImgUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg2ImgUrlSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -126,7 +137,7 @@
                 <div class="edit-game-img" v-if="showEditConIndex == 8">
                   <div>
                     <p class="img-title">扭蛋三</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg3ImgUrl" alt=""></div>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg3ImgUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg3ImgUrlSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -146,7 +157,7 @@
                 <div class="edit-game-img" v-if="showEditConIndex == 6" style="margin-top: 30px">
                   <div>
                     <p class="img-title">扭蛋一开奖：左</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg1left" alt=""></div>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg1left" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg1leftSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -158,7 +169,7 @@
                 <div class="edit-game-img" v-if="showEditConIndex == 6" style="margin-top: 30px">
                   <div>
                     <p class="img-title">扭蛋一开奖：右</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg1right" alt=""></div>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg1right" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg1rightSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -170,7 +181,7 @@
                 <div class="edit-game-img" v-if="showEditConIndex == 7" style="margin-top: 30px">
                   <div>
                     <p class="img-title">扭蛋二开奖：左</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg2left" alt=""></div>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg2left" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg2leftSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -182,7 +193,7 @@
                 <div class="edit-game-img" v-if="showEditConIndex == 7" style="margin-top: 30px">
                   <div>
                     <p class="img-title">扭蛋二开奖：右</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg2right" alt=""></div>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg2right" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg2rightSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -194,7 +205,7 @@
                 <div class="edit-game-img" v-if="showEditConIndex == 8" style="margin-top: 30px">
                   <div>
                     <p class="img-title">扭蛋三开奖：左</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg3left" alt=""></div>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg3left" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg3leftSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -206,7 +217,7 @@
                 <div class="edit-game-img" v-if="showEditConIndex == 8" style="margin-top: 30px">
                   <div>
                     <p class="img-title">扭蛋三开奖：右</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg3right" alt=""></div>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg3right" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg3rightSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -264,7 +275,7 @@
               <div class="edit-con">
                 <div class="edit-winning-img">
                   <p class="img-title">中奖图片:</p>
-                  <div class="img-con" style="height: 148px;line-height: 148px"><img :src="configItem.drawImgUrl" alt=""></div>
+                  <div class="img-con" style="width: 100px;height: 113px;line-height: 113px"><img :src="configItem.drawImgUrl" width="100" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upDrawImgUrlSuccess" :show-file-list="false">
                       <el-button size="small" type="primary">更换图片</el-button>
@@ -311,8 +322,8 @@
               </div>
               <div class="edit-con">
                 <div class="edit-notWinning-img">
-                  <p class="img-title">图片:</p>
-                  <div class="img-con" style="height: 148px;line-height: 148px"><img :src="configItem.cryImgUrl" alt=""></div>
+                  <p class="img-title">未中奖图片:</p>
+                  <div class="img-con" style="width: 100px;height: 113px;line-height: 113px"><img :src="configItem.cryImgUrl"  alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upNotWinningImgSuccess" :show-file-list="false">
                       <el-button size="small" type="primary">更换图片</el-button>
@@ -324,7 +335,7 @@
               <div class="edit-con">
                 <div class="edit-notWinning-img">
                   <p class="img-title">按钮:</p>
-                  <div class="img-con"><img :src="configItem.cryBtnUrl" alt=""></div>
+                  <div class="img-con" ><img :src="configItem.cryBtnUrl" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upNotWinningBtnSuccess" :show-file-list="false">
                       <el-button size="small" type="primary">更换图片</el-button>
@@ -889,6 +900,30 @@ export default {
         }
         .edit-bg-img {
           display: flex;
+          position: relative;
+          .tip{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid #999;
+            color: #999;
+            line-height: 20px;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 210px;
+            font-size: 12px;
+            transform: none;
+            &:hover{
+              border-color: #409EFF;
+              color: #409EFF;
+              box-sizing: content-box;
+            }
+            &:active{
+              border-color: #409EFF;
+              color: #409EFF;
+            }
+          }
           img {
             align-items: center;
             height: 100%;
