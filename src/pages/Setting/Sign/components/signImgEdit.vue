@@ -7,7 +7,7 @@
       <div class="edit">
         <div class="edit-container" v-for="(item, index) in imgObj" :key="index">
           <div v-if="item.type == type">
-            <h4>编辑{{item.name}}：</h4>
+            <h4>{{item.name}}：</h4>
             <div class="img-container">
                 <img :src="item.url" alt="">
             </div>
@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="edit-container" v-if="type == 3">
-          <h4>编辑日期背景：</h4>
+          <h4>日期背景：</h4>
           <div class="img-container">
             <el-color-picker v-model="color.background" show-alpha></el-color-picker>
           </div>
