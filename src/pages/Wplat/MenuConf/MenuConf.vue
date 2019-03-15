@@ -2,7 +2,7 @@
 	<div class="menu-root">
 		<div class="menu-content clearfix" v-show='listShow'>
 			<div class="nav-img" @click='contentShow=true'>
-				<img src="http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/top.png" alt="" />
+				<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/top.png" alt="" />
 				<div class="click-con" :style="{background:colorValue}">
 					<ul>
 						<li v-for='(value,key) in typeArr' :key="key" @click='activeShow(value)' :class='{active:activeFlag==value.type}'>
@@ -119,9 +119,9 @@
 				removeId: 0,
 				contentShow: true,
 				colorValue: '#ffffff',
-				editImg: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png',
-				addImg1: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png',
-				addImg2: 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png',
+				editImg: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/detail_default.png',
+				addImg1: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/detail_default.png',
+				addImg2: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/detail_default.png',
 				isAdd: false,
 				tipShow: false,
 				typeArr: [],
@@ -138,7 +138,7 @@
 				},
 				activeFlag: 'scan',
 				loading: true,
-				initUrl:'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png',
+				initUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/detail_default.png',
 				editKey:0,
 				editFlag:0,
 				initLength:0
@@ -174,9 +174,9 @@
 			},
 			back() {
 				if(this.addListShow) {
-					this.addImg1 = 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png';
-					this.addImg2 = 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png';
-					this.editImg = 'http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png';
+					this.addImg1 = 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/detail_default.png';
+					this.addImg2 = 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/detail_default.png';
+					this.editImg = 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/detail_default.png';
 				}
 				this.listShow = true;
 				this.addListShow = false;
@@ -193,8 +193,8 @@
 			},
 			addShowFn() {
 				var that = this;
-				that.addImg1='http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png';
-				that.addImg2='http://weiopn.oss-cn-beijing.aliyuncs.com/new_platform_pc/img/detail_default.png';
+				that.addImg1='http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/detail_default.png';
+				that.addImg2='http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/detail_default.png';
 				that.noArr=[];
 				for(let i = 0; i < that.navArr.length; i++) {
 					let flag = false;

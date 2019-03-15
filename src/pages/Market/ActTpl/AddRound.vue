@@ -113,7 +113,7 @@
                     <div class="ipone">
                         <div class="header"></div>
                         <div class="content">
-                            <div class="bg"><img src="https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/huodongshuoming.png"></div>
+                            <div class="bg"><img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/huodongshuoming.png"></div>
                         </div>
                         <div class="footer"></div>
                     </div>
@@ -122,7 +122,7 @@
                     <div class="ipone">
                         <div class="header"></div>
                         <div class="content">
-                            <div class="bg"><img src="https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/wodedjiangpin.png"></div>
+                            <div class="bg"><img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/wodedjiangpin.png"></div>
                         </div>
                         <div class="footer"></div>
                     </div>
@@ -135,7 +135,7 @@
                             <div class="winning">
                                 <div class="prize-con">
                                     <div class="close">X</div>
-                                    <img class="pic" src="https://weiopn.oss-cn-beijing.aliyuncs.com/saas_platform/test/5279354775674C718BC4C6E46A963B72.png" alt="">
+                                    <img class="pic" src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/awarded.png" alt="">
                                     <h3>奖品名称</h3>
                                     <p>请在24小时内领取</p>
                                     <img class="prize-btn" :src="defaultConf.img.award.url" alt="">
@@ -271,7 +271,7 @@
     },
     methods: {
       getImage(name, suffix) {
-        var base= "https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/";
+        var base= "https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/";
         var suffix = suffix ? suffix : this.suffix;
         return  base + name + "." + suffix;
       },
@@ -353,14 +353,14 @@
         };
         urls.award = {
           url:
-            "https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/djlq_btn.png"
+            "https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/djlq_btn.png"
         };
         urls.noAward = {
           url:
-            "https://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/cry75@2x.png"
+            "https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/cry75@2x.png"
         };
         urls.zxNoAwardBtn = {
-          url: "https://weiopn.oss-cn-beijing.aliyuncs.com/new_platform/know-btn.png"
+          url: "https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/know-btn.png"
         }
         console.log(urls);
         return urls;
@@ -506,7 +506,7 @@
                     position: relative;
                     width: 100%;
                     height: 66px;
-                    background: url('http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/937@2x.png')
+                    background: url('http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/937@2x.png')
                     center no-repeat;
                     p {
                         position: absolute;
@@ -661,7 +661,7 @@
                 .footer {
                     width: 100%;
                     height: 64px;
-                    background: url('http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/phone-footer@2x.png')
+                    background: url('http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/phone-footer@2x.png')
                     center no-repeat;
                 }
             }
