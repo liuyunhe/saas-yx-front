@@ -173,7 +173,7 @@ export default {
             this.menuList = res.data
             this.$store.commit('setMenu', res.data)
             // sessionStorage.menu = JSON.stringify(res.data)
-            // this.sonMenuList = res.data[0].nodeList
+            this.sonMenuList = res.data[0].nodeList
             // this.initGrandsonMenu(this.sonMenuList[0])
             this.menuActive()
             this.goFirstSonMenu()
