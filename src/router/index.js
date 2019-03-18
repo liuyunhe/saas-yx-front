@@ -16,6 +16,9 @@ const IntegralPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Or
 const ZjOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ZjOrderPage.vue')
 const ZjOrderPageDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ZjOrderPageDetail.vue')
 const JdOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/JdOrderPage.vue')
+// 权益订单
+// const RightsOrder = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/Rights/RightsOrder.vue')
+// const RightsOrderDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/Rights/RightsOrderDetail.vue')
 //积分活动订单管理
 const ActOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ActOrderPage.vue')
 const ActOrderPageDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ActOrderPageDetail.vue')
@@ -221,8 +224,13 @@ const Mgr = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Mg
 const Black = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Black/Black')
 const Task = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/TaskList')
 const Rights = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Rights/Rights')
+const RightsDetail = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Rights/RightsDetail')
+// 用户详情
+// const PersonalDeatail = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/components/personalDeatail')
 // 会员任务设置
-const memberTaskSign = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/signActEdit')
+// const TaskDetail = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/TaskDetail')
+// const ScanEdit = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/ScanEdit')
+// const PointsEdit = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/PointsEdit')
 
 Vue.use(Router)
 
@@ -356,7 +364,8 @@ export default new Router({
         // 订单
         { path: '/orders', name: '订单' },
         { path: '/orders/seller', name: '零售户订单', component: KPI },
-        { path: '/orders/member', name: '权益订单', component: KPI },
+        // { path: '/orders/member', name: '权益订单', component: RightsOrder },
+        // { path: '/orders/member/detail', name: '权益订单', component: RightsOrderDetail, props: (route) => ({id:route.query.id}) },
         { path: '/orders/act', name: '活动订单'},
         // { path: '/orders/act', name: '活动订单', redirect: '/orders/act/object' },
         { path: '/Orders/ACT/object', name: '实物领奖明细', component: ObjectPage },
@@ -430,8 +439,8 @@ export default new Router({
         { path: '/setting/mall', name: '积分设置', component: KPI },
         { path: '/setting/resource/smenu', name: '菜单管理', component: SettingSystemMenu },
         { path: '/setting/resource/smgrOrgRole', name: '菜单管理', component: SettingSystemAuth },
-        { path: '/setting/sign', name: '菜单管理', component: Sign },
-        { path: '/setting/sign/detail', name: '菜单管理', component: SignDetail,  props: (route) => ({code:route.query.code, id:route.query.id})},
+        { path: '/setting/sign', name: '签到列表', component: Sign },
+        { path: '/setting/sign/detail', name: '签到详情', component: SignDetail, props: (route) => ({code:route.query.code, id:route.query.id}) },
         // 会员日
         { path: '/memberday', name: '会员日' },
         // { path: '/memberday', name: '会员日', redirect: '/memberday/material' },
@@ -455,9 +464,14 @@ export default new Router({
         { path: '/customer', name: '用户' },
         { path: '/customer/mgr', name: '用户管理', component: Mgr },
         { path: '/customer/lvl', name: '等级权益管理', component: Rights },
+        { path: '/customer/lvl/edit', name: '编辑等级', component: RightsDetail, props: (route) => ({id: route.query.id, lowGrowth: route.query.lowGrowth}) },
         { path: '/customer/task', name: '任务管理', component: Task },
+        // { path: '/customer/task/pointsEdit', name: '积分设置', component: PointsEdit },
+        // { path: '/customer/task/detail', name: '任务明细', component: TaskDetail, props: (route) => ({id: route.query.id}) },
+        // { path: '/customer/task/scanEdit', name: '编辑扫码赚成长值', component: ScanEdit },
         { path: '/customer/black', name: '黑名单管理', component: Black },
-        // { path: '/customer/task/sign', name: '会员签到任务设置', component: memberTaskSign, props: (route) => ({code:route.query.code, id:route.query.id}) },
+        // { path: '/customer/task/sign', name: '会员签到任务设置', component: MemberTaskSign, props: (route) => ({code:route.query.code, id:route.query.id}) },
+        // { path: '/customer/mgr/detail', name: '用户详情', component: PersonalDeatail, props: (route) => ({code:route.query.code, id:route.query.id}) },
       ]
     },
     {
