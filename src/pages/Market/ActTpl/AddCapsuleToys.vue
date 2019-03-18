@@ -115,7 +115,7 @@
                 <div class="edit-game-img" v-if="showEditConIndex == 6">
                   <div>
                     <p class="img-title">扭蛋一</p>
-                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg1ImgUrl" alt=""></div>
+                    <div class="img-con act-tip-img"><img :src="configItem.egg1ImgUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg1ImgUrlSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -126,7 +126,7 @@
                 <div class="edit-game-img" v-if="showEditConIndex == 7">
                   <div>
                     <p class="img-title">扭蛋二</p>
-                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg2ImgUrl" alt=""></div>
+                    <div class="img-con act-tip-img"><img :src="configItem.egg2ImgUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg2ImgUrlSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
