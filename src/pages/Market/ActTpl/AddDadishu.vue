@@ -20,19 +20,14 @@
             <div class="content phone">
               <div class="bg"><img :src="configItem.bgImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 1"></div>
               <div class="top"><img :src="configItem.headerImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 2"></div>
-              <img :src="configItem.egg2ImgUrl" class="egg7" alt="" @click="showEditConIndex = 7">
-              <img :src="configItem.egg3ImgUrl" class="egg8" alt="" @click="showEditConIndex = 8">
-              <img :src="configItem.egg1ImgUrl" class="egg9" alt="" @click="showEditConIndex = 6">
-
-              <img :src="configItem.egg3ImgUrl" class="egg2" alt="" @click="showEditConIndex = 8">
-              <img :src="configItem.egg3ImgUrl" class="egg4" alt="" @click="showEditConIndex = 8">
-              <img :src="configItem.egg2ImgUrl" class="egg6" alt="" @click="showEditConIndex = 7">
-              <img :src="configItem.egg1ImgUrl" class="egg1" alt="" @click="showEditConIndex = 6">
-              <img :src="configItem.egg2ImgUrl" class="egg3" alt="" @click="showEditConIndex = 7">
-              <img :src="configItem.egg1ImgUrl" class="egg5" alt="" @click="showEditConIndex = 6">
-              <div class="box"><img :src="configItem.boxImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 3"></div>
+              <div class="clock"><img :src="configItem.clickImgUrl" title="点击编辑" @click="showEditConIndex = 3"alt="" /></div>
               <div class="tip"><img :src="configItem.actTip" title="点击编辑" @click="showEditConIndex = 4"alt="" /></div>
-              <div class="btn"><img :src="configItem.btnImgUrl" title="点击编辑" @click="showEditConIndex = 5"alt="" /></div>
+
+              <div v-for="item in [1,2,3,4,5,6,7,8,9]" :class="`hole-${item}`"><img :src="configItem.holeUrl" title="点击编辑" @click="showEditConIndex = 5"alt="" /></div>
+              <div class="mouse1"><img :src="configItem.mouseUrl" title="点击编辑" @click="showEditConIndex = 6"alt="" /></div>
+              <div class="mouse2"><img :src="configItem.mouseUrl" title="点击编辑" @click="showEditConIndex = 6"alt="" /></div>
+              <div class="mouse3"><img :src="configItem.mouseUrl" title="点击编辑" @click="showEditConIndex = 6"alt="" /></div>
+              <div class="hammer"><img :src="configItem.hammerUrl" title="点击编辑" @click="showEditConIndex = 7"alt="" /></div>
             </div>
             <div class="footer"></div>
           </div>
@@ -81,10 +76,10 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 3">
                   <div>
-                    <p class="img-title">扭蛋机背景</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.boxImgUrl" alt=""></div>
+                    <p class="img-title">时间背景:</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 113px;line-height: 113px"><img :src="configItem.clickImgUrl" alt=""></div>
                     <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upBoxImgUrlSuccess" :show-file-list="false">
+                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upClickImgUrlSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
                       </el-upload>
                     </div>
@@ -92,8 +87,8 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 4">
                   <div>
-                    <p class="img-title">活动说明</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.actTip" alt=""></div>
+                    <p class="img-title">活动说明:</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.actTip" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upTipImgSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -103,10 +98,10 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 5">
                   <div>
-                    <p class="img-title">抽奖按钮</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.btnImgUrl" alt=""></div>
+                    <p class="img-title">洞口遮照:</p>
+                    <div class="img-con act-tip-img"><img :src="configItem.holeUrl" alt=""></div>
                     <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upBtnImgUrlSuccess" :show-file-list="false">
+                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upHoleUrlSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
                       </el-upload>
                     </div>
@@ -114,10 +109,20 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 6">
                   <div>
-                    <p class="img-title">扭蛋一</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg1ImgUrl" alt=""></div>
+                    <p class="img-title">出现图片:</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.mouseUrl" alt=""></div>
                     <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg1ImgUrlSuccess" :show-file-list="false">
+                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upMouseUrlSuccess" :show-file-list="false">
+                        <el-button size="small" type="primary">更换图片</el-button>
+                      </el-upload>
+                    </div>
+                  </div>
+                  <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 93*93px格式为jpg\bmp\png\gif</p>
+                  <div>
+                    <p class="img-title">击中图片:</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.mouseCryUrl" alt=""></div>
+                    <div class="btn-con">
+                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upMouseCryUrlSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
                       </el-upload>
                     </div>
@@ -125,107 +130,23 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 7">
                   <div>
-                    <p class="img-title">扭蛋二</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg2ImgUrl" alt=""></div>
+                    <p class="img-title">锤子图片:</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.hammerUrl" alt=""></div>
                     <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg2ImgUrlSuccess" :show-file-list="false">
+                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upHammerUrlSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
                       </el-upload>
                     </div>
                   </div>
                 </div>
-                <div class="edit-game-img" v-if="showEditConIndex == 8">
-                  <div>
-                    <p class="img-title">扭蛋三</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg3ImgUrl" alt=""></div>
-                    <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg3ImgUrlSuccess" :show-file-list="false">
-                        <el-button size="small" type="primary">更换图片</el-button>
-                      </el-upload>
-                    </div>
-                  </div>
-                </div>
-                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1600px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 730*280px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 750*930px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 128*103px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 5">* 图片建议尺寸为 371*137px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 7">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 8">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
 
-                <div class="edit-game-img" v-if="showEditConIndex == 6" style="margin-top: 30px">
-                  <div>
-                    <p class="img-title">扭蛋一开奖：左</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg1left" alt=""></div>
-                    <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg1leftSuccess" :show-file-list="false">
-                        <el-button size="small" type="primary">更换图片</el-button>
-                      </el-upload>
-                    </div>
-                  </div>
-                </div>
-                <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
-                <div class="edit-game-img" v-if="showEditConIndex == 6" style="margin-top: 30px">
-                  <div>
-                    <p class="img-title">扭蛋一开奖：右</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg1right" alt=""></div>
-                    <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg1rightSuccess" :show-file-list="false">
-                        <el-button size="small" type="primary">更换图片</el-button>
-                      </el-upload>
-                    </div>
-                  </div>
-                </div>
-                <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
-                <div class="edit-game-img" v-if="showEditConIndex == 7" style="margin-top: 30px">
-                  <div>
-                    <p class="img-title">扭蛋二开奖：左</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg2left" alt=""></div>
-                    <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg2leftSuccess" :show-file-list="false">
-                        <el-button size="small" type="primary">更换图片</el-button>
-                      </el-upload>
-                    </div>
-                  </div>
-                </div>
-                <p class="tips" v-if="showEditConIndex == 7">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
-                <div class="edit-game-img" v-if="showEditConIndex == 7" style="margin-top: 30px">
-                  <div>
-                    <p class="img-title">扭蛋二开奖：右</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg2right" alt=""></div>
-                    <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg2rightSuccess" :show-file-list="false">
-                        <el-button size="small" type="primary">更换图片</el-button>
-                      </el-upload>
-                    </div>
-                  </div>
-                </div>
-                <p class="tips" v-if="showEditConIndex == 7">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
-                <div class="edit-game-img" v-if="showEditConIndex == 8" style="margin-top: 30px">
-                  <div>
-                    <p class="img-title">扭蛋三开奖：左</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg3left" alt=""></div>
-                    <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg3leftSuccess" :show-file-list="false">
-                        <el-button size="small" type="primary">更换图片</el-button>
-                      </el-upload>
-                    </div>
-                  </div>
-                </div>
-                <p class="tips" v-if="showEditConIndex == 8">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
-                <div class="edit-game-img" v-if="showEditConIndex == 8" style="margin-top: 30px">
-                  <div>
-                    <p class="img-title">扭蛋三开奖：右</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg3right" alt=""></div>
-                    <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg3rightSuccess" :show-file-list="false">
-                        <el-button size="small" type="primary">更换图片</el-button>
-                      </el-upload>
-                    </div>
-                  </div>
-                </div>
-                <p class="tips" v-if="showEditConIndex == 8">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1600px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 750*415px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 156*177px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 102*103px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 5">* 图片建议尺寸为 213*136px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 93*93px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 7">* 图片建议尺寸为 130*124px格式为jpg\bmp\png\gif</p>
               </div>
 
             </el-card>
@@ -258,7 +179,6 @@
                 <div class="prize-con">
                   <div class="close">X</div>
                   <img class="pic" :src="configItem.drawImgUrl" alt="" style="margin-right: 0">
-                  <h3 style="position: absolute;top: 126px;width: 100%">恭喜中奖</h3>
                   <p style="position: absolute;top: 265px;width: 100%;font-size: 10px;">请在24小时内领取</p>
                   <p style="position: absolute;top: 245px;width: 100%;font-size: 14px;">1.05红包+50积分</p>
                   <img class="prize-btn" :src="configItem.drawBtnUrl" alt="">
@@ -275,7 +195,7 @@
               <div class="edit-con">
                 <div class="edit-winning-img">
                   <p class="img-title">中奖图片:</p>
-                  <div class="img-con" style="height: 148px;line-height: 148px"><img :src="configItem.drawImgUrl" alt=""></div>
+                  <div class="img-con" style="width: 100px;height: 113px;line-height: 113px"><img :src="configItem.drawImgUrl" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upDrawImgUrlSuccess" :show-file-list="false">
                       <el-button size="small" type="primary">更换图片</el-button>
@@ -287,7 +207,7 @@
               <div class="edit-con">
                 <div class="edit-winning-img">
                   <p class="img-title">按钮:</p>
-                  <div class="img-con"><img :src="configItem.drawBtnUrl" alt=""></div>
+                  <div class="img-con" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.drawBtnUrl" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upWinningBtnSuccess" :show-file-list="false">
                       <el-button size="small" type="primary">更换图片</el-button>
@@ -308,7 +228,6 @@
                 <div class="prize-con">
                   <div class="close">X</div>
                   <img class="pic" :src="configItem.cryImgUrl" alt="">
-                  <h3 style="position: absolute;top: 126px;width: 100%">很遗憾，未中奖</h3>
                   <img class="prize-btn" :src="configItem.cryBtnUrl" alt="">
                 </div>
               </div>
@@ -322,8 +241,8 @@
               </div>
               <div class="edit-con">
                 <div class="edit-notWinning-img">
-                  <p class="img-title">图片:</p>
-                  <div class="img-con" style="height: 148px;line-height: 148px"><img :src="configItem.cryImgUrl" alt=""></div>
+                  <p class="img-title">未中奖图片:</p>
+                  <div class="img-con" style="width: 100px;height: 113px;line-height: 113px"><img :src="configItem.cryImgUrl" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upNotWinningImgSuccess" :show-file-list="false">
                       <el-button size="small" type="primary">更换图片</el-button>
@@ -335,7 +254,7 @@
               <div class="edit-con">
                 <div class="edit-notWinning-img">
                   <p class="img-title">按钮:</p>
-                  <div class="img-con"><img :src="configItem.cryBtnUrl" alt=""></div>
+                  <div class="img-con" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.cryBtnUrl" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upNotWinningBtnSuccess" :show-file-list="false">
                       <el-button size="small" type="primary">更换图片</el-button>
@@ -376,67 +295,22 @@ export default {
           { max: 15, message: '长度不能超过 15 个字符', trigger: 'blur' }
         ]
       },
-      iconUrl: [
-          {
-            key: 1,
-            imgUrl: 'http://qoss.qrmkt.cn/new_platform/egg.png',
-            $$hashKey: 'object:378'
-          },
-          {
-            key: 2,
-            imgUrl: 'http://qoss.qrmkt.cn/new_platform/egg.png',
-            $$hashKey: 'object:379'
-          },
-          {
-            key: 3,
-            imgUrl: 'http://qoss.qrmkt.cn/new_platform/egg.png',
-            $$hashKey: 'object:380'
-          },
-          {
-            key: 4,
-            imgUrl: 'http://qoss.qrmkt.cn/new_platform/egg.png',
-            $$hashKey: 'object:381'
-          },
-          {
-            key: 5,
-            imgUrl: 'http://qoss.qrmkt.cn/new_platform/egg.png',
-            $$hashKey: 'object:382'
-          },
-          {
-            key: 6,
-            imgUrl: 'http://qoss.qrmkt.cn/new_platform/egg.png',
-            $$hashKey: 'object:383'
-          }
-        ],
       configItem: {
         title: '',
         description: '',
-        headerImgUrl:
-          'http://qoss.qrmkt.cn/common/niudan/nd-title.jpg',
-        bgImgUrl: 'http://qoss.qrmkt.cn/common/niudan/nd-bkg .png',
-        actTip:'http://qoss.qrmkt.cn/common/niudan/hdjn.png',
-        boxImgUrl:'http://qoss.qrmkt.cn/common/niudan/main.png',
+        headerImgUrl: 'http://qoss.qrmkt.cn/common/ddshu/dadishu-title.png',
+        bgImgUrl: 'http://qoss.qrmkt.cn/common/ddshu/dadishu-bg.png',
+        actTip:'http://qoss.qrmkt.cn/common/ddshu/hdjn.png',
+        clickImgUrl:'http://qoss.qrmkt.cn/common/ddshu/dadishu-clock.png',
         btnImgUrl:'http://qoss.qrmkt.cn/common/niudan/nd-btn.png',
-        egg1ImgUrl:'http://qoss.qrmkt.cn/common/niudan/ball1.png',
-        egg2ImgUrl:'http://qoss.qrmkt.cn/common/niudan/ball2.png',
-        egg3ImgUrl:'http://qoss.qrmkt.cn/common/niudan/ball3.png',
-        egg1left:"http://qoss.qrmkt.cn/common/niudan/nd-egg1-left.png",
-        egg1right:"http://qoss.qrmkt.cn/common/niudan/nd-egg1-right.png",
-        egg2left:"http://qoss.qrmkt.cn/common/niudan/nd-egg2-left.png",
-        egg2right:"http://qoss.qrmkt.cn/common/niudan/nd-egg2-right.png",
-        egg3left:"http://qoss.qrmkt.cn/common/niudan/nd-egg3-left.png",
-        egg3right:"http://qoss.qrmkt.cn/common/niudan/nd-egg3-right.png",
-        awardUrl: [
-          {
-            imgUrl:
-              'http://qoss.qrmkt.cn/new_platform/pc_front/zhongjiang74@2x.png'
-          }
-        ],
-        drawImgUrl:
-          'http://qoss.qrmkt.cn/common/niudan/nd-award-bg.png',
-        drawBtnUrl:'http://qoss.qrmkt.cn/common/niudan/niudan-awardBtn.png',
-        cryImgUrl: 'http://qoss.qrmkt.cn/common/niudan/nd-noaward.png',
-        cryBtnUrl:'http://qoss.qrmkt.cn/common/niudan/nd-zxNoAwardBtn.png',
+        holeUrl:'http://qoss.qrmkt.cn/common/ddshu/hole.png',
+        mouseUrl:"http://qoss.qrmkt.cn/common/ddshu/mouse.png",
+        mouseCryUrl:"http://qoss.qrmkt.cn/common/ddshu/mouse-cry.png",
+        hammerUrl:"http://qoss.qrmkt.cn/common/ddshu/dadishu-hammer.png",
+        drawImgUrl: 'http://qoss.qrmkt.cn/common/ddshu/award-pop.png',
+        drawBtnUrl:'http://qoss.qrmkt.cn/common/ddshu/award-btn.png',
+        cryImgUrl: 'http://qoss.qrmkt.cn/common/ddshu/dadishu-nolucky.png',
+        cryBtnUrl:'http://qoss.qrmkt.cn/common/ddshu/nolucky-btn.png',
       },
       uploadURL: '/api/saotx/attach/commonAliUpload',
       headerObj: {
@@ -510,71 +384,34 @@ export default {
       this.$message.error(resule.message)
     },
     // 上传抽奖按钮图片
-    upBtnImgUrlSuccess(resule) {
+    upHoleUrlSuccess(resule) {
       if (resule.ret === '200000')
-        return (this.configItem.btnImgUrl = resule.data.accessUrl)
+        return (this.configItem.holeUrl = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
-    // 上传抽奖按钮图片
-    upBtnImgUrlSuccess(resule) {
+
+    upClickImgUrlSuccess(resule) {
       if (resule.ret === '200000')
-        return (this.configItem.btnImgUrl = resule.data.accessUrl)
+        return (this.configItem.clickImgUrl = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
-    // 上传扭蛋机背景图片
-    upBoxImgUrlSuccess(resule) {
+    upMouseUrlSuccess(resule) {
       if (resule.ret === '200000')
-        return (this.configItem.boxImgUrl = resule.data.accessUrl)
+        return (this.configItem.mouseUrl = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
-    // 上传扭蛋一图片
-    upEgg1ImgUrlSuccess(resule) {
+    upMouseCryUrlSuccess(resule) {
       if (resule.ret === '200000')
-        return (this.configItem.egg1ImgUrl = resule.data.accessUrl)
+        return (this.configItem.mouseCryUrl = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
-    upEgg1leftSuccess(resule) {
+
+    upHammerUrlSuccess(resule) {
       if (resule.ret === '200000')
-        return (this.configItem.egg1left = resule.data.accessUrl)
+        return (this.configItem.hammerUrl = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
-    upEgg1rightSuccess(resule) {
-      if (resule.ret === '200000')
-        return (this.configItem.egg1right = resule.data.accessUrl)
-      this.$message.error(resule.message)
-    },
-    // 上传扭蛋二图片
-    upEgg2ImgUrlSuccess(resule) {
-      if (resule.ret === '200000')
-        return (this.configItem.egg2ImgUrl = resule.data.accessUrl)
-      this.$message.error(resule.message)
-    },
-    upEgg2leftSuccess(resule) {
-      if (resule.ret === '200000')
-        return (this.configItem.egg2left = resule.data.accessUrl)
-      this.$message.error(resule.message)
-    },
-    upEgg2rightSuccess(resule) {
-      if (resule.ret === '200000')
-        return (this.configItem.egg2right = resule.data.accessUrl)
-      this.$message.error(resule.message)
-    },
-    // 上传扭蛋三图片
-    upEgg3ImgUrlSuccess(resule) {
-      if (resule.ret === '200000')
-        return (this.configItem.egg3ImgUrl = resule.data.accessUrl)
-      this.$message.error(resule.message)
-    },
-    upEgg3leftSuccess(resule) {
-      if (resule.ret === '200000')
-        return (this.configItem.egg3left = resule.data.accessUrl)
-      this.$message.error(resule.message)
-    },
-    upEgg3rightSuccess(resule) {
-      if (resule.ret === '200000')
-        return (this.configItem.egg3right = resule.data.accessUrl)
-      this.$message.error(resule.message)
-    },
+
     // 上传未中奖图片
     upNotWinningImgSuccess(resule) {
       if (resule.ret === '200000') return (this.configItem.cryImgUrl = resule.data.accessUrl)
@@ -666,82 +503,57 @@ export default {
         width: 100%;
         height: 530px;
         // background-color: red;
-        .egg1{
-          width: 50px;
-          height: 50px;
-          position: absolute;
-          left: 61px;
-          top:228px;
-          z-index: 1;
-        }
-        .egg2{
-          width: 50px;
-          height: 50px;
-          position: absolute;
-          left: 94px;
-          top:246px;
-          z-index: 1;
-        }
-        .egg3{
-          width: 50px;
-          height: 50px;
-          position: absolute;
-          left: 131px;
-          top:227px;
-          z-index: 1;
-        }
-        .egg4{
-          width: 50px;
-          height: 50px;
-          position: absolute;
-          left: 166px;
-          top:242px;
-          z-index: 1;
-        }
-        .egg5{
-          width: 50px;
-          height: 50px;
-          position: absolute;
-          left: 187px;
-          top:239px;
-          z-index: 1;
-        }
-        .egg6{
-          width: 50px;
-          height: 50px;
-          position: absolute;
-          left: 207px;
-          top:230px;
-          z-index: 1;
-        }
-        .egg7{
-          width: 50px;
-          height: 50px;
-          position: absolute;
-          left: 100px;
-          top:211px;
-          z-index: 1;
-        }
-        .egg8{
-          width: 50px;
-          height: 50px;
-          position: absolute;
-          left: 138px;
-          top:207px;
-          z-index: 1;
-        }
-        .egg9{
-          width: 50px;
-          height: 50px;
-          position: absolute;
-          left: 173px;
-          top:213px;
-          z-index: 1;
-        }
+        overflow: hidden;
         .bg {
           width: 100%;
           height: 100%;
           transition: all 0.2s;
+          img {
+            width: 100%;
+          }
+        }
+        .hammer{
+          position: absolute;
+          width: 52px;
+          height: 50px;
+          left: 139px;
+          top: 302px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .mouse1{
+          position: absolute;
+          width: 37px;
+          height: 37px;
+          left: 27px;
+          top: 316px;
+          z-index: 9;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .mouse2{
+          position: absolute;
+          width: 37px;
+          height: 37px;
+          left: 27px;
+          top: 408px;
+          z-index: 9;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .mouse3{
+          position: absolute;
+          width: 37px;
+          height: 37px;
+          left: 230px;
+          top: 209px;
+          z-index: 9;
           img {
             width: 100%;
             height: 100%;
@@ -749,16 +561,49 @@ export default {
         }
         .top {
           position: absolute;
-          top: 30px;
-          left: 49%;
+          top: 55px;
+          left: 50%;
           transform: translateX(-50%);
-          width: 280px;
-          height: 122px;
+          width: 300px;
+          height: 150px;
           img {
             width: 100%;
             height: 100%;
-            
           }
+        }
+         @mixin hole {
+           position: absolute;
+           width: 85px;
+           height: 54px;
+           z-index: 99;
+           img {
+             width: 100%;
+             height: 100%;
+           }
+        }
+        @for $i from 1 through 9{
+          @if $i%3 == 1{
+            .hole-#{$i}{
+              @include hole;
+              left: 0;
+              top: 237px + (($i)-1)/3*100px;
+            }
+          }
+          @else if $i%3 == 2{
+            .hole-#{$i}{
+              @include hole;
+              left: 100px;
+              top: 237px + (($i)-2)/3*100px;
+            }
+          }
+          @else {
+            .hole-#{$i}{
+              @include hole;
+              left: 200px;
+              top: 237px + (($i)-3)/3*100px;
+            }
+          }
+
         }
         .tip {
         	width:45px;
@@ -772,11 +617,13 @@ export default {
         		object-fit: contain;
         	}
         }
-        .box {
-        	width:100%;
-        	height: 372px;
+        .clock {
+        	width:64px;
+        	height: 77px;
         	position: absolute;
-        	bottom:20px;
+        	top:127px;
+          left: 50%;
+          transform: translateX(-50%);
         	img {
         		width:100%;
         		height: 100%;
@@ -984,16 +831,11 @@ export default {
   .bg:hover,
   .tip:hover,
   .top:hover,
-  .btn:hover,
-  .egg1:hover,
-  .egg2:hover,
-  .egg3:hover,
-  .egg4:hover,
-  .egg5:hover,
-  .egg6:hover,
-  .egg7:hover,
-  .egg8:hover,
-  .egg9:hover,
+  .clock:hover,
+  .mouse1:hover,
+  .mouse2:hover,
+  .mouse3:hover,
+  .hammer:hover,
   .box:hover{
     transform: scale(0.99);
     cursor: pointer;
@@ -1001,8 +843,17 @@ export default {
     border: 2px dotted #fff;
     box-sizing: border-box;
   }
-  .top:hover,.btn:hover {
+  .top:hover,.clock:hover,.btn:hover {
     transform: translateX(-50%) scale(0.99);
+  }
+  @for $i from 1 through 9 {
+    .hole-#{$i}:hover{
+      transform: scale(0.99);
+      cursor: pointer;
+      filter: brightness(60%);
+      border: 2px dotted #fff;
+      box-sizing: border-box;
+    }
   }
 }
 .btn {
