@@ -284,7 +284,7 @@ export default {
       activeName: 'home',
       addActParams: {
         conf: '',
-        form: 'act-701',
+        form: 'act-702',
         id: '',
         name: '',
         note: ''
