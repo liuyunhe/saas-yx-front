@@ -21,32 +21,42 @@
 				</div>
 				<ul class="icon-con">
 					<li v-for='(value,key) in typeArr' :key="key">
-						<span class='close' :dataId='key' @click='handleClose' v-if="value.del==1">×</span>
-						<div class="icon-text"><span>图标 {{key+1}}</span></div>
-						<div class="icon-init">
-							初始状态
-							<div class="img-con" :style='{background:colorValue}'>
-								<img :src="value.icon" class='img-pre' width="56" height="49" alt="" />
-								<!--<div>{{value.name}}</div>-->
+						<div class="up-icon">
+							<span class='close' :dataId='key' @click='handleClose' v-if="value.del==1">×</span>
+							<div class="icon-text"><span>图标 {{key+1}}</span></div>
+							<div class="icon-init">
+								初始状态
+								<div class="img-con" :style='{background:colorValue}'>
+									<img :src="value.icon" class='img-pre' width="56" height="49" alt="" />
+									<!--<div>{{value.name}}</div>-->
+								</div>
+								<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="handleAvatarSuccess2">
+									<el-button type="primary" plain @click='getCurr(key,0)'>修改</el-button>
+								</el-upload>
+								<!--<button class='btn btn-primary edit' :num='key' @click='getCurr(key)' flag='0'>修改</button>-->
 							</div>
-							<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="handleAvatarSuccess2">
-								<el-button type="primary" plain @click='getCurr(key,0)'>修改</el-button>
-							</el-upload>
-							<!--<button class='btn btn-primary edit' :num='key' @click='getCurr(key)' flag='0'>修改</button>-->
-						</div>
-						<div class="icon-active">
-							按下状态
-							<div class="img-con" :style='{background:colorValue}'>
-								<img :src="value.activeIcon" width="56" height="49" alt="" />
-								<!--<div>{{value.name}}</div>-->
+							<div class="icon-active">
+								按下状态
+								<div class="img-con" :style='{background:colorValue}'>
+									<img :src="value.activeIcon" width="56" height="49" alt="" />
+									<!--<div>{{value.name}}</div>-->
+								</div>
+								<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" @click='getCurr(key,1)' :on-success="handleAvatarSuccess2">
+									<el-button type="primary" plain @click='getCurr(key,1)'>修改</el-button>
+								</el-upload>
+								<!--<button class='btn btn-primary edit' :num='key' @click='getCurr(key)' flag='1'>修改</button>-->
 							</div>
-							<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" @click='getCurr(key,1)' :on-success="handleAvatarSuccess2">
-								<el-button type="primary" plain @click='getCurr(key,1)'>修改</el-button>
-							</el-upload>
-							<!--<button class='btn btn-primary edit' :num='key' @click='getCurr(key)' flag='1'>修改</button>-->
+
 						</div>
+						<div class="select-jump">
+							<span>选择跳转的页面:</span>
+							<el-select class="filter-item" v-model="value.name" placeholder="请选择跳转的页面" size='small'@change='selectChange'>
+								<el-option v-for="item in noArr" :key="item.name" :label="item.name" :value="item.name">
+								</el-option>
+							</el-select>
+						</div>						
 					</li>
-				</ul>
+				</ul>				
 				<div class="add" v-show='addShow' @click='addShowFn()'><span>+</span>添加导航</div>
 			</div>
 
@@ -149,6 +159,46 @@
 
 		},
 		methods: {
+			selectChange(name){
+				let type='';
+				let menuUrl='';
+				let menuHost='';
+				let index=0;
+				for(let i = 0; i < this.navArr.length; i++) {
+					if(this.navArr[i].name==name){
+						type=this.navArr[i].type;
+						menuUrl=this.navArr[i].menuUri;
+						menuHost=this.navArr[i].menuHost;
+						break;
+					}
+				}
+				for(let i = 0; i < this.typeArr.length; i++) {
+					if(this.typeArr[i].name==name){
+						index=i;
+						break;
+					}
+				}
+				this.typeArr[index].menuUri=menuUrl;
+				this.typeArr[index].menuHost=menuHost;
+				this.typeArr[index].type=type;
+				this.getNoArr();
+			},
+			getNoArr(){
+				let that=this;
+				that.noArr=[];
+				for(let i = 0; i < that.navArr.length; i++) {
+					let flag = false;
+					for(let j = 0; j < that.typeArr.length; j++) {
+						if(that.typeArr[j].type == that.navArr[i].type) {
+							flag = true;
+							break;
+						}
+					}
+					if(flag == false) {
+						that.noArr.push(that.navArr[i])
+					}
+				}
+			},
 			init() {
 				var that = this;
 				this.$request.post('/api/saotx/weplat/menus', {}, true, (res) => {
@@ -168,25 +218,14 @@
 						} else {
 							that.colorValue = that.typeArr[0].bgColor || '#ffffff';
 						}
+						that.getNoArr();
 						that.loading = false;
 					}
 				})
 			},
-			back() {
-				if(this.addListShow) {
-					this.addImg1 = 'http://qoss.qrmkt.cn/new_platform/pc/detail_default.png';
-					this.addImg2 = 'http://qoss.qrmkt.cn/new_platform/pc/detail_default.png';
-					this.editImg = 'http://qoss.qrmkt.cn/new_platform/pc/detail_default.png';
-				}
-				this.listShow = true;
-				this.addListShow = false;
-				this.editListShow = false;
-			},
-			colorChange() {},
 			resetColor() {
 				this.colorValue = '#ffffff';
 			},
-			remove1() {},
 			getCurr(index,flag) {
 				this.editId = index;
 				this.flag = parseInt(flag);
@@ -224,7 +263,7 @@
 					activeIcon: that.addImg2,
 					del: 1
 				};
-				that.typeArr.splice(2,0,addIcon);
+				that.typeArr.push(addIcon);
 				if(that.typeArr.length >= 4) {
 					that.addShow = false;
 				} else {
@@ -334,8 +373,13 @@
 							}
 						}else {
 							that.submitArr.splice(id, 1);
-							that.save();
-						}											
+							if(that.typeArr.length >= 4) {
+								that.addShow = false;
+							} else {
+								that.addShow = true;
+							}
+						}
+						that.getNoArr();
 					})
 					.catch(_ => {})
 				
@@ -465,7 +509,7 @@
 	}
 	
 	.icon-con li {
-		height: 135px;
+		height: 190px;
 		background: #eee;
 		margin-top: 10px;
 		position: relative;
@@ -473,7 +517,12 @@
 		border-radius: 4px;
 		/*border-bottom: none;*/
 	}
-	
+	.icon-con li .up-icon {
+		height: 140px;
+	}
+	.icon-con li .select-jump {
+		padding-left: 19px;
+	}
 	.icon-con li:last-child {
 		border-bottom: 1px solid #ccc;
 	}
