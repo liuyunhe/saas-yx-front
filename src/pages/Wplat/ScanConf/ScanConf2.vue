@@ -111,7 +111,7 @@
 									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadPro">
 												<el-button type="primary">更换图片</el-button>
 											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*624px格式为jpg\bmp\png\gif</div>
+											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*500px格式为jpg\bmp\png\gif</div>
 										</div>
 										<div class='edit-con'v-show='!addlist.conf.has.yz.botFlag'>	
 											<span class='labels'>主图背景：</span>
@@ -123,7 +123,7 @@
 												<el-button type="primary">更换图片</el-button>
 											</el-upload>
 											
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*866px格式为jpg\bmp\png\gif</div>
+											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*730px格式为jpg\bmp\png\gif</div>
 										</div>
 										<div class='edit-con'v-show='addlist.conf.has.yz.botFlag'>
 											<span class='labels'>广告图：</span>
@@ -134,7 +134,7 @@
 									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadBot">
 												<el-button type="primary">更换图片</el-button>
 											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*1204px格式为jpg\bmp\png\gif</div>
+											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*200px格式为jpg\bmp\png\gif</div>
 										</div>
 										<div class="edit-con">
 											<span class='labels'>详情按钮</span>
@@ -182,7 +182,7 @@
 									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadPro">
 												<el-button type="primary">更换图片</el-button>
 											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*624px格式为jpg\bmp\png\gif</div>
+											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*500px格式为jpg\bmp\png\gif</div>
 										</div>
 										<div class='edit-con'v-show='!addlist.conf.has.yz.botFlag'>	
 											<span class='labels'>主图背景：</span>
@@ -194,7 +194,7 @@
 												<el-button type="primary">更换图片</el-button>
 											</el-upload>
 											
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*866px格式为jpg\bmp\png\gif</div>
+											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*730px格式为jpg\bmp\png\gif</div>
 										</div>
 										<div class='edit-con'v-show='addlist.conf.has.yz.botFlag'>
 											<span class='labels'>广告图：</span>
@@ -205,7 +205,7 @@
 									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadBot">
 												<el-button type="primary">更换图片</el-button>
 											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*1204px格式为jpg\bmp\png\gif</div>
+											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*200px格式为jpg\bmp\png\gif</div>
 										</div>
 										<div class="edit-con">
 											<span class='labels'>详情按钮</span>

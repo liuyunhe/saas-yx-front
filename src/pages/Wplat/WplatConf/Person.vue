@@ -1,7 +1,7 @@
 <template>
 	<div class="wplat-root">
 		<div class='left'>
-			<div class="phone":style='{background:wholeColor}'>
+			<div class="phone":style='{background:wholeColor}'v-show='activeName=="one"'>
 				<img src="http://qoss.qrmkt.cn/common/wplat/person_top.png" alt="" />
 				<div class="person-top">
 					<img :src="topImg" alt="" />
@@ -22,83 +22,131 @@
 				</div>
 				<img src="http://qoss.qrmkt.cn/common/wplat/person_bot_02.png" alt="" />
 			</div>
+			<div class="phone" v-show='activeName=="second"'>
+				<img src="http://qoss.qrmkt.cn/common/wplat/share_top.png" alt="" />
+				<div class="content-phone">
+					<div class="share-show">
+						<div class="header"></div>
+						<div class="text">
+							<div class="share-title">{{share.title}}</div>
+							<div class="share-desc">{{share.desc}}</div>
+							<div class="share-img">
+								<img :src="share.url" alt="" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="right">
 			<div class="box">
 				<p class='title'>编辑个人中心</p>
-				<div class="content">
-					<div class="whole-color">
-						<span>背景底色：</span>
-						<el-color-picker v-model="wholeColor" class='color-select'></el-color-picker>
-						<el-button size='small' @click='reset'>重置</el-button>
-					</div>
-					<div class='edit-con'>
-						<span class='labels'>背景图片：</span>
-						<div class="img-div">
-							<img :src="topImg" alt="" />
-						</div>
-						<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadTop">
-							<el-button type="primary">更换图片</el-button>
-						</el-upload>
-						<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*284px格式为jpg\bmp\png\gif</div>
-					</div>
-					<div class="template-con">
-						<span>选择模板：</span>
-						<div class="template-right">
-							<ul>
-								<li v-for='(item,index) in template'@click='selectTpl(index)':class='{active:index==showTplIndex}'>
-									<div class="show">
-										<div v-for='i in item.count'></div>
-									</div>									
-									<p>{{item.text}}</p>
-								</li>
-							</ul>
-						</div>
-						<div class="template-up">
-							<span class='title'>编辑图标：</span>
-							<div v-for='i in count':class='{"icon-index":true,"active":showTabIndex==i}'@click='tabToggle(i)'>图标{{i}}</div>
-							<div class="icon-up"v-for='i in count'v-show='showTabIndex==i'>
-								<div class="img-div">
-									<img :src="iconList[i-1].url" alt="" />
-								</div>
-								<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadIcon">
-									<el-button type="primary"@click='getIndex(i-1)'>更换图片</el-button>
-								</el-upload>
+				<el-tabs v-model="activeName" @tab-click="tabPartClick" class='tab-con'>
+					<el-tab-pane label="页面设置" name="one">
+						<div class="content">
+							<div class="whole-color">
+								<span>背景底色：</span>
+								<el-color-picker v-model="wholeColor" class='color-select'></el-color-picker>
+								<el-button size='small' @click='reset'>重置</el-button>
 							</div>
+							<div class='edit-con'>
+								<span class='labels'>背景图片：</span>
+								<div class="img-div">
+									<img :src="topImg" alt="" />
+								</div>
+								<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadTop">
+									<el-button type="primary">更换图片</el-button>
+								</el-upload>
+								<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*284px格式为jpg\bmp\png\gif</div>
+							</div>
+							<div class="template-con">
+								<span>选择模板：</span>
+								<div class="template-right">
+									<ul>
+										<li v-for='(item,index) in template'@click='selectTpl(index)':class='{active:index==showTplIndex}'>
+											<div class="show">
+												<div v-for='i in item.count'></div>
+											</div>									
+											<p>{{item.text}}</p>
+										</li>
+									</ul>
+								</div>
+								<div class="template-up">
+									<span class='title'>编辑图标：</span>
+									<div v-for='i in count':class='{"icon-index":true,"active":showTabIndex==i}'@click='tabToggle(i)'>图标{{i}}</div>
+									<div class="icon-up"v-for='i in count'v-show='showTabIndex==i'>
+										<div class="img-div">
+											<img :src="iconList[i-1].url" alt="" />
+										</div>
+										<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadIcon">
+											<el-button type="primary"@click='getIndex(i-1)'>更换图片</el-button>
+										</el-upload>
+									</div>
+								</div>
+								<div class="whole-color">
+									<span>编辑底色：</span>
+									<el-color-picker v-model="iconColor" class='color-select'></el-color-picker>
+									<el-button size='small' @click='reset'>重置</el-button>
+								</div>
+							</div>
+							<div class='edit-con up-con'>
+								<span class='labels'>积分中心：</span>
+								<div class="img-div">
+									<img :src="integralImg" alt="" />
+								</div>
+								<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadjifen">
+									<el-button type="primary">更换图片</el-button>
+								</el-upload>
+								<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*204px格式为jpg\bmp\png\gif</div>
+							</div>
+							<div class='edit-con up-con'>
+								<span class='labels'>会员中心：</span>
+								<div class="img-div">
+									<img :src="vipImg" alt="" />
+								</div>
+								<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadVip">
+									<el-button type="primary">更换图片</el-button>
+								</el-upload>
+								<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*204px格式为jpg\bmp\png\gif</div>
+							</div>
+							<div class="save">
+							<div class="save-con">							
+								<el-button type="primary" @click='save'>保存</el-button>
+								<el-button type="primary" @click='init'>取消</el-button>
+							</div>		
 						</div>
-						<div class="whole-color">
-							<span>编辑底色：</span>
-							<el-color-picker v-model="iconColor" class='color-select'></el-color-picker>
-							<el-button size='small' @click='reset'>重置</el-button>
 						</div>
-					</div>
-					<div class='edit-con up-con'>
-						<span class='labels'>积分中心：</span>
-						<div class="img-div">
-							<img :src="integralImg" alt="" />
+					</el-tab-pane>
+					<el-tab-pane label="分享设置" name="second">
+						<div class="share-set">
+							<div class='edit-con'>
+								<span class='labels'>分享标题：</span>
+								<el-input v-model="share.title" placeholder="请输入分享标题" maxlength='15' class='tpl-name' size='small'></el-input>
+							</div>
+							<div class='edit-con'>
+								<span class='labels'>分享说明：</span>
+								<el-input type="textarea" :rows="3" v-model="share.desc" placeholder="请输入分享说明" maxlength="30" resize="none" class='tpl-name'></el-input>
+							</div>
+							<div class='edit-con'>
+								<span class='labels'>分享图标：</span>
+								<div class="img-div">
+									<img :src="share.url" alt="" />
+								</div>
+								<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="shareUp">
+									<el-button type="primary">更换图片</el-button>
+								</el-upload>
+								<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*204px格式为jpg\bmp\png\gif</div>
+							</div>
+							
 						</div>
-						<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadjifen">
-							<el-button type="primary">更换图片</el-button>
-						</el-upload>
-						<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*204px格式为jpg\bmp\png\gif</div>
-					</div>
-					<div class='edit-con up-con'>
-						<span class='labels'>会员中心：</span>
-						<div class="img-div">
-							<img :src="vipImg" alt="" />
+						<div class="save">
+							<div class="save-con">							
+								<el-button type="primary" @click='save'>保存</el-button>
+								<el-button type="primary" @click='init'>取消</el-button>
+							</div>		
 						</div>
-						<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadVip">
-							<el-button type="primary">更换图片</el-button>
-						</el-upload>
-						<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*204px格式为jpg\bmp\png\gif</div>
-					</div>
-				</div>
-			</div>
-			<div class="save">
-				<div class="save-con">							
-					<el-button type="primary" @click='save'>保存</el-button>
-					<el-button type="primary" @click='init'>取消</el-button>
-				</div>		
+					</el-tab-pane>
+				</el-tabs>
 			</div>
 		</div>
 	</div>
@@ -108,6 +156,12 @@
 	export default {
 		data() {
 			return {
+				activeName:'one',//tab栏切换（和分享切换）
+				share:{
+					title:'',
+					desc:'',
+					url:'http://qoss.qrmkt.cn/common/wplat/person_banner1.png'
+				},
 				wholeColor:'',//背景颜色
 				iconColor:'',//图标背景颜色
 				topImg:'http://qoss.qrmkt.cn/common/wplat/person_banner1.png',
@@ -280,6 +334,51 @@
 				left: 20px;
 				bottom:20px;
 			}
+			.content-phone {
+				height: 400px;
+				border:1px solid #efefef;
+				border-top:none;
+				.share-show {
+					width:200px;
+					padding-left: 40px;
+					margin-left: 20px;
+					padding-top: 20px;
+					position:relative;
+					.header {
+						position: absolute;
+						left: 0px;
+						width:35px;
+						height: 35px;
+						top:30px;
+						background: url('http://qoss.qrmkt.cn/common/wplat/person_img.png') no-repeat left / auto 35px;
+					}
+					.text {
+						border:1px solid #eee;
+						position: relative;
+						font-size: 12px;
+						min-height: 50px;
+						padding: 10px 5px 10px 10px;
+						.share-title {
+							width:140px;
+							font-weight: bold;
+						}
+						.share-desc {
+							width:140px;
+						}
+						.share-img {
+							width:40px;
+							height: 40px;
+							position: absolute;
+							right:5px;
+							top:10px;
+							img {
+								height: 100%;
+								object-fit: contain;
+							}
+						}
+					}
+				}
+			}
 		}
 		.right {
 			height: 1500px;
@@ -294,9 +393,78 @@
 					font-size: 20px;
 					font-weight: bold;
 				}
+				.tab-con{
+					padding: 0 20px !important;
+				}
+				.share-set {
+					background: #efefef;
+					padding-top: 10px;
+					margin-bottom: 100px;
+					.tpl-name {
+						width:420px;
+						vertical-align: middle;
+					}
+					.edit-con {
+						padding: 20px 20px 20px 0;
+						background: #efefef;
+						box-sizing: border-box;
+						border-radius: 4px;
+			            .labels {
+			                width:130px;
+			                font-weight: bold;
+							font-size: 16px;
+			                display: inline-block;
+			                text-align: right;
+			                margin-right: 20px;
+			            }
+			            .img-div {
+			            	width:100px;
+				            height: 100px;
+				            border:1px dashed #d9d9d9;
+				            border-radius: 4px;
+				            display: inline-block;
+				            vertical-align: middle;
+				            background: #fff;
+				            font-size: 60px;
+				            text-align: center;
+				            color:#d9d9d9;
+				            font-weight: 100;
+				            margin-right: 20px;
+			                img {
+			                    width:90%;
+			                    height: 90%;
+			                    margin-top: 5%;
+			                    object-fit: contain;
+			                }
+			            }
+			            .avatar-uploader {
+			                display: inline-block;
+			            }
+			            .el-upload__tip {
+			            	margin-left: 48px;
+			            }
+					}
+				}
+				.save {
+				    width:100%;
+				    height: 50px;
+				    background: #fff;
+				    position: absolute;
+				    bottom: 0;
+				    left: 0;
+				    .save-con {
+				        display: inline-block;
+				        margin: 0 auto;
+				        position: absolute;
+				        left: 50%;
+				        top:0;
+				        margin-left: -97px;
+				    }
+				}
 				.content {
-					padding-left: 20px;
-					padding-right: 20px;
+					/*padding-left: 20px;
+					padding-right: 20px;*/
+					margin-bottom: 100px;
 					.whole-color {
 						margin-bottom:20px;
 						span {
