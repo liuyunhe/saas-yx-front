@@ -5,7 +5,7 @@
         <div class="item" v-for="(item, index) in 10" :key="index">
           <p class="name">{{item}}.{{rigthsList[index] ? rigthsList[index].gradeName : '普通用户'}}</p>
           <img :src="rigthsList[index] ? rigthsList[index].gradeImg : defaultImgUrl" width="83" height="83">
-          <p class="growth">需要{{rigthsList[index] ? rigthsList[index].gradeUpper : ''}}成长值</p>
+          <p class="growth">需要{{rigthsList[index] != undefined ? rigthsList[index].gradeLower : ''}}成长值</p>
           <div class="rights">
             <p v-if="index < listLen"><span>等级权益</span><span>{{rigthsList[index] ? rigthsList[index].rightsNum : 0}}</span></p>
           </div>
