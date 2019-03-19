@@ -235,7 +235,7 @@ export default {
     },
     handleDisableTime() {
       let newTime = new Date().getTime(),
-        stime = new Date(this.form.stimeStr).getTime()
+        stime = new Date(this.confData.stimeStr).getTime()
         if (newTime >= stime) {
           this.timeDisable = true
         }
