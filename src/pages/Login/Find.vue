@@ -145,8 +145,13 @@
 				var that = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
+						let t = new Date().getTime();
+						let mobile = that.dynamicValidateForm.phone;
 						var params = {
-							mobile: that.dynamicValidateForm.phone,
+							f: "wiseqr",
+							t: t,
+							encrypt: this.$md5("wiseqr"+t+mobile),
+							mobile: mobile,
 							code: that.dynamicValidateForm.code
 						};
 						this.$request.post('/api/sms/checkCode', params, true, function(res) {
@@ -183,8 +188,14 @@
 					that.active = 'ddd'
 					that.timeText = '重新获取' + times + 's';
 				}, 1000);
+
+				let t = new Date().getTime();
+				let mobile = that.dynamicValidateForm.phone;
 				var params = {
-					mobile: that.dynamicValidateForm.phone
+					f: "wiseqr",
+					t: t,
+					encrypt: this.$md5("wiseqr"+t+mobile),
+					mobile: mobile
 				};
 				this.$request.post('/api/sms/getCode', params, true,(res)=>{})
 			},
