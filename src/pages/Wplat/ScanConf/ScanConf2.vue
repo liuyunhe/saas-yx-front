@@ -139,6 +139,7 @@
 										<div class="edit-con">
 											<span class='labels'>详情按钮</span>
 											<el-checkbox v-model="addlist.conf.has.yz.detailFlag"></el-checkbox>
+											<span class='labels'></span>
 											<span class='color-labels'>扫码落地页风格</span>
 											<el-color-picker v-model="addlist.conf.has.yz.color" class='color-select'></el-color-picker>
 										</div>										
