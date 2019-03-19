@@ -148,7 +148,6 @@
 						let t = new Date().getTime();
 						let mobile = that.dynamicValidateForm.phone;
 						var params = {
-							f: "wiseqr",
 							t: t,
 							encrypt: this.$md5("wiseqr"+t+mobile),
 							mobile: mobile,
@@ -192,7 +191,6 @@
 				let t = new Date().getTime();
 				let mobile = that.dynamicValidateForm.phone;
 				var params = {
-					f: "wiseqr",
 					t: t,
 					encrypt: this.$md5("wiseqr"+t+mobile),
 					mobile: mobile
