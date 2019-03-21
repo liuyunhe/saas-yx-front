@@ -29,7 +29,7 @@
 						</el-table-column>
 						<el-table-column prop="note" label="模板说明" align="center">
 						</el-table-column>
-						<el-table-column prop="snName" label="适用产品" align="center">
+						<el-table-column prop="snName" label="适用产品" align="center" show-overflow-tooltip>
 						</el-table-column>
 						<el-table-column prop="ctime" label="创建时间" align="center">
 						</el-table-column>
