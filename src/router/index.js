@@ -466,7 +466,7 @@ export default new Router({
         { path: '/customer', name: '用户' },
         { path: '/customer/mgr', name: '用户管理', component: Mgr },
         { path: '/customer/lvl', name: '等级权益管理', component: Rights },
-        { path: '/customer/lvl/edit', name: '编辑等级', component: RightsDetail, props: (route) => ({id: route.query.id, lowGrowth: route.query.lowGrowth}) },
+        { path: '/customer/lvl/edit', name: '编辑等级', component: RightsDetail, props: (route) => ({id: route.query.id, lowGrowth: route.query.lowGrowth, highGrowth: route.query.highGrowth}) },
         { path: '/customer/task', name: '任务管理', component: Task },
         // { path: '/customer/task/pointsEdit', name: '积分设置', component: PointsEdit },
         // { path: '/customer/task/detail', name: '任务明细', component: TaskDetail, props: (route) => ({id: route.query.id}) },

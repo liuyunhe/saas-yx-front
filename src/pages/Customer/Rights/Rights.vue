@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <el-card>
-      <div class="wrapper" v-if="showListFlg">
+      <div class="wrapper">
         <div class="item" v-for="(item, index) in 10" :key="index">
           <p class="name">{{item}}.{{rigthsList[index] ? rigthsList[index].gradeName : '普通用户'}}</p>
           <img :src="rigthsList[index] ? rigthsList[index].gradeImg : defaultImgUrl" width="83" height="83">
@@ -10,38 +10,10 @@
             <p v-if="index < listLen"><span>等级权益</span><span>{{rigthsList[index] ? rigthsList[index].rightsNum : 0}}</span></p>
           </div>
           <div class="btn" v-if="index <= listLen">
-            <el-switch v-if="index < listLen" v-model="rigthsList[index].status" @change="openOrClose(rigthsList[index].status, rigthsList[index].id, index)" :active-value="1" :inactive-value="0"></el-switch>
+            <el-switch v-if="index < listLen" v-model="rigthsList[index].status" @change="openOrClose(rigthsList[index], index)" :active-value="1" :inactive-value="0"></el-switch>
             <el-button type="text" @click="edit(rigthsList[index], index)">编辑</el-button>
           </div>
         </div>
-        <!-- <div class="item">
-          <p class="name">1.普通用户</p>
-          <img src="" width="83" height="83">
-          <p class="growth">需要成长值</p>
-          <div class="rights"> 
-            <p><span>等级权益</span><span>1</span></p>
-          </div>
-          <el-button type="text">编辑</el-button>
-        </div>
-        <div class="item">
-          <p class="name">1.普通用户</p>
-          <img src="" width="83" height="83">
-          <p class="growth">需要成长值</p>
-          <div class="rights">
-            <p><span>等级权益</span><span>1</span></p>
-          </div>
-          <el-button type="text">编辑</el-button>
-        </div>
-        <div class="item">
-          <p class="name">1.普通用户</p>
-          <img src="" width="83" height="83">
-          <p class="growth">需要成长值</p>
-          <div class="rights">
-            <p><span>等级权益</span><span>1</span></p>
-          </div>
-          <el-button type="text">编辑</el-button>
-        </div> -->
-
       </div>
     </el-card>
   </div>
@@ -54,27 +26,42 @@ export default {
         {name: '普通用户'}
       ],
       rigthsList: [],
-      showListFlg: false,
       listLen: 0,
-      defaultImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/rifhts-default-img.png'
+      defaultImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/rifhts-default-img.png',
+      openGradeList: []
     }
   },
   created () {
-    this.getRightsList()
+    // this.getRightsList()
+  },
+  mounted() {
+    const loading = this.$loading({
+      target: '.el-card'
+    })
+    this.getRightsList(() => loading.close())
   },
   methods: {
-    getRightsList() {
+    getRightsList(callback) {
       this.$request.post(`/api/saotx/mbgrade/lists?_=${new Date().getTime()}`, {}, true, res => {
         if (res.ret === '200000') {
           this.rigthsList = res.data
+          this.openGradeList = res.data.filter(item =>  item.status > 0)
+          // console.log(this.openGradeList)
           this.listLen = this.rigthsList.length
-          this.showListFlg = true
+          callback && callback()
         }
       })
     },
-    openOrClose(status, id, i) {
+    openOrClose(item, i) {
+      let status = item.status,
+          id = item.id
+      if (item.gradeLower >= item.gradeUpper && status) {
+        this.$message.error('请修改成长值上限')
+        this.$set(this.rigthsList[i], 'status', 0)
+        return
+      }
       if (!status) {
-        if (this.rigthsList.length - 1 > i) {
+        if (this.rigthsList.length != i + 1 && this.rigthsList[i + 1].status) {
           this.$alert('请先关闭高等级，在关闭当前等级。', '提示', {
             confirmButtonText: '确定',
             type: 'warning'
@@ -87,32 +74,53 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.switchAPI(status, id)
+          this.switchAPI(status, id, i)
         }).catch(() => {
-          this.getRightsList()
+          // this.getRightsList()
+          this.$set(this.rigthsList[i], 'status', 1)
           this.$message({
             type: 'info',
             message: '已取消关闭'
           })          
         })
       } else {
-        this.switchAPI(status, id)
+        let flg = true
+        this.rigthsList.forEach((item, index) => {
+          if (index < i) {
+            if (!item.status) {
+              this.$alert('请先开启低等级，在开启当前等级。', '提示', {
+                confirmButtonText: '确定',
+                type: 'warning'
+              })
+              this.$set(this.rigthsList[i], 'status', status ? 0 : 1)
+              flg = false
+              return
+            }
+          }
+        })
+        if (flg) this.switchAPI(status, id, i)
       }
     },
-    switchAPI(status, id) {
+    switchAPI(status, id, i) {
       this.$request.post('/api/saotx/mbgrade/updateStatus', {id, status}, true, res => {
         if (res.ret === '200000') {
           this.$message.success(status ? '开启成功' : '关闭成功')
         } else {
-          this.$message.error(res.msg)
+          this.$message.error(res.message)
+          this.$set(this.rigthsList[i], 'status', status ? 0 : 1)
         }
       })
     },
     edit(item, i) {
-      if (item) return this.$router.push(`/customer/lvl/edit?id=${item.id}`)
+      if (i == 0) return this.$router.push(`/customer/lvl/edit?id=${item.id}`)
+      let lowestGrowth = this.rigthsList[i - 1].gradeUpper,
+          highGrowth = null
+      if (this.rigthsList[i + 1]) {
+        highGrowth = this.rigthsList[i + 1].gradeUpper - 1
+      }
+      if (item) return this.$router.push(`/customer/lvl/edit?id=${item.id}&lowGrowth=${lowestGrowth}&highGrowth=${highGrowth}`)
       if (this.rigthsList.length != 0) {
-        let lowestGrowth = this.rigthsList[i - 1].gradeUpper
-        this.$router.push(`/customer/lvl/edit?lowGrowth=${lowestGrowth}`)
+        this.$router.push(`/customer/lvl/edit?lowGrowth=${lowestGrowth}&highGrowth=${highGrowth}`)
       } else {
         this.$router.push(`/customer/lvl/edit`)
       }

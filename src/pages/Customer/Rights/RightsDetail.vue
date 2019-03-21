@@ -9,7 +9,7 @@
           <el-input v-model="conf.mgrade.gradeName" :maxlength="8"></el-input>
         </el-form-item>
         <el-form-item label="需要成长值：" prop="gradeNum">
-          <el-input-number v-model="conf.mgrade.gradeLower" :controls="false" :min="0" :precision="0"></el-input-number>
+          <el-input-number :disabled="lowGrowth" v-model="conf.mgrade.gradeLower" :controls="false" :min="0" :precision="0"></el-input-number>
           -
           <el-input-number v-model="conf.mgrade.gradeUpper" :controls="false" :min="0" :precision="0"></el-input-number>
         </el-form-item>
@@ -21,7 +21,7 @@
             <el-button type="primary">更换图片</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item label="用户权益：">
+        <el-form-item label="用户权益：" prop="rights">
           <div>
             <el-checkbox v-model="rightsList[0].selected" :true-label="1" :false-label="0">生日福利</el-checkbox>
             <div v-if="rightsList[0].selected" class="ml40">
@@ -72,21 +72,26 @@
       </el-form>
       <div class="btn">
         <el-button type="primary" @click="save">保存</el-button>
+        <el-button class="ml20" plain @click="$router.back(-1)">返回</el-button>
       </div>
     </el-card>
   </div>
 </template>
 <script>
 export default {
-  props: ['id', 'lowGrowth'],
+  props: ['id', 'lowGrowth', 'highGrowth'],
   data() {
     var validateGradeNum = (rule, value, callback) => {
       if (this.conf.mgrade.gradeLower >= this.conf.mgrade.gradeUpper) {
         callback(new Error('成长值下限必须大于成长值上限'))
-      } else if (this.conf.mgrade.gradeLower < this.lowGrowth) {
-        callback(new Error(`成长值下限必须大于上一级的最大值, 上一级最大值为${this.lowGrowth}`))
       } else if (!this.conf.mgrade.gradeUpper) {
         callback(new Error('请输入成长值'))
+      } else if (this.highGrowth) {
+        if (this.conf.mgrade.gradeUpper >= this.highGrowth) {
+          callback(new Error('成长值上限不能大于上一级的成长值上限'))
+        } else {
+          callback()
+        }
       } else {
         callback()
       }
@@ -97,6 +102,9 @@ export default {
       } else {
         callback()
       }
+    }
+    var validateRights = (rule, value, callback) => {
+      callback()
     }
     return {
       uploadApi: '/api/saotx/attach/commonAliUpload',
@@ -113,15 +121,15 @@ export default {
           gradeUpper: null,
           gradeImg: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/rifhts-default-img.png'
         },
-        mgrsList: [
-
-        ]
+        mgrsList: []
       },
       rules: {
         gradeName: [{ required: true, message: '请输入等级名称', trigger: 'blur' }],
         gradeNum: [{ required: true, validator: validateGradeNum, trigger: 'blur' }],
-        gradeImg: [{ required: true, validator: validateGradeImg, trigger: 'change' }]
+        gradeImg: [{ required: true, validator: validateGradeImg, trigger: 'change' }],
+        rights: [{ required: true, validator: validateRights}]
       },
+      high: sessionStorage.getItem('max'),
       birthScoreFlg: 0,
       birthGrowthFlg: 0,
       upGradeScoreFlg: 0,
@@ -183,58 +191,97 @@ export default {
     }
   },
   created() {
-    // this.lowGrowth ? this.conf.mgrade.gradeLower = +this.lowGrowth + 1 : ''
+    
+  },
+  mounted() {
     this.getRightsDetail()
+    if (!this.id) this.lowGrowth ? this.conf.mgrade.gradeLower = +this.lowGrowth + 1 : ''
   },
   methods: {
+    // 获取详情
     getRightsDetail() {
       if (!this.id) return
+      const loading = this.$loading({
+        target: '.el-card'
+      })
       this.$request.post('/api/saotx/mbgrade/detail', {id: this.id}, true, res => {
         if (res.ret === '200000') {
           this.conf = res.data
+          this.lowGrowth ? this.conf.mgrade.gradeLower = +this.lowGrowth + 1 : ''
+          loading.close()
           if (!this.conf.mgrsList) return
           res.data.mgrsList.forEach(item => {
             switch (item.rightsCode) {
               case 'BIRTHDAY_RIGHT':
                 this.rightsList[0] = item
-                this.rightsList[0]['selected'] = 1
+                this.$set(this.rightsList[0], 'selected', 1)
                 this.rightsList[0].rightsScore ? this.birthScoreFlg = 1 : this.birthScoreFlg = 0
                 this.rightsList[0].rightsGrowth ? this.birthGrowthFlg = 1 : this.birthGrowthFlg = 0
                 break;
               case 'SCORE_ACCELERATE':
                 this.rightsList[1] = item
-                this.rightsList[1]['selected'] = 1
+                this.$set(this.rightsList[1], 'selected', 1)
                 break;
               case 'GROWTH_ACCELERATE':
                 this.rightsList[2] = item
-                this.rightsList[2]['selected'] = 1
+                this.$set(this.rightsList[2], 'selected', 1)
                 break;
               case 'SCORE_MALL_EXCHANGE':
                 this.rightsList[3] = item
-                this.rightsList[3]['selected'] = 1
+                this.$set(this.rightsList[3], 'selected', 1)
                 break;
               case 'TASTING_RIGHT':
                 this.rightsList[4] = item
-                this.rightsList[4]['selected'] = 1
+                this.$set(this.rightsList[4], 'selected', 1)
                 break;
               case 'UPGRADE_AWARDS_BIGHT':
                 this.rightsList[5] = item
-                this.rightsList[5]['selected'] = 1
+                this.$set(this.rightsList[5], 'selected', 1)
                 this.rightsList[5].rightsScore ? this.upGradeScoreFlg = 1 : this.upGradeScoreFlg = 0
                 this.rightsList[5].rightsGrowth ? this.upGradeGrowthFlg = 1 : this.upGradeGrowthFlg = 0
                 break;
             }
           })
-          // console.log(this.rightsList)
+          return
         }
+        this.$message.error(res.message)
       })
     },
+    // 保存
     save() {
       this.$refs.rigthsEditRef.validate(valid => {
         if (!valid) return this.$message.error('请完善表单数据!')
-        let selectList = this.rightsList.filter(item => {
-          return item.selected == 1
+        // let selectList = this.rightsList.filter(item => {
+        //   return item.selected == 1
+        // })
+        let selectList = []
+        this.rightsList.forEach((d, i) => {
+          switch (i) {
+            case 0:
+              if (d.selected && (d.rightsBirSmsFlg || d.rightsGrowth || d.rightsScore)) {
+                selectList.push(d)
+              }
+              break;
+            case 1:
+            case 2:
+            case 3:
+              if (d.selected && d.ritsSmallTimes) {
+                selectList.push(d)
+              }
+              break;
+            case 4:
+              if (d.selected) {
+                selectList.push(d)
+              }
+              break;
+            case 5:
+              if (d.selected && (d.rightsGrowth || d.rightsScore)) {
+                selectList.push(d)
+              }
+              break;
+          }
         })
+        if (selectList.length == 0) return this.$message.error('请选择用户权益!')
         this.conf.mgrsList = selectList
         this.$request.post('/api/saotx/mbgrade/saveOrupdate', this.conf, true, res => {
           if (res.ret === '200000') {
@@ -287,7 +334,7 @@ export default {
 .upload {
   display: inline-block;
   vertical-align: text-bottom;
-  margin-left: 20px;
+  margin-left: 10px;
 }
 .icon-name {
   display: inline-block;
@@ -296,7 +343,8 @@ export default {
   margin-left: 40px;
 }
 .btn {
-  text-align: center;
+  // text-align: center;
+  margin-left: 120px;
 }
 .el-checkbox {
   margin-bottom: 10px;

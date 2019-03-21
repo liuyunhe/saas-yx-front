@@ -93,7 +93,7 @@
           <el-input-number v-model="awae.integral" :disabled="awae.id ? true : false" :min="0" controls-position="right"></el-input-number> 分
         </el-form-item>
       </template>
-      <el-form-item label="中奖概率:" prop="probability">
+      <el-form-item v-if="!hide" label="中奖概率:" prop="probability">
         <el-input-number v-model="awae.probability" :min="0" :max="100" controls-position="right"></el-input-number> %
       </el-form-item>
       <el-form-item>
@@ -173,7 +173,7 @@
 </template>
 <script>
 export default {
-  props: ['awae', 'prizeType', 'nWin', 'isRed'],
+  props: ['awae', 'prizeType', 'nWin', 'isRed', 'hide'],
   data() {
     var validateImgUrl = (rule, value, callback) => {
       if (this.awae.awardPic) {

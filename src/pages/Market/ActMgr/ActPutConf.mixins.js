@@ -375,10 +375,10 @@ export default {
                   // }
                   if (i == 0) {
                     for (let k in sonItem) {
-                      this.firstScanTabs[0][k] = sonItem[k]
+                      this.firstScanConf[0][k] = sonItem[k]
                     }
                   } else {
-                    this.firstScanTabs.push(sonItem)
+                    this.firstScanConf.push(sonItem)
                   }
                 })
                 this.specialRuleConfFlag = true
@@ -399,10 +399,10 @@ export default {
                   // }
                   if (i == 0) {
                     for (let k in sonItem) {
-                      this.nWinTabs[0][k] = sonItem[k]
+                      this.nWinConf[0][k] = sonItem[k]
                     }
                   } else {
-                    this.nWinTabs.push(sonItem)
+                    this.nWinConf.push(sonItem)
                   }
                 })
                 this.specialRuleConfFlag = true
@@ -424,10 +424,10 @@ export default {
                   // }
                   if (i == 0) {
                     for (let k in sonItem) {
-                      this.fixationPutTabs[0][k] = sonItem[k]
+                      this.fixationPutConf[0][k] = sonItem[k]
                     }
                   } else {
-                    this.fixationPutTabs.push(sonItem)
+                    this.fixationPutConf.push(sonItem)
                   }
                 })
                 this.specialRuleConfFlag = true
