@@ -60,6 +60,7 @@ const ActPutConf = () => import(/* webpackChunkName: "activity" */ '@/pages/Mark
 const QuesEdit = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/QuesAct/QuesEdit')
 const QuesList = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/QuesAct/QuesList')
 const ActSetConfSelf = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActSetConfSelf')
+const MarketQr = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/MarketQr')
 
 
 
@@ -346,6 +347,7 @@ export default new Router({
         { path: '/market', name: '营销'},
         { path: '/market/actTpl', name: '活动模板', component: ActTpl },
         { path: '/market/actMgr', name: '活动管理', component: ActMgc },
+        { path: '/market/qr', name: '体验码', component: MarketQr },
         { path: '/market/actTpl/addAct', name: '新建活动模板配置', component: AddAct, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/addActRedPacked', name: '新建红包雨配置', component: Hongbaoyu, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/addActEgg', name: '新建砸金蛋活动模板配置', component: AddActEgg, props: (router) => ({id: router.query.id, edit: router.query.edit})},
