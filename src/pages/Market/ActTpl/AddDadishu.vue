@@ -98,7 +98,7 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 5">
                   <div>
-                    <p class="img-title">洞口遮照:</p>
+                    <p class="img-title">洞口遮罩:</p>
                     <div class="img-con act-tip-img"><img :src="configItem.holeUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upHoleUrlSuccess" :show-file-list="false">
