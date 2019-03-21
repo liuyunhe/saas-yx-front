@@ -17,8 +17,8 @@ const ZjOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Ord
 const ZjOrderPageDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ZjOrderPageDetail.vue')
 const JdOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/JdOrderPage.vue')
 // 权益订单
-// const RightsOrder = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/Rights/RightsOrder.vue')
-// const RightsOrderDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/Rights/RightsOrderDetail.vue')
+const RightsOrder = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/Rights/RightsOrder.vue')
+const RightsOrderDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/Rights/RightsOrderDetail.vue')
 //积分活动订单管理
 const ActOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ActOrderPage.vue')
 const ActOrderPageDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ActOrderPageDetail.vue')
@@ -122,6 +122,8 @@ const SettingAccount = () => import(/* webpackChunkName: "setting" */ '@/pages/S
 const SettingRole = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/User/Role.vue')
 // 设置-账号管理-零售户管理
 const SettingSeller = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Seller.vue')
+// 积分设置
+const PointsConf = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/PointsConf.vue')
 // 设置-资源管理-系统菜单管理
 const SettingSystemMenu = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Resources/SystemMenu.vue')
 // 设置-资源管理-企业授权src\pages\Setting\Sign\Sign.vue
@@ -227,11 +229,10 @@ const Task = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/T
 const Rights = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Rights/Rights')
 const RightsDetail = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Rights/RightsDetail')
 // 用户详情
-// const PersonalDeatail = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/components/personalDeatail')
+const PersonalDeatail = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/components/personalDeatail')
 // 会员任务设置
-// const TaskDetail = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/TaskDetail')
-// const ScanEdit = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/ScanEdit')
-// const PointsEdit = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/PointsEdit')
+const TaskDetail = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/TaskDetail')
+const ScanEdit = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/ScanEdit')
 
 Vue.use(Router)
 
@@ -348,8 +349,8 @@ export default new Router({
         { path: '/market/actTpl/addAct', name: '新建活动模板配置', component: AddAct, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/addActRedPacked', name: '新建红包雨配置', component: Hongbaoyu, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/addActEgg', name: '新建砸金蛋活动模板配置', component: AddActEgg, props: (router) => ({id: router.query.id, edit: router.query.edit})},
-        { path: '/market/actTpl/addCapsuleToys', name: '新建扭蛋机活动模板配置', component: AddCapsuleToys, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/addDadishu', name: '新建打地鼠活动模板配置', component: AddDadishu, props: (router) => ({id: router.query.id, edit: router.query.edit})},
+        { path: '/market/actTpl/addCapsuleToys', name: '新建扭蛋机活动模板配置', component: AddCapsuleToys, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/addActFanpaizi', name: '翻牌子活动', component: Fanpaizi, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/addActJiugongge', name: '九宫格活动', component: Jiugongge, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/addWingAct', name: '新建点元宝活动模板配置', component: AddWingAct, props: (router) => ({id: router.query.id, edit: router.query.edit})},
@@ -366,8 +367,8 @@ export default new Router({
         // 订单
         { path: '/orders', name: '订单' },
         { path: '/orders/seller', name: '零售户订单', component: KPI },
-        // { path: '/orders/member', name: '权益订单', component: RightsOrder },
-        // { path: '/orders/member/detail', name: '权益订单', component: RightsOrderDetail, props: (route) => ({id:route.query.id}) },
+        { path: '/orders/member', name: '权益订单', component: RightsOrder },
+        { path: '/orders/member/detail', name: '权益订单', component: RightsOrderDetail, props: (route) => ({id:route.query.id}) },
         { path: '/orders/act', name: '活动订单'},
         // { path: '/orders/act', name: '活动订单', redirect: '/orders/act/object' },
         { path: '/Orders/ACT/object', name: '实物领奖明细', component: ObjectPage },
@@ -438,7 +439,7 @@ export default new Router({
         { path: '/setting/user/role', name: '角色管理', component: SettingRole },
         { path: '/setting/logs', name: '日志管理', component: SettingLogs },
         { path: '/setting/seller', name: '零售户管理', component: SettingSeller },
-        { path: '/setting/mall', name: '积分设置', component: KPI },
+        { path: '/setting/mall', name: '积分设置', component: PointsConf },
         { path: '/setting/resource/smenu', name: '菜单管理', component: SettingSystemMenu },
         { path: '/setting/resource/smgrOrgRole', name: '菜单管理', component: SettingSystemAuth },
         { path: '/setting/sign', name: '签到列表', component: Sign },
@@ -468,12 +469,11 @@ export default new Router({
         { path: '/customer/lvl', name: '等级权益管理', component: Rights },
         { path: '/customer/lvl/edit', name: '编辑等级', component: RightsDetail, props: (route) => ({id: route.query.id, lowGrowth: route.query.lowGrowth, highGrowth: route.query.highGrowth}) },
         { path: '/customer/task', name: '任务管理', component: Task },
-        // { path: '/customer/task/pointsEdit', name: '积分设置', component: PointsEdit },
-        // { path: '/customer/task/detail', name: '任务明细', component: TaskDetail, props: (route) => ({id: route.query.id}) },
-        // { path: '/customer/task/scanEdit', name: '编辑扫码赚成长值', component: ScanEdit },
+        { path: '/customer/task/detail', name: '任务明细', component: TaskDetail, props: (route) => ({id: route.query.id}) },
+        { path: '/customer/task/scanEdit', name: '编辑扫码赚成长值', component: ScanEdit, props: (route) => ({id: route.query.id}) },
         { path: '/customer/black', name: '黑名单管理', component: Black },
         // { path: '/customer/task/sign', name: '会员签到任务设置', component: MemberTaskSign, props: (route) => ({code:route.query.code, id:route.query.id}) },
-        // { path: '/customer/mgr/detail', name: '用户详情', component: PersonalDeatail, props: (route) => ({code:route.query.code, id:route.query.id}) },
+        { path: '/customer/mgr/detail', name: '用户详情', component: PersonalDeatail, props: (route) => ({code:route.query.code, id:route.query.id}) },
       ]
     },
     {
