@@ -233,7 +233,7 @@
 							<div class="bot-img" v-show='addlist.conf.has.yz.botFlag'>
 								<el-popover placement="right" width="426" trigger="click" class='bot-click'>
 									<div class="bot-info">
-										<p class='info-title'>一键反馈配置</p>
+										<p class='info-title'>广告图配置</p>
 										<div class='edit-con'v-show='addlist.conf.has.yz.botFlag'>
 											<span class='labels'>广告图：</span>
 											<div class="img-div">
