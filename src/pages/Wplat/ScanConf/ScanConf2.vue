@@ -136,20 +136,23 @@
 											<span class='labels'>提示语：</span>
 											<el-input size='mini' v-model="addlist.conf.has.yz.note" class='note' placeholder="请输入内容" maxlength='20'></el-input>
 										</div>
-										<div class='edit-con'v-show='addlist.conf.has.yz.feedbackFlag'>
+										<div class='edit-con'>
 											<span class='labels'>一键反馈</span>
 											<el-radio v-model="addlist.conf.has.yz.feedbackFlag" :label="1">显示</el-radio>
 						  					<el-radio v-model="addlist.conf.has.yz.feedbackFlag" :label="0">不显示</el-radio>	
 						  					<div class='line'></div>
-											<span class='labels'>反馈图片：</span>
-											<div class="img-div">
-												<img :src="addlist.conf.has.yz.feedbackImg"v-show='addlist.conf.has.yz.feedbackImg' alt="" />
-												<p v-show='!addlist.conf.has.yz.feedbackImg'>+</p>
-											</div>
-									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadFeed">
-												<el-button type="primary">更换图片</el-button>
-											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 94*136px格式为jpg\bmp\png\gif</div>
+						  					<div v-show='addlist.conf.has.yz.feedbackFlag'>
+						  						<span class='labels'>反馈图片：</span>
+												<div class="img-div">
+													<img :src="addlist.conf.has.yz.feedbackImg"v-show='addlist.conf.has.yz.feedbackImg' alt="" />
+													<p v-show='!addlist.conf.has.yz.feedbackImg'>+</p>
+												</div>
+										        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadFeed">
+													<el-button type="primary">更换图片</el-button>
+												</el-upload>
+												<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 94*136px格式为jpg\bmp\png\gif</div>
+						  					</div>
+											
 										</div>
 									</div>
 									<el-button slot="reference"></el-button>
@@ -196,20 +199,23 @@
 											<span class='labels'>提示语：</span>
 											<el-input size='mini' v-model="addlist.conf.has.yz.note" class='note' placeholder="请输入内容" maxlength='20'></el-input>
 										</div>
-										<div class='edit-con'v-show='addlist.conf.has.yz.feedbackFlag'>
+										<div class='edit-con'>
 											<span class='labels'>一键反馈</span>
 											<el-radio v-model="addlist.conf.has.yz.feedbackFlag" :label="1">显示</el-radio>
 						  					<el-radio v-model="addlist.conf.has.yz.feedbackFlag" :label="0">不显示</el-radio>
 						  					<div class='line'></div>
-											<span class='labels'>反馈图片：</span>
-											<div class="img-div">
-												<img :src="addlist.conf.has.yz.feedbackImg"v-show='addlist.conf.has.yz.feedbackImg' alt="" />
-												<p v-show='!addlist.conf.has.yz.feedbackImg'>+</p>
-											</div>
-									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadFeed">
-												<el-button type="primary">更换图片</el-button>
-											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 94*136px格式为jpg\bmp\png\gif</div>
+						  					<div v-show='addlist.conf.has.yz.feedbackFlag'>
+						  						<span class='labels'>反馈图片：</span>
+												<div class="img-div">
+													<img :src="addlist.conf.has.yz.feedbackImg"v-show='addlist.conf.has.yz.feedbackImg' alt="" />
+													<p v-show='!addlist.conf.has.yz.feedbackImg'>+</p>
+												</div>
+										        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadFeed">
+													<el-button type="primary">更换图片</el-button>
+												</el-upload>
+												<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 94*136px格式为jpg\bmp\png\gif</div>
+						  					</div>
+											
 										</div>
 									</div>
 									<el-button slot="reference"></el-button>
