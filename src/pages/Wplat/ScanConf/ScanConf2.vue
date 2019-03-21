@@ -96,7 +96,7 @@
 							<div class="yz">
 								<el-popover placement="right" width="426" trigger="click" class='yz-click'v-if='addlist.conf.has.yz.botFlag'>
 									<div class="yz-info">
-										<p>验真模块配置</p>
+										<p class='info-title'>验真模块配置</p>
 										<div class="detail">
 											<span class='labels'>主图样式</span>
 											<el-radio v-model="addlist.conf.has.yz.botFlag" :label="1">半屏</el-radio>
@@ -124,17 +124,6 @@
 											</el-upload>
 											
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*730px格式为jpg\bmp\png\gif</div>
-										</div>
-										<div class='edit-con'v-show='addlist.conf.has.yz.botFlag'>
-											<span class='labels'>广告图：</span>
-											<div class="img-div">
-												<img :src="addlist.conf.has.yz.botImg"v-show='addlist.conf.has.yz.botImg' alt="" />
-												<p v-show='!addlist.conf.has.yz.botImg'>+</p>
-											</div>
-									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadBot">
-												<el-button type="primary">更换图片</el-button>
-											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*200px格式为jpg\bmp\png\gif</div>
 										</div>
 										<div class="edit-con">
 											<span class='labels'>详情按钮</span>
@@ -147,28 +136,30 @@
 											<span class='labels'>提示语：</span>
 											<el-input size='mini' v-model="addlist.conf.has.yz.note" class='note' placeholder="请输入内容" maxlength='20'></el-input>
 										</div>
-										<div class="edit-con">
+										<div class='edit-con'>
 											<span class='labels'>一键反馈</span>
 											<el-radio v-model="addlist.conf.has.yz.feedbackFlag" :label="1">显示</el-radio>
-						  					<el-radio v-model="addlist.conf.has.yz.feedbackFlag" :label="0">不显示</el-radio>				
-										</div>
-										<div class='edit-con'v-show='addlist.conf.has.yz.feedbackFlag'>
-											<span class='labels'>反馈图片：</span>
-											<div class="img-div">
-												<img :src="addlist.conf.has.yz.feedbackImg"v-show='addlist.conf.has.yz.feedbackImg' alt="" />
-												<p v-show='!addlist.conf.has.yz.feedbackImg'>+</p>
-											</div>
-									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadFeed">
-												<el-button type="primary">更换图片</el-button>
-											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 94*136px格式为jpg\bmp\png\gif</div>
+						  					<el-radio v-model="addlist.conf.has.yz.feedbackFlag" :label="0">不显示</el-radio>	
+						  					<div class='line'></div>
+						  					<div v-show='addlist.conf.has.yz.feedbackFlag'>
+						  						<span class='labels'>反馈图片：</span>
+												<div class="img-div">
+													<img :src="addlist.conf.has.yz.feedbackImg"v-show='addlist.conf.has.yz.feedbackImg' alt="" />
+													<p v-show='!addlist.conf.has.yz.feedbackImg'>+</p>
+												</div>
+										        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadFeed">
+													<el-button type="primary">更换图片</el-button>
+												</el-upload>
+												<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 94*136px格式为jpg\bmp\png\gif</div>
+						  					</div>
+											
 										</div>
 									</div>
 									<el-button slot="reference"></el-button>
 								</el-popover>
 								<el-popover placement="right" width="426" trigger="click" class='yz-click-big'v-if='!addlist.conf.has.yz.botFlag'>
 									<div class="yz-info">
-										<p>验真模块配置</p>
+										<p class='info-title'>验真模块配置</p>
 										<div class="detail">
 											<span class='labels'>主图样式</span>
 											<el-radio v-model="addlist.conf.has.yz.botFlag" :label="1">半屏</el-radio>
@@ -197,17 +188,7 @@
 											
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*730px格式为jpg\bmp\png\gif</div>
 										</div>
-										<div class='edit-con'v-show='addlist.conf.has.yz.botFlag'>
-											<span class='labels'>广告图：</span>
-											<div class="img-div">
-												<img :src="addlist.conf.has.yz.botImg"v-show='addlist.conf.has.yz.botImg' alt="" />
-												<p v-show='!addlist.conf.has.yz.botImg'>+</p>
-											</div>
-									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadBot">
-												<el-button type="primary">更换图片</el-button>
-											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*200px格式为jpg\bmp\png\gif</div>
-										</div>
+									
 										<div class="edit-con">
 											<span class='labels'>详情按钮</span>
 											<el-checkbox v-model="addlist.conf.has.yz.detailFlag"></el-checkbox>
@@ -218,21 +199,23 @@
 											<span class='labels'>提示语：</span>
 											<el-input size='mini' v-model="addlist.conf.has.yz.note" class='note' placeholder="请输入内容" maxlength='20'></el-input>
 										</div>
-										<div class="edit-con">
+										<div class='edit-con'>
 											<span class='labels'>一键反馈</span>
 											<el-radio v-model="addlist.conf.has.yz.feedbackFlag" :label="1">显示</el-radio>
 						  					<el-radio v-model="addlist.conf.has.yz.feedbackFlag" :label="0">不显示</el-radio>
-										</div>
-										<div class='edit-con'v-show='addlist.conf.has.yz.feedbackFlag'>
-											<span class='labels'>反馈图片：</span>
-											<div class="img-div">
-												<img :src="addlist.conf.has.yz.feedbackImg"v-show='addlist.conf.has.yz.feedbackImg' alt="" />
-												<p v-show='!addlist.conf.has.yz.feedbackImg'>+</p>
-											</div>
-									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadFeed">
-												<el-button type="primary">更换图片</el-button>
-											</el-upload>
-											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 94*136px格式为jpg\bmp\png\gif</div>
+						  					<div class='line'></div>
+						  					<div v-show='addlist.conf.has.yz.feedbackFlag'>
+						  						<span class='labels'>反馈图片：</span>
+												<div class="img-div">
+													<img :src="addlist.conf.has.yz.feedbackImg"v-show='addlist.conf.has.yz.feedbackImg' alt="" />
+													<p v-show='!addlist.conf.has.yz.feedbackImg'>+</p>
+												</div>
+										        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadFeed">
+													<el-button type="primary">更换图片</el-button>
+												</el-upload>
+												<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 94*136px格式为jpg\bmp\png\gif</div>
+						  					</div>
+											
 										</div>
 									</div>
 									<el-button slot="reference"></el-button>
@@ -251,12 +234,29 @@
 									<p>首扫时间：2018-09-23 12:34:56<span v-show='addlist.conf.has.yz.detailFlag':style="{color:''+addlist.conf.has.yz.color+'',border:'1px solid '+addlist.conf.has.yz.color+''}">详情</span></p>
 									<div class="tip">{{addlist.conf.has.yz.note}}</div>
 									<img :src="addlist.conf.has.yz.feedbackImg"class='feedback'v-show='addlist.conf.has.yz.feedbackFlag' alt="" />
-								</div>
-								<div class="bot-img"v-show='addlist.conf.has.yz.botFlag'>
-									<img src="http://qoss.qrmkt.cn/new_platform/scan-002-bot.png"v-show='!addlist.conf.has.yz.botImg' alt="" />
-									<img :src="addlist.conf.has.yz.botImg"v-show='addlist.conf.has.yz.botImg' alt="" />
-								</div>
-							</div>							
+								</div>								
+							</div>	
+							<div class="bot-img" v-show='addlist.conf.has.yz.botFlag'>
+								<el-popover placement="right" width="426" trigger="click" class='bot-click'>
+									<div class="bot-info">
+										<p class='info-title'>广告图配置</p>
+										<div class='edit-con'v-show='addlist.conf.has.yz.botFlag'>
+											<span class='labels'>广告图：</span>
+											<div class="img-div">
+												<img :src="addlist.conf.has.yz.botImg"v-show='addlist.conf.has.yz.botImg' alt="" />
+												<p v-show='!addlist.conf.has.yz.botImg'>+</p>
+											</div>
+									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadBot">
+												<el-button type="primary">更换图片</el-button>
+											</el-upload>
+											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*200px格式为jpg\bmp\png\gif</div>
+										</div>
+									</div>								
+									<el-button slot="reference"></el-button>
+								</el-popover>
+								<img src="http://qoss.qrmkt.cn/new_platform/scan-002-bot.png"v-show='!addlist.conf.has.yz.botImg' alt="" />
+								<img :src="addlist.conf.has.yz.botImg"v-show='addlist.conf.has.yz.botImg' alt="" />
+							</div>
 							<div class="act-part">
 								<img src="http://qoss.qrmkt.cn/new_platform/hehua-act.png" alt="" />
 							</div>
