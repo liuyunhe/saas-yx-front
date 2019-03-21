@@ -17,8 +17,8 @@ const ZjOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Ord
 const ZjOrderPageDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ZjOrderPageDetail.vue')
 const JdOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/JdOrderPage.vue')
 // 权益订单
-// const RightsOrder = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/Rights/RightsOrder.vue')
-// const RightsOrderDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/Rights/RightsOrderDetail.vue')
+const RightsOrder = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/Rights/RightsOrder.vue')
+const RightsOrderDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/Rights/RightsOrderDetail.vue')
 //积分活动订单管理
 const ActOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ActOrderPage.vue')
 const ActOrderPageDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ActOrderPageDetail.vue')
@@ -123,7 +123,7 @@ const SettingRole = () => import(/* webpackChunkName: "setting" */ '@/pages/Sett
 // 设置-账号管理-零售户管理
 const SettingSeller = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Seller.vue')
 // 积分设置
-// const PointsConf = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/PointsConf.vue')
+const PointsConf = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/PointsConf.vue')
 // 设置-资源管理-系统菜单管理
 const SettingSystemMenu = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Resources/SystemMenu.vue')
 // 设置-资源管理-企业授权src\pages\Setting\Sign\Sign.vue
@@ -367,8 +367,8 @@ export default new Router({
         // 订单
         { path: '/orders', name: '订单' },
         { path: '/orders/seller', name: '零售户订单', component: KPI },
-        // { path: '/orders/member', name: '权益订单', component: RightsOrder },
-        // { path: '/orders/member/detail', name: '权益订单', component: RightsOrderDetail, props: (route) => ({id:route.query.id}) },
+        { path: '/orders/member', name: '权益订单', component: RightsOrder },
+        { path: '/orders/member/detail', name: '权益订单', component: RightsOrderDetail, props: (route) => ({id:route.query.id}) },
         { path: '/orders/act', name: '活动订单'},
         // { path: '/orders/act', name: '活动订单', redirect: '/orders/act/object' },
         { path: '/Orders/ACT/object', name: '实物领奖明细', component: ObjectPage },
@@ -439,7 +439,7 @@ export default new Router({
         { path: '/setting/user/role', name: '角色管理', component: SettingRole },
         { path: '/setting/logs', name: '日志管理', component: SettingLogs },
         { path: '/setting/seller', name: '零售户管理', component: SettingSeller },
-        // { path: '/setting/mall', name: '积分设置', component: PointsConf },
+        { path: '/setting/mall', name: '积分设置', component: PointsConf },
         { path: '/setting/resource/smenu', name: '菜单管理', component: SettingSystemMenu },
         { path: '/setting/resource/smgrOrgRole', name: '菜单管理', component: SettingSystemAuth },
         { path: '/setting/sign', name: '签到列表', component: Sign },

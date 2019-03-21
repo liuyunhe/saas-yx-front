@@ -104,7 +104,7 @@ export default {
       })
     },
     addBlack(id) {
-      this.$confirm('加入黑名单后，该用户将无法领取活动奖品，法获取积分及成长值，无法兑换商品确认加入黑名单吗？', '提示', {
+      this.$confirm('加入黑名单后，该用户将无法领取活动奖品，法获取积分及成长值，无法兑换商品，确认加入黑名单吗？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
