@@ -117,11 +117,17 @@ export default {
         if (this.menuList[0].nodeList.length > 0) {
           if (this.menuList[0].nodeList[0].nodeList.length > 0) {
             newPath = this.menuList[0].nodeList[0].nodeList[0].menuUrl
+            this.pathOneMenuActive = this.menuList[0].menuUrl
+            this.pathTowMenuActive = this.menuList[0].nodeList[0].menuUrl
+            this.pathThreeMenuActive = this.menuList[0].nodeList[0].nodeList[0].menuUrl
           } else {
             newPath = this.menuList[0].nodeList[0].menuUrl
+            this.pathOneMenuActive = this.menuList[0].menuUrl
+            this.pathTowMenuActive = this.menuList[0].nodeList[0].menuUrl
           }
         } else {
           newPath = this.menuList[0].menuUrl
+          this.pathOneMenuActive = this.menuList[0].menuUrl
         }
         this.$router.push(newPath)
       }
