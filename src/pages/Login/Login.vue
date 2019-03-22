@@ -125,9 +125,9 @@ export default {
             name: 'Find'
           })
         } else if (res.ret == '100411') {// 初始密码需要修改
-          var data = res.data || {}
-          sessionStorage.setItem('access_token', data.token)
-          sessionStorage.setItem('access_loginId', data.loginId)
+          //var data = res.data || {}
+          //sessionStorage.setItem('access_token', data.token)
+          //sessionStorage.setItem('access_loginId', data.loginId)
           that.$confirm(res.message).then(() => {
             that.modifyPwd();
           }).catch(() => {});
@@ -147,7 +147,7 @@ export default {
       //this.$router.push({name: 'Find'})
     },
     modifyPwd() {
-      this.$router.push({path:'/find?f=m&account='+this.username});
+      this.$router.push({path:'/find?f=f&account='+this.username});
     }
   },
   watch: {
