@@ -110,7 +110,7 @@
             <p class="act-name">{{item.name}}</p>
             <p class="desc">{{item.note ? item.note : '暂无活动说明~'}}</p>
             <div class="btn">
-              <el-button type="primary" size="small" v-if="item.form!='act-601'">预览</el-button>
+              <!-- <el-button type="primary" size="small" v-if="item.form!='act-601'">预览</el-button> -->
               <el-button type="primary" size="small" @click="goPut(item)">投放</el-button>
             </div>
           </div>
