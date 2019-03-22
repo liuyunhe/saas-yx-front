@@ -15,7 +15,7 @@
             provinceArr: data.strategyArr[0].areas.provinceArr
           }" :isDis="isDisabled"></selected-area>
         </el-form-item>
-        <put-conf v-if="isShow" :data="data"></put-conf>
+        <put-conf v-if="isShow" :astrictRedflg="astrictRedflg" :data="data"></put-conf>
         <el-form-item class="mt20" label="是否立即发布：">
           <el-switch v-model="data.act.status" :disabled="statusDisabled" :active-value="1" :inactive-value="2"></el-switch>
         </el-form-item>
@@ -96,7 +96,7 @@ export default {
               stimeStr: '', // yyyy-MM-dd HH:mm:ss
               etimeStr: ''
             },
-            tfType: 'common'
+            tfType: 'common',
           }
         ]
       },
@@ -108,7 +108,8 @@ export default {
       isDisabled: false,
       isShow: false,
       statusDisabled: false,
-      isChange: false
+      isChange: false,
+      astrictRedflg: false, // 红包限制  为true 红包最高金额为0.3
     }
   },
   created() {
@@ -130,6 +131,7 @@ export default {
       this.$request.post('/api/saotx/act/detail', {id: this.id}, true, res => {
         if (res.ret === '200000') {
           this.data.act = res.data.act
+          if (this.data.act.orgId === 'guest') this.astrictRedflg = true
           if (res.data.strategyArr.length !== 0) {
             if (res.data.strategyArr[0].areas.provinceArr[0] == '000000' && res.data.strategyArr[0].areas.cityArr[0] == '000000') this.isDisabled = true
             if (res.data.act.status == 1) this.statusDisabled = true

@@ -24,7 +24,8 @@
 import pondConf from './redPondConf'
 export default {
   props: {
-    data: { type: Object, required: true }
+    data: { type: Object, required: true },
+    astrictRedflg: {}
   },
   components: {
     pondConf
@@ -100,12 +101,12 @@ export default {
         tfType: 'common',
       },
       initData: {},
-      astrictRedflg: false  // 红包限制  为true 红包最高金额为0.3
+      // astrictRedflg: false  // 红包限制  为true 红包最高金额为0.3
     }
   },
   created() {
     this.handleTabs()
-    if (this.data.orgId === 'guest') this.astrictRedflg = true
+    // if (this.data.orgId === 'guest') this.astrictRedflg = true
     // this.handleTime()
   },
   methods: {

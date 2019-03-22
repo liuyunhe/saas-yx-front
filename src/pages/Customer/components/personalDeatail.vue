@@ -4,7 +4,7 @@
       <h3>个人信息</h3>
       <div class="con">
         <div class="left">
-          <img :src="userInfo.headimg">
+          <img :src="userInfo.headimg || userDetailImgUrl">
         </div>
         <div class="right">
           <p>
@@ -97,6 +97,7 @@ export default {
   data() {
     return {
       load: true,
+      userDetailImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/user-detail-img.png',
       userInfo: {},
       pointsList: [],
       growthList: [],
