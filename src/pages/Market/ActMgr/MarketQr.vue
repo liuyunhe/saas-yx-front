@@ -2,13 +2,13 @@
 <template>
   <el-card class="market-qr">
     <el-container>
-      <el-header>体验码不够用？请联系智新物码客服 <span class="tel">010-64700731</span></el-header>
+      <el-header>体验码不够用？请联系智新物码客服 <span class="tel">010-64700731</span>。创建新活动，体验码可再次使用</el-header>
       <el-main>
         <el-row :gutter="20">
           <el-col :span="5" v-for="qr in marketqr" :key="qr.id">
             <div class="grid-content">
               <img :src="qr.ossUrl" />
-              <span>{{qr.code}}</span>
+              <span>扫码体验</span>
             </div>
           </el-col>
         </el-row>
