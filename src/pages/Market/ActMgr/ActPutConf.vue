@@ -68,7 +68,7 @@
                 <div class="conf" v-if="firstScanFlag">
                   <el-tabs v-model="firstScanTabsValue" type="card" editable @edit="firstScanTabsEdit">
                     <el-tab-pane :key="item.name" v-for="(item, index) in firstScanTabs" :label="item.title" :name="item.name">
-                      <pond-conf :awae="firstScanConf[index]" :prizeType="prizeType"></pond-conf>
+                      <pond-conf :awae="firstScanConf[index]" :hide="true" :prizeType="prizeType"></pond-conf>
                     </el-tab-pane>
                   </el-tabs>
                 </div>
@@ -78,7 +78,7 @@
                 <div class="conf" v-if="nWinFlag">
                   <el-tabs v-model="nWinTabsValue" type="card" editable @edit="nWinTabsEdit">
                     <el-tab-pane :key="item.name" v-for="(item, index) in nWinTabs" :label="item.title" :name="item.name">
-                      <pond-conf :awae="nWinConf[index]" :prizeType="prizeType" :nWin="true"></pond-conf>
+                      <pond-conf :awae="nWinConf[index]" :hide="true" :prizeType="prizeType" :nWin="true"></pond-conf>
                     </el-tab-pane>
                   </el-tabs>
                 </div>

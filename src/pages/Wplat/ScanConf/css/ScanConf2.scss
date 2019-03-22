@@ -40,9 +40,15 @@ p {
                 border:none;
             }
         }
-.yz-info {
+.yz-info,.bot-info {
+    .line {
+        height: 20px;
+    }
     .edit-con {
         margin-top: 20px;
+        background: #efefef;
+        padding: 15px 0 15px 15px;
+        border-radius: 5px;
     }
     .labels {
         width:80px;
@@ -72,7 +78,10 @@ p {
     }
     p {
         line-height: 30px;        
-        margin-bottom: 10px;
+        margin-bottom: 10px;        
+    }
+    p.info-title {
+        border-bottom: 1px solid #eee;
     }
 }
 
@@ -228,9 +237,9 @@ p {
             }
             .loading-box {
                 width:120px;
-                height: 12px;
+                height: 10px;
                 position: absolute;
-                top:200px;
+                top:270px;
                 left: 50%;
                 transform: translateX(-50%);
                 overflow: hidden;
@@ -381,10 +390,10 @@ p {
                 .yz-click {
                     button {
                         width: 300px;
-                        height: 359px;
+                        height: 276px;
                     }
                     width:300px;
-                    height: 359px;
+                    height: 276px;
                     position: absolute;
                     top:0;
                     left:0;
@@ -403,7 +412,7 @@ p {
                     left:0;
                     z-index: 2;
                     opacity: 0;
-                }
+                }                
                 .img-top {
                     width:100%;
                     height: 200px;
@@ -448,16 +457,36 @@ p {
                         object-fit: contain;
                     }
                 }   
-                .bot-img {
-                    width:100%;
+                
+            }
+            .bot-click {
+                    button {
+                        width: 300px;
+                        height: 83px;
+                    }
+                    width: 300px;
                     height: 83px;
+                    position: absolute;
+                    top:0;
+                    left:0;
+                    z-index: 2;
+                    opacity: 0;
+                }
+                .bot-img {
+                    width:300px;
+                    height: 83px;
+                    position: relative;
+                    border:1px solid #fff;
+                    margin-bottom: 10px;
+                    &:hover {
+                        border: 1px dashed #0099FF;
+                    }
                     img {
                         width:100%;
                         height: 100%;
                         object-fit: cover;
-                    }            
+                    }                             
                 }
-            }
             .qr {
                 width: 300px;
                 height: 60px;               

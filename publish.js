@@ -13,25 +13,32 @@ module.exports = function () {
         argv        = process.argv,
         exec        = require('child_process').exec,
         IPs			= [{
-            // host: '123.56.29.106', // 老的中控机
-            host: '47.93.237.83', // 新的中控机
+            host: '39.96.201.177',
             post: 22,
             user: 'root',
             dist: '/root',
-            privateKey: 'C:/Users/44539/.ssh/id_rsa'
+            privateKey: '/Users/saotx-cuigc/.ssh/id_rsa'
         }],
         SERVER 		= {
-			'test': {// 新的中控机跳转：测试环境
+			'test': {
 				type: 'test',
-                host: '172.17.15.214',
+                host: '172.17.137.16',
                 port: 22,
                 user: '',
                 dist: '/opt/webapps/',
                 privateKey: ''
             },
-            'dev212': {// 新的中控机跳转：生产环境
+            'dev7': {
 				type: 'dev',
-                host: '172.17.15.212',
+                host: '172.17.137.7',
+                port: 22,
+                user: '',
+                dist: '/opt/webapps/',
+                privateKey: ''
+            },
+            'dev8': {
+				type: 'dev',
+                host: '172.17.137.8',
                 port: 22,
                 user: '',
                 dist: '/opt/webapps/',

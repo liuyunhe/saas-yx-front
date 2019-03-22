@@ -13,6 +13,7 @@
         <el-button icon="el-icon-minus" circle v-if="index !== 0" @click="del(index)"></el-button>
       </li>
     </ul>
+    <p class="tips">每 <span>{{maxDay}}</span> 天为一个循环, 最多连续签到 <span>{{maxDay}}</span> 天, 断签则从第一天开始重新计算</p>
   </div>
 </template>
 <script>
@@ -20,23 +21,33 @@ export default {
   props: {
     data: {
       type: Object,
-      required: true
+      required: true,
+      maxDay: null
     }
   },
   data() {
     return {}
   },
   created() {
-    // console.log(this.data)
+    this.data.sort(this.compare('continuSignDay'))
+    this.maxDay = this.data[this.data.length - 1].continuSignDay
   },
   methods: {
     noRepeat(val, i) {
+      let flag = true
       this.data.forEach((item, index) => {
         if (i == index) return
         if (item.continuSignDay == val) {
+          flag = false
           this.$message.error('连续签到天数不能重复!')
+          return
         }
       })
+      // 排序
+      if (flag) {
+        this.data.sort(this.compare('continuSignDay'))
+        this.maxDay = this.data[this.data.length - 1].continuSignDay
+      }
     },
     add(i) {
       if (this.data.length >= 10) return this.$message.error('连续签到设置不能超过10项!')
@@ -59,6 +70,13 @@ export default {
           message: '已取消删除'
         })          
       })
+    },
+    compare(property) {
+      return function(obj1,obj2){
+        var value1 = obj1[property];
+        var value2 = obj2[property];
+        return value1 - value2;     // 升序
+      }
     }
   }
 }
@@ -76,6 +94,7 @@ li {
   border: 1px solid #d9d9d9;
   padding: 0 10px;
   box-sizing: border-box;
+  transition: all 0.1s;
   .el-input-number {
     width: 80px;
   }
@@ -86,6 +105,11 @@ li {
 }
 li + li {
   margin-top: 10px;
+}
+.tips {
+  span {
+    color: #FF0000;
+  }
 }
 </style>
 

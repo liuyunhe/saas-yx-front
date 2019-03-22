@@ -235,7 +235,7 @@ export default {
     },
     handleDisableTime() {
       let newTime = new Date().getTime(),
-        stime = new Date(this.form.stimeStr).getTime()
+        stime = new Date(this.confData.stimeStr).getTime()
         if (newTime >= stime) {
           this.timeDisable = true
         }
@@ -326,8 +326,8 @@ export default {
   font-size: 28px;
   color: #8c939d;
   width: 300px;
-  height: 108px;
-  line-height: 108px;
+  height: 64px;
+  line-height: 64px;
   text-align: center;
   &.red-packet {
     width: 100px;
@@ -336,7 +336,7 @@ export default {
 }
 .avatar {
   width: 300px;
-  height: 108px;
+  height: 64px;
   display: block;
   &.red-packet {
      width: 100px;

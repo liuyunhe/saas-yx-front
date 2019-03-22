@@ -236,7 +236,7 @@ export default {
 }
 .phone-header {
   height: 66px;
-  background: url("http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/937@2x.png")
+  background: url("http://qoss.qrmkt.cn/new_platform/pc_front/937@2x.png")
     center no-repeat / cover;
   overflow: hidden;
   & h4 {
@@ -258,7 +258,7 @@ export default {
 }
 .phone-footer {
   height: 64px;
-  background: url("http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/phone-footer@2x.png")
+  background: url("http://qoss.qrmkt.cn/new_platform/pc_front/phone-footer@2x.png")
     center no-repeat/ cover;
 }
 .calendar {
