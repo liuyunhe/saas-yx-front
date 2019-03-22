@@ -332,6 +332,7 @@ export default {
   &.red-packet {
     width: 100px;
     height: 100px;
+    line-height: 100px
   }
 }
 .avatar {
@@ -341,6 +342,7 @@ export default {
   &.red-packet {
      width: 100px;
     height: 100px;
+    line-height: 100px
   }
 }
 .quill-editor {

@@ -12,8 +12,7 @@
             <span>{{userInfo.gender == 1 ? '男' : '女'}}</span>
           </p>
           <p>
-            <img src="" alt="" width="18" height="18">
-            <span>普通用户</span>
+            <img v-if="userInfo.gradeImg" :src="userInfo.gradeImg" class="gradeImg" width="20" height="20"><span>{{userInfo.gradeName}}</span>
           </p>
           <p class="info">
             联系方式：<span>{{userInfo.mobile}}</span>
@@ -43,7 +42,7 @@
                 {{scope.row.createTime ? new Date(scope.row.createTime).Format('yyyy-MM-dd hh:mm:ss') : ''}}
               </template>
             </el-table-column>
-            <el-table-column label="操作人" prop="creator" align="center"></el-table-column>
+            <el-table-column label="操作人" prop="modifier" align="center"></el-table-column>
             <el-table-column label="积分变动明细" prop="txnDesc" align="center"></el-table-column>
             <el-table-column label="明细" align="center">
               <template slot-scope="scope">
@@ -198,6 +197,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.gradeImg {
+  vertical-align: text-top;
+  margin-right: 4px;
+}
 .con {
   margin-top: 40px;
 }

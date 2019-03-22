@@ -257,6 +257,7 @@ export default {
           return time.getTime() < new Date(this.actSTime).getTime() || time.getTime() > new Date(this.actETime).getTime()
         }
       },
+      astrictRedflg: false // 红包限制  为true 红包最高金额为0.3
     }
   },
   created() {
@@ -311,6 +312,7 @@ export default {
           id: this.id
         }, true, res => {
           if (res.ret !== '200000') return this.$message.error(res.message)
+          if (res.data.act.orgId === 'guest') this.astrictRedflg = true
           if (res.data.act.status == 1) {
             this.statusDisabled = true
           } else {

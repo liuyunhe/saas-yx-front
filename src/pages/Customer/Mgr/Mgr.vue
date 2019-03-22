@@ -78,7 +78,7 @@ export default {
       },
       rules: {
         nickName: [{ max: 32, message: '用户昵称长度不能超过 32 位', trigger: 'blur' }],
-        mobile: [{ min: 11, max: 11, message: '手机号长度为11位', trigger: 'blur' }],
+        mobile: [{ max: 11, message: '手机号长度为11位', trigger: 'blur' }],
         gradeNumber: [{ min: 1, max: 3, message: '用户等级应为 1 到 3 位', trigger: 'blur' }]
       },
       userList: []
@@ -104,7 +104,7 @@ export default {
       })
     },
     addBlack(id) {
-      this.$confirm('加入黑名单后，该用户将无法领取活动奖品，法获取积分及成长值，无法兑换商品，确认加入黑名单吗？', '提示', {
+      this.$confirm('加入黑名单后，该用户将无法领取活动奖品，无法获取积分及成长值，无法兑换商品，确认加入黑名单吗？ ', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

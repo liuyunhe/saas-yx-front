@@ -24,7 +24,7 @@
           <span>{{awae.poolName}}</span>
         </el-form-item>
         <el-form-item label="红包面额:" v-if="awae.awardType == 3" prop="redNum">
-          <el-input-number v-model="awae.redMoney" :disabled="isDisable ? true : false" :precision="2" :min="0" controls-position="right" @change="countRedTotal"></el-input-number> 元
+          <el-input-number v-model="awae.redMoney" :disabled="isDisable ? true : false" :precision="2" :min="0" :max="astrict ? 0.3 : Infinity" :step="0.1" controls-position="right" @change="countRedTotal"></el-input-number> 元
         </el-form-item>
         <el-form-item label="投放数量:" prop="putNum">
           <el-input-number v-model="awae.totalNum" :disabled="isDisable ? true : false" :min="0" controls-position="right" @change="countRedTotal"></el-input-number> 个
@@ -106,7 +106,7 @@
 </template>
 <script>
 export default {
-  props: ['awae', 'prizeType', 'isDisable'],
+  props: ['awae', 'prizeType', 'isDisable', 'astrict'],
   data() {
     var validateImgUrl = (rule, value, callback) => {
       if (this.awae.awardPic) {
@@ -196,6 +196,7 @@ export default {
     //   this.isEdit = false
     // }
     // this.handleIsDisable()
+    console.log(this.astrict)
   },
   methods: {
     // 选择奖品

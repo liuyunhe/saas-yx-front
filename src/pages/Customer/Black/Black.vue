@@ -78,7 +78,7 @@ export default {
       },
       rules: {
         nickName: [{ max: 32, message: '用户昵称长度不能超过 32 位', trigger: 'blur' }],
-        mobile: [{ min: 11, max: 11, message: '手机号长度为11位', trigger: 'blur' }],
+        mobile: [{ max: 11, message: '手机号长度为11位', trigger: 'blur' }],
         gradeNumber: [{ min: 1, max: 3, message: '用户等级应为 1 到 3 位', trigger: 'blur' }]
       },
       userList: []

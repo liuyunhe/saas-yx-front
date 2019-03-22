@@ -59,7 +59,7 @@
         </el-form-item>
         <!-- <el-col :span="10"> -->
         <el-form-item label="红包面额:" prop="redNum">
-          <el-input-number v-model="awae.redMoney" :disabled="awae.id ? true : false" :precision="2" :min="0" controls-position="right" @change="countRedTotal"></el-input-number> 元
+          <el-input-number v-model="awae.redMoney" :disabled="awae.id ? true : false" :precision="2" :min="0" :max="astrict ? 0.3 : Infinity" :step="0.1" controls-position="right" @change="countRedTotal"></el-input-number> 元
         </el-form-item>
         <!-- </el-col>
         <el-col :span="14"> -->
@@ -173,7 +173,7 @@
 </template>
 <script>
 export default {
-  props: ['awae', 'prizeType', 'nWin', 'isRed', 'hide'],
+  props: ['awae', 'prizeType', 'nWin', 'isRed', 'hide', 'astrict'],
   data() {
     var validateImgUrl = (rule, value, callback) => {
       if (this.awae.awardPic) {
