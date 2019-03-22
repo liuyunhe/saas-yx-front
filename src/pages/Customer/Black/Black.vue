@@ -23,7 +23,7 @@
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column label="头像" align="center" width="100px">
           <template slot-scope="scope">
-            <img :src="scope.row.headimg" width="40px">
+            <img :src="scope.row.headimg || userDetailImgUrl" width="40px">
           </template>
         </el-table-column>
         <el-table-column label="用户昵称" align="center">
@@ -76,6 +76,7 @@ export default {
         pageSize:10,
         ban: 1 // 黑名单
       },
+      userDetailImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/user-detail-img.png',
       rules: {
         nickName: [{ max: 32, message: '用户昵称长度不能超过 32 位', trigger: 'blur' }],
         mobile: [{ max: 11, message: '手机号长度为11位', trigger: 'blur' }],
