@@ -131,7 +131,7 @@ export default {
           return (!item.score || !item.growth)
         })
         if (arr.length != 0) return this.$message.error('请完善表单数据!')
-        if (this.sizeList.length = 0) return this.$message.error('请完善表单数据!')
+        if (this.sizeList.length == 0) return this.$message.error('请完善表单数据!')
         this.data.taskSnList = this.sizeList
         this.$request.post('/api/saotx/mber/saveBasic', this.data, true, res => {
           if (res.ret === '200000') {
