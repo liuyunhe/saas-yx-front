@@ -5,13 +5,13 @@
         <el-form-item label="任务名称：" prop="taskName">
           <el-input v-model="data.mbTask.taskName"></el-input>
         </el-form-item>
-        <el-form-item label="任务图片：" prop="taskImg">
+        <!-- <el-form-item label="任务图片：" prop="taskImg">
           <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadApi" :headers="headerObj" :on-success="uploadSuccess" :show-file-list="false">
             <img v-if="data.mbTask.taskImg" :src="data.mbTask.taskImg" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*270像素；格式png，jpg；大小不超过2M</div>
           </el-upload>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="品牌规格：" prop="brand">
           <el-select v-model="selectBrand" multiple collapse-tags placeholder="请选择" @change="getBrandSonList">
             <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
@@ -57,20 +57,21 @@
 export default {
   props: ['id'],
   data() {
-    var validateImg = (rules, value, callback) => {
-      if (this.data.mbTask.taskImg) {
-        callback()
-      } else {
-        callback(new Error('请选择任务图片'))
-      }
-    }
+    // 不要任务图片了
+    // var validateImg = (rules, value, callback) => {
+    //   if (this.data.mbTask.taskImg) {
+    //     callback()
+    //   } else {
+    //     callback(new Error('请选择任务图片'))
+    //   }
+    // }
     var validate = (rules, value, callback) => {
       callback()
     }
     return {
       rules: {
         taskName: [{required: true, message: '请输入任务名称', trigger: 'blur'}],
-        taskImg: [{required: true, validator: validateImg}],
+        // taskImg: [{required: true, validator: validateImg}],
         taskDetail: [{required: true, message: '请输入任务说明', trigger: 'blur'}],
         brand: [{required: true, validator: validate}],
         item: [{required: true, validator: validate}]
@@ -130,8 +131,8 @@ export default {
         var arr = this.sizeList.filter(item => {
           return (!item.score || !item.growth)
         })
-        if (arr.length != 0) return this.$message.error('请完善表单数据!')
-        if (this.sizeList.length == 0) return this.$message.error('请完善表单数据!')
+        if (arr.length != 0) return this.$message.error('请输入积分或成长值!')
+        if (this.sizeList.length == 0) return this.$message.error('请选择品牌规格!')
         this.data.taskSnList = this.sizeList
         this.$request.post('/api/saotx/mber/saveBasic', this.data, true, res => {
           if (res.ret === '200000') {
