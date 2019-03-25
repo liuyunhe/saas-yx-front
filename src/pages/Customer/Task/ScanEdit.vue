@@ -48,6 +48,7 @@
       </el-form>
       <div class="btn">
         <el-button type="primary" @click="save">保存</el-button>
+        <el-button plain @click="$router.back(-1)">返回</el-button>
       </div>
     </el-card>
   </div>
@@ -130,6 +131,7 @@ export default {
           return (!item.score || !item.growth)
         })
         if (arr.length != 0) return this.$message.error('请完善表单数据!')
+        if (this.sizeList.length = 0) return this.$message.error('请完善表单数据!')
         this.data.taskSnList = this.sizeList
         this.$request.post('/api/saotx/mber/saveBasic', this.data, true, res => {
           if (res.ret === '200000') {
