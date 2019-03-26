@@ -19,7 +19,7 @@
 						<span class='left-name'>
 							请选择品牌：
 							</span>
-						<el-select class="filter-item" multiple v-model="selectBrand" placeholder="请选择品牌" size='small'>
+						<el-select class="filter-item" multiple v-model="selectBrand" placeholder="请选择品牌" size='small' @change='changeBr'>
 							<el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
 							</el-option>
 						</el-select>
@@ -231,7 +231,7 @@
 								<div class="yz-text">
 									<p :style="{color:''+addlist.conf.has.yz.color+''}">尊敬的用户</p>
 									<p :style="{color:''+addlist.conf.has.yz.color+''}">您扫描的【硬荷花】是正品</p>
-									<p>首扫时间：2018-09-23 12:34:56<span v-show='addlist.conf.has.yz.detailFlag':style="{color:''+addlist.conf.has.yz.color+'',border:'1px solid '+addlist.conf.has.yz.color+''}">详情</span></p>
+									<p class='time'>首扫时间：2018-09-23 12:34:56<span v-show='addlist.conf.has.yz.detailFlag':style="{color:''+addlist.conf.has.yz.color+'',border:'1px solid '+addlist.conf.has.yz.color+''}">详情</span></p>
 									<div class="tip">{{addlist.conf.has.yz.note}}</div>
 									<img :src="addlist.conf.has.yz.feedbackImg"class='feedback'v-show='addlist.conf.has.yz.feedbackFlag' alt="" />
 								</div>								
@@ -431,6 +431,9 @@
 
 		},
 		methods: {
+			changeBr(){
+				this.addlist.snArr=[];
+			},
 			snCallback(flag) {
 				var that = this;
 				if(flag) {

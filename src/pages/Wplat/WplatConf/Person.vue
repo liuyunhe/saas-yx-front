@@ -280,6 +280,11 @@
 				var imgUrl = data && data.accessUrl;
 				this.vipImg = imgUrl;
 			},
+			shareUp(res){
+				var data = res.data || {};
+				var imgUrl = data && data.accessUrl;
+				this.share.url = imgUrl;
+			},
 			save() {
 				var that = this;
 				var conf = JSON.stringify({
@@ -495,6 +500,7 @@
 			            }
 			            .avatar-uploader {
 			                display: inline-block;
+			                vertical-align: middle;
 			            }
 			            .el-upload__tip {
 			            	margin-left: 48px;

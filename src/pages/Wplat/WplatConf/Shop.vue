@@ -357,6 +357,7 @@
 			            }
 			            .avatar-uploader {
 			                display: inline-block;
+			                vertical-align: middle;
 			            }
 			            .el-upload__tip {
 			            	margin-left: 48px;

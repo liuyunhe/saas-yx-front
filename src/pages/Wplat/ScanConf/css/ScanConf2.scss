@@ -440,6 +440,7 @@ p {
                     font-size: 12px;
                     text-align: center;
                     padding-bottom: 10px;
+                    color:#bbb;
                     span {
                         position: absolute;
                         font-size: 12px;
@@ -447,6 +448,25 @@ p {
                         top:15px;
                         border:1px solid #ccc;
                         border-radius: 3px;
+                    }                   
+                    .tip {
+                        transform: scale(.65,.65);  
+                        &:before {
+                            content: "!";
+                            position: absolute;
+                            left: -14px;
+                            top: -2px;
+                            font-size: 14px;
+                            font-weight: bold;
+                            text-align: center;
+                            width: 18px;
+                            height: 18px;
+                            line-height: 20px;
+                            background: #999;
+                            color: #fff;
+                            border-radius: 50%;
+                            transform: scale(.65,.65);  
+                        }                     
                     }
                     .feedback {
                         width:27px;
