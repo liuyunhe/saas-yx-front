@@ -84,7 +84,7 @@
 							<span class='left-name'>
 							请选择品牌：
 							</span>
-							<el-select class="filter-item" multiple v-model="selectBrand" placeholder="请选择品牌"size='small'>
+							<el-select class="filter-item" multiple v-model="selectBrand" placeholder="请选择品牌"size='small' @change='changeBr'>
 								<el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
 								</el-option>
 							</el-select>

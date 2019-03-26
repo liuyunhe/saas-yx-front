@@ -275,6 +275,9 @@ export default {
 			}
 			
 		},
+		changeBr(){
+			this.addlist.snArr=[];
+		},
 		snCallback(flag) {
 			var that = this;
 			if(flag) {

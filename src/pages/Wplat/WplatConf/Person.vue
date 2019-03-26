@@ -4,14 +4,17 @@
 			<div class="phone":style='{background:wholeColor}'v-show='activeName=="one"'>
 				<img src="http://qoss.qrmkt.cn/common/wplat/person_top.png" alt="" />
 				<div class="person-top">
-					<img :src="topImg" alt="" />
+					<img :src="bgImg" alt="" />
 					<div class="header-img">
 						<img src="http://qoss.qrmkt.cn/common/wplat/person_img.png" alt="" />
 					</div>
 				</div>
 				<div class="icons":style='{background:iconColor}'>
 					<ul>
-						<li></li>
+						<li v-for='(item,index) in iconList' :class='{"two": count==2,"three":count==3,"four":count>3}'>
+							<img :src="item.url" alt="" />
+							<p>{{item.name}}</p>
+						</li>
 					</ul>
 				</div>
 				<div class="fen-banner">
@@ -52,7 +55,7 @@
 							<div class='edit-con'>
 								<span class='labels'>背景图片：</span>
 								<div class="img-div">
-									<img :src="topImg" alt="" />
+									<img :src="bgImg" alt="" />
 								</div>
 								<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadTop">
 									<el-button type="primary">更换图片</el-button>
@@ -76,11 +79,20 @@
 									<div v-for='i in count':class='{"icon-index":true,"active":showTabIndex==i}'@click='tabToggle(i)'>图标{{i}}</div>
 									<div class="icon-up"v-for='i in count'v-show='showTabIndex==i'>
 										<div class="img-div">
-											<img :src="iconList[i-1].url" alt="" />
+											<p v-show='!iconList[i-1].url'>+</p>
+											<img :src="iconList[i-1].url" v-show='iconList[i-1].url' alt="" />
 										</div>
 										<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadIcon">
 											<el-button type="primary"@click='getIndex(i-1)'>更换图片</el-button>
 										</el-upload>
+										<div class="select-jump">
+											<span>选择跳转的页面:</span>
+											<br />
+											<el-select class="filter-item" v-model="iconList[i-1].type" placeholder="请选择跳转的页面" size='small'@change='selectChange(i-1,iconList[i-1].type)'>
+												<el-option v-for="item in jumpSysList" :key="item.name" :label="item.name" :value="item.type">
+												</el-option>
+											</el-select>
+										</div>	
 									</div>
 								</div>
 								<div class="whole-color">
@@ -164,7 +176,7 @@
 				},
 				wholeColor:'',//背景颜色
 				iconColor:'',//图标背景颜色
-				topImg:'http://qoss.qrmkt.cn/common/wplat/person_banner1.png',
+				bgImg:'http://qoss.qrmkt.cn/common/wplat/person_bg.png',			
 				integralImg:'http://qoss.qrmkt.cn/common/wplat/person_banner1.png',
 				vipImg:'http://qoss.qrmkt.cn/common/wplat/person_banner2.png',
 				uploadAdd: location.origin + '/api/saotx/attach/commonAliUpload',
@@ -204,11 +216,19 @@
 				showTabIndex:1,//点击了哪个图标
 				showTplIndex:0,
 				iconList:[{
-					url:''
+					url:'',
+					type:'',
+					name:''
 				},{
-					url:''
-				}],//图标列表
+					url:'',
+					type:'',
+					name:''
+				}],//图标列表(后端接口)，可编辑
 				editIndex:0,//编辑图标的索引
+				jumpSysList:[{
+					name:'我的礼品',
+					type:'present'
+				}],//跳转系统列表(后端接口)
 			}
 		},
 		created() {
@@ -222,12 +242,21 @@
 				this.iconList=[];
 				this.count=index+2;
 				this.showTplIndex=index;
+				this.showTabIndex=1;
 				for(let i=0;i<this.count;i++){
 					this.iconList.push({
 						url:''
 					})
 				}
 			},
+			selectChange(params1,params2){
+				this.jumpSysList.forEach((item,index)=>{
+					if(item.type==params2){
+						this.iconList[params1].name=item.name;
+					}
+				})
+				console.log(this.iconList)
+			},//选择完跳转页面
 			getIndex(index){
 				this.editIndex=index;
 			},
@@ -239,7 +268,7 @@
 			uploadTop(res){//上传头部背景
 				var data = res.data || {};
 				var imgUrl = data && data.accessUrl;
-				this.topImg = imgUrl;
+				this.bgImg = imgUrl;
 			},
 			uploadjifen(res){//上传头部背景
 				var data = res.data || {};
@@ -250,6 +279,11 @@
 				var data = res.data || {};
 				var imgUrl = data && data.accessUrl;
 				this.vipImg = imgUrl;
+			},
+			shareUp(res){
+				var data = res.data || {};
+				var imgUrl = data && data.accessUrl;
+				this.share.url = imgUrl;
 			},
 			save() {
 				var that = this;
@@ -320,6 +354,33 @@
 				background: #fff;
 				margin-top: 10px;
 				margin-bottom: 10px;
+				ul {
+					font-size:0;
+					li {
+						display: inline-block;
+						text-align: center;
+						height: 50px;
+						width:50%;
+						img {
+							width:30px;
+							height: 30px;
+							object-fit: contain;							
+						}
+						p {
+							font-size: 12px;
+							margin-top: 4px;
+						}
+						&.two {
+							width:50%;
+						}
+						&.three {
+							width:33.3%;
+						}
+						&.four {
+							width:25%;
+						}
+					}
+				}
 			}
 			.fen-banner {
 				margin-bottom: 10px;
@@ -381,7 +442,7 @@
 			}
 		}
 		.right {
-			height: 1500px;
+			height: 1600px;
 			margin-left: 320px;
 			overflow: hidden;
 			.box {
@@ -439,6 +500,7 @@
 			            }
 			            .avatar-uploader {
 			                display: inline-block;
+			                vertical-align: middle;
 			            }
 			            .el-upload__tip {
 			            	margin-left: 48px;
@@ -654,7 +716,41 @@
 							}
 							.icon-up {
 								height: 130px;
-								background: red;
+								padding-left: 50px;
+								padding-top: 10px;
+								position: relative;
+								.select-jump {
+									position: absolute;
+									left: 200px;
+									top:25px;
+									span {
+										text-align: left;
+										margin-bottom: 15px;
+									}
+								}
+								.img-div {
+									width:80px;
+						            height: 80px;
+						            border:1px dashed #d9d9d9;
+						            border-radius: 4px;						       
+						            background: #fff;
+						            font-size: 50px;
+						            text-align: center;
+						            color:#d9d9d9;
+						            font-weight: 100;	
+						            text-align:center;						      
+						            img {
+						            	width:90%;
+						            	height: 90%;
+						            	margin-top: 5%;
+						            	object-fit: contain;
+						            }
+						            p {
+						            	margin: 0;
+						            	line-height: 80px;						           
+						                border:none;
+						            }					        
+								}
 							}
 						}
 					}
