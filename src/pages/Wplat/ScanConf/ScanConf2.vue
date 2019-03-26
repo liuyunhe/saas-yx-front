@@ -230,7 +230,7 @@
 								</div>
 								<div class="yz-text">
 									<p :style="{color:''+addlist.conf.has.yz.color+''}">尊敬的用户</p>
-									<p :style="{color:''+addlist.conf.has.yz.color+''}">您扫描的【硬荷花】是正品</p>
+									<p :style="{color:''+addlist.conf.has.yz.color+''}">您扫描的【产品名称】是正品</p>
 									<p class='time'>首扫时间：2018-09-23 12:34:56<span v-show='addlist.conf.has.yz.detailFlag':style="{color:''+addlist.conf.has.yz.color+'',border:'1px solid '+addlist.conf.has.yz.color+''}">详情</span></p>
 									<div class="tip">{{addlist.conf.has.yz.note}}</div>
 									<img :src="addlist.conf.has.yz.feedbackImg"class='feedback'v-show='addlist.conf.has.yz.feedbackFlag' alt="" />
@@ -321,7 +321,7 @@
 								color:'#00ffff',
 								productImgBig:'',
 								productImg:'',
-								note: '本页面含有烟草产品信息，未满十八周岁请勿继续访问',	
+								note: '本页面产品信息，未满十八周岁请勿访问',	
 								feedbackFlag:1,
 								feedbackImg:'',
 							}							
@@ -353,7 +353,7 @@
 								color:'#00ffff',
 								productImgBig:'',
 								productImg:'',
-								note: '本页面含有烟草产品信息，未满十八周岁请勿继续访问',	
+								note: '本页面产品信息，未满十八周岁请勿访问',	
 								feedbackFlag:1,
 								feedbackImg:'',
 							}
