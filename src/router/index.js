@@ -136,7 +136,11 @@ const SignDetail = () => import(/* webpackChunkName: "setting" */ '@/pages/Setti
 const MenuConf = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/MenuConf/MenuConf.vue')
 //扫码落地页配置
 const ScanConf = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/ScanConf/ScanConf.vue')
+<<<<<<< HEAD
 const ScanConf2 = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/ScanConf/ScanConf2.vue')
+=======
+// const ScanConf2 = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/ScanConf/ScanConf2.vue')
+>>>>>>> xiaoma
 //平台风格配置
 const StyleConf = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/StyleConf/StyleConf.vue')
 //微平台管理的四个子菜单
@@ -316,7 +320,11 @@ export default new Router({
         // 微平台
         { path: '/weplat', name: '微平台'},
         { path: '/weplat/down', name: '扫码落地页', component: ScanConf },
+<<<<<<< HEAD
         { path: '/weplat/down2', name: '扫码落地页模板2设置', component: ScanConf2,props: (route) => ({id:route.query.id,type:route.query.type}) },
+=======
+        // { path: '/weplat/down2', name: '扫码落地页模板2设置', component: ScanConf2,props: (route) => ({id:route.query.id,type:route.query.type}) },
+>>>>>>> xiaoma
         { path: '/weplat/style', name: '平台风格', component: StyleConf },
         { path: '/weplat/mgr'},
         // { path: '/weplat/mgr', redirect: '/weplat/mgr/scanCheck' },
@@ -444,8 +452,13 @@ export default new Router({
         { path: '/setting/mall', name: '积分设置', component: PointsConf },
         { path: '/setting/resource/smenu', name: '菜单管理', component: SettingSystemMenu },
         { path: '/setting/resource/smgrOrgRole', name: '菜单管理', component: SettingSystemAuth },
+<<<<<<< HEAD
         { path: '/setting/sign', name: '签到列表', component: Sign },
         { path: '/setting/sign/detail', name: '签到详情', component: SignDetail, props: (route) => ({code:route.query.code, id:route.query.id}) },
+=======
+        { path: '/setting/sign', name: '菜单管理', component: Sign },
+        { path: '/setting/sign/detail', name: '菜单管理', component: SignDetail,  props: (route) => ({code:route.query.code, id:route.query.id})},
+>>>>>>> xiaoma
         // 会员日
         { path: '/memberday', name: '会员日' },
         // { path: '/memberday', name: '会员日', redirect: '/memberday/material' },
@@ -474,8 +487,12 @@ export default new Router({
         { path: '/customer/task/detail', name: '任务明细', component: TaskDetail, props: (route) => ({id: route.query.id}) },
         { path: '/customer/task/scanEdit', name: '编辑扫码赚成长值', component: ScanEdit, props: (route) => ({id: route.query.id}) },
         { path: '/customer/black', name: '黑名单管理', component: Black },
+<<<<<<< HEAD
         // { path: '/customer/task/sign', name: '会员签到任务设置', component: MemberTaskSign, props: (route) => ({code:route.query.code, id:route.query.id}) },
         { path: '/customer/mgr/detail', name: '用户详情', component: PersonalDeatail, props: (route) => ({code:route.query.code, id:route.query.id}) },
+=======
+        // { path: '/customer/task/sign', name: '会员签到任务设置', component: memberTaskSign, props: (route) => ({code:route.query.code, id:route.query.id}) },
+>>>>>>> xiaoma
       ]
     },
     {

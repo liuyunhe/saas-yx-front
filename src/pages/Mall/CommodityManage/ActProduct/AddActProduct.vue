@@ -125,7 +125,7 @@
                     'token':sessionStorage.getItem('access_token')
                 },
                 filters:{
-                    giftType:'',
+                    giftType:2,
                     memo:'',
                     image:'',
                     price:'',
