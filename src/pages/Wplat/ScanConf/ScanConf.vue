@@ -121,7 +121,7 @@
 										</div>
 										<el-button slot="reference"></el-button>
 									</el-popover>
-									<span class='click-tip'v-show='!addlist.conf.has.title.name'>点击编辑页面名称</span>
+									<span class='click-tip'v-show='!addlist.conf.has.title.name'> <span class='require'>*</span> 点击编辑页面名称</span>
 									{{addlist.conf.has.title.name}}
 								</div>
 							</div>
@@ -134,7 +134,7 @@
 											<el-checkbox v-model="addlist.conf.has.yz.detailFlag"></el-checkbox>
 										</div>
 										<div class="back">
-											背景图片：<div class="img-div"v-show='addlist.conf.has.yz.bg'><img :src="addlist.conf.has.yz.bg" alt="" /></div><div class="img-div"v-show='!addlist.conf.has.yz.bg'><p>+</p></div>
+											<span class='require'>*</span>背景图片：<div class="img-div"v-show='addlist.conf.has.yz.bg'><img :src="addlist.conf.has.yz.bg" alt="" /></div><div class="img-div"v-show='!addlist.conf.has.yz.bg'><p>+</p></div>
 											<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz">
 												<el-button type="primary"v-if='addlist.conf.has.yz.bg'>更换图片</el-button>
 												<el-button size='small' type="primary"v-if='!addlist.conf.has.yz.bg'>上传图片</el-button>
@@ -212,7 +212,7 @@
 										</div>
 										
 										<div class="back">
-											背景图片： &nbsp;&nbsp;<div class="img-div"v-show='addlist.conf.has.gzh.bg'><img :src="addlist.conf.has.gzh.bg" alt="" /></div>
+											<span class='require'>*</span>背景图片： &nbsp;&nbsp;<div class="img-div"v-show='addlist.conf.has.gzh.bg'><img :src="addlist.conf.has.gzh.bg" alt="" /></div>
 											<div class="img-div"v-show='!addlist.conf.has.gzh.bg'><p>+</p></div>
 											<el-upload class="avatar-uploader" :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadYz2">
 												<el-button size='small' type="primary"v-if='addlist.conf.has.gzh.bg'>更换图片</el-button>

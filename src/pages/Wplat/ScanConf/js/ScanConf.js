@@ -343,7 +343,21 @@ export default {
 			if(!that.addlist.conf.has.title.name){
 				
 				this.$message({
-					message: '请填写已扫码页面的页面名称',
+					message: '请填写页面的标题名称',
+					type: 'warning'
+				});
+				return;
+			}
+			if(!that.addlist.conf.has.yz.bg){				
+				this.$message({
+					message: '验真信息模块背景图未上传，请上传后再保存~',
+					type: 'warning'
+				});
+				return;
+			}
+			if(!that.addlist.conf.has.gzh.bg){				
+				this.$message({
+					message: '公众号配置模块背景图未上传，请上传后再保存~',
 					type: 'warning'
 				});
 				return;
@@ -397,7 +411,21 @@ export default {
 			}
 			if(!that.addlist.conf.has.title.name){
 				this.$message({
-					message: '请填写已扫码页面的页面名称',
+					message: '请填写页面的标题名称',
+					type: 'warning'
+				});
+				return;
+			}
+			if(!that.addlist.conf.has.yz.bg){				
+				this.$message({
+					message: '验真信息模块背景图未上传，请上传后再保存~',
+					type: 'warning'
+				});
+				return;
+			}
+			if(!that.addlist.conf.has.gzh.bg){				
+				this.$message({
+					message: '公众号配置模块背景图未上传，请上传后再保存~',
 					type: 'warning'
 				});
 				return;

@@ -3,6 +3,8 @@ p {
 }
 .require {
     color:red;
+    font-size: 16px !important;
+    font-weight: bold !important;
 }
 .tip-text {
     font-size: 12px;
@@ -320,6 +322,9 @@ p {
                     font-size: 14px;
                     text-align: center;
                     text-shadow: 0 0 2px #ccc;
+                    .require {
+                        vertical-align: middle;
+                    }
                 }
                 .title-click {
                     width: 300px;
@@ -450,11 +455,12 @@ p {
                         border-radius: 3px;
                     }                   
                     .tip {
+                        display: inline-block;
                         transform: scale(.65,.65);  
                         &:before {
                             content: "!";
                             position: absolute;
-                            left: -14px;
+                            left: -20px;
                             top: -2px;
                             font-size: 14px;
                             font-weight: bold;

@@ -90,7 +90,7 @@
 										</div>
 										<el-button slot="reference"></el-button>
 									</el-popover>
-									<span class='click-tip' v-show='!addlist.conf.has.title.name'>点击编辑页面名称</span> {{addlist.conf.has.title.name}}
+									<span class='click-tip' v-show='!addlist.conf.has.title.name'> <span class='require'>*</span> 点击编辑页面名称</span> {{addlist.conf.has.title.name}}
 								</div>
 							</div>
 							<div class="yz">
@@ -103,7 +103,7 @@
 						  					<el-radio v-model="addlist.conf.has.yz.botFlag" :label="0">全屏</el-radio>
 										</div>
 										<div class='edit-con'v-show='addlist.conf.has.yz.botFlag'>
-											<span class='labels'>主图背景：</span>
+											<span class='labels'><span class='require'>*</span>主图背景：</span>
 											<div class="img-div">
 												<img :src="addlist.conf.has.yz.productImg"v-show='addlist.conf.has.yz.productImg' alt="" />
 												<p v-show='!addlist.conf.has.yz.productImg'>+</p>
@@ -114,7 +114,7 @@
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*500px格式为jpg\bmp\png\gif</div>
 										</div>
 										<div class='edit-con'v-show='!addlist.conf.has.yz.botFlag'>	
-											<span class='labels'>主图背景：</span>
+											<span class='labels'><span class='require'>*</span>主图背景：</span>
 											<div class="img-div">
 												<img :src="addlist.conf.has.yz.productImgBig"v-show='addlist.conf.has.yz.productImgBig' alt="" />
 												<p v-show='!addlist.conf.has.yz.productImgBig'>+</p>
@@ -142,7 +142,7 @@
 						  					<el-radio v-model="addlist.conf.has.yz.feedbackFlag" :label="0">不显示</el-radio>	
 						  					<div class='line'></div>
 						  					<div v-show='addlist.conf.has.yz.feedbackFlag'>
-						  						<span class='labels'>反馈图片：</span>
+						  						<span class='labels'><span class='require'>*</span>反馈图片：</span>
 												<div class="img-div">
 													<img :src="addlist.conf.has.yz.feedbackImg"v-show='addlist.conf.has.yz.feedbackImg' alt="" />
 													<p v-show='!addlist.conf.has.yz.feedbackImg'>+</p>
@@ -166,7 +166,7 @@
 						  					<el-radio v-model="addlist.conf.has.yz.botFlag" :label="0">全屏</el-radio>
 										</div>
 										<div class='edit-con'v-show='addlist.conf.has.yz.botFlag'>
-											<span class='labels'>主图背景：</span>
+											<span class='labels'><span class='require'>*</span>主图背景：</span>
 											<div class="img-div">
 												<img :src="addlist.conf.has.yz.productImg"v-show='addlist.conf.has.yz.productImg' alt="" />
 												<p v-show='!addlist.conf.has.yz.productImg'>+</p>
@@ -177,7 +177,7 @@
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*500px格式为jpg\bmp\png\gif</div>
 										</div>
 										<div class='edit-con'v-show='!addlist.conf.has.yz.botFlag'>	
-											<span class='labels'>主图背景：</span>
+											<span class='labels'><span class='require'>*</span>主图背景：</span>
 											<div class="img-div">
 												<img :src="addlist.conf.has.yz.productImgBig"v-show='addlist.conf.has.yz.productImgBig' alt="" />
 												<p v-show='!addlist.conf.has.yz.productImgBig'>+</p>
@@ -205,7 +205,7 @@
 						  					<el-radio v-model="addlist.conf.has.yz.feedbackFlag" :label="0">不显示</el-radio>
 						  					<div class='line'></div>
 						  					<div v-show='addlist.conf.has.yz.feedbackFlag'>
-						  						<span class='labels'>反馈图片：</span>
+						  						<span class='labels'><span class='require'>*</span>反馈图片：</span>
 												<div class="img-div">
 													<img :src="addlist.conf.has.yz.feedbackImg"v-show='addlist.conf.has.yz.feedbackImg' alt="" />
 													<p v-show='!addlist.conf.has.yz.feedbackImg'>+</p>
@@ -241,7 +241,7 @@
 									<div class="bot-info">
 										<p class='info-title'>广告图配置</p>
 										<div class='edit-con'v-show='addlist.conf.has.yz.botFlag'>
-											<span class='labels'>广告图：</span>
+											<span class='labels'><span class='require'>*</span>广告图：</span>
 											<div class="img-div">
 												<img :src="addlist.conf.has.yz.botImg"v-show='addlist.conf.has.yz.botImg' alt="" />
 												<p v-show='!addlist.conf.has.yz.botImg'>+</p>
@@ -515,11 +515,40 @@
 				if(!that.addlist.conf.has.title.name) {
 
 					this.$message({
-						message: '请填写已扫码页面的页面名称',
+						message: '请填写页面的标题名称',
 						type: 'warning'
 					});
 					return;
 				}
+				if(that.addlist.conf.has.yz.botFlag && !that.addlist.conf.has.yz.productImg) {
+					this.$message({
+						message: '主图未上传，请上传后再保存~',
+						type: 'warning'
+					});
+					return;
+				}
+				if(!that.addlist.conf.has.yz.botFlag && !that.addlist.conf.has.yz.productImgBig) {
+					this.$message({
+						message: '主图片未上传，请上传后再保存~',
+						type: 'warning'
+					});
+					return;
+				}
+				if(that.addlist.conf.has.yz.botFlag && !that.addlist.conf.has.yz.botImg) {
+					this.$message({
+						message: '广告图未上传，请上传后再保存~',
+						type: 'warning'
+					});
+					return;
+				}
+				if(that.addlist.conf.has.yz.feedbackFlag == 1 && !that.addlist.conf.has.yz.feedbackImg) {
+					console.log(that.addlist.conf.has.yz.feedbackFlag)
+					this.$message({
+						message: '反馈图片未上传，请上传后再保存~',
+						type: 'warning'
+					});
+					return;
+				}		
 				var savelist = {};
 				savelist.id = that.addlist.id;
 				savelist.name = that.addlist.name;
@@ -562,7 +591,36 @@
 				}
 				if(!that.addlist.conf.has.title.name) {
 					this.$message({
-						message: '请填写已扫码页面的页面名称',
+						message: '请填写页面的标题名称',
+						type: 'warning'
+					});
+					return;
+				}
+				if(that.addlist.conf.has.yz.botFlag && !that.addlist.conf.has.yz.productImg) {
+					this.$message({
+						message: '主图未上传，请上传后再保存~',
+						type: 'warning'
+					});
+					return;
+				}
+				if(!that.addlist.conf.has.yz.botFlag && !that.addlist.conf.has.yz.productImgBig) {
+					this.$message({
+						message: '主图片未上传，请上传后再保存~',
+						type: 'warning'
+					});
+					return;
+				}
+				if(that.addlist.conf.has.yz.botFlag && !that.addlist.conf.has.yz.botImg) {
+					this.$message({
+						message: '广告图未上传，请上传后再保存~',
+						type: 'warning'
+					});
+					return;
+				}
+				if(that.addlist.conf.has.yz.feedbackFlag == 1 && !that.addlist.conf.has.yz.feedbackImg) {
+					console.log(that.addlist.conf.has.yz.feedbackFlag)
+					this.$message({
+						message: '反馈图片未上传，请上传后再保存~',
 						type: 'warning'
 					});
 					return;
