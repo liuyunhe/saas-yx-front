@@ -41,8 +41,8 @@
         <el-table-column label="操作" align="center" width="160">
           <template slot-scope="scope">
             <el-button v-if="scope.row.status==1" size="mini" @click="mgrForm(scope.$index, scope.row)">编辑</el-button>
-            <el-button v-if="scope.row.status==1" size="mini" @click="handleDelete(scope.$index, scope.row)" type="danger">停用</el-button>
-            <el-button v-if="scope.row.status==0" size="mini" @click="modifyData(scope.row.id, 1)">启用</el-button>
+            <el-button v-if="scope.row.roleCode!='orgadmin'&&scope.row.status==1" size="mini" @click="handleDelete(scope.$index, scope.row)" type="danger">停用</el-button>
+            <el-button v-if="scope.row.roleCode!='orgadmin'&&scope.row.status==0" size="mini" @click="modifyData(scope.row.id, 1)">启用</el-button>
           </template>
         </el-table-column>
       </el-table>
