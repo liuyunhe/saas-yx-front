@@ -720,6 +720,12 @@
           pageNo: this.pageNo,
           pageSize: 10,
         };
+        if(this.filters.status == 4){
+          //审核状态
+          params.authStatus = this.filters.authStatus
+        }else{
+          params.status = this.filters.status
+        }
         // 根据关键词搜索条件，传不同数据
         if(this.filters.searchType == '3') {
           params.licenceNo = this.filters.keywords || ''; // 烟草证号
