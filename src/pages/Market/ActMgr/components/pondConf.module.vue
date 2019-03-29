@@ -102,7 +102,7 @@
           <el-input-number v-model="awae.warnValue" :min="0" controls-position="right"></el-input-number> 个
         </span>
       </el-form-item>
-      <el-form-item v-if="awae.awardType !== '6'">
+      <el-form-item v-if="awae.awardType != '6'">
         <el-checkbox v-model="awae.giveScore" :checked="awae.giveScore == 1 ? true : false" :true-label=1 :false-label=0 @change="resetScore">同时送积分</el-checkbox>
         <span v-if="awae.giveScore">
           <el-button class="ml20 mr20" v-if="!awae.integralPool" @click="giveIntegral">选择</el-button>
