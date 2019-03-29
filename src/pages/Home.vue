@@ -180,11 +180,7 @@ export default {
             this.$store.commit('setMenu', res.data)
             // sessionStorage.menu = JSON.stringify(res.data)
             this.sonMenuList = res.data[0].nodeList
-<<<<<<< HEAD
-            this.initGrandsonMenu(this.sonMenuList[0])
-=======
             // this.initGrandsonMenu(this.sonMenuList[0])
->>>>>>> xiaoma
             this.menuActive()
             this.goFirstSonMenu()
           } else {
