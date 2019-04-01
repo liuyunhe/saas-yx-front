@@ -25,7 +25,7 @@
         </el-form-item>
         <div v-if="sizeList.length != 0">
           <el-form-item v-for="(item, index) in sizeList" :key="index" label="规格：" prop="item">
-            <el-input style="width: 200px" v-model="item.name" :disabled="true"></el-input>
+            <el-input style="width: 200px" v-model="item.allName" :disabled="true"></el-input>
             商品价格：
             <el-input-number v-model="item.price" disabled="true" :controls="false"></el-input-number>
             元
