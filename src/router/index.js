@@ -475,6 +475,7 @@ export default new Router({
         { path: '/customer/task/scanEdit', name: '编辑扫码赚成长值', component: ScanEdit, props: (route) => ({id: route.query.id}) },
         { path: '/customer/black', name: '黑名单管理', component: Black },
         // { path: '/customer/task/sign', name: '会员签到任务设置', component: memberTaskSign, props: (route) => ({code:route.query.code, id:route.query.id}) },
+        { path: '/customer/mgr/detail', name: '用户详情', component: PersonalDeatail, props: (route) => ({code:route.query.code, id:route.query.id}) },
       ]
     },
     {
