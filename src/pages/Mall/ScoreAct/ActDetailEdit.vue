@@ -1,5 +1,5 @@
 <template>
-	<!-- 
+	<!--
   Author: chenxin
   Create Date: 2018-10-18
   Description: 新建活动模板
@@ -308,7 +308,7 @@
 													<img :src="scope.row.image" min-width="100" height="70" />
 												</template>
 											</el-table-column>
-											<el-table-column prop="giftType" label="礼品分类">
+											<el-table-column prop="giftType" label="礼品分类" :formatter="formatSex">
 											</el-table-column>
 											<!--<el-table-column prop="shopQuantity" label="库存" >
 							</el-table-column>-->
@@ -530,6 +530,9 @@
 			this.getActDetail()
 		},
 		methods: {
+            formatSex: function (row, column) {
+                return row.giftType === 1 ? '虚拟' : row.giftType === 2 ? '实物' : row.giftType===3 ? '红包':'积分'
+            },
 			spliceLength(item) {
 				var len = (item.shopQuantity + '').length;
 				if(item.quantity.length > len) item.quantity = item.quantity.slice(0, len)
@@ -798,22 +801,22 @@
 		width: 400px;
 		margin-top: 10px;
 	}
-	
+
 	.addActTamConf-container {
 		position: relative;
 	}
-	
+
 	.act-set {
 		position: absolute;
 		right: 50px;
 		top: 20px;
 		z-index: 3;
 	}
-	
+
 	.search-name {
 		width: 200px;
 	}
-	
+
 	.second-set {
 		.title {
 			font-weight: bold;
@@ -943,7 +946,7 @@
 			}
 		}
 	}
-	
+
 	.el-tabs {
 		padding: 0 20px;
 		.el-tab-pane {
