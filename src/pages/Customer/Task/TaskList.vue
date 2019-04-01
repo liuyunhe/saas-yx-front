@@ -36,10 +36,10 @@
     <el-dialog :title="dialogTitle" :close-on-click-modal="false" :visible.sync="dialogVisible" width="600px">
       <div class="score" v-if="form.mbTask">
         <span>首次{{dialogTitle}}, 可获得</span>
-        <el-input-number v-model="form.mbTask.score" :controls="false" :min="0" :precision="0"></el-input-number> 积分
+        <el-input-number v-model="form.mbTask.score" :controls="false" :min="0" :max="1000000" :precision="0"></el-input-number> 积分
       </div>
       <div class="growth" v-if="form.mbTask">
-        <el-input-number v-model="form.mbTask.growth" :controls="false" :min="0" :precision="0"></el-input-number> 成长值
+        <el-input-number v-model="form.mbTask.growth" :controls="false" :min="0" :max="1000000" :precision="0"></el-input-number> 成长值
       </div>
       <div class="btn mt20">
         <el-button type="primary" @click="saveTask">保存</el-button>

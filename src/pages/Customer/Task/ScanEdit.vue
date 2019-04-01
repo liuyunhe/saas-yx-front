@@ -25,14 +25,14 @@
         </el-form-item>
         <div v-if="sizeList.length != 0">
           <el-form-item v-for="(item, index) in sizeList" :key="index" label="规格：" prop="item">
-            <el-input style="width: 200px" v-model="item.allName" :disabled="true"></el-input>
+            <el-input style="width: 200px" v-model="item.name" :disabled="true"></el-input>
             商品价格：
             <el-input-number v-model="item.price" disabled="true" :controls="false"></el-input-number>
             元
             <span class="ml20">获得</span>
-            <el-input-number v-model="item['score']" :controls="false" :min="0" :precision="0"></el-input-number>
+            <el-input-number v-model="item['score']" :controls="false" :min="0" :max="1000000" :precision="0"></el-input-number>
             积分
-            <el-input-number v-model="item['growth']" :controls="false" :min="0" :precision="0"></el-input-number>
+            <el-input-number v-model="item['growth']" :controls="false" :min="0" :max="1000000" :precision="0"></el-input-number>
             成长值
             <el-button class="ml20" type="danger" @click="del(index)">删除</el-button>
           </el-form-item>
@@ -160,7 +160,9 @@ export default {
         let nowList = this.brandSonList.filter( item => {
           return item.sn == this.selectSonBrand[this.selectSonBrand.length - 1]
         })
-        this.sizeList.push(JSON.parse(JSON.stringify(nowList[0])))
+        let data = JSON.parse(JSON.stringify(nowList[0]))
+        data.name = data.allName
+        this.sizeList.push(JSON.parse(JSON.stringify(data)))
       }
     },
     // 删除
@@ -217,6 +219,7 @@ export default {
         this.allLen = this.sizeList.length
         this.selectSonBrand = []
         this.sizeList.forEach(item => {
+          item.name = item.allName
           this.selectSonBrand.push(item.sn)
         })
       })
