@@ -23,7 +23,7 @@
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column label="头像" align="center" width="100px">
           <template slot-scope="scope">
-            <img :src="scope.row.headimg || userDetailImgUrl" width="40px">
+            <img :src="scope.row.headimg || userDetailImgUrl" width="40px" height="40">
           </template>
         </el-table-column>
         <el-table-column label="用户昵称" align="center">

@@ -215,11 +215,11 @@ export default {
             sonList.push(item)
           }
         })
+        sonList.map(item => item.name = item.allName)  // 要显示带规格的名字
         this.sizeList.push(...sonList)
         this.allLen = this.sizeList.length
         this.selectSonBrand = []
         this.sizeList.forEach(item => {
-          item.name = item.allName
           this.selectSonBrand.push(item.sn)
         })
       })
