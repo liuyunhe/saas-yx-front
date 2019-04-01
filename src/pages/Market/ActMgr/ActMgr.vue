@@ -465,7 +465,7 @@ export default {
           if (res.ret == '200000') {
             this.actForms = res.data.list||[];
             if( (!this.actForms||this.actForms.length==0)&&this.actParams.pcode=='form-cate6' ) {// 如果自定义活动类型下没有数据。则默认展示一条demo
-              this.actForms = [{extUrl:"http://qoss.qrmkt.cn/saas_platform/common/act_tpl/act-tpl-104.png",form:"act-601",tplCode:'',name:'自定义活动',note:'',id:''}];
+              this.actForms = [{extUrl:"http://qoss.qrmkt.cn/saas_platform/common/act_tpl/act-tpl-self.png",form:"act-601",tplCode:'',name:'自定义活动',note:'',id:''}];
               this.actTotal = 1;
             } else {
               this.actTotal = res.data.page.count;
