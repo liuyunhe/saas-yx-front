@@ -91,7 +91,7 @@
           </span>
         </el-form-item>
         <el-form-item label="积分面额:" prop="intTotal">
-          <el-input-number v-model="awae.integral" :disabled="awae.id ? true : false" :min="0" controls-position="right"></el-input-number> 分
+          <el-input-number v-model="awae.integral" :disabled="awae.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number> 分
         </el-form-item>
       </template>
       <el-form-item v-if="!hide" label="中奖概率:" prop="probability">

@@ -37,7 +37,7 @@
           <el-input-number disabled v-model="totalRed" :min="0" controls-position="right"></el-input-number> 元
         </el-form-item>
         <el-form-item v-if="awae.awardType == 6" label="积分面额:" prop="intTotal">
-          <el-input-number v-model="awae.integral" :disabled="isDisable ? true : false" :min="0" controls-position="right"></el-input-number> 分
+          <el-input-number v-model="awae.integral" :disabled="isDisable ? true : false" :min="0" :precision="0" controls-position="right"></el-input-number> 分
         </el-form-item>
       </template>
       <el-form-item v-if="awae.awardType !== 6">
