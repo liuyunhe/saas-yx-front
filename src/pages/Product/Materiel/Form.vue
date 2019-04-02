@@ -37,18 +37,18 @@
           </el-upload>
         </el-form-item>
         <el-form-item :label="'库存（'+materielUnit[metraFlag]+'）'" prop="stock">
-          <el-input size="small" type="number" v-model="form.stock" :disabled="id?true:false"></el-input>
+          <el-input size="small" type="text" v-model="form.stock" :disabled="id?true:false" @keyup.native="integerCheck('stock')"></el-input>
         </el-form-item>
         <el-form-item label="库存阀值" prop="warnValue">
-          <el-input size="small" type="number" v-model="form.warnValue"></el-input>
+          <el-input size="small" type="text" v-model="form.warnValue" @keyup.native="integerCheck('warnValue')"></el-input>
         </el-form-item>
         <!-- 虚拟物料有此项内容 -->
-        <el-form-item v-if="metraFlag=='virtual'" label="链接URL" prop="outUrl">
+        <el-form-item v-if="metraFlag=='virtual' && elementShow['889']" label="链接URL" prop="outUrl">
           <el-input size="small" v-model="form.outUrl"></el-input>
         </el-form-item>
         <!-- 虚拟物料有此项内容 -->
-        <el-form-item v-if="metraFlag=='virtual'" label="卡密文件" prop="sourceCode">
-          <!-- <el-upload class="upload-demo" :disabled="id?true:false" size="small" -->
+        <el-form-item v-if="metraFlag=='virtual' && elementShow['890']" label="卡密文件" prop="sourceCode">
+          <a class="alike-btn" href="javascript:;" @click="downTpl">模板下载</a>
           <el-upload class="upload-demo" size="small"
             action="/api/saotx/metra/import"
             :headers="headers"
@@ -74,29 +74,15 @@
 </template>
 
 <script>
+import Config from '@/pages/Product/datas/conf'
 export default {
   props: ['metraFlag', 'materielId'],
   data() {
     return {
       id: this.materielId,
-      materielName: { // 物料类型及名称
-        'object':'实物礼品',
-        'virtual':'虚拟礼品',
-        'redpack':'红包池',
-        'integral':'积分池'
-      },
-      materielUnit: { // 物料单位
-        'object':'件',
-        'virtual':'个',
-        'redpack':'元',
-        'integral':'个'
-      },
-      materielType: { // 物料类型
-        'object': 1,
-        'virtual': 2,
-        'redpack': 3,
-        'integral': 6
-      },
+      materielName: Config.materielName,
+      materielUnit: Config.materielUnit,
+      materielType: Config.materielType,
       headers: {
         "token": sessionStorage.getItem("access_token"),
         "loginId": sessionStorage.getItem("access_loginId")
@@ -126,6 +112,10 @@ export default {
         pic: [{required:true, message:'请上传礼品图片', trigger:'change'}],
         stock: [{required:true, message:'请输入库存值', trigger:'change' }]
       },
+      elementShow: {
+        '889': false, // 889-外链
+        '890': false // 890-卡密
+      },
       sourceFiles: [] // 卡密文件上传结果存储{name:'', sourceCode: ''}
     };
   },
@@ -133,12 +123,27 @@ export default {
     this.getSuppliers();
     if(this.metraFlag&&this.id) { // id有值，则说明编辑
       this.detail();
+    } else {
+      this.form.pic = Config.banner[this.metraFlag];
     }
     if(this.metraFlag=='virtual') {
       this.getCategories(1, this.materielType[this.metraFlag]);
     }
   },
   methods: {
+    downTpl() {
+      location.href = 'https://qoss.qrmkt.cn/saas_platform/common/materiel-tpl890.xlsx';
+    },
+    // 验证控制库存值为正整数
+    integerCheck (key) {
+      if (key) {
+        if (this.form[key].indexOf('0')==0) {
+          this.form[key] = this.form[key].substring(1);
+        }
+        this.form[key] = this.form[key].replace(/[^\.\d]/g,'');
+        this.form[key] = this.form[key].replace('.','');
+      }
+    },
     // 查询所有的供应商数据
     getSuppliers() {
       this.$request.post('/api/saotx/supplier/list', {pageSize:-1, status: 1}, true, (res)=>{
@@ -154,6 +159,10 @@ export default {
      * defaultV 当前等级默认值
      */
     getCategories(level, parentCode, defaultV) {
+      for(let key in this.elementShow) {
+        this.elementShow[key] = false;
+      }
+      this.elementShow[parentCode] = true;
       this.form.subType = defaultV||'';
       this.categorySubList = [];
       this.$request.post('/api/saotx/dim/query', {cateCode:"award_type",parentCode:parentCode}, true, (res)=>{
@@ -291,7 +300,6 @@ export default {
   .el-select.materiel-type {
     width: 200px;
   }
-
   .avatar-uploader .el-upload:hover {
     border-color: #409EFF;
   }
@@ -300,11 +308,14 @@ export default {
     color: #8c939d;
     text-align: center;
   }
-</style>
-<style>
-   .materiel .avatar-uploader .el-upload {
+  .materiel .avatar-uploader .el-upload {
     width: 102px;
     height:76px;
     line-height: 84px;
+  }
+  .alike-btn {
+    color:#409EFF;
+    display: block;
+    padding-bottom: 10px;
   }
 </style>

@@ -144,10 +144,9 @@ export default {
     },
     forget() {
       this.$router.push({path:'/find?f=f&account='});
-      //this.$router.push({name: 'Find'})
     },
     modifyPwd() {
-      this.$router.push({path:'/find?f=f&account='+this.username});
+      this.$router.push({path:'/find?f=m&account='+this.username});
     }
   },
   watch: {

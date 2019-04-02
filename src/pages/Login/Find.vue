@@ -9,19 +9,20 @@
 				</div>
 			</div>
 		</nav>
-		<div class="content" v-show="this.flag=='f'?true:false">
-			<div class="title">找回密码</div>
+		<div class="content">
+			<div class="title" v-show="flag=='f'">找回密码</div>
+			<div class="title" v-show="flag=='m'">修改密码</div>
 			<div class="form-part">
 				<div class="form-find" v-show='next'>
 					<el-form :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic">
 						<el-form-item prop="phone" label="手机号码" :rules="[
 							{ required: true, message: '请输入手机号', trigger: 'blur' },
-							{ pattern:/^1[3|4|5|7|8][0-9]{9}$/, message: '请输入正确的手机号', trigger: ['blur'] } ]">
+							{ pattern:/^1[2-9]{1}[0-9]{9}$/, message: '请输入正确的手机号', trigger: ['blur'] } ]">
 							<el-input v-model="dynamicValidateForm.phone" class='style_phone'></el-input>
 						</el-form-item>
 						<el-form-item label="验证码" prop="code" :rules="[{ required: true, message: '请输入验证码', trigger: 'blur' }] " class='code-input'>
 							<el-input v-model="dynamicValidateForm.code" class='style_code'></el-input>
-							<el-button @click.prevent="time" class='{active:active}'>{{timeText}}</el-button>
+							<el-button @click.prevent="checkSyshasPhone" class='{active:active}'>{{timeText}}</el-button>
 						</el-form-item>
 						<el-form-item>
 							<el-button type="primary" @click="submitForm('dynamicValidateForm')">下一步</el-button>
@@ -30,14 +31,14 @@
 				</div>
 				<div class="form-find" v-show='!next'>
 					<el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
-						<el-form-item label="用户名" prop="user" :rules="[{ required: true, message: '请输入用户名', trigger: 'blur' }]">
-							<el-input v-model="ruleForm2.user" class='style_user'></el-input>
+						<el-form-item label="用户名" prop="user">
+							<el-input v-model="ruleForm2.user" class='style_user' name="account" autocomplete="off"></el-input>
 						</el-form-item>
 						<el-form-item label="密码" prop="pass">
-							<el-input type="password" v-model="ruleForm2.pass" autocomplete="off" class='style_user'></el-input>
+							<el-input type="password" v-model="ruleForm2.pass" class='style_user' name="pwd" autocomplete="new-password"></el-input>
 						</el-form-item>
 						<el-form-item label="确认密码" prop="checkPass">
-							<el-input type="password" v-model="ruleForm2.checkPass" autocomplete="off" class='style_user'></el-input>
+							<el-input type="password" v-model="ruleForm2.checkPass" class='style_user'></el-input>
 						</el-form-item>
 
 						<el-form-item>
@@ -45,26 +46,6 @@
 						</el-form-item>
 					</el-form>
 				</div>
-
-			</div>
-		</div>
-		<div class="content" v-show="this.flag=='m'?true:false">
-			<div class="title">修改密码</div>
-			<div class="form-part">
-				<div class="form-find">
-					<el-form :model="ruleForm2" status-icon :rules="modifyPwdRules" ref="modifyPwdForm" label-width="100px" class="demo-ruleForm">
-						<el-form-item label="密码" prop="pass">
-							<el-input type="password" v-model="ruleForm2.pass" class='style_user'></el-input>
-						</el-form-item>
-						<el-form-item label="确认密码" prop="checkPass">
-							<el-input type="password" v-model="ruleForm2.checkPass" class='style_user'></el-input>
-						</el-form-item>
-						<el-form-item>
-							<el-button type="primary" @click="submitModifyPwdForm('modifyPwdForm')">确定</el-button>
-						</el-form-item>
-					</el-form>
-				</div>
-
 			</div>
 		</div>
 
@@ -75,9 +56,11 @@
 	export default {
 		props: ['f', 'account'],
 		data() {
-			var checkAge = (rule, value, callback) => {
+			var checkAccount = (rule, value, callback) => {
 				if(!value) {
-					return callback(new Error('用户名不能为空'));
+					callback(new Error('用户名不能为空'));
+				} else {
+					callback();
 				}
 			};
 			var validatePass = (rule, value, callback) => {
@@ -89,15 +72,6 @@
 					if(this.ruleForm2.checkPass !== '') {
 						this.$refs.ruleForm2.validateField('checkPass');
 					}
-					callback();
-				}
-			};
-			var validatePass2 = (rule, value, callback) => {
-				if(value === '') {
-					callback(new Error('请再次输入密码'));
-				} else if(value !== this.ruleForm2.pass) {
-					callback(new Error('两次输入密码不一致!'));
-				} else {
 					callback();
 				}
 			};
@@ -122,15 +96,9 @@
 						trigger: 'blur'
 					}],
 					user: [{
-						validator: checkAge,
+						validator: checkAccount,
 						trigger: 'blur'
 					}]
-				},
-
-				modifyPwdRules: {
-					oldPwd: [{required:true, message:'原密码不能为空', trigger:'blur'}],
-					pass: [{required:true, validator:validatePass, trigger:'blur'}],
-					checkPass: [{required:true, validator:validatePass2, trigger:'blur'}]
 				}
 			};
 		},
@@ -168,8 +136,40 @@
 					}
 				});
 			},
-			time(item) {
-
+			checkSyshasPhone () {
+				let mobile = this.dynamicValidateForm.phone;
+				if(!mobile) return;
+				if(this.active) return;
+				// 验证手机号在系统中是否存在
+				this.$request.post('/api/public/qbm', {mobile: mobile}, true,(res)=>{
+					if(res.ret == '200000') {
+						let users = res.data || [];
+						if (users.length==0) {
+							this.$message.error("此手机号不在系统中！");
+						} else {
+							let judgeMobileCode = false;
+							for (let i=0; i<users.length; i++) {
+								let data = users[i];
+								if (mobile === data.mobile) {
+									judgeMobileCode = true; // 手机号相同说明在系统中存在
+									if (this.account && data.account!==this.account) {
+										judgeMobileCode = false; // 手机号相同说明在系统中存在
+										this.$message.error("此手机号与修改密码账号绑定的手机号不符！");
+									}
+									break
+								}
+							}
+							// 运行获取及验证手机动态码
+							if (judgeMobileCode) {
+								this.time()
+							}
+						}
+					} else {
+						this.$message.error(res.message);
+					}
+				})
+			},
+			time() {
 				if(!this.dynamicValidateForm.phone) return;
 				if(this.active) return;
 				var that = this;
@@ -221,26 +221,6 @@
 					} else {
 						that.$message.error('请输入正确的信息')
 						return false;
-					}
-				});
-			},
-
-			// 修改密码提交表单
-			submitModifyPwdForm(form) {
-				this.$refs[form].validate((valid) => {
-					if (valid) {
-						let params = {};
-						params.account = this.ruleForm2.user;
-						params.oldPwd = this.ruleForm2.oldPwd;
-						params.newPwd = this.$md5(this.ruleForm2.pass);
-						this.$request.post('/api/saotx/user/modifyPwd', params, true, (res)=>{
-							if (res.ret == '200000') {
-								this.$message({type:'success', message: "密码修改成功，请重新登陆！"});
-								this.$router.push({path:"/login"});
-							} else {
-								this.$message.error(res.message);
-							}
-						});
 					}
 				});
 			}

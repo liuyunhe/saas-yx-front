@@ -150,22 +150,13 @@
 </template>
 
 <script>
+import Config from '@/pages/Product/datas/conf'
 export default {
   props: ['metraFlag'],
   data() {
     return {
-      materielName: { // 物料类型及名称
-        'object':'实物',
-        'virtual':'虚拟',
-        'redpack':'红包池',
-        'integral':'积分池'
-      },
-      materielUnit: { // 物料单位
-        'object':'件',
-        'virtual':'个',
-        'redpack':'元',
-        'integral':'个'
-      },
+      materielName: Config.materielName,
+      materielUnit: Config.materielUnit,
       headers: {
         "token": sessionStorage.getItem("access_token"),
         "loginId": sessionStorage.getItem("access_loginId")
