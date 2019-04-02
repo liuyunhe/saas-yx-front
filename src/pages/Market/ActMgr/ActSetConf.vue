@@ -82,6 +82,7 @@
 </template>
 <script>
 import { quillEditor } from 'vue-quill-editor'
+import Config from '@/pages/Market/datas/conf'
 export default {
   props: ['form', 'tplCode', 'id', 'clone'],
   components: {
@@ -197,7 +198,11 @@ export default {
   //   }
   // },
   created() {
-    this.getDetail()
+    if (!this.id) {
+      this.confData.banner = Config.banner[this.form]
+    } else {
+      this.getDetail()
+    }
     this.getIdxSelect()
   },
   methods: {
@@ -210,7 +215,6 @@ export default {
   		
   	},
     getDetail() {
-      if (!this.id) return
       this.$request.post('/api/saotx/act/detail', { id: this.id }, true, res => {
         if (res.ret == '200000') {
           if (this.clone == '1') {
