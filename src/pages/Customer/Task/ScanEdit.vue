@@ -3,7 +3,7 @@
     <el-card>
       <el-form ref="form" :model="data.mbTask" label-width="100px" :rules="rules">
         <el-form-item label="任务名称：" prop="taskName">
-          <el-input v-model="data.mbTask.taskName"></el-input>
+          <el-input v-model="data.mbTask.taskName" maxlength="15"></el-input>
         </el-form-item>
         <!-- <el-form-item label="任务图片：" prop="taskImg">
           <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadApi" :headers="headerObj" :on-success="uploadSuccess" :show-file-list="false">
@@ -38,7 +38,7 @@
           </el-form-item>
         </div>
         <el-form-item label="任务说明：" prop="taskDetail">
-          <el-input v-model="data.mbTask.taskDetail" type="textarea" :rows="2" placeholder="请输入内容" :maxlength="15"></el-input>
+          <el-input v-model="data.mbTask.taskDetail" type="textarea" :rows="2" placeholder="请输入内容" :maxlength="20"></el-input>
         </el-form-item>
         <el-form-item label="扫码限制：">
           每人每天最多可获得 
