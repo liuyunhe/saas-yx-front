@@ -3,7 +3,7 @@
     <ul>
       <li v-for="(item, index) in data" :key="index">
         连续签到
-        <el-input-number v-model="item.continuSignDay" @change="noRepeat(item.continuSignDay, index)" :controls="false" :min="0" :precision="0"></el-input-number>
+        <el-input-number v-model="item.continuSignDay" @change="noRepeat(item.continuSignDay, index)" :controls="false" :min="1" :precision="0"></el-input-number>
         天，额外可获得
         <el-input-number v-model="item.extraScore" :controls="false" :min="0" :precision="0"></el-input-number>
         积分

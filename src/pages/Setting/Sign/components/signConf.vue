@@ -77,17 +77,19 @@
           天，可参与抽奖
         </el-form-item>
       </el-form>
-    <div class="title ml20 mb20">奖项设置</div>
-    <el-form label-width="100px" :rules="prize">
-      <el-form-item label="选择奖品：" prop="selected">
-        <el-button icon="el-icon-plus" @click="getPrize"></el-button>
-      </el-form-item>
-      <!-- <el-form-item label="所选礼品：">
-        <prize-conf></prize-conf>
-      </el-form-item> -->
-    </el-form>
-    <p class="ml20">所选礼品：</p>
-    <prize-conf v-if="conf.gameItems" :data="conf.gameItems" class="ml20"></prize-conf>
+    <div v-if="conf.sactBset.drawChanceFlg">
+      <div class="title ml20 mb20">奖项设置</div>
+      <el-form label-width="100px" :rules="prize">
+        <el-form-item label="选择奖品：" prop="selected">
+          <el-button icon="el-icon-plus" @click="getPrize"></el-button>
+        </el-form-item>
+        <!-- <el-form-item label="所选礼品：">
+          <prize-conf></prize-conf>
+        </el-form-item> -->
+      </el-form>
+      <p class="ml20">所选礼品：</p>
+      <prize-conf v-if="conf.gameItems" :data="conf.gameItems" class="ml20"></prize-conf>
+    </div>
   </div>
 </template>
 <script>
