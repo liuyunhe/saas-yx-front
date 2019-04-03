@@ -4,7 +4,7 @@
       <div class="wrapper">
         <div class="item" v-for="(item, index) in 10" :key="index">
           <p class="name">{{item}}.{{rigthsList[index] ? rigthsList[index].gradeName : '普通用户'}}</p>
-          <img :src="rigthsList[index] ? rigthsList[index].gradeImg : defaultImgUrl" width="83" height="83">
+          <img :src="rigthsList[index] ? rigthsList[index].gradeImg : `https://qoss.qrmkt.cn/new_platform/pc_front/rifhts-default-img${item}.png`" width="83" height="83">
           <p class="growth">需要{{rigthsList[index] != undefined ? rigthsList[index].gradeLower : ''}}成长值</p>
           <div class="rights">
             <p v-if="index < listLen"><span>等级权益</span><span>{{rigthsList[index] ? rigthsList[index].rightsNum : 0}}</span></p>
@@ -27,7 +27,7 @@ export default {
       ],
       rigthsList: [],
       listLen: 0,
-      defaultImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/rifhts-default-img.png',
+      // defaultImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/rifhts-default-img.png',
       openGradeList: []
     }
   },
