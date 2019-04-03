@@ -206,7 +206,7 @@
               </div>
               <div class="edit-con">
                 <div class="edit-winning-img">
-                  <p class="img-title">按钮:</p>
+                  <p class="img-title">按钮图片:</p>
                   <div class="img-con" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.drawBtnUrl" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upWinningBtnSuccess" :show-file-list="false">
@@ -241,7 +241,7 @@
               </div>
               <div class="edit-con">
                 <div class="edit-notWinning-img">
-                  <p class="img-title">未中奖图片:</p>
+                  <p class="img-title">背景图片:</p>
                   <div class="img-con" style="width: 100px;height: 113px;line-height: 113px"><img :src="configItem.cryImgUrl" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upNotWinningImgSuccess" :show-file-list="false">
@@ -253,7 +253,7 @@
               </div>
               <div class="edit-con">
                 <div class="edit-notWinning-img">
-                  <p class="img-title">按钮:</p>
+                  <p class="img-title">按钮图片:</p>
                   <div class="img-con" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.cryBtnUrl" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upNotWinningBtnSuccess" :show-file-list="false">
@@ -479,6 +479,7 @@ export default {
     .ipone {
       float: left;
       width: 299px;
+      height: 614px;
       margin: 0 20px;
       .header {
         position: relative;
@@ -678,7 +679,7 @@ export default {
             text-align: center;
             .close {
               position: absolute;
-              transform: translate(220px, 140px);
+              transform: translate(140px, 380px);
               width: 20px;
               height: 20px;
               line-height: 20px;
@@ -727,9 +728,9 @@ export default {
       .edit-con {
         // 公共样式
         .img-con {
-          width: 30%;
-          height: 130px;
-          line-height: 130px;
+          width: 100px!important;
+          height: 100px!important;
+          line-height: 100px!important;
           text-align: center;
           border: 1px dashed #d9d9d9;
     			border-radius: 6px;
