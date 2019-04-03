@@ -81,7 +81,7 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 3">
                   <div>
-                    <p class="img-title">扭蛋机背景</p>
+                    <p class="img-title">扭蛋机背景：</p>
                     <div class="img-con act-tip-img"><img :src="configItem.boxImgUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upBoxImgUrlSuccess" :show-file-list="false">
@@ -92,7 +92,7 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 4">
                   <div>
-                    <p class="img-title">活动说明</p>
+                    <p class="img-title">活动说明：</p>
                     <div class="img-con act-tip-img"><img :src="configItem.actTip" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upTipImgSuccess" :show-file-list="false">
@@ -103,7 +103,7 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 5">
                   <div>
-                    <p class="img-title">抽奖按钮</p>
+                    <p class="img-title">抽奖按钮：</p>
                     <div class="img-con act-tip-img"><img :src="configItem.btnImgUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upBtnImgUrlSuccess" :show-file-list="false">
@@ -114,8 +114,8 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 6">
                   <div>
-                    <p class="img-title">扭蛋一</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg1ImgUrl" alt=""></div>
+                    <p class="img-title">扭蛋一图片：完整</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg1ImgUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg1ImgUrlSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -125,8 +125,8 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 7">
                   <div>
-                    <p class="img-title">扭蛋二</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg2ImgUrl" alt=""></div>
+                    <p class="img-title">扭蛋二图片：完整</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg2ImgUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg2ImgUrlSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -136,7 +136,7 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 8">
                   <div>
-                    <p class="img-title">扭蛋三</p>
+                    <p class="img-title">扭蛋三图片：完整</p>
                     <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg3ImgUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg3ImgUrlSuccess" :show-file-list="false">
@@ -156,7 +156,7 @@
 
                 <div class="edit-game-img" v-if="showEditConIndex == 6" style="margin-top: 30px">
                   <div>
-                    <p class="img-title">扭蛋一开奖：左</p>
+                    <p class="img-title">扭蛋一开奖：左侧</p>
                     <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg1left" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg1leftSuccess" :show-file-list="false">
@@ -168,7 +168,7 @@
                 <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
                 <div class="edit-game-img" v-if="showEditConIndex == 6" style="margin-top: 30px">
                   <div>
-                    <p class="img-title">扭蛋一开奖：右</p>
+                    <p class="img-title">扭蛋一开奖：右侧</p>
                     <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg1right" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg1rightSuccess" :show-file-list="false">
@@ -180,7 +180,7 @@
                 <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
                 <div class="edit-game-img" v-if="showEditConIndex == 7" style="margin-top: 30px">
                   <div>
-                    <p class="img-title">扭蛋二开奖：左</p>
+                    <p class="img-title">扭蛋二开奖：左侧</p>
                     <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg2left" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg2leftSuccess" :show-file-list="false">
@@ -192,7 +192,7 @@
                 <p class="tips" v-if="showEditConIndex == 7">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
                 <div class="edit-game-img" v-if="showEditConIndex == 7" style="margin-top: 30px">
                   <div>
-                    <p class="img-title">扭蛋二开奖：右</p>
+                    <p class="img-title">扭蛋二开奖：右侧</p>
                     <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg2right" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg2rightSuccess" :show-file-list="false">
@@ -204,7 +204,7 @@
                 <p class="tips" v-if="showEditConIndex == 7">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
                 <div class="edit-game-img" v-if="showEditConIndex == 8" style="margin-top: 30px">
                   <div>
-                    <p class="img-title">扭蛋三开奖：左</p>
+                    <p class="img-title">扭蛋三开奖：左侧</p>
                     <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg3left" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg3leftSuccess" :show-file-list="false">
@@ -216,7 +216,7 @@
                 <p class="tips" v-if="showEditConIndex == 8">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
                 <div class="edit-game-img" v-if="showEditConIndex == 8" style="margin-top: 30px">
                   <div>
-                    <p class="img-title">扭蛋三开奖：右</p>
+                    <p class="img-title">扭蛋三开奖：右侧</p>
                     <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg3right" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg3rightSuccess" :show-file-list="false">
@@ -286,7 +286,7 @@
               </div>
               <div class="edit-con">
                 <div class="edit-winning-img">
-                  <p class="img-title">按钮:</p>
+                  <p class="img-title">按钮图片:</p>
                   <div class="img-con"><img :src="configItem.drawBtnUrl" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upWinningBtnSuccess" :show-file-list="false">
@@ -322,7 +322,7 @@
               </div>
               <div class="edit-con">
                 <div class="edit-notWinning-img">
-                  <p class="img-title">未中奖图片:</p>
+                  <p class="img-title">背景图片:</p>
                   <div class="img-con" style="width: 100px;height: 113px;line-height: 113px"><img :src="configItem.cryImgUrl"  alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upNotWinningImgSuccess" :show-file-list="false">
@@ -334,7 +334,7 @@
               </div>
               <div class="edit-con">
                 <div class="edit-notWinning-img">
-                  <p class="img-title">按钮:</p>
+                  <p class="img-title">按钮图片:</p>
                   <div class="img-con" ><img :src="configItem.cryBtnUrl" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upNotWinningBtnSuccess" :show-file-list="false">
@@ -642,12 +642,13 @@ export default {
     .ipone {
       float: left;
       width: 299px;
+      height: 614px;
       margin: 0 20px;
       .header {
         position: relative;
         width: 100%;
         height: 66px;
-        background: url('http://qoss.qrmkt.cn/new_platform/pc_front/937@2x.png')
+        background: url('http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/937@2x.png')
           center no-repeat;
         p {
           position: absolute;
@@ -831,7 +832,7 @@ export default {
             text-align: center;
             .close {
               position: absolute;
-              transform: translate(220px, 140px);
+              transform: translate(140px, 380px);
               width: 20px;
               height: 20px;
               line-height: 20px;
@@ -869,7 +870,7 @@ export default {
       .footer {
         width: 100%;
         height: 64px;
-        background: url('http://qoss.qrmkt.cn/new_platform/pc_front/phone-footer@2x.png')
+        background: url('http://weiopn.oss-cn-beijing.aliyuncs.com/pc_data_front/img/phone-footer@2x.png')
           center no-repeat;
       }
     }
@@ -880,9 +881,9 @@ export default {
       .edit-con {
         // 公共样式
         .img-con {
-          width: 30%;
-          height: 130px;
-          line-height: 130px;
+          width: 100px!important;
+          height: 100px!important;
+          line-height: 100px!important;
           text-align: center;
           border: 1px dashed #d9d9d9;
     			border-radius: 6px;
@@ -937,7 +938,8 @@ export default {
             justify-content: center;
             align-items: center;
             img {
-              width: 100%;
+              max-width: 100%;
+              max-height: 100%;
             }
           }
         }
@@ -949,14 +951,16 @@ export default {
             justify-content: center;
             align-items: center;
             img {
-              width: 100%;
+              max-width: 100%;
+              max-height: 100%;
             }
           }
         }
         .edit-winning-img {
           display: flex;
           img {
-            width: 100%;
+            max-width: 100%;
+            max-height: 100%;
           }
         }
         .edit-notWinning-img {
@@ -966,7 +970,8 @@ export default {
             justify-content: center;
             align-items: center;
             img {
-              width: 100%;
+              max-width: 100%;
+              max-height: 100%;
             }
           }
         }
