@@ -203,6 +203,7 @@ export default {
     },
     // tabs的添加和删除
     putTabsEdit(targetName, action) {
+      if (this.isDisableArr[this.tabsIndex]) return
       let len = this.data.strategyArr[this.tabsIndex].awardArr.length
       if (action === 'add') {
         if (len == 10) return

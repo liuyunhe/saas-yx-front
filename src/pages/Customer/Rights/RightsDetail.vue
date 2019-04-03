@@ -40,12 +40,12 @@
           </div>
           <div>
             <el-checkbox v-model="rightsList[1].selected" :true-label="1" :false-label="0">积分加速</el-checkbox>
-            <el-input-number :disabled="!rightsList[1].selected" v-model="rightsList[1].ritsSmallTimes" :controls="false" :min="0" :precision="2"></el-input-number> 倍
+            <el-input-number :disabled="!rightsList[1].selected" v-model="rightsList[1].ritsSmallTimes" :controls="false" :min="1" :precision="2"></el-input-number> 倍
             <span class="ml20 tips">做任务、签到获取的积分根据配置进行翻倍</span>
           </div>
           <div>
             <el-checkbox v-model="rightsList[2].selected" :true-label="1" :false-label="0">成长值加速</el-checkbox>
-            <el-input-number :disabled="!rightsList[2].selected" v-model="rightsList[2].ritsSmallTimes" :controls="false" :min="0" :precision="2"></el-input-number> 倍
+            <el-input-number :disabled="!rightsList[2].selected" v-model="rightsList[2].ritsSmallTimes" :controls="false" :min="1" :precision="2"></el-input-number> 倍
             <span class="ml20 tips">做任务、签到获取的成长值根据配置进行翻倍</span>
           </div>
           <div>
