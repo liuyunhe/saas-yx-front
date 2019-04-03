@@ -24,7 +24,7 @@
             </div>
           </div>
           <div class="right-side">
-            <div class="line" style="width: 100%"><span class="imp">*</span>商品名称：{{ basicMsg.name }}</div>
+            <div class="lines" style="width: 80%" :title="basicMsg.name"><span class="imp">*</span>商品名称：{{ basicMsg.name }}</div>
             <div class="line"><span class="imp">*</span>SKU：{{ basicMsg.sku }}</div>
             <div class="line"><span class="imp">*</span>上下架状态：{{ basicMsg.state == 1 ? "上架中" : "下架中" }}</div>
             <div class="line"><span class="imp">*</span>品牌：{{ basicMsg.brandName }}</div>
@@ -196,8 +196,13 @@
             width: 50%;
             height: 40px;
             line-height: 40px;
-
           }
+          .lines{
+              width: 200px;
+              overflow:hidden;
+              text-overflow:ellipsis;
+              white-space: nowrap;/*加宽度width属来兼容部分浏览*/
+            }
         }
       }
 
