@@ -22,6 +22,7 @@
             </el-option>
           </el-select>
           <el-button type="primary" @click="allSelected">全选</el-button>
+          <el-button type="warning" @click="reset">重置</el-button>
         </el-form-item>
         <div v-if="sizeList.length != 0">
           <el-form-item v-for="(item, index) in sizeList" :key="index" label="规格：" prop="item">
@@ -144,6 +145,10 @@ export default {
           }
         })
       })
+    },
+    // 重置
+    reset() {
+      this.getDetail()
     },
     // 更新列表
     updataList() {
