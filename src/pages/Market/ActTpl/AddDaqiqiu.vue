@@ -1,5 +1,5 @@
 <template>
-  <!-- 
+  <!--
   Author: chenxin
   Create Date: 2018-10-18
   Description: 新建活动模板
@@ -20,14 +20,18 @@
             <div class="content phone">
               <div class="bg"><img :src="configItem.bgImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 1"></div>
               <div class="top"><img :src="configItem.headerImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 2"></div>
-              <div class="clock"><img :src="configItem.clickImgUrl" title="点击编辑" @click="showEditConIndex = 3"alt="" /></div>
+              <div class="clock" @click="showEditConIndex = 3"><img :src="configItem.clockImgUrl" title="点击编辑" alt="" /></div>
               <div class="tip"><img :src="configItem.actTip" title="点击编辑" @click="showEditConIndex = 4"alt="" /></div>
-
-              <div v-for="item in [1,2,3,4,5,6,7,8,9]" :class="`hole-${item}`"><img :src="configItem.holeUrl" title="点击编辑" @click="showEditConIndex = 5"alt="" /></div>
-              <div class="mouse1"><img :src="configItem.mouseUrl" title="点击编辑" @click="showEditConIndex = 6"alt="" /></div>
-              <div class="mouse2"><img :src="configItem.mouseUrl" title="点击编辑" @click="showEditConIndex = 6"alt="" /></div>
-              <div class="mouse3"><img :src="configItem.mouseUrl" title="点击编辑" @click="showEditConIndex = 6"alt="" /></div>
-              <div class="hammer"><img :src="configItem.hammerUrl" title="点击编辑" @click="showEditConIndex = 7"alt="" /></div>
+              <div
+                v-for="(item,index) in configItem.balloonImgUrl"
+                class="balloon"
+                :class="`ps-${index + 1}`"
+                title="点击编辑"
+                @click="showEditConIndex = 5;ballonIndex = index"
+              >
+                <img :src="item.src" alt="">
+              </div>
+              <div class="star"><img :src="configItem.starImgUrl" title="点击编辑" @click="showEditConIndex = 6" alt=""></div>
             </div>
             <div class="footer"></div>
           </div>
@@ -77,9 +81,9 @@
                 <div class="edit-game-img" v-if="showEditConIndex == 3">
                   <div>
                     <p class="img-title">时间背景:</p>
-                    <div class="img-con act-tip-img" style="width: 100px;height: 113px;line-height: 113px"><img :src="configItem.clickImgUrl" alt=""></div>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 113px;line-height: 113px"><img :src="configItem.clockImgUrl" alt=""></div>
                     <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upClickImgUrlSuccess" :show-file-list="false">
+                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upClockImgUrlSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
                       </el-upload>
                     </div>
@@ -95,13 +99,24 @@
                       </el-upload>
                     </div>
                   </div>
+
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 5">
                   <div>
-                    <p class="img-title">洞口遮罩:</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.holeUrl" alt=""></div>
+                    <p class="img-title">气球图片:</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.balloonImgUrl[ballonIndex].src" alt=""></div>
                     <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upHoleUrlSuccess" :show-file-list="false">
+                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upBalloonUrlSuccess" :show-file-list="false">
+                        <el-button size="small" type="primary">更换图片</el-button>
+                      </el-upload>
+                    </div>
+                  </div>
+                  <p class="tips" v-if="showEditConIndex == 5">* 图片建议尺寸为 105*105px格式为jpg\bmp\png\gif</p>
+                  <div>
+                    <p class="img-title">击中图片:</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.balloonImgUrl[ballonIndex].broken" alt=""></div>
+                    <div class="btn-con">
+                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upBalloonBrokenUrlSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
                       </el-upload>
                     </div>
@@ -109,25 +124,17 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 6">
                   <div>
-                    <p class="img-title">出现图片:</p>
-                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.mouseUrl" alt=""></div>
+                    <p class="img-title">星星飞镖:</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.starImgUrl" alt=""></div>
                     <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upMouseUrlSuccess" :show-file-list="false">
+                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upStarImgUrlSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
                       </el-upload>
                     </div>
                   </div>
-                  <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 93*93px格式为jpg\bmp\png\gif</p>
-                  <div>
-                    <p class="img-title">击中图片:</p>
-                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.mouseCryUrl" alt=""></div>
-                    <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="upMouseCryUrlSuccess" :show-file-list="false">
-                        <el-button size="small" type="primary">更换图片</el-button>
-                      </el-upload>
-                    </div>
-                  </div>
+
                 </div>
+
                 <div class="edit-game-img" v-if="showEditConIndex == 7">
                   <div>
                     <p class="img-title">锤子图片:</p>
@@ -141,11 +148,11 @@
                 </div>
 
                 <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1600px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 750*415px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 156*177px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 102*103px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 696*194px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 120*96px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 108*100px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 5">* 图片建议尺寸为 213*136px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 93*93px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 52*47px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 7">* 图片建议尺寸为 130*124px格式为jpg\bmp\png\gif</p>
               </div>
 
@@ -228,7 +235,8 @@
                 <div class="prize-con">
                   <div class="close">X</div>
                   <img class="pic" :src="configItem.cryImgUrl" alt="">
-                  <img class="prize-btn" :src="configItem.cryBtnUrl" alt="">
+                  <div style="width: 100%;height: 20px;color:#5FC54D;line-height: 20px;text-align: center;position: absolute;left: 0;top: 285px">未中奖</div>
+                  <img class="prize-btn" style="width: 112px;height: 24px;top: 315px" :src="configItem.cryBtnUrl" alt="">
                 </div>
               </div>
             </div>
@@ -241,7 +249,7 @@
               </div>
               <div class="edit-con">
                 <div class="edit-notWinning-img">
-                  <p class="img-title">背景图片:</p>
+                  <p class="img-title">弹窗图片:</p>
                   <div class="img-con" style="width: 100px;height: 113px;line-height: 113px"><img :src="configItem.cryImgUrl" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upNotWinningImgSuccess" :show-file-list="false">
@@ -284,7 +292,7 @@ export default {
       activeName: 'home',
       addActParams: {
         conf: '',
-        form: 'act-702',
+        form: 'act-703',
         id: '',
         name: '',
         note: ''
@@ -295,22 +303,39 @@ export default {
           { max: 15, message: '长度不能超过 15 个字符', trigger: 'blur' }
         ]
       },
+      ballonIndex:"",
       configItem: {
         title: '',
         description: '',
-        headerImgUrl: 'http://qoss.qrmkt.cn/common/ddshu/dadishu-title.png',
-        bgImgUrl: 'http://qoss.qrmkt.cn/common/ddshu/dadishu-bg.png',
-        actTip:'http://qoss.qrmkt.cn/common/ddshu/hdjn.png',
-        clickImgUrl:'http://qoss.qrmkt.cn/common/ddshu/dadishu-clock.png',
-        btnImgUrl:'http://qoss.qrmkt.cn/common/niudan/nd-btn.png',
-        holeUrl:'http://qoss.qrmkt.cn/common/ddshu/hole.png',
-        mouseUrl:"http://qoss.qrmkt.cn/common/ddshu/mouse.png",
-        mouseCryUrl:"http://qoss.qrmkt.cn/common/ddshu/mouse-cry.png",
-        hammerUrl:"http://qoss.qrmkt.cn/common/ddshu/dadishu-hammer.png",
-        drawImgUrl: 'http://qoss.qrmkt.cn/common/ddshu/award-pop.png',
-        drawBtnUrl:'http://qoss.qrmkt.cn/common/ddshu/award-btn.png',
-        cryImgUrl: 'http://qoss.qrmkt.cn/common/ddshu/dadishu-nolucky.png',
-        cryBtnUrl:'http://qoss.qrmkt.cn/common/ddshu/nolucky-btn.png',
+        headerImgUrl: 'http://qoss.qrmkt.cn/common/dqiqiu/dqiqiu-title.png',
+        bgImgUrl: 'http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-bg.png',
+        actTip:'http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-tips.png',
+        clockImgUrl:'http://qoss.qrmkt.cn/common/dqiqiu/clock.png',
+        balloonImgUrl:[
+          { src:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-red.png",
+            broken:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-red3.png"},
+          { src:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-blue.png",
+            broken:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-blue3.png"},
+          { src:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-yellow.png",
+            broken:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-yellow3.png"},
+          { src:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-blue.png",
+            broken:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-blue3.png"},
+          { src:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-red.png",
+            broken:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-red3.png"},
+          { src:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-green.png",
+            broken:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-green3.png"},
+          { src:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-blue.png",
+            broken:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-blue3.png"},
+          { src:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-green.png",
+            broken:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-green3.png"},
+          { src:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-red.png",
+            broken:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-red3.png"},
+        ],
+        starImgUrl:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-feibiao.png",
+        drawImgUrl: 'http://qoss.qrmkt.cn/common/dqiqiu/award-pop.png',
+        drawBtnUrl:'http://qoss.qrmkt.cn/common/dqiqiu/award-btn.png',
+        cryImgUrl: 'http://qoss.qrmkt.cn/common/dqiqiu/dqiqiu-nolucky.png',
+        cryBtnUrl:'http://qoss.qrmkt.cn/common/dqiqiu/nolucky-btn.png',
       },
       uploadURL: '/api/saotx/attach/commonAliUpload',
       headerObj: {
@@ -384,25 +409,25 @@ export default {
       this.$message.error(resule.message)
     },
     // 上传抽奖按钮图片
-    upHoleUrlSuccess(resule) {
+    upBalloonUrlSuccess(resule) {
       if (resule.ret === '200000')
-        return (this.configItem.holeUrl = resule.data.accessUrl)
+        return (this.configItem.balloonImgUrl[this.ballonIndex].src = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
 
-    upClickImgUrlSuccess(resule) {
+    upClockImgUrlSuccess(resule) {
       if (resule.ret === '200000')
-        return (this.configItem.clickImgUrl = resule.data.accessUrl)
+        return (this.configItem.clockImgUrl = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
-    upMouseUrlSuccess(resule) {
+    upStarImgUrlSuccess(resule) {
       if (resule.ret === '200000')
-        return (this.configItem.mouseUrl = resule.data.accessUrl)
+        return (this.configItem.starImgUrl = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
-    upMouseCryUrlSuccess(resule) {
+    upBalloonBrokenUrlSuccess(resule) {
       if (resule.ret === '200000')
-        return (this.configItem.mouseCryUrl = resule.data.accessUrl)
+        return (this.configItem.balloonImgUrl[this.ballonIndex].src = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
 
@@ -479,7 +504,6 @@ export default {
     .ipone {
       float: left;
       width: 299px;
-      height: 614px;
       margin: 0 20px;
       .header {
         position: relative;
@@ -502,7 +526,7 @@ export default {
       .content {
         position: relative;
         width: 100%;
-        height: 530px;
+        height: 480px;
         // background-color: red;
         overflow: hidden;
         .bg {
@@ -513,95 +537,59 @@ export default {
             width: 100%;
           }
         }
-        .hammer{
-          position: absolute;
-          width: 52px;
-          height: 50px;
-          left: 139px;
-          top: 302px;
-          img {
-            width: 100%;
-            height: 100%;
-          }
-        }
-        .mouse1{
-          position: absolute;
-          width: 37px;
-          height: 37px;
-          left: 27px;
-          top: 316px;
-          z-index: 9;
-          img {
-            width: 100%;
-            height: 100%;
-          }
-        }
-        .mouse2{
-          position: absolute;
-          width: 37px;
-          height: 37px;
-          left: 27px;
-          top: 408px;
-          z-index: 9;
-          img {
-            width: 100%;
-            height: 100%;
-          }
-        }
-        .mouse3{
-          position: absolute;
-          width: 37px;
-          height: 37px;
-          left: 230px;
-          top: 209px;
-          z-index: 9;
-          img {
-            width: 100%;
-            height: 100%;
-          }
-        }
         .top {
           position: absolute;
-          top: 55px;
+          top: 62px;
           left: 50%;
           transform: translateX(-50%);
-          width: 300px;
-          height: 150px;
+          width: 278px;
+          height: 78px;
           img {
             width: 100%;
             height: 100%;
           }
         }
-         @mixin hole {
-           position: absolute;
-           width: 85px;
-           height: 54px;
-           z-index: 99;
-           img {
-             width: 100%;
-             height: 100%;
-           }
+        .star{
+          position: absolute;
+          top: 405px;
+          left: 147px;
+          width: 21px;
+          height: 19px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        @mixin balloon {
+         position: absolute;
+         width: 42px;
+         height: 42px;
+         z-index: 99;
+         img {
+           width: 100%;
+           height: 100%;
+         }
         }
         @for $i from 1 through 9{
           @if $i%3 == 1{
-            .hole-#{$i}{
-              @include hole;
-              left: 0;
-              top: 237px + (($i)-1)/3*100px;
+            .ps-#{$i}{
+              @include balloon;
+              left: 74px;
+              top:173px + (($i)-1)/3*42px;
             }
           }
           @else if $i%3 == 2{
-            .hole-#{$i}{
-              @include hole;
-              left: 100px;
-              top: 237px + (($i)-2)/3*100px;
+            .ps-#{$i}{
+              @include balloon;
+              left: 126px;
+              top: 173px + (($i)-2)/3*42px;
             }
           }
           @else {
-            .hole-#{$i}{
-              @include hole;
-              left: 200px;
-              top: 237px + (($i)-3)/3*100px;
+            .ps-#{$i}{
+              @include balloon;
+              left: 178px;
+              top: 173px + (($i)-3)/3*42px;
             }
           }
 
@@ -619,17 +607,32 @@ export default {
         	}
         }
         .clock {
-        	width:64px;
-        	height: 77px;
+        	width:48px;
+        	height: 38px;
         	position: absolute;
-        	top:127px;
+        	top:118px;
           left: 50%;
           transform: translateX(-50%);
+          z-index: 99;
         	img {
         		width:100%;
         		height: 100%;
         		object-fit: contain;
+
         	}
+          &:after{
+            content: "30s";
+            width: 48px;
+            height: 38px;
+            line-height: 38px;
+            text-align: center;
+            font-weight: bolder;
+            display: block;
+            color: #ffffff;
+            position: absolute;
+            top: 0;
+            left: 0;
+          }
         }
         .btn {
         	width:140px;
@@ -679,7 +682,7 @@ export default {
             text-align: center;
             .close {
               position: absolute;
-              transform: translate(140px, 380px);
+              transform: translate(220px, 140px);
               width: 20px;
               height: 20px;
               line-height: 20px;
@@ -737,7 +740,7 @@ export default {
           margin: 0 10px;
         }
         .act-tip-img {
-        	height: 100%;
+
         }
         .btn-con {
           position: relative;
@@ -785,7 +788,8 @@ export default {
             justify-content: center;
             align-items: center;
             img {
-              width: 100%;
+              max-width: 100%;
+              max-height: 100%;
             }
           }
         }
@@ -797,14 +801,16 @@ export default {
             justify-content: center;
             align-items: center;
             img {
-              width: 100%;
+              max-width: 100%;
+              max-height: 100%;
             }
           }
         }
         .edit-winning-img {
           display: flex;
           img {
-            width: 100%;
+            max-width: 100%;
+            max-height: 100%;
           }
         }
         .edit-notWinning-img {
@@ -814,7 +820,8 @@ export default {
             justify-content: center;
             align-items: center;
             img {
-              width: 100%;
+              max-width: 100%;
+              max-height: 100%;
             }
           }
         }
@@ -833,10 +840,8 @@ export default {
   .tip:hover,
   .top:hover,
   .clock:hover,
-  .mouse1:hover,
-  .mouse2:hover,
-  .mouse3:hover,
-  .hammer:hover,
+  .balloon:hover,
+  .star:hover,
   .box:hover{
     transform: scale(0.99);
     cursor: pointer;
@@ -844,8 +849,12 @@ export default {
     border: 2px dotted #fff;
     box-sizing: border-box;
   }
-  .top:hover,.clock:hover,.btn:hover {
+  .top:hover,.btn:hover {
     transform: translateX(-50%) scale(0.99);
+
+  }
+  .clock:hover{
+    transform: translateX(-50%) scale(1);
   }
   @for $i from 1 through 9 {
     .hole-#{$i}:hover{

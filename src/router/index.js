@@ -51,6 +51,7 @@ const Jiugongge = () => import(/*webpackChunkName: '"jiugongge" */'@/pages/Marke
 const AddActEgg = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddActEgg')
 const AddCapsuleToys = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddCapsuleToys')
 const AddDadishu = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddDadishu')
+const AddDaqiqiu = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddDaqiqiu')
 const AddWingAct = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddWingAct')
 const AddActSudoku = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddActSudoku')
 const AddRound = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActTpl/AddRound')
@@ -60,7 +61,6 @@ const ActPutConf = () => import(/* webpackChunkName: "activity" */ '@/pages/Mark
 const QuesEdit = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/QuesAct/QuesEdit')
 const QuesList = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/QuesAct/QuesList')
 const ActSetConfSelf = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/ActSetConfSelf')
-const MarketQr = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/MarketQr')
 
 
 
@@ -353,6 +353,7 @@ export default new Router({
         { path: '/market/actTpl/addActEgg', name: '新建砸金蛋活动模板配置', component: AddActEgg, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/addDadishu', name: '新建打地鼠活动模板配置', component: AddDadishu, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/addCapsuleToys', name: '新建扭蛋机活动模板配置', component: AddCapsuleToys, props: (router) => ({id: router.query.id, edit: router.query.edit})},
+        { path: '/market/actTpl/addDaqiqiu', name: '新建打气球活动模板配置', component: AddDaqiqiu, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/addActFanpaizi', name: '翻牌子活动', component: Fanpaizi, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/addActJiugongge', name: '九宫格活动', component: Jiugongge, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/addWingAct', name: '新建点元宝活动模板配置', component: AddWingAct, props: (router) => ({id: router.query.id, edit: router.query.edit})},
