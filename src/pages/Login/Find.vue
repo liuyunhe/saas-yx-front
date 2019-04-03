@@ -37,7 +37,7 @@
 						<el-form-item label="密码" prop="pass">
 							<el-input type="password" v-model="ruleForm2.pass" class='style_user' name="pwd" autocomplete="new-password"></el-input>
 						</el-form-item>
-						<el-form-item label="确认密码" prop="checkPass">
+						<el-form-item label="确认密码" prop="pass">
 							<el-input type="password" v-model="ruleForm2.checkPass" class='style_user'></el-input>
 						</el-form-item>
 
