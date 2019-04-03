@@ -234,6 +234,8 @@ const PersonalDeatail = () =>import(/* webpackChunkName: "customer" */ '@/pages/
 // 会员任务设置
 const TaskDetail = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/TaskDetail')
 const ScanEdit = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/ScanEdit')
+const MarketQr = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/MarketQr')
+
 
 Vue.use(Router)
 
