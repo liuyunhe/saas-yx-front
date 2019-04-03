@@ -1,5 +1,5 @@
 <template>
-  <!-- 
+  <!--
   Author: chenxin
   Create Date: 2018-10-18
   Description: 新建活动模板
@@ -24,7 +24,7 @@
               <!--<div class="game-rule">
               	<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/rule.png" alt="" />
               </div>-->
-              
+
             </div>
             <div class="footer"></div>
           </div>
@@ -81,7 +81,7 @@
                         <el-button size="small" type="primary">更换图片</el-button>
                       </el-upload>
                     </div>
-                    
+
                   </div>
                   <div>
                   	<p class="img-title">按下效果：</p>
@@ -104,7 +104,7 @@
 
           	</div>
           </div>
-        	
+
         </el-tab-pane>
 
         <el-tab-pane label="中奖页面" name="winning" class="clearfix">
@@ -186,8 +186,8 @@
                   	</p>
                   	<div class="price-right":style="{backgroundImage:'url('+configItem.cryBtnRightUrl+')'}">再玩一次</div>
                   </div>
-                  
-          
+
+
                 </div>
               </div>
             </div>
@@ -225,7 +225,7 @@
             </el-card>
           </div>
         </el-tab-pane>
-    
+
         <el-tab-pane label="活动设置" name="set" class="clearfix">
           <div class="ipone">
             <div class="header">
@@ -241,25 +241,25 @@
 		              		<div v-html="addActParams.gameDesc"></div>
 		              	</div>
             		</div>
-              
+
               </div>
               <div class="game-btn last-game-btn">
                 <img :src="configItem.gameBtn" alt="" />
               </div>
-          
-              
+
+
             	</div>
-              
+
             </div>
             </div>
-            
+
             <div class="footer"></div>
           </div>
           <div class="edit-box">
            	<div class="second-set">
         		<div class="title">基础设置</div>
         		<div class="base-set">
-		            <span class='require-icon'>*</span>活动名称： <el-input v-model="addActParams.gameName" placeholder="请输入活动名称"size='small'class='act-name'maxLength='10'></el-input>		         
+		            <span class='require-icon'>*</span>活动名称： <el-input v-model="addActParams.gameName" placeholder="请输入活动名称"size='small'class='act-name'maxLength='10'></el-input>
         			<br /><br /><br />
         			<span class='require-icon'>*</span>活动图片：
         			<div class="act-img">
@@ -270,15 +270,15 @@
         			</div>
         			<p class="tips">* 图片建议尺寸为 750*270px,格式为jpg\bmp\png\gif</p>
         			<br /><br /><br />
-        			消耗积分：<el-input v-model="addActParams.score" placeholder="请输入需要消耗的积分"size='small'class='act-score'maxLength='4'></el-input>积分	
+        			消耗积分：<el-input v-model="addActParams.score" placeholder="请输入需要消耗的积分"size='small'class='act-score'maxLength='4'></el-input>积分
         			<br /><span class='space'></span><span>（用户参与活动每次需要消耗的积分数）</span>
         			<br /><br /><br />
 
         			<span class='require-icon'>*</span>参与次数： 每人每天可参与 <el-input v-model="addActParams.times" size='small'class='act-num'maxLength='4'></el-input> 次
         			<br /><br /><br />
-        			<span class='require-icon'>*</span>活动说明： 
+        			<span class='require-icon'>*</span>活动说明：
         			<quill-editor ref="myTextEditor" v-model="addActParams.gameDesc" :options="editorOption" placeholder="请输入活动说明"class='edit-input'>
-          	  </quill-editor>		         
+          	  </quill-editor>
         			<div class="title award-title">奖项设置</div>
         			<br /><br />
         			<span class='require-icon'>*</span>选择奖品： <el-button type="info" plain class='select-award'@click="selectAward">+</el-button><span>（最少配置三种奖品）</span>
@@ -306,11 +306,11 @@
 							<el-table-column prop="productName" label="礼品名称" >
 							</el-table-column>
 							<el-table-column prop="image" label="礼品图片" >
-								<template   slot-scope="scope">            
+								<template   slot-scope="scope">
 			                    	<img :src="scope.row.image"  min-width="100" height="70" />
-			                	</template> 
+			                	</template>
 							</el-table-column>
-							<el-table-column prop="giftType" label="礼品分类" >
+							<el-table-column prop="giftType" label="礼品分类"  :formatter="formatSex" >
 							</el-table-column>
 							<!--<el-table-column prop="shopQuantity" label="库存" >
 							</el-table-column>-->
@@ -341,7 +341,7 @@
 					  				:visible.sync="addQuantityShow"
 					  				width="50%">
 					  				增加库存： <el-input type='number' v-model="addQ" placeholder="请输入增加数量"size='small'class='act-name' oninput="if(value.length > 5)value = value.slice(0, 5)"></el-input> 件
-					  				<br />	
+					  				<br />
 					  				<span slot="footer" class="dialog-footer">
 					    				<el-button @click="addQuantityShow = false">取 消</el-button>
 					    				<el-button type="primary" @click="sureAdd">确 定</el-button>
@@ -352,10 +352,10 @@
         		</div>
         	</div>
           </div>
-        	
+
         </el-tab-pane>
         <div class="btn">
-          
+
           <el-button size="small" type="primary" @click="saveActTpl">保存</el-button>
         </div>
       </el-tabs>
@@ -413,7 +413,7 @@ export default {
         cryBtnLeftUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/notPrice-left.png',
         cryBtnRightUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/notPrice-right.png'
       },
-      
+
       uploadURL: '/api/saotx/attach/commonAliUpload',
       headerObj: {
         loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
@@ -459,6 +459,9 @@ export default {
     this.getActDetail()
   },
   methods: {
+        formatSex: function (row, column) {
+              return row.giftType === 1 ? '虚拟' : row.giftType === 2 ? '实物' : row.giftType===3 ? '红包':'积分'
+        },
 		spliceLength(item){
 			var len=(item.shopQuantity+'').length;
 			if(item.quantity.length>len)item.quantity=item.quantity.slice(0,len)
@@ -474,7 +477,7 @@ export default {
 			}else {
 				item.quantity=0;
 			}
-			
+
 		},
     getActDetail() {
       if (this.addActParams.id) {
@@ -486,10 +489,10 @@ export default {
 				item.curId=item.id;
 				item.abled=true;
 				item.id='';
-				
+
 			})
 			if(!res.context.cssStyle){
-				
+
 			}else {
 				this.configItem=JSON.parse(res.context.cssStyle);
 			}
@@ -589,7 +592,7 @@ export default {
     		}else {
     			this.$message.warning('请不要选择重复的奖品');
     		}
-    		
+
     	})
     	//  	根据hangleSelectionChange选择的list,格式化this.secondSet.priceList
     },
@@ -617,17 +620,17 @@ export default {
       if(this.priceList.length<3) return this.$message.warning('请最少选择三种奖品')
       var flag=1;var flag1=1;
       this.priceList.forEach((item)=>{
-      	if(item.quantity==='' || item.quantity<0) {     		
+      	if(item.quantity==='' || item.quantity<0) {
       		flag=0;
       		return;
       	}
       	if(item.probability==='' || item.probability<0) {
       		flag1=0;
       		return;
-      	} 
+      	}
       })
       if(!flag){
-      	
+
       	return this.$message.warning('请输入奖品数量');
       }
       if(!flag1){
@@ -706,7 +709,7 @@ export default {
     	if (resule.ret === '200000') return (this.configItem.drawImgUrl = resule.data.accessUrl)
       	this.$message.error(resule.message)
     },
-    
+
     upBanner(resule) {
     	if (resule.ret === '200000') return (this.addActParams.banner = resule.data.accessUrl)
       	this.$message.error(resule.message)
@@ -749,7 +752,7 @@ export default {
 		.act-img {
 			width:300px;
 			height: 100px;
-			
+
 			border:1px dashed #ccc;
 			display: inline-block;
 			vertical-align: top;
@@ -922,7 +925,7 @@ export default {
         	background-repeat:no-repeat;
         	background-position:top center;
         	position: absolute;
-        	
+
         	top:0;
         	left: 0;
         	z-index: 2;
@@ -955,7 +958,7 @@ export default {
           img {
             width: 100%;
             /*height: 100%;*/
-            
+
           }
         }
         .last-game-btn {
@@ -965,7 +968,7 @@ export default {
         	background-repeat: no-repeat;
         	background-size:100%;
         	background-position:top center ;
-        	height: auto !important; 
+        	height: auto !important;
         }
         .bg-home-last{
          	padding-top: 250px;
@@ -986,7 +989,7 @@ export default {
             height: 100%;
           }
         }
-        
+
         .game-rule {
         	width:100%;
         	height: 200px;
@@ -1000,7 +1003,7 @@ export default {
         	}
         }
         .rule-bg {
-        	width: 100%;       	
+        	width: 100%;
         	padding: 3px 10px 3px 10px;
         	color:#fff;
         	min-height: 130px;
@@ -1010,14 +1013,14 @@ export default {
         	word-break:break-all;
         	p {
         		margin: 0;
-        		
+
         	}
         	.rule-title {
         		text-align: center;
         		margin-bottom: 10px;
         	}
         }
-        
+
         .winning,
         .not-winning {
           position: absolute;
@@ -1097,7 +1100,7 @@ export default {
             		line-height: 28px;
             	}
             }
-            
+
           }
         }
         .not-winning {
@@ -1106,7 +1109,7 @@ export default {
               margin-right: 0;
             }
           }
-          
+
         }
       }
       .footer {
@@ -1249,7 +1252,7 @@ export default {
     box-sizing: border-box;
     transform: translateX(-50%) scale(0.99);
   }
-  
+
 }
 .btn {
   text-align: center;
