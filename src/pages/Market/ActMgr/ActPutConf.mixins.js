@@ -257,6 +257,7 @@ export default {
           return time.getTime() < new Date(this.actSTime).getTime() || time.getTime() > new Date(this.actETime).getTime()
         }
       },
+      astrictRedflg: false // 红包限制  为true 红包最高金额为0.3
     }
   },
   created() {
@@ -311,6 +312,7 @@ export default {
           id: this.id
         }, true, res => {
           if (res.ret !== '200000') return this.$message.error(res.message)
+          if (res.data.act.orgId === 'guest') this.astrictRedflg = true
           if (res.data.act.status == 1) {
             this.statusDisabled = true
           } else {
@@ -375,10 +377,10 @@ export default {
                   // }
                   if (i == 0) {
                     for (let k in sonItem) {
-                      this.firstScanTabs[0][k] = sonItem[k]
+                      this.firstScanConf[0][k] = sonItem[k]
                     }
                   } else {
-                    this.firstScanTabs.push(sonItem)
+                    this.firstScanConf.push(sonItem)
                   }
                 })
                 this.specialRuleConfFlag = true
@@ -399,10 +401,10 @@ export default {
                   // }
                   if (i == 0) {
                     for (let k in sonItem) {
-                      this.nWinTabs[0][k] = sonItem[k]
+                      this.nWinConf[0][k] = sonItem[k]
                     }
                   } else {
-                    this.nWinTabs.push(sonItem)
+                    this.nWinConf.push(sonItem)
                   }
                 })
                 this.specialRuleConfFlag = true
@@ -424,10 +426,10 @@ export default {
                   // }
                   if (i == 0) {
                     for (let k in sonItem) {
-                      this.fixationPutTabs[0][k] = sonItem[k]
+                      this.fixationPutConf[0][k] = sonItem[k]
                     }
                   } else {
-                    this.fixationPutTabs.push(sonItem)
+                    this.fixationPutConf.push(sonItem)
                   }
                 })
                 this.specialRuleConfFlag = true

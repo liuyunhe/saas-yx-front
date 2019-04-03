@@ -51,6 +51,7 @@
               </div>
               <div class="edit-con">
                 <div class="edit-bg-img" v-if="showEditConIndex == 1">
+
                   <p class="img-title">背景图片:</p>
                   <div class="img-con"><img :src="configItem.bgImgUrl" alt=""></div>
                   <div class="btn-con">
@@ -58,6 +59,16 @@
                       <el-button size="small" type="primary">更换图片</el-button>
                     </el-upload>
                   </div>
+                  <el-popover
+                      placement="right-end"
+                      title="背景图片说明"
+                      width="300"
+                      trigger="hover">
+                    <img src="http://qoss.qrmkt.cn/common/ddshu/act_tpl_tip.png" width="300" alt="">
+                    <!--<el-button slot="reference">?</el-button>-->
+                    <div class="tip" slot="reference">?</div>
+                  </el-popover>
+
                 </div>
                 <div class="edit-top-img" v-if="showEditConIndex == 2">
                   <p class="img-title">活动标题:</p>
@@ -70,7 +81,7 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 3">
                   <div>
-                    <p class="img-title">扭蛋机背景</p>
+                    <p class="img-title">扭蛋机背景：</p>
                     <div class="img-con act-tip-img"><img :src="configItem.boxImgUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upBoxImgUrlSuccess" :show-file-list="false">
@@ -81,7 +92,7 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 4">
                   <div>
-                    <p class="img-title">活动说明</p>
+                    <p class="img-title">活动说明：</p>
                     <div class="img-con act-tip-img"><img :src="configItem.actTip" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upTipImgSuccess" :show-file-list="false">
@@ -92,7 +103,7 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 5">
                   <div>
-                    <p class="img-title">抽奖按钮</p>
+                    <p class="img-title">抽奖按钮：</p>
                     <div class="img-con act-tip-img"><img :src="configItem.btnImgUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upBtnImgUrlSuccess" :show-file-list="false">
@@ -103,8 +114,8 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 6">
                   <div>
-                    <p class="img-title">扭蛋一</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg1ImgUrl" alt=""></div>
+                    <p class="img-title">扭蛋一图片：完整</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg1ImgUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg1ImgUrlSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -114,8 +125,8 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 7">
                   <div>
-                    <p class="img-title">扭蛋二</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg2ImgUrl" alt=""></div>
+                    <p class="img-title">扭蛋二图片：完整</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg2ImgUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg2ImgUrlSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -125,8 +136,8 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 8">
                   <div>
-                    <p class="img-title">扭蛋三</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg3ImgUrl" alt=""></div>
+                    <p class="img-title">扭蛋三图片：完整</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg3ImgUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg3ImgUrlSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -134,7 +145,7 @@
                     </div>
                   </div>
                 </div>
-                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1373px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1600px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 730*280px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 750*930px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 128*103px格式为jpg\bmp\png\gif</p>
@@ -145,8 +156,8 @@
 
                 <div class="edit-game-img" v-if="showEditConIndex == 6" style="margin-top: 30px">
                   <div>
-                    <p class="img-title">扭蛋一开奖：左</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg1left" alt=""></div>
+                    <p class="img-title">扭蛋一开奖：左侧</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg1left" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg1leftSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -157,8 +168,8 @@
                 <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
                 <div class="edit-game-img" v-if="showEditConIndex == 6" style="margin-top: 30px">
                   <div>
-                    <p class="img-title">扭蛋一开奖：右</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg1right" alt=""></div>
+                    <p class="img-title">扭蛋一开奖：右侧</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg1right" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg1rightSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -169,8 +180,8 @@
                 <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
                 <div class="edit-game-img" v-if="showEditConIndex == 7" style="margin-top: 30px">
                   <div>
-                    <p class="img-title">扭蛋二开奖：左</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg2left" alt=""></div>
+                    <p class="img-title">扭蛋二开奖：左侧</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg2left" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg2leftSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -181,8 +192,8 @@
                 <p class="tips" v-if="showEditConIndex == 7">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
                 <div class="edit-game-img" v-if="showEditConIndex == 7" style="margin-top: 30px">
                   <div>
-                    <p class="img-title">扭蛋二开奖：右</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg2right" alt=""></div>
+                    <p class="img-title">扭蛋二开奖：右侧</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg2right" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg2rightSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -193,8 +204,8 @@
                 <p class="tips" v-if="showEditConIndex == 7">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
                 <div class="edit-game-img" v-if="showEditConIndex == 8" style="margin-top: 30px">
                   <div>
-                    <p class="img-title">扭蛋三开奖：左</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg3left" alt=""></div>
+                    <p class="img-title">扭蛋三开奖：左侧</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg3left" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg3leftSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -205,8 +216,8 @@
                 <p class="tips" v-if="showEditConIndex == 8">* 图片建议尺寸为 115*115px格式为jpg\bmp\png\gif</p>
                 <div class="edit-game-img" v-if="showEditConIndex == 8" style="margin-top: 30px">
                   <div>
-                    <p class="img-title">扭蛋三开奖：右</p>
-                    <div class="img-con act-tip-img"><img :src="configItem.egg3right" alt=""></div>
+                    <p class="img-title">扭蛋三开奖：右侧</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px"><img :src="configItem.egg3right" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upEgg3rightSuccess" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
@@ -224,7 +235,7 @@
           <div class="ipone">
             <div class="header"></div>
             <div class="content">
-              <div class="bg"><img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/huodongshuoming.png"></div>
+              <div class="bg"><img src="http://qoss.qrmkt.cn/new_platform/pc_front/huodongshuoming.png"></div>
             </div>
             <div class="footer"></div>
           </div>
@@ -233,7 +244,7 @@
           <div class="ipone">
             <div class="header"></div>
             <div class="content">
-              <div class="bg"><img src="https://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/wodedjiangpin.png"></div>
+              <div class="bg"><img src="http://qoss.qrmkt.cn/new_platform/pc_front/wodedjiangpin.png"></div>
             </div>
             <div class="footer"></div>
           </div>
@@ -264,7 +275,7 @@
               <div class="edit-con">
                 <div class="edit-winning-img">
                   <p class="img-title">中奖图片:</p>
-                  <div class="img-con" style="height: 148px;line-height: 148px"><img :src="configItem.drawImgUrl" alt=""></div>
+                  <div class="img-con" style="width: 100px;height: 113px;line-height: 113px"><img :src="configItem.drawImgUrl" width="100" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upDrawImgUrlSuccess" :show-file-list="false">
                       <el-button size="small" type="primary">更换图片</el-button>
@@ -275,7 +286,7 @@
               </div>
               <div class="edit-con">
                 <div class="edit-winning-img">
-                  <p class="img-title">按钮:</p>
+                  <p class="img-title">按钮图片:</p>
                   <div class="img-con"><img :src="configItem.drawBtnUrl" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upWinningBtnSuccess" :show-file-list="false">
@@ -311,8 +322,8 @@
               </div>
               <div class="edit-con">
                 <div class="edit-notWinning-img">
-                  <p class="img-title">图片:</p>
-                  <div class="img-con" style="height: 148px;line-height: 148px"><img :src="configItem.cryImgUrl" alt=""></div>
+                  <p class="img-title">背景图片:</p>
+                  <div class="img-con" style="width: 100px;height: 113px;line-height: 113px"><img :src="configItem.cryImgUrl"  alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upNotWinningImgSuccess" :show-file-list="false">
                       <el-button size="small" type="primary">更换图片</el-button>
@@ -323,8 +334,8 @@
               </div>
               <div class="edit-con">
                 <div class="edit-notWinning-img">
-                  <p class="img-title">按钮:</p>
-                  <div class="img-con"><img :src="configItem.cryBtnUrl" alt=""></div>
+                  <p class="img-title">按钮图片:</p>
+                  <div class="img-con" ><img :src="configItem.cryBtnUrl" alt=""></div>
                   <div class="btn-con">
                     <el-upload :action="uploadURL" :headers="headerObj" :on-success="upNotWinningBtnSuccess" :show-file-list="false">
                       <el-button size="small" type="primary">更换图片</el-button>
@@ -368,32 +379,32 @@ export default {
       iconUrl: [
           {
             key: 1,
-            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
+            imgUrl: 'http://qoss.qrmkt.cn/new_platform/egg.png',
             $$hashKey: 'object:378'
           },
           {
             key: 2,
-            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
+            imgUrl: 'http://qoss.qrmkt.cn/new_platform/egg.png',
             $$hashKey: 'object:379'
           },
           {
             key: 3,
-            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
+            imgUrl: 'http://qoss.qrmkt.cn/new_platform/egg.png',
             $$hashKey: 'object:380'
           },
           {
             key: 4,
-            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
+            imgUrl: 'http://qoss.qrmkt.cn/new_platform/egg.png',
             $$hashKey: 'object:381'
           },
           {
             key: 5,
-            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
+            imgUrl: 'http://qoss.qrmkt.cn/new_platform/egg.png',
             $$hashKey: 'object:382'
           },
           {
             key: 6,
-            imgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/egg.png',
+            imgUrl: 'http://qoss.qrmkt.cn/new_platform/egg.png',
             $$hashKey: 'object:383'
           }
         ],
@@ -401,31 +412,31 @@ export default {
         title: '',
         description: '',
         headerImgUrl:
-          'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-title.jpg',
-        bgImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-bkg3.png',
-        actTip:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/hdjn.png',
-        boxImgUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/main.png',
-        btnImgUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-btn.png',
-        egg1ImgUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/ball1.png',
-        egg2ImgUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/ball2.png',
-        egg3ImgUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/ball3.png',
-        egg1left:"http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-egg1-left.png",
-        egg1right:"http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-egg1-right.png",
-        egg2left:"http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-egg2-left.png",
-        egg2right:"http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-egg2-right.png",
-        egg3left:"http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-egg3-left.png",
-        egg3right:"http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-egg3-right.png",
+          'http://qoss.qrmkt.cn/common/niudan/nd-title.jpg',
+        bgImgUrl: 'http://qoss.qrmkt.cn/common/niudan/nd-bkg .png',
+        actTip:'http://qoss.qrmkt.cn/common/niudan/hdjn.png',
+        boxImgUrl:'http://qoss.qrmkt.cn/common/niudan/main.png',
+        btnImgUrl:'http://qoss.qrmkt.cn/common/niudan/nd-btn.png',
+        egg1ImgUrl:'http://qoss.qrmkt.cn/common/niudan/ball1.png',
+        egg2ImgUrl:'http://qoss.qrmkt.cn/common/niudan/ball2.png',
+        egg3ImgUrl:'http://qoss.qrmkt.cn/common/niudan/ball3.png',
+        egg1left:"http://qoss.qrmkt.cn/common/niudan/nd-egg1-left.png",
+        egg1right:"http://qoss.qrmkt.cn/common/niudan/nd-egg1-right.png",
+        egg2left:"http://qoss.qrmkt.cn/common/niudan/nd-egg2-left.png",
+        egg2right:"http://qoss.qrmkt.cn/common/niudan/nd-egg2-right.png",
+        egg3left:"http://qoss.qrmkt.cn/common/niudan/nd-egg3-left.png",
+        egg3right:"http://qoss.qrmkt.cn/common/niudan/nd-egg3-right.png",
         awardUrl: [
           {
             imgUrl:
-              'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/zhongjiang74@2x.png'
+              'http://qoss.qrmkt.cn/new_platform/pc_front/zhongjiang74@2x.png'
           }
         ],
         drawImgUrl:
-          'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-award-bg.png',
-        drawBtnUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/niudan-awardBtn.png',
-        cryImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-noaward.png',
-        cryBtnUrl:'http://qrmkt.oss-cn-beijing.aliyuncs.com/common/niudan/nd-zxNoAwardBtn.png',
+          'http://qoss.qrmkt.cn/common/niudan/nd-award-bg.png',
+        drawBtnUrl:'http://qoss.qrmkt.cn/common/niudan/niudan-awardBtn.png',
+        cryImgUrl: 'http://qoss.qrmkt.cn/common/niudan/nd-noaward.png',
+        cryBtnUrl:'http://qoss.qrmkt.cn/common/niudan/nd-zxNoAwardBtn.png',
       },
       uploadURL: '/api/saotx/attach/commonAliUpload',
       headerObj: {
@@ -631,6 +642,7 @@ export default {
     .ipone {
       float: left;
       width: 299px;
+      height: 614px;
       margin: 0 20px;
       .header {
         position: relative;
@@ -820,7 +832,7 @@ export default {
             text-align: center;
             .close {
               position: absolute;
-              transform: translate(220px, 140px);
+              transform: translate(140px, 380px);
               width: 20px;
               height: 20px;
               line-height: 20px;
@@ -869,9 +881,9 @@ export default {
       .edit-con {
         // 公共样式
         .img-con {
-          width: 30%;
-          height: 130px;
-          line-height: 130px;
+          width: 100px!important;
+          height: 100px!important;
+          line-height: 100px!important;
           text-align: center;
           border: 1px dashed #d9d9d9;
     			border-radius: 6px;
@@ -889,6 +901,30 @@ export default {
         }
         .edit-bg-img {
           display: flex;
+          position: relative;
+          .tip{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid #999;
+            color: #999;
+            line-height: 20px;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 210px;
+            font-size: 12px;
+            transform: none;
+            &:hover{
+              border-color: #409EFF;
+              color: #409EFF;
+              box-sizing: content-box;
+            }
+            &:active{
+              border-color: #409EFF;
+              color: #409EFF;
+            }
+          }
           img {
             align-items: center;
             height: 100%;
@@ -902,7 +938,8 @@ export default {
             justify-content: center;
             align-items: center;
             img {
-              width: 100%;
+              max-width: 100%;
+              max-height: 100%;
             }
           }
         }
@@ -914,14 +951,16 @@ export default {
             justify-content: center;
             align-items: center;
             img {
-              width: 100%;
+              max-width: 100%;
+              max-height: 100%;
             }
           }
         }
         .edit-winning-img {
           display: flex;
           img {
-            width: 100%;
+            max-width: 100%;
+            max-height: 100%;
           }
         }
         .edit-notWinning-img {
@@ -931,7 +970,8 @@ export default {
             justify-content: center;
             align-items: center;
             img {
-              width: 100%;
+              max-width: 100%;
+              max-height: 100%;
             }
           }
         }

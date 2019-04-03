@@ -84,7 +84,7 @@
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 2" @click="post(scope.row.id)">发布</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 3" @click="post(scope.row.id)">发布</a>
             <a style="color: #347ab7" href="javascript:;" @click="clone(scope.row.id,scope.row.form)">复制</a>
-            <a style="color: #347ab7" href="javascript:;" @click="getLogList(scope.row.actCode)">投放日志</a>
+            <a style="color: #347ab7" href="javascript:;" @click="getLogList(scope.row.actCode)" v-show="1==2">投放日志</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="stop(scope.row.id)">暂停</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="over(scope.row.id)">结束</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 4" @click="del(scope.row.id)">删除</a>
@@ -110,7 +110,7 @@
             <p class="act-name">{{item.name}}</p>
             <p class="desc">{{item.note ? item.note : '暂无活动说明~'}}</p>
             <div class="btn">
-              <el-button type="primary" size="small" v-if="item.form!='act-601'">预览</el-button>
+              <!-- <el-button type="primary" size="small" v-if="item.form!='act-601'">预览</el-button> -->
               <el-button type="primary" size="small" @click="goPut(item)">投放</el-button>
             </div>
           </div>
@@ -465,7 +465,7 @@ export default {
           if (res.ret == '200000') {
             this.actForms = res.data.list||[];
             if( (!this.actForms||this.actForms.length==0)&&this.actParams.pcode=='form-cate6' ) {// 如果自定义活动类型下没有数据。则默认展示一条demo
-              this.actForms = [{extUrl:"https://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/act_tpl/act-tpl-104.png",form:"act-601",tplCode:'',name:'自定义活动',note:'',id:''}];
+              this.actForms = [{extUrl:"http://qoss.qrmkt.cn/saas_platform/common/act_tpl/act-tpl-self.png",form:"act-601",tplCode:'',name:'自定义活动',note:'',id:''}];
               this.actTotal = 1;
             } else {
               this.actTotal = res.data.page.count;

@@ -25,7 +25,7 @@
           <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
             <img v-if="confData.banner" :src="confData.banner" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*270像素；格式png、jpg；大小不超过2M</div>
+            <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*160像素；格式png、jpg；大小不超过2M</div>
           </el-upload>
         </el-form-item>
         <el-form-item label="活动说明：" prop="desc">
@@ -366,7 +366,7 @@ export default {
         stimeStr: act.stimeStr||'', // 活动开始时间
         etimeStr: act.etimeStr||'', // 活动结束时间
         showStatus: act.showStatus||1, // 活动是否在落地页展示：0-不展示；1-展示
-        tplCode: act.extInfo||'', // 活动投放使用的模板编码。自定义活动为空
+        tplCode: act.tplCode||'', // 活动投放使用的模板编码。自定义活动为空
         extInfo: act.extInfo||'', // 活动扩展字段。自定义活动存储外链：{link: ''}
         status: act.status||2, // 活动是否启用：1-启用；2-不启用
         selectBrand: [], // 选择的品牌
@@ -481,8 +481,8 @@ export default {
   font-size: 28px;
   color: #8c939d;
   width: 300px;
-  height: 108px;
-  line-height: 108px;
+  height: 64px;
+  line-height: 64px;
   text-align: center;
   &.red-packet {
     width: 100px;
@@ -491,7 +491,7 @@ export default {
 }
 .avatar {
   width: 300px;
-  height: 108px;
+  height: 64px;
   display: block;
   &.red-packet {
      width: 100px;

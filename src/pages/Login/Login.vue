@@ -125,9 +125,9 @@ export default {
             name: 'Find'
           })
         } else if (res.ret == '100411') {// 初始密码需要修改
-          var data = res.data || {}
-          sessionStorage.setItem('access_token', data.token)
-          sessionStorage.setItem('access_loginId', data.loginId)
+          //var data = res.data || {}
+          //sessionStorage.setItem('access_token', data.token)
+          //sessionStorage.setItem('access_loginId', data.loginId)
           that.$confirm(res.message).then(() => {
             that.modifyPwd();
           }).catch(() => {});
@@ -144,7 +144,6 @@ export default {
     },
     forget() {
       this.$router.push({path:'/find?f=f&account='});
-      //this.$router.push({name: 'Find'})
     },
     modifyPwd() {
       this.$router.push({path:'/find?f=m&account='+this.username});
@@ -163,7 +162,7 @@ export default {
 </script>
 
 <style scoped>
-@import 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/css/font-awesome.min.css'
+@import 'http://qoss.qrmkt.cn/common/css/font-awesome.min.css'
   /**
  * Create Date: 2018-09-25
  * Description: login

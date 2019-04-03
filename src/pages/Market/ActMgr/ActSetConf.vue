@@ -68,10 +68,10 @@
         	<el-radio v-model="extInfo.limited" :label="1">不限</el-radio>
   				<el-radio v-model="extInfo.limited" :label="2">总时间限<input v-model="extInfo.time" type='number' class='limited-time' @input='limitNum'/>秒</el-radio>
         </el-form-item>
-        <el-form-item label="是否在落地页显示：">
+        <!-- <el-form-item label="是否在落地页显示：">
           <el-radio v-model="confData.showStatus" :label="1">是</el-radio>
           <el-radio v-model="confData.showStatus" :label="0">否</el-radio>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-button type="primary" @click="nextStep">保存并进入下一步</el-button>
           <el-button @click="$router.push('/market/actTpl')">返回列表</el-button>
@@ -82,6 +82,7 @@
 </template>
 <script>
 import { quillEditor } from 'vue-quill-editor'
+import Config from '@/pages/Market/datas/conf'
 export default {
   props: ['form', 'tplCode', 'id', 'clone'],
   components: {
@@ -197,7 +198,11 @@ export default {
   //   }
   // },
   created() {
-    this.getDetail()
+    if (!this.id) {
+      this.confData.banner = Config.banner[this.form]
+    } else {
+      this.getDetail()
+    }
     this.getIdxSelect()
   },
   methods: {
@@ -210,7 +215,6 @@ export default {
   		
   	},
     getDetail() {
-      if (!this.id) return
       this.$request.post('/api/saotx/act/detail', { id: this.id }, true, res => {
         if (res.ret == '200000') {
           if (this.clone == '1') {
@@ -235,7 +239,7 @@ export default {
     },
     handleDisableTime() {
       let newTime = new Date().getTime(),
-        stime = new Date(this.form.stimeStr).getTime()
+        stime = new Date(this.confData.stimeStr).getTime()
         if (newTime >= stime) {
           this.timeDisable = true
         }
@@ -326,21 +330,23 @@ export default {
   font-size: 28px;
   color: #8c939d;
   width: 300px;
-  height: 108px;
-  line-height: 108px;
+  height: 64px;
+  line-height: 64px;
   text-align: center;
   &.red-packet {
     width: 100px;
     height: 100px;
+    line-height: 100px
   }
 }
 .avatar {
   width: 300px;
-  height: 108px;
+  height: 64px;
   display: block;
   &.red-packet {
      width: 100px;
     height: 100px;
+    line-height: 100px
   }
 }
 .quill-editor {

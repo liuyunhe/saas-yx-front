@@ -59,7 +59,8 @@
         </el-form-item>
         <!-- <el-col :span="10"> -->
         <el-form-item label="红包面额:" prop="redNum">
-          <el-input-number v-model="awae.redMoney" :disabled="awae.id ? true : false" :precision="2" :min="0" controls-position="right" @change="countRedTotal"></el-input-number> 元
+          <el-input-number v-model="awae.redMoney" :disabled="awae.id ? true : false" :precision="2" :min="0" :max="astrict ? 0.3 : Infinity" :step="0.1" controls-position="right" @change="countRedTotal"></el-input-number> 元
+          <span class="ml20" style="color: #ccc; font-size: 12px" v-if="astrict">开放试用平台，仅支持0.3元红包面额</span>
         </el-form-item>
         <!-- </el-col>
         <el-col :span="14"> -->
@@ -83,17 +84,17 @@
           <span>{{awae.poolName}}</span>
         </el-form-item>
         <el-form-item label="投放数量:" prop="putNum">
-          <el-input-number v-model="awae.totalNum" :disabled="awae.id ? true : false" :min="0" controls-position="right"></el-input-number> 个
+          <el-input-number v-model="awae.totalNum" :precision="0" :disabled="awae.id ? true : false" :min="0" controls-position="right"></el-input-number> 个
           <span v-if="awae.id ? true : false">
             剩余<el-input-number v-model="residue" :disabled="true"></el-input-number>个
             <el-button @click="addRepertory">增库</el-button>
           </span>
         </el-form-item>
         <el-form-item label="积分面额:" prop="intTotal">
-          <el-input-number v-model="awae.integral" :disabled="awae.id ? true : false" :min="0" controls-position="right"></el-input-number> 分
+          <el-input-number v-model="awae.integral" :disabled="awae.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number> 分
         </el-form-item>
       </template>
-      <el-form-item label="中奖概率:" prop="probability">
+      <el-form-item v-if="!hide" label="中奖概率:" prop="probability">
         <el-input-number v-model="awae.probability" :min="0" :max="100" controls-position="right"></el-input-number> %
       </el-form-item>
       <el-form-item>
@@ -102,12 +103,12 @@
           <el-input-number v-model="awae.warnValue" :min="0" controls-position="right"></el-input-number> 个
         </span>
       </el-form-item>
-      <el-form-item v-if="awae.awardType !== '6'">
+      <el-form-item v-if="awae.awardType != '6'">
         <el-checkbox v-model="awae.giveScore" :checked="awae.giveScore == 1 ? true : false" :true-label=1 :false-label=0 @change="resetScore">同时送积分</el-checkbox>
         <span v-if="awae.giveScore">
           <el-button class="ml20 mr20" v-if="!awae.integralPool" @click="giveIntegral">选择</el-button>
           <el-button size="mini" type="info" v-else @click="giveIntegral">已选择</el-button>
-          <el-input-number v-model="awae.integral" :min="0" controls-position="right"></el-input-number> 积分
+          <el-input-number v-model="awae.integral" :min="0" :precision="0" controls-position="right"></el-input-number> 积分
         </span>
       </el-form-item>
       <el-form-item>
@@ -173,7 +174,7 @@
 </template>
 <script>
 export default {
-  props: ['awae', 'prizeType', 'nWin', 'isRed'],
+  props: ['awae', 'prizeType', 'nWin', 'isRed', 'hide', 'astrict'],
   data() {
     var validateImgUrl = (rule, value, callback) => {
       if (this.awae.awardPic) {

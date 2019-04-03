@@ -2,7 +2,7 @@
   <div>
     <el-card class="box-card">
       <el-form :model="form" :rules="rules" ref="form" label-width="120px" status-icon class="mod-pwd">
-        <el-form-item label="原密码" prop="oldPwd">
+        <el-form-item label="原密码" required><!-- 产品需求，只做空的校验，但是不能用rule的方式 -->
           <el-input size="small" type="password" v-model="form.oldPwd"></el-input>
         </el-form-item>
         <el-form-item label="新密码" prop="newPwd">
@@ -75,6 +75,10 @@ export default {
         },
         // 提交表单
         submitForm(form) {
+            if (!this.form.oldPwd) {
+                this.$message.error('原密码不能为空');
+                return false;
+            }
             this.$refs[form].validate((valid) => {
                 if (valid) {
                     let params = {};
