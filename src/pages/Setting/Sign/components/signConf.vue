@@ -71,7 +71,7 @@
           <el-radio v-model="conf.sactBset.drawChanceFlg" :label="0">不关联</el-radio>
           <el-radio v-model="conf.sactBset.drawChanceFlg" :label="1">关联</el-radio>
         </el-form-item>
-        <el-form-item label="抽奖要求：" prop="drawSignDay">
+        <el-form-item label="抽奖要求：" prop="drawSignDay" v-if="conf.sactBset.drawChanceFlg">
           累计签到
           <el-input-number v-model="conf.sactBset.drawSignDay" :controls="false" :min="1" :precision="0"></el-input-number>
           天，可参与抽奖
@@ -197,7 +197,7 @@ export default {
     }
   },
   created() {
-    
+    if (this.conf.sactBset.drawChanceFlg != 0 && this.conf.sactBset.drawChanceFlg != 1) this.conf.sactBset.drawChanceFlg = 0
   },
   methods: {
     getPrize() {
