@@ -12,7 +12,7 @@
       <div @mouseover="tabsIndex = index">
         <el-tabs v-model="putTabsValue[index]" type="card" editable @edit="putTabsEdit">
           <el-tab-pane :key="i" v-for="(tab, i) in putTabs[index]" :label="tab.title" :name="tab.name">
-            <pond-conf :awae="item.awardArr[i]" :prizeType="prizeType" :isDisable="isDisableArr[index]"></pond-conf>
+            <pond-conf :awae="item.awardArr[i]" :prizeType="prizeType" :astrict="astrictRedflg" :isDisable="isDisableArr[index]"></pond-conf>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -24,7 +24,8 @@
 import pondConf from './redPondConf'
 export default {
   props: {
-    data: { type: Object, required: true }
+    data: { type: Object, required: true },
+    astrictRedflg: {}
   },
   components: {
     pondConf
@@ -99,11 +100,13 @@ export default {
         },
         tfType: 'common',
       },
-      initData: {}
+      initData: {},
+      // astrictRedflg: false  // 红包限制  为true 红包最高金额为0.3
     }
   },
   created() {
     this.handleTabs()
+    // if (this.data.orgId === 'guest') this.astrictRedflg = true
     // this.handleTime()
   },
   methods: {
@@ -200,6 +203,7 @@ export default {
     },
     // tabs的添加和删除
     putTabsEdit(targetName, action) {
+      if (this.isDisableArr[this.tabsIndex]) return
       let len = this.data.strategyArr[this.tabsIndex].awardArr.length
       if (action === 'add') {
         if (len == 10) return

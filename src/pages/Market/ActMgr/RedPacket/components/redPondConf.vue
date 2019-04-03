@@ -24,10 +24,11 @@
           <span>{{awae.poolName}}</span>
         </el-form-item>
         <el-form-item label="红包面额:" v-if="awae.awardType == 3" prop="redNum">
-          <el-input-number v-model="awae.redMoney" :disabled="isDisable ? true : false" :precision="2" :min="0" controls-position="right" @change="countRedTotal"></el-input-number> 元
+          <el-input-number v-model="awae.redMoney" :disabled="isDisable ? true : false" :precision="2" :min="0" :max="astrict ? 0.3 : Infinity" :step="0.1" controls-position="right" @change="countRedTotal"></el-input-number> 元
+          <span class="ml20" style="color: #ccc; font-size: 12px" v-if="astrict">开放试用平台，仅支持0.3元红包面额</span>
         </el-form-item>
         <el-form-item label="投放数量:" prop="putNum">
-          <el-input-number v-model="awae.totalNum" :disabled="isDisable ? true : false" :min="0" controls-position="right" @change="countRedTotal"></el-input-number> 个
+          <el-input-number v-model="awae.totalNum" :precision="0" :disabled="isDisable ? true : false" :min="0" controls-position="right" @change="countRedTotal"></el-input-number> 个
           <span v-if="isDisable ? true : false">
             剩余<el-input-number v-model="residue" :disabled="true"></el-input-number>个
           </span>
@@ -36,7 +37,7 @@
           <el-input-number disabled v-model="totalRed" :min="0" controls-position="right"></el-input-number> 元
         </el-form-item>
         <el-form-item v-if="awae.awardType == 6" label="积分面额:" prop="intTotal">
-          <el-input-number v-model="awae.integral" :disabled="isDisable ? true : false" :min="0" controls-position="right"></el-input-number> 分
+          <el-input-number v-model="awae.integral" :disabled="isDisable ? true : false" :min="0" :precision="0" controls-position="right"></el-input-number> 分
         </el-form-item>
       </template>
       <el-form-item v-if="awae.awardType !== 6">
@@ -44,7 +45,7 @@
         <span v-if="awae.giveScore">
           <el-button class="ml20 mr20" v-if="!awae.integralPool" @click="giveIntegral">选择</el-button>
           <el-button class="ml20 mr20" type="info" v-else @click="giveIntegral">已选择</el-button>
-          <el-input-number v-model="awae.integral" :min="0" controls-position="right"></el-input-number> 积分
+          <el-input-number v-model="awae.integral" :precision="0" :min="0" controls-position="right"></el-input-number> 积分
         </span>
       </el-form-item>
       <el-form-item>
@@ -106,7 +107,7 @@
 </template>
 <script>
 export default {
-  props: ['awae', 'prizeType', 'isDisable'],
+  props: ['awae', 'prizeType', 'isDisable', 'astrict'],
   data() {
     var validateImgUrl = (rule, value, callback) => {
       if (this.awae.awardPic) {
@@ -196,6 +197,7 @@ export default {
     //   this.isEdit = false
     // }
     // this.handleIsDisable()
+    console.log(this.astrict)
   },
   methods: {
     // 选择奖品
