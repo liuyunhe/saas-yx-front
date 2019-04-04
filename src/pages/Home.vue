@@ -219,7 +219,7 @@ export default {
           this.initGrandsonMenu(item)
         }
       })
-      // this.initGrandsonMenu(this.sonMenuList[0])
+      this.initGrandsonMenu(this.sonMenuList[0])
     },
     // 获取子级菜单(子级)
     getsonMenuList(item, index) {
