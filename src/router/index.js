@@ -106,7 +106,8 @@ const MaterielRedpack = () => import(/* webpackChunkName: "product" */ '@/pages/
 const MaterielIntegral = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Integral.vue')
 // 产品-品牌管理
 const prodBrand = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Brand.vue')
-
+// 产品-体验码
+const MarketQr = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/MarketQr')
 
 // 设置-日志管理
 const SettingLogs = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Logs.vue')
@@ -336,6 +337,7 @@ export default new Router({
         { path: '/market', name: '营销'},
         { path: '/market/actTpl', name: '活动模板', component: ActTpl },
         { path: '/market/actMgr', name: '活动管理', component: ActMgc },
+        { path: '/market/qr', name: '体验码', component: MarketQr },
         { path: '/market/actTpl/addAct', name: '新建活动模板配置', component: AddAct, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/addActRedPacked', name: '新建红包雨配置', component: Hongbaoyu, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/addActEgg', name: '新建砸金蛋活动模板配置', component: AddActEgg, props: (router) => ({id: router.query.id, edit: router.query.edit})},
