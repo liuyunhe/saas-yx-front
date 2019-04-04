@@ -3,6 +3,8 @@ p {
 }
 .require {
     color:red;
+    font-size: 16px !important;
+    font-weight: bold !important;
 }
 .tip-text {
     font-size: 12px;
@@ -303,6 +305,7 @@ p {
                 width: 200px;
                 height: 400px;
                 margin-bottom: 20px;
+                margin-right: 10px;
                 img {
                     width: 200px;
                     height: 350px;
@@ -354,6 +357,9 @@ p {
                     font-size: 14px;
                     text-align: center;
                     text-shadow: 0 0 2px #ccc;
+                    .require {
+                        vertical-align: middle;
+                    }
                 }
                 .title-click {
                     width: 300px;
