@@ -9,9 +9,9 @@
           <el-input v-model="conf.mgrade.gradeName" :maxlength="8"></el-input>
         </el-form-item>
         <el-form-item label="需要成长值：" prop="gradeNum">
-          <el-input-number :disabled="lowGrowth" v-model="conf.mgrade.gradeLower" :controls="false" :min="0" :precision="0"></el-input-number>
+          <el-input-number :disabled="lowGrowth" v-model="conf.mgrade.gradeLower" :controls="false" :min="0" :max="999999999" :precision="0"></el-input-number>
           -
-          <el-input-number v-model="conf.mgrade.gradeUpper" :controls="false" :min="0" :precision="0"></el-input-number>
+          <el-input-number v-model="conf.mgrade.gradeUpper" :controls="false" :min="0" :max="999999999" :precision="0"></el-input-number>
         </el-form-item>
         <el-form-item label="等级图标：" prop="gradeImg">
           <div class="img">

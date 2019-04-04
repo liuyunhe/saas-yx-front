@@ -26,7 +26,7 @@
         </el-form-item>
         <div v-if="sizeList.length != 0">
           <el-form-item v-for="(item, index) in sizeList" :key="index" label="规格：" prop="item">
-            <el-input style="width: 200px" v-model="item.name" :disabled="true"></el-input>
+            <el-input style="width: 240px" v-model="item.name" :disabled="true"></el-input>
             商品价格：
             <el-input-number v-model="item.price" disabled="true" :controls="false"></el-input-number>
             元
@@ -166,7 +166,8 @@ export default {
           return item.sn == this.selectSonBrand[this.selectSonBrand.length - 1]
         })
         let data = JSON.parse(JSON.stringify(nowList[0]))
-        data.name = data.allName
+        data.name = data.brandName + '   ' + data.allName   // 要显示带规格的名字 并且还要拼接父品牌
+        data.allName = data.name   // 这里要把allName字段变成一样的  后端取值是取这个
         this.sizeList.push(JSON.parse(JSON.stringify(data)))
       }
     },
@@ -209,7 +210,11 @@ export default {
     // 全部选择
     allSelected() {
       if (this.allLen == this.selectSonBrand.length) return
+      const loading = this.$loading({
+        target: '.el-card'
+      })
       this.brandList.forEach(item => {
+        this.selectBrand = []
         this.selectBrand.push(item.brandCode)
       })
       this.getBrandSonList(() => {
@@ -220,13 +225,17 @@ export default {
             sonList.push(item)
           }
         })
-        sonList.map(item => item.name = item.allName)  // 要显示带规格的名字
+        sonList.map(item => {
+          item.name = item.brandName + '   ' + item.allName  // 要显示带规格的名字 并且还要拼接父品牌
+          item.allName = item.name   // 这里要把allName字段变成一样的  后端取值是取这个
+        })
         this.sizeList.push(...sonList)
         this.allLen = this.sizeList.length
         this.selectSonBrand = []
         this.sizeList.forEach(item => {
           this.selectSonBrand.push(item.sn)
         })
+        loading.close()
       })
     },
     // 获取品牌列表

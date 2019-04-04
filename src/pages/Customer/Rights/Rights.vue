@@ -112,12 +112,12 @@ export default {
       })
     },
     edit(item, i) {
-      if (i == 0) return this.$router.push(`/customer/lvl/edit?id=${item.id}`)
-      let lowestGrowth = this.rigthsList[i - 1].gradeUpper,
-          highGrowth = null
+      let highGrowth = null
       if (this.rigthsList[i + 1]) {
         highGrowth = this.rigthsList[i + 1].gradeUpper - 1
       }
+      if (i == 0 && item) return this.$router.push(`/customer/lvl/edit?id=${item.id}&highGrowth=${highGrowth}`)
+      let lowestGrowth = this.rigthsList[i - 1].gradeUpper
       if (item) return this.$router.push(`/customer/lvl/edit?id=${item.id}&lowGrowth=${lowestGrowth}&highGrowth=${highGrowth}`)
       if (this.rigthsList.length != 0) {
         this.$router.push(`/customer/lvl/edit?lowGrowth=${lowestGrowth}&highGrowth=${highGrowth}`)
