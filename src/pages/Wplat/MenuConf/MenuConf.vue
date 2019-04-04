@@ -51,7 +51,7 @@
 						<div class="select-jump">
 							<span>选择跳转的页面:</span>
 							<el-select class="filter-item" v-model="value.name" placeholder="请选择跳转的页面" size='small'@change='selectChange'>
-								<el-option v-for="item in noArr" :key="item.name" :label="item.name" :value="item.name">
+								<el-option v-for="item in navArr" :key="item.name" :label="item.name" :value="item.name">
 								</el-option>
 							</el-select>
 						</div>						
@@ -163,12 +163,14 @@
 				let type='';
 				let menuUrl='';
 				let menuHost='';
+				let del = 0;
 				let index=0;
 				for(let i = 0; i < this.navArr.length; i++) {
 					if(this.navArr[i].name==name){
 						type=this.navArr[i].type;
 						menuUrl=this.navArr[i].menuUri;
 						menuHost=this.navArr[i].menuHost;
+						del = this.navArr[i].del;
 						break;
 					}
 				}
@@ -181,7 +183,8 @@
 				this.typeArr[index].menuUri=menuUrl;
 				this.typeArr[index].menuHost=menuHost;
 				this.typeArr[index].type=type;
-				this.getNoArr();
+				this.typeArr[index].del=del;
+//				this.getNoArr();
 			},
 			getNoArr(){
 				let that=this;

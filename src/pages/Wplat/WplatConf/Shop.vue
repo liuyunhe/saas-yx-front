@@ -135,18 +135,15 @@
 			}
 		},
 		created() {
-			
+			this.init();
 		},
 		methods: {
 			save() {
-				var that = this;
-				var conf = JSON.stringify({
-					bgColor: that.colorValue
-				})
-				this.$request.post('/api/saotx/weplat/styleSaveOrModify', {
-					id: that.id,
-					conf: conf,
-					publish: 1
+				let that = this;
+				let conf = JSON.stringify(this.backgroundList)
+				this.$request.post('/api/saotx/org/somProp', {
+					propKey:'shop_style',
+					propValue:conf
 				}, true, (res) => {
 					if(res.ret === '200000') {
 						that.$message({
@@ -159,19 +156,30 @@
 			},
 			init() {
 				var that = this;
-				this.$request.post('/api/saotx/weplat/style', {}, true, (res) => {
+				this.$request.post('/api/saotx/org/prop', {
+					propKey:'shop_style'
+				}, true, (res) => {
 					if(res.ret === '200000') {
 						var DATA = res.data || {};
-						if(!DATA.id) {
-							that.colorValue = '#297873';
+						if(!DATA) {
+							this.backgroundList=[{
+								name:'整体背景色',
+								color:'#efefef',					
+							},
+							{					
+								list:[{
+									name:'背景色',
+									color:'#faedd3'
+								},{
+									name:'标题色',
+									color:'#ea7d5e'
+								}]					
+							},{
+								name:'标题背景色',
+								color:'#ff7e27'
+							}]
 						} else {
-							var conf = JSON.parse(DATA.conf)
-							if(!conf.bgColor){
-								that.colorValue='#297873'
-							}else {
-								that.colorValue = conf.bgColor;
-							}						
-							that.id = DATA.id;
+							this.backgroundList = JSON.parse(DATA)
 						}
 					}
 				})

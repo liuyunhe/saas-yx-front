@@ -1,28 +1,28 @@
 <template>
 	<div class="wplat-root">
 		<div class='left'>
-			<div class="phone":style='{background:wholeColor}'v-show='activeName=="one"'>
+			<div class="phone":style='{background:conf.wholeColor}'v-show='activeName=="one"'>
 				<img src="http://qoss.qrmkt.cn/common/wplat/person_top.png" alt="" />
 				<div class="person-top">
-					<img :src="bgImg" alt="" />
+					<img :src="conf.bgImg" alt="" />
 					<div class="header-img">
 						<img src="http://qoss.qrmkt.cn/common/wplat/person_img.png" alt="" />
 					</div>
 				</div>
-				<div class="icons":style='{background:iconColor}'>
+				<div class="icons":style='{background:conf.iconColor}'>
 					<ul>
-						<li v-for='(item,index) in iconList' :class='{"two": count==2,"three":count==3,"four":count>3}'>
-							<img :src="item.url" alt="" />
+						<li v-for='(item,index) in saveList' :class='{"two": count==2,"three":count==3,"four":count>3}' v-if ='item.module == "i"'>
+							<img :src="item.pic" alt="" />
 							<p>{{item.name}}</p>
 						</li>
 					</ul>
 				</div>
-				<div class="fen-banner">
-					<img src="http://qoss.qrmkt.cn/common/wplat/person_banner1.png" alt="" />
+				<div class="banner-part">
+					<div class="fen-banner" v-for = '(item,index) in saveList' v-show = 'item.module == "b"'>
+						<img :src="item.pic" alt="" />
+					</div>			
 				</div>
-				<div class="vip-banner">
-					<img src="http://qoss.qrmkt.cn/common/wplat/person_banner2.png" alt="" />
-				</div>
+				
 				<img src="http://qoss.qrmkt.cn/common/wplat/person_bot_02.png" alt="" />
 			</div>
 			<div class="phone" v-show='activeName=="second"'>
@@ -49,13 +49,13 @@
 						<div class="content">
 							<div class="whole-color">
 								<span>背景底色：</span>
-								<el-color-picker v-model="wholeColor" class='color-select'></el-color-picker>
-								<el-button size='small' @click='reset'>重置</el-button>
+								<el-color-picker v-model="conf.wholeColor" class='color-select'></el-color-picker>
+								<el-button size='small' @click='reset("whole")'>重置</el-button>
 							</div>
 							<div class='edit-con'>
 								<span class='labels'>背景图片：</span>
 								<div class="img-div">
-									<img :src="bgImg" alt="" />
+									<img :src="conf.bgImg" alt="" />
 								</div>
 								<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadTop">
 									<el-button type="primary">更换图片</el-button>
@@ -63,7 +63,7 @@
 								<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*284px格式为jpg\bmp\png\gif</div>
 							</div>
 							<div class="template-con">
-								<span>选择模板：</span>
+								<!--<span>选择模板：</span>
 								<div class="template-right">
 									<ul>
 										<li v-for='(item,index) in template'@click='selectTpl(index)':class='{active:index==showTplIndex}'>
@@ -73,23 +73,25 @@
 											<p>{{item.text}}</p>
 										</li>
 									</ul>
-								</div>
+								</div>-->
 								<div class="template-up">
 									<span class='title'>编辑图标：</span>
-									<div v-for='i in count':class='{"icon-index":true,"active":showTabIndex==i}'@click='tabToggle(i)'>图标{{i}}</div>
-									<div class="icon-up"v-for='i in count'v-show='showTabIndex==i'>
+									<!--<div v-for='i in count':class='{"icon-index":true,"active":showTabIndex+1 == i}'@click='tabToggle(i)'>图标{{i}}</div>-->
+									<div class="icon-up"v-for='(item,index) in saveList' v-show='item.module == "i"'>
 										<div class="img-div">
-											<p v-show='!iconList[i-1].url'>+</p>
-											<img :src="iconList[i-1].url" v-show='iconList[i-1].url' alt="" />
+											<p v-show='!item.pic'>+</p>
+											<img :src="item.pic" v-show='item.pic' alt="" />
 										</div>
 										<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadIcon">
-											<el-button type="primary"@click='getIndex(i-1)'>更换图片</el-button>
+											<el-button type="primary"@click='getIndex(index)'>更换图片</el-button>
 										</el-upload>
 										<div class="select-jump">
-											<span>选择跳转的页面:</span>
-											<br />
-											<el-select class="filter-item" v-model="iconList[i-1].type" placeholder="请选择跳转的页面" size='small'@change='selectChange(i-1,iconList[i-1].type)'>
-												<el-option v-for="item in jumpSysList" :key="item.name" :label="item.name" :value="item.type">
+											<span>标题:</span>
+											<el-input v-model="item.name" placeholder="图标名称" maxlength='5' class='icon-name' size='small' @input = 'changeName(item.name,index)'></el-input>
+											<br /><br />
+											<span>链接:</span>
+											<el-select class="filter-item" v-model="item.type" placeholder="请选择跳转的页面" size='small'@change='selectChange(index,item.type)'>
+												<el-option v-for="v in iconList" :key="v.name" :label="v.name" :value="v.type">
 												</el-option>
 											</el-select>
 										</div>	
@@ -97,30 +99,21 @@
 								</div>
 								<div class="whole-color">
 									<span>编辑底色：</span>
-									<el-color-picker v-model="iconColor" class='color-select'></el-color-picker>
-									<el-button size='small' @click='reset'>重置</el-button>
+									<el-color-picker v-model="conf.iconColor" class='color-select'></el-color-picker>
+									<el-button size='small' @click='reset("icon")'>重置</el-button>
 								</div>
 							</div>
-							<div class='edit-con up-con'>
-								<span class='labels'>积分中心：</span>
+							<div class='edit-con up-con' v-for='(item,index) in saveList' v-show='item.module == "b"'>
+								<span class='labels'>{{item.name}}：</span>
 								<div class="img-div">
-									<img :src="integralImg" alt="" />
+									<p v-show='!item.pic'>+</p>
+									<img :src="item.pic" v-show='item.pic' alt="" />
 								</div>
-								<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadjifen">
-									<el-button type="primary">更换图片</el-button>
+								<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadBanner">
+									<el-button type="primary" @click='getIndex(index)'>更换图片</el-button>
 								</el-upload>
 								<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*204px格式为jpg\bmp\png\gif</div>
-							</div>
-							<div class='edit-con up-con'>
-								<span class='labels'>会员中心：</span>
-								<div class="img-div">
-									<img :src="vipImg" alt="" />
-								</div>
-								<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadVip">
-									<el-button type="primary">更换图片</el-button>
-								</el-upload>
-								<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*204px格式为jpg\bmp\png\gif</div>
-							</div>
+							</div>		
 							<div class="save">
 							<div class="save-con">							
 								<el-button type="primary" @click='save'>保存</el-button>
@@ -174,11 +167,13 @@
 					desc:'',
 					url:'http://qoss.qrmkt.cn/common/wplat/person_banner1.png'
 				},
-				wholeColor:'',//背景颜色
-				iconColor:'',//图标背景颜色
-				bgImg:'http://qoss.qrmkt.cn/common/wplat/person_bg.png',			
-				integralImg:'http://qoss.qrmkt.cn/common/wplat/person_banner1.png',
-				vipImg:'http://qoss.qrmkt.cn/common/wplat/person_banner2.png',
+				conf:{
+					wholeColor:'',
+					iconColor:'',
+					bgImg:''
+				},		
+				initWholeColor:'',
+				initIconColor:'',
 				uploadAdd: location.origin + '/api/saotx/attach/commonAliUpload',
 				imgHead: {
 					token: sessionStorage.getItem('access_token'),
@@ -212,73 +207,87 @@
 					text:'2行8个',
 					count:8
 				}],
-				count:2,//选了几个图标
-				showTabIndex:1,//点击了哪个图标
+				count:0,//选了几个图标
+				showTabIndex:0,//点击了哪个图标
 				showTplIndex:0,
-				iconList:[{
-					url:'',
-					type:'',
-					name:''
-				},{
-					url:'',
-					type:'',
-					name:''
-				}],//图标列表(后端接口)，可编辑
+				iconList:[],//图标列表(后端接口)，可编辑
 				editIndex:0,//编辑图标的索引
-				jumpSysList:[{
-					name:'我的礼品',
-					type:'present'
-				}],//跳转系统列表(后端接口)
+				saveList:{},//icon和bannerlist
 			}
 		},
 		created() {
-			
+			this.init();
 		},
 		methods: {
-			tabToggle(index){
-				this.showTabIndex=index;
-			},
-			selectTpl(index){
-				this.iconList=[];
-				this.count=index+2;
-				this.showTplIndex=index;
-				this.showTabIndex=1;
-				for(let i=0;i<this.count;i++){
-					this.iconList.push({
-						url:''
-					})
+//			tabToggle(index){
+//				this.iconList.forEach((item,i)=>{
+//					if (index == i+1) {
+//						this.showTabIndex=i;
+//					}
+//				})
+//				
+//			},
+//			selectTpl(index){
+//				this.count=index+2;
+//				this.showTplIndex=index;
+//				this.showTabIndex=1;
+//				for(let i=0;i<this.count;i++){
+//					this.iconList.push({
+//						url:''
+//					})
+//				}
+//			},
+			reset(str){
+				if(str == 'whole') {
+					this.conf.wholeColor = this.initWholeColor;					
+				}else if (str == 'icon'){
+					this.conf.iconColor = this.initIconColor;
 				}
 			},
-			selectChange(params1,params2){
-				this.jumpSysList.forEach((item,index)=>{
-					if(item.type==params2){
-						this.iconList[params1].name=item.name;
+			changeName(name,index){
+				this.saveList[index].name = name;
+				let type = this.saveList[index].type;
+				this.saveList.forEach((v,i) => {
+					if (v.type == type) {
+						v.name = name;
+					}
+				})				
+				this.iconList.forEach((v,i) => {
+					if (v.type == type) {
+						v.name = name;
+						return;
 					}
 				})
-				console.log(this.iconList)
+			},
+			selectChange(index,type){				
+				let name = '';
+				let url = '';
+				this.iconList.forEach((v,i)=>{
+					if(v.type == type) {
+						name = v.name;
+						url = v.url;
+					}
+				})
+				this.saveList[index].url = url;
+				this.saveList[index].name = name;
 			},//选择完跳转页面
 			getIndex(index){
 				this.editIndex=index;
 			},
 			uploadIcon(res){
 				var data = res.data || {};
-				var imgUrl = data && data.accessUrl;
-				this.iconList[this.editIndex].url=imgUrl;
+				var imgUrl = data && data.accessUrl;				
+				this.saveList[this.editIndex].pic=imgUrl;
 			},
 			uploadTop(res){//上传头部背景
 				var data = res.data || {};
 				var imgUrl = data && data.accessUrl;
-				this.bgImg = imgUrl;
+				this.conf.bgImg = imgUrl;
 			},
-			uploadjifen(res){//上传头部背景
+			uploadBanner (res){//上传头部背景
 				var data = res.data || {};
 				var imgUrl = data && data.accessUrl;
-				this.integralImg = imgUrl;
-			},
-			uploadVip(res){//上传头部背景
-				var data = res.data || {};
-				var imgUrl = data && data.accessUrl;
-				this.vipImg = imgUrl;
+				this.saveList[this.editIndex] = imgUrl;
 			},
 			shareUp(res){
 				var data = res.data || {};
@@ -287,13 +296,10 @@
 			},
 			save() {
 				var that = this;
-				var conf = JSON.stringify({
-					bgColor: that.colorValue
-				})
-				this.$request.post('/api/saotx/weplat/styleSaveOrModify', {
-					id: that.id,
-					conf: conf,
-					publish: 1
+				let conf = JSON.stringify(this.conf)
+				this.$request.post('/api/saotx/weplat/sompc', {
+					ocpConf: this.saveList,
+					conf: conf					
 				}, true, (res) => {
 					if(res.ret === '200000') {
 						that.$message({
@@ -303,23 +309,81 @@
 						that.init();
 					}
 				})
-			},
+			},			
 			init() {
 				var that = this;
-				this.$request.post('/api/saotx/weplat/style', {}, true, (res) => {
+				this.$request.post('/api/saotx/weplat/dpc', {}, true, (res) => {
 					if(res.ret === '200000') {
 						var DATA = res.data || {};
-						if(!DATA.id) {
-							that.colorValue = '#297873';
+						if (DATA.orgPconfs.length == 0) {
+							this.saveList = JSON.parse(JSON.stringify(DATA.sysPconfs));
 						} else {
-							var conf = JSON.parse(DATA.conf)
-							if(!conf.bgColor){
-								that.colorValue='#297873'
-							}else {
-								that.colorValue = conf.bgColor;
-							}						
-							that.id = DATA.id;
+							if(DATA.sysPconfs.length == 0) {
+								this.saveList = [];
+								let conf = DATA.personalConf || '{}';
+								this.conf = JSON.parse(conf);
+								if (Object.keys(this.conf).length == 0) {
+									this.conf = {
+										wholeColor:'#eee',
+										iconColor:'#fff',
+										bgImg:'http://qoss.qrmkt.cn/common/wplat/person_bg.png'
+									}
+								}
+								this.initWholeColor = this.conf.wholeColor;
+								this.initIconColor = this.conf.iconColor;
+								return;
+							}
+							let tempList = JSON.parse(JSON.stringify(DATA.orgPconfs));
+							this.saveList = JSON.parse(JSON.stringify(DATA.orgPconfs));
+							tempList.forEach((item,index)=>{
+								let has = 0;
+								DATA.sysPconfs.forEach((v,i)=>{
+									if (item.type == v.type) {
+										has = 1;
+									}
+								})
+								if(has == 0) {
+									this.saveList.splice(index,1)
+								}
+							})
+							DATA.sysPconfs.forEach((item,index)=>{
+								let ishas = 0;
+								tempList.forEach((v,i)=>{
+									if (item.type == v.type) {
+										ishas = 1;
+									}
+								})
+								if(ishas == 0) {
+									this.saveList.splice(index, 0 ,item)
+								}
+							})							
 						}
+						let count = 0;
+						let iconList = [];
+						DATA.sysPconfs.forEach((item,index)=>{								
+							if(item.module == 'i') {				
+								iconList.push(item)
+							}
+						})
+						this.iconList = JSON.parse(JSON.stringify(iconList));
+						this.saveList.forEach((item,index)=>{								
+							if(item.module == 'i') {
+								count ++;
+							}							
+						})						
+						this.count = count;
+//						初始化背景图片
+						let conf = DATA.personalConf || '{}';
+						this.conf = JSON.parse(conf);
+						if (Object.keys(this.conf).length == 0) {
+							this.conf = {
+								wholeColor:'#eee',
+								iconColor:'#fff',
+								bgImg:'http://qoss.qrmkt.cn/common/wplat/person_bg.png'
+							}
+						}
+						this.initWholeColor = this.conf.wholeColor;
+						this.initIconColor = this.conf.iconColor;
 					}
 				})
 			}
@@ -347,28 +411,31 @@
 				width: 100%;				
 			}
 			.person-top {
+				max-height: 95px;
 				position: relative;
 			}
 			.icons {
-				min-height: 60px;
+				min-height: 47px;
 				background: #fff;
 				margin-top: 10px;
 				margin-bottom: 10px;
+				padding-top: 5px;
 				ul {
 					font-size:0;
 					li {
 						display: inline-block;
 						text-align: center;
-						height: 50px;
+						height: 30px;
 						width:50%;
 						img {
-							width:30px;
-							height: 30px;
+							width:20px;
+							height: 20px;
 							object-fit: contain;							
 						}
 						p {
 							font-size: 12px;
 							margin-top: 4px;
+							transform: scale(.7);
 						}
 						&.two {
 							width:50%;
@@ -381,6 +448,9 @@
 						}
 					}
 				}
+			}
+			.banner-part {
+				height: 200px;
 			}
 			.fen-banner {
 				margin-bottom: 10px;
@@ -575,6 +645,11 @@
 			                    margin-top: 5%;
 			                    object-fit: contain;
 			                }
+			                p {
+						        margin: 0;
+						        line-height: 80px;						           
+						        border:none;
+						    }
 			            }
 			            .avatar-uploader {
 			                display: inline-block;
@@ -716,9 +791,14 @@
 							}
 							.icon-up {
 								height: 130px;
-								padding-left: 50px;
+								margin-left: 50px;
 								padding-top: 10px;
+								padding-left: 40px;
 								position: relative;
+								background: #fff;
+								border-radius: 6px;
+								border: 1px dashed #666;
+								margin-top: 10px;
 								.select-jump {
 									position: absolute;
 									left: 200px;
@@ -726,6 +806,15 @@
 									span {
 										text-align: left;
 										margin-bottom: 15px;
+										width:40px;
+									}
+									.icon-name {
+										width:120px;
+										vertical-align: top;
+									}
+									.filter-item {
+										vertical-align: top;
+										width:120px;
 									}
 								}
 								.img-div {
