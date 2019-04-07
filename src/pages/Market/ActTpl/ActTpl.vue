@@ -165,7 +165,7 @@ export default {
     // 获取活动list
     getActList() {
       this.$request.post(
-        '/api/saotx/acttpl/list',
+        '/api/wiseqr/acttpl/list',
         this.actListParams,
         true,
         res => {
@@ -185,7 +185,7 @@ export default {
     // 获取活动模板类型
     getActType() {
       this.$request.post(
-        '/api/saotx/act/allForms',
+        '/api/wiseqr/act/allForms',
         this.actParams,
         true,
         res => {
@@ -212,7 +212,7 @@ export default {
     // 查询当前活动
     getAct() {
       this.$request.post(
-        '/api/saotx/act/allForms',
+        '/api/wiseqr/act/allForms',
         this.actParams,
         true,
         res => {
@@ -232,7 +232,7 @@ export default {
     // 获取活动名称列表
     getActCodeList() {
       this.$request.post(
-        '/api/saotx/act/formByPCode',
+        '/api/wiseqr/act/formByPCode',
         {
           pCode: '',
           pageNo: 1,
@@ -293,7 +293,7 @@ export default {
         })
       }
       this.$request.post(
-        '/api/saotx/acttpl/remBatch',
+        '/api/wiseqr/acttpl/remBatch',
         { idArr: idArr },
         true,
         res => {
@@ -328,7 +328,7 @@ export default {
         })
       }
       this.$request.post(
-        '/api/saotx/acttpl/remBatch',
+        '/api/wiseqr/acttpl/remBatch',
         { idArr: this.batchRemoveIdList },
         true,
         res => {

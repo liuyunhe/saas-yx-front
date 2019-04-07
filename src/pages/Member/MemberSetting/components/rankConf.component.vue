@@ -158,7 +158,7 @@ export default {
         this.index = index
       }
       this.prizeListVisible = true
-      this.$request.post('/api/saotx/md/listMaterial', queryParams, true, res=> {
+      this.$request.post('/api/wiseqr/md/listMaterial', queryParams, true, res=> {
         if (res.ret === '200000') {
           this.dataList = res.data.list
           return

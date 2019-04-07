@@ -125,7 +125,7 @@ export default {
   },
   methods: {
     getActDetail() {
-      this.$request.post('/api/saotx/md/queryBaseAward', {activityCode: this.activityCode}, true, res => {
+      this.$request.post('/api/wiseqr/md/queryBaseAward', {activityCode: this.activityCode}, true, res => {
         if (res.ret === '200000') {
           this.flag = true
           this.form = res.data
@@ -145,7 +145,7 @@ export default {
       })
     },
     getProvList() {
-      this.$request.post('/api/saotx/dim/regionByMultiParent', { parentArr: [] }, true, res => {
+      this.$request.post('/api/wiseqr/dim/regionByMultiParent', { parentArr: [] }, true, res => {
         if (res.ret === '200000') {
           res.data.map((item, index) => {
             if (item.code == '130000') {
@@ -159,7 +159,7 @@ export default {
       })
     },
     getCityList() {
-      this.$request.post('/api/saotx/dim/regionByMultiParent', { parentArr: ['130000'] }, true, res => {
+      this.$request.post('/api/wiseqr/dim/regionByMultiParent', { parentArr: ['130000'] }, true, res => {
         if (res.ret === '200000') {
           this.cityList = [{ code: '000000', name: '全部'}]
           this.cityList.push(...res.data)
@@ -266,7 +266,7 @@ export default {
           })
         })
       }
-      this.$request.post('/api/saotx/md/somBaseAward', { activityCode: this.activityCode, strategy: this.form }, true, res => {
+      this.$request.post('/api/wiseqr/md/somBaseAward', { activityCode: this.activityCode, strategy: this.form }, true, res => {
         if (res.ret === '200000') {
           this.$message.success('保存成功')
           this.$emit('back')

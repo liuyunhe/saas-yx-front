@@ -129,7 +129,7 @@
         <!-- 虚拟物料有此项内容 -->
         <el-form-item v-if="metraFlag=='virtual'" label="卡密文件">
           <el-upload size="small" class="upload-demo"
-            action="/api/saotx/metra/import"
+            action="/api/wiseqr/metra/import"
             :headers="headers"
             :data="addPool"
             :before-upload="handlerSourceFileBUpload"
@@ -226,7 +226,7 @@ export default {
     },
     // 查询所有的供应商数据
     getSuppliers() {
-      this.$request.post('/api/saotx/supplier/list', {pageSize:-1, status: 1}, true, (res)=>{
+      this.$request.post('/api/wiseqr/supplier/list', {pageSize:-1, status: 1}, true, (res)=>{
         if (res.ret == '200000') {
           this.supplierList = res.data.list||[];
         }
@@ -234,7 +234,7 @@ export default {
     },
     // 查询所有数据状态
     getStatus() {
-      this.$request.post('/api/saotx/dim/dataStatus', {}, false, (res)=>{
+      this.$request.post('/api/wiseqr/dim/dataStatus', {}, false, (res)=>{
         if (res.ret == '200000') {
           this.statusList = res.data||[];
         }
@@ -242,7 +242,7 @@ export default {
     },
     // 查询所有流水操作
     getOperTypes() {
-      this.$request.post('/api/saotx/metra/operTypes', {}, false, (res)=>{
+      this.$request.post('/api/wiseqr/metra/operTypes', {}, false, (res)=>{
         if (res.ret == '200000') {
           this.operTypeList = res.data||{};
         }
@@ -293,7 +293,7 @@ export default {
       if(pageSize) _pageSize = pageSize;
       this.form.pageSize = _pageSize;
       
-      this.$request.post('/api/saotx/metra/list', this.form, true, (res)=>{
+      this.$request.post('/api/wiseqr/metra/list', this.form, true, (res)=>{
         if (res.ret == '200000') {
           this.materielDatas = res.data.list || [];
           this.initPagination(res.data.page||{});
@@ -312,7 +312,7 @@ export default {
       } else {
         this.form.pageSize = 10;
       }
-      this.$request.post('/api/saotx/metra/operList', this.form, true, (res)=>{
+      this.$request.post('/api/wiseqr/metra/operList', this.form, true, (res)=>{
         if (res.ret == '200000') {
           this.operLogDatas = res.data.list || [];
           this.initPagination(res.data.page||{});
@@ -339,7 +339,7 @@ export default {
     // 修改数据状态：status=1启用；status=0停用
     modifyData(id, status) {
       let params = {metraFlag:this.metraFlag, id:id, status:status}
-      this.$request.post('/api/saotx/metra/modifyStatus', params, true, (res)=>{
+      this.$request.post('/api/wiseqr/metra/modifyStatus', params, true, (res)=>{
         if (res.ret == '200000') {
           this.listMateriel();
           this.$message({type: 'success', message: '操作成功!'});
@@ -407,7 +407,7 @@ export default {
       this.requestAddStore(params);
     },
     requestAddStore(params) {
-      this.$request.post('/api/saotx/metra/addStore', params, true, (res)=>{
+      this.$request.post('/api/wiseqr/metra/addStore', params, true, (res)=>{
         if (res.ret == '200000') {
           this.addPool.id = '';
           this.addPool.num = '';

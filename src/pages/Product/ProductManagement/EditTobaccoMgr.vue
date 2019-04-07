@@ -50,7 +50,7 @@
         <div class="add-tobaccomgr-form-title">产品图片</div>
         <div class="add-tobaccomgr-form-container" style="padding-bottom: 30px">
           <el-upload
-              action="/api/saotx/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonAliUpload"
               list-type="picture-card"
               class="tobacco-pic"
               :headers="headers"
@@ -304,7 +304,7 @@
     methods:{
       //烟类产品数据详情
       getTobaccoMsg(id){
-        this.$request.post('/api/saotx/prod/detailTbc',{id:id}, true, (res) => {
+        this.$request.post('/api/wiseqr/prod/detailTbc',{id:id}, true, (res) => {
           if (res.ret == '200000') {
             console.log(res.data)
             this.filters.carbonMonoxide = res.data.carbonMonoxide
@@ -338,7 +338,7 @@
       },
       //从后台拿取品牌列表listBrand
       getListBrand(){
-        this.$request.post('/api/saotx/prod/listBrand',{}, true, (res) => {
+        this.$request.post('/api/wiseqr/prod/listBrand',{}, true, (res) => {
           if (res.ret == '200000') {
             this.brandList = res.data.list
           }
@@ -349,7 +349,7 @@
       },
       //从后台拿取包装列表tobaccoPack
       getTobaccoPack(){
-        this.$request.post('/api/saotx/dim/tobaccoPack', {parentCode: ""}, true, (res) => {
+        this.$request.post('/api/wiseqr/dim/tobaccoPack', {parentCode: ""}, true, (res) => {
           if (res.ret == '200000') {
             this.packArrList = res.data
           }
@@ -357,7 +357,7 @@
       },
       //从后台拿取价类列表tobaccoGrade
       getTobaccoGrade(){
-        this.$request.post('/api/saotx/dim/tobaccoGrade', {}, true, (res) => {
+        this.$request.post('/api/wiseqr/dim/tobaccoGrade', {}, true, (res) => {
           if (res.ret == '200000') {
             this.gradeArrList = res.data
           }
@@ -365,7 +365,7 @@
       },
       //从后台拿取烟草类型tobaccoStyle
       getTobaccoStyle(){
-        this.$request.post('/api/saotx/dim/tobaccoStyle', {}, true, (res) => {
+        this.$request.post('/api/wiseqr/dim/tobaccoStyle', {}, true, (res) => {
           if (res.ret == '200000') {
             this.typeList = res.data
           }
@@ -373,7 +373,7 @@
       },
       //从后台拿取包装单位prodType
       getProdType(){
-        this.$request.post('/api/saotx/dim/prodType', {parentCode: "prod1"}, true, (res) => {
+        this.$request.post('/api/wiseqr/dim/prodType', {parentCode: "prod1"}, true, (res) => {
           if (res.ret == '200000') {
             this.prodTypeList = res.data
           }
@@ -384,7 +384,7 @@
         this.getListGradeLevel({parentCode: this.filters.grade})
       },
       getListGradeLevel(params){
-        this.$request.post('/api/saotx/dim/tobaccoGrade',params , true, (res) => {
+        this.$request.post('/api/wiseqr/dim/tobaccoGrade',params , true, (res) => {
           if (res.ret == '200000') {
             this.gradeLevelArrList = res.data
           }
@@ -415,7 +415,7 @@
               },
               typeCode: "1"
             }
-            this.$request.post('/api/saotx/prod/saveOrModifyTbc',params,true,res => {
+            this.$request.post('/api/wiseqr/prod/saveOrModifyTbc',params,true,res => {
               if(res.ret == '200000'){
                 this.$message({
                   message: '保存成功！',

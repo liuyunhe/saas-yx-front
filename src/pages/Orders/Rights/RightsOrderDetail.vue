@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     getDetail(callback) {
-      this.$request.post('/api/saotx/mborder/detail', {orderId: this.id}, true, res => {
+      this.$request.post('/api/wiseqr/mborder/detail', {orderId: this.id}, true, res => {
         if (res.ret === '200000') {
           this.data = res.data
           if (this.data.provinceCode) {
@@ -118,7 +118,7 @@ export default {
       })
     },
     getProvList() {
-      this.$request.post('/api/saotx/dim/regionByMultiParent', { parentArr: [] }, true, res => {
+      this.$request.post('/api/wiseqr/dim/regionByMultiParent', { parentArr: [] }, true, res => {
         if (res.ret === '200000') {
           this.provList = res.data
           return
@@ -127,7 +127,7 @@ export default {
       })
     },
     getCityList(callback) {
-      this.$request.post('/api/saotx/dim/regionByMultiParent', { parentArr: [this.selectProvList] }, true, res => {
+      this.$request.post('/api/wiseqr/dim/regionByMultiParent', { parentArr: [this.selectProvList] }, true, res => {
         if (res.ret === '200000' && res.data.length > 0) {
           this.cityList = res.data
           callback && callback()
@@ -139,7 +139,7 @@ export default {
     },
     getAreaList(callback) {
       this.$request.post(
-        '/api/saotx/dim/regionByMultiParent', { parentArr: [this.selectCityList] }, true, res => {
+        '/api/wiseqr/dim/regionByMultiParent', { parentArr: [this.selectCityList] }, true, res => {
           if (res.ret === '200000' && res.data.length > 0) {
             this.areaList = res.data
             callback && callback()
@@ -154,7 +154,7 @@ export default {
       this.data.cityCode = this.selectCityList
       this.data.countyCode = this.selectAreaList
       if (this.data.mobile && !(/^1[34578]\d{9}$/.test(this.data.mobile))) return this.$message.error('手机号填写错误')
-      this.$request.post('/api/saotx/mborder/modifyReceiptInfo', this.data, true, res => {
+      this.$request.post('/api/wiseqr/mborder/modifyReceiptInfo', this.data, true, res => {
         if (res.ret === '200000') {
           this.$message.success('保存成功')
           setTimeout(() => {

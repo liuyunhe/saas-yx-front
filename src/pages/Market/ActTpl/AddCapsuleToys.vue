@@ -438,7 +438,7 @@ export default {
         cryImgUrl: 'http://qoss.qrmkt.cn/common/niudan/nd-noaward.png',
         cryBtnUrl:'http://qoss.qrmkt.cn/common/niudan/nd-zxNoAwardBtn.png',
       },
-      uploadURL: '/api/saotx/attach/commonAliUpload',
+      uploadURL: '/api/wiseqr/attach/commonAliUpload',
       headerObj: {
         loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
         token: sessionStorage.getItem('access_token'),
@@ -456,7 +456,7 @@ export default {
   methods: {
     getActDetail() {
       if (this.id) {
-        this.$request.post('/api/saotx/acttpl/detail', { id: this.id }, true, res => {
+        this.$request.post('/api/wiseqr/acttpl/detail', { id: this.id }, true, res => {
           if (res.ret === '200000') {
             this.addActParams = res.data
             this.configItem = JSON.parse(res.data.conf)
@@ -470,7 +470,7 @@ export default {
           }
         })
       } else if (this.edit) {
-        this.$request.post('/api/saotx/act/pubTpl', {actCode: this.edit}, true, res => {
+        this.$request.post('/api/wiseqr/act/pubTpl', {actCode: this.edit}, true, res => {
             if (res.ret === '200000') {
             this.addActParams = res.data
             this.addActParams.name = JSON.parse(res.data.conf).title
@@ -602,7 +602,7 @@ export default {
       this.configItem.description = this.addActParams.note
       this.addActParams.conf = JSON.stringify(this.configItem)
       if (this.edit) {
-        this.$request.post('/api/saotx/act/mpubTpl', this.addActParams, true, res => {
+        this.$request.post('/api/wiseqr/act/mpubTpl', this.addActParams, true, res => {
             if (res.ret === '200000') {
               this.$message.success('保存成功')
               this.$router.push('/market/actMgr')
@@ -612,7 +612,7 @@ export default {
         })
         return
       }
-      this.$request.post('/api/saotx/acttpl/saveOrModify', this.addActParams, true, res => {
+      this.$request.post('/api/wiseqr/acttpl/saveOrModify', this.addActParams, true, res => {
         if (res.ret === '200000') {
           // 投放
           if (this.isPut) {

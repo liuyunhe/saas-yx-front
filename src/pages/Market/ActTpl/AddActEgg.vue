@@ -284,7 +284,7 @@
 					cryImgUrl: 'http://qoss.qrmkt.cn/new_platform/egg-no-award-bg.png',
 					cryBtnUrl: 'http://qoss.qrmkt.cn/new_platform/egg-no-award-btn.png'
 				},
-				uploadURL: '/api/saotx/attach/commonAliUpload',
+				uploadURL: '/api/wiseqr/attach/commonAliUpload',
 				headerObj: {
 					loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
 					token: sessionStorage.getItem('access_token'),
@@ -302,7 +302,7 @@
 		methods: {
 			getActDetail() {
 				if(this.id) {
-					this.$request.post('/api/saotx/acttpl/detail', {
+					this.$request.post('/api/wiseqr/acttpl/detail', {
 						id: this.id
 					}, true, res => {
 						if(res.ret === '200000') {
@@ -318,7 +318,7 @@
 						}
 					})
 				} else if(this.edit) {
-					this.$request.post('/api/saotx/act/pubTpl', {
+					this.$request.post('/api/wiseqr/act/pubTpl', {
 						actCode: this.edit
 					}, true, res => {
 						if(res.ret === '200000') {
@@ -385,7 +385,7 @@
 				this.configItem.description = this.addActParams.note
 				this.addActParams.conf = JSON.stringify(this.configItem)
 				if(this.edit) {
-					this.$request.post('/api/saotx/act/mpubTpl', this.addActParams, true, res => {
+					this.$request.post('/api/wiseqr/act/mpubTpl', this.addActParams, true, res => {
 						if(res.ret === '200000') {
 							this.$message.success('保存成功')
 							this.$router.push('/market/actMgr')
@@ -395,7 +395,7 @@
 					})
 					return
 				}
-				this.$request.post('/api/saotx/acttpl/saveOrModify', this.addActParams, true, res => {
+				this.$request.post('/api/wiseqr/acttpl/saveOrModify', this.addActParams, true, res => {
 					if(res.ret === '200000') {
 						// 投放
 						if(this.isPut) {

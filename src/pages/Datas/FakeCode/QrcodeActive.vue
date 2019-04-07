@@ -90,7 +90,7 @@
         },
         methods:{
             getDataList(){
-                this.$request.post(`/api/saotx/codeActivate/queryCode`,this.form,false,res => {
+                this.$request.post(`/api/wiseqr/codeActivate/queryCode`,this.form,false,res => {
                     console.log(res.data);
                         if (res.ret === '200000') {
                             this.listData.push( res.data);
@@ -114,7 +114,7 @@
                 this.getDataList();
             },
             activeFn(){
-                this.$request.post(`/api/saotx/codeActivate/updateDate`,this.form,false,res => {
+                this.$request.post(`/api/wiseqr/codeActivate/updateDate`,this.form,false,res => {
                         console.log(res.data);
                         if (res.ret === '200000') {
                             this.getDataList();

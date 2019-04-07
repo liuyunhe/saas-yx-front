@@ -57,7 +57,7 @@
         this.form.pageSize = _pageSize;
 
         this.loading = true;
-        this.$request.post('/api/saotx/guest/listqr', this.form, true, res => {
+        this.$request.post('/api/wiseqr/guest/listqr', this.form, true, res => {
           this.loading = false;
           if (res.ret === '200000') {
             this.marketqr = res.data.list || [];

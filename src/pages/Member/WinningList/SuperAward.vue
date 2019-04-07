@@ -146,7 +146,7 @@ export default {
       this.getAwardList()
     },
     getAwardList() {
-      this.$request.post('/api/saotx/md/orders', this.queryParams, true, res => {
+      this.$request.post('/api/wiseqr/md/orders', this.queryParams, true, res => {
         if (res.ret === '200000') {
           this.awardList = res.data.list
           this.total = res.data.page.count

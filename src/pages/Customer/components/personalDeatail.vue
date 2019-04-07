@@ -138,7 +138,7 @@ export default {
   },
   methods: {
     getUsreInfo(callback) {
-      this.$request.post('/api/saotx/mber/detailById', {id: this.id}, true, res => {
+      this.$request.post('/api/wiseqr/mber/detailById', {id: this.id}, true, res => {
         if (res.ret === '200000') {
           this.userInfo = res.data
           this.getUserPoints()
@@ -151,7 +151,7 @@ export default {
     getUserPoints() {
       this.load = true
       this.pointsQuery.openid = this.userInfo.openid
-      this.$request.post('/api/saotx/mber/listUPTxn', this.pointsQuery, true, res => {
+      this.$request.post('/api/wiseqr/mber/listUPTxn', this.pointsQuery, true, res => {
         if (res.ret === '200000') {
           this.load = false
           this.pointsList = res.data.list
@@ -162,7 +162,7 @@ export default {
     getUserGrowth() {
       this.load = true
       this.rightsQuery.openid = this.userInfo.openid
-      this.$request.post('/api/saotx/mber/listURights', this.pointsQuery, true, res => {
+      this.$request.post('/api/wiseqr/mber/listURights', this.pointsQuery, true, res => {
         if (res.ret === '200000') {
           this.load = false
           this.growthList = res.data.list
@@ -176,7 +176,7 @@ export default {
       if (+this.changeNum > 1000000) return this.$message.warning('增加积分数值不能大于一百万')
       if (+this.changeNum + this.userInfo.points < 0) return this.$message.warning('用户积分不够扣减，请重新输入')
       // 调接口
-      this.$request.post('/api/saotx/mber/addAndSubtPoints', {openid: this.userInfo.openid, points: this.changeNum}, true, res => {
+      this.$request.post('/api/wiseqr/mber/addAndSubtPoints', {openid: this.userInfo.openid, points: this.changeNum}, true, res => {
         if (res.ret === '200000') {
           this.getUsreInfo()
         } else {

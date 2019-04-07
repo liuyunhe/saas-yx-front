@@ -81,7 +81,7 @@ export default {
     confirm() {
       if (!this.params.province && !this.params.city && !this.params.detail) return this.$message.error('请完善收货人信息')
       if (!this.params.logisticalCompany || !this.params.logisticalCode) return this.$message.error('请输入物流信息')
-      this.$request.post('/api/saotx/md/modifyOrder', this.params, true, res => {
+      this.$request.post('/api/wiseqr/md/modifyOrder', this.params, true, res => {
         if (res.ret === '200000') {
           this.$message.success('物流信息上传成功')
           this.deliverDialogVisible = false
@@ -107,7 +107,7 @@ export default {
     },
     save() {
       if (this.saveParams.authStatus == 14 && !this.saveParams.authDesc) return this.$message.error('请输入不通过原因!')
-      this.$request.post('/api/saotx/md/authOrder', this.saveParams, true, res => {
+      this.$request.post('/api/wiseqr/md/authOrder', this.saveParams, true, res => {
         if (res.ret === '200000') {
           this.$message.success('保存成功!')
           // this.orderDialogVisible = false

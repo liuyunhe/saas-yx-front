@@ -139,7 +139,7 @@ export default {
     getUserInfo() {
       var that = this
       this.$request.post(
-        '/api/saotx/user/cluser',
+        '/api/wiseqr/user/cluser',
         {},
         true,
         res => {
@@ -169,7 +169,7 @@ export default {
     // 获取菜单
     getMenuList() {
       this.$request.post(
-        `/api/saotx/menu/all`,
+        `/api/wiseqr/menu/all`,
         {
           service: 'browser'
         },

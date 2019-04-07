@@ -36,7 +36,7 @@ export default {
     },
     // 获取品牌列表
     getBrandList() {
-      this.$request.post('/api/saotx/prod/listBrand', { pageSize: '-1' }, true, res => {
+      this.$request.post('/api/wiseqr/prod/listBrand', { pageSize: '-1' }, true, res => {
         if (res.ret === '200000') {
           this.brandList = res.data.list
           return
@@ -51,7 +51,7 @@ export default {
           this.getBrandSonList()
         }, 1000)
       }
-      this.$request.post( '/api/saotx/prod/list', { brandCodeArr: this.selectBrand, pageSize: '-1' }, true, res => {
+      this.$request.post( '/api/wiseqr/prod/list', { brandCodeArr: this.selectBrand, pageSize: '-1' }, true, res => {
           if (res.ret === '200000') {
             this.brandSonList = res.data.list
             this.done()

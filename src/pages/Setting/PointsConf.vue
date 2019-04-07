@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     getDetail(callback) {
-      this.$request.post('/api/saotx/mber/scoreDetail', {}, true, res => {
+      this.$request.post('/api/wiseqr/mber/scoreDetail', {}, true, res => {
         if (res.ret === '200000') {
           if (res.data.orgPorList.length != 0) this.data = res.data
           if (this.data.orgPorList[0].propValue == '-1') {
@@ -109,7 +109,7 @@ export default {
         return item.propValue
       })
       // if (qualifiedList.length != 3) return this.$message.errro('请完善数据!')
-      this.$request.post('/api/saotx/mber/saveScore', this.data, true, res => {
+      this.$request.post('/api/wiseqr/mber/saveScore', this.data, true, res => {
         if (res.ret === '200000') return this.$message.success('保存成功')
         this.$message.error(res.message)
       })

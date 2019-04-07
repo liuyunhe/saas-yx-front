@@ -111,7 +111,7 @@ export default {
   },
   methods: {
     getDrawList() {
-      this.$request.post('/api/saotx/md/listRsl', this.params, true, res => {
+      this.$request.post('/api/wiseqr/md/listRsl', this.params, true, res => {
         if (res.ret === '200000') {
           this.drawList = res.data.list
           this.loading = false
@@ -121,7 +121,7 @@ export default {
       })
     },
     getQueryList() {
-      this.$request.post('/api/saotx/md/terms', {}, true, res => {
+      this.$request.post('/api/wiseqr/md/terms', {}, true, res => {
         if (res.ret === '200000') return this.drawCircleData = res.data
         this.$message.error(res.message)
       })
@@ -170,7 +170,7 @@ export default {
     },
     drawALottery() {
       let drawNum = this.selectedNumArr.join(',')
-      this.$request.post('/api/saotx/md/draw', {id: this.nowId, result: drawNum}, true, res => {
+      this.$request.post('/api/wiseqr/md/draw', {id: this.nowId, result: drawNum}, true, res => {
         if (res.ret === '200000') {
           this.$message.success('开奖成功!')
           this.reset()

@@ -111,7 +111,7 @@ export default {
     },
     // 查询所有的操作类型
     getTypes() {
-      this.$request.post('/api/saotx/log/types', {pageSize:-1}, true, (res)=>{
+      this.$request.post('/api/wiseqr/log/types', {pageSize:-1}, true, (res)=>{
         if (res.ret == '200000') {
           this.types = res.data||{};
         }
@@ -157,7 +157,7 @@ export default {
       } else {
           this.form.stime = this.form.etime = "";
       }
-      this.$request.post('/api/saotx/log/list', this.form, true, (res)=>{
+      this.$request.post('/api/wiseqr/log/list', this.form, true, (res)=>{
           this.loading = false;
           if (res.ret == '200000') {
               this.tableList = res.data.list || [];

@@ -110,7 +110,7 @@ export default {
   },
   methods: {
     getOrderDetail() {
-      this.$request.post('/api/saotx/md/orderd', { orderCode: this.orderCode, tsUuid: this.tsUuid }, true, res => {
+      this.$request.post('/api/wiseqr/md/orderd', { orderCode: this.orderCode, tsUuid: this.tsUuid }, true, res => {
         if (res.ret === '200000') {
           this.orderData = res.data
           if (this.orderData.activityCode == 'ACT-ZCQ2JKDAAAAA') this.superConfVisible = true
@@ -157,7 +157,7 @@ export default {
     save(val) {
       if (!val) {
         this.orderData.send = 0
-        this.$request.post('/api/saotx/md/modifyOrder', this.orderData, true, res => {
+        this.$request.post('/api/wiseqr/md/modifyOrder', this.orderData, true, res => {
           if (res.ret === '200000') {
             this.$message.success('保存成功')
             this.getOrderDetail()
@@ -201,7 +201,7 @@ export default {
       }
     },
     getProvList() {
-      this.$request.post('/api/saotx/dim/regionByMultiParent', {
+      this.$request.post('/api/wiseqr/dim/regionByMultiParent', {
         parentArr: []
       }, true, res => {
         if (res.ret === '200000') {
@@ -221,7 +221,7 @@ export default {
       this.cityList = []
       let params = []
       params.push(val)
-      this.$request.post('/api/saotx/dim/regionByMultiParent', { parentArr: params }, true, res => {
+      this.$request.post('/api/wiseqr/dim/regionByMultiParent', { parentArr: params }, true, res => {
           if (res.ret === '200000') {
             res.data.map((item) => {
               item.children = []
@@ -238,7 +238,7 @@ export default {
       this.areaList = []
       let params = []
       params.push(val)
-      this.$request.post('/api/saotx/dim/regionByMultiParent', { parentArr: params }, true, res => {
+      this.$request.post('/api/wiseqr/dim/regionByMultiParent', { parentArr: params }, true, res => {
           if (res.ret === '200000') {
             this.areaList = res.data
             this.$set(this.cityList[index], 'children', this.areaList)

@@ -108,7 +108,7 @@ export default {
   },
   methods: {
     getActDetail() {
-      this.$request.post('/api/saotx/md/queryExtAct', {flag: 1}, true, res => {
+      this.$request.post('/api/wiseqr/md/queryExtAct', {flag: 1}, true, res => {
         this.status = true
         if (res.ret === '200000') {
           this.data = res.data
@@ -144,7 +144,7 @@ export default {
       this.data.awards = []
       this.data.awards.push(...this.type1, ...this.type201, ...this.type202, ...this.type3, ...this.type6)
       if (this.data.awards.length > 7) return
-      this.$request.post('/api/saotx/md/somExtAct', this.data, true, res => {
+      this.$request.post('/api/wiseqr/md/somExtAct', this.data, true, res => {
         if (res.ret === '200000') return this.$message.success('保存成功')
         this.$message.error(res.message)
       })

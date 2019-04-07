@@ -174,7 +174,7 @@
 				},		
 				initWholeColor:'',
 				initIconColor:'',
-				uploadAdd: location.origin + '/api/saotx/attach/commonAliUpload',
+				uploadAdd: location.origin + '/api/wiseqr/attach/commonAliUpload',
 				imgHead: {
 					token: sessionStorage.getItem('access_token'),
 					loginId: sessionStorage.getItem('access_loginId')
@@ -297,7 +297,7 @@
 			save() {
 				var that = this;
 				let conf = JSON.stringify(this.conf)
-				this.$request.post('/api/saotx/weplat/sompc', {
+				this.$request.post('/api/wiseqr/weplat/sompc', {
 					ocpConf: this.saveList,
 					conf: conf					
 				}, true, (res) => {
@@ -312,7 +312,7 @@
 			},			
 			init() {
 				var that = this;
-				this.$request.post('/api/saotx/weplat/dpc', {}, true, (res) => {
+				this.$request.post('/api/wiseqr/weplat/dpc', {}, true, (res) => {
 					if(res.ret === '200000') {
 						var DATA = res.data || {};
 						if (DATA.orgPconfs.length == 0) {
