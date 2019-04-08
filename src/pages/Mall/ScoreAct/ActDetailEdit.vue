@@ -485,7 +485,7 @@
 					desc: '',
 					url: 'http://qoss.qrmkt.cn/common/wplat/person_banner1.png'
 				}, //分享配置
-				uploadURL: '/api/saotx/attach/commonAliUpload',
+				uploadURL: '/api/wiseqr/attach/commonAliUpload',
 				headerObj: {
 					loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
 					token: sessionStorage.getItem('access_token'),

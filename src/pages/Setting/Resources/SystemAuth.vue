@@ -199,7 +199,7 @@
       },
       // 查询所有的组织公司
       getAllOrgs() {
-         this.$request.get('/api/saotx/auth/orgAuth', {}, (res)=>{
+         this.$request.get('/api/wiseqr/auth/orgAuth', {}, (res)=>{
           if (res.ret == '200000') {
             this.allOrgs = res.data||{};
           }
@@ -207,7 +207,7 @@
       },
       // 加载所有的菜单树
       getAllMenus() {
-        this.$request.post('/api/saotx/menu/alldata', {service: "saas"}, true, (res)=>{
+        this.$request.post('/api/wiseqr/menu/alldata', {service: "saas"}, true, (res)=>{
           if (res.ret == '200000') {
             let _menuTree = res.data||[];
             if(this.disabledMenu) {
@@ -277,7 +277,7 @@
         this.form.pageSize = pageSize?pageSize:10;
 
         this.loading = true;
-        this.$request.post('/api/saotx/auth/orgAuthDatas', this.form, true, (res)=>{
+        this.$request.post('/api/wiseqr/auth/orgAuthDatas', this.form, true, (res)=>{
           this.loading = false;
           if (res.ret == '200000') {
               this.tableList = res.data.list || [];
@@ -307,7 +307,7 @@
           menus: row.menus,
           roleStatus: row.roleStatus
         };
-        this.$request.post('/api/saotx/auth/authMenus', {orgId: row.orgId}, true, (res)=>{
+        this.$request.post('/api/wiseqr/auth/authMenus', {orgId: row.orgId}, true, (res)=>{
           if (res.ret == '200000') {
             this.defaultCheckedMenus = [];
             if(res.data) {
@@ -338,7 +338,7 @@
           params.roleId = _row.roleId;
           params.orgId = _row.orgId;
           params.roleStatus = _status;
-          this.$request.post('/api/saotx/auth/mauthStatus', params, true, (res)=>{
+          this.$request.post('/api/wiseqr/auth/mauthStatus', params, true, (res)=>{
             if (res.ret == '200000') {
               this.list();
               this.$message({type: 'success', message: '操作成功!'});
@@ -382,7 +382,7 @@
             let allMenus = (halfCheckedKeys?halfCheckedKeys:"")||"";
             allMenus += checkedKeys?((allMenus?",":"")+checkedKeys):"";
             this.authForm.menus = allMenus;
-            this.$request.post('/api/saotx/auth/somAuth', this.authForm, true, (res)=>{
+            this.$request.post('/api/wiseqr/auth/somAuth', this.authForm, true, (res)=>{
               if (res.ret == '200000') {
                 this.authFormCancel();
                 this.list();

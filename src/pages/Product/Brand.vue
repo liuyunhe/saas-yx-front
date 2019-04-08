@@ -133,7 +133,7 @@ export default {
             if(pageSize) _pageSize = pageSize;
             this.search.pageSize = _pageSize;
 
-            this.$request.post('/api/saotx/prod/brands', this.search, true, (res)=>{
+            this.$request.post('/api/wiseqr/prod/brands', this.search, true, (res)=>{
                 if (res.ret == '200000') {
                     this.tableList = res.data.list || [];
                     this.initPagination(res.data.page||{});
@@ -150,7 +150,7 @@ export default {
             this.form.show = true;
         },
         saveForm() {
-            this.$request.post('/api/saotx/prod/brand/saveOrModify', this.form, true, (res)=>{
+            this.$request.post('/api/wiseqr/prod/brand/saveOrModify', this.form, true, (res)=>{
                 if (res.ret == '200000') {
                     this.list();
                     this.form.show = false;
@@ -163,7 +163,7 @@ export default {
         // 修改数据状态：status=1启用；status=0停用
         modifyData(id, status) {
             let params = {id:id, status:status}
-            this.$request.post('/api/saotx/prod/brand/mstatus', params, true, (res)=>{
+            this.$request.post('/api/wiseqr/prod/brand/mstatus', params, true, (res)=>{
                 if (res.ret == '200000') {
                     this.list();
                     this.$message({type: 'success', message: '操作成功!'});

@@ -56,7 +56,7 @@
                         <el-form-item label="礼品图片：" prop="image" size="small">
                             <el-input v-model="filters.image" style="display: none" ></el-input>
                             <el-upload
-                                    action="/api/saotx/attach/commonAliUpload"
+                                    action="/api/wiseqr/attach/commonAliUpload"
                                     list-type="picture-card"
                                     class="product-img"
                                     :headers="headers"

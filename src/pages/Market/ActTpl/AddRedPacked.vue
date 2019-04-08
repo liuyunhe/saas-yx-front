@@ -85,7 +85,7 @@ export default {
     getDetail() {
       let conf
       if (this.id) {
-        this.$request.post('/api/saotx/acttpl/detail', { id: this.id }, true, res => {
+        this.$request.post('/api/wiseqr/acttpl/detail', { id: this.id }, true, res => {
           if (res.ret === '200000') {
               conf = JSON.parse(res.data.conf)
               this.conf.img = JSON.parse(conf.img)
@@ -104,7 +104,7 @@ export default {
           }
         })
       } else if (this.edit) {
-        this.$request.post('/api/saotx/act/pubTpl', {actCode: this.edit}, true, res => {
+        this.$request.post('/api/wiseqr/act/pubTpl', {actCode: this.edit}, true, res => {
           if (res.ret === '200000') {
             conf = JSON.parse(res.data.conf);
             this.conf.actCode = res.data.actCode
@@ -221,7 +221,7 @@ export default {
       this.conf.name = this.conf.title
       this.conf.note = this.conf.description
       if (this.edit) {
-        this.$request.post('/api/saotx/act/mpubTpl', this.conf, true, res => {
+        this.$request.post('/api/wiseqr/act/mpubTpl', this.conf, true, res => {
             if (res.ret === '200000') {
               this.$message.success('保存成功')
               this.$router.push('/market/actMgr')
@@ -231,7 +231,7 @@ export default {
         })
         return
       }
-      this.$request.post('/api/saotx/acttpl/saveOrModify', this.conf, true, res => {
+      this.$request.post('/api/wiseqr/acttpl/saveOrModify', this.conf, true, res => {
         if (res.ret === '200000') {
           // 投放
           if (this.isPublish) {

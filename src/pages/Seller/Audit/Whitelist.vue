@@ -147,7 +147,7 @@ export default {
             this.form.pageSize = _pageSize;
 
             this.loading = true;
-            this.$request.post('/api/saotx/seller/whitelist', this.form, true, (res)=>{
+            this.$request.post('/api/wiseqr/seller/whitelist', this.form, true, (res)=>{
                 this.loading = false;
                 if (res.ret==200000) {
                     this.tableList = res.data.list || [];
@@ -175,7 +175,7 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.$request.post('/api/saotx/seller/mstatus', params, true, (res)=>{
+                this.$request.post('/api/wiseqr/seller/mstatus', params, true, (res)=>{
                     if (res.ret==200000) {
                         this.list(null, this.form.pageNo, this.form.pageSize);
                     } else {
@@ -207,7 +207,7 @@ export default {
                 return;
             }
 
-            let url = "/api/saotx/seller/somWhitelist";
+            let url = "/api/wiseqr/seller/somWhitelist";
             if(this.modifyForm.isNew) {
                 //if(!this.modifyForm.shopName||this.modifyForm.shopName.length>9) {
                 //    this.$message.error("店铺名称不能为空，并且长度不能超过9个字！");

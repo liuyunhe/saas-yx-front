@@ -177,7 +177,7 @@ export default {
       },
       // actTime: [],
       timeDisable: false,
-      uploadURL: '/api/saotx/attach/commonAliUpload',
+      uploadURL: '/api/wiseqr/attach/commonAliUpload',
       headerObj: {
         loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
         token: sessionStorage.getItem('access_token')
@@ -218,13 +218,13 @@ export default {
     },
     // 获取优先级
     getIdxSelect() {
-      this.$request.post('/api/saotx/act/idxSelect', {}, true, res => {
+      this.$request.post('/api/wiseqr/act/idxSelect', {}, true, res => {
         if (res.ret === '200000') return this.idxSelect = res.data
       })
     },
     // 加载所有的省市区数据
     getAllRegions() {
-      this.$request.post('/api/saotx/dim/allRegions', { withRight:true }, true, res => {
+      this.$request.post('/api/wiseqr/dim/allRegions', { withRight:true }, true, res => {
         if (res.ret == '200000') {
           let allAreas = res.data || {}; // {'province':[{code:'',name:'',pcode:'',pname:''}, ...], 'city':{'provCode': [{code:'',name:'',pcode:'',pname:''}], ...}, 'district':{'cityCode': [{code:'',name:'',pcode:'',pname:''}], ...}}
           this.allProv = allAreas['province']||[];
@@ -313,7 +313,7 @@ export default {
     },
     // 获取品牌列表
     getBrandList() {
-      this.$request.post('/api/saotx/prod/listBrand', {pageSize: '-1'}, true, res => {
+      this.$request.post('/api/wiseqr/prod/listBrand', {pageSize: '-1'}, true, res => {
         if (res.ret == '200000') {
           this.brandList = res.data.list || [];
           // 处理产品规格
@@ -331,7 +331,7 @@ export default {
     },
     // 获取子品牌列表
     getProductList() {
-      this.$request.post('/api/saotx/prod/list', {brandCodeArr:this.confData.selectBrand, pageSize:'-1'}, true, res => {
+      this.$request.post('/api/wiseqr/prod/list', {brandCodeArr:this.confData.selectBrand, pageSize:'-1'}, true, res => {
         if (res.ret == '200000') {
           this.productList = res.data.list || [];
           if (this.initProd) {
@@ -385,7 +385,7 @@ export default {
       }
     },
     getDetail() {
-      this.$request.post('/api/saotx/act/detail', { id: this.id }, true, res => {
+      this.$request.post('/api/wiseqr/act/detail', { id: this.id }, true, res => {
         if (res.ret == '200000') {
           this.copyDetailAttr(res.data.act);
           this.strategyArr = res.data.strategyArr;
@@ -431,7 +431,7 @@ export default {
           }
           params.strategyArr = [];
           params.strategyArr.push(strategyParams);
-          this.$request.post('/api/saotx/act/somtfSelf', params, true, res => {
+          this.$request.post('/api/wiseqr/act/somtfSelf', params, true, res => {
             if (res.ret == '200000') {
               this.$message({type: 'success', message: '操作成功!'});
               this.$router.push({path:"/market/actMgr"});

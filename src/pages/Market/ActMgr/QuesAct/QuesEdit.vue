@@ -92,7 +92,7 @@
 	      	this.detailData.actCode=this.actCode;
 	      	return;
 	      }
-	      this.$request.post('/api/saotx/actquest/detail', { actQuest: {
+	      this.$request.post('/api/wiseqr/actquest/detail', { actQuest: {
 	      	id:parseInt(this.quesId)
 	      } }, true, res => {
 	        if (res.ret == '200000') {
@@ -132,7 +132,7 @@
 	        this.detailData.actAnsw.forEach((item)=>{
 	          item.answFlag==true?item.answFlag=1:item.answFlag=0;
 	        })
-	        this.$request.post('/api/saotx/actquest/somquet', {
+	        this.$request.post('/api/wiseqr/actquest/somquet', {
 	        	actQuest:{
 	        		id:this.detailData.id,
 	        		quesId:this.detailData.quesId,

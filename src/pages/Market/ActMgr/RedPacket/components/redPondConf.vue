@@ -229,7 +229,7 @@ export default {
       }
     },
     getList() {
-      this.$request.post('/api/saotx/metra/list', this.params, true, res => {
+      this.$request.post('/api/wiseqr/metra/list', this.params, true, res => {
         if (res.ret === '200000') {
           this.list = []
           this.list = res.data.list
@@ -242,7 +242,7 @@ export default {
     },
     // 同时送积分
     giveIntegral() {
-      this.$request.post('/api/saotx/metra/list',
+      this.$request.post('/api/wiseqr/metra/list',
         {
           metraFlag: 'integral',
           pageNo: 1,

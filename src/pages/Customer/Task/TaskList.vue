@@ -65,7 +65,7 @@ export default {
   methods: {
     getTaskList() {
       this.load = true
-      this.$request.post('/api/saotx/mber/listBasic', {type: 1}, true, res => {
+      this.$request.post('/api/wiseqr/mber/listBasic', {type: 1}, true, res => {
         if (res.ret === '200000') {
           this.taskList = res.data
           this.load = false
@@ -96,7 +96,7 @@ export default {
       }
     },
     switchAPI(status, id) {
-      this.$request.post('/api/saotx/mber/upTaskStatus', {status, id}, true, res => {
+      this.$request.post('/api/wiseqr/mber/upTaskStatus', {status, id}, true, res => {
         if (res.ret === '200000') {
           this.$message.success(status ? '开启成功' : '关闭成功')
         } else {
@@ -109,7 +109,7 @@ export default {
     },
     edit(row) {
       if (row.taskCode != 'MEMBER_SCAN') {
-        this.$request.post('/api/saotx/mber/detTaskById', {id: row.id}, true, res => {
+        this.$request.post('/api/wiseqr/mber/detTaskById', {id: row.id}, true, res => {
           if (res.ret === '200000') {
             this.form = res.data
             this.dialogTitle = row.taskName
@@ -124,7 +124,7 @@ export default {
     },
     saveTask() {
       if (!this.form.mbTask.score || !this.form.mbTask.growth) return this.$message.error('请完善表单数据!')
-      this.$request.post('/api/saotx/mber/saveBasic', this.form, true, res => {
+      this.$request.post('/api/wiseqr/mber/saveBasic', this.form, true, res => {
         if (res.ret === '200000') {
           this.$message.success('保存成功')
           this.dialogVisible = false

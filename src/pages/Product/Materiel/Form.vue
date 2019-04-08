@@ -26,7 +26,7 @@
         <el-form-item label="礼品图片" prop="pic">
           <!-- <el-upload class="avatar-uploader" :disabled="id?true:false" size="small" -->
           <el-upload class="avatar-uploader" size="small"
-            action="/api/saotx/attach/commonAliUpload"
+            action="/api/wiseqr/attach/commonAliUpload"
             :headers="headers"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
@@ -50,7 +50,7 @@
         <el-form-item v-if="metraFlag=='virtual' && elementShow['890']" label="卡密文件" prop="sourceCode">
           <a class="alike-btn" href="javascript:;" @click="downTpl">模板下载</a>
           <el-upload class="upload-demo" size="small"
-            action="/api/saotx/metra/import"
+            action="/api/wiseqr/metra/import"
             :headers="headers"
             :data="form"
             :before-upload="handlerSourceFileBUpload"
@@ -146,7 +146,7 @@ export default {
     },
     // 查询所有的供应商数据
     getSuppliers() {
-      this.$request.post('/api/saotx/supplier/list', {pageSize:-1, status: 1}, true, (res)=>{
+      this.$request.post('/api/wiseqr/supplier/list', {pageSize:-1, status: 1}, true, (res)=>{
         if (res.ret == '200000') {
           this.supplierList = res.data.list||[];
         }
@@ -165,7 +165,7 @@ export default {
       this.elementShow[parentCode] = true;
       this.form.subType = defaultV||'';
       this.categorySubList = [];
-      this.$request.post('/api/saotx/dim/query', {cateCode:"award_type",parentCode:parentCode}, true, (res)=>{
+      this.$request.post('/api/wiseqr/dim/query', {cateCode:"award_type",parentCode:parentCode}, true, (res)=>{
         if (res.ret == '200000') {
           if(level==1) {
             this.categoryList = res.data||[];
@@ -177,7 +177,7 @@ export default {
     },
     // 查询数据详情
     detail() {
-      this.$request.post('/api/saotx/metra/detail', {id:this.id, metraFlag:this.metraFlag}, true, (res)=>{
+      this.$request.post('/api/wiseqr/metra/detail', {id:this.id, metraFlag:this.metraFlag}, true, (res)=>{
         if (res.ret == '200000') {
           let _data = res.data;
           if(_data) {
@@ -223,7 +223,7 @@ export default {
       });
     },
     requestAddStore() {
-      this.$request.post('/api/saotx/metra/saveOrModify', this.form, true, (res)=>{
+      this.$request.post('/api/wiseqr/metra/saveOrModify', this.form, true, (res)=>{
         if (res.ret == '200000') {
           //this.$router.push({path:"/product/materiel/table?metraFlag="+this.metraFlag});
           this.$emit('showTable', true);

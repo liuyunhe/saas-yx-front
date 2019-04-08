@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     getPrizeList() {
-      this.$request.post('/api/saotx/md/listMaterial', this.queryParams, true, res => {
+      this.$request.post('/api/wiseqr/md/listMaterial', this.queryParams, true, res => {
         if (res.ret === '200000') {
           this.listData = res.data.list
           this.total = res.data.page.count

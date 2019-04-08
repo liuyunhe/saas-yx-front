@@ -4,7 +4,7 @@
       <div class="wrapper">
         <div class="item" v-for="(item, index) in 10" :key="index">
           <p class="name">{{item}}.{{rigthsList[index] ? rigthsList[index].gradeName : '普通用户'}}</p>
-          <img :src="rigthsList[index] ? rigthsList[index].gradeImg : defaultImgUrl" width="83" height="83">
+          <img :src="rigthsList[index] ? rigthsList[index].gradeImg : `https://qoss.qrmkt.cn/new_platform/pc_front/rifhts-default-img${item}.png`" width="83" height="83">
           <p class="growth">需要{{rigthsList[index] != undefined ? rigthsList[index].gradeLower : ''}}成长值</p>
           <div class="rights">
             <p v-if="index < listLen"><span>等级权益</span><span>{{rigthsList[index] ? rigthsList[index].rightsNum : 0}}</span></p>
@@ -27,7 +27,7 @@ export default {
       ],
       rigthsList: [],
       listLen: 0,
-      defaultImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/rifhts-default-img.png',
+      // defaultImgUrl: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/rifhts-default-img.png',
       openGradeList: []
     }
   },
@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     getRightsList(callback) {
-      this.$request.post(`/api/saotx/mbgrade/lists?_=${new Date().getTime()}`, {}, true, res => {
+      this.$request.post(`/api/wiseqr/mbgrade/lists?_=${new Date().getTime()}`, {}, true, res => {
         if (res.ret === '200000') {
           this.rigthsList = res.data
           this.openGradeList = res.data.filter(item =>  item.status > 0)
@@ -102,7 +102,7 @@ export default {
       }
     },
     switchAPI(status, id, i) {
-      this.$request.post('/api/saotx/mbgrade/updateStatus', {id, status}, true, res => {
+      this.$request.post('/api/wiseqr/mbgrade/updateStatus', {id, status}, true, res => {
         if (res.ret === '200000') {
           this.$message.success(status ? '开启成功' : '关闭成功')
         } else {
@@ -112,12 +112,12 @@ export default {
       })
     },
     edit(item, i) {
-      if (i == 0) return this.$router.push(`/customer/lvl/edit?id=${item.id}`)
-      let lowestGrowth = this.rigthsList[i - 1].gradeUpper,
-          highGrowth = null
+      let highGrowth = null
       if (this.rigthsList[i + 1]) {
         highGrowth = this.rigthsList[i + 1].gradeUpper - 1
       }
+      if (i == 0 && item) return this.$router.push(`/customer/lvl/edit?id=${item.id}&highGrowth=${highGrowth}`)
+      let lowestGrowth = this.rigthsList[i - 1].gradeUpper
       if (item) return this.$router.push(`/customer/lvl/edit?id=${item.id}&lowGrowth=${lowestGrowth}&highGrowth=${highGrowth}`)
       if (this.rigthsList.length != 0) {
         this.$router.push(`/customer/lvl/edit?lowGrowth=${lowestGrowth}&highGrowth=${highGrowth}`)

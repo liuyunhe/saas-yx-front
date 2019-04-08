@@ -339,7 +339,7 @@ export default {
     // 获取活动列表
     getActList() {
       // if (this.queryActParams.status == '0') this.queryActParams.status = ''
-      this.$request.post('/api/saotx/act/list', this.queryActParams, true, res => {
+      this.$request.post('/api/wiseqr/act/list', this.queryActParams, true, res => {
         if (res.ret === '200000') {
           this.actList = res.data.list
           this.actListTotal = res.data.page.count
@@ -351,7 +351,7 @@ export default {
     },
     // 获取活动状态
     getActStatus() {
-      this.$request.post('/api/saotx/act/statusSelect', {}, true, res => {
+      this.$request.post('/api/wiseqr/act/statusSelect', {}, true, res => {
         if (res.ret === '200000') {
           this.actStatusObj = res.data
           return
@@ -365,7 +365,7 @@ export default {
     },
     // 获取品牌列表
     getBrandList() {
-      this.$request.post('/api/saotx/prod/listBrand', { pageSize: '-1' }, true, res => {
+      this.$request.post('/api/wiseqr/prod/listBrand', { pageSize: '-1' }, true, res => {
         if (res.ret === '200000') return (this.brandList = res.data.list)
       })
     },
@@ -376,7 +376,7 @@ export default {
         return
       }
       this.$request.post(
-        '/api/saotx/prod/list',
+        '/api/wiseqr/prod/list',
         { brandCodeArr: this.queryActParams.brandCodeArr, pageSize: '-1' },
         true,
         res => {
@@ -387,7 +387,7 @@ export default {
     },
     // 获取省
     getProvList() {
-      this.$request.post('/api/saotx/dim/regionByMultiParent', { parentArr: [] }, true, res => {
+      this.$request.post('/api/wiseqr/dim/regionByMultiParent', { parentArr: [] }, true, res => {
         if (res.ret === '200000') {
           this.provList = res.data
           return
@@ -403,7 +403,7 @@ export default {
         return
       }
       this.$request.post(
-        '/api/saotx/dim/regionByMultiParent',
+        '/api/wiseqr/dim/regionByMultiParent',
         { parentArr: this.selectProvList },
         true,
         res => {
@@ -438,7 +438,7 @@ export default {
     // 获取活动名称列表
     getActCodeList() {
       this.$request.post(
-        '/api/saotx/act/formByPCode',
+        '/api/wiseqr/act/formByPCode',
         {
           pCode: '',
           pageNo: 1,
@@ -458,7 +458,7 @@ export default {
     // 查询当前活动
     getAct() {
       this.$request.post(
-        '/api/saotx/acttpl/list',
+        '/api/wiseqr/acttpl/list',
         this.actParams,
         true,
         res => {
@@ -502,7 +502,7 @@ export default {
     },
     // 投放日志
     getLogList(code) {
-      this.$request.post('/api/saotx/act/hisVers', { actCode: code }, true, res => {
+      this.$request.post('/api/wiseqr/act/hisVers', { actCode: code }, true, res => {
         if (res.ret == '200000') {
           this.putLogVisible = true
           this.normalLogList = []
@@ -525,7 +525,7 @@ export default {
     // 日志详情
     logDetail(code, time) {
       this.$request.post(
-        '/api/saotx/act/hisDetail',
+        '/api/wiseqr/act/hisDetail',
         {
           actCode: code,
           version: time
@@ -605,7 +605,7 @@ export default {
           message: '已取消发布'
         })
       }
-      this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 1 }, true, res => {
+      this.$request.post('/api/wiseqr/act/modifyStatus', { id: id, status: 1 }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('发布成功')
           this.getActList()
@@ -631,7 +631,7 @@ export default {
           message: '已取消'
         })
       }
-      this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 4 }, true, res => {
+      this.$request.post('/api/wiseqr/act/modifyStatus', { id: id, status: 4 }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('已结束')
           this.getActList()
@@ -657,7 +657,7 @@ export default {
           message: '已取消'
         })
       }
-      this.$request.post('/api/saotx/act/modifyStatus', { id: id, status: 3 }, true, res => {
+      this.$request.post('/api/wiseqr/act/modifyStatus', { id: id, status: 3 }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('已暂停')
           this.getActList()
@@ -679,7 +679,7 @@ export default {
           message: '已取消删除'
         })
       }
-      this.$request.post('/api/saotx/act/remBatch', { idArr: [id] }, true, res => {
+      this.$request.post('/api/wiseqr/act/remBatch', { idArr: [id] }, true, res => {
         if (res.ret == '200000') {
           this.$message.success('删除成功')
           this.getActList()
@@ -716,7 +716,7 @@ export default {
       //     this.$router.push('/market/actTpl/addRound?edit=' + code)
       //     break;
       // }
-      // this.$request.post('/api/saotx/act/pubTpl', {actCode: code}, true, res => {
+      // this.$request.post('/api/wiseqr/act/pubTpl', {actCode: code}, true, res => {
       //   if (res.ret === '200000') {
       //     console.dir(JSON.parse(res.data.conf).img)
       //   }

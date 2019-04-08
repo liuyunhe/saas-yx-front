@@ -177,7 +177,7 @@ export default {
       },
       // actTime: [],
       timeDisable: false,
-      uploadURL: '/api/saotx/attach/commonAliUpload',
+      uploadURL: '/api/wiseqr/attach/commonAliUpload',
       headerObj: {
         loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
         token: sessionStorage.getItem('access_token'),
@@ -215,7 +215,7 @@ export default {
   		
   	},
     getDetail() {
-      this.$request.post('/api/saotx/act/detail', { id: this.id }, true, res => {
+      this.$request.post('/api/wiseqr/act/detail', { id: this.id }, true, res => {
         if (res.ret == '200000') {
           if (this.clone == '1') {
             for (let key in this.confData) {
@@ -246,7 +246,7 @@ export default {
     },
     // 获取优先级
     getIdxSelect() {
-      this.$request.post('/api/saotx/act/idxSelect', {}, true, res => {
+      this.$request.post('/api/wiseqr/act/idxSelect', {}, true, res => {
         if (res.ret === '200000') return this.idxSelect = res.data
       })
     },
@@ -285,7 +285,7 @@ export default {
           } 
         }
         if (this.form == 'act-301') this.confData.extInfo = JSON.stringify(this.redConf)
-        this.$request.post('/api/saotx/act/saveOrModify', this.confData, true, res => {
+        this.$request.post('/api/wiseqr/act/saveOrModify', this.confData, true, res => {
           if (res.ret === '200000') {
           	if(this.form=='act-501'){
           		return this.$router.push(

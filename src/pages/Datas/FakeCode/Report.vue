@@ -162,7 +162,7 @@ export default {
         },
         // 查询所有的品牌
         getBrandList() {
-            this.$request.post('/api/saotx/prod/listBrand', {}, true, (res)=>{
+            this.$request.post('/api/wiseqr/prod/listBrand', {}, true, (res)=>{
                 if(res.ret==200000) {
                     let datas = res.data.list||[];
                     if(datas.length>0) {
@@ -185,7 +185,7 @@ export default {
             this.getSnList();
         },
         getSnList() {
-            this.$request.post('/api/saotx/prod/list', {brandCodeArr: this.form.brandCodeArr}, true, (res)=>{
+            this.$request.post('/api/wiseqr/prod/list', {brandCodeArr: this.form.brandCodeArr}, true, (res)=>{
                 if(res.ret==200000) {
                     let datas = res.data.list||[];
                     if(datas.length>0) {
@@ -250,7 +250,7 @@ export default {
                 this.form.stime = this.form.etime = "";
             }
             // 加载列表数据
-            this.$request.post('/api/saotx/fake/list', this.form, true, (res)=>{
+            this.$request.post('/api/wiseqr/fake/list', this.form, true, (res)=>{
                 this.loading = false;
                 if(res.ret == 200000) {
                     this.tableList = res.data.list || [];
@@ -269,7 +269,7 @@ export default {
                 type: 'warning',
                 center: true
             }).then(() => {
-                this.$request.post('/api/saotx/fake/remove', {id: row.id}, true, (res)=>{
+                this.$request.post('/api/wiseqr/fake/remove', {id: row.id}, true, (res)=>{
                     if(res.ret == 200000) {
                         this.$message({type:'success', message: "操作成功！"});
                         this.list();

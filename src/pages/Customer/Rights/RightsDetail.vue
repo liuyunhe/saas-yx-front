@@ -9,9 +9,9 @@
           <el-input v-model="conf.mgrade.gradeName" :maxlength="8"></el-input>
         </el-form-item>
         <el-form-item label="需要成长值：" prop="gradeNum">
-          <el-input-number :disabled="lowGrowth" v-model="conf.mgrade.gradeLower" :controls="false" :min="0" :precision="0"></el-input-number>
+          <el-input-number :disabled="lowGrowth" v-model="conf.mgrade.gradeLower" :controls="false" :min="0" :max="999999999" :precision="0"></el-input-number>
           -
-          <el-input-number v-model="conf.mgrade.gradeUpper" :controls="false" :min="0" :precision="0"></el-input-number>
+          <el-input-number v-model="conf.mgrade.gradeUpper" :controls="false" :min="0" :max="999999999" :precision="0"></el-input-number>
         </el-form-item>
         <el-form-item label="等级图标：" prop="gradeImg">
           <div class="img">
@@ -28,12 +28,12 @@
               <div><el-checkbox v-model="rightsList[0].rightsBirSmsFlg" :true-label="1" :false-label="0">生日短信(生日享受祝福短信)</el-checkbox></div>
               <div>
                 <el-checkbox v-model="birthScoreFlg" :true-label="1" :false-label="0">赠送积分</el-checkbox>
-                <el-input-number class="num-input" v-model="rightsList[0].rightsScore" @change="isNaN()" :disabled="!birthScoreFlg" :controls="false" :min="0" :precision="0"></el-input-number>
+                <el-input-number class="num-input" v-model="rightsList[0].rightsScore" @change="isNaN()" :disabled="!birthScoreFlg" :controls="false" :max="1000000" :min="0" :precision="0"></el-input-number>
                 积分
               </div>
               <div>
                 <el-checkbox v-model="birthGrowthFlg" :true-label="1" :false-label="0">赠送成长值</el-checkbox>
-                <el-input-number class="num-input" v-model="rightsList[0].rightsGrowth" :disabled="!birthGrowthFlg" :controls="false" :min="0" :precision="0"></el-input-number>
+                <el-input-number class="num-input" v-model="rightsList[0].rightsGrowth" :disabled="!birthGrowthFlg" :controls="false" :min="0" :max="1000000" :precision="0"></el-input-number>
                 成长值
               </div>
             </div>
@@ -50,7 +50,7 @@
           </div>
           <div>
             <el-checkbox v-model="rightsList[3].selected" :true-label="1" :false-label="0">积分商城兑换</el-checkbox>
-            <el-input-number :disabled="!rightsList[3].selected" v-model="rightsList[3].ritsSmallTimes" :controls="false" :min="0" :precision="2"></el-input-number> 折
+            <el-input-number :disabled="!rightsList[3].selected" v-model="rightsList[3].ritsSmallTimes" :controls="false" :min="0" :max="10" :precision="2"></el-input-number> 折
             <span class="ml20 tips">积分商城兑换商品可以享受的折扣</span>
           </div>
           <div>
@@ -62,12 +62,12 @@
             <div v-if="rightsList[5].selected" class="ml40">
               <div>
                 <el-checkbox v-model="upGradeScoreFlg" :true-label="1" :false-label="0">赠送积分</el-checkbox>
-                <el-input-number :disabled="!upGradeScoreFlg" v-model="rightsList[5].rightsScore" :controls="false" :min="0" :precision="0"></el-input-number>
+                <el-input-number :disabled="!upGradeScoreFlg" v-model="rightsList[5].rightsScore" :controls="false" :max="1000000" :min="0" :precision="0"></el-input-number>
                 积分
               </div>
               <div>
                 <el-checkbox v-model="upGradeGrowthFlg" :true-label="1" :false-label="0">赠送成长值</el-checkbox>
-                <el-input-number :disabled="!upGradeGrowthFlg" v-model="rightsList[5].rightsGrowth" :controls="false" :min="0" :precision="0"></el-input-number>
+                <el-input-number :disabled="!upGradeGrowthFlg" v-model="rightsList[5].rightsGrowth" :controls="false" :max="1000000" :min="0" :precision="0"></el-input-number>
                 成长值
               </div>
             </div>
@@ -111,7 +111,7 @@ export default {
       callback()
     }
     return {
-      uploadApi: '/api/saotx/attach/commonAliUpload',
+      uploadApi: '/api/wiseqr/attach/commonAliUpload',
       headerObj: {
         loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
         token: sessionStorage.getItem('access_token'),
@@ -208,7 +208,7 @@ export default {
       const loading = this.$loading({
         target: '.el-card'
       })
-      this.$request.post('/api/saotx/mbgrade/detail', {id: this.id}, true, res => {
+      this.$request.post('/api/wiseqr/mbgrade/detail', {id: this.id}, true, res => {
         if (res.ret === '200000') {
           this.conf = res.data
           this.lowGrowth ? this.conf.mgrade.gradeLower = +this.lowGrowth + 1 : ''
@@ -287,7 +287,7 @@ export default {
         })
         if (selectList.length == 0) return this.$message.error('请选择用户权益!')
         this.conf.mgrsList = selectList
-        this.$request.post('/api/saotx/mbgrade/saveOrupdate', this.conf, true, res => {
+        this.$request.post('/api/wiseqr/mbgrade/saveOrupdate', this.conf, true, res => {
           if (res.ret === '200000') {
             this.$message.success('保存成功')
             this.$router.push('/customer/lvl')

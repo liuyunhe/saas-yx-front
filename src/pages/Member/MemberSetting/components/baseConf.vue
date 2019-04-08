@@ -119,7 +119,7 @@ export default {
       },
       // actTime: [],
       timeDisable: false,
-      uploadURL: '/api/saotx/attach/commonAliUpload',
+      uploadURL: '/api/wiseqr/attach/commonAliUpload',
       headerObj: {
         loginId: sessionStorage.getItem('access_loginId'),
         token: sessionStorage.getItem('access_token'),
@@ -144,7 +144,7 @@ export default {
   methods: {
     // 获取活动数据
     getActData() {
-      this.$request.post('/api/saotx/md/queryBase', {}, true, res => {
+      this.$request.post('/api/wiseqr/md/queryBase', {}, true, res => {
         if (res.ret === '200000') {
           this.form = res.data
           this.backupsForm = JSON.parse(JSON.stringify(res.data))

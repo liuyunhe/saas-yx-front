@@ -87,7 +87,7 @@
         });
       },
       postParams(params){
-        this.$request.post('/api/saotx/supplier/saveOrModify',params,true,res => {
+        this.$request.post('/api/wiseqr/supplier/saveOrModify',params,true,res => {
           if(res.ret == '200000'){
             this.$message({
               message: '保存成功！',
@@ -104,7 +104,7 @@
         })
       },
       getSupplierMsg(id){
-        this.$request.post('/api/saotx/supplier/detail',{id:id}, true, (res) => {
+        this.$request.post('/api/wiseqr/supplier/detail',{id:id}, true, (res) => {
           if(res.ret == "200000"){
             console.log(res.data)
             this.ruleForm.contact = res.data.contact

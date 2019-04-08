@@ -34,7 +34,7 @@
         <el-form-item v-show="dialogLevel == '新建一级分类'||dialogLevel == '编辑一级分类'" label="图标：" prop="icon" size="small">
           <el-input v-model="ruleForm.icon" style="display: none" ></el-input>
           <el-upload
-              action="/api/saotx/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonAliUpload"
               list-type="picture-card"
               class="cateory-icon"
               :headers="headers"

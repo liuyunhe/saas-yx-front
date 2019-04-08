@@ -22,10 +22,11 @@
             </el-option>
           </el-select>
           <el-button type="primary" @click="allSelected">全选</el-button>
+          <el-button type="warning" @click="reset">重置</el-button>
         </el-form-item>
         <div v-if="sizeList.length != 0">
           <el-form-item v-for="(item, index) in sizeList" :key="index" label="规格：" prop="item">
-            <el-input style="width: 200px" v-model="item.name" :disabled="true"></el-input>
+            <el-input style="width: 240px" v-model="item.name" :disabled="true"></el-input>
             商品价格：
             <el-input-number v-model="item.price" disabled="true" :controls="false"></el-input-number>
             元
@@ -42,7 +43,7 @@
         </el-form-item>
         <el-form-item label="扫码限制：">
           每人每天最多可获得 
-          <el-input-number v-model="data.mbTask.growthUpperLimit" :controls="false" :min="0" :precision="0"></el-input-number>
+          <el-input-number v-model="data.mbTask.growthUpperLimit" :controls="false" :min="0" :max="1000000" :precision="0"></el-input-number>
           成长值
         </el-form-item>
       </el-form>
@@ -76,7 +77,7 @@ export default {
         brand: [{required: true, validator: validate}],
         item: [{required: true, validator: validate}]
       },
-      uploadApi: '/api/saotx/attach/commonAliUpload',
+      uploadApi: '/api/wiseqr/attach/commonAliUpload',
       headerObj: {
         loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
         token: sessionStorage.getItem('access_token'),
@@ -112,7 +113,7 @@ export default {
       const loading = this.$loading({
         target: '.el-card'
       })
-      this.$request.post('/api/saotx/mber/detTaskById', {id: this.id}, true, res => {
+      this.$request.post('/api/wiseqr/mber/detTaskById', {id: this.id}, true, res => {
         if (res.ret === '200000') {
           this.data = res.data
           if (res.data.taskSnList.length != 0) {
@@ -134,7 +135,7 @@ export default {
         if (arr.length != 0) return this.$message.error('请输入积分或成长值!')
         if (this.sizeList.length == 0) return this.$message.error('请选择品牌规格!')
         this.data.taskSnList = this.sizeList
-        this.$request.post('/api/saotx/mber/saveBasic', this.data, true, res => {
+        this.$request.post('/api/wiseqr/mber/saveBasic', this.data, true, res => {
           if (res.ret === '200000') {
             this.$message.success('保存成功')
             this.$router.push('/customer/task')
@@ -144,6 +145,10 @@ export default {
           }
         })
       })
+    },
+    // 重置
+    reset() {
+      this.getDetail()
     },
     // 更新列表
     updataList() {
@@ -161,7 +166,8 @@ export default {
           return item.sn == this.selectSonBrand[this.selectSonBrand.length - 1]
         })
         let data = JSON.parse(JSON.stringify(nowList[0]))
-        data.name = data.allName
+        data.name = data.brandName + '   ' + data.allName   // 要显示带规格的名字 并且还要拼接父品牌
+        data.allName = data.name   // 这里要把allName字段变成一样的  后端取值是取这个
         this.sizeList.push(JSON.parse(JSON.stringify(data)))
       }
     },
@@ -204,7 +210,11 @@ export default {
     // 全部选择
     allSelected() {
       if (this.allLen == this.selectSonBrand.length) return
+      const loading = this.$loading({
+        target: '.el-card'
+      })
       this.brandList.forEach(item => {
+        this.selectBrand = []
         this.selectBrand.push(item.brandCode)
       })
       this.getBrandSonList(() => {
@@ -215,18 +225,22 @@ export default {
             sonList.push(item)
           }
         })
-        sonList.map(item => item.name = item.allName)  // 要显示带规格的名字
+        sonList.map(item => {
+          item.name = item.brandName + '   ' + item.allName  // 要显示带规格的名字 并且还要拼接父品牌
+          item.allName = item.name   // 这里要把allName字段变成一样的  后端取值是取这个
+        })
         this.sizeList.push(...sonList)
         this.allLen = this.sizeList.length
         this.selectSonBrand = []
         this.sizeList.forEach(item => {
           this.selectSonBrand.push(item.sn)
         })
+        loading.close()
       })
     },
     // 获取品牌列表
     getBrandList() {
-      this.$request.post('/api/saotx/prod/listBrand', { pageSize: '-1' }, true, res => {
+      this.$request.post('/api/wiseqr/prod/listBrand', { pageSize: '-1' }, true, res => {
         if (res.ret === '200000') {
           this.brandList = res.data.list
           return
@@ -236,7 +250,7 @@ export default {
     },
     // 获取子品牌列表
     getBrandSonList(callback) {
-      this.$request.post( '/api/saotx/prod/list', { brandCodeArr: this.selectBrand, pageSize: '-1' }, true, res => {
+      this.$request.post( '/api/wiseqr/prod/list', { brandCodeArr: this.selectBrand, pageSize: '-1' }, true, res => {
           if (res.ret === '200000') {
             this.brandSonList = res.data.list
             callback && callback()

@@ -144,7 +144,7 @@
 		data() {
 			return {
 				activeName: 'first',
-				uploadAdd: location.origin + '/api/saotx/attach/commonAliUpload',
+				uploadAdd: location.origin + '/api/wiseqr/attach/commonAliUpload',
 				imgHead: {
 					token: sessionStorage.getItem('access_token'),
 					loginId: sessionStorage.getItem('access_loginId')
@@ -211,7 +211,7 @@
 			init(){
 //				获取保存的json，如果有则展示，没有则展示默认的
 				this.$request.post(
-					'/api/saotx/orgtpl/detailUnscan', {},
+					'/api/wiseqr/orgtpl/detailUnscan', {},
 					true,
 					res => {
 						if(res.ret == '200000') {
@@ -269,7 +269,7 @@
 				let savelistJson = JSON.stringify(savelist);
 //				savelist.publish = 0;
 				this.$request.post(
-					'/api/saotx/orgtpl/somUnscan', {
+					'/api/wiseqr/orgtpl/somUnscan', {
 						cnt:savelistJson
 					},
 					true,
