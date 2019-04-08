@@ -174,16 +174,20 @@ export default {
       this.signDayArr.push(21)
     },
     getSelectedGoodsArr(arr) {
+      console.log(arr)
       this.selectedGoodsArr = arr
       this.dialogVisible = false
       let idArr = []
       if (this.data.gameItems && this.data.gameItems.length > 0) {
         this.data.gameItems.forEach(item => {
-          idArr.push(item.id)
+          idArr.push(item.oldId)
         })
       }
-      this.selectedGoodsArr.map(item => {
+      // this.selectedGoodsArr.map(item => {
+        for (let y = 0; y < this.selectedGoodsArr.length; y ++) {
+          let item = this.selectedGoodsArr[y]
         let i = idArr.indexOf(item.id)
+        console.log(i)
         if (i != -1) {
           return this.$message.warning('请不要选择重复的奖品')
         } else {
@@ -204,10 +208,13 @@ export default {
             bingo_image: item.image,
             shopQuantity: item.shopQuantity,
             quantity: null,
-            allquantity: 0
+            allquantity: 0,
+            oldId: item.id,
+            // id: item.id
           })
         }
-      })
+      }
+      // })
     },
     close() {
       this.dialogVisible = false
@@ -265,6 +272,15 @@ export default {
       if (this.isRepeat(this.data.contItems, 'continuSignDay')) return this.$message.error('连续签到天数不能重复!')
       let jsonStr = JSON.stringify(this.conf)
       this.data.sactBset.pageInfo = jsonStr
+      if (this.data.sactBset.drawChanceFlg) { //关联抽奖  奖品要填
+        if (!this.data.gameItems || this.data.gameItems.length == 0) return this.$message.error('请选择奖品!')
+        let unqualified = this.data.gameItems.filter(item => {
+          return ((!item.allquantity || !item.probability) && !item.id)
+        })
+        if (unqualified.length != 0) return this.$message.error('奖品配置不能为空!')
+      } else { //不关联抽奖
+        this.data.gameItems = null
+      }
       this.$request.post('/sc/saotx/act/saveBSet', this.data, true, res => {
         if (res.ret === '200000') {
           this.$message.success('保存成功')
