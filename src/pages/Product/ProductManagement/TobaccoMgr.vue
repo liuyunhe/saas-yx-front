@@ -278,7 +278,7 @@
       },
       //从后台拿取品牌列表listBrand
       getListBrand(){
-        this.$request.post('/api/saotx/prod/listBrand',{}, true, (res) => {
+        this.$request.post('/api/wiseqr/prod/listBrand',{}, true, (res) => {
           if (res.ret == '200000') {
             this.brandList = res.data.list
           }
@@ -286,7 +286,7 @@
       },
       //从后台拿取规格列表snList
       getListSN(){
-        this.$request.post('/api/saotx/prod/list',{"brandCodeArr":this.filters.brandCodeArr}, true, (res) => {
+        this.$request.post('/api/wiseqr/prod/list',{"brandCodeArr":this.filters.brandCodeArr}, true, (res) => {
           if (res.ret == '200000') {
             this.snList = res.data.list
           }
@@ -294,7 +294,7 @@
       },
       //从后台拿取包装列表tobaccoPack
       getTobaccoPack(){
-        this.$request.post('/api/saotx/dim/tobaccoPack', {}, true, (res) => {
+        this.$request.post('/api/wiseqr/dim/tobaccoPack', {}, true, (res) => {
           if (res.ret == '200000') {
             this.packArrList = res.data
           }
@@ -302,7 +302,7 @@
       },
       //从后台拿取价类列表tobaccoGrade
       getTobaccoGrade(){
-        this.$request.post('/api/saotx/dim/tobaccoGrade', {}, true, (res) => {
+        this.$request.post('/api/wiseqr/dim/tobaccoGrade', {}, true, (res) => {
           if (res.ret == '200000') {
             this.gradeArrList = res.data
           }
@@ -311,7 +311,7 @@
       //传送查询条件
       postSearch(params) {
         this.listLoading = true;
-        this.$request.post('/api/saotx/prod/listTbc', params, true, (res) => {
+        this.$request.post('/api/wiseqr/prod/listTbc', params, true, (res) => {
           if (res.ret == '200000') {
             this.listTbc = res.data.list
             this.total = res.data.page.count

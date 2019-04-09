@@ -78,7 +78,7 @@ export default {
       }
     },
     getProvList() {
-      this.$request.post('/api/saotx/dim/regionByMultiParent', { parentArr: [] }, true, res => {
+      this.$request.post('/api/wiseqr/dim/regionByMultiParent', { parentArr: [] }, true, res => {
         if (res.ret === '200000') {
           this.provList.push(...res.data)
           return
@@ -126,7 +126,7 @@ export default {
         return
       }
       this.$request.post(
-        '/api/saotx/dim/regionByMultiParent', { parentArr: this.selectProvList }, true, res => {
+        '/api/wiseqr/dim/regionByMultiParent', { parentArr: this.selectProvList }, true, res => {
           if (res.ret === '200000' && res.data.length > 0) {
             this.cityList = [{ code: '000000', name: '全部'}]
             this.cityList.push(...res.data)
@@ -168,7 +168,7 @@ export default {
         this.selectAreaList = []
         return
       }
-      this.$request.post( '/api/saotx/dim/regionByMultiParent', { parentArr: this.selectCityList }, true, res => {
+      this.$request.post( '/api/wiseqr/dim/regionByMultiParent', { parentArr: this.selectCityList }, true, res => {
           if (res.ret === '200000' && res.data.length > 0) {
             this.areaList = [{ code: '000000', name: '全部'}]
             this.areaList.push(...res.data)

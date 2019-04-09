@@ -20,7 +20,7 @@
         <el-form-item label="图1：" prop="image1" size="small">
           <el-input v-model="ruleForm.image1" style="display: none" ></el-input>
           <el-upload
-              action="/api/saotx/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonAliUpload"
               list-type="picture-card"
               class="main-product-img"
               :headers="headers"
@@ -42,7 +42,7 @@
         <el-form-item label="图2：" prop="image2" size="small">
           <el-input v-model="ruleForm.image2" style="display: none" ></el-input>
           <el-upload
-              action="/api/saotx/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonAliUpload"
               list-type="picture-card"
               class="product-img"
               :headers="headers"
@@ -64,7 +64,7 @@
         <el-form-item label="图3：" prop="image3" size="small">
           <el-input v-model="ruleForm.image3" style="display: none" ></el-input>
           <el-upload
-              action="/api/saotx/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonAliUpload"
               list-type="picture-card"
               class="product-img"
               :headers="headers"
@@ -87,7 +87,7 @@
         <el-form-item label="图4：" prop="image4" size="small">
           <el-input v-model="ruleForm.image4" style="display: none" ></el-input>
           <el-upload
-              action="/api/saotx/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonAliUpload"
               list-type="picture-card"
               class="product-img"
               :headers="headers"

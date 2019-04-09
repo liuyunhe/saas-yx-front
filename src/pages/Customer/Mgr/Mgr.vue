@@ -93,7 +93,7 @@ export default {
       this.$refs.queryRef.validate(valid => {
         if (!valid) return this.$message.error('请完善手机号!')
         this.load = true
-        this.$request.post('/api/saotx/mber/listUser', this.queryParams, true, res => {
+        this.$request.post('/api/wiseqr/mber/listUser', this.queryParams, true, res => {
           if (res.ret === '200000') {
             this.load = false
             this.userList = res.data.list
@@ -110,7 +110,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$request.post('/api/saotx/mber/upUserBan', {id, ban: 1}, true, res => {
+        this.$request.post('/api/wiseqr/mber/upUserBan', {id, ban: 1}, true, res => {
           if (res.ret === '200000') {
             this.$message.success('加入黑名单成功')
             this.getUserList()

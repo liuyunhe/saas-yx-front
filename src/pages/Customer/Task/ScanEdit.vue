@@ -77,7 +77,7 @@ export default {
         brand: [{required: true, validator: validate}],
         item: [{required: true, validator: validate}]
       },
-      uploadApi: '/api/saotx/attach/commonAliUpload',
+      uploadApi: '/api/wiseqr/attach/commonAliUpload',
       headerObj: {
         loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
         token: sessionStorage.getItem('access_token'),
@@ -113,7 +113,7 @@ export default {
       const loading = this.$loading({
         target: '.el-card'
       })
-      this.$request.post('/api/saotx/mber/detTaskById', {id: this.id}, true, res => {
+      this.$request.post('/api/wiseqr/mber/detTaskById', {id: this.id}, true, res => {
         if (res.ret === '200000') {
           this.data = res.data
           if (res.data.taskSnList.length != 0) {
@@ -135,7 +135,7 @@ export default {
         if (arr.length != 0) return this.$message.error('请输入积分或成长值!')
         if (this.sizeList.length == 0) return this.$message.error('请选择品牌规格!')
         this.data.taskSnList = this.sizeList
-        this.$request.post('/api/saotx/mber/saveBasic', this.data, true, res => {
+        this.$request.post('/api/wiseqr/mber/saveBasic', this.data, true, res => {
           if (res.ret === '200000') {
             this.$message.success('保存成功')
             this.$router.push('/customer/task')
@@ -240,7 +240,7 @@ export default {
     },
     // 获取品牌列表
     getBrandList() {
-      this.$request.post('/api/saotx/prod/listBrand', { pageSize: '-1' }, true, res => {
+      this.$request.post('/api/wiseqr/prod/listBrand', { pageSize: '-1' }, true, res => {
         if (res.ret === '200000') {
           this.brandList = res.data.list
           return
@@ -250,7 +250,7 @@ export default {
     },
     // 获取子品牌列表
     getBrandSonList(callback) {
-      this.$request.post( '/api/saotx/prod/list', { brandCodeArr: this.selectBrand, pageSize: '-1' }, true, res => {
+      this.$request.post( '/api/wiseqr/prod/list', { brandCodeArr: this.selectBrand, pageSize: '-1' }, true, res => {
           if (res.ret === '200000') {
             this.brandSonList = res.data.list
             callback && callback()

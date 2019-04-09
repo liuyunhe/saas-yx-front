@@ -111,7 +111,7 @@ export default {
       callback()
     }
     return {
-      uploadApi: '/api/saotx/attach/commonAliUpload',
+      uploadApi: '/api/wiseqr/attach/commonAliUpload',
       headerObj: {
         loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
         token: sessionStorage.getItem('access_token'),
@@ -208,7 +208,7 @@ export default {
       const loading = this.$loading({
         target: '.el-card'
       })
-      this.$request.post('/api/saotx/mbgrade/detail', {id: this.id}, true, res => {
+      this.$request.post('/api/wiseqr/mbgrade/detail', {id: this.id}, true, res => {
         if (res.ret === '200000') {
           this.conf = res.data
           this.lowGrowth ? this.conf.mgrade.gradeLower = +this.lowGrowth + 1 : ''
@@ -287,7 +287,7 @@ export default {
         })
         if (selectList.length == 0) return this.$message.error('请选择用户权益!')
         this.conf.mgrsList = selectList
-        this.$request.post('/api/saotx/mbgrade/saveOrupdate', this.conf, true, res => {
+        this.$request.post('/api/wiseqr/mbgrade/saveOrupdate', this.conf, true, res => {
           if (res.ret === '200000') {
             this.$message.success('保存成功')
             this.$router.push('/customer/lvl')

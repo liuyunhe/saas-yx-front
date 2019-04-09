@@ -46,7 +46,7 @@
 				var conf = JSON.stringify({
 					bgColor: that.colorValue
 				})
-				this.$request.post('/api/saotx/weplat/styleSaveOrModify', {
+				this.$request.post('/api/wiseqr/weplat/styleSaveOrModify', {
 					id: that.id,
 					conf: conf,
 					publish: 1
@@ -62,7 +62,7 @@
 			},
 			init() {
 				var that = this;
-				this.$request.post('/api/saotx/weplat/style', {}, true, (res) => {
+				this.$request.post('/api/wiseqr/weplat/style', {}, true, (res) => {
 					if(res.ret === '200000') {
 						var DATA = res.data || {};
 						if(!DATA.id) {

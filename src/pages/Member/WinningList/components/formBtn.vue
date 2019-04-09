@@ -5,7 +5,7 @@
     <el-upload
       v-if="num == 2"
       class="upload"
-      action="/api/saotx/md/import"
+      action="/api/wiseqr/md/import"
       :headers="headers"
       :on-success="handleSourceFileSuccess"
       :on-remove="handleSourceFileRemove"
@@ -73,7 +73,7 @@ export default {
     },
     exportData(){//导出
       var that = this
-      var url = "/api/saotx/md/orderExport"
+      var url = "/api/wiseqr/md/orderExport"
       var xhr = new XMLHttpRequest()
       var formData = new FormData()
       for(var attr in this.queryParams) {

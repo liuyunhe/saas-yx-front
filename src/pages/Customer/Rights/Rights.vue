@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     getRightsList(callback) {
-      this.$request.post(`/api/saotx/mbgrade/lists?_=${new Date().getTime()}`, {}, true, res => {
+      this.$request.post(`/api/wiseqr/mbgrade/lists?_=${new Date().getTime()}`, {}, true, res => {
         if (res.ret === '200000') {
           this.rigthsList = res.data
           this.openGradeList = res.data.filter(item =>  item.status > 0)
@@ -102,7 +102,7 @@ export default {
       }
     },
     switchAPI(status, id, i) {
-      this.$request.post('/api/saotx/mbgrade/updateStatus', {id, status}, true, res => {
+      this.$request.post('/api/wiseqr/mbgrade/updateStatus', {id, status}, true, res => {
         if (res.ret === '200000') {
           this.$message.success(status ? '开启成功' : '关闭成功')
         } else {

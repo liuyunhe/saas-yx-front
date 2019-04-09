@@ -185,7 +185,7 @@ props: ['id', 'edit'],
         let that = this;
         let conf = null;
         if (this.edit) {
-            this.$request.post('/api/saotx/act/pubTpl', {actCode: this.edit}, true, res => {
+            this.$request.post('/api/wiseqr/act/pubTpl', {actCode: this.edit}, true, res => {
                 if (res.ret === '200000') {
                     this.conf.actCode = res.data.actCode
                     conf = JSON.parse(res.data.conf);
@@ -206,7 +206,7 @@ props: ['id', 'edit'],
             return
         }
         if(!that.id) return;
-        that.$request.post('/api/saotx/acttpl/detail', { id: that.id }, true, res => {
+        that.$request.post('/api/wiseqr/acttpl/detail', { id: that.id }, true, res => {
             if (res.ret === '200000') {
                 conf = JSON.parse(res.data.conf);
                 that.conf.img = JSON.parse(conf.img);
@@ -236,7 +236,7 @@ props: ['id', 'edit'],
       that.conf.name = that.conf.title;
       that.conf.note = that.conf.description;
       if (this.edit) {
-        this.$request.post('/api/saotx/act/mpubTpl', that.conf, true, res => {
+        this.$request.post('/api/wiseqr/act/mpubTpl', that.conf, true, res => {
             if (res.ret === '200000') {
               this.$message.success('保存成功')
               this.$router.push('/market/actMgr')
@@ -246,7 +246,7 @@ props: ['id', 'edit'],
         })
         return
       }
-      that.$request.post('/api/saotx/acttpl/saveOrModify', that.conf, true, res => {
+      that.$request.post('/api/wiseqr/acttpl/saveOrModify', that.conf, true, res => {
         if (res.ret === '200000') {
           // 投放
           if (that.isPublish) {

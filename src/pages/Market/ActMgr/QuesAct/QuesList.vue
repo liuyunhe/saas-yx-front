@@ -75,7 +75,7 @@
 	        token: sessionStorage.getItem('access_token'),
 	        CLIENTSESSIONID: sessionStorage.getItem('CLIENTSESSIONID')
 	      },
-	      uploadURL: '/api/saotx/actquest/import?actCode='+this.actCode,
+	      uploadURL: '/api/wiseqr/actquest/import?actCode='+this.actCode,
 	    }
 	  },
 	  watch: {
@@ -124,7 +124,7 @@
 	        .catch(_ => {})
 	  	},
 	  	deleteQues(item){
-	  		this.$request.post('/api/saotx/actquest/delete', {
+	  		this.$request.post('/api/wiseqr/actquest/delete', {
 	  			actQuest:{
 	        		id:item.id,
 	        		quesId:item.quesId,
@@ -143,7 +143,7 @@
 		    })
 	  	},
 	  	getList(){
-	  		this.$request.post('/api/saotx/actquest/list', {
+	  		this.$request.post('/api/wiseqr/actquest/list', {
 	  			pageNo: this.page,
 				pageSize: this.max,
 				keywords:this.keywords,
@@ -159,7 +159,7 @@
 	  	},
 	    getDetail() {
 	      if (!this.id) return
-	      this.$request.post('/api/saotx/act/detail', { id: this.id }, true, res => {
+	      this.$request.post('/api/wiseqr/act/detail', { id: this.id }, true, res => {
 	        if (res.ret == '200000') {
 	          if (this.clone == '1') {
 	            for (let key in this.confData) {

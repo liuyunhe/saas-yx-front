@@ -128,7 +128,7 @@ export default {
       this.selectedAreaArr = arr.selectA
     },
     getDetail() {
-      this.$request.post('/api/saotx/act/detail', {id: this.id}, true, res => {
+      this.$request.post('/api/wiseqr/act/detail', {id: this.id}, true, res => {
         if (res.ret === '200000') {
           this.data.act = res.data.act
           if (this.data.act.orgId === 'guest') this.astrictRedflg = true
@@ -166,7 +166,7 @@ export default {
           item.snArr = this.selectedSnArr
         })
       }
-      this.$request.post('/api/saotx/act/somRedtf', this.data, true, res => {
+      this.$request.post('/api/wiseqr/act/somRedtf', this.data, true, res => {
         if (res.ret === '200000') {
           this.$message.success('保存成功')
           this.$router.push('/market/actMgr')

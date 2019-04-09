@@ -85,7 +85,7 @@ export default {
                     params.account = this.cluser.account;
                     params.oldPwd = this.form.oldPwd;
                     params.newPwd = this.$md5(this.form.newPwd);
-                    this.$request.post('/api/saotx/user/modifyPwd', params, true, (res)=>{
+                    this.$request.post('/api/wiseqr/user/modifyPwd', params, true, (res)=>{
                         if (res.ret == '200000') {
                             this.clearLoginSession();
                             this.$router.push({path:"/login"});

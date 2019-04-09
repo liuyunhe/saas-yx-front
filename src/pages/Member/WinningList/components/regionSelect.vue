@@ -51,7 +51,7 @@ export default {
       })
     },
     getProvList() {
-      this.$request.post('/api/saotx/dim/regionByMultiParent', {
+      this.$request.post('/api/wiseqr/dim/regionByMultiParent', {
         parentArr: []
       }, true, res => {
         if (res.ret === '200000') {
@@ -68,7 +68,7 @@ export default {
       this.cityList = []
       let params = []
       params.push(val)
-      this.$request.post('/api/saotx/dim/regionByMultiParent', { parentArr: params }, true, res => {
+      this.$request.post('/api/wiseqr/dim/regionByMultiParent', { parentArr: params }, true, res => {
           if (res.ret === '200000') {
             this.cityList = res.data
             this.$set(this.provList[index], 'children', this.cityList)

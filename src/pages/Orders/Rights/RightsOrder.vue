@@ -29,7 +29,7 @@
         <el-button type="primary" plain @click="exportData">导出搜索结果</el-button>
         <el-upload
           class="upload"
-          action="/api/saotx/mborder/exportOrder"
+          action="/api/wiseqr/mborder/exportOrder"
           :headers="headers"
           :on-success="handleSourceFileSuccess"
           :on-remove="handleSourceFileRemove"
@@ -102,7 +102,7 @@ export default {
         this.pageSize = 10
       }
       this.load = true
-      this.$request.post('/api/saotx/mborder/list', this.queryParams, true, res => {
+      this.$request.post('/api/wiseqr/mborder/list', this.queryParams, true, res => {
         if (res.ret === '200000') {
           this.orderList = res.data.list
           this.total = res.data.page.pageCount
@@ -113,7 +113,7 @@ export default {
       })
     },
     getLvlList() {
-      this.$request.post('/api/saotx/mbgrade/list', {}, true, res => {
+      this.$request.post('/api/wiseqr/mbgrade/list', {}, true, res => {
         if (res.ret === '200000') {
           this.lvlList = res.data
           return
@@ -155,7 +155,7 @@ export default {
     },
     exportData(){//导出
       var that = this
-      var url = "/api/saotx/mborder/exportOrder"
+      var url = "/api/wiseqr/mborder/exportOrder"
       var xhr = new XMLHttpRequest()
       var formData = new FormData()
       for(var attr in this.queryParams) {

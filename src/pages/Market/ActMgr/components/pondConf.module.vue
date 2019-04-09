@@ -276,7 +276,7 @@ export default {
         this.params.metraFlag = 'integral'
         this.title = '选择积分'
       }
-      this.$request.post('/api/saotx/metra/list', this.params, true, res => {
+      this.$request.post('/api/wiseqr/metra/list', this.params, true, res => {
         if (res.ret === '200000') {
           this.list = []
           this.list = res.data.list
@@ -290,7 +290,7 @@ export default {
     // 同时送积分
     giveIntegral() {
       this.$request.post(
-        '/api/saotx/metra/list',
+        '/api/wiseqr/metra/list',
         {
           metraFlag: 'integral',
           pageNo: 1,
@@ -359,7 +359,7 @@ export default {
           inputErrorMessage: '请输入数字'
         }).then(({ value }) => {
           if (value == 0) return this.$message.error('数字不能为0')
-          this.$request.post('/api/saotx/act/addNum', {
+          this.$request.post('/api/wiseqr/act/addNum', {
             id: this.awae.id,
             increment: value
           }, true, res => {

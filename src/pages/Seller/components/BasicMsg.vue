@@ -10,7 +10,7 @@
         <el-form-item label="门店照片：" prop="headImg" size="small">
           <el-input v-model="ruleForm.headImg" style="display: none" ></el-input>
           <el-upload
-              action="/api/saotx/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonAliUpload"
               list-type="picture-card"
               class="product-img"
               :headers="headers"
@@ -87,7 +87,7 @@
         <el-form-item label="烟草专卖证号照片：" prop="licenceImg" size="small">
           <el-input v-model="ruleForm.licenceImg" style="display: none" ></el-input>
           <el-upload
-              action="/api/saotx/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonAliUpload"
               list-type="picture-card"
               class="product-url"
               :headers="headers"

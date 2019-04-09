@@ -141,7 +141,7 @@
 				addListShow: false,
 				editListShow: false,
 				selectValue: '',
-				uploadAdd: location.origin + '/api/saotx/attach/commonAliUpload',
+				uploadAdd: location.origin + '/api/wiseqr/attach/commonAliUpload',
 				imgHead: {
 					token: sessionStorage.getItem('access_token'),
 					loginId: sessionStorage.getItem('access_loginId')
@@ -204,7 +204,7 @@
 			},
 			init() {
 				var that = this;
-				this.$request.post('/api/saotx/weplat/menus', {}, true, (res) => {
+				this.$request.post('/api/wiseqr/weplat/menus', {}, true, (res) => {
 					if(res.ret === '200000') {
 						var DATA = res.data || {};
 						that.typeArr = DATA.orgMenus;
@@ -290,7 +290,7 @@
 					return;
 				}
 				
-				that.$request.post('/api/saotx/weplat/msom', that.submitArr, true, (res) => {
+				that.$request.post('/api/wiseqr/weplat/msom', that.submitArr, true, (res) => {
 					if(res.ret === '200000') {
 						this.$message({
 							message: '保存成功',

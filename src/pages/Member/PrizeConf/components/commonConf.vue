@@ -70,7 +70,7 @@ export default {
         value: [{ required: true, message: '请输入数值', trigger: 'blur' }],
         icon: [{ required: true, validator: validateBanner }]
       },
-      uploadURL: '/api/saotx/attach/commonAliUpload',
+      uploadURL: '/api/wiseqr/attach/commonAliUpload',
       headerObj: {
         loginId: sessionStorage.getItem('access_loginId'),
         token: sessionStorage.getItem('access_token'),
@@ -87,7 +87,7 @@ export default {
   methods: {
     prizeDetail() {
       if (this.params.id) {
-        this.$request.post('/api/saotx/md/detailMaterial', { id: this.params.id }, true, res => {
+        this.$request.post('/api/wiseqr/md/detailMaterial', { id: this.params.id }, true, res => {
           if (res.ret === '200000') {
             this.form = res.data
           } else {
@@ -110,7 +110,7 @@ export default {
       }
       this.$refs.prizeConfRef.validate(valid => {
         if (!valid) return this.$message.error('请完善表单数据!')
-        this.$request.post('/api/saotx/md/somMaterial', this.form, true, res => {
+        this.$request.post('/api/wiseqr/md/somMaterial', this.form, true, res => {
           if (res.ret === '200000') {
             if (this.params.id) {
               this.$message.success('修改成功')

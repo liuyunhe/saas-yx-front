@@ -56,7 +56,7 @@
                       <el-button  size="small" v-on:click="resetData">重置</el-button>
                       <el-button  size="small" ><el-upload
                               class="upload-demo"
-                              action="/api/saotx/order/import"
+                              action="/api/wiseqr/order/import"
                               :headers="headers"
                               :data="addPool"
                               :before-upload="handlerSourceFileBUpload"
@@ -206,7 +206,7 @@ import draggable from 'vuedraggable'
                 this.getlistData();
             },
             orderStatusList() {//发货状态
-                this.$request.post(`/api/saotx/order/statusSelect`,{service: 'browser'},true,res => {
+                this.$request.post(`/api/wiseqr/order/statusSelect`,{service: 'browser'},true,res => {
                         console.log(res.data)
                         if (res.ret === '200000') {
                             this.orderStatusData = res.data;
@@ -218,7 +218,7 @@ import draggable from 'vuedraggable'
                     }
             },
             allBrandsList(){//所有品牌
-                this.$request.post(`/api/saotx/prod/listBrand`,{service: 'browser'},true,res => {
+                this.$request.post(`/api/wiseqr/prod/listBrand`,{service: 'browser'},true,res => {
                         if (res.ret === '200000') {
                             this.allBrandsData = res.data.list;
                         }
@@ -231,7 +231,7 @@ import draggable from 'vuedraggable'
             allSpecisList(nval){//所有规格
                 var brandCodeArr = [];
                 brandCodeArr.push(nval);
-                this.$request.post(`/api/saotx/prod/listTbc`,{
+                this.$request.post(`/api/wiseqr/prod/listTbc`,{
                     brandCodeArr
                     },true,res => {
                         if (res.ret === '200000') {
@@ -247,7 +247,7 @@ import draggable from 'vuedraggable'
             allareaList(){//所有地域
                 var brandListArrObj = {parentCode: '',withRegion:true}
                 let thisnext =this;
-                thisnext.$request.post(`/api/saotx/dim/regionByPCode`,{
+                thisnext.$request.post(`/api/wiseqr/dim/regionByPCode`,{
                         brandListArrObj
                     },true,(res) => {
                         if (res.ret === '200000') {
@@ -259,7 +259,7 @@ import draggable from 'vuedraggable'
                                         value: n.code,
                                         children: []
                                     };
-                                    thisnext.$request.post(`/api/saotx/dim/regionByPCode`,{parentCode: n.code},true,(res) => {
+                                    thisnext.$request.post(`/api/wiseqr/dim/regionByPCode`,{parentCode: n.code},true,(res) => {
                                         var cityArr = res.data;
                                         if(cityArr!=null){
                                             if (cityArr.length != 0) {
@@ -283,7 +283,7 @@ import draggable from 'vuedraggable'
                     }
             },
             getlistData(){//数据列表
-                this.$request.post(`/api/saotx/order/list`,this.form,true,
+                this.$request.post(`/api/wiseqr/order/list`,this.form,true,
                     res => {
                         console.log(res.data)
                         if (res.ret === '200000') {
@@ -346,7 +346,7 @@ import draggable from 'vuedraggable'
                 this.sourceFiles = []; // 清空上传文件内容的引用
             },
             exportData(){//导出
-                var url = "/api/saotx/order/export";
+                var url = "/api/wiseqr/order/export";
                 var xhr = new XMLHttpRequest();
                 var formData = new FormData();
                 for(var attr in this.form) {

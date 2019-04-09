@@ -106,7 +106,7 @@
 	export default {
 		data() {
 			return {
-				uploadAdd: location.origin + '/api/saotx/attach/commonAliUpload',
+				uploadAdd: location.origin + '/api/wiseqr/attach/commonAliUpload',
 				imgHead: {
 					token: sessionStorage.getItem('access_token'),
 					loginId: sessionStorage.getItem('access_loginId')
@@ -142,7 +142,7 @@
 			save() {
 				let that = this;
 				let conf = JSON.stringify(this.backgroundList)
-				this.$request.post('/api/saotx/org/somProp', {
+				this.$request.post('/api/wiseqr/org/somProp', {
 					propKey:'shop_style',
 					propValue:conf
 				}, true, (res) => {
@@ -157,7 +157,7 @@
 			},
 			init() {
 				var that = this;
-				this.$request.post('/api/saotx/org/prop', {
+				this.$request.post('/api/wiseqr/org/prop', {
 					propKey:'shop_style'
 				}, true, (res) => {
 					if(res.ret === '200000') {

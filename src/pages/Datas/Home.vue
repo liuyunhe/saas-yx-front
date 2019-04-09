@@ -122,7 +122,7 @@
 			},
 			getUserInfo() {
 				var that = this;
-				this.$request.post('/api/saotx/user/cluser', {}, true, (res) => {
+				this.$request.post('/api/wiseqr/user/cluser', {}, true, (res) => {
 					if(res.ret == '200000') {
 						var data = res.data || {};
 						that.$store.commit('setCluser', res.data)
@@ -135,7 +135,7 @@
 			},
 			// 获取菜单
 			getMenuList() {
-				this.$request.post(`/api/saotx/menu/all`, {
+				this.$request.post(`/api/wiseqr/menu/all`, {
 						service: 'browser'
 					}, true, res => {
 						if(res.ret === '200000') {

@@ -167,7 +167,7 @@
                 this.allRightRegionList()
             },
             allRightRegionList(){//所有省
-                this.$request.post(`/api/saotx/dim/regionByPCode`,{service: 'browser'},true,res => {
+                this.$request.post(`/api/wiseqr/dim/regionByPCode`,{service: 'browser'},true,res => {
                         console.log(res.data)
                         if (res.ret === '200000') {
                             this.allProvinceData = res.data;
@@ -179,7 +179,7 @@
                     }
             },
             allMoreRightRegionList(parentCode,type){//根据父编码找下级数据
-                this.$request.post(`/api/saotx/dim/regionByPCode`,{parentCode: parentCode},true,res => {
+                this.$request.post(`/api/wiseqr/dim/regionByPCode`,{parentCode: parentCode},true,res => {
                         if (res.ret === '200000') {
                             if(type==2){
                                 this.allCityData = res.data;

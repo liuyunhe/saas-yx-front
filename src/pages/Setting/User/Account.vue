@@ -205,7 +205,7 @@ export default {
     },
     // 查询所有数据状态
     getRoleList() {
-      this.$request.post('/api/saotx/role/list', {pageSize:-1}, true, (res)=>{
+      this.$request.post('/api/wiseqr/role/list', {pageSize:-1}, true, (res)=>{
         if (res.ret == '200000') {
           this.roleList = res.data.list||[];
         }
@@ -234,7 +234,7 @@ export default {
       } else {
         this.form.pageSize = 10;
       }
-      this.$request.post('/api/saotx/user/list', this.form, true, (res)=>{
+      this.$request.post('/api/wiseqr/user/list', this.form, true, (res)=>{
         if (res.ret == '200000') {
           this.tableList = res.data.list || [];
           this.initPagination(res.data.page||{});
@@ -261,7 +261,7 @@ export default {
     // 修改数据状态：status=1启用；status=0停用
     modifyData(id, status) {
       let params = {id:id, status:status}
-      this.$request.post('/api/saotx/user/mstatus', params, true, (res)=>{
+      this.$request.post('/api/wiseqr/user/mstatus', params, true, (res)=>{
         if (res.ret == '200000') {
           this.list();
           this.$message({type: 'success', message: '操作成功!'});
@@ -300,7 +300,7 @@ export default {
           if(_pwd) {
             this.userForm.pwd = this.$md5(_pwd);
           }
-          this.$request.post('/api/saotx/user/saveOrModify', this.userForm, true, (res)=>{
+          this.$request.post('/api/wiseqr/user/saveOrModify', this.userForm, true, (res)=>{
             if (res.ret == '200000') {
               this.list();
               this.userFormCancel('userForm');

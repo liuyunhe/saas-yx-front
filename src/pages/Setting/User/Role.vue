@@ -130,7 +130,7 @@ export default {
     },
     // 查询所有数据状态
     getStatus() {
-      this.$request.post('/api/saotx/dim/dataStatus', {}, false, (res)=>{
+      this.$request.post('/api/wiseqr/dim/dataStatus', {}, false, (res)=>{
         if (res.ret == '200000') {
           this.statusList = res.data||[];
         }
@@ -158,7 +158,7 @@ export default {
       } else {
         this.form.pageSize = 10;
       }
-      this.$request.post('/api/saotx/role/list', this.form, true, (res)=>{
+      this.$request.post('/api/wiseqr/role/list', this.form, true, (res)=>{
         if (res.ret == '200000') {
           this.tableList = res.data.list || [];
           this.initPagination(res.data.page||{});
@@ -185,7 +185,7 @@ export default {
     // 修改数据状态：status=1启用；status=0停用
     modifyData(id, status) {
       let params = {id:id, status:status}
-      this.$request.post('/api/saotx/role/mstatus', params, true, (res)=>{
+      this.$request.post('/api/wiseqr/role/mstatus', params, true, (res)=>{
         if (res.ret == '200000') {
           this.list();
           this.$message({type: 'success', message: '操作成功!'});
@@ -221,7 +221,7 @@ export default {
       } else {// 新增
         this.roleFormInit();
       }
-      this.$request.post('/api/saotx/role/queryByCode', this.roleForm, true, (res)=>{
+      this.$request.post('/api/wiseqr/role/queryByCode', this.roleForm, true, (res)=>{
         if (res.ret == '200000') {
           this.roleForm.id = res.data.id||'';
           this.roleForm.roleCode = res.data.roleCode||'';
@@ -271,7 +271,7 @@ export default {
         checkedMenus = checkedMenus.concat(checkedKeys);
       }
       this.roleForm.menus = checkedMenus.join(',')||'';
-      this.$request.post('/api/saotx/role/saveOrModify', this.roleForm, true, (res)=>{
+      this.$request.post('/api/wiseqr/role/saveOrModify', this.roleForm, true, (res)=>{
         if (res.ret == '200000') {
           this.$message({type: 'success', message: '操作成功!'});
           this.roleForm.show = false;

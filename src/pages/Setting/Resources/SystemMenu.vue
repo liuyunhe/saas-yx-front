@@ -128,7 +128,7 @@
         </el-form-item>
         <el-form-item label="默认图标">
           <el-upload class="avatar-uploader" :show-file-list="false"
-            action="/api/saotx/attach/commonAliUpload"
+            action="/api/wiseqr/attach/commonAliUpload"
             :headers="headers"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
@@ -139,7 +139,7 @@
         </el-form-item>
         <el-form-item label="选中图标">
           <el-upload class="avatar-uploader" :show-file-list="false"
-            action="/api/saotx/attach/commonAliUpload"
+            action="/api/wiseqr/attach/commonAliUpload"
             :headers="headers"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
@@ -258,7 +258,7 @@
         return data.menuName.indexOf(value) !== -1;
       },
       initTree() {
-        this.$request.post('/api/saotx/menu/alldata', {service:"saas"}, true, (res)=>{
+        this.$request.post('/api/wiseqr/menu/alldata', {service:"saas"}, true, (res)=>{
           if (res.ret == '200000') {
             this.treeDatas = res.data || [];
             this.tableList = res.data || [];
@@ -388,7 +388,7 @@
           params.id = _id;
           params.status = _status;
           params.service = "saas";
-          this.$request.post('/api/saotx/menu/modifyStatus', params, true, (res)=>{
+          this.$request.post('/api/wiseqr/menu/modifyStatus', params, true, (res)=>{
             if (res.ret == '200000') {
               this.initTree();
               this.$message({type: 'success', message: '操作成功!'});
@@ -409,7 +409,7 @@
           params.id = row.id;
           params.status = 0;
           params.service = "saas";
-          this.$request.post('/api/saotx/menu/modifyStatus', params, true, (res)=>{
+          this.$request.post('/api/wiseqr/menu/modifyStatus', params, true, (res)=>{
             if (res.ret == '200000') {
               this.initTree();
               this.menuFormCancel('menuForm');
@@ -447,7 +447,7 @@
             } else {
               this.menuForm.parentCode = "";
             }
-            this.$request.post('/api/saotx/menu/somsys', this.menuForm, true, (res)=>{
+            this.$request.post('/api/wiseqr/menu/somsys', this.menuForm, true, (res)=>{
               if (res.ret == '200000') {
                 this.$message({type: 'success', message: '操作成功！刷新页面后可见菜单展示！'});
                 this.initTree();

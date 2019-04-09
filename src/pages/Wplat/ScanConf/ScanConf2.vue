@@ -288,7 +288,7 @@
 			return {
 				type:this.type,
 				activeName: 'third',
-				uploadAdd: location.origin + '/api/saotx/attach/commonAliUpload',
+				uploadAdd: location.origin + '/api/wiseqr/attach/commonAliUpload',
 				imgHead: {
 					token: sessionStorage.getItem('access_token'),
 					loginId: sessionStorage.getItem('access_loginId')
@@ -368,7 +368,7 @@
 
 		created() {
 			this.$request.post(
-				'/api/saotx/prod/listBrand', {
+				'/api/wiseqr/prod/listBrand', {
 					pageSize: -1
 				},
 				true,
@@ -388,7 +388,7 @@
 		mounted(){
 			if(this.id){
 				this.$request.post(
-					'/api/saotx/orgtpl/detail', {
+					'/api/wiseqr/orgtpl/detail', {
 						id: this.id
 					},
 					true,
@@ -444,7 +444,7 @@
 						});
 					} else {
 						this.$request.post(
-							'/api/saotx/prod/list', {
+							'/api/wiseqr/prod/list', {
 								pageSize: -1,
 								brandCodeArr: that.selectBrand
 							},
@@ -559,7 +559,7 @@
 				savelist.conf = JSON.stringify(savelist.conf);
 				savelist.publish = 0;
 				this.$request.post(
-					'/api/saotx/orgtpl/saveOrModify', savelist,
+					'/api/wiseqr/orgtpl/saveOrModify', savelist,
 					true,
 					res => {
 						if(res.ret == '200000') {
@@ -635,7 +635,7 @@
 				savelist.conf = JSON.stringify(savelist.conf);
 				savelist.publish = 1;
 				this.$request.post(
-					'/api/saotx/orgtpl/saveOrModify', savelist,
+					'/api/wiseqr/orgtpl/saveOrModify', savelist,
 					true,
 					res => {
 						if(res.ret == '200000') {

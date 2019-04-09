@@ -84,7 +84,7 @@
         });
       },
       postParams(params){
-        this.$request.post('/api/saotx/supplier/saveOrModify',params,true,res => {
+        this.$request.post('/api/wiseqr/supplier/saveOrModify',params,true,res => {
           if(res.ret == '200000'){
             this.$message({
               message: '保存成功！',

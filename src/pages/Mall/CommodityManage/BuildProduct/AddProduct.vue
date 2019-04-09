@@ -9,7 +9,7 @@
         <el-form-item label="主图：" prop="image" size="small">
           <el-input v-model="ruleForm.image" style="display: none" ></el-input>
           <el-upload
-              action="/api/saotx/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonAliUpload"
               list-type="picture-card"
               class="product-img"
               :headers="headers"
@@ -103,7 +103,7 @@
         <el-form-item label="商品详情：" prop="url" size="small">
           <el-input v-model="ruleForm.url" style="display: none" ></el-input>
           <el-upload
-              action="/api/saotx/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonAliUpload"
               list-type="picture-card"
               class="product-url"
               :headers="headers"
