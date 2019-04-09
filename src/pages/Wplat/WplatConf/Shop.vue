@@ -91,8 +91,8 @@
 						</div>
 						<div class="save">
 							<div class="save-con">							
-								<el-button type="primary" @click='save'>保存</el-button>
-								<el-button type="primary" @click='init'>取消</el-button>
+								<el-button type="primary" @click='saveShare'>保存</el-button>
+								<el-button type="primary" @click='initShare'>取消</el-button>
 							</div>		
 						</div>
 					</el-tab-pane>
@@ -137,6 +137,7 @@
 		},
 		created() {
 			this.init();
+			this.initShare();
 		},
 		methods: {
 			save() {
@@ -192,21 +193,21 @@
 			},
 			saveShare(){
 				let that = this;
-				if (!share.title) {
+				if (!this.share.title) {
 					this.$message({
 						message: '请输入分享标题~',
 						type: 'warning'
 					});
 					return;
 				}
-				if (!share.desc) {
+				if (!this.share.desc) {
 					this.$message({
 						message: '请输入分享描述~',
 						type: 'warning'
 					});
 					return;
 				}
-				if (!share.url) {
+				if (!this.share.url) {
 					this.$message({
 						message: '请添加分享图片~',
 						type: 'warning'
@@ -214,7 +215,7 @@
 					return;
 				}
 				let conf = JSON.stringify(this.share)
-				this.$request.post('/api/saotx/org/somProp', {
+				this.$request.post('/api/wiseqr/org/somProp', {
 					propKey:'shop_share',
 					propValue:conf
 				}, true, (res) => {
@@ -229,7 +230,7 @@
 			},
 			initShare(){
 				var that = this;
-				this.$request.post('/api/saotx/org/prop', {
+				this.$request.post('/api/wiseqr/org/prop', {
 					propKey:'shop_share'
 				}, true, (res) => {
 					if(res.ret === '200000') {
@@ -421,7 +422,7 @@
 			                }
 			                p {
 						        margin: 0;
-						        line-height: 80px;						           
+						        line-height: 100px;						           
 						        border:none;
 						    }
 			            }

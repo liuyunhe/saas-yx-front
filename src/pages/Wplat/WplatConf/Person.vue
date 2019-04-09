@@ -146,8 +146,8 @@
 						</div>
 						<div class="save">
 							<div class="save-con">							
-								<el-button type="primary" @click='save'>保存</el-button>
-								<el-button type="primary" @click='init'>取消</el-button>
+								<el-button type="primary" @click='saveShare'>保存</el-button>
+								<el-button type="primary" @click='initShare'>取消</el-button>
 							</div>		
 						</div>
 					</el-tab-pane>
@@ -217,6 +217,7 @@
 		},
 		created() {
 			this.init();
+			this.initShare();
 		},
 		methods: {
 //			tabToggle(index){
@@ -386,7 +387,64 @@
 						this.initIconColor = this.conf.iconColor;
 					}
 				})
-			}
+			},
+			saveShare(){
+				let that = this;
+				if (!this.share.title) {
+					this.$message({
+						message: '请输入分享标题~',
+						type: 'warning'
+					});
+					return;
+				}
+				if (!this.share.desc) {
+					this.$message({
+						message: '请输入分享描述~',
+						type: 'warning'
+					});
+					return;
+				}
+				if (!this.share.url) {
+					this.$message({
+						message: '请添加分享图片~',
+						type: 'warning'
+					});
+					return;
+				}
+				let conf = JSON.stringify(this.share)
+				this.$request.post('/api/wiseqr/org/somProp', {
+					propKey:'personal_share',
+					propValue:conf
+				}, true, (res) => {
+					if(res.ret === '200000') {
+						that.$message({
+							message: '保存成功',
+							type: 'success'
+						});
+						that.initShare();
+					}
+				})
+			},
+			initShare(){
+				var that = this;
+				this.$request.post('/api/wiseqr/org/prop', {
+					propKey:'personal_share'
+				}, true, (res) => {
+					if(res.ret === '200000') {
+						var DATA = res.data || {};
+						if(!DATA) {
+							this.share={
+								title:'',
+								desc:'',
+								url:''
+							}
+						} else {
+							this.share = JSON.parse(DATA)
+						}
+					}
+				})
+			},
+
 		}
 	}
 </script>
