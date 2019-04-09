@@ -567,6 +567,11 @@
 			                    margin-top: 5%;
 			                    object-fit: contain;
 			                }
+			                p {
+						        margin: 0;
+						        line-height: 80px;						           
+						        border:none;
+						    }
 			            }
 			            .avatar-uploader {
 			                display: inline-block;
