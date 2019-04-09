@@ -222,8 +222,7 @@ const Mgr = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Mg
 const Black = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Black/Black')
 const Task = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/TaskList')
 const Rights = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Rights/Rights')
-// 会员任务设置
-const memberTaskSign = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/signActEdit')
+
 
 Vue.use(Router)
 
