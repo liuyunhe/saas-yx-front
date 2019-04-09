@@ -275,7 +275,7 @@ export default {
       if (this.data.sactBset.drawChanceFlg) { //关联抽奖  奖品要填
         if (!this.data.gameItems || this.data.gameItems.length == 0) return this.$message.error('请选择奖品!')
         let unqualified = this.data.gameItems.filter(item => {
-          return ((!item.allquantity || !item.probability) && !item.id)
+          return (!item.allquantity || !item.probability)
         })
         if (unqualified.length != 0) return this.$message.error('奖品配置不能为空!')
       } else { //不关联抽奖

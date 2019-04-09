@@ -101,7 +101,7 @@ export default {
   },
   watch: {
     $router(to, from) {
-      console.log(to)
+      // console.log(to)
     }
   },
   methods: {
@@ -218,7 +218,6 @@ export default {
       this.sonMenuList.forEach(item => {
         if (item.menuUrl == this.pathTowMenuActive) {
           this.initGrandsonMenu(item)
-          console.log('?')
         }
       })
       // this.initGrandsonMenu(this.sonMenuList[0])
