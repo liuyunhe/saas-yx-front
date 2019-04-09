@@ -336,7 +336,7 @@
 							}
 							let tempList = JSON.parse(JSON.stringify(DATA.orgPconfs));
 							this.saveList = JSON.parse(JSON.stringify(DATA.orgPconfs));
-							tempList.forEach((item,index)=>{
+							this.saveList.forEach((item,index)=>{
 								let has = 0;
 								DATA.sysPconfs.forEach((v,i)=>{
 									if (item.type == v.type) {

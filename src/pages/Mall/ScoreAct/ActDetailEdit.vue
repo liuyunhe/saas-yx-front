@@ -31,8 +31,9 @@
 					</div>
 					<div class="edit-box">
 						<div class="first-set">
-							<el-form :model="addActParams" :rules="addActRules" ref="ruleForm" label-width="100px" label-position="top">
-								<el-form-item label="页面名称" prop="name">
+							<el-form :model="addActParams"  ref="ruleForm" label-width="100px" label-position="top">
+								<el-form-item label="" prop="name">
+									<label for="name"> <span style='color:red;'>*</span>页面名称</label>
 									<el-input v-model="configItem.title" placeholder="请输入页面名称" maxLength='15'></el-input>
 								</el-form-item>
 								<el-form-item label="页面说明">
@@ -451,19 +452,6 @@
 						]
 					},
 					placeholder: '请输入活动说明'
-				},
-				addActRules: {
-					name: [{
-							required: true,
-							message: '请输入页面名称',
-							trigger: 'blur'
-						},
-						{
-							max: 15,
-							message: '长度不能超过 15 个字符',
-							trigger: 'blur'
-						}
-					]
 				},
 				configItem: {
 					title: '',
