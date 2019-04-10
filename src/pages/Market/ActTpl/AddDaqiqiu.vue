@@ -427,7 +427,7 @@ export default {
     },
     upBalloonBrokenUrlSuccess(resule) {
       if (resule.ret === '200000')
-        return (this.configItem.balloonImgUrl[this.ballonIndex].src = resule.data.accessUrl)
+        return (this.configItem.balloonImgUrl[this.ballonIndex].broken = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
 
