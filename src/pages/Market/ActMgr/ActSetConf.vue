@@ -56,7 +56,7 @@
           <el-input-number v-model="redConf.joinNum" :precision="0" :min="1" controls-position="right"></el-input-number>
           次
         </el-form-item>
-        <el-form-item v-if="form == 'act-301'" label="分享设置：" prop="isShare">
+        <el-form-item v-if="shareAct[form]" label="分享设置：" prop="isShare">
           <el-radio v-model="redConf.share" :label="1">开启分享</el-radio>
           <el-radio v-model="redConf.share" :label="0">关闭分享</el-radio>
         </el-form-item>
@@ -184,6 +184,12 @@ export default {
         CLIENTSESSIONID: sessionStorage.getItem('CLIENTSESSIONID')
       },
       stepActive:0,
+      shareAct: {
+        'act-701': 1,
+        'act-702': 1,
+        'act-703': 1,
+        'act-301': 1
+      }
     }
   },
   // watch: {
@@ -224,7 +230,7 @@ export default {
           } else {
             this.confData = res.data.act
           }
-          if (this.form == 'act-301') this.redConf = JSON.parse(this.confData.extInfo)
+          if (this.shareAct[this.form]) this.redConf = JSON.parse(this.confData.extInfo)
           this.confData.idx = this.confData.idx + ''
           if (this.redConf.extInfo) this.extInfo=JSON.parse(this.confData.extInfo)
           if (this.confData.stimeStr && this.confData.etimeStr) {
@@ -284,7 +290,7 @@ export default {
           	this.confData.extInfo=JSON.stringify(this.extInfo);
           } 
         }
-        if (this.form == 'act-301') this.confData.extInfo = JSON.stringify(this.redConf)
+        if (this.shareAct[this.form]) this.confData.extInfo = JSON.stringify(this.redConf)
         this.$request.post('/api/wiseqr/act/saveOrModify', this.confData, true, res => {
           if (res.ret === '200000') {
           	if(this.form=='act-501'){
