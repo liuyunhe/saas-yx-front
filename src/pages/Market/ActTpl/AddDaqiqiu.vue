@@ -1008,7 +1008,7 @@ export default {
     width: 100%;
   }
   img:nth-child(2) {
-    top: 386px;
+    top: 324px;
     left: 50%;
     transform: translateX(-50%);
     width: 180px;
