@@ -124,7 +124,7 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 6">
                   <div>
-                    <p class="img-title">星星飞镖:</p>
+                    <p class="img-title">飞镖图片:</p>
                     <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.starImgUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upStarImgUrlSuccess" :show-file-list="false">
@@ -152,7 +152,7 @@
                 <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 120*96px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 108*100px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 5">* 图片建议尺寸为 213*136px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 52*47px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 44*123px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 7">* 图片建议尺寸为 130*124px格式为jpg\bmp\png\gif</p>
               </div>
 
@@ -394,7 +394,7 @@ export default {
           { src:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-red.png",
             broken:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-balloon-red3.png"},
         ],
-        starImgUrl:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-feibiao.png",
+        starImgUrl:"http://qoss.qrmkt.cn/common/dqiqiu/daqiqiu-fb.png",
         drawImgUrl: 'http://qoss.qrmkt.cn/common/dqiqiu/award-pop.png',
         drawBtnUrl:'http://qoss.qrmkt.cn/common/dqiqiu/award-btn.png',
         cryImgUrl: 'http://qoss.qrmkt.cn/common/dqiqiu/dqiqiu-nolucky.png',
@@ -494,7 +494,7 @@ export default {
     },
     upBalloonBrokenUrlSuccess(resule) {
       if (resule.ret === '200000')
-        return (this.configItem.balloonImgUrl[this.ballonIndex].src = resule.data.accessUrl)
+        return (this.configItem.balloonImgUrl[this.ballonIndex].broken = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
 
@@ -631,10 +631,10 @@ export default {
         }
         .star{
           position: absolute;
-          top: 405px;
-          left: 147px;
-          width: 21px;
-          height: 19px;
+          top: 439px;
+          left: 166px;
+          width: 18px;
+          height: 49px;
           img {
             width: 100%;
             height: 100%;

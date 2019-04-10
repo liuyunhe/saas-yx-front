@@ -135,7 +135,8 @@
 							<div class='edit-con'>
 								<span class='labels'>分享图标：</span>
 								<div class="img-div">
-									<img :src="share.url" alt="" />
+									<p v-show='!share.url'>+</p>
+									<img :src="share.url" v-show='share.url' alt="" />
 								</div>
 								<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="shareUp">
 									<el-button type="primary">更换图片</el-button>
@@ -165,7 +166,7 @@
 				share:{
 					title:'',
 					desc:'',
-					url:'http://qoss.qrmkt.cn/common/wplat/person_banner1.png'
+					url:''
 				},
 				conf:{
 					wholeColor:'',
@@ -253,12 +254,12 @@
 						v.name = name;
 					}
 				})				
-				this.iconList.forEach((v,i) => {
-					if (v.type == type) {
-						v.name = name;
-						return;
-					}
-				})
+//				this.iconList.forEach((v,i) => {
+//					if (v.type == type) {
+//						v.name = name;
+//						return;
+//					}
+//				})
 			},
 			selectChange(index,type){				
 				let name = '';
@@ -627,7 +628,7 @@
 			                }
 			                p {
 						        margin: 0;
-						        line-height: 80px;						           
+						        line-height: 100px;						           
 						        border:none;
 						    }
 			            }
