@@ -3,7 +3,9 @@
 		<div class='left'>
 			<div class="phone" :style='{background:backgroundList[0].color}'v-show='activeName=="one"'>
 				<img src="http://qoss.qrmkt.cn/common/wplat/banner-top.png" alt="" />
-				<img src="http://qoss.qrmkt.cn/common/wplat/navs.png"class='navs' alt="" />
+				<div class="navs-part">
+					<img src="http://qoss.qrmkt.cn/common/wplat/navs.png"class='navs' alt="" />
+				</div>				
 				<div class="hot">
 					<img src="http://qoss.qrmkt.cn/common/wplat/hot.png" alt="" />
 				</div>
@@ -20,7 +22,7 @@
 					<p :style='{background:backgroundList[2].color}'>电子专场</p>
 				</div>
 				<img src="http://qoss.qrmkt.cn/common/wplat/item.png" class='item' alt="" />
-				<img src="http://qoss.qrmkt.cn/common/wplat/shop_bot.png" alt="" />
+				<img src="http://qoss.qrmkt.cn/common/wplat/shop_bot.png" class='bottom' alt="" />
 			</div>
 			<div class="phone" v-show='activeName=="second"'>
 				<img src="http://qoss.qrmkt.cn/common/wplat/share_top.png" alt="" />
@@ -264,12 +266,20 @@
 			width: 300px;
 			padding-left: 50px;
 			padding-top:40px;
+			.phone {
+				position: relative;
+				padding-bottom: 50px;
+			}
 			img{
 				width: 100%;				
 			}
-			.navs {
-				margin-top: 20px;
+			.navs-part {
+				width:100%;				
+				margin-top: 10px;
 			}
+			/*.navs {
+				margin-top: -1px;
+			}*/
 			.hot {
 				overflow: hidden;
 				img {
@@ -303,6 +313,12 @@
 					width:100%;
 					padding-top: 5px;
 				}
+			}
+			.bottom {
+				position: absolute;
+				left: 0;
+				width:100%;
+				bottom:0;
 			}
 			.item-title {
 				height: 30px;

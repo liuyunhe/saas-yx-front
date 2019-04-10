@@ -363,10 +363,10 @@
 								<div class="share-show">
 									<div class="header"></div>
 									<div class="text">
-										<div class="share-title">{{share.title}}</div>
-										<div class="share-desc">{{share.desc}}</div>
+										<div class="share-title">{{configItem.shareTitle}}</div>
+										<div class="share-desc">{{configItem.shareDesc}}</div>
 										<div class="share-img">
-											<img :src="share.url" alt="" />
+											<img :src="configItem.shareUrl" alt="" />
 										</div>
 									</div>
 								</div>
@@ -382,16 +382,17 @@
 							<div class="share-set">
 								<div class='edit-con'>
 									<span class='labels'>分享标题：</span>
-									<el-input v-model="share.title" placeholder="请输入分享标题" maxlength='15' class='tpl-name' size='small'></el-input>
+									<el-input v-model="configItem.shareTitle" placeholder="请输入分享标题" maxlength='15' class='tpl-name' size='small'></el-input>
 								</div>
 								<div class='edit-con'>
 									<span class='labels'>分享说明：</span>
-									<el-input type="textarea" :rows="3" v-model="share.desc" placeholder="请输入分享说明" maxlength="30" resize="none" class='tpl-name'></el-input>
+									<el-input type="textarea" :rows="3" v-model="configItem.shareDesc" placeholder="请输入分享说明" maxlength="30" resize="none" class='tpl-name'></el-input>
 								</div>
 								<div class='edit-con'>
 									<span class='labels'>分享图标：</span>
 									<div class="img-div">
-										<img :src="share.url" alt="" />
+										<p v-show='!configItem.shareUrl'>+</p>
+										<img :src="configItem.shareUrl" v-show='configItem.shareUrl' alt="" />
 									</div>
 									<el-upload class="avatar-uploader" size='small' :headers='headerObj' :action="uploadURL" :show-file-list="false" :on-success="shareUp">
 										<el-button type="primary">更换图片</el-button>
@@ -466,13 +467,11 @@
 					drawBtnRightUrl: 'http://qoss.qrmkt.cn/new_platform/hasPrice-right.png',
 					cryImgUrl: 'http://qoss.qrmkt.cn/new_platform/notPrice.png',
 					cryBtnLeftUrl: 'http://qoss.qrmkt.cn/new_platform/notPrice-left.png',
-					cryBtnRightUrl: 'http://qoss.qrmkt.cn/new_platform/notPrice-right.png'
+					cryBtnRightUrl: 'http://qoss.qrmkt.cn/new_platform/notPrice-right.png',
+					shareTitle:'',
+					shareDesc:'',
+					shareUrl:''
 				},
-				share: {
-					title: '',
-					desc: '',
-					url: 'http://qoss.qrmkt.cn/common/wplat/person_banner1.png'
-				}, //分享配置
 				uploadURL: '/api/wiseqr/attach/commonAliUpload',
 				headerObj: {
 					loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
@@ -779,7 +778,7 @@
 			shareUp(res){
 				var data = res.data || {};
 				var imgUrl = data && data.accessUrl;
-				this.share.url = imgUrl;
+				this.configItem.shareUrl = imgUrl;
 			},
 		}
 	}
@@ -1410,6 +1409,11 @@
 						height: 90%;
 						margin-top: 5%;
 						object-fit: contain;
+					}
+					p {
+						margin: 0;
+						line-height: 100px;						           
+						border:none;
 					}
 				}
 				.avatar-uploader {

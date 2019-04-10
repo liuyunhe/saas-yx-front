@@ -329,6 +329,7 @@ export default {
                 keyword2: [{required:true, message:'完成时间不能为空', trigger:'blur'}],
                 remark: [{required:true, message:'底部内容不能为空', trigger:'blur'}]
             },
+            sendMsg: false // 监听发送消息模板状态
         }
     },
     created() {
@@ -579,11 +580,16 @@ export default {
         },
         // 派发奖项
         sendRankPay() {
+            if (!this.canPay) {
+                this.$message.error('暂不允许派发现金奖励！');
+                return false;
+            }
             this.$confirm('确认要进行派发奖项吗?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
+                this.canPay = false;
                 this.$request.post('/lsh/seller-manager/achieve/payAchievement', {periodId: this.rankForm.periodId}, true, (res)=>{
                     if (res.ok) {
                         this.canPay = false;
@@ -613,8 +619,13 @@ export default {
             this.$refs['tplMsgForm'].clearValidate();
         },
         confirmSendMsg(form) {
+            if (this.sendMsg) {
+                this.$message.error('发送模板消息请求已发出，请勿重复操作！');
+                return false;
+            }
             this.$refs[form].validate((valid) => {
                 if (valid) {
+                    this.sendMsg = true;
                     let params = {
                         wxTemplateParams: {
                             first: this.tplMsgForm.first,
@@ -629,7 +640,9 @@ export default {
                         }
                     }
                     this.$request.post('/lsh/seller-manager/achieve/sendWechatTemplate', params, true, (res)=>{
+                        this.sendMsg = false;
                         if (res.ok) {
+                            this.tplMsgForm.show = false;
                             this.$message({type:'success', message: res.data});
                         } else {
                             this.$message.error(res.msg);
