@@ -23,7 +23,7 @@
 					</div>			
 				</div>
 				
-				<img src="http://qoss.qrmkt.cn/common/wplat/person_bot_02.png" alt="" />
+				<img src="http://qoss.qrmkt.cn/common/wplat/person_bot_02.png" class='bottom' alt="" />
 			</div>
 			<div class="phone" v-show='activeName=="second"'>
 				<img src="http://qoss.qrmkt.cn/common/wplat/share_top.png" alt="" />
@@ -469,6 +469,10 @@
 			img {
 				width: 100%;				
 			}
+			.phone {
+				position: relative;
+				padding-bottom: 50px;
+			}
 			.person-top {
 				max-height: 95px;
 				position: relative;
@@ -516,6 +520,12 @@
 			}
 			.vip-banner {
 				margin-bottom: 10px;
+			}
+			.bottom {
+				position: absolute;
+				left: 0;
+				width:100%;
+				bottom:0;
 			}
 			.header-img {
 				width:80px;
