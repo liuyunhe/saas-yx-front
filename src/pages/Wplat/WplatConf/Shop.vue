@@ -79,7 +79,8 @@
 							<div class='edit-con'>
 								<span class='labels'>分享图标：</span>
 								<div class="img-div">
-									<img :src="share.url" alt="" />
+									<p v-show='!share.url'>+</p>
+									<img :src="share.url" v-show='share.url' alt="" />
 								</div>
 								<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="shareUp">
 									<el-button type="primary">更换图片</el-button>
@@ -90,8 +91,8 @@
 						</div>
 						<div class="save">
 							<div class="save-con">							
-								<el-button type="primary" @click='save'>保存</el-button>
-								<el-button type="primary" @click='init'>取消</el-button>
+								<el-button type="primary" @click='saveShare'>保存</el-button>
+								<el-button type="primary" @click='initShare'>取消</el-button>
 							</div>		
 						</div>
 					</el-tab-pane>
@@ -130,12 +131,13 @@
 				share:{
 					title:'',
 					desc:'',
-					url:'http://qoss.qrmkt.cn/common/wplat/person_banner1.png'
+					url:''
 				}
 			}
 		},
 		created() {
 			this.init();
+			this.initShare();
 		},
 		methods: {
 			save() {
@@ -188,6 +190,62 @@
 				var data = res.data || {};
 				var imgUrl = data && data.accessUrl;
 				this.share.url = imgUrl;
+			},
+			saveShare(){
+				let that = this;
+				if (!this.share.title) {
+					this.$message({
+						message: '请输入分享标题~',
+						type: 'warning'
+					});
+					return;
+				}
+				if (!this.share.desc) {
+					this.$message({
+						message: '请输入分享描述~',
+						type: 'warning'
+					});
+					return;
+				}
+				if (!this.share.url) {
+					this.$message({
+						message: '请添加分享图片~',
+						type: 'warning'
+					});
+					return;
+				}
+				let conf = JSON.stringify(this.share)
+				this.$request.post('/api/wiseqr/org/somProp', {
+					propKey:'shop_share',
+					propValue:conf
+				}, true, (res) => {
+					if(res.ret === '200000') {
+						that.$message({
+							message: '保存成功',
+							type: 'success'
+						});
+						that.initShare();
+					}
+				})
+			},
+			initShare(){
+				var that = this;
+				this.$request.post('/api/wiseqr/org/prop', {
+					propKey:'shop_share'
+				}, true, (res) => {
+					if(res.ret === '200000') {
+						var DATA = res.data || {};
+						if(!DATA) {
+							this.share={
+								title:'',
+								desc:'',
+								url:''
+							}
+						} else {
+							this.share = JSON.parse(DATA)
+						}
+					}
+				})
 			},
 		}
 	}
@@ -362,6 +420,11 @@
 			                    margin-top: 5%;
 			                    object-fit: contain;
 			                }
+			                p {
+						        margin: 0;
+						        line-height: 100px;						           
+						        border:none;
+						    }
 			            }
 			            .avatar-uploader {
 			                display: inline-block;

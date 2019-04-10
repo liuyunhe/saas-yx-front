@@ -101,7 +101,7 @@ export default {
   },
   watch: {
     $router(to, from) {
-      console.log(to)
+      // console.log(to)
     }
   },
   methods: {
@@ -124,6 +124,7 @@ export default {
             newPath = this.menuList[0].nodeList[0].menuUrl
             this.pathOneMenuActive = this.menuList[0].menuUrl
             this.pathTowMenuActive = this.menuList[0].nodeList[0].menuUrl
+            this.initGrandsonMenu(this.menuList[0].nodeList[0])
           }
         } else {
           newPath = this.menuList[0].menuUrl
@@ -219,7 +220,7 @@ export default {
           this.initGrandsonMenu(item)
         }
       })
-      this.initGrandsonMenu(this.sonMenuList[0])
+      // this.initGrandsonMenu(this.sonMenuList[0])
     },
     // 获取子级菜单(子级)
     getsonMenuList(item, index) {
@@ -254,10 +255,12 @@ export default {
         this.grandsonMenuLisy = son.nodeList
         if (location.hash.replace('#', '') == son.menuUrl) {
           this.$router.push(son.nodeList[0].menuUrl)
+          this.pathThreeMenuActive = son.nodeList[0].menuUrl
         }
       } else {
         this.grandsonMenuLisy = []
         this.grandsonMenuLisy.push(son)
+        this.pathThreeMenuActive = son.menuUrl
       }
     },
     logout() {

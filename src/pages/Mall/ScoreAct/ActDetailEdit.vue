@@ -31,8 +31,9 @@
 					</div>
 					<div class="edit-box">
 						<div class="first-set">
-							<el-form :model="addActParams" :rules="addActRules" ref="ruleForm" label-width="100px" label-position="top">
-								<el-form-item label="页面名称" prop="name">
+							<el-form :model="addActParams"  ref="ruleForm" label-width="100px" label-position="top">
+								<el-form-item label="" prop="name">
+									<label for="name"> <span style='color:red;'>*</span>页面名称</label>
 									<el-input v-model="configItem.title" placeholder="请输入页面名称" maxLength='15'></el-input>
 								</el-form-item>
 								<el-form-item label="页面说明">
@@ -269,12 +270,12 @@
 								</div>
 								<p class="tips">* 图片建议尺寸为 750*270px,格式为jpg\bmp\png\gif</p>
 								<br /><br /><br /> 消耗积分：
-								<el-input v-model="addActParams.score" placeholder="请输入需要消耗的积分" size='small' class='act-score' maxLength='4'></el-input>积分
+								<el-input v-model="addActParams.score" placeholder="请输入需要消耗的积分" size='small' class='act-score' maxLength='4'oninput="value=value.replace(/\D/g,'')"></el-input>积分
 								<br /><span class='space'></span><span>（用户参与活动每次需要消耗的积分数）</span>
 								<br /><br /><br />
 
 								<span class='require-icon'>*</span>参与次数： 每人每天可参与
-								<el-input v-model="addActParams.times" size='small' class='act-num' maxLength='4'></el-input> 次
+								<el-input v-model="addActParams.times" size='small' class='act-num' maxLength='4' oninput="value=value.replace(/\D/g,'')"></el-input> 次
 								<br /><br /><br />
 								<span class='require-icon'>*</span>活动说明：
 								<quill-editor ref="myTextEditor" v-model="addActParams.gameDesc" :options="editorOption" placeholder="请输入活动说明" class='edit-input'>
@@ -328,10 +329,10 @@
 										<div><img :src="item.image" alt="" /></div>
 										<div>{{item.productName}}</div>
 										<div>
-											<div>奖品数量：<input type="number" v-model="item.allquantity" :disabled='item.abled' min='1' class='award-num' @input='seam(item)' />个</div>
+											<div>奖品数量：<input type="number" v-model="item.allquantity" :disabled='item.abled' min='1' class='award-num' @input='seam(item)'oninput="value=value.replace(/\D/g,'')" />个</div>
 											<div class='award-has'>剩余{{item.quantity}}个</div>
 										</div>
-										<div><span class='require-icon'>*</span>中奖概率：<input type="number" max='100' min='0' v-model="item.probability" class='award-percent' @change='checkAll' />%</div>
+										<div><span class='require-icon'>*</span>中奖概率：<input type="number" max='100' min='0' v-model="item.probability" class='award-percent' @change='checkAll'oninput="value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3')" />%</div>
 										<div>
 											<el-button type="primary" @click='remove(key)'>删除</el-button>
 										</div>
@@ -340,7 +341,7 @@
 										</div>
 										<el-dialog title="增加库存" :visible.sync="addQuantityShow" width="50%">
 											增加库存：
-											<el-input type='number' v-model="addQ" placeholder="请输入增加数量" size='small' class='act-name' oninput="if(value.length > 5)value = value.slice(0, 5)"></el-input> 件
+											<el-input type='number' v-model="addQ" placeholder="请输入增加数量" size='small' class='act-name' oninput="value=value.replace(/\D/g,'');if(value.length > 5)value = value.slice(0, 5);"></el-input> 件
 											<br />
 											<span slot="footer" class="dialog-footer">
 					    				<el-button @click="addQuantityShow = false">取 消</el-button>
@@ -451,19 +452,6 @@
 						]
 					},
 					placeholder: '请输入活动说明'
-				},
-				addActRules: {
-					name: [{
-							required: true,
-							message: '请输入页面名称',
-							trigger: 'blur'
-						},
-						{
-							max: 15,
-							message: '长度不能超过 15 个字符',
-							trigger: 'blur'
-						}
-					]
 				},
 				configItem: {
 					title: '',
@@ -694,11 +682,11 @@
 				var flag = 1;
 				var flag1 = 1;
 				this.priceList.forEach((item) => {
-					if(item.quantity === '' || item.quantity < 0) {
+					if(item.quantity === '' || item.quantity <= 0) {
 						flag = 0;
 						return;
 					}
-					if(item.probability === '' || item.probability < 0) {
+					if(item.probability === '' || item.probability <= 0) {
 						flag1 = 0;
 						return;
 					}
@@ -926,7 +914,7 @@
 							text-align: center;
 							line-height: 60px;
 							.award-percent {
-								width: 35px;
+								width: 50px;
 								height: 20px;
 								margin-right: 5px;
 							}
