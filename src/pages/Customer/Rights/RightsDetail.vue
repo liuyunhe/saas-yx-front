@@ -23,9 +23,9 @@
         </el-form-item>
         <el-form-item label="用户权益：" prop="rights">
           <div>
-            <el-checkbox v-model="rightsList[0].selected" :true-label="1" :false-label="0">生日福利</el-checkbox>
+            <el-checkbox v-model="rightsList[0].selected" disabled :true-label="1" :false-label="0">生日福利</el-checkbox>
             <div v-if="rightsList[0].selected" class="ml40">
-              <div><el-checkbox v-model="rightsList[0].rightsBirSmsFlg" :true-label="1" :false-label="0">生日短信(生日享受祝福短信)</el-checkbox></div>
+              <div><el-checkbox v-model="rightsList[0].rightsBirSmsFlg" disabled :true-label="1" :false-label="0">生日短信(生日享受祝福短信)</el-checkbox></div>
               <div>
                 <el-checkbox v-model="birthScoreFlg" :true-label="1" :false-label="0">赠送积分</el-checkbox>
                 <el-input-number class="num-input" v-model="rightsList[0].rightsScore" @change="isNaN()" :disabled="!birthScoreFlg" :controls="false" :max="1000000" :min="0" :precision="0"></el-input-number>
@@ -140,10 +140,10 @@ export default {
       upGradeGrowthFlg: 0,
       rightsList: [
         {
-          selected: 0,
+          selected: 1,
           rightsName: '生日权益',
           rightsCode: 'BIRTHDAY_RIGHT',
-          rightsBirSmsFlg: 0,
+          rightsBirSmsFlg: 1,
           rightsScore: '',
           rightsGrowth: ''
         },
