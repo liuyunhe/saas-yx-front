@@ -289,7 +289,7 @@
 			uploadBanner (res){//上传头部背景
 				var data = res.data || {};
 				var imgUrl = data && data.accessUrl;
-				this.saveList[this.editIndex] = imgUrl;
+				this.saveList[this.editIndex].pic = imgUrl;
 			},
 			shareUp(res){
 				var data = res.data || {};

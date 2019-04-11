@@ -501,6 +501,7 @@
                 width: 300px;
                 height: 66px;
                 background: url(../../../assets/img/phone_top.png) no-repeat center / contain;
+                position: relative;
                 .not-title {
                     width: 100%;
                     height: 100%;
