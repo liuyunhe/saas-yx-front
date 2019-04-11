@@ -42,7 +42,9 @@
           <el-input v-model="data.mbTask.taskDetail" type="textarea" :rows="2" placeholder="请输入内容" :maxlength="20"></el-input>
         </el-form-item>
         <el-form-item label="扫码限制：">
-          每人每天最多可获得 
+          每人每月最多可获得 
+          <el-input-number v-model="data.mbTask.scoreUpperLimit" :controls="false" :min="0" :max="1000000" :precision="0"></el-input-number>
+          积分
           <el-input-number v-model="data.mbTask.growthUpperLimit" :controls="false" :min="0" :max="1000000" :precision="0"></el-input-number>
           成长值
         </el-form-item>

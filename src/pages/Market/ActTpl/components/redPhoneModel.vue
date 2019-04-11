@@ -80,7 +80,7 @@
         <div class="page9 page" v-show="page == 9">
           <div class="text">
             <h3 class="title" v-html="shareConf.shareTitle ? shareConf.shareTitle : '扫码验真'"></h3>
-            <div class="desc" v-html="shareConf.shareDesc ? shareConf.shareDesc : '扫码验真精彩送不停，更多好礼等级拿！'"></div>
+            <div class="desc" v-html="shareConf.shareDesc ? shareConf.shareDesc : '扫码验真精彩送不停，更多好礼等你拿！'"></div>
             <div class="img"><img :src="imgData.share.icon.url"></div>
           </div>
         </div>

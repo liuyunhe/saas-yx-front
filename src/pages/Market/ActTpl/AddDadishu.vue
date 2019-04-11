@@ -152,11 +152,54 @@
             </el-card>
           </div>
         </el-tab-pane>
+        <el-tab-pane label="活动预热页" name="warm" class="clearfix">
+          <div class="ipone">
+            <div class="header">
+              <p>{{addActParams.name}}</p>
+            </div>
+            <div class="content phone warm">
+              <img :src="configItem.shareImgUrl" alt="">
+              <img :src="configItem.shareBtnUrl" alt="">
+            </div>
+            <div class="footer"></div>
+          </div>
+          <div class="edit-box">
+            <el-card class="edit-img" shadow="hover">
+              <div slot="header" class="clearfix">
+                <span>编辑图片</span>
+              </div>
+              <div class="edit-con">
+                <div class="edit-winning">
+                  <p class="img-title">背景图片:</p>
+                  <div class="img-con"><img :src="configItem.shareImgUrl" alt=""></div>
+                  <div class="btn-con">
+                    <el-upload :action="uploadURL" :headers="headerObj" :on-success="upShareBgSuccess" :show-file-list="false">
+                      <el-button size="small" type="primary">更换图片</el-button>
+                    </el-upload>
+                  </div>
+                </div>
+                <p class="tips">* 图片建议尺寸为 750*1600px格式为jpg\bmp\png\gif</p>
+              </div>
+              <div class="edit-con">
+                <div class="edit-winning">
+                  <p class="img-title">按钮图片:</p>
+                  <div class="img-con center"><img :src="configItem.shareBtnUrl" alt=""></div>
+                  <div class="btn-con">
+                    <el-upload :action="uploadURL" :headers="headerObj" :on-success="upShareBtnSuccess" :show-file-list="false">
+                      <el-button size="small" type="primary">更换图片</el-button>
+                    </el-upload>
+                  </div>
+                </div>
+                <p class="tips">* 图片建议尺寸为 448*240px格式为jpg\bmp\png\gif</p>
+              </div>
+            </el-card>
+          </div>
+        </el-tab-pane>
         <el-tab-pane label="活动说明页面" name="actDesc" class="clearfix">
           <div class="ipone">
             <div class="header"></div>
             <div class="content">
-              <div class="bg"><img src="http://qoss.qrmkt.cn/new_platform/pc_front/huodongshuoming.png"></div>
+              <div class="bg"><img style="height: 100%" src="http://qoss.qrmkt.cn/new_platform/pc_front/huodongshuoming.png"></div>
             </div>
             <div class="footer"></div>
           </div>
@@ -165,7 +208,7 @@
           <div class="ipone">
             <div class="header"></div>
             <div class="content">
-              <div class="bg"><img src="http://qoss.qrmkt.cn/new_platform/pc_front/wodedjiangpin.png"></div>
+              <div class="bg"><img style="height: 100%" src="http://qoss.qrmkt.cn/new_platform/pc_front/wodedjiangpin.png"></div>
             </div>
             <div class="footer"></div>
           </div>
@@ -266,6 +309,22 @@
             </el-card>
           </div>
         </el-tab-pane>
+        <el-tab-pane label="分享" name="share" class="clearfix">
+          <div class="ipone" style="display: inline-block">
+            <div class="header">
+              <p>{{addActParams.name}}</p>
+            </div>
+            <div class="content phone share">
+              <div class="text">
+                <h3 class="title" v-html="configItem.share.shareTitle ? configItem.share.shareTitle : '扫码验真'"></h3>
+                <div class="desc" v-html="configItem.share.shareDesc ? configItem.share.shareDesc : '扫码验真精彩送不停，更多好礼等你拿！'"></div>
+                <div class="img"><img :src="configItem.shareIconUrl"></div>
+              </div>
+            </div>
+            <div class="footer"></div>
+          </div>
+          <share-conf style="width: 50%; display: inline-block" :editData="[{url: configItem.shareIconUrl}]" :shareConf="configItem.share" @shareChange="editPic"></share-conf>
+        </el-tab-pane>
         <div class="btn">
           <p>是否投放: <el-switch v-model="isPut">
             </el-switch>
@@ -277,8 +336,12 @@
   </div>
 </template>
 <script>
+import shareConf from './components/shareConf'
 export default {
   props: ['id', 'edit'],
+  components: {
+    shareConf
+  },
   data() {
     return {
       activeName: 'home',
@@ -311,6 +374,10 @@ export default {
         drawBtnUrl:'http://qoss.qrmkt.cn/common/ddshu/award-btn.png',
         cryImgUrl: 'http://qoss.qrmkt.cn/common/ddshu/dadishu-nolucky.png',
         cryBtnUrl:'http://qoss.qrmkt.cn/common/ddshu/nolucky-btn.png',
+        shareImgUrl: 'http://qoss.qrmkt.cn/common/ddshu/share-bg-img.png',
+        shareBtnUrl: 'http://qoss.qrmkt.cn/common/ddshu/share-btn-img.png',
+        shareIconUrl: 'http://qoss.qrmkt.cn/common/ddshu/share-icon.png',
+        share: {shareTitle: '', shareDesc: ''}
       },
       uploadURL: '/api/wiseqr/attach/commonAliUpload',
       headerObj: {
@@ -431,6 +498,19 @@ export default {
     upWinningBtnSuccess(resule) {
       if (resule.ret === '200000') return (this.configItem.drawBtnUrl = resule.data.accessUrl)
       this.$message.error(resule.message)
+    },
+    upShareBgSuccess(resule) {
+      if (resule.ret === '200000') return (this.configItem.shareImgUrl = resule.data.accessUrl)
+      this.$message.error(resule.message)
+    },
+    upShareBtnSuccess(resule) {
+      if (resule.ret === '200000') return (this.configItem.shareBtnUrl = resule.data.accessUrl)
+      this.$message.error(resule.message)
+    },
+    // 分享图标上传
+    editPic(e) {
+      let url = e.url
+      this.configItem.shareIconUrl = url
     },
     // 保存进入下一步
     saveActTpl() {
@@ -807,6 +887,13 @@ export default {
             width: 100%;
           }
         }
+        .edit-winning {
+          display: flex;
+          img {
+            max-width: 100%;
+            max-height: 100%;
+          }
+        }
         .edit-notWinning-img {
           display: flex;
           .img-con {
@@ -866,6 +953,73 @@ export default {
   .el-button {
     width: 130px;
     height: 40px;
+  }
+}
+.share {
+  background: url('http://qoss.qrmkt.cn/new_platform/red_share_bg.png') no-repeat center / 100% 100%;
+  .text {
+    position: absolute;
+    top: 66px;
+    left: 56px;
+    width: 208px;
+    height: 66px;
+    color: #333;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  .title {
+    margin: 0;
+    font-size: 14px;
+  }
+  .desc {
+    margin: 0;
+    width: 150px;
+    height: 32px;
+    font-size: 12px;
+    color: #898989;
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .img {
+    position: absolute;
+    top: 18px;
+    right: 6px;
+    width: 40px;
+    height: 40px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+.warm {
+  position: relative;
+  overflow: hidden;
+  img {
+    position: absolute;
+  }
+  img:nth-child(1) {
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  img:nth-child(2) {
+    top: 386px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    height: 96px;
+  }
+}
+.center {
+  position: relative;
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 </style>
