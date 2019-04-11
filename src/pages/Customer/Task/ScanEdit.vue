@@ -2,7 +2,7 @@
   <div class="container">
     <el-card>
       <el-form ref="form" :model="data.mbTask" label-width="100px" :rules="rules">
-        <el-form-item label="任务名称：" prop="taskName">
+        <el-form-item label="任务名称：" prop="taskName" v-if="data.mbTask.orgId != 'hebeihehua'">
           <el-input v-model="data.mbTask.taskName" maxlength="15"></el-input>
         </el-form-item>
         <!-- <el-form-item label="任务图片：" prop="taskImg">
@@ -38,12 +38,12 @@
             <el-button class="ml20" type="danger" @click="del(index)">删除</el-button>
           </el-form-item>
         </div>
-        <el-form-item label="任务说明：" prop="taskDetail">
+        <el-form-item label="任务说明：" prop="taskDetail" v-if="data.mbTask.orgId != 'hebeihehua'">
           <el-input v-model="data.mbTask.taskDetail" type="textarea" :rows="2" placeholder="请输入内容" :maxlength="20"></el-input>
         </el-form-item>
-        <el-form-item label="扫码限制：">
+        <el-form-item label="扫码限制：" v-if="data.mbTask.orgId != 'hebeihehua'">
           每人每月最多可获得 
-          <el-input-number v-model="data.mbTask.scoreUpperLimit" :controls="false" :min="0" :max="1000000" :precision="0"></el-input-number>
+          <el-input-number v-model="data.mbTask.scoreUpperLimit"  :controls="false" :min="0" :max="1000000" :precision="0"></el-input-number>
           积分
           <el-input-number v-model="data.mbTask.growthUpperLimit" :controls="false" :min="0" :max="1000000" :precision="0"></el-input-number>
           成长值
@@ -129,6 +129,24 @@ export default {
     },
     // 保存
     save() {
+      if (this.data.mbTask.orgId == 'hebeihehua') { // 荷花  隐藏名称 说明和扫码限制
+        var arr = this.sizeList.filter(item => {
+          return (!item.score || !item.growth)
+        })
+        if (arr.length != 0) return this.$message.error('请输入积分或成长值!')
+        if (this.sizeList.length == 0) return this.$message.error('请选择品牌规格!')
+        this.data.taskSnList = this.sizeList
+        this.$request.post('/api/wiseqr/mber/saveBasic', this.data, true, res => {
+          if (res.ret === '200000') {
+            this.$message.success('保存成功')
+            this.$router.push('/customer/task')
+            return
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+        return
+      }
       this.$refs.form.validate(valid => {
         if (!valid) return this.$message.error('请完善表单数据!')
         var arr = this.sizeList.filter(item => {
