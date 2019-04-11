@@ -470,6 +470,8 @@
 				width: 100%;				
 			}
 			.phone {
+				width:300px;
+				height: 600px;
 				position: relative;
 				padding-bottom: 50px;
 			}
@@ -556,8 +558,9 @@
 						border:1px solid #eee;
 						position: relative;
 						font-size: 12px;
-						min-height: 50px;
-						padding: 10px 5px 10px 10px;
+						min-height: 60px;
+						width:210px;
+						padding: 10px 10px 10px 10px;
 						.share-title {
 							width:140px;
 							font-weight: bold;
@@ -582,7 +585,7 @@
 		}
 		.right {
 			height: 1600px;
-			margin-left: 320px;
+			margin-left: 350px;
 			overflow: hidden;
 			.box {
 				border:1px solid #ccc;
