@@ -91,7 +91,7 @@
       </el-form-item>
       <div></div>
       <el-form-item label="排序值：" prop="idx" size="small">
-        <el-input type="number" v-model="ruleForm.idx" style="width: 200px"></el-input>
+        <el-input type="number" v-model="ruleForm.idx" style="width: 200px" min="0" max="99999" @input="checkIdx(ruleForm.idx)"></el-input>
       </el-form-item>
       <div></div>
       <el-form-item label="主图：" prop="image" size="small">
@@ -231,6 +231,13 @@
       this.getBannerDetail()
     },
     methods:{
+        checkIdx(value){
+            if (value) {
+                if (value > 99999 ) {
+                    this.ruleForm.idx ='';
+                }
+            }
+        },
       getBannerDetail(){
         this.$request.post('/sc/saotx/mall/banner/detail',{id:this.id},true,res => {
           if (res.ret == '200000') {
