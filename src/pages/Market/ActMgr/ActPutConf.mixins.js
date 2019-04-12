@@ -721,6 +721,7 @@ export default {
         if (res.ret === '200000') {
           this.$message.success('保存成功')
           this.$router.push('/market/actMgr')
+          this.routerRefresh() // 调用home.vue的 routerRefresh
         } else {
           this.$message.error(res.message)
         }
