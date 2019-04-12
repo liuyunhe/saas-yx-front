@@ -30,7 +30,7 @@
             <img v-if="ruleForm.image1" width="100" height="63" :src="ruleForm.image1" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <div class="pic-tips">* 图片建议尺寸为 230*144px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
+          <div class="pic-tips">* 图片建议尺寸为 120*148px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
         </el-form-item>
         <div></div>
 
@@ -52,7 +52,7 @@
             <img v-if="ruleForm.image2" width="100" height="63" :src="ruleForm.image2" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <div class="pic-tips">* 图片建议尺寸为 230*144px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
+          <div class="pic-tips">* 图片建议尺寸为 120*148px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
         </el-form-item>
         <div></div>
 
@@ -74,7 +74,7 @@
             <img v-if="ruleForm.image3" width="100" height="63" :src="ruleForm.image3" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <div class="pic-tips">* 图片建议尺寸为 230*144px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
+          <div class="pic-tips">* 图片建议尺寸为 120*148px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
         </el-form-item>
         <div></div>
 
@@ -96,7 +96,7 @@
             <img v-if="ruleForm.image4" width="100" height="63" :src="ruleForm.image4" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <div class="pic-tips">* 图片建议尺寸为 230*144px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
+          <div class="pic-tips">* 图片建议尺寸为 120*148px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
         </el-form-item>
         <div></div>
 
@@ -399,7 +399,7 @@
           productId:this.filters.productId,
 
           pageSize:this.filters.pageSize,
-          currentPageNumber:this.filters.pageNo
+          pageNo:this.filters.pageNo
         };
 
         this.postSearchJD(params)
@@ -429,7 +429,7 @@
           cateLvl2:this.filters.cateLvl2,
           productId:this.filters.productId,
           pageSize:this.filters.pageSize,
-          currentPageNumber:this.filters.pageNo
+          pageNo:this.filters.pageNo
         };
         this.postSearchZJ(params)
       },
