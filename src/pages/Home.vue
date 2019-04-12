@@ -104,11 +104,19 @@ export default {
       // console.log(to)
     }
   },
+  provide(){    //在父组件中创建属性
+    return {
+      routerRefresh: this.routerRefresh
+    }
+  },
   methods: {
     init() {
       this.getMenuList()
       this.getUserInfo()
       this.menuActive()
+    },
+    routerRefresh(){
+      this.menuActive() // 刷新菜单样式
     },
     goFirstSonMenu() {
       let path = location.hash.replace('#', ''),

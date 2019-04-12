@@ -1,5 +1,6 @@
 export default {
   props: ['id', 'actCode','form'],
+  inject:['routerRefresh'], //在子组件中注入在父组件中出创建的属性
   data() {
     return {
     	stepActive:2,
@@ -725,7 +726,11 @@ export default {
         }
       })
     },
-
+    // 返回列表
+    backList() {
+      this.$router.push('/market/actMgr')
+      this.routerRefresh() // 调用home.vue的 routerRefresh
+    },
     normalTabsEdit(targetName, action) {
       // if (action === 'add') {
       //   if (this.normalConf.length == 10) return
