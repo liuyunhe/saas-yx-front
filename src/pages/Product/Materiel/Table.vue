@@ -260,7 +260,7 @@ export default {
         status: '', // 数据状态
         operType: '' // 流水明细参数：操作动作
       }
-      this.listMateriel();
+      this.currentChange(1);
     },
     // tab标签切换
     changeTab(tab) {
@@ -356,7 +356,6 @@ export default {
     },
     // 卡密文件上传之前
     handlerSourceFileBUpload(file) {
-      
     },
     // 卡密文件上传控制。成功之后的回调
     handleSourceFileSuccess(res, file) {
