@@ -56,9 +56,9 @@
           <div>
             <el-checkbox v-model="rightsList[4].selected" :true-label="1" :false-label="0">品鉴福利(获取品鉴资格)</el-checkbox>
           </div>
-          <div>
+          <div v-if="lowGrowth">
             <el-checkbox v-model="rightsList[5].selected" :true-label="1" :false-label="0">升级奖励</el-checkbox>
-            <span class="ml20 tips">每升一级可获得以下奖励</span>
+            <!-- <span class="ml20 tips">每升一级可获得以下奖励</span> -->
             <div v-if="rightsList[5].selected" class="ml40">
               <div>
                 <el-checkbox v-model="upGradeScoreFlg" :true-label="1" :false-label="0">赠送积分</el-checkbox>

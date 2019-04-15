@@ -74,7 +74,7 @@
         </el-form-item> -->
         <el-form-item>
           <el-button type="primary" @click="nextStep">保存并进入下一步</el-button>
-          <el-button @click="$router.push('/market/actTpl')">返回列表</el-button>
+          <el-button @click="back">返回列表</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -320,6 +320,13 @@ export default {
         this.$message.error('上传图片大小不能超过 2MB!')
       }
       return JPGOrPNG && isLt2M;
+    },
+    back() {
+      if (this.id) {
+        this.$router.back()
+      } else {
+        this.$router.push('/market/actTpl')
+      }
     }
   }
 }

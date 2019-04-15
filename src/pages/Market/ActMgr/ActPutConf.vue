@@ -159,7 +159,7 @@
           </el-switch>
           <el-row class="mt20">
             <el-button type="primary" @click="save">保存</el-button>
-            <el-button @click="$router.push('/market/actMgr')">返回列表</el-button>
+            <el-button @click="backList">返回列表</el-button>
           </el-row>
         </el-form-item>
       </el-form>

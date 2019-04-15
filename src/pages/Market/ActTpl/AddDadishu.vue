@@ -220,7 +220,7 @@
               <div class="bg" style="background-color: #111;opacity: .7;"></div>
               <div class="winning">
                 <div class="prize-con">
-                  <div class="close">X</div>
+                  <div class="close"><img src="http://qoss.qrmkt.cn/new_platform/close_icon.png" alt=""></div>
                   <img class="pic" :src="configItem.drawImgUrl" alt="" style="margin-right: 0">
                   <p style="position: absolute;top: 265px;width: 100%;font-size: 10px;">请在24小时内领取</p>
                   <p style="position: absolute;top: 245px;width: 100%;font-size: 14px;">1.05红包+50积分</p>
@@ -269,7 +269,7 @@
               <div class="bg" style="background-color: #111;opacity: .7;"></div>
               <div class="not-winning">
                 <div class="prize-con">
-                  <div class="close">X</div>
+                  <div class="close"><img src="http://qoss.qrmkt.cn/new_platform/close_icon.png" alt=""></div>
                   <img class="pic" :src="configItem.cryImgUrl" alt="">
                   <img class="prize-btn" :src="configItem.cryBtnUrl" alt="">
                 </div>
@@ -759,13 +759,14 @@ export default {
             text-align: center;
             .close {
               position: absolute;
-              transform: translate(140px, 380px);
-              width: 20px;
-              height: 20px;
-              line-height: 20px;
+              transform: translate(137px, 380px);
+              width: 26px;
+              height: 26px;
+              line-height: 26px;
               text-align: center;
-              border: 1px solid #fff;
-              border-radius: 50%;
+              img{
+                width: 26px;
+              }
             }
             .pic {
               max-width: 196px;
@@ -865,7 +866,8 @@ export default {
             justify-content: center;
             align-items: center;
             img {
-              width: 100%;
+              max-width: 100%;
+              max-height: 100%;
             }
           }
         }
@@ -877,14 +879,16 @@ export default {
             justify-content: center;
             align-items: center;
             img {
-              width: 100%;
+              max-width: 100%;
+              max-height: 100%;
             }
           }
         }
         .edit-winning-img {
           display: flex;
           img {
-            width: 100%;
+            max-width: 100%;
+            max-height: 100%;
           }
         }
         .edit-winning {
@@ -901,7 +905,8 @@ export default {
             justify-content: center;
             align-items: center;
             img {
-              width: 100%;
+              max-width: 100%;
+              max-height: 100%;
             }
           }
         }

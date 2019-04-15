@@ -7,7 +7,7 @@
         </el-form-item>
         <div></div>
         <el-form-item label="排序值：" prop="idx" size="small">
-          <el-input type="number" v-model="ruleForm.idx" style="width: 200px"></el-input>
+          <el-input type="number" v-model="ruleForm.idx" style="width: 200px"  min="0" max="99999" @input="checkIdx(ruleForm.idx)"></el-input>
         </el-form-item>
         <div></div>
 
@@ -273,10 +273,10 @@
         dialogTableVisible:false,
         //对话框表格类型
         listType: 'JD',
-        
+
         listJD: [],
         listZJ: [],
-        
+
         ProductIndex:"",
 
         headers:{
@@ -414,6 +414,13 @@
       this.getRecommendDetail()
     },
     methods:{
+        checkIdx(value){
+            if (value) {
+                if (value > 99999 ) {
+                    this.ruleForm.idx ='';
+                }
+            }
+        },
       getRecommendDetail() {
         this.$request.post('/sc/saotx/mall/recommend/detail',{id:this.id},true,res => {
           if (res.ret == '200000') {
