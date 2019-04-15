@@ -299,7 +299,7 @@
               <div class="bg" style="background-color: #111;opacity: .7;"></div>
               <div class="winning">
                 <div class="prize-con">
-                  <div class="close">X</div>
+                  <div class="close"><img src="http://qoss.qrmkt.cn/new_platform/close_icon.png" alt=""></div>
                   <img class="pic" :src="configItem.drawImgUrl" alt="" style="margin-right: 0">
                   <h3 style="position: absolute;top: 126px;width: 100%">恭喜中奖</h3>
                   <p style="position: absolute;top: 265px;width: 100%;font-size: 10px;">请在24小时内领取</p>
@@ -349,7 +349,7 @@
               <div class="bg" style="background-color: #111;opacity: .7;"></div>
               <div class="not-winning">
                 <div class="prize-con">
-                  <div class="close">X</div>
+                  <div class="close"><img src="http://qoss.qrmkt.cn/new_platform/close_icon.png" alt=""></div>
                   <img class="pic" :src="configItem.cryImgUrl" alt="">
                   <h3 style="position: absolute;top: 126px;width: 100%">很遗憾，未中奖</h3>
                   <img class="prize-btn" :src="configItem.cryBtnUrl" alt="">
@@ -912,13 +912,14 @@ export default {
             text-align: center;
             .close {
               position: absolute;
-              transform: translate(140px, 380px);
-              width: 20px;
-              height: 20px;
-              line-height: 20px;
+              transform: translate(137px, 380px);
+              width: 26px;
+              height: 26px;
+              line-height: 26px;
               text-align: center;
-              border: 1px solid #fff;
-              border-radius: 50%;
+              img{
+                width: 26px;
+              }
             }
             .pic {
               max-width: 196px;
