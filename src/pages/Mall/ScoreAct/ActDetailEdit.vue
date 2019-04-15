@@ -1087,7 +1087,7 @@
 					}
 					/*分享配置*/
 					.content-phone {
-						height: 400px;
+						height: 500px;
 						border: 1px solid #efefef;
 						border-top: none;
 						.share-show {

@@ -131,7 +131,8 @@ export default {
 					keywords: that.keywords,
 					pageNo: that.page,
 					selfListPageSize: that.max,
-					type: that.modelValue
+					type: that.modelValue,
+					all:0
 				},
 				true,
 				res => {
@@ -172,7 +173,8 @@ export default {
 					keywords: "",
 					pageNo: that.page,
 					selfListPageSize: that.max,
-					type: ""
+					type: "",
+					all:0
 				},
 				true,
 				res => {
@@ -340,6 +342,13 @@ export default {
 				});
 				return;
 			}
+			if(that.addlist.snArr.length==0){
+				this.$message({
+					message: '请选择产品规格',
+					type: 'warning'
+				});
+				return;
+			}
 			if(!that.addlist.conf.has.title.name){
 				
 				this.$message({
@@ -405,6 +414,13 @@ export default {
 			if(!that.addlist.name){
 				this.$message({
 					message: '请填写模板名称',
+					type: 'warning'
+				});
+				return;
+			}
+			if(that.addlist.snArr.length==0){
+				this.$message({
+					message: '请选择产品规格',
 					type: 'warning'
 				});
 				return;

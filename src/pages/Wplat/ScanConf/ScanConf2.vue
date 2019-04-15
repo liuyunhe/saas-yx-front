@@ -17,7 +17,7 @@
 						<el-input v-model="addlist.note" placeholder="请输入模板说明" maxlength='20' class='tpl-name' size='small'></el-input>
 						<br /><br />
 						<span class='left-name'>
-							请选择品牌：
+							<span class='require'>*</span>请选择品牌：
 							</span>
 						<el-select class="filter-item" multiple v-model="selectBrand" placeholder="请选择品牌" size='small' @change='changeBr'>
 							<el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
@@ -25,7 +25,7 @@
 						</el-select>
 						<br /><br />
 						<span class='left-name'>
-							请选择规格：
+							<span class='require'>*</span>请选择规格：
 							</span>
 						<el-select size='small' class="filter-item" multiple v-model="addlist.snArr" @visible-change='snCallback' placeholder="请选择规格">
 							<el-option v-for="item in snList" :key="item.id" :label="item.allName" :value="item.sn">
@@ -512,6 +512,13 @@
 					});
 					return;
 				}
+				if(that.addlist.snArr.length==0){
+					this.$message({
+						message: '请选择产品规格',
+						type: 'warning'
+					});
+					return;
+				}
 				if(!that.addlist.conf.has.title.name) {
 
 					this.$message({
@@ -585,6 +592,13 @@
 				if(!that.addlist.name) {
 					this.$message({
 						message: '请填写模板名称',
+						type: 'warning'
+					});
+					return;
+				}
+				if(that.addlist.snArr.length==0){
+					this.$message({
+						message: '请选择产品规格',
 						type: 'warning'
 					});
 					return;
