@@ -17,7 +17,7 @@
 						<el-input v-model="addlist.note" placeholder="请输入模板说明" maxlength='20' class='tpl-name' size='small'></el-input>
 						<br /><br />
 						<span class='left-name'>
-							请选择品牌：
+							<span class='require'>*</span>请选择品牌：
 							</span>
 						<el-select class="filter-item" multiple v-model="selectBrand" placeholder="请选择品牌" size='small' @change='changeBr'>
 							<el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
@@ -25,7 +25,7 @@
 						</el-select>
 						<br /><br />
 						<span class='left-name'>
-							请选择规格：
+							<span class='require'>*</span>请选择规格：
 							</span>
 						<el-select size='small' class="filter-item" multiple v-model="addlist.snArr" @visible-change='snCallback' placeholder="请选择规格">
 							<el-option v-for="item in snList" :key="item.id" :label="item.allName" :value="item.sn">
@@ -39,8 +39,8 @@
 							<div class="phone-top"></div>
 							<div class="loading-bg">
 								<img :src="addlist.conf.loading.bg" alt="" />
-								<div class="loading-box":style="{border:'1px solid '+addlist.conf.loading.color+''}">
-									<div class="inner-box":style="{background:''+addlist.conf.loading.color+''}"></div>
+								<div class="loading-box" :style="{border:'1px solid '+addlist.conf.loading.color+''}">
+									<div class="inner-box" :style="{background:''+addlist.conf.loading.color+''}"></div>
 								</div>
 							</div>
 							<div class="phone-bottom"></div>
@@ -52,7 +52,7 @@
 						        <el-radio v-model="addlist.conf.loading.flag" :label="1">开启</el-radio>
 						  		<el-radio v-model="addlist.conf.loading.flag" :label="0">关闭</el-radio>
 							</div>
-							<div class='edit-con'v-show="addlist.conf.loading.flag">
+							<div class='edit-con' v-show="addlist.conf.loading.flag">
 								<span class='labels'>更换图片：</span>
 								<div class="img-div"><img :src="addlist.conf.loading.bg" alt="" /></div>
 						        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadLoad">
@@ -60,7 +60,7 @@
 								</el-upload>
 								<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*1204px格式为jpg\bmp\png\gif</div>
 							</div>
-							<div class='edit-con'v-show="addlist.conf.loading.flag">
+							<div class='edit-con' v-show="addlist.conf.loading.flag">
 								<span class='labels'>加载进度条设置：</span>
 								<el-color-picker v-model="addlist.conf.loading.color" class='color-select'></el-color-picker>
 							</div>
@@ -94,7 +94,7 @@
 								</div>
 							</div>
 							<div class="yz">
-								<el-popover placement="right" width="426" trigger="click" class='yz-click'v-if='addlist.conf.has.yz.botFlag'>
+								<el-popover placement="right" width="426" trigger="click" class='yz-click' v-if='addlist.conf.has.yz.botFlag'>
 									<div class="yz-info">
 										<p class='info-title'>验真模块配置</p>
 										<div class="detail">
@@ -102,10 +102,10 @@
 											<el-radio v-model="addlist.conf.has.yz.botFlag" :label="1">半屏</el-radio>
 						  					<el-radio v-model="addlist.conf.has.yz.botFlag" :label="0">全屏</el-radio>
 										</div>
-										<div class='edit-con'v-show='addlist.conf.has.yz.botFlag'>
+										<div class='edit-con' v-show='addlist.conf.has.yz.botFlag'>
 											<span class='labels'><span class='require'>*</span>主图背景：</span>
 											<div class="img-div">
-												<img :src="addlist.conf.has.yz.productImg"v-show='addlist.conf.has.yz.productImg' alt="" />
+												<img :src="addlist.conf.has.yz.productImg" v-show='addlist.conf.has.yz.productImg' alt="" />
 												<p v-show='!addlist.conf.has.yz.productImg'>+</p>
 											</div>
 									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadPro">
@@ -113,10 +113,10 @@
 											</el-upload>
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*500px格式为jpg\bmp\png\gif</div>
 										</div>
-										<div class='edit-con'v-show='!addlist.conf.has.yz.botFlag'>	
+										<div class='edit-con' v-show='!addlist.conf.has.yz.botFlag'>	
 											<span class='labels'><span class='require'>*</span>主图背景：</span>
 											<div class="img-div">
-												<img :src="addlist.conf.has.yz.productImgBig"v-show='addlist.conf.has.yz.productImgBig' alt="" />
+												<img :src="addlist.conf.has.yz.productImgBig" v-show='addlist.conf.has.yz.productImgBig' alt="" />
 												<p v-show='!addlist.conf.has.yz.productImgBig'>+</p>
 											</div>
 									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadProBig">
@@ -144,7 +144,7 @@
 						  					<div v-show='addlist.conf.has.yz.feedbackFlag'>
 						  						<span class='labels'><span class='require'>*</span>反馈图片：</span>
 												<div class="img-div">
-													<img :src="addlist.conf.has.yz.feedbackImg"v-show='addlist.conf.has.yz.feedbackImg' alt="" />
+													<img :src="addlist.conf.has.yz.feedbackImg" v-show='addlist.conf.has.yz.feedbackImg' alt="" />
 													<p v-show='!addlist.conf.has.yz.feedbackImg'>+</p>
 												</div>
 										        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadFeed">
@@ -157,7 +157,7 @@
 									</div>
 									<el-button slot="reference"></el-button>
 								</el-popover>
-								<el-popover placement="right" width="426" trigger="click" class='yz-click-big'v-if='!addlist.conf.has.yz.botFlag'>
+								<el-popover placement="right" width="426" trigger="click" class='yz-click-big' v-if='!addlist.conf.has.yz.botFlag'>
 									<div class="yz-info">
 										<p class='info-title'>验真模块配置</p>
 										<div class="detail">
@@ -165,10 +165,10 @@
 											<el-radio v-model="addlist.conf.has.yz.botFlag" :label="1">半屏</el-radio>
 						  					<el-radio v-model="addlist.conf.has.yz.botFlag" :label="0">全屏</el-radio>
 										</div>
-										<div class='edit-con'v-show='addlist.conf.has.yz.botFlag'>
+										<div class='edit-con' v-show='addlist.conf.has.yz.botFlag'>
 											<span class='labels'><span class='require'>*</span>主图背景：</span>
 											<div class="img-div">
-												<img :src="addlist.conf.has.yz.productImg"v-show='addlist.conf.has.yz.productImg' alt="" />
+												<img :src="addlist.conf.has.yz.productImg" v-show='addlist.conf.has.yz.productImg' alt="" />
 												<p v-show='!addlist.conf.has.yz.productImg'>+</p>
 											</div>
 									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadPro">
@@ -176,10 +176,10 @@
 											</el-upload>
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*500px格式为jpg\bmp\png\gif</div>
 										</div>
-										<div class='edit-con'v-show='!addlist.conf.has.yz.botFlag'>	
+										<div class='edit-con' v-show='!addlist.conf.has.yz.botFlag'>	
 											<span class='labels'><span class='require'>*</span>主图背景：</span>
 											<div class="img-div">
-												<img :src="addlist.conf.has.yz.productImgBig"v-show='addlist.conf.has.yz.productImgBig' alt="" />
+												<img :src="addlist.conf.has.yz.productImgBig" v-show='addlist.conf.has.yz.productImgBig' alt="" />
 												<p v-show='!addlist.conf.has.yz.productImgBig'>+</p>
 											</div>
 									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadProBig">
@@ -207,7 +207,7 @@
 						  					<div v-show='addlist.conf.has.yz.feedbackFlag'>
 						  						<span class='labels'><span class='require'>*</span>反馈图片：</span>
 												<div class="img-div">
-													<img :src="addlist.conf.has.yz.feedbackImg"v-show='addlist.conf.has.yz.feedbackImg' alt="" />
+													<img :src="addlist.conf.has.yz.feedbackImg" v-show='addlist.conf.has.yz.feedbackImg' alt="" />
 													<p v-show='!addlist.conf.has.yz.feedbackImg'>+</p>
 												</div>
 										        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadFeed">
@@ -220,30 +220,30 @@
 									</div>
 									<el-button slot="reference"></el-button>
 								</el-popover>
-								<div class="img-top"v-show='addlist.conf.has.yz.botFlag'>
-									<img src="http://qoss.qrmkt.cn/new_platform/scan-002-imgB.png" alt=""v-show='!addlist.conf.has.yz.productImg' />
-									<img :src="addlist.conf.has.yz.productImg"v-show='addlist.conf.has.yz.productImg' alt="" />
+								<div class="img-top" v-show='addlist.conf.has.yz.botFlag'>
+									<img src="http://qoss.qrmkt.cn/new_platform/scan-002-imgB.png" alt="" v-show='!addlist.conf.has.yz.productImg' />
+									<img :src="addlist.conf.has.yz.productImg" v-show='addlist.conf.has.yz.productImg' alt="" />
 								</div>
-								<div class="img-top-big"v-show='!addlist.conf.has.yz.botFlag'>
-									<img src="http://qoss.qrmkt.cn/new_platform/scan-002-img.png"v-show='!addlist.conf.has.yz.productImgBig' alt="" />
-									<img :src="addlist.conf.has.yz.productImgBig"v-show='addlist.conf.has.yz.productImgBig' alt="" />
+								<div class="img-top-big" v-show='!addlist.conf.has.yz.botFlag'>
+									<img src="http://qoss.qrmkt.cn/new_platform/scan-002-img.png" v-show='!addlist.conf.has.yz.productImgBig' alt="" />
+									<img :src="addlist.conf.has.yz.productImgBig" v-show='addlist.conf.has.yz.productImgBig' alt="" />
 								</div>
 								<div class="yz-text">
 									<p :style="{color:''+addlist.conf.has.yz.color+''}">尊敬的用户</p>
 									<p :style="{color:''+addlist.conf.has.yz.color+''}">您扫描的【产品名称】是正品</p>
-									<p class='time'>首扫时间：2018-09-23 12:34:56<span v-show='addlist.conf.has.yz.detailFlag':style="{color:''+addlist.conf.has.yz.color+'',border:'1px solid '+addlist.conf.has.yz.color+''}">详情</span></p>
+									<p class='time'>首扫时间：2018-09-23 12:34:56<span v-show='addlist.conf.has.yz.detailFlag' :style="{color:''+addlist.conf.has.yz.color+'',border:'1px solid '+addlist.conf.has.yz.color+''}">详情</span></p>
 									<div class="tip">{{addlist.conf.has.yz.note}}</div>
-									<img :src="addlist.conf.has.yz.feedbackImg"class='feedback'v-show='addlist.conf.has.yz.feedbackFlag' alt="" />
+									<img :src="addlist.conf.has.yz.feedbackImg" class='feedback' v-show='addlist.conf.has.yz.feedbackFlag' alt="" />
 								</div>								
 							</div>	
 							<div class="bot-img" v-show='addlist.conf.has.yz.botFlag'>
 								<el-popover placement="right" width="426" trigger="click" class='bot-click'>
 									<div class="bot-info">
 										<p class='info-title'>广告图配置</p>
-										<div class='edit-con'v-show='addlist.conf.has.yz.botFlag'>
+										<div class='edit-con' v-show='addlist.conf.has.yz.botFlag'>
 											<span class='labels'><span class='require'>*</span>广告图：</span>
 											<div class="img-div">
-												<img :src="addlist.conf.has.yz.botImg"v-show='addlist.conf.has.yz.botImg' alt="" />
+												<img :src="addlist.conf.has.yz.botImg" v-show='addlist.conf.has.yz.botImg' alt="" />
 												<p v-show='!addlist.conf.has.yz.botImg'>+</p>
 											</div>
 									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadBot">
@@ -254,8 +254,8 @@
 									</div>								
 									<el-button slot="reference"></el-button>
 								</el-popover>
-								<img src="http://qoss.qrmkt.cn/new_platform/scan-002-bot.png"v-show='!addlist.conf.has.yz.botImg' alt="" />
-								<img :src="addlist.conf.has.yz.botImg"v-show='addlist.conf.has.yz.botImg' alt="" />
+								<img src="http://qoss.qrmkt.cn/new_platform/scan-002-bot.png" v-show='!addlist.conf.has.yz.botImg' alt="" />
+								<img :src="addlist.conf.has.yz.botImg" v-show='addlist.conf.has.yz.botImg' alt="" />
 							</div>
 							<div class="act-part">
 								<img src="http://qoss.qrmkt.cn/new_platform/hehua-act.png" alt="" />
@@ -272,7 +272,7 @@
 			</el-tabs>
 			<div class="save">
 				<div class="save-con">
-					<el-button type="primary" @click='saveAdd'>保存并启用</el-button>
+					<el-button type="primary" @click='saveAdd'>启用</el-button>
 					<el-button type="primary" @click='save'>保存</el-button>
 				</div>
 
@@ -512,6 +512,13 @@
 					});
 					return;
 				}
+				if(that.addlist.snArr.length==0){
+					this.$message({
+						message: '请选择产品规格',
+						type: 'warning'
+					});
+					return;
+				}
 				if(!that.addlist.conf.has.title.name) {
 
 					this.$message({
@@ -585,6 +592,13 @@
 				if(!that.addlist.name) {
 					this.$message({
 						message: '请填写模板名称',
+						type: 'warning'
+					});
+					return;
+				}
+				if(that.addlist.snArr.length==0){
+					this.$message({
+						message: '请选择产品规格',
 						type: 'warning'
 					});
 					return;
