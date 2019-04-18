@@ -455,7 +455,7 @@ export default {
 			savelist.snArr = that.addlist.snArr;
 			savelist.conf = JSON.stringify(savelist.conf);
 			savelist.publish = 1;
-			if (forcePub) {
+			if (forcePub && typeof forcePub == 'number') {
 				savelist.forcePub = forcePub
 			}
 			this.$request.post(
