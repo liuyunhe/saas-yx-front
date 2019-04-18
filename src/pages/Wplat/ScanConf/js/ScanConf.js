@@ -409,7 +409,7 @@ export default {
 				}
 			)
 		},
-		saveAdd() {
+		saveAdd(forcePub) {
 			var that = this;
 			if(!that.addlist.name){
 				this.$message({
@@ -455,6 +455,9 @@ export default {
 			savelist.snArr = that.addlist.snArr;
 			savelist.conf = JSON.stringify(savelist.conf);
 			savelist.publish = 1;
+			if (forcePub) {
+				savelist.forcePub = forcePub
+			}
 			this.$request.post(
 				'/api/wiseqr/orgtpl/saveOrModify', savelist,
 				true,
@@ -471,8 +474,11 @@ export default {
 						that.addlist = JSON.parse(str);
 						this.selectBrand = [];
 						that.init();
-
-					}else {
+					} if(res.ret == '400407') {
+						this.$confirm(res.message+'，是否替换？').then(_ => {
+							that.saveAdd(1) // 强制启用
+						}).catch(_ => {})
+					} else {
 						this.$message.error(res.message);
 					}
 				},
@@ -604,28 +610,30 @@ export default {
 				})
 				.catch(_ => {})
 		},
-		use(item) {
-			this.$request.post(
-				'/api/wiseqr/orgtpl/use', {
-					id: item.id
-				},
-				true,
-				res => {
-					if(res.ret == '200000') {
-						
-						this.$message({
-							message: '已启用',
-							type: 'success'
-						});
-						this.init();
-					}else {
-						this.$message.error(res.message);
-					}
-				},
-				err => {
-					console.log(err)
+		use(item, forcePub) {
+			var that = this;
+			let params = {id: item.id}
+			if (forcePub) {
+				params.forcePub = forcePub
+			}
+			this.$request.post('/api/wiseqr/orgtpl/use', params, true, res => {
+				if(res.ret == '200000') {
+					this.$message({
+						message: '已启用',
+						type: 'success'
+					});
+					this.init();
+				} if(res.ret == '400407') {
+					this.$confirm(res.message+'，是否替换？').then(_ => {
+						that.use(item, 1) // 强制启用
+					}).catch(_ => {})
+				} else {
+					this.$message.error(res.message);
 				}
-			)
+			},
+			err => {
+				console.log(err)
+			})
 		}
 
 	},
