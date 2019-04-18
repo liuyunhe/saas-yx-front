@@ -64,7 +64,7 @@
             </el-table-column>
             <el-table-column label="来源" align="center">
               <template slot-scope="scope">
-                LV{{scope.row.gradeCode}}用户特权
+                LV{{scope.row.gradeNumber}}用户特权
               </template>
             </el-table-column>
             <el-table-column label="获取日期" align="center">
@@ -120,9 +120,11 @@ export default {
   watch: {
     tabsActive(val) {
       if (val == 1) {
+        this.pointsQuery.pageNo = 1
         this.getUserPoints()
       } else {
-        this.getUserGrowth()
+        this.rightsQuery.pageNo = 1
+        this.getUserRights()
       }
     }
   },
@@ -159,10 +161,10 @@ export default {
         }
       })
     },
-    getUserGrowth() {
+    getUserRights() {
       this.load = true
       this.rightsQuery.openid = this.userInfo.openid
-      this.$request.post('/api/wiseqr/mber/listURights', this.pointsQuery, true, res => {
+      this.$request.post('/api/wiseqr/mber/listURights', this.rightsQuery, true, res => {
         if (res.ret === '200000') {
           this.load = false
           this.growthList = res.data.list
@@ -191,7 +193,7 @@ export default {
         this.getUserPoints()
       } else {
         this.rightsQuery.pageNo = newPageNo
-        this.getUserGrowth()
+        this.getUserRights()
       }
     }
   }
