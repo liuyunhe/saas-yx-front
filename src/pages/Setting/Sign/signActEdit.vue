@@ -174,20 +174,19 @@ export default {
       this.signDayArr.push(21)
     },
     getSelectedGoodsArr(arr) {
-      console.log(arr)
+      // console.log(arr)
       this.selectedGoodsArr = arr
       this.dialogVisible = false
       let idArr = []
       if (this.data.gameItems && this.data.gameItems.length > 0) {
         this.data.gameItems.forEach(item => {
-          idArr.push(item.oldId)
+          idArr.push(item.productId)
         })
       }
       // this.selectedGoodsArr.map(item => {
         for (let y = 0; y < this.selectedGoodsArr.length; y ++) {
           let item = this.selectedGoodsArr[y]
-        let i = idArr.indexOf(item.id)
-        console.log(i)
+        let i = idArr.indexOf(item.productId)
         if (i != -1) {
           return this.$message.warning('请不要选择重复的奖品')
         } else {
@@ -208,8 +207,7 @@ export default {
             bingo_image: item.image,
             shopQuantity: item.shopQuantity,
             quantity: null,
-            allquantity: 0,
-            oldId: item.id,
+            allquantity: 0
             // id: item.id
           })
         }
