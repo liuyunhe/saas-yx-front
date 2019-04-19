@@ -474,7 +474,7 @@ export default {
 						that.addlist = JSON.parse(str);
 						this.selectBrand = [];
 						that.init();
-					} if(res.ret == '400407') {
+					} else if(res.ret == '400407') {
 						this.$confirm(res.message+'，是否替换？').then(_ => {
 							that.saveAdd(1) // 强制启用
 						}).catch(_ => {})
@@ -623,7 +623,7 @@ export default {
 						type: 'success'
 					});
 					this.init();
-				} if(res.ret == '400407') {
+				} else if(res.ret == '400407') {
 					this.$confirm(res.message+'，是否替换？').then(_ => {
 						that.use(item, 1) // 强制启用
 					}).catch(_ => {})
@@ -635,6 +635,5 @@ export default {
 				console.log(err)
 			})
 		}
-
-	},
+	}
 }
