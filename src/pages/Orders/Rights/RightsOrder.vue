@@ -140,6 +140,7 @@ export default {
         let obj = {name:res.data.sourceFile, sourceCode:res.data.sourceCode, count:res.data.successCount}
         this.sourceFiles.push(obj)
       } else {
+        this.sourceFiles = []
         this.$message.error(res.message)
       }
     },

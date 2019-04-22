@@ -31,6 +31,7 @@ import selectedArea from '@/components/seleckedArea.module'
 import putConf from './components/PutConfItem'
 export default {
   props: ['id', 'actCode','form'],
+  inject: ['routerRefresh'], //在子组件中注入在父组件中出创建的属性
   components: {
     selectedArea,
     selectedBrand,
@@ -141,6 +142,11 @@ export default {
         }
       })
     },
+    // 返回列表
+    backList() {
+      this.$router.push('/market/actMgr')
+      this.routerRefresh() // 调用home.vue的 routerRefresh
+    },
     save() {
       // if (this.selectedBrandArr.length == 0 || this.selectedSnArr.length == 0) return this.$message.error('请选择品牌')
       // if (this.selectedPrevArr.length == 0 || this.selectedCityArr.length == 0) return this.$message.error('请选择地区')
@@ -170,6 +176,7 @@ export default {
         if (res.ret === '200000') {
           this.$message.success('保存成功')
           this.$router.push('/market/actMgr')
+          this.routerRefresh() // 调用home.vue的 routerRefresh
         } else {
           this.$message.error(res.message)
         }

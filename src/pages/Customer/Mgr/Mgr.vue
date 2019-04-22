@@ -141,6 +141,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.el-form-item.is-success /deep/ .el-input__inner {
+  border: 1px solid #dcdfe6;
+}
 .el-input-number {
   width: 200px;
 }
