@@ -207,7 +207,8 @@ const sellerWhitelist = () => import(/* webpackChunkName: "seller" */ '@/pages/S
 const sellerAuditStep1 = () => import(/* webpackChunkName: "seller" */ '@/pages/Seller/Audit/Step1')
 //零售户-终审管理
 const sellerAuditStep2 = () => import(/* webpackChunkName: "seller" */ '@/pages/Seller/Audit/Step2')
-
+//零售户-助力活动
+const sellerHelp = () => import(/* webpackChunkName: "seller" */ '@/pages/Seller/Help')
 
 
 // 会员日
@@ -407,6 +408,7 @@ export default new Router({
         { path: '/seller/whitelist', name: '白名单管理', component: sellerWhitelist},
         { path: '/seller/audStep1', name: '初审管理', component: sellerAuditStep1},
         { path: '/seller/audStep2', name: '终审管理', component: sellerAuditStep2},
+        { path: '/seller/help', name: '助力活动', component: sellerHelp},
         // 商城
         { path: '/mall', name: '商城'},
         { path: '/mall/auth', name: '审核管理', component: auditManage },
