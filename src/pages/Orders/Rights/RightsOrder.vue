@@ -29,7 +29,7 @@
         <el-button type="primary" plain @click="exportData">导出搜索结果</el-button>
         <el-upload
           class="upload"
-          action="/api/wiseqr/mborder/exportOrder"
+          action="/api/wiseqr/mborder/importOrder"
           :headers="headers"
           :on-success="handleSourceFileSuccess"
           :on-remove="handleSourceFileRemove"
@@ -135,7 +135,8 @@ export default {
     // 文件上传控制。成功之后的回调
     handleSourceFileSuccess(res, file) {
       if(res.ret==200000) {
-        this.$message({type:'success', message:res.data})
+        // this.$message({type:'success', message:res.data})
+        this.$message.succecc('上传成功')
         let obj = {name:res.data.sourceFile, sourceCode:res.data.sourceCode, count:res.data.successCount}
         this.sourceFiles.push(obj)
       } else {
