@@ -26,7 +26,7 @@
 							<div class="icon-text"><span>图标 {{key+1}}</span></div>
 							<div class="icon-init">
 								初始状态
-								<div class="img-con" :style='{background:colorValue}'>
+								<div class="img-con">
 									<img :src="value.icon" class='img-pre' width="56" height="49" alt="" />
 									<!--<div>{{value.name}}</div>-->
 								</div>
@@ -37,7 +37,7 @@
 							</div>
 							<div class="icon-active">
 								按下状态
-								<div class="img-con" :style='{background:colorValue}'>
+								<div class="img-con">
 									<img :src="value.activeIcon" width="56" height="49" alt="" />
 									<!--<div>{{value.name}}</div>-->
 								</div>

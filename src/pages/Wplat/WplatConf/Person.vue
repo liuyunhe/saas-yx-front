@@ -88,7 +88,7 @@
 										<div class="select-jump">
 											<span>标题:</span>
 											<el-input v-model="item.name" placeholder="图标名称" maxlength='5' class='icon-name' size='small' @input = 'changeName(item.name,index)'></el-input>
-											<br /><br />
+											<div class = 'fenge'></div>
 											<span>链接:</span>
 											<el-select class="filter-item" v-model="item.type" placeholder="请选择跳转的页面" size='small'@change='selectChange(index,item.type)'>
 												<el-option v-for="v in iconList" :key="v.name" :label="v.name" :value="v.type">
@@ -241,9 +241,9 @@
 //			},
 			reset(str){
 				if(str == 'whole') {
-					this.conf.wholeColor = this.initWholeColor;					
+					this.conf.wholeColor = '#fff';					
 				}else if (str == 'icon'){
-					this.conf.iconColor = this.initIconColor;
+					this.conf.iconColor = '#fff';
 				}
 			},
 			changeName(name,index){
@@ -482,7 +482,7 @@
 			.icons {
 				min-height: 47px;
 				background: #fff;
-				margin-top: 10px;
+				margin-top: 20px;
 				margin-bottom: 10px;
 				padding-top: 5px;
 				ul {
@@ -584,7 +584,6 @@
 			}
 		}
 		.right {
-			height: 1600px;
 			margin-left: 350px;
 			overflow: hidden;
 			.box {
@@ -730,6 +729,7 @@
 			            }
 			            .avatar-uploader {
 			                display: inline-block;
+			                vertical-align: middle;
 			            }
 			            .el-upload__tip {
 			            	margin-left: 48px;
@@ -882,7 +882,6 @@
 									top:25px;
 									span {
 										text-align: left;
-										margin-bottom: 15px;
 										width:40px;
 									}
 									.icon-name {
@@ -890,8 +889,11 @@
 										vertical-align: top;
 									}
 									.filter-item {
-										vertical-align: top;
+										vertical-align: middle;
 										width:120px;
+									}
+									.fenge {
+										height: 15px;
 									}
 								}
 								.img-div {

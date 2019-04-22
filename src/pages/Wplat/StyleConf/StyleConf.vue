@@ -33,7 +33,7 @@
 		data() {
 			return {
 				colorValue: '#297873',
-				initValue: '',
+				initValue: '#bebebe',
 				id: ''
 			}
 		},
