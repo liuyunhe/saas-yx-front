@@ -198,7 +198,7 @@
 										</div>										
 										<div class="edit-con">
 											<span class='labels'>提示语：</span>
-											<el-input size='mini' v-model="addlist.conf.has.yz.note" class='note' placeholder="请输入内容" maxlength='20'></el-input>
+											<el-input size='mini' v-model="addlist.conf.has.yz.note" class='note' placeholder="请输入内容" maxlength='26'></el-input>
 										</div>
 										<div class='edit-con'>
 											<span class='labels'>一键反馈</span>
