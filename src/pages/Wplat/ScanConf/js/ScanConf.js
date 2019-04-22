@@ -617,6 +617,7 @@ export default {
 				params.forcePub = forcePub
 			}
 			this.$request.post('/api/wiseqr/orgtpl/use', params, true, res => {
+				console.log(res.ret)
 				if(res.ret == '200000') {
 					this.$message({
 						message: '已启用',

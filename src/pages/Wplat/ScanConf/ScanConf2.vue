@@ -134,7 +134,7 @@
 										</div>										
 										<div class="edit-con">
 											<span class='labels'>提示语：</span>
-											<el-input size='mini' v-model="addlist.conf.has.yz.note" class='note' placeholder="请输入内容" maxlength='20'></el-input>
+											<el-input size='mini' v-model="addlist.conf.has.yz.note" class='note' placeholder="请输入内容" maxlength='26'></el-input>
 										</div>
 										<div class='edit-con'>
 											<span class='labels'>一键反馈</span>
@@ -192,6 +192,7 @@
 										<div class="edit-con">
 											<span class='labels'>详情按钮</span>
 											<el-checkbox v-model="addlist.conf.has.yz.detailFlag"></el-checkbox>
+											<span class='labels'></span>
 											<span class='color-labels'>扫码落地页风格</span>
 											<el-color-picker v-model="addlist.conf.has.yz.color" class='color-select'></el-color-picker>
 										</div>										

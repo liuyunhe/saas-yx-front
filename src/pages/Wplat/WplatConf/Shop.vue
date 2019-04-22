@@ -50,14 +50,14 @@
 								<div v-if='index==0 || index==2'>
 									<span>{{item.name}}</span>
 									<el-color-picker v-model="item.color" class='color-select'></el-color-picker>
-									<el-button size='small' @click='reset'>重置</el-button>
+									<el-button size='small' @click='reset(index)'>重置</el-button>
 								</div>		
 								<div class="title"v-if='index==1'>热销商品</div>
 								<div class="title"v-if='index==2'>推荐位</div>
 								<div v-for='(v,i) in item.list'class='child-div'>
 									<span>{{v.name}}</span>
 									<el-color-picker v-model="v.color" class='color-select'></el-color-picker>
-									<el-button size='small' @click='reset'>重置</el-button>
+									<el-button size='small' @click='reset("item"+i)'>重置</el-button>
 								</div>
 							</li>
 						</ul>
@@ -142,6 +142,29 @@
 			this.initShare();
 		},
 		methods: {
+			reset (str){
+				if (str == 0) {
+					this.$set(this.backgroundList, 0, {
+						name:'整体背景色',
+						color:'#efefef'
+					})
+				}else if (str == 2) {
+					this.$set(this.backgroundList, 2, {
+						name:'标题背景色',
+						color:'#ff7e27'
+					})
+				}else if (str == 'item0') {
+					this.$set(this.backgroundList[1].list, 0, {
+						name:'背景色',
+						color:'#faedd3'
+					})
+				}else if (str == 'item1') {
+					this.$set(this.backgroundList[1].list, 1, {
+						name:'标题色',
+						color:'#ea7d5e'
+					})
+				}				
+			},
 			save() {
 				let that = this;
 				let conf = JSON.stringify(this.backgroundList)
