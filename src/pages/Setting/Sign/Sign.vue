@@ -24,12 +24,21 @@ export default {
     }
   },
   created() {
-    this.getTaskList()
+    
+  },
+  mounted() {
+    const loading = this.$loading({
+      target: '.el-card'
+    })
+    this.getTaskList(() => loading.close())
   },
   methods: {
-    getTaskList() {
+    getTaskList(callback) {
       this.$request.post('/sc/saotx/act/findList', {}, true, res => {
-        if (res.ret === '200000') return this.actList = res.data
+        if (res.ret === '200000') {
+          this.actList = res.data
+        }
+        callback && callback()
       })
     },
     goToDetail(item) {

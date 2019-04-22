@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <menu-conf :menuArr="menuArr" :page="page" @updataPage="updataPage"></menu-conf>
     <el-card :body-style="{padding:'40px'}">
       <!-- <div class="data-module">
@@ -125,10 +125,16 @@ export default {
     this.days = new Date(this.nowMonth + '.1').getDay()
     // this.firstStyle['margin-left'] = this.days * 40 + 9 + 'px'
     // console.log(this.conf.imgObj)
-    this.getPutDetail()
+    
+  },
+  mounted() {
+    const loading = this.$loading({
+      target: '.main'
+    })
+    this.getPutDetail(() => loading.close())
   },
   methods: {
-    getPutDetail() {
+    getPutDetail(callback) {
       this.$request.post('/sc/saotx/act/bsDetail', {id: this.id}, true, res => {
         if (res.ret === '200000') {
           this.data = res.data
@@ -153,6 +159,7 @@ export default {
           this.editData.push(this.conf.imgObj.page7.icon)
           this.isShow = true
         }
+        callback && callback()
       })
     },
     editPic(e) {

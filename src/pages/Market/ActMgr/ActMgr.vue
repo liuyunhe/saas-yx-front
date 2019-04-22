@@ -338,6 +338,7 @@ export default {
     },
     // 获取活动列表
     getActList() {
+      this.loading = true
       // if (this.queryActParams.status == '0') this.queryActParams.status = ''
       this.$request.post('/api/wiseqr/act/list', this.queryActParams, true, res => {
         if (res.ret === '200000') {
@@ -421,7 +422,10 @@ export default {
       this.actParams.pcode = ''
       this.actParams.pageNo = 1
       this.nowActiveIndex = 0
-      this.getAct()
+      const loading = this.$loading({
+        target: '.el-dialog'
+      })
+      this.getAct(() => loading.close())
     },
     // 新建活动tab切换
     getCheckedAct(item, index) {
@@ -433,7 +437,10 @@ export default {
       // } else {
       //   this.actParams.pcode = 'form-cate' + index
       // }
-      this.getAct()
+      const loading = this.$loading({
+        target: '.el-dialog'
+      })
+      this.getAct(() => loading.close())
     },
     // 获取活动名称列表
     getActCodeList() {
@@ -456,7 +463,7 @@ export default {
       )
     },
     // 查询当前活动
-    getAct() {
+    getAct(callback) {
       this.$request.post(
         '/api/wiseqr/acttpl/list',
         this.actParams,
@@ -473,6 +480,7 @@ export default {
           } else {
             this.$message.error(res.message)
           }
+          callback && callback()
         },
         err => {
           console.log(err)

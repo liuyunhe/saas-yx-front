@@ -204,10 +204,16 @@ export default {
   //   }
   // },
   created() {
+    
+  },
+  mounted() {
     if (!this.id) {
       this.confData.banner = Config.banner[this.form]
     } else {
-      this.getDetail()
+      const loading = this.$loading({
+        target: '.actSetConf-container'
+      })
+      this.getDetail(() => loading.close())
     }
     this.getIdxSelect()
   },
@@ -220,7 +226,7 @@ export default {
   		}
   		
   	},
-    getDetail() {
+    getDetail(callback) {
       this.$request.post('/api/wiseqr/act/detail', { id: this.id }, true, res => {
         if (res.ret == '200000') {
           if (this.clone == '1') {
@@ -238,6 +244,7 @@ export default {
           }
           // this.actTime.push(this.confData.stimeStr)
           // this.actTime.push(this.confData.etimeStr)
+          callback && callback()
           return
         }
         this.$message.error(res.messgae)
