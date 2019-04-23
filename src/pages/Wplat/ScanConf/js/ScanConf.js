@@ -58,7 +58,7 @@ export default {
 							show: false,
 							tpl: 1 //1为轮播
 						}
-					}					
+					}
 				},
 				publish: 0
 			},
@@ -94,10 +94,10 @@ export default {
 			},
 			removeArr: [],
 			loading: true,
-			borderShow:false,//活动的border
+			borderShow: false, //活动的border
 		}
 	},
-	
+
 	created() {
 		this.init();
 		this.initTpl();
@@ -107,8 +107,8 @@ export default {
 			this.page = data;
 			this.init();
 		},
-		showBorder(){
-			this.borderShow=true;
+		showBorder() {
+			this.borderShow = true;
 		},
 		backMain() {
 			this.addTplShow = false;
@@ -132,7 +132,7 @@ export default {
 					pageNo: that.page,
 					selfListPageSize: that.max,
 					type: that.modelValue,
-					all:0
+					all: 0
 				},
 				true,
 				res => {
@@ -174,7 +174,7 @@ export default {
 					pageNo: that.page,
 					selfListPageSize: that.max,
 					type: "",
-					all:0
+					all: 0
 				},
 				true,
 				res => {
@@ -252,10 +252,10 @@ export default {
 		addSure(item) {
 			var that = this;
 			this.addlist.type = item.type;
-			if(item.type=='SCMB-001'){
+			if(item.type == 'SCMB-001') {
 				this.addTplShow = false;
 				this.addShow = true;
-				this.activeName='third'
+				this.activeName = 'third'
 				this.listShow = false;
 				this.$request.post(
 					'/api/wiseqr/prod/listBrand', {
@@ -272,13 +272,38 @@ export default {
 						console.log(err)
 					}
 				)
-			}else if(item.type=='SCMB-002'){
-				this.$router.push('/weplat/down2?type='+item.type);
+			} else if(item.type == 'SCMB-002') {
+				this.$router.push('/weplat/down2?type=' + item.type);
 			}
-			
+
 		},
-		changeBr(){
-			this.addlist.snArr=[];
+		changeBr() {
+			this.$request.post(
+				'/api/wiseqr/prod/list', {
+					pageSize: -1,
+					brandCodeArr: this.selectBrand
+				},
+				true,
+				res => {
+					if(res.ret == '200000') {
+						let data = res.data.list || [];
+						let allSnList = [];
+						data.forEach((item, i) => {
+							allSnList.push(item.sn)
+						})
+						let hasSnList = this.addlist.snArr;
+						for (let i = 0;i< hasSnList.length;i++) {
+							if (allSnList.indexOf(hasSnList[i]) == -1) {
+								hasSnList.splice(i,1)
+								i--;
+							}
+						}
+					}
+				},
+				err => {
+					console.log(err)
+				}
+			)
 		},
 		snCallback(flag) {
 			var that = this;
@@ -307,7 +332,7 @@ export default {
 					)
 				}
 			} else {
-				console.log(that.addlist.snArr)
+//				console.log(that.addlist.snArr)
 			}
 
 		},
@@ -335,36 +360,36 @@ export default {
 		},
 		save() {
 			var that = this;
-			if(!that.addlist.name){
+			if(!that.addlist.name) {
 				this.$message({
 					message: '请填写模板名称',
 					type: 'warning'
 				});
 				return;
 			}
-			if(that.addlist.snArr.length==0){
+			if(that.addlist.snArr.length == 0) {
 				this.$message({
 					message: '请选择产品规格',
 					type: 'warning'
 				});
 				return;
 			}
-			if(!that.addlist.conf.has.title.name){
-				
+			if(!that.addlist.conf.has.title.name) {
+
 				this.$message({
 					message: '请填写页面的标题名称',
 					type: 'warning'
 				});
 				return;
 			}
-			if(!that.addlist.conf.has.yz.bg){				
+			if(!that.addlist.conf.has.yz.bg) {
 				this.$message({
 					message: '验真信息模块背景图未上传，请上传后再保存~',
 					type: 'warning'
 				});
 				return;
 			}
-			if(!that.addlist.conf.has.gzh.bg){				
+			if(!that.addlist.conf.has.gzh.bg) {
 				this.$message({
 					message: '公众号配置模块背景图未上传，请上传后再保存~',
 					type: 'warning'
@@ -397,7 +422,7 @@ export default {
 						this.selectBrand = [];
 						that.init();
 
-					}else {
+					} else {
 						this.$message({
 							message: res.message,
 							type: 'warning'
@@ -411,35 +436,35 @@ export default {
 		},
 		saveAdd(forcePub) {
 			var that = this;
-			if(!that.addlist.name){
+			if(!that.addlist.name) {
 				this.$message({
 					message: '请填写模板名称',
 					type: 'warning'
 				});
 				return;
 			}
-			if(that.addlist.snArr.length==0){
+			if(that.addlist.snArr.length == 0) {
 				this.$message({
 					message: '请选择产品规格',
 					type: 'warning'
 				});
 				return;
 			}
-			if(!that.addlist.conf.has.title.name){
+			if(!that.addlist.conf.has.title.name) {
 				this.$message({
 					message: '请填写页面的标题名称',
 					type: 'warning'
 				});
 				return;
 			}
-			if(!that.addlist.conf.has.yz.bg){				
+			if(!that.addlist.conf.has.yz.bg) {
 				this.$message({
 					message: '验真信息模块背景图未上传，请上传后再保存~',
 					type: 'warning'
 				});
 				return;
 			}
-			if(!that.addlist.conf.has.gzh.bg){				
+			if(!that.addlist.conf.has.gzh.bg) {
 				this.$message({
 					message: '公众号配置模块背景图未上传，请上传后再保存~',
 					type: 'warning'
@@ -455,7 +480,7 @@ export default {
 			savelist.snArr = that.addlist.snArr;
 			savelist.conf = JSON.stringify(savelist.conf);
 			savelist.publish = 1;
-			if (forcePub && typeof forcePub == 'number') {
+			if(forcePub && typeof forcePub == 'number') {
 				savelist.forcePub = forcePub
 			}
 			this.$request.post(
@@ -475,7 +500,7 @@ export default {
 						this.selectBrand = [];
 						that.init();
 					} else if(res.ret == '400407') {
-						this.$confirm(res.message+'，是否替换？').then(_ => {
+						this.$confirm(res.message + '，是否替换？').then(_ => {
 							that.saveAdd(1) // 强制启用
 						}).catch(_ => {})
 					} else {
@@ -489,72 +514,71 @@ export default {
 		},
 		editItem(item) {
 			var that = this;
-			if(item.type=='SCMB-001'){
+			if(item.type == 'SCMB-001') {
 				this.addTplShow = false;
-			this.addShow = true;
-			this.listShow = false;
-			this.activeName='third'
-			this.$request.post(
-				'/api/wiseqr/orgtpl/detail', {
-					id: item.id
-				},
-				true,
-				res => {
-					if(res.ret == '200000') {
-						var data = res.data || [];
-						that.addlist.id = data.id;
-						that.addlist.name = data.name;
-						that.addlist.note = data.note;
-						that.addlist.type = data.type;
-						that.addlist.conf = JSON.parse(item.conf);
-						var list = [];
-						var blist = [];
-						data.snArr.forEach((item, i) => {
-							list.push({
-								allName: data.snNameArr[i],
-								sn: item
+				this.addShow = true;
+				this.listShow = false;
+				this.activeName = 'third'
+				this.$request.post(
+					'/api/wiseqr/orgtpl/detail', {
+						id: item.id
+					},
+					true,
+					res => {
+						if(res.ret == '200000') {
+							var data = res.data || [];
+							that.addlist.id = data.id;
+							that.addlist.name = data.name;
+							that.addlist.note = data.note;
+							that.addlist.type = data.type;
+							that.addlist.conf = JSON.parse(item.conf);
+							var list = [];
+							var blist = [];
+							data.snArr.forEach((item, i) => {
+								list.push({
+									allName: data.snNameArr[i],
+									sn: item
+								})
 							})
-						})
-						data.brandNameArr.forEach((val, j) => {
-							blist.push({
-								name: val,
-								brandCode: data.brandArr[j]
+							data.brandNameArr.forEach((val, j) => {
+								blist.push({
+									name: val,
+									brandCode: data.brandArr[j]
+								})
 							})
-						})
-						that.snList = list;
-						that.addlist.snArr = data.snArr;
-						that.brandList = blist;
-						that.selectBrand = data.brandArr;
+							that.snList = list;
+							that.addlist.snArr = data.snArr;
+							that.brandList = blist;
+							that.selectBrand = data.brandArr;
 
-					}else {
-						this.$message.error(res.message);
+						} else {
+							this.$message.error(res.message);
+						}
+					},
+					err => {
+						console.log(err)
 					}
-				},
-				err => {
-					console.log(err)
-				}
-			)
+				)
 
-			this.$request.post(
-				'/api/wiseqr/prod/listBrand', {
-					pageSize: -1
-				},
-				true,
-				res => {
-					if(res.ret == '200000') {
-						var data = res.data.list || [];
-						that.brandList = data;
+				this.$request.post(
+					'/api/wiseqr/prod/listBrand', {
+						pageSize: -1
+					},
+					true,
+					res => {
+						if(res.ret == '200000') {
+							var data = res.data.list || [];
+							that.brandList = data;
 
+						}
+					},
+					err => {
+						console.log(err)
 					}
-				},
-				err => {
-					console.log(err)
-				}
-			)
-			}else if(item.type=='SCMB-002'){
-				this.$router.push('/weplat/down2?type='+item.type+'&id='+item.id);
+				)
+			} else if(item.type == 'SCMB-002') {
+				this.$router.push('/weplat/down2?type=' + item.type + '&id=' + item.id);
 			}
-			
 
 		},
 		remove(idArr) {
@@ -572,7 +596,7 @@ export default {
 						});
 						that.removeArr = [];
 						that.init();
-					}else if(res.ret=='400400'){
+					} else if(res.ret == '400400') {
 						this.$message({
 							message: '该模板正在启用中，不能进行删除操作',
 							type: 'warning'
@@ -612,29 +636,31 @@ export default {
 		},
 		use(item, forcePub) {
 			var that = this;
-			let params = {id: item.id}
-			if (forcePub) {
+			let params = {
+				id: item.id
+			}
+			if(forcePub) {
 				params.forcePub = forcePub
 			}
 			this.$request.post('/api/wiseqr/orgtpl/use', params, true, res => {
-				console.log(res.ret)
-				if(res.ret == '200000') {
-					this.$message({
-						message: '已启用',
-						type: 'success'
-					});
-					this.init();
-				} else if(res.ret == '400407') {
-					this.$confirm(res.message+'，是否替换？').then(_ => {
-						that.use(item, 1) // 强制启用
-					}).catch(_ => {})
-				} else {
-					this.$message.error(res.message);
-				}
-			},
-			err => {
-				console.log(err)
-			})
+					console.log(res.ret)
+					if(res.ret == '200000') {
+						this.$message({
+							message: '已启用',
+							type: 'success'
+						});
+						this.init();
+					} else if(res.ret == '400407') {
+						this.$confirm(res.message + '，是否替换？').then(_ => {
+							that.use(item, 1) // 强制启用
+						}).catch(_ => {})
+					} else {
+						this.$message.error(res.message);
+					}
+				},
+				err => {
+					console.log(err)
+				})
 		}
 	}
 }

@@ -18,7 +18,7 @@
 						<br /><br />
 						<span class='left-name'>
 							<span class='require'>*</span>请选择品牌：
-							</span>
+						</span>
 						<el-select class="filter-item" multiple v-model="selectBrand" placeholder="请选择品牌" size='small' @change='changeBr'>
 							<el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
 							</el-option>
@@ -26,7 +26,7 @@
 						<br /><br />
 						<span class='left-name'>
 							<span class='require'>*</span>请选择规格：
-							</span>
+						</span>
 						<el-select size='small' class="filter-item" multiple v-model="addlist.snArr" @visible-change='snCallback' placeholder="请选择规格">
 							<el-option v-for="item in snList" :key="item.id" :label="item.allName" :value="item.sn">
 							</el-option>
@@ -49,13 +49,13 @@
 							<p class='title'>Loading页配置</p>
 							<div class='edit-con'>
 								<span class='labels'>loading页状态：</span>
-						        <el-radio v-model="addlist.conf.loading.flag" :label="1">开启</el-radio>
-						  		<el-radio v-model="addlist.conf.loading.flag" :label="0">关闭</el-radio>
+								<el-radio v-model="addlist.conf.loading.flag" :label="1">开启</el-radio>
+								<el-radio v-model="addlist.conf.loading.flag" :label="0">关闭</el-radio>
 							</div>
 							<div class='edit-con' v-show="addlist.conf.loading.flag">
 								<span class='labels'>更换图片：</span>
 								<div class="img-div"><img :src="addlist.conf.loading.bg" alt="" /></div>
-						        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadLoad">
+								<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadLoad">
 									<el-button type="primary" v-if='addlist.conf.loading.bg'>更换图片</el-button>
 								</el-upload>
 								<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*1204px格式为jpg\bmp\png\gif</div>
@@ -65,7 +65,7 @@
 								<el-color-picker v-model="addlist.conf.loading.color" class='color-select'></el-color-picker>
 							</div>
 						</div>
-						
+
 					</div>
 				</el-tab-pane>
 				<el-tab-pane label="扫码落地页面设置" name="first">
@@ -100,7 +100,7 @@
 										<div class="detail">
 											<span class='labels'>主图样式</span>
 											<el-radio v-model="addlist.conf.has.yz.botFlag" :label="1">半屏</el-radio>
-						  					<el-radio v-model="addlist.conf.has.yz.botFlag" :label="0">全屏</el-radio>
+											<el-radio v-model="addlist.conf.has.yz.botFlag" :label="0">全屏</el-radio>
 										</div>
 										<div class='edit-con' v-show='addlist.conf.has.yz.botFlag'>
 											<span class='labels'><span class='require'>*</span>主图背景：</span>
@@ -108,21 +108,21 @@
 												<img :src="addlist.conf.has.yz.productImg" v-show='addlist.conf.has.yz.productImg' alt="" />
 												<p v-show='!addlist.conf.has.yz.productImg'>+</p>
 											</div>
-									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadPro">
+											<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadPro">
 												<el-button type="primary">更换图片</el-button>
 											</el-upload>
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*500px格式为jpg\bmp\png\gif</div>
 										</div>
-										<div class='edit-con' v-show='!addlist.conf.has.yz.botFlag'>	
+										<div class='edit-con' v-show='!addlist.conf.has.yz.botFlag'>
 											<span class='labels'><span class='require'>*</span>主图背景：</span>
 											<div class="img-div">
 												<img :src="addlist.conf.has.yz.productImgBig" v-show='addlist.conf.has.yz.productImgBig' alt="" />
 												<p v-show='!addlist.conf.has.yz.productImgBig'>+</p>
 											</div>
-									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadProBig">
+											<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadProBig">
 												<el-button type="primary">更换图片</el-button>
 											</el-upload>
-											
+
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*730px格式为jpg\bmp\png\gif</div>
 										</div>
 										<div class="edit-con">
@@ -131,7 +131,7 @@
 											<span class='labels'></span>
 											<span class='color-labels'>扫码落地页风格</span>
 											<el-color-picker v-model="addlist.conf.has.yz.color" class='color-select'></el-color-picker>
-										</div>										
+										</div>
 										<div class="edit-con">
 											<span class='labels'>提示语：</span>
 											<el-input size='mini' v-model="addlist.conf.has.yz.note" class='note' placeholder="请输入内容" maxlength='26'></el-input>
@@ -139,20 +139,20 @@
 										<div class='edit-con'>
 											<span class='labels'>一键反馈</span>
 											<el-radio v-model="addlist.conf.has.yz.feedbackFlag" :label="1">显示</el-radio>
-						  					<el-radio v-model="addlist.conf.has.yz.feedbackFlag" :label="0">不显示</el-radio>	
-						  					<div class='line'></div>
-						  					<div v-show='addlist.conf.has.yz.feedbackFlag'>
-						  						<span class='labels'><span class='require'>*</span>反馈图片：</span>
+											<el-radio v-model="addlist.conf.has.yz.feedbackFlag" :label="0">不显示</el-radio>
+											<div class='line'></div>
+											<div v-show='addlist.conf.has.yz.feedbackFlag'>
+												<span class='labels'><span class='require'>*</span>反馈图片：</span>
 												<div class="img-div">
 													<img :src="addlist.conf.has.yz.feedbackImg" v-show='addlist.conf.has.yz.feedbackImg' alt="" />
 													<p v-show='!addlist.conf.has.yz.feedbackImg'>+</p>
 												</div>
-										        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadFeed">
+												<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadFeed">
 													<el-button type="primary">更换图片</el-button>
 												</el-upload>
 												<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 94*136px格式为jpg\bmp\png\gif</div>
-						  					</div>
-											
+											</div>
+
 										</div>
 									</div>
 									<el-button slot="reference"></el-button>
@@ -163,7 +163,7 @@
 										<div class="detail">
 											<span class='labels'>主图样式</span>
 											<el-radio v-model="addlist.conf.has.yz.botFlag" :label="1">半屏</el-radio>
-						  					<el-radio v-model="addlist.conf.has.yz.botFlag" :label="0">全屏</el-radio>
+											<el-radio v-model="addlist.conf.has.yz.botFlag" :label="0">全屏</el-radio>
 										</div>
 										<div class='edit-con' v-show='addlist.conf.has.yz.botFlag'>
 											<span class='labels'><span class='require'>*</span>主图背景：</span>
@@ -171,31 +171,31 @@
 												<img :src="addlist.conf.has.yz.productImg" v-show='addlist.conf.has.yz.productImg' alt="" />
 												<p v-show='!addlist.conf.has.yz.productImg'>+</p>
 											</div>
-									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadPro">
+											<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadPro">
 												<el-button type="primary">更换图片</el-button>
 											</el-upload>
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*500px格式为jpg\bmp\png\gif</div>
 										</div>
-										<div class='edit-con' v-show='!addlist.conf.has.yz.botFlag'>	
+										<div class='edit-con' v-show='!addlist.conf.has.yz.botFlag'>
 											<span class='labels'><span class='require'>*</span>主图背景：</span>
 											<div class="img-div">
 												<img :src="addlist.conf.has.yz.productImgBig" v-show='addlist.conf.has.yz.productImgBig' alt="" />
 												<p v-show='!addlist.conf.has.yz.productImgBig'>+</p>
 											</div>
-									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadProBig">
+											<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadProBig">
 												<el-button type="primary">更换图片</el-button>
 											</el-upload>
-											
+
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*730px格式为jpg\bmp\png\gif</div>
 										</div>
-									
+
 										<div class="edit-con">
 											<span class='labels'>详情按钮</span>
 											<el-checkbox v-model="addlist.conf.has.yz.detailFlag"></el-checkbox>
 											<span class='labels'></span>
 											<span class='color-labels'>扫码落地页风格</span>
 											<el-color-picker v-model="addlist.conf.has.yz.color" class='color-select'></el-color-picker>
-										</div>										
+										</div>
 										<div class="edit-con">
 											<span class='labels'>提示语：</span>
 											<el-input size='mini' v-model="addlist.conf.has.yz.note" class='note' placeholder="请输入内容" maxlength='26'></el-input>
@@ -203,20 +203,20 @@
 										<div class='edit-con'>
 											<span class='labels'>一键反馈</span>
 											<el-radio v-model="addlist.conf.has.yz.feedbackFlag" :label="1">显示</el-radio>
-						  					<el-radio v-model="addlist.conf.has.yz.feedbackFlag" :label="0">不显示</el-radio>
-						  					<div class='line'></div>
-						  					<div v-show='addlist.conf.has.yz.feedbackFlag'>
-						  						<span class='labels'><span class='require'>*</span>反馈图片：</span>
+											<el-radio v-model="addlist.conf.has.yz.feedbackFlag" :label="0">不显示</el-radio>
+											<div class='line'></div>
+											<div v-show='addlist.conf.has.yz.feedbackFlag'>
+												<span class='labels'><span class='require'>*</span>反馈图片：</span>
 												<div class="img-div">
 													<img :src="addlist.conf.has.yz.feedbackImg" v-show='addlist.conf.has.yz.feedbackImg' alt="" />
 													<p v-show='!addlist.conf.has.yz.feedbackImg'>+</p>
 												</div>
-										        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadFeed">
+												<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadFeed">
 													<el-button type="primary">更换图片</el-button>
 												</el-upload>
 												<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 94*136px格式为jpg\bmp\png\gif</div>
-						  					</div>
-											
+											</div>
+
 										</div>
 									</div>
 									<el-button slot="reference"></el-button>
@@ -235,8 +235,8 @@
 									<p class='time'>首扫时间：2018-09-23 12:34:56<span v-show='addlist.conf.has.yz.detailFlag' :style="{color:''+addlist.conf.has.yz.color+'',border:'1px solid '+addlist.conf.has.yz.color+''}">详情</span></p>
 									<div class="tip">{{addlist.conf.has.yz.note}}</div>
 									<img :src="addlist.conf.has.yz.feedbackImg" class='feedback' v-show='addlist.conf.has.yz.feedbackFlag' alt="" />
-								</div>								
-							</div>	
+								</div>
+							</div>
 							<div class="bot-img" v-show='addlist.conf.has.yz.botFlag'>
 								<el-popover placement="right" width="426" trigger="click" class='bot-click'>
 									<div class="bot-info">
@@ -247,12 +247,12 @@
 												<img :src="addlist.conf.has.yz.botImg" v-show='addlist.conf.has.yz.botImg' alt="" />
 												<p v-show='!addlist.conf.has.yz.botImg'>+</p>
 											</div>
-									        <el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadBot">
+											<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="uploadBot">
 												<el-button type="primary">更换图片</el-button>
 											</el-upload>
 											<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*200px格式为jpg\bmp\png\gif</div>
 										</div>
-									</div>								
+									</div>
 									<el-button slot="reference"></el-button>
 								</el-popover>
 								<img src="http://qoss.qrmkt.cn/new_platform/scan-002-bot.png" v-show='!addlist.conf.has.yz.botImg' alt="" />
@@ -284,10 +284,10 @@
 
 <script>
 	export default {
-		props: ['type','id'],
+		props: ['type', 'id'],
 		data() {
 			return {
-				type:this.type,
+				type: this.type,
 				activeName: 'third',
 				uploadAdd: location.origin + '/api/wiseqr/attach/commonAliUpload',
 				imgHead: {
@@ -305,10 +305,10 @@
 					type: '',
 					snArr: [],
 					conf: {
-						loading:{
-							flag:1,
-							bg:'http://qoss.qrmkt.cn/new_platform/loading-bg.png',
-							color:'#ccc'
+						loading: {
+							flag: 1,
+							bg: 'http://qoss.qrmkt.cn/new_platform/loading-bg.png',
+							color: '#ccc'
 						},
 						has: {
 							title: {
@@ -316,16 +316,16 @@
 								note: ''
 							},
 							yz: {
-								botFlag:1,
-								botImg:'',
+								botFlag: 1,
+								botImg: '',
 								detailFlag: true,
-								color:'#00ffff',
-								productImgBig:'',
-								productImg:'',
-								note: '本页面产品信息，未满十八周岁请勿访问',	
-								feedbackFlag:1,
-								feedbackImg:'',
-							}							
+								color: '#00ffff',
+								productImgBig: '',
+								productImg: '',
+								note: '本页面产品信息，未满十八周岁请勿访问',
+								feedbackFlag: 1,
+								feedbackImg: '',
+							}
 						}
 					},
 					publish: 0
@@ -337,10 +337,10 @@
 					type: '',
 					snArr: [],
 					conf: {
-						loading:{
-							flag:1,
-							bg:'http://qoss.qrmkt.cn/new_platform/loading-bg.png',
-							color:'#ccc'
+						loading: {
+							flag: 1,
+							bg: 'http://qoss.qrmkt.cn/new_platform/loading-bg.png',
+							color: '#ccc'
 						},
 						has: {
 							title: {
@@ -348,17 +348,17 @@
 								note: ''
 							},
 							yz: {
-								botFlag:1,
-								botImg:'',
+								botFlag: 1,
+								botImg: '',
 								detailFlag: true,
-								color:'#00ffff',
-								productImgBig:'',
-								productImg:'',
-								note: '本页面产品信息，未满十八周岁请勿访问',	
-								feedbackFlag:1,
-								feedbackImg:'',
+								color: '#00ffff',
+								productImgBig: '',
+								productImg: '',
+								note: '本页面产品信息，未满十八周岁请勿访问',
+								feedbackFlag: 1,
+								feedbackImg: '',
 							}
-							
+
 						}
 					},
 					publish: 0
@@ -383,11 +383,11 @@
 					console.log(err)
 				}
 			)
-			this.addlist.type=this.type;
-			this.initList.type=this.type;
+			this.addlist.type = this.type;
+			this.initList.type = this.type;
 		},
-		mounted(){
-			if(this.id){
+		mounted() {
+			if(this.id) {
 				this.$request.post(
 					'/api/wiseqr/orgtpl/detail', {
 						id: this.id
@@ -432,8 +432,33 @@
 
 		},
 		methods: {
-			changeBr(){
-				this.addlist.snArr=[];
+			changeBr() {
+				this.$request.post(
+					'/api/wiseqr/prod/list', {
+						pageSize: -1,
+						brandCodeArr: this.selectBrand
+					},
+					true,
+					res => {
+						if(res.ret == '200000') {
+							let data = res.data.list || [];
+							let allSnList = [];
+							data.forEach((item, i) => {
+								allSnList.push(item.sn)
+							})
+							let hasSnList = this.addlist.snArr;
+							for(let i = 0; i < hasSnList.length; i++) {
+								if(allSnList.indexOf(hasSnList[i]) == -1) {
+									hasSnList.splice(i, 1)
+									i--;
+								}
+							}
+						}
+					},
+					err => {
+						console.log(err)
+					}
+				)
 			},
 			snCallback(flag) {
 				var that = this;
@@ -474,22 +499,22 @@
 				var imgUrl = data && data.accessUrl;
 				this.addlist.conf.has.yz.botImg = imgUrl;
 			},
-			uploadLoad(res){
+			uploadLoad(res) {
 				var data = res.data || {};
 				var imgUrl = data && data.accessUrl;
 				this.addlist.conf.loading.bg = imgUrl;
 			},
-			uploadPro(res){
+			uploadPro(res) {
 				var data = res.data || {};
 				var imgUrl = data && data.accessUrl;
 				this.addlist.conf.has.yz.productImg = imgUrl;
 			},
-			uploadProBig(res){
+			uploadProBig(res) {
 				var data = res.data || {};
 				var imgUrl = data && data.accessUrl;
 				this.addlist.conf.has.yz.productImgBig = imgUrl;
 			},
-			uploadFeed(res){
+			uploadFeed(res) {
 				var data = res.data || {};
 				var imgUrl = data && data.accessUrl;
 				this.addlist.conf.has.yz.feedbackImg = imgUrl;
@@ -513,7 +538,7 @@
 					});
 					return;
 				}
-				if(that.addlist.snArr.length==0){
+				if(that.addlist.snArr.length == 0) {
 					this.$message({
 						message: '请选择产品规格',
 						type: 'warning'
@@ -556,7 +581,7 @@
 						type: 'warning'
 					});
 					return;
-				}		
+				}
 				var savelist = {};
 				savelist.id = that.addlist.id;
 				savelist.name = that.addlist.name;
@@ -574,7 +599,7 @@
 							this.$message({
 								message: '保存成功',
 								type: 'success'
-							});																					
+							});
 							this.$router.push('/weplat/down');
 						} else {
 							this.$message({
@@ -597,7 +622,7 @@
 					});
 					return;
 				}
-				if(that.addlist.snArr.length==0){
+				if(that.addlist.snArr.length == 0) {
 					this.$message({
 						message: '请选择产品规格',
 						type: 'warning'
@@ -657,7 +682,7 @@
 							this.$message({
 								message: '保存成功',
 								type: 'success'
-							});																					
+							});
 							this.$router.push('/weplat/down');
 						} else {
 							this.$message.error(res.message);
