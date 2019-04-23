@@ -3,7 +3,7 @@
     <el-form :model="ruleForm" :inline="true" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
       <div class="edit-commend-form-container">
         <el-form-item label="推荐位名称：" prop="name" size="small">
-          <el-input v-model="ruleForm.name" style="width: 200px"></el-input>
+          <el-input v-model="ruleForm.name" style="width: 200px" :maxlength="10"></el-input>
         </el-form-item>
         <div></div>
         <el-form-item label="排序值：" prop="idx" size="small">
