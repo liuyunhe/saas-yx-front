@@ -132,12 +132,12 @@
 						float: left;
 						margin-top: 15px;
 						margin-left: 5px;
-						background-color: #8A96A0;
+						background-color: #CCCCCC;
 					}
 					.act-leftline{
 						width: 2%;
 						float: left;
-						border-right: 1px solid black;
+						border-right: 1px solid #E4E4E4;
 						height: 20px;
 						padding-bottom:1600px;  /*关键*/
 						margin-bottom:-1600px;  /*关键*/
