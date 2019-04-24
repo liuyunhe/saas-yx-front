@@ -385,6 +385,7 @@
 						}
 						.share-desc {
 							width:140px;
+							word-wrap:break-word;
 						}
 						.share-img {
 							width:40px;

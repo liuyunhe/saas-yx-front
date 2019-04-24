@@ -457,20 +457,20 @@
 				configItem: {
 					title: '',
 					description: '',
-					headerImgUrl: 'http://qoss.qrmkt.cn/new_platform/tigger-title.png',
-					bgImgUrl: 'http://qoss.qrmkt.cn/scoremall/activity/tigger-bg.png',
-					gameBg: 'http://qoss.qrmkt.cn/scoremall/activity/pan.png',
-					gameBtn: 'http://qoss.qrmkt.cn/new_platform/tigger-btn.png',
-					gameBtnActive: 'http://qoss.qrmkt.cn/new_platform/tigger-btn.png',
-					drawImgUrl: 'http://qoss.qrmkt.cn/new_platform/hasPrice.png',
-					drawBtnLeftUrl: 'http://qoss.qrmkt.cn/new_platform/hasPrice-left.png',
-					drawBtnRightUrl: 'http://qoss.qrmkt.cn/new_platform/hasPrice-right.png',
-					cryImgUrl: 'http://qoss.qrmkt.cn/new_platform/notPrice.png',
-					cryBtnLeftUrl: 'http://qoss.qrmkt.cn/new_platform/notPrice-left.png',
-					cryBtnRightUrl: 'http://qoss.qrmkt.cn/new_platform/notPrice-right.png',
-					shareTitle:'',
-					shareDesc:'',
-					shareUrl:''
+					headerImgUrl: 'https://qoss.qrmkt.cn/new_platform/tigger-title.png',
+					bgImgUrl: 'https://qoss.qrmkt.cn/scoremall/activity/tigger-bg.png',
+					gameBg: 'https://qoss.qrmkt.cn/scoremall/activity/pan.png',
+					gameBtn: 'https://qoss.qrmkt.cn/new_platform/tigger-btn.png',
+					gameBtnActive: 'https://qoss.qrmkt.cn/new_platform/tigger-btn.png',
+					drawImgUrl: 'https://qoss.qrmkt.cn/new_platform/hasPrice.png',
+					drawBtnLeftUrl: 'https://qoss.qrmkt.cn/new_platform/hasPrice-left.png',
+					drawBtnRightUrl: 'https://qoss.qrmkt.cn/new_platform/hasPrice-right.png',
+					cryImgUrl: 'https://qoss.qrmkt.cn/new_platform/notPrice.png',
+					cryBtnLeftUrl: 'https://qoss.qrmkt.cn/new_platform/notPrice-left.png',
+					cryBtnRightUrl: 'https://qoss.qrmkt.cn/new_platform/notPrice-right.png',
+					shareTitle:'疯狂老虎机',
+					shareDesc:'疯狂老虎机，精彩送不停！',
+					shareUrl:'https://qoss.qrmkt.cn/new_platform/weplat/tigger_share.png'
 				},
 				uploadURL: '/api/wiseqr/attach/commonAliUpload',
 				headerObj: {
@@ -946,7 +946,7 @@
 					position: relative;
 					width: 100%;
 					height: 66px;
-					background: url('http://qoss.qrmkt.cn/new_platform/pc_front/937@2x.png') center no-repeat;
+					background: url('https://qoss.qrmkt.cn/new_platform/pc_front/937@2x.png') center no-repeat;
 					p {
 						position: absolute;
 						bottom: 0;
@@ -1102,7 +1102,7 @@
 								width: 35px;
 								height: 35px;
 								top: 30px;
-								background: url('http://qoss.qrmkt.cn/common/wplat/person_img.png') no-repeat left / auto 35px;
+								background: url('https://qoss.qrmkt.cn/common/wplat/person_img.png') no-repeat left / auto 35px;
 							}
 							.text {
 								border: 1px solid #eee;
@@ -1224,7 +1224,7 @@
 				.footer {
 					width: 100%;
 					height: 64px;
-					background: url('http://qoss.qrmkt.cn/new_platform/pc_front/phone-footer@2x.png') center no-repeat;
+					background: url('https://qoss.qrmkt.cn/new_platform/pc_front/phone-footer@2x.png') center no-repeat;
 				}
 			}
 			.edit-box {

@@ -567,6 +567,7 @@
 						}
 						.share-desc {
 							width:140px;
+							word-wrap:break-word;
 						}
 						.share-img {
 							width:40px;
@@ -883,10 +884,13 @@
 									span {
 										text-align: left;
 										width:40px;
+										line-height: 30px;
+										display: inline-block;
+										height: 30px;
 									}
 									.icon-name {
 										width:120px;
-										vertical-align: top;
+										vertical-align: middle;
 									}
 									.filter-item {
 										vertical-align: middle;
