@@ -823,6 +823,9 @@ export default {
         .act-tip-img {
 
         }
+        .edit-winning{
+          display: flex;
+        }
         .btn-con {
           position: relative;
           .el-button {
