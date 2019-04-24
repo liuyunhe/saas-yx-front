@@ -132,6 +132,10 @@ export default {
             exchanges[i].key = new Date().Format("yyyyMMddhhmmssS") + Math.random()
           }
           this.form = datas;
+          this.form.hstime = ''
+          this.form.hetime = ''
+          this.form.actStime = ''
+          this.form.actEtime = ''
         } else {
           this.$message.error(res.msg);
         }
