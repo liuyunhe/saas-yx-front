@@ -5,10 +5,16 @@
 				<div class="con">
 					<img :src="item.gameImg" @click="getDetail(key)" alt="" />
 					<div class="act-info">
-						<div class="act-left">
-							<p>{{item.gameName}}</p>
-							<p>精彩送不停</p>
-						</div>
+							<div class="act-leftidx">
+								<p style="margin-left: 15px"><font color="#ffffff" size="3">{{item.idx}}</font> </p>
+							</div>
+							<div class="act-leftline">
+
+							</div>
+							<div class="act-left">
+								<p>{{item.gameName}}</p>
+								<p>精彩送不停</p>
+							</div>
 						<div class="act-right">
 							<el-switch v-model="item.status==1?true:false" @change='toggle(key)'>
 							</el-switch>
@@ -121,8 +127,23 @@
 						height: 180px;
 						object-fit: cover;
 					}
+					.act-leftidx {
+						width: 15%;
+						float: left;
+						margin-top: 15px;
+						margin-left: 5px;
+						background-color: #8A96A0;
+					}
+					.act-leftline{
+						width: 2%;
+						float: left;
+						border-right: 1px solid black;
+						height: 20px;
+						padding-bottom:1600px;  /*关键*/
+						margin-bottom:-1600px;  /*关键*/
+					}
 					.act-left {
-						width: 65%;
+						width: 40%;
 						float: left;
 					}
 					.act-right {
