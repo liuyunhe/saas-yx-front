@@ -17,7 +17,7 @@
         <el-input v-model="ruleForm.note" placeholder="请输入备注(主营商品、品牌等)"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
         <el-button @click="returnSupplier">取消</el-button>
       </el-form-item>
     </el-form>
@@ -73,6 +73,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let params = {
+              id:this.id,
               addr: this.ruleForm.addr,
               contact: this.ruleForm.contact,
               mobile: this.ruleForm.mobile,
