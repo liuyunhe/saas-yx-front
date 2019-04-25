@@ -18,6 +18,11 @@
               <p>{{addActParams.name}}</p>
             </div>
             <div class="content phone">
+              <div class="hook" @click="showEditConIndex = 9"  title="点击编辑">
+                <div class="hookPole"><img :src="configItem.hookPoleImgUrl" alt=""></div>
+                <div class="hookLeft"><img :src="configItem.hookLeftImgUrl" alt=""></div>
+                <div class="hookRight"><img :src="configItem.hookRightImgUrl" alt=""></div>
+              </div>
               <img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/common/zhuawawa/jww-title-bg.png" class="title-bg" alt="">
               <div class="bg"><img :src="configItem.bgImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 1"></div>
               <div class="top"><img :src="configItem.headerImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 2"></div>
@@ -27,11 +32,7 @@
               <div class="toyA"><img :src="configItem.toyAImgUrl" title="点击编辑" @click="showEditConIndex = 6" alt=""></div>
               <div class="toyB"><img :src="configItem.toyBImgUrl" title="点击编辑" @click="showEditConIndex = 7" alt=""></div>
               <div class="toyC"><img :src="configItem.toyCImgUrl" title="点击编辑" @click="showEditConIndex = 8" alt=""></div>
-              <div class="hook" @click="showEditConIndex = 9"  title="点击编辑">
-                <div class="hookPole"><img :src="configItem.hookPoleImgUrl" alt=""></div>
-                <div class="hookLeft"><img :src="configItem.hookLeftImgUrl" alt=""></div>
-                <div class="hookRight"><img :src="configItem.hookRightImgUrl" alt=""></div>
-              </div>
+
 
             </div>
             <div class="footer"></div>
@@ -103,7 +104,7 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 5">
                   <div>
-                    <p class="img-title">气球图片:</p>
+                    <p class="img-title">娃娃背景图片:</p>
                     <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.toysBgImgUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upToysBgImgUrlSuccess" :show-file-list="false">
@@ -150,7 +151,7 @@
 
                 <div class="edit-game-img" v-if="showEditConIndex == 9">
                   <div>
-                    <p class="img-title">夹子主体图片:</p>
+                    <p class="img-title">夹子上侧图片:</p>
                     <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.hookPoleImgUrl" alt=""></div>
                     <div class="btn-con">
                       <el-upload :action="uploadURL" :headers="headerObj" :on-success="upHookPoleImgUrlSuccess" :show-file-list="false">
@@ -158,7 +159,7 @@
                       </el-upload>
                     </div>
                   </div>
-                  <p class="tips" v-if="showEditConIndex == 9">* 图片建议尺寸为 105*105px格式为jpg\bmp\png\gif</p>
+                  <p class="tips" v-if="showEditConIndex == 9">* 图片建议尺寸为 80*583px格式为jpg\bmp\png\gif</p>
                   <div>
                     <p class="img-title">夹子左侧图片:</p>
                     <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.hookLeftImgUrl" alt=""></div>
@@ -168,7 +169,7 @@
                       </el-upload>
                     </div>
                   </div>
-                  <p class="tips" v-if="showEditConIndex == 9">* 图片建议尺寸为 105*105px格式为jpg\bmp\png\gif</p>
+                  <p class="tips" v-if="showEditConIndex == 9">* 图片建议尺寸为 138*207px格式为jpg\bmp\png\gif</p>
                   <div>
                     <p class="img-title">夹子右侧图片:</p>
                     <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.hookRightImgUrl" alt=""></div>
@@ -178,15 +179,17 @@
                       </el-upload>
                     </div>
                   </div>
+                  <p class="tips" v-if="showEditConIndex == 9">* 图片建议尺寸为 135*199px格式为jpg\bmp\png\gif</p>
                 </div>
 
                 <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1600px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 696*194px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 120*96px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 108*100px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 5">* 图片建议尺寸为 213*136px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 44*123px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 7">* 图片建议尺寸为 130*124px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 336*65px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 602*192px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 92*109px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 5">* 图片建议尺寸为 690*202px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 6">* 图片建议尺寸为 225*258px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 7">* 图片建议尺寸为 220*239px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 8">* 图片建议尺寸为 202*238px格式为jpg\bmp\png\gif</p>
               </div>
 
             </el-card>
@@ -645,6 +648,9 @@ export default {
           width: 100%;
           height: 100%;
           transition: all 0.2s;
+          position: absolute;
+          top: 0;
+          left: 0;
           img {
             width: 100%;
           }
@@ -754,36 +760,52 @@ export default {
         .hook{
           position: relative;
           left: 50%;
-          top: -272px;
+          top: -108.8px;
           transform: translateX(-50%);
-          width: 240px;
-          height: 708px;
+          width: 96px;
+          height: 283.2px;
+          z-index: 9;
           .hookPole{
-            width: 80px;
-            height: 583px;
+            width: 32px;
+            height: 233.2px;
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
             top: 0px;
             z-index: 29;
+            img {
+              width:100%;
+              height: 100%;
+              object-fit: contain;
+            }
           }
           .hookLeft{
             position: absolute;
-            width: 138px;
-            height: 207px;
+            width: 55px;
+            height: 83px;
             left: 0;
             bottom: 0;
             z-index: 19;
             transform-origin: top right;
+            img {
+              width:100%;
+              height: 100%;
+              object-fit: contain;
+            }
           }
           .hookRight{
             position: absolute;
-            width: 135px;
-            height: 199px;
+            width: 54px;
+            height: 80px;
             right: 0;
             bottom: 0;
             z-index: 19;
             transform-origin: top left;
+            img {
+              width:100%;
+              height: 100%;
+              object-fit: contain;
+            }
           }
         }
         .btn {
@@ -1000,16 +1022,15 @@ export default {
   .toyA:hover,
   .toyB:hover,
   .toyC:hover,
-  .box:hover{
+  .hook:hover{
     transform: scale(0.99);
     cursor: pointer;
     filter: brightness(60%);
     border: 2px dotted #fff;
     box-sizing: border-box;
   }
-  .top:hover,.btn:hover {
+  .top:hover,.btn:hover,.hook:hover {
     transform: translateX(-50%) scale(0.99);
-
   }
   .start:hover{
     transform: translateX(-50%) scale(1);
@@ -1077,7 +1098,11 @@ export default {
     width: 100%;
   }
   img:nth-child(2) {
+    width: 182px;
+    height: 58px;
     top: 415px;
     left: 50%;
     transform: translateX(-50%);
-    
+  }
+}
+</style>

@@ -157,6 +157,12 @@
               prop="adNames"
               label="投放地区"
               width="120">
+            <template slot-scope="scope">
+              <template v-if="scope.row.adNames">
+                <span v-if="scope.row.adNames.length<=20">{{scope.row.adNames}}</span>
+                <span v-else :title="scope.row.adNames">{{scope.row.adNames.substr(0,20)+'...'}}</span>
+              </template>
+            </template>
           </el-table-column>
           <el-table-column
               prop="statusName"
