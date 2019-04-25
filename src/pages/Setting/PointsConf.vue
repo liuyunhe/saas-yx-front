@@ -30,11 +30,11 @@
           </div>
         </el-form-item>
         <el-form-item label="积分值配置：">
-          <el-input-number v-model="data.orgPorList[1].propValue" :controls="false" :min="0" :max="9999999999" :precision="0"></el-input-number> 
+          <el-input-number v-model="data.orgPorList[2].propValue" :controls="false" :min="0" :max="9999999999" :precision="0"></el-input-number> 
           积分 = ￥1.00
         </el-form-item>
         <el-form-item label="积分名称设置：">
-          <el-input placeholder="请输入积分名称" v-model="data.orgPorList[2].propValue"></el-input>
+          <el-input placeholder="请输入积分名称" v-model="data.orgPorList[1].propValue"></el-input>
           例如： 积分 = 金叶币
         </el-form-item>
       </el-form>
@@ -61,7 +61,8 @@ export default {
           {propKey:'score_protion_value',propValue:'',propDesc:'积分值配置'},
           {propKey:'score_name_config',propValue:'',propDesc:'积分名称配置'}
         ]
-      }
+      },
+
     }
   },
   created() {
@@ -76,6 +77,7 @@ export default {
       this.$request.post('/api/wiseqr/mber/scoreDetail', {}, true, res => {
         if (res.ret === '200000') {
           if (res.data.orgPorList.length != 0) this.data = res.data
+
           if (this.data.orgPorList[0].propValue == '-1') {
             this.isVaild = 0
           } else if (this.data.orgPorList[0].propValue && this.data.orgPorList[0].propValue != '-1') {
@@ -108,7 +110,7 @@ export default {
       let qualifiedList = this.data.orgPorList.filter(item => {
         return item.propValue
       })
-      // if (qualifiedList.length != 3) return this.$message.errro('请完善数据!')
+      if (qualifiedList.length != 3) return this.$message.error('请完善数据!')
       this.$request.post('/api/wiseqr/mber/saveScore', this.data, true, res => {
         if (res.ret === '200000') return this.$message.success('保存成功')
         this.$message.error(res.message)
