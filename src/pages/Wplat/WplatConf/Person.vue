@@ -251,12 +251,12 @@
 			},
 			changeName(name,index){
 				this.saveList[index].name = name;
-				let type = this.saveList[index].type;
-				this.saveList.forEach((v,i) => {
-					if (v.type == type) {
-						v.name = name;
-					}
-				})				
+//				let type = this.saveList[index].type;
+//				this.saveList.forEach((v,i) => {
+//					if (v.type == type) {
+//						v.name = name;
+//					}
+//				})				
 //				this.iconList.forEach((v,i) => {
 //					if (v.type == type) {
 //						v.name = name;
