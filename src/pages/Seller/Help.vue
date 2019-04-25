@@ -158,6 +158,7 @@ export default {
         if (valid) {
           this.$request.post('/lsh/seller-manager/help/somAct', this.form, true, (res)=>{
             if (res.ok) {
+              this.$message({type:'success', message:"保存成功！"});
               this.curAct()
             } else {
               this.$message.error(res.msg)
