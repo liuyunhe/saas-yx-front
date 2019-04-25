@@ -55,7 +55,7 @@
                 <el-table-column prop="count" label="扫码次数"></el-table-column>
                 <el-table-column prop="lastcreatetime" label="生成时间"></el-table-column>
                 <el-table-column prop="firstscantime" label="首扫时间"></el-table-column>
-
+                <el-table-column prop="printShop" label="生产厂家"></el-table-column>
             </el-table>
 
         </el-card>
@@ -107,10 +107,10 @@
                     this.$message.error("code不能为空！");
                     return;
                 }
-                if(this.form.verifycode==''){
+                /*if(this.form.verifycode==''){
                     this.$message.error("验证码不能为空！");
                     return;
-                }
+                }*/
                 this.getDataList();
             },
             activeFn(){

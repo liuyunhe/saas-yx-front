@@ -78,6 +78,7 @@
 									<span class='title'>编辑图标：</span>
 									<!--<div v-for='i in count':class='{"icon-index":true,"active":showTabIndex+1 == i}'@click='tabToggle(i)'>图标{{i}}</div>-->
 									<div class="icon-up"v-for='(item,index) in saveList' v-show='item.module == "i"'>
+										<div class="icon-close" @click = 'removeIcon(index)'>×</div>
 										<div class="img-div">
 											<p v-show='!item.pic'>+</p>
 											<img :src="item.pic" v-show='item.pic' alt="" />
@@ -96,6 +97,7 @@
 											</el-select>
 										</div>	
 									</div>
+									<div class="add" v-show='count <= 8' @click='addFn()'><span>+</span>添加导航</div>
 								</div>
 								<div class="whole-color">
 									<span>编辑底色：</span>
@@ -214,6 +216,7 @@
 				iconList:[],//图标列表(后端接口)，可编辑
 				editIndex:0,//编辑图标的索引
 				saveList:{},//icon和bannerlist
+				addShow:true,//添加按钮显示
 			}
 		},
 		created() {
@@ -248,12 +251,12 @@
 			},
 			changeName(name,index){
 				this.saveList[index].name = name;
-				let type = this.saveList[index].type;
-				this.saveList.forEach((v,i) => {
-					if (v.type == type) {
-						v.name = name;
-					}
-				})				
+//				let type = this.saveList[index].type;
+//				this.saveList.forEach((v,i) => {
+//					if (v.type == type) {
+//						v.name = name;
+//					}
+//				})				
 //				this.iconList.forEach((v,i) => {
 //					if (v.type == type) {
 //						v.name = name;
@@ -296,9 +299,39 @@
 				var imgUrl = data && data.accessUrl;
 				this.share.url = imgUrl;
 			},
+			addFn(){//添加
+				this.saveList.push({
+						module: "i",
+						name: "",
+						pic: "",
+						type: "",
+				})
+				this.count++;
+			},
+			removeIcon(i) {
+				this.$confirm('确定删除该菜单？')
+					.then(_ => {
+						this.saveList.splice(i,1)
+						this.count--;
+					})				
+			},
 			save() {
 				var that = this;
 				let conf = JSON.stringify(this.conf)
+				let errorFlag = 0;
+				this.saveList.forEach((item,i)=>{
+					if (!item.name || !item.pic || !item.type) {
+						errorFlag = 1;
+						return;
+					}
+				})
+				if (errorFlag == 1) {
+					this.$message({
+							message: '请完善图标编辑内容~',
+							type: 'warning'
+					});
+					return;
+				}
 				this.$request.post('/api/wiseqr/weplat/sompc', {
 					ocpConf: this.saveList,
 					conf: conf					
@@ -348,17 +381,17 @@
 									this.saveList.splice(index,1)
 								}
 							})
-							DATA.sysPconfs.forEach((item,index)=>{
-								let ishas = 0;
-								tempList.forEach((v,i)=>{
-									if (item.type == v.type) {
-										ishas = 1;
-									}
-								})
-								if(ishas == 0) {
-									this.saveList.splice(index, 0 ,item)
-								}
-							})							
+//							DATA.sysPconfs.forEach((item,index)=>{
+//								let ishas = 0;
+//								tempList.forEach((v,i)=>{
+//									if (item.type == v.type) {
+//										ishas = 1;
+//									}
+//								})
+//								if(ishas == 0) {
+//									this.saveList.splice(index, 0 ,item)
+//								}
+//							})							
 						}
 						let count = 0;
 						let iconList = [];
@@ -867,6 +900,32 @@
 									border-bottom:2px solid #5c88da;
 								}
 							}
+							.add {
+								margin-left: 50px;
+								height: 50px;
+								border: 1px solid #ccc;
+								font-size: 20px;
+								text-align: center;
+								line-height: 50px;
+								margin-top: 20px;
+								cursor: pointer;
+								border-radius: 4px;
+								background: #fff;
+								&:hover {
+									background: #F5F5f5;
+								}
+								 span {
+									font-size: 32px;
+									color: #ccc;
+									font-weight: bold;
+									margin-right: 10px;
+									width:auto;
+									display: inline-block;
+									vertical-align: middle;
+									transform: translateY(-5px);
+								}
+							}
+							
 							.icon-up {
 								height: 130px;
 								margin-left: 50px;
@@ -877,6 +936,20 @@
 								border-radius: 6px;
 								border: 1px dashed #666;
 								margin-top: 10px;
+								.icon-close {
+									width:20px;
+									height: 20px;
+									background: #E8E8E8;
+									border: 1px solid #ccc;
+									border-radius: 50%;
+									text-align: center;
+									font-size: 16px;
+									line-height: 18px;
+									position: absolute;
+									cursor: pointer;
+									right:10px;
+									top:10px;
+								}
 								.select-jump {
 									position: absolute;
 									left: 200px;

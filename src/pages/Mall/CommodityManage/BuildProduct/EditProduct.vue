@@ -13,7 +13,7 @@
         </el-form-item>
         <div></div>
         <el-form-item label="商品名称：" prop="memo" size="small">
-          <el-input v-model="ruleForm.memo" style="width: 200px"></el-input>
+          <el-input v-model="ruleForm.memo" style="width: 200px" :maxlength="20"></el-input>
         </el-form-item>
         <div></div>
         <el-form-item label="主图：" prop="image" size="small">
@@ -131,10 +131,10 @@
           <el-radio v-model="ruleForm.status" label="-1">下架</el-radio>
         </el-form-item>
         <div></div>
-        <el-form-item label="是否热门：" prop="isHostGood" size="small" >
-          <el-radio v-model="ruleForm.isHostGood" label="0">否</el-radio>
-          <el-radio v-model="ruleForm.isHostGood" label="1">是</el-radio>
-        </el-form-item>
+        <!--<el-form-item label="是否热门：" prop="isHostGood" size="small" >-->
+          <!--<el-radio v-model="ruleForm.isHostGood" label="0">否</el-radio>-->
+          <!--<el-radio v-model="ruleForm.isHostGood" label="1">是</el-radio>-->
+        <!--</el-form-item>-->
         <div></div>
         <div class="edit-product-form-bt">
           <el-form-item>
@@ -235,7 +235,7 @@
           //状态
           status:'1',
           //是否为热门商品0否，1是
-          isHostGood:'0'
+          // isHostGood:'0'
         },
         rules: {
           memo: [
@@ -309,7 +309,7 @@
               //状态
               this.ruleForm.status = res.data.status+""
               //是否热门
-              this.ruleForm.isHostGood = res.data.isHostGood+""
+              // this.ruleForm.isHostGood = res.data.isHostGood+""
           }
         })
       },
@@ -393,7 +393,7 @@
               score: this.ruleForm.score,
               status: this.ruleForm.status,
               url: this.ruleForm.url,
-              isHostGood: this.ruleForm.isHostGood
+              // isHostGood: this.ruleForm.isHostGood
             }
             this.postParams(params)
           } else {

@@ -269,6 +269,13 @@
 									</el-upload>
 								</div>
 								<p class="tips">* 图片建议尺寸为 750*270px,格式为jpg\bmp\png\gif</p>
+								<br /><br /><br />排序：
+									<el-select  v-model="addActParams.idx" placeholder="请选择">
+										<el-option
+												v-for="item in idxNumDataList" :key="item.idx" :label="item.idx" :value="item.idx">
+										</el-option>
+									</el-select>
+
 								<br /><br /><br /> 消耗积分：
 								<el-input v-model="addActParams.score" placeholder="请输入需要消耗的积分" size='small' class='act-score' maxLength='4'oninput="value=value.replace(/\D/g,'')"></el-input>积分
 								<br /><span class='space'></span><span>（用户参与活动每次需要消耗的积分数）</span>
@@ -426,7 +433,8 @@
 					banner: '',
 					gameDesc: '',
 					score: '',
-					times: ''
+					times: '',
+					idx:''
 				},
 				// 富文本设置
 				editorOption: {
@@ -486,6 +494,7 @@
 				aType: '',
 				aTypeList: [],
 				aTypeDe: '',
+                idxNumDataList:[],
 				aTypeDeList: [{
 					name: '虚拟',
 					code: 1
@@ -514,7 +523,8 @@
 		created() {
 			var id = parseInt(this.$route.query.id);
 			this.addActParams.id = id;
-			this.getActDetail()
+			this.getActDetail();
+			this.getIdxDownBox();
 		},
 		methods: {
             formatSex: function (row, column) {
@@ -536,6 +546,14 @@
 					item.quantity = 0;
 				}
 
+			},
+            getIdxDownBox(){
+                this.$request.post('/sc/saotx/game/idxDownBox', { }, true, res => {
+                    console.log(res.context)
+                    if (res.code === 200) {
+                        this.idxNumDataList = res.context;
+                    }
+                })
 			},
 			getActDetail() {
 				if(this.addActParams.id) {
@@ -646,7 +664,8 @@
 							bingo_image: item.image,
 							shopQuantity: item.shopQuantity,
 							curId: 1,
-							abled: false
+							abled: false,
+							idx:this.addActParams.idx
 						})
 						this.dialogVisible = false;
 					} else {
@@ -1412,7 +1431,7 @@
 					}
 					p {
 						margin: 0;
-						line-height: 100px;						           
+						line-height: 100px;
 						border:none;
 					}
 				}
