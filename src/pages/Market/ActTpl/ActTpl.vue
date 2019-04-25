@@ -139,7 +139,8 @@ export default {
         'act-100': '/market/actTpl/addAct?id=',
         'act-701': '/market/actTpl/addCapsuleToys?id=',
         'act-702': '/market/actTpl/addDadishu?id=',
-        'act-703': '/market/actTpl/addDaqiqiu?id='
+        'act-703': '/market/actTpl/addDaqiqiu?id=',
+        'act-704': '/market/actTpl/addJiawawa?id='
       }
     }
   },
