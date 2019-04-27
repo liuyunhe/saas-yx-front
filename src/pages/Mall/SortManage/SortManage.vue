@@ -26,10 +26,10 @@
     <el-dialog :title='dialogLevel' :visible.sync="dialogFormVisible">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="分类名称：" prop="name" size="small">
-          <el-input v-model="ruleForm.name" style="width: 200px"></el-input>
+          <el-input v-model="ruleForm.name" style="width: 200px" :maxlength="30"></el-input>
         </el-form-item>
         <el-form-item  label="排序值：" prop="idx" size="small">
-          <el-input v-model="ruleForm.idx" type="number" style="width: 200px"></el-input>
+          <el-input v-model="ruleForm.idx" type="number" style="width: 200px" min="0" max="99999" @input="checkIdx(ruleForm.idx)"></el-input>
         </el-form-item>
         <el-form-item v-show="dialogLevel == '新建一级分类'||dialogLevel == '编辑一级分类'" label="图标：" prop="icon" size="small">
           <el-input v-model="ruleForm.icon" style="display: none" ></el-input>
@@ -110,6 +110,13 @@
       this.getQueryListTree()
     },
     methods: {
+        checkIdx(value){
+            if (value) {
+                if (value > 99999 ) {
+                    this.ruleForm.idx ='';
+                }
+            }
+        },
       //从后台拿取商品分类树
       getQueryListTree(){
         this.listLoading = true
