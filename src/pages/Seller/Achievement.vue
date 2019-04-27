@@ -525,10 +525,11 @@ export default {
             });
         },
         resetRandForm(refreshListRank) {
+            let periodId = this.rankForm.periodId
             this.rankForm = {
                 pageNo: 1,
                 pageSize: 10,
-                periodId: "",
+                periodId: periodId,
                 rankSection: "",
                 shopName: ""
             }
