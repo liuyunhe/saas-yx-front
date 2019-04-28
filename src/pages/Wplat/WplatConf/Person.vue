@@ -143,7 +143,7 @@
 								<el-upload class="avatar-uploader" size='small' :headers='imgHead' :action="uploadAdd" :show-file-list="false" :on-success="shareUp">
 									<el-button type="primary">更换图片</el-button>
 								</el-upload>
-								<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 750*204px格式为jpg\bmp\png\gif</div>
+								<div slot="tip" class="el-upload__tip">* 图片建议尺寸为 200*200px格式为jpg\bmp\png\gif</div>
 							</div>
 							
 						</div>
