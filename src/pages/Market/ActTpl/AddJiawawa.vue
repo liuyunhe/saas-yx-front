@@ -624,7 +624,7 @@ export default {
         position: relative;
         width: 100%;
         height: 66px;
-        background: url('http://qoss.qrmkt.cn/new_platform/pc_front/937@2x.png')
+        background: url('https://qoss.qrmkt.cn/new_platform/pc_front/937@2x.png')
           center no-repeat;
         p {
           position: absolute;
@@ -895,7 +895,7 @@ export default {
       .footer {
         width: 100%;
         height: 64px;
-        background: url('http://qoss.qrmkt.cn/new_platform/pc_front/phone-footer@2x.png')
+        background: url('https://qoss.qrmkt.cn/new_platform/pc_front/phone-footer@2x.png')
           center no-repeat;
       }
     }
