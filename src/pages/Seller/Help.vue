@@ -127,9 +127,19 @@ export default {
       this.$request.post('/lsh/seller-manager/help/curAct', {}, true, (res)=>{
         if (res.ok) {
           let datas = res.data || {}
-          let exchanges = datas.exchanges || [];
-          for (let i=0; i<exchanges.length; i++) {
-            exchanges[i].key = new Date().Format("yyyyMMddhhmmssS") + Math.random()
+          let exchanges = datas.exchanges || []
+          if (exchanges.length > 0) {
+            for (let i=0; i<exchanges.length; i++) {
+              exchanges[i].key = new Date().Format("yyyyMMddhhmmssS") + Math.random()
+            }
+          } else {
+            let defRow = {
+              key: new Date().Format("yyyyMMddhhmmssS") + Math.random(),
+              id: '',
+              srange: '',
+              num: ''
+            }
+            exchanges.push(defRow)
           }
           this.form = datas;
           this.form.hstime = ''
@@ -137,7 +147,7 @@ export default {
           this.form.actStime = ''
           this.form.actEtime = ''
         } else {
-          this.$message.error(res.msg);
+          this.$message.error(res.msg)
         }
       })
     },
