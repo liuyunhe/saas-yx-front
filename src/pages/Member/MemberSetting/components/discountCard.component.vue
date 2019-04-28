@@ -111,7 +111,7 @@ export default {
         inputErrorMessage: '请输入数字'
       }).then(({ value }) => {
         if (value == 0) return this.$message.error('数字不能为0')
-        this.$request.post('/api/saotx/md/addAward', {
+        this.$request.post('/api/wiseqr/md/addAward', {
           id: id,
           increment: value
         }, true, res => {
@@ -152,7 +152,7 @@ export default {
     },
     getDoubleCardList() {
       this.dataListVisible = true
-      this.$request.post('/api/saotx/md/listMaterial', this.queryParams, true, res=> {
+      this.$request.post('/api/wiseqr/md/listMaterial', this.queryParams, true, res=> {
         if (res.ret === '200000') {
           this.dataList = res.data.list
           this.total = res.data.page.count

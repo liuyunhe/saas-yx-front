@@ -63,7 +63,7 @@
       </el-pagination>
     </el-card>
     <!-- 新建活动模板弹框 -->
-    <el-dialog :visible.sync="addActDialogVisible" width="900px" :close-on-click-modal="false">
+    <el-dialog class="addDialog" :visible.sync="addActDialogVisible" width="900px" :close-on-click-modal="false">
       <div class="act-wrap">
         <div class="title">
           <ul>
@@ -139,7 +139,8 @@ export default {
         'act-100': '/market/actTpl/addAct?id=',
         'act-701': '/market/actTpl/addCapsuleToys?id=',
         'act-702': '/market/actTpl/addDadishu?id=',
-        'act-703': '/market/actTpl/addDaqiqiu?id='
+        'act-703': '/market/actTpl/addDaqiqiu?id=',
+        'act-704': '/market/actTpl/addJiawawa?id='
       }
     }
   },
@@ -164,8 +165,9 @@ export default {
   methods: {
     // 获取活动list
     getActList() {
+      this.loading = true
       this.$request.post(
-        '/api/saotx/acttpl/list',
+        '/api/wiseqr/acttpl/list',
         this.actListParams,
         true,
         res => {
@@ -185,7 +187,7 @@ export default {
     // 获取活动模板类型
     getActType() {
       this.$request.post(
-        '/api/saotx/act/allForms',
+        '/api/wiseqr/act/allForms',
         this.actParams,
         true,
         res => {
@@ -207,12 +209,15 @@ export default {
       this.actParams.pcode = ''
       this.actParams.pageNo = 1
       this.nowActiveIndex = 0
-      this.getAct()
+      const loading = this.$loading({
+        target: '.el-dialog'
+      })
+      this.getAct(() => loading.close())
     },
     // 查询当前活动
-    getAct() {
+    getAct(callback) {
       this.$request.post(
-        '/api/saotx/act/allForms',
+        '/api/wiseqr/act/allForms',
         this.actParams,
         true,
         res => {
@@ -223,6 +228,7 @@ export default {
           } else {
             this.$message.error(res.message)
           }
+          callback && callback()
         },
         err => {
           console.log(err)
@@ -232,7 +238,7 @@ export default {
     // 获取活动名称列表
     getActCodeList() {
       this.$request.post(
-        '/api/saotx/act/formByPCode',
+        '/api/wiseqr/act/formByPCode',
         {
           pCode: '',
           pageNo: 1,
@@ -258,7 +264,10 @@ export default {
       this.nowActiveIndex = index
       this.actParams.pcode = item.code
       this.actParams.pageNo = 1
-      this.getAct()
+      const loading = this.$loading({
+        target: '.el-dialog'
+      })
+      this.getAct(() => loading.close())
     }, 
     // 按条件查询活动模板
     queryActList() {
@@ -293,7 +302,7 @@ export default {
         })
       }
       this.$request.post(
-        '/api/saotx/acttpl/remBatch',
+        '/api/wiseqr/acttpl/remBatch',
         { idArr: idArr },
         true,
         res => {
@@ -328,7 +337,7 @@ export default {
         })
       }
       this.$request.post(
-        '/api/saotx/acttpl/remBatch',
+        '/api/wiseqr/acttpl/remBatch',
         { idArr: this.batchRemoveIdList },
         true,
         res => {

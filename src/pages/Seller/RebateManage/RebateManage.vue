@@ -157,6 +157,12 @@
               prop="adNames"
               label="投放地区"
               width="120">
+            <template slot-scope="scope">
+              <template v-if="scope.row.adNames">
+                <span v-if="scope.row.adNames.length<=20">{{scope.row.adNames}}</span>
+                <span v-else :title="scope.row.adNames">{{scope.row.adNames.substr(0,20)+'...'}}</span>
+              </template>
+            </template>
           </el-table-column>
           <el-table-column
               prop="statusName"
@@ -296,7 +302,7 @@
     methods:{
       //从后台拿取品牌列表listBrand
       getListBrand(){
-        this.$request.post('/api/saotx/prod/listBrand',{}, true, (res) => {
+        this.$request.post('/api/wiseqr/prod/listBrand',{}, true, (res) => {
           if (res.ret == '200000') {
             this.brandList = res.data.list
           }
@@ -305,7 +311,7 @@
 
       //从后台拿取规格1列表listBrand
       getListSN(){
-        this.$request.post('/api/saotx/prod/list',{"brandCodeArr":this.filters.brandCodeArr}, true, (res) => {
+        this.$request.post('/api/wiseqr/prod/list',{"brandCodeArr":this.filters.brandCodeArr}, true, (res) => {
           if (res.ret == '200000') {
             this.snList = res.data.list
           }
@@ -318,7 +324,7 @@
 
       //从后台拿取活动类型allFormsBrand
       getListAllForms(){
-        this.$request.post('/api/saotx/act/allForms',{}, true, (res) => {
+        this.$request.post('/api/wiseqr/act/allForms',{}, true, (res) => {
           if (res.ret == '200000') {
             this.allFormsBrand = [...this.allFormsBrand ,...res.data.list]
           }
@@ -326,7 +332,7 @@
       },
       //从后台拿取活动状态statusList
       getListStatus(){
-        this.$request.post('/api/saotx/act/statusSelect',{}, true, (res) => {
+        this.$request.post('/api/wiseqr/act/statusSelect',{}, true, (res) => {
           if (res.ret == '200000') {
             let arr = Object.entries(res.data)
             let statusList = []

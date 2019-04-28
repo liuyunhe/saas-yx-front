@@ -12,16 +12,20 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="奖品名称:" prop="name">
+      <!-- <el-form-item label="奖品名称:" prop="name">
         <el-col :span="10">
-          <el-input v-model="awae.prizeName" :disabled="isDisable ? true : false" placeholder="请输入奖品名称"></el-input>
+          <el-input v-model="awae.prizeName" :disabled="isDisable ? true : false" placeholder="奖品名称"></el-input>
         </el-col>
-      </el-form-item>
+      </el-form-item> -->
       <template>
         <el-form-item :label="typeObj.checkName[awae.awardType]" prop="pool">
           <el-button v-if="!awae.awardPic" @click="getList">选择</el-button>
           <img v-if="awae.awardPic" class="prize-img" :src="awae.awardPic" :style="isDisable ? '' : imgStyle" :title="isDisable ? '' : '点击更换'" @click="!isDisable && getList()">
-          <span>{{awae.poolName}}</span>
+        </el-form-item>
+        <el-form-item label="奖品名称:" prop="name">
+          <el-col :span="10">
+            <el-input v-model="awae.prizeName" disabled="true" placeholder="奖品名称"></el-input>
+          </el-col>
         </el-form-item>
         <el-form-item label="红包面额:" v-if="awae.awardType == 3" prop="redNum">
           <el-input-number v-model="awae.redMoney" :disabled="isDisable ? true : false" :precision="2" :min="0" :max="astrict ? 0.3 : Infinity" :step="0.1" controls-position="right" @change="countRedTotal"></el-input-number> 元
@@ -204,6 +208,7 @@ export default {
     selectPrize(obj) {
       this.awae.awardPic = obj.pic
       this.awae.poolName = obj.name
+      this.awae.prizeName = obj.name
       this.awae.poolId = obj.id
       this.listVisible = false
     },
@@ -229,7 +234,7 @@ export default {
       }
     },
     getList() {
-      this.$request.post('/api/saotx/metra/list', this.params, true, res => {
+      this.$request.post('/api/wiseqr/metra/list', this.params, true, res => {
         if (res.ret === '200000') {
           this.list = []
           this.list = res.data.list
@@ -242,7 +247,7 @@ export default {
     },
     // 同时送积分
     giveIntegral() {
-      this.$request.post('/api/saotx/metra/list',
+      this.$request.post('/api/wiseqr/metra/list',
         {
           metraFlag: 'integral',
           pageNo: 1,

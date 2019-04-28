@@ -40,7 +40,7 @@
           <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upBannerImg" :show-file-list="false">
             <img v-if="confData.banner" :src="confData.banner" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*270像素；格式png、jpg；大小不超过2M</div>
+            <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*160像素；格式png、jpg；大小不超过2M</div>
           </el-upload>
         </el-form-item>
         <!-- 红包雨图片上传 -->
@@ -56,7 +56,7 @@
           <el-input-number v-model="redConf.joinNum" :precision="0" :min="1" controls-position="right"></el-input-number>
           次
         </el-form-item>
-        <el-form-item v-if="form == 'act-301'" label="分享设置：" prop="isShare">
+        <el-form-item v-if="shareAct[form]" label="分享设置：" prop="isShare">
           <el-radio v-model="redConf.share" :label="1">开启分享</el-radio>
           <el-radio v-model="redConf.share" :label="0">关闭分享</el-radio>
         </el-form-item>
@@ -74,7 +74,7 @@
         </el-form-item> -->
         <el-form-item>
           <el-button type="primary" @click="nextStep">保存并进入下一步</el-button>
-          <el-button @click="$router.push('/market/actTpl')">返回列表</el-button>
+          <el-button @click="back">返回列表</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -177,13 +177,20 @@ export default {
       },
       // actTime: [],
       timeDisable: false,
-      uploadURL: '/api/saotx/attach/commonAliUpload',
+      uploadURL: '/api/wiseqr/attach/commonAliUpload',
       headerObj: {
         loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
         token: sessionStorage.getItem('access_token'),
         CLIENTSESSIONID: sessionStorage.getItem('CLIENTSESSIONID')
       },
       stepActive:0,
+      shareAct: {
+        'act-701': 1,
+        'act-702': 1,
+        'act-703': 1,
+        'act-704': 1,
+        'act-301': 1
+      }
     }
   },
   // watch: {
@@ -198,10 +205,16 @@ export default {
   //   }
   // },
   created() {
+    
+  },
+  mounted() {
     if (!this.id) {
       this.confData.banner = Config.banner[this.form]
     } else {
-      this.getDetail()
+      const loading = this.$loading({
+        target: '.actSetConf-container'
+      })
+      this.getDetail(() => loading.close())
     }
     this.getIdxSelect()
   },
@@ -214,8 +227,8 @@ export default {
   		}
   		
   	},
-    getDetail() {
-      this.$request.post('/api/saotx/act/detail', { id: this.id }, true, res => {
+    getDetail(callback) {
+      this.$request.post('/api/wiseqr/act/detail', { id: this.id }, true, res => {
         if (res.ret == '200000') {
           if (this.clone == '1') {
             for (let key in this.confData) {
@@ -224,7 +237,7 @@ export default {
           } else {
             this.confData = res.data.act
           }
-          if (this.form == 'act-301') this.redConf = JSON.parse(this.confData.extInfo)
+          if (this.shareAct[this.form]) this.redConf = JSON.parse(this.confData.extInfo)
           this.confData.idx = this.confData.idx + ''
           if (this.redConf.extInfo) this.extInfo=JSON.parse(this.confData.extInfo)
           if (this.confData.stimeStr && this.confData.etimeStr) {
@@ -232,6 +245,7 @@ export default {
           }
           // this.actTime.push(this.confData.stimeStr)
           // this.actTime.push(this.confData.etimeStr)
+          callback && callback()
           return
         }
         this.$message.error(res.messgae)
@@ -246,7 +260,7 @@ export default {
     },
     // 获取优先级
     getIdxSelect() {
-      this.$request.post('/api/saotx/act/idxSelect', {}, true, res => {
+      this.$request.post('/api/wiseqr/act/idxSelect', {}, true, res => {
         if (res.ret === '200000') return this.idxSelect = res.data
       })
     },
@@ -284,8 +298,8 @@ export default {
           	this.confData.extInfo=JSON.stringify(this.extInfo);
           } 
         }
-        if (this.form == 'act-301') this.confData.extInfo = JSON.stringify(this.redConf)
-        this.$request.post('/api/saotx/act/saveOrModify', this.confData, true, res => {
+        if (this.shareAct[this.form]) this.confData.extInfo = JSON.stringify(this.redConf)
+        this.$request.post('/api/wiseqr/act/saveOrModify', this.confData, true, res => {
           if (res.ret === '200000') {
           	if(this.form=='act-501'){
           		return this.$router.push(
@@ -314,6 +328,13 @@ export default {
         this.$message.error('上传图片大小不能超过 2MB!')
       }
       return JPGOrPNG && isLt2M;
+    },
+    back() {
+      if (this.id) {
+        this.$router.back()
+      } else {
+        this.$router.push('/market/actTpl')
+      }
     }
   }
 }

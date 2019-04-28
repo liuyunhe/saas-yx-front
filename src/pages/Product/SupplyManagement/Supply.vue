@@ -215,7 +215,7 @@
 
       //从后台拿取数据状态dataStatus
       getDataStatus(){
-        this.$request.post('/api/saotx/dim/dataStatus',{}, true, (res) => {
+        this.$request.post('/api/wiseqr/dim/dataStatus',{}, true, (res) => {
           if (res.ret == '200000') {
             this.dataStatusList = res.data
           }
@@ -224,7 +224,7 @@
 
       postSearch(params) {
         this.listLoading = true;
-        this.$request.post('/api/saotx/supplier/list', params, true, (res) => {
+        this.$request.post('/api/wiseqr/supplier/list', params, true, (res) => {
           if (res.ret == '200000') {
             this.supplyList = res.data.list
             this.total = res.data.page.count
@@ -281,7 +281,7 @@
           id,
           status
         }
-        this.$request.post('/api/saotx/supplier/modifyStatus',params,true,res => {
+        this.$request.post('/api/wiseqr/supplier/modifyStatus',params,true,res => {
           if(res.ret == "200000"){
             this.$message({
               message: '保存成功！',

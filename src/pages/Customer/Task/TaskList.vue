@@ -1,49 +1,62 @@
 <template>
   <div class="container">
     <el-card>
-      <div class="conf-act-list">
-        <ul>
-          <li v-for="(item, index) in actList" :key="index">
-            <div class="img"  @click="goToDetail(item)" :style="{'background': `url(${item.taskImg}) no-repeat center / 100% 100%`}"></div>
-            <div class="con">
-              <div class="text">
-                <div class="title">{{item.taskName}}</div>
-                <div class="switch">
-                  <el-switch v-model="item.status" @change="openOrClose(item.status, item.id)" :active-value="1" :inactive-value="0"></el-switch>
-                </div>
-              </div>
-              <div class="desc">{{item.taskDetail}}</div>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <el-table class="mt20" border :data="actTable" style="width: 100%">
+      <el-table class="mt20" v-loading="load" border :data="taskList" style="width: 100%">
         <el-table-column type="index" width="50" label="序号" align="center"></el-table-column>
-        <el-table-column prop="date" label="任务名称" align="center"></el-table-column>
-        <el-table-column prop="name" label="获得积分数" align="center"></el-table-column>
-        <el-table-column prop="name" label="获得成长值" align="center"></el-table-column>
-        <el-table-column prop="name" label="更新时间" align="center"></el-table-column>
-        <el-table-column prop="name" label="状态" align="center">
+        <el-table-column prop="taskName" label="任务名称" align="center"></el-table-column>
+        <el-table-column prop="score" label="获得积分数" align="center">
           <template slot-scope="scope">
-            <el-switch v-model="scope.row.status" :active-value="1" :inactive-value="0"></el-switch>
+            {{scope.row.taskCode != 'MEMBER_SCAN' ? scope.row.score : '/'}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="growth" label="获得成长值" align="center">
+          <template slot-scope="scope">
+            {{scope.row.taskCode != 'MEMBER_SCAN' ? scope.row.growth : '/'}}
+          </template>
+        </el-table-column>
+        <el-table-column label="更新时间" align="center">
+          <template slot-scope="scope">
+            {{scope.row.utime ? new Date(scope.row.utime).Format('yyyy-MM-dd hh:mm:ss') : ''}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="status" label="状态" align="center">
+          <template slot-scope="scope">
+            <el-switch v-model="scope.row.status" @change="openOrClose(scope)" :active-value="1" :inactive-value="0"></el-switch>
           </template>
         </el-table-column>
         <el-table-column prop="name" label="操作" align="center">
           <template slot-scope="scope">
-            <el-button type="text">编辑</el-button>
-            <el-button type="text">查看明细</el-button>
+            <el-button type="text" @click="edit(scope.row)">编辑</el-button>
+            <!-- TODO 暂不做 -->
+            <!-- <el-button type="text" @click="detail(scope.row.id)">查看明细</el-button> -->
           </template>
         </el-table-column>
       </el-table>
     </el-card>
+    <el-dialog :title="dialogTitle" :close-on-click-modal="false" :visible.sync="dialogVisible" width="600px">
+      <div class="score" v-if="form.mbTask">
+        <span>首次{{dialogTitle}}, 可获得</span>
+        <el-input-number v-model="form.mbTask.score" :controls="false" :min="0" :max="1000000" :precision="0"></el-input-number> 积分
+      </div>
+      <div class="growth" v-if="form.mbTask">
+        <el-input-number v-model="form.mbTask.growth" :controls="false" :min="0" :max="1000000" :precision="0"></el-input-number> 成长值
+      </div>
+      <div class="btn mt20">
+        <el-button type="primary" @click="saveTask">保存</el-button>
+        <el-button palin @click="dialogVisible = false">取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      actList: [],
-      actTable: []
+      load: true,
+      taskList: [],
+      dialogVisible: false,
+      dialogTitle: '',
+      form: {}
     }
   },
   created() {
@@ -51,39 +64,74 @@ export default {
   },
   methods: {
     getTaskList() {
-      this.$request.post('/sc/saotx/act/findList', {}, true, res => {
-        if (res.ret === '200000') return this.actList = res.data
+      this.load = true
+      this.$request.post('/api/wiseqr/mber/listBasic', {type: 1}, true, res => {
+        if (res.ret === '200000') {
+          this.taskList = res.data
+          this.load = false
+          return
+        }
+        this.$message.error(res.message)
       })
     },
-    goToDetail(item) {
-      this.$router.push(`/customer/task/sign?code=${item.taskCode}&id=${item.id}`)
-    },
-    openOrClose(status, id) {
-      if (!status) {
-        this.$confirm('是否关闭签到活动?', '提示', {
+    openOrClose(scope) {
+      if (!scope.row.status) {
+        this.$confirm('关闭后消费者将不能享受当前的级别的权益，未避免投诉，请谨慎操作。', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.switchAPI(status, id)
+          this.switchAPI(scope.row.status, scope.row.id)
         }).catch(() => {
-          this.getTaskList()
+          // this.getTaskList()
+          // this.taskList[0].status = 1
+          this.$set(this.taskList[scope.$index], 'status', 1)
           this.$message({
             type: 'info',
             message: '已取消关闭'
           })          
         })
       } else {
-        this.switchAPI(status, id)
+        this.switchAPI(scope.row.status, scope.row.id)
       }
     },
     switchAPI(status, id) {
-      this.$request.post('/sc/saotx/act/update', {id, status}, true, res => {
+      this.$request.post('/api/wiseqr/mber/upTaskStatus', {status, id}, true, res => {
         if (res.ret === '200000') {
           this.$message.success(status ? '开启成功' : '关闭成功')
         } else {
-          this.$message.error(res.msg)
+          this.$message.error(res.message)
         }
+      })
+    },
+    detail(id) {
+      this.$router.push(`/customer/task/detail?id=${id}`)
+    },
+    edit(row) {
+      if (row.taskCode != 'MEMBER_SCAN') {
+        this.$request.post('/api/wiseqr/mber/detTaskById', {id: row.id}, true, res => {
+          if (res.ret === '200000') {
+            this.form = res.data
+            this.dialogTitle = row.taskName
+            this.dialogVisible = true
+            return
+          }
+          this.$message.error(res.message)
+        })
+      } else {
+        this.$router.push(`/customer/task/scanEdit?id=${row.id}`)
+      }
+    },
+    saveTask() {
+      if (!this.form.mbTask.score || !this.form.mbTask.growth) return this.$message.error('请完善表单数据!')
+      this.$request.post('/api/wiseqr/mber/saveBasic', this.form, true, res => {
+        if (res.ret === '200000') {
+          this.$message.success('保存成功')
+          this.dialogVisible = false
+          this.getTaskList()
+          return
+        }
+        this.$message.error(res.message)
       })
     }
   }
@@ -131,6 +179,32 @@ export default {
 }
 .conf-act-list li + .conf-act-list li {
   margin-left: 20px;
+}
+.el-dialog {
+  .score span {
+    display: inline-block;
+    width: 170px;
+    text-align: right;
+    margin-left: 30px;
+    padding-right: 10px;
+  }
+  .growth {
+    margin: 10px 0 10px 215px;
+  }
+  .status {
+    margin-left: 30px;
+    span {
+      display: inline-block;
+      width: 180px;
+      text-align: right;
+    }
+    .el-switch {
+      margin-bottom: 2px;
+    }
+  }
+  .btn {
+    text-align: center;
+  }
 }
 </style>
 

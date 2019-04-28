@@ -391,7 +391,7 @@ export default {
         // 根据父编码查询地域信息
         getRegions(level, pcode) {
             if(level==1) pcode = "";
-            this.$request.post('/api/saotx/dim/regionByPCode', {parentCode: pcode}, true, (res)=>{
+            this.$request.post('/api/wiseqr/dim/regionByPCode', {parentCode: pcode}, true, (res)=>{
                 if (res.ret==200000) {
                     if(level==1) {
                         this.provinceList = res.data || [];
@@ -446,7 +446,7 @@ export default {
             }
 
             this.loading = true;
-            this.$request.post('/api/saotx/seller/list', this.form, true, (res)=>{
+            this.$request.post('/api/wiseqr/seller/list', this.form, true, (res)=>{
                 this.loading = false;
                 if (res.ret==200000) {
                     this.tableList = res.data.list || [];
@@ -457,7 +457,7 @@ export default {
             });
         },
         exportDatas() {
-            let url = "/api/saotx/seller/export";
+            let url = "/api/wiseqr/seller/export";
             let xhr = new XMLHttpRequest();
             let formData = new FormData();
             //formData = Object.assign({}, formData, this.form);
@@ -506,7 +506,7 @@ export default {
                 }
             }
             let _this = this;
-            _this.$request.post('/api/saotx/seller/audit', _this.auditForm, true, (res)=>{
+            _this.$request.post('/api/wiseqr/seller/audit', _this.auditForm, true, (res)=>{
                 if (res.ret==200000) {
                     _this.auditForm.show = false;
                     _this.$message({type:'success', message:"审核操作成功！"});
@@ -538,7 +538,7 @@ export default {
         // 列表数据查看详情
         seeDetail(index, row) {
             let _this = this;
-            _this.$request.post('/api/saotx/seller/detail', {id: row.id}, true, (res)=>{
+            _this.$request.post('/api/wiseqr/seller/detail', {id: row.id}, true, (res)=>{
                 if (res.ret==200000) {
                     _this.detailForm = res.data||{};
                     _this.auditForm.id = _this.detailForm.id;
@@ -575,9 +575,9 @@ export default {
                 if(this.auditForm.audStatus==3&&this.auditForm.note&&this.auditForm.note.length<=50) validResult = true;// 审核通过，并且有得分值，则校验OK
                 
                 if (validResult) {
-                    let apiUrl = "/api/saotx/seller/audit";// 未审核时
+                    let apiUrl = "/api/wiseqr/seller/audit";// 未审核时
                     if(this.auditForm.hisAudit) {
-                        apiUrl = "/api/saotx/seller/mscore";// 已审核时
+                        apiUrl = "/api/wiseqr/seller/mscore";// 已审核时
                     }
                     this.$request.post(apiUrl, this.auditForm, true, (res)=>{
                         if (res.ret==200000) {

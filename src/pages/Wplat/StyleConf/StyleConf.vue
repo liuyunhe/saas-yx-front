@@ -4,13 +4,13 @@
 
 			<div class='nav-item'>
 				<div class="right_btn" :style="{background:colorValue}">立即兑换</div>
-				<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/pro_detail.png" alt="" />
+				<img src="http://qoss.qrmkt.cn/new_platform/pc/pro_detail.png" alt="" />
 			</div>
 			<div class='nav-item'>
 				<div class="click-con" :style="{background:colorValue}">
 					确认领取
 				</div>
-				<img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc/pro_btn.png" alt="" />
+				<img src="http://qoss.qrmkt.cn/new_platform/pc/pro_btn.png" alt="" />
 			</div>
 
 		</div>
@@ -33,7 +33,7 @@
 		data() {
 			return {
 				colorValue: '#297873',
-				initValue: '',
+				initValue: '#bebebe',
 				id: ''
 			}
 		},
@@ -46,7 +46,7 @@
 				var conf = JSON.stringify({
 					bgColor: that.colorValue
 				})
-				this.$request.post('/api/saotx/weplat/styleSaveOrModify', {
+				this.$request.post('/api/wiseqr/weplat/styleSaveOrModify', {
 					id: that.id,
 					conf: conf,
 					publish: 1
@@ -62,7 +62,7 @@
 			},
 			init() {
 				var that = this;
-				this.$request.post('/api/saotx/weplat/style', {}, true, (res) => {
+				this.$request.post('/api/wiseqr/weplat/style', {}, true, (res) => {
 					if(res.ret === '200000') {
 						var DATA = res.data || {};
 						if(!DATA.id) {

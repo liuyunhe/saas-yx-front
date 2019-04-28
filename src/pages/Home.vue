@@ -104,11 +104,19 @@ export default {
       // console.log(to)
     }
   },
+  provide(){    //在父组件中创建属性
+    return {
+      routerRefresh: this.routerRefresh
+    }
+  },
   methods: {
     init() {
       this.getMenuList()
       this.getUserInfo()
       this.menuActive()
+    },
+    routerRefresh(){
+      this.menuActive() // 刷新菜单样式
     },
     goFirstSonMenu() {
       let path = location.hash.replace('#', ''),
@@ -140,7 +148,7 @@ export default {
     getUserInfo() {
       var that = this
       this.$request.post(
-        '/api/saotx/user/cluser',
+        '/api/wiseqr/user/cluser',
         {},
         true,
         res => {
@@ -170,7 +178,7 @@ export default {
     // 获取菜单
     getMenuList() {
       this.$request.post(
-        `/api/saotx/menu/all`,
+        `/api/wiseqr/menu/all`,
         {
           service: 'browser'
         },

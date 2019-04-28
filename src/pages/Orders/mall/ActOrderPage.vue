@@ -67,7 +67,8 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="orderId" label="订单号" ></el-table-column>
-                <el-table-column prop="jmcnl" label="活动名称"></el-table-column>
+                <!--<el-table-column prop="jmcnl" label="活动名称"></el-table-column>-->
+                <el-table-column prop="gameName" label="活动名称"></el-table-column>
                 <el-table-column prop="nickName" label="中奖人"></el-table-column>
                 <el-table-column prop="lmobile" label="中奖人手机号"></el-table-column>
                 <el-table-column prop="awardName" label="奖项名称" ></el-table-column>

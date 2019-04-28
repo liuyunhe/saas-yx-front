@@ -160,7 +160,7 @@ props: ['id'],
         let that = this;
         let conf = null;
         if(!that.id) return;
-        that.$request.post('/api/saotx/acttpl/detail', { id: that.id }, true, res => {
+        that.$request.post('/api/wiseqr/acttpl/detail', { id: that.id }, true, res => {
             if (res.ret === '200000') {
                 conf = JSON.parse(res.data.conf);
                 that.conf.img = JSON.parse(conf.img);
@@ -189,7 +189,7 @@ props: ['id'],
       that.conf.conf = JSON.stringify(that.conf.conf);
       that.conf.name = that.conf.title;
       that.conf.note = that.conf.description;
-      that.$request.post('/api/saotx/acttpl/saveOrModify', that.conf, true, res => {
+      that.$request.post('/api/wiseqr/acttpl/saveOrModify', that.conf, true, res => {
         if (res.ret === '200000') {
           // 投放
           if (that.isPublish) {

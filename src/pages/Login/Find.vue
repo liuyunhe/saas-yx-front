@@ -37,7 +37,7 @@
 						<el-form-item label="密码" prop="pass">
 							<el-input type="password" v-model="ruleForm2.pass" class='style_user' name="pwd" autocomplete="new-password"></el-input>
 						</el-form-item>
-						<el-form-item label="确认密码" prop="checkPass">
+						<el-form-item label="确认密码" prop="pass">
 							<el-input type="password" v-model="ruleForm2.checkPass" class='style_user'></el-input>
 						</el-form-item>
 
@@ -75,15 +75,6 @@
 					callback();
 				}
 			};
-			var validatePass2 = (rule, value, callback) => {
-				if(value === '') {
-					callback(new Error('请再次输入密码'));
-				} else if(value !== this.ruleForm2.pass) {
-					callback(new Error('两次输入密码不一致!'));
-				} else {
-					callback();
-				}
-			};
 			return {
 				dynamicValidateForm: {
 					code: '',
@@ -100,15 +91,14 @@
 				},
 				flag: "m", // 页面功能标识：f-找回密码；m-修改密码
 				rules2: {
-					user: [{
-						validator: checkAccount,
-						trigger: 'blur'
-					}],
 					pass: [{
 						validator: validatePass,
 						trigger: 'blur'
 					}],
-					checkPass: [{required:true, validator:validatePass2, trigger:'blur'}]
+					user: [{
+						validator: checkAccount,
+						trigger: 'blur'
+					}]
 				}
 			};
 		},

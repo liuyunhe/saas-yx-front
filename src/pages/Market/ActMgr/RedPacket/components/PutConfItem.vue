@@ -112,7 +112,7 @@ export default {
   methods: {
     initStatus(d, i) {
       let msg
-      this.$request.post('/api/saotx/act/initRedWin', {actCode: d.actCode, tfCode: d.tfCode}, true, res => {
+      this.$request.post('/api/wiseqr/act/initRedWin', {actCode: d.actCode, tfCode: d.tfCode}, true, res => {
         this.initData = JSON.parse(res.data).content
         // console.log(this.initData.data.ts)
         if (this.initData.code == '200') {

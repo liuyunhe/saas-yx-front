@@ -9,7 +9,7 @@
         个
         <span>*</span>
         中奖概率
-        <el-input-number v-model="item.probability" :controls="false" :min="0" :precision="2" :max="100"></el-input-number>
+        <el-input-number v-model="item.probability" :controls="false" :min="0" :max="100"></el-input-number>
         %
         <el-button type="danger" @click="del(index)">删除</el-button>
         <el-button type="primary" v-if="item.id" @click="addRepertory(index)">增库</el-button>

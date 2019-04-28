@@ -15,17 +15,21 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="奖品名称:" prop="name">
+      <!-- <el-form-item label="奖品名称:" prop="name">
         <el-col :span="10">
           <el-input v-model="awae.prizeName" :disabled="awae.id ? true : false" placeholder="请输入奖品名称"></el-input>
         </el-col>
-      </el-form-item>
+      </el-form-item> -->
       <template v-if="awae.awardType == '1'">
         <el-form-item label="选择物品:" prop="pool">
           <!-- <el-button  @click="getEntityList">选择</el-button> -->
           <el-button v-if="!awae.awardPic" @click="getList">选择</el-button>
           <img style="border: 1px dotted #ccc" v-if="awae.awardPic" :src="awae.awardPic" @click="!awae.id && getList()">
-          <span>{{awae.poolName}}</span>
+        </el-form-item>
+        <el-form-item label="物料名称:" prop="name">
+          <el-col :span="10">
+            <el-input v-model="awae.prizeName" disabled="true" placeholder="奖品名称"></el-input>
+          </el-col>
         </el-form-item>
         <el-form-item label="投放数量:" prop="putNum">
           <el-input-number v-model="awae.totalNum" :disabled="awae.id ? true : false" :min="0" controls-position="right"></el-input-number> 个
@@ -39,8 +43,12 @@
         <el-form-item label="选择物品:" prop="pool">
           <!-- <el-button  @click="getVirtualList">选择</el-button> -->
           <el-button v-if="!awae.awardPic" @click="getList">选择</el-button>
-          <img v-if="awae.awardPic" :src="awae.awardPic" @click="awae.id ? true : false && getList">
-          <span>{{awae.poolName}}</span>
+          <img v-if="awae.awardPic" :src="awae.awardPic" @click="!awae.id && getList()">
+        </el-form-item>
+        <el-form-item label="物料名称:" prop="name">
+          <el-col :span="10">
+            <el-input v-model="awae.prizeName" disabled="true" placeholder="奖品名称"></el-input>
+          </el-col>
         </el-form-item>
         <el-form-item label="投放数量:" prop="putNum">
           <el-input-number v-model="awae.totalNum" :disabled="awae.id ? true : false" :min="0" controls-position="right"></el-input-number> 个
@@ -54,8 +62,12 @@
         <el-form-item label="红包池:" prop="pool">
           <!-- <el-button  @click="getRedpacklList">选择</el-button> -->
           <el-button v-if="!awae.awardPic" @click="getList">选择</el-button>
-          <img v-if="awae.awardPic" :src="awae.awardPic" @click="awae.id ? true : false && getList">
-          <span>{{awae.poolName}}</span>
+          <img v-if="awae.awardPic" :src="awae.awardPic" @click="!awae.id && getList()">
+        </el-form-item>
+        <el-form-item label="物料名称:" prop="name">
+          <el-col :span="10">
+            <el-input v-model="awae.prizeName" disabled="true" placeholder="奖品名称"></el-input>
+          </el-col>
         </el-form-item>
         <!-- <el-col :span="10"> -->
         <el-form-item label="红包面额:" prop="redNum">
@@ -80,8 +92,12 @@
         <el-form-item label="选择积分:" prop="pool">
           <!-- <el-button  @click="getIntegrallList">选择</el-button> -->
           <el-button v-if="!awae.awardPic" @click="getList">选择</el-button>
-          <img v-if="awae.awardPic" :src="awae.awardPic" @click="awae.id ? true : false && getList">
-          <span>{{awae.poolName}}</span>
+          <img v-if="awae.awardPic" :src="awae.awardPic" @click="!awae.id && getList()">
+        </el-form-item>
+        <el-form-item label="物料名称:" prop="name">
+          <el-col :span="10">
+            <el-input v-model="awae.prizeName" disabled="true" placeholder="奖品名称"></el-input>
+          </el-col>
         </el-form-item>
         <el-form-item label="投放数量:" prop="putNum">
           <el-input-number v-model="awae.totalNum" :precision="0" :disabled="awae.id ? true : false" :min="0" controls-position="right"></el-input-number> 个
@@ -248,6 +264,7 @@ export default {
     selectPrize(obj) {
       this.awae.awardPic = obj.pic
       this.awae.poolName = obj.name
+      this.awae.prizeName = obj.name
       this.awae.poolId = obj.id
       this.listVisible = false
     },
@@ -276,7 +293,7 @@ export default {
         this.params.metraFlag = 'integral'
         this.title = '选择积分'
       }
-      this.$request.post('/api/saotx/metra/list', this.params, true, res => {
+      this.$request.post('/api/wiseqr/metra/list', this.params, true, res => {
         if (res.ret === '200000') {
           this.list = []
           this.list = res.data.list
@@ -290,7 +307,7 @@ export default {
     // 同时送积分
     giveIntegral() {
       this.$request.post(
-        '/api/saotx/metra/list',
+        '/api/wiseqr/metra/list',
         {
           metraFlag: 'integral',
           pageNo: 1,
@@ -359,7 +376,7 @@ export default {
           inputErrorMessage: '请输入数字'
         }).then(({ value }) => {
           if (value == 0) return this.$message.error('数字不能为0')
-          this.$request.post('/api/saotx/act/addNum', {
+          this.$request.post('/api/wiseqr/act/addNum', {
             id: this.awae.id,
             increment: value
           }, true, res => {

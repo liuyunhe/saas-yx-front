@@ -148,7 +148,7 @@
                     receiver: this.formDetail.receiver,
                     orderCode: this.formDetail.orderCode
                 }
-                this.$request.post('/api/saotx/order/save', params, true, res => {
+                this.$request.post('/api/wiseqr/order/save', params, true, res => {
                     if (res.ret == '200000') {
                         this.$message({
                             message: '保存成功！',
@@ -171,7 +171,7 @@
                 })
             },
             getObjectPageDetail(orderId) {
-                this.$request.post('/api/saotx/order/detail', {orderCode: orderId}, true, (res) => {
+                this.$request.post('/api/wiseqr/order/detail', {orderCode: orderId}, true, (res) => {
                     if (res.ret == '200000') {
                         console.log(res.data)
                         this.formDetail.orderCode = res.data.orderCode;

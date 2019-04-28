@@ -91,13 +91,13 @@
       </el-form-item>
       <div></div>
       <el-form-item label="排序值：" prop="idx" size="small">
-        <el-input type="number" v-model="ruleForm.idx" style="width: 200px"></el-input>
+        <el-input type="number" v-model="ruleForm.idx" style="width: 200px" min="0" max="99999" @input="checkIdx(ruleForm.idx)"></el-input>
       </el-form-item>
       <div></div>
       <el-form-item label="主图：" prop="image" size="small">
         <el-input v-model="ruleForm.image" style="display: none" ></el-input>
         <el-upload
-            action="/api/saotx/attach/commonAliUpload"
+            action="/api/wiseqr/attach/commonAliUpload"
             list-type="picture-card"
             class="banner-img"
             :headers="headers"
@@ -229,6 +229,13 @@
       this.getOneCategory()
     },
     methods:{
+        checkIdx(value){
+            if (value) {
+                if (value > 99999 ) {
+                    this.ruleForm.idx ='';
+                }
+            }
+        },
       //从后台拿取链接类型
       getBannerTypeList(){
         this.$request.post('/sc/saotx/mall/bannerTypeMap',{}, true, (res) => {

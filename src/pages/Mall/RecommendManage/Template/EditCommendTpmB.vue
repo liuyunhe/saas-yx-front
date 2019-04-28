@@ -3,11 +3,11 @@
     <el-form :model="ruleForm" :inline="true" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
       <div class="add-commend-form-container">
         <el-form-item label="推荐位名称：" prop="name" size="small">
-          <el-input v-model="ruleForm.name" style="width: 200px"></el-input>
+          <el-input v-model="ruleForm.name" style="width: 200px" :maxlength="10"></el-input>
         </el-form-item>
         <div></div>
         <el-form-item label="排序值：" prop="idx" size="small">
-          <el-input type="number" v-model="ruleForm.idx" style="width: 200px"></el-input>
+          <el-input type="number" v-model="ruleForm.idx" style="width: 200px"  min="0" max="99999" @input="checkIdx(ruleForm.idx)"></el-input>
         </el-form-item>
         <div></div>
 
@@ -20,7 +20,7 @@
         <el-form-item label="图1：" prop="image1" size="small">
           <el-input v-model="ruleForm.image1" style="display: none" ></el-input>
           <el-upload
-              action="/api/saotx/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonAliUpload"
               list-type="picture-card"
               class="product-img"
               :headers="headers"
@@ -30,7 +30,7 @@
             <img v-if="ruleForm.image1" width="100" height="63" :src="ruleForm.image1" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <div class="pic-tips">* 图片建议尺寸为 230*144px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
+          <div class="pic-tips">* 图片建议尺寸为 120*148px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
         </el-form-item>
         <div></div>
 
@@ -42,7 +42,7 @@
         <el-form-item label="图2：" prop="image2" size="small">
           <el-input v-model="ruleForm.image2" style="display: none" ></el-input>
           <el-upload
-              action="/api/saotx/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonAliUpload"
               list-type="picture-card"
               class="product-img"
               :headers="headers"
@@ -52,7 +52,7 @@
             <img v-if="ruleForm.image2" width="100" height="63" :src="ruleForm.image2" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <div class="pic-tips">* 图片建议尺寸为 230*144px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
+          <div class="pic-tips">* 图片建议尺寸为 120*148px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
         </el-form-item>
         <div></div>
 
@@ -64,7 +64,7 @@
         <el-form-item label="图3：" prop="image3" size="small">
           <el-input v-model="ruleForm.image3" style="display: none" ></el-input>
           <el-upload
-              action="/api/saotx/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonAliUpload"
               list-type="picture-card"
               class="product-img"
               :headers="headers"
@@ -74,7 +74,7 @@
             <img v-if="ruleForm.image3" width="100" height="63" :src="ruleForm.image3" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <div class="pic-tips">* 图片建议尺寸为 230*144px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
+          <div class="pic-tips">* 图片建议尺寸为 120*148px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
         </el-form-item>
         <div></div>
 
@@ -86,7 +86,7 @@
         <el-form-item label="图4：" prop="image4" size="small">
           <el-input v-model="ruleForm.image4" style="display: none" ></el-input>
           <el-upload
-              action="/api/saotx/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonAliUpload"
               list-type="picture-card"
               class="product-img"
               :headers="headers"
@@ -96,7 +96,7 @@
             <img v-if="ruleForm.image4" width="100" height="63" :src="ruleForm.image4" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <div class="pic-tips">* 图片建议尺寸为 230*144px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
+          <div class="pic-tips">* 图片建议尺寸为 120*148px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
         </el-form-item>
         <div></div>
 
@@ -251,10 +251,10 @@
         dialogTableVisible:false,
         //对话框表格类型
         listType: 'JD',
-        
+
         listJD: [],
         listZJ: [],
-        
+
         ProductIndex:"",
 
         headers:{
@@ -382,6 +382,13 @@
       this.getRecommendDetail()
     },
     methods:{
+        checkIdx(value){
+            if (value) {
+                if (value > 99999 ) {
+                    this.ruleForm.idx ='';
+                }
+            }
+        },
       getRecommendDetail() {
         this.$request.post('/sc/saotx/mall/recommend/detail',{id:this.id},true,res => {
           if (res.ret == '200000') {
@@ -415,7 +422,7 @@
           productId:this.filters.productId,
 
           pageSize:this.filters.pageSize,
-          currentPageNumber:this.filters.pageNo
+          pageNo:this.filters.pageNo
         };
 
         this.postSearchJD(params)
@@ -445,7 +452,7 @@
           cateLvl2:this.filters.cateLvl2,
           productId:this.filters.productId,
           pageSize:this.filters.pageSize,
-          currentPageNumber:this.filters.pageNo
+          pageNo:this.filters.pageNo
         };
         this.postSearchZJ(params)
       },

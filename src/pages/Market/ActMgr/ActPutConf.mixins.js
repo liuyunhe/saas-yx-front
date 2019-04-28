@@ -1,5 +1,6 @@
 export default {
   props: ['id', 'actCode','form'],
+  inject:['routerRefresh'], //在子组件中注入在父组件中出创建的属性
   data() {
     return {
     	stepActive:2,
@@ -308,7 +309,7 @@ export default {
     // 获取活动详情
     getActDetail() {
       if (this.id) {
-        this.$request.post('/api/saotx/act/detail', {
+        this.$request.post('/api/wiseqr/act/detail', {
           id: this.id
         }, true, res => {
           if (res.ret !== '200000') return this.$message.error(res.message)
@@ -452,7 +453,7 @@ export default {
     },
     // 获取品牌列表
     getBrandList() {
-      this.$request.post('/api/saotx/prod/listBrand', {
+      this.$request.post('/api/wiseqr/prod/listBrand', {
         pageSize: '-1'
       }, true, res => {
         if (res.ret === '200000') {
@@ -468,7 +469,7 @@ export default {
       // 定投限制品牌
       this.restrictBrand()
       this.$request.post(
-        '/api/saotx/prod/list', {
+        '/api/wiseqr/prod/list', {
           brandCodeArr: this.selectBrand,
           pageSize: '-1'
         },
@@ -485,7 +486,7 @@ export default {
     },
     // 获取省
     getProvList() {
-      this.$request.post('/api/saotx/dim/regionByMultiParent', {
+      this.$request.post('/api/wiseqr/dim/regionByMultiParent', {
         parentArr: []
       }, true, res => {
         if (res.ret === '200000') {
@@ -544,7 +545,7 @@ export default {
         return
       }
       this.$request.post(
-        '/api/saotx/dim/regionByMultiParent', {
+        '/api/wiseqr/dim/regionByMultiParent', {
           parentArr: this.selectProvList
         },
         true,
@@ -596,7 +597,7 @@ export default {
         return
       }
       this.$request.post(
-        '/api/saotx/dim/regionByMultiParent', {
+        '/api/wiseqr/dim/regionByMultiParent', {
           parentArr: this.selectCityList
         },
         true,
@@ -716,16 +717,21 @@ export default {
         data.strategyArr[index - 1].tfType = 'special'
         // data.strategyArr[index - 1].tf = { id: this.fixationPutTfId }
       }
-      this.$request.post('/api/saotx/act/somtf', data, true, res => {
+      this.$request.post('/api/wiseqr/act/somtf', data, true, res => {
         if (res.ret === '200000') {
           this.$message.success('保存成功')
           this.$router.push('/market/actMgr')
+          this.routerRefresh() // 调用home.vue的 routerRefresh
         } else {
           this.$message.error(res.message)
         }
       })
     },
-
+    // 返回列表
+    backList() {
+      this.$router.push('/market/actMgr')
+      this.routerRefresh() // 调用home.vue的 routerRefresh
+    },
     normalTabsEdit(targetName, action) {
       // if (action === 'add') {
       //   if (this.normalConf.length == 10) return

@@ -141,7 +141,7 @@ export default {
   methods: {
     // 获取活动详情
     getActDetail() {
-      this.$request.post('/api/saotx/md/queryExt', { activityCode: this.activityCode }, true, res => {
+      this.$request.post('/api/wiseqr/md/queryExt', { activityCode: this.activityCode }, true, res => {
         if (res.ret === '200000') {
           this.status = true
           this.form = res.data
@@ -179,14 +179,14 @@ export default {
     },
     // 获取市级列表
     getCityList() {
-      this.$request.post('/api/saotx/dim/regionByMultiParent', { parentArr: [this.selectedProv] }, true, res => {
+      this.$request.post('/api/wiseqr/dim/regionByMultiParent', { parentArr: [this.selectedProv] }, true, res => {
         if (res.ret === '200000') return this.cityList = res.data
         this.$meaasge.error(res.message)
       })
     },
     // 获取县级列表
     getAreaList(index) {
-      this.$request.post('/api/saotx/dim/regionByMultiParent', { parentArr: [this.cityList[index].code] }, true, res => {
+      this.$request.post('/api/wiseqr/dim/regionByMultiParent', { parentArr: [this.cityList[index].code] }, true, res => {
         if (res.ret === '200000') {
           res.data.map(item => {
             item.disable = false
@@ -203,7 +203,7 @@ export default {
       this.form.lotteryStime = this.form.lotteryStime.split(':').join('')
       this.form.shareAwards = []
       this.form.shareAwards = [...this.discountArr, ...this.doubleArr]
-      this.$request.post('/api/saotx/md/somExt', this.form, true, res => {
+      this.$request.post('/api/wiseqr/md/somExt', this.form, true, res => {
         if (res.ret === '200000') return this.$emit('nextStep', this.form.activityCode)
         this.$message.error(res.message)
       })

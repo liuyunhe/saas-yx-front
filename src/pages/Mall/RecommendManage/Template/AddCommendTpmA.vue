@@ -3,11 +3,11 @@
     <el-form :model="ruleForm" :inline="true" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
       <div class="add-commend-form-container">
         <el-form-item label="推荐位名称：" prop="name" size="small">
-          <el-input v-model="ruleForm.name" style="width: 200px"></el-input>
+          <el-input v-model="ruleForm.name" style="width: 200px" :maxlength="10"></el-input>
         </el-form-item>
         <div></div>
         <el-form-item label="排序值：" prop="idx" size="small">
-          <el-input type="number" v-model="ruleForm.idx" style="width: 200px"></el-input>
+          <el-input type="number" v-model="ruleForm.idx" style="width: 200px" min="0" max="99999" @input="checkIdx(ruleForm.idx)"></el-input>
         </el-form-item>
         <div></div>
 
@@ -20,7 +20,7 @@
         <el-form-item label="图1：" prop="image1" size="small">
           <el-input v-model="ruleForm.image1" style="display: none" ></el-input>
           <el-upload
-              action="/api/saotx/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonAliUpload"
               list-type="picture-card"
               class="main-product-img"
               :headers="headers"
@@ -42,7 +42,7 @@
         <el-form-item label="图2：" prop="image2" size="small">
           <el-input v-model="ruleForm.image2" style="display: none" ></el-input>
           <el-upload
-              action="/api/saotx/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonAliUpload"
               list-type="picture-card"
               class="product-img"
               :headers="headers"
@@ -64,7 +64,7 @@
         <el-form-item label="图3：" prop="image3" size="small">
           <el-input v-model="ruleForm.image3" style="display: none" ></el-input>
           <el-upload
-              action="/api/saotx/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonAliUpload"
               list-type="picture-card"
               class="product-img"
               :headers="headers"
@@ -87,7 +87,7 @@
         <el-form-item label="图4：" prop="image4" size="small">
           <el-input v-model="ruleForm.image4" style="display: none" ></el-input>
           <el-upload
-              action="/api/saotx/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonAliUpload"
               list-type="picture-card"
               class="product-img"
               :headers="headers"
@@ -252,10 +252,10 @@
         dialogTableVisible:false,
         //对话框表格类型
         listType: 'JD',
-        
+
         listJD: [],
         listZJ: [],
-        
+
         ProductIndex:"",
 
         headers:{
@@ -382,6 +382,13 @@
       this.getListZJ()
     },
     methods:{
+        checkIdx(value){
+            if (value) {
+                if (value > 99999 ) {
+                    this.ruleForm.idx ='';
+                }
+            }
+        },
       //从后台拿取京东商品列表
       getListJD() {
         let params = {

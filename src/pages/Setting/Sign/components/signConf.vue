@@ -151,7 +151,7 @@ export default {
         },
         placeholder: '请输入活动说明'
       },
-      uploadApi: '/api/saotx/attach/commonAliUpload',
+      uploadApi: '/api/wiseqr/attach/commonAliUpload',
       headerObj: {
         loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
         token: sessionStorage.getItem('access_token'),
