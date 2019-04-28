@@ -700,11 +700,11 @@
 				var flag = 1;
 				var flag1 = 1;
 				this.priceList.forEach((item) => {
-					if(item.quantity === '' || item.quantity <= 0) {
+					if(item.allquantity === '' || item.allquantity <= 0) {
 						flag = 0;
 						return;
 					}
-					if(item.probability === '' || item.probability <= 0) {
+					if(item.probability === '' || item.probability < 0) {
 						flag1 = 0;
 						return;
 					}
