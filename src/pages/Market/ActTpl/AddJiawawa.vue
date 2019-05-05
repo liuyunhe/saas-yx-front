@@ -265,6 +265,8 @@
                 <div class="prize-con">
                   <div class="close"><img src="http://qoss.qrmkt.cn/new_platform/close_icon.png" alt=""></div>
                   <img class="pic" :src="configItem.drawImgUrl" alt="" style="margin-right: 0">
+                  <img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/model-gift.png" alt=""
+                       style="position: absolute;width: 94px;height: 77px;left: 50%;transform: translateX(-50%);top: 180px">
                   <p style="position: absolute;top: 265px;width: 100%;font-size: 10px;">请在24小时内领取</p>
                   <p style="position: absolute;top: 245px;width: 100%;font-size: 14px;">1.05红包+50积分</p>
                   <img class="prize-btn" :src="configItem.drawBtnUrl" alt="">
