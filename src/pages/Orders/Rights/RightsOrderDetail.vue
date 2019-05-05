@@ -12,40 +12,41 @@
           <span>用户名称：{{data.nickName}}</span>
           <span>微信号：{{data.nickName}}</span>
           <span>领取时间：{{new Date(data.ctime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
-          <span>获奖地区：郑州市</span>
+          <span>获奖地区：{{data.address}}</span>
         </div>
       </el-card>
       <el-form label-width="130px" class="mt20 ml20">
         <el-form-item label="礼品名称：">
-          <el-input :disabled="data.orderStatus >= 1" v-model="data.giftName"></el-input>
+          <el-input :disabled="data.orderStatus >= 2" v-model="data.giftName"></el-input>
         </el-form-item>
         <div class="title mb20">收货人信息</div>
         <el-form-item label="收货人：">
-          <el-input :disabled="data.orderStatus >= 1" v-model="data.getUserName"></el-input>
+          <el-input :disabled="data.orderStatus >= 2" v-model="data.getUserName"></el-input>
         </el-form-item>
         <el-form-item label="手机号：">
-          <el-input :disabled="data.orderStatus >= 1" type="tel" v-model="data.mobile" :maxlength="13"></el-input>
+          <el-input :disabled="data.orderStatus >= 2" type="tel" v-model="data.mobile" :maxlength="13"></el-input>
         </el-form-item>
         <el-form-item label="收货地址：">
-          <el-select :disabled="data.orderStatus >= 1" v-model="selectProvList" placeholder="请选择" @change="getCityList">
+          <el-select :disabled="data.orderStatus >= 2" v-model="selectProvList" placeholder="请选择" @change="getCityList">
             <el-option v-for="item in provList" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
           </el-select>
-          <el-select :disabled="data.orderStatus >= 1" v-model="selectCityList" placeholder="请选择" @change="getAreaList">
+          <el-select :disabled="data.orderStatus >= 2" v-model="selectCityList" placeholder="请选择" @change="getAreaList">
             <el-option v-for="item in cityList" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
           </el-select>
-          <el-select :disabled="data.orderStatus >= 1" v-model="selectAreaList" placeholder="请选择">
+          <el-select :disabled="data.orderStatus >= 2" v-model="selectAreaList" placeholder="请选择">
             <el-option v-for="item in areaList" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
           </el-select>
-          <el-input :disabled="data.orderStatus >= 1" v-model="data.address"></el-input>
+          <el-input :disabled="data.orderStatus >= 2" v-model="data.address"></el-input>
         </el-form-item>
       </el-form>
       <div class="title mb20 ml20">订单跟踪</div>
       <div class="info">
-        <p v-if="data.orderStatus >= 0"><span>下单时间：{{new Date(data.ctime).Format('yyyy-MM-dd hh:mm:ss')}}</span><span>订单状态：待发货</span></p>
-        <p v-if="data.orderStatus >= 1"><span>发货时间：{{new Date(data.shipTime).Format('yyyy-MM-dd hh:mm:ss')}}</span><span>订单状态：已发货</span><span>物流号：{{data.trackingNumber}}</span></p>
+        <p v-if="data.orderStatus == 0"><span>下单时间：{{new Date(data.ctime).Format('yyyy-MM-dd hh:mm:ss')}}</span><span>订单状态：待审核</span></p>
+        <p v-if="data.orderStatus == 1"><span>下单时间：{{new Date(data.ctime).Format('yyyy-MM-dd hh:mm:ss')}}</span><span>订单状态：审核通过</span></p>
+        <p v-if="data.orderStatus == 2"><span>发货时间：{{new Date(data.shipTime).Format('yyyy-MM-dd hh:mm:ss')}}</span><span>订单状态：已发货</span><span>物流号：{{data.trackingNumber}}</span></p>
         <!-- <p v-if="data.orderStatus >= 2"><span>收货时间：2016.09.16 12:11:56</span><span>订单状态：已完成</span></p> -->
       </div>
       <div class="btn mt20">

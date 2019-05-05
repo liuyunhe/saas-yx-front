@@ -49,7 +49,7 @@
         <el-table-column prop="giftName" label="奖品" align="center"></el-table-column>
         <el-table-column prop="name" label="订单状态" align="center">
           <template slot-scope="scope">
-            {{scope.row.orderStatus == 0 ? '待发货' : scope.row.orderStatus == 1 ? '已发货' : '已领取'}}
+            {{scope.row.orderStatus == 0 ? '待审核' : scope.row.orderStatus == 1 ? '审核通过' : '已领取'}}
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
@@ -76,8 +76,8 @@ export default {
         pageSize: 10
       },
       orderStatusList: [
-        {name: '待发货', val: 0},
-        {name: '已发货', val: 1},
+        {name: '待审核', val: 0},
+        {name: '审核通过', val: 1},
         {name: '已领取', val: 2}
       ],
       headers: {
