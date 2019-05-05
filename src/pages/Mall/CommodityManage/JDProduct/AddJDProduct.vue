@@ -113,11 +113,11 @@
           </el-form-item>
           <div></div>
           <el-form-item label="兑换值：" prop="score" size="small">
-            <el-input type="number" disabled v-model="ruleForm.score" style="width: 200px"></el-input>
+            <el-input type="number" disabled v-model="ruleForm.score" style="width: 200px"></el-input>&nbsp;&nbsp;<span>积分</span>
           </el-form-item>
           <div></div>
           <el-form-item  label="运费：" prop="deliveryScore" size="small">
-            <el-input type="number" v-model="ruleForm.deliveryScore" style="width: 200px"></el-input>
+            <el-input type="number" v-model="ruleForm.deliveryScore" style="width: 200px"></el-input>&nbsp;&nbsp;<span>积分</span>
           </el-form-item>
           <div></div>
           <el-form-item label="状态：" prop="status" size="small">
