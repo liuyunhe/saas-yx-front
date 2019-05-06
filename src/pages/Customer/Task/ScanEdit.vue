@@ -129,9 +129,10 @@ export default {
     },
     // 保存
     save() {
+      // return
       if (this.data.mbTask.orgId == 'hebeihehua') { // 荷花  隐藏名称 说明和扫码限制
         var arr = this.sizeList.filter(item => {
-          return (!item.score || !item.growth)
+          return (item.score == undefined || item.growth == undefined)
         })
         if (arr.length != 0) return this.$message.error('请输入积分或成长值!')
         if (this.sizeList.length == 0) return this.$message.error('请选择品牌规格!')
@@ -150,7 +151,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (!valid) return this.$message.error('请完善表单数据!')
         var arr = this.sizeList.filter(item => {
-          return (!item.score || !item.growth)
+          return (item.score == undefined || item.growth == undefined)
         })
         if (arr.length != 0) return this.$message.error('请输入积分或成长值!')
         if (this.sizeList.length == 0) return this.$message.error('请选择品牌规格!')

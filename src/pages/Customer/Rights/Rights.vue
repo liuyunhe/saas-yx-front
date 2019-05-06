@@ -45,6 +45,7 @@ export default {
       this.$request.post(`/api/wiseqr/mbgrade/lists?_=${new Date().getTime()}`, {}, true, res => {
         if (res.ret === '200000') {
           this.rigthsList = res.data
+          // this.rigthsList = []
           this.openGradeList = res.data.filter(item =>  item.status > 0)
           // console.log(this.openGradeList)
           this.listLen = this.rigthsList.length
@@ -112,17 +113,16 @@ export default {
       })
     },
     edit(item, i) {
+      if (this.rigthsList == 0) return this.$router.push(`/customer/lvl/edit`)
       let highGrowth = null
       if (this.rigthsList[i + 1]) {
         highGrowth = this.rigthsList[i + 1].gradeUpper - 1
       }
       if (i == 0 && item) return this.$router.push(`/customer/lvl/edit?id=${item.id}&highGrowth=${highGrowth}`)
-      let lowestGrowth = this.rigthsList[i - 1].gradeUpper
+      let lowestGrowth = this.rigthsList[i - 1] ? this.rigthsList[i - 1].gradeUpper : 0
       if (item) return this.$router.push(`/customer/lvl/edit?id=${item.id}&lowGrowth=${lowestGrowth}&highGrowth=${highGrowth}`)
-      if (this.rigthsList.length != 0) {
+      if (this.rigthsList != 0) {
         this.$router.push(`/customer/lvl/edit?lowGrowth=${lowestGrowth}&highGrowth=${highGrowth}`)
-      } else {
-        this.$router.push(`/customer/lvl/edit`)
       }
     }
   }
