@@ -129,6 +129,10 @@ export default {
     },
     // 保存
     save() {
+<<<<<<< HEAD
+=======
+      console.table(this.sizeList)
+>>>>>>> test
       // return
       if (this.data.mbTask.orgId == 'hebeihehua') { // 荷花  隐藏名称 说明和扫码限制
         var arr = this.sizeList.filter(item => {

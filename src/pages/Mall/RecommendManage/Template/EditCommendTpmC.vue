@@ -454,7 +454,7 @@
           productId:this.filters.productId,
 
           pageSize:this.filters.pageSize,
-          currentPageNumber:this.filters.pageNo
+          pageNo:this.filters.pageNo
         };
 
         this.postSearchJD(params)
@@ -484,7 +484,7 @@
           cateLvl2:this.filters.cateLvl2,
           productId:this.filters.productId,
           pageSize:this.filters.pageSize,
-          currentPageNumber:this.filters.pageNo
+          pageNo:this.filters.pageNo
         };
         this.postSearchZJ(params)
       },
