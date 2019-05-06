@@ -114,6 +114,7 @@ export default {
     },
     edit(item, i) {
       if (this.rigthsList == 0) return this.$router.push(`/customer/lvl/edit`)
+      sessionStorage.setItem('rights_i', i)
       let highGrowth = null
       if (this.rigthsList[i + 1]) {
         highGrowth = this.rigthsList[i + 1].gradeUpper - 1

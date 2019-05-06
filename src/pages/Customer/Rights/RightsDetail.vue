@@ -123,7 +123,7 @@ export default {
           gradeName: '',
           gradeLower: null,
           gradeUpper: null,
-          gradeImg: 'http://qrmkt.oss-cn-beijing.aliyuncs.com/new_platform/pc_front/rifhts-default-img.png'
+          gradeImg: `https://qoss.qrmkt.cn/new_platform/pc_front/rifhts-default-img${+sessionStorage.getItem('rights_i') + 1}.png`
         },
         mgrsList: []
       },
