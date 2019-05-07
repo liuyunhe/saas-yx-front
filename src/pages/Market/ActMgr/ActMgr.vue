@@ -298,7 +298,11 @@ export default {
         'act-501': '/market/actTpl/addActQuestion?edit=',
         'act-301': '/market/actTpl/addActRedPacked?edit=',
         'act-105': '/market/actTpl/addRound?edit=',
-        'act-100': '/market/actTpl/addAct?edit='
+        'act-100': '/market/actTpl/addAct?edit=',
+        'act-701': '/market/actTpl/addCapsuleToys?edit=',
+        'act-702': '/market/actTpl/addDadishu?edit=',
+        'act-703': '/market/actTpl/addDaqiqiu?edit=',
+        'act-704': '/market/actTpl/addJiawawa?edit='
       }
     }
   },
