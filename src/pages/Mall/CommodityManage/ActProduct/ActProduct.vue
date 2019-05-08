@@ -62,7 +62,7 @@
                         {{scope.row.giftType==1?'虚拟':scope.row.giftType==2?'实物':scope.row.giftType==3?'红包':'积分' }}
                     </template>
                 </el-table-column>
-                <el-table-column prop="shopQuantity" label="剩余库存"></el-table-column>
+              <!--  <el-table-column prop="shopQuantity" label="剩余库存"></el-table-column>-->
                 <el-table-column label="使用状态">
                     <template slot-scope="scope">
                         {{scope.row.status==1?'已启用':scope.row.status==-1?'已停用':'未知' }}
@@ -74,7 +74,7 @@
                         width="240">
                     <template slot-scope="scope">
                         <el-button @click="edit(scope.row.id)" type="primary" size="mini">编辑</el-button>
-                        <el-button @click="addQuanTity(scope.row.id)" type="primary"  size="mini">增库</el-button>
+                      <!--  <el-button @click="addQuanTity(scope.row.id)" type="primary"  size="mini">增库</el-button>-->
                         <el-button @click="editSatus(scope.row.id,-1)" type="danger" size="mini" v-if="scope.row.status==1">停用</el-button>
                         <el-button @click="editSatusOn(scope.row.id,1)" type="primary" size="mini" v-if="scope.row.status==-1">启用</el-button>
                     </template>
