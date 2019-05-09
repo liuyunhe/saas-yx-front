@@ -254,7 +254,7 @@ export default {
     handleDisableTime() {
       let newTime = new Date().getTime(),
         stime = new Date(this.confData.stimeStr).getTime()
-        if (newTime >= stime) {
+        if (newTime >= stime && this.confData.status != 2) {
           this.timeDisable = true
         }
     },
