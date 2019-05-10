@@ -50,17 +50,24 @@
 						<el-option v-for="item in cityList" :key="item.cityId" :label="item.cityName" :value="item.cityName">
 						</el-option>
 					</el-select>
+
+					<span  v-show="displayInOut==1">区县：</span>
+					<el-select v-model="county" v-show="displayInOut==1" multiple filterable placeholder="请选择" size='small'@focus='getCounty'>
+						<el-option v-for="item in countyList" :key="item.name" :label="item.name" :value="item.name">
+						</el-option>
+					</el-select>
 				</div>
 				<div class="search-result">
 					查询结果：
-					<el-tag type="info">{{transformStart}}:00</el-tag>
-					<el-tag type="info">{{transformEnd}}:00</el-tag>
+					<el-tag type="info">{{transformStart}}</el-tag>
+					<el-tag type="info">{{transformEnd}}</el-tag>
 					<el-tag type="info"v-show='brand.length!=0'closable @close="handleClose(0)">{{transformBrand}}</el-tag>
 					<el-tag type="info"v-show='spec.length!=0'closable @close="handleClose(1)">{{transformSpec}}</el-tag>
 					<el-tag type="info"v-show='packing.length!=0'closable @close="handleClose(2)">{{transformPack}}</el-tag>
 					<el-tag type="info"v-show='area.length!=0'closable @close="handleClose(3)">{{transformAreaShow}}</el-tag>
 					<el-tag type="info"v-show='pro.length!=0'closable @close="handleClose(4)">{{transformPro}}</el-tag>
 					<el-tag type="info"v-show='city.length!=0'closable @close="handleClose(5)">{{transformCity}}</el-tag>
+					<el-tag type="info"v-show='county.length!=0'closable @close="handleClose(6)">{{transformCounty}}</el-tag>
 				</div>
 				<div class="search-oper">
 					<div class="oper-btn">
@@ -83,6 +90,7 @@
 										<span v-show='item.saleZone.length!=0'>+{{transformAreaCommon(item.saleZone)}}</span>
 										<span>+{{item.provinceName}}</span>
 										<span v-show='item.cityName.length!=0'>+{{item.cityName}}</span>
+										<span v-show='item.countyName.length!=0'>+{{item.countyName}}</span>
 									</el-radio>
 								</el-radio-group>
 							</div>
@@ -102,10 +110,14 @@
 										<span v-show='item.saleZone.length!=0'>+{{transformAreaCommon(item.saleZone)}}</span>
 										<span>+{{item.provinceName}}</span>
 										<span v-show='item.cityName.length!=0'>+{{item.cityName}}</span>
+										<span v-show='item.countyName.length!=0'>+{{item.countyName}}</span>
 									</el-radio>
 								</el-radio-group>
 							</div>
 						</el-dialog>
+					</div>
+					<div class="oper-btn">
+						<el-button type="primary"size='small' round @click='exportExcel'>导出</el-button>
 					</div>
 				</div>
 			</div>
@@ -134,6 +146,8 @@
 					</el-table-column>
 					<el-table-column prop="cityName" label="市" width="100">
 					</el-table-column>
+					<el-table-column prop="streetName" label="区县" width="100">
+					</el-table-column>
 					<el-table-column prop="scanPv" label="扫码次数" width="100">
 					</el-table-column>
 					<el-table-column prop="effectScanPv" label="扫码烟包数" width="100">
@@ -144,11 +158,23 @@
 					</el-table-column>
 					<el-table-column prop="drawPv" label="中奖人次" width="100">
 					</el-table-column>
+					<el-table-column prop="acptPv" label="领奖人次" width="100">
+					</el-table-column>
 					<el-table-column prop="drawUv" label="中奖用户数" width="100">
 					</el-table-column>
-					<el-table-column prop="redpacketCost" label="红包总额" width="100">
+					<el-table-column prop="drawUv" label="领奖用户数" width="100">
 					</el-table-column>
-					<el-table-column prop="salePromotionCost" label="促销品总额" width="100">
+					<el-table-column prop="redpacketCost" label="中奖红包总额（元）" width="100">
+					</el-table-column>
+					<el-table-column prop="acptRedpCost" label="领奖红包总额（元）" width="100">
+					</el-table-column>
+					<el-table-column prop="scoreValue" label="中奖积分总额（分）" width="100">
+					</el-table-column>
+					<el-table-column prop="acptScoreValue" label="领奖积分总额（分）" width="100">
+					</el-table-column>
+					<el-table-column prop="salePromotionCost" label="中奖实物奖品总额（元）" width="100">
+					</el-table-column>
+					<el-table-column prop="acptSalePromCost" label="领奖实物奖品总额（元）" width="100">
 					</el-table-column>
 				</el-table>
 				<el-table :data="tableData2"v-loading="loading" style="width: 100%" v-if="selectTab==2" >
@@ -168,6 +194,8 @@
 					</el-table-column>
 					<el-table-column prop="cityName" label="市" width="100">
 					</el-table-column>
+					<el-table-column prop="streetName" label="区县" width="100">
+					</el-table-column>
 					<el-table-column prop="activeCost" label="活动成本" width="100">
 					</el-table-column>
 					<el-table-column prop="saomalv" label="扫码率" width="100">
@@ -180,14 +208,16 @@
 					</el-table-column>
 					<el-table-column prop="rjzhongjiangcishu" label="人均中奖次数" width="100">
 					</el-table-column>
+					<el-table-column prop="rjlingjiangcishu" label="人均领奖次数" width="100">
+					</el-table-column>
 					<el-table-column prop="juncicuxiaochengben" label="均次促销成本" width="100">
 					</el-table-column>
 					<el-table-column prop="rjcuxiaochengben" label="人均促销成本" width="100">
 					</el-table-column>
-					<el-table-column prop="juncicuxiaolidu" label="均次促销力度" width="100">
-					</el-table-column>
-					<el-table-column prop="lingshoufeixiaobi" label="零售费效比" width="100">
-					</el-table-column>
+					<!--	<el-table-column prop="juncicuxiaolidu" label="均次促销力度" width="100">
+                        </el-table-column>
+                        <el-table-column prop="lingshoufeixiaobi" label="零售费效比" width="100">
+                        </el-table-column>-->
 				</el-table>
 				<el-table :data="tableData3"v-loading="loading" style="width: 100%" v-if="selectTab==3" >
 					<el-table-column prop="startTime" label="开始时间" width="200">
@@ -206,9 +236,17 @@
 					</el-table-column>
 					<el-table-column prop="cityName" label="市" width="100">
 					</el-table-column>
+					<el-table-column prop="streetName" label="区县" width="100">
+					</el-table-column>
 					<el-table-column prop="awardName" label="奖品名称" width="100">
 					</el-table-column>
-					<el-table-column prop="awardCnt" label="奖品数量" width="100">
+					<el-table-column prop="awardCnt" label="中奖数量" width="100">
+					</el-table-column>
+					<el-table-column prop="awardFee" label="中奖金额" width="100">
+					</el-table-column>
+					<el-table-column prop="acptAwardCnt" label="领奖数量" width="100">
+					</el-table-column>
+					<el-table-column prop="acptAwardFee" label="领奖金额" width="100">
 					</el-table-column>
 				</el-table>
 				<el-table :data="tableData4"v-loading="loading" style="width: 100%" v-if="selectTab==4" >
@@ -228,9 +266,49 @@
 					</el-table-column>
 					<el-table-column prop="cityName" label="市" width="100">
 					</el-table-column>
+					<el-table-column prop="streetName" label="区县" width="100">
+					</el-table-column>
 					<el-table-column prop="awardName" label="奖品名称" width="100">
 					</el-table-column>
-					<el-table-column prop="awardCnt" label="奖品数量" width="100">
+					<el-table-column prop="awardPice" label="奖品价格" width="100">
+					</el-table-column>
+					<el-table-column prop="awardCnt" label="中奖数量" width="100">
+					</el-table-column>
+					<el-table-column prop="awardFee" label="中奖金额" width="100">
+					</el-table-column>
+					<el-table-column prop="acptAwardCnt" label="领奖数量" width="100">
+					</el-table-column>
+					<el-table-column prop="acptAwardFee" label="领奖金额" width="100">
+					</el-table-column>
+				</el-table>
+				<el-table :data="tableData5"v-loading="loading" style="width: 100%" v-if="selectTab==5" >
+					<el-table-column prop="startTime" label="开始时间" width="200">
+					</el-table-column>
+					<el-table-column prop="endTime" label="结束时间" width="200">
+					</el-table-column>
+					<el-table-column prop="productBrand" label="品牌" width="120">
+					</el-table-column>
+					<el-table-column prop="productName" label="规格" width="150">
+					</el-table-column>
+					<el-table-column prop="productPack" label="包装" width="120">
+					</el-table-column>
+					<el-table-column prop="saleZone" label="销区" width="200">
+					</el-table-column>
+					<el-table-column prop="provinceName" label="省" width="100">
+					</el-table-column>
+					<el-table-column prop="cityName" label="市" width="100">
+					</el-table-column>
+					<el-table-column prop="streetName" label="区县" width="100">
+					</el-table-column>
+					<el-table-column prop="awardName" label="奖品名称" width="100">
+					</el-table-column>
+					<el-table-column prop="awardCnt" label="中奖数量" width="100">
+					</el-table-column>
+					<el-table-column prop="awardFee" label="中奖金额" width="100">
+					</el-table-column>
+					<el-table-column prop="acptAwardCnt" label="领奖数量" width="100">
+					</el-table-column>
+					<el-table-column prop="acptAwardFee" label="领奖金额" width="100">
 					</el-table-column>
 				</el-table>
 			</div>
@@ -246,6 +324,7 @@
         data() {
             return {
                 selectTab:1,
+                displayInOut:1,
                 startDate: new Date(new Date().getTime() - 24 * 60 * 60 * 1000).Format('yyyy-MM-dd'),//开始日期
                 startTime: '00:00',//开始时间
                 endDate: new Date().Format('yyyy-MM-dd'),//结束日期
@@ -263,6 +342,8 @@
                 proList:[],//省份列表,
                 city:[],//选中的城市列表
                 cityList:[],//城市列表，
+                county:[],//选中的区县列表
+                countyList:[],//区县列表，
                 dialogTableVisible: false,//载入弹框显示标志位
                 dialogTableVisible1: false,//历史弹框显示标志位
                 loadValue:-1,//载入模板中选的值的索引
@@ -270,17 +351,19 @@
                 loadList:[],//载入模板列表
                 historyList:[],//历史模板列表
                 tabActive:0,//tab栏中样式标识符
-                tabList:['扫码数据','成本数据','现金红包数据','实物奖励数据'],//tab栏列表
+                tabList:['扫码数据','成本数据','现金红包数据','实物奖励数据','积分数据'],//tab栏列表
                 loading:true,//table的加载样式
-                tableData:[],//表格数据
-                tableData2:[],//表格数据
-                tableData3:[],//表格数据
-                tableData4:[],//表格数据
+                tableData:[],//扫码表格数据
+                tableData2:[],//成本表格数据
+                tableData3:[],//红包表格数据
+                tableData4:[],//实物表格数据
+                tableData5:[],//积分表格数据
                 startDateTime: new Date().getTime() - 24 * 60 * 60 * 1000,
                 endDateTime: new Date().getTime(),
             };
         },
         mounted() {
+            this.getProvInout();
             this.getBrand();
             this.getArea();
             var that=this;
@@ -375,6 +458,15 @@
                 }
                 return str;
             },
+            transformCounty(){
+                var str='';
+                if(this.county.length!=0){
+                    str=this.county.join(',')
+                }else {
+                    str=''
+                }
+                return str;
+            },
             transformAreaCommon(){
                 var that=this;
                 return function(str){
@@ -395,6 +487,23 @@
 
         },
         methods: {
+            //判断省内省外
+            getProvInout(){
+                var that = this;
+                this.$request.post(
+                    '/record/public/getDefaultProvInout', {},
+                    true,
+                    res => {
+                        var data = res || [];
+                        if(data.length != 0) {
+                            this.displayInOut=data[0].code;
+                        }
+                    },
+                    err => {
+                        console.log(err)
+                    }
+                )
+            },
             selectStartDay(day) {//日期格式化
                 this.startDateTime =  day.getTime()
                 if(this.endDateTime<this.startDateTime){
@@ -536,19 +645,49 @@
                     }
                 )
             },
+            getCounty(){//获取区县数据
+                var that = this;
+                if(that.city.length!=0){
+                    var params=that.city.join(',')
+                }else {
+                    var params='';
+                }
+                this.$request.post(
+                    '/record/public/getUserCountyByUserId', {
+                        cityName:params
+                    },
+                    true,
+                    res => {
+                        var data = res || [];
+                        that.countyList = data;
+
+                    },
+                    err => {
+                        console.log(err)
+                    }
+                )
+            },
             saveTpl(){//手动保存查询条件
                 var that = this;
                 var specName='所有';
                 var proName='合计';
+                var ctName='合计';
+                var cyName='合计';
                 if(that.transformSpec.length!=0){
                     specName=that.transformSpec;
                 }
                 if(that.transformPro.length!=0){
                     proName=that.transformPro;
                 }
+                if(that.transformCity.length!=0){
+                    ctName=that.transformCity;
+                }
+                if(that.transformCounty.length!=0){
+                    cyName=that.transformCounty;
+                }
                 this.$request.post(
                     '/record/statistics/saveQueryRecord', {
-                        cityName:that.transformCity,
+                        cityName:ctName,
                         ctime:new Date().getTime(),
                         startTime:that.transformStart,
                         endTime:that.transformEnd,
@@ -557,7 +696,8 @@
                         productName:specName,
                         productPack:that.transformPack,
                         provinceName:proName,
-                        saleZone:that.transformArea
+                        saleZone:that.transformArea,
+                        countyName:cyName
                     },
                     true,
                     res => {
@@ -604,21 +744,30 @@
                 this.packing=arr[index].productPack==''?[]:arr[index].productPack.split(',');
                 this.area=arr[index].saleZone==''?[]:arr[index].saleZone.split(',');
                 this.pro=arr[index].provinceName=='合计'?[]:arr[index].provinceName.split(',');
-                this.city=arr[index].cityName==''?[]:arr[index].cityName.split(',');
+                this.city=arr[index].cityName=='合计'?[]:arr[index].cityName.split(',');
+                this.county=arr[index].countyName=='合计'?[]:arr[index].countyName.split(',');
             },
             search(){//点击查询按钮，将查询条件保存到历史数据中，并获取查询结果数据
                 var that = this;
                 var specName='所有';
                 var proName='合计';
+                var ctName='合计';
+                var cyName='合计';
                 if(that.transformSpec.length!=0){
                     specName=that.transformSpec;
                 }
                 if(that.transformPro.length!=0){
                     proName=that.transformPro;
                 }
+                if(that.transformCity.length!=0){
+                    ctName=that.transformCity;
+                }
+                if(that.transformCounty.length!=0){
+                    cyName=that.transformCounty;
+                }
                 this.$request.post(
                     '/record/statistics/saveQueryRecord', {
-                        cityName:that.transformCity,
+                        cityName:ctName,
                         ctime:new Date().getTime(),
                         startTime:that.transformStart,
                         endTime:that.transformEnd,
@@ -628,7 +777,8 @@
                         productPack:that.transformPack,
                         provinceName:proName,
                         saleZone:that.transformArea,
-                        userId:userInfo.account
+                        userId:userInfo.account,
+                        countyName:cyName
                     },
                     true,
                     res => {
@@ -673,7 +823,8 @@
                 this.packing=arr[index].productPack==''?[]:arr[index].productPack.split(',');
                 this.area=arr[index].saleZone==''?[]:arr[index].saleZone.split(',');
                 this.pro=arr[index].provinceName=='合计'?[]:arr[index].provinceName.split(',');
-                this.city=arr[index].cityName==''?[]:arr[index].cityName.split(',');
+                this.city=arr[index].cityName=='合计'?[]:arr[index].cityName.split(',');
+                this.county=arr[index].countyName=='合计'?[]:arr[index].countyName.split(',');
             },
             itemSearch(index){//点击相应的类型获取相应的查询结果
                 this.loading=true;
@@ -692,18 +843,29 @@
                 }else if(index==3){
                     this.selectTab=4;
                     url='getMultiGoodData'
+                }else if(index==4){//增加积分
+                    this.selectTab=5;
+                    url='getMultiScoreData'
                 }
                 var specName='所有';
                 var proName='合计';
+                var ctName='合计';
+                var cyName='合计';
                 if(that.transformSpec.length!=0){
                     specName=that.transformSpec;
                 }
                 if(that.transformPro.length!=0){
                     proName=that.transformPro;
                 }
+                if(that.transformCity.length!=0){
+                    ctName=that.transformCity;
+                }
+                if(that.transformCounty.length!=0){
+                    cyName=that.transformCounty;
+                }
                 this.$request.post(
                     '/record/statistics/'+url, {
-                        cityName:that.transformCity,
+                        cityName:ctName,
                         ctime:new Date().getTime(),
                         startTime:that.transformStart,
                         endTime:that.transformEnd,
@@ -713,7 +875,8 @@
                         productPack:that.transformPack,
                         provinceName:proName,
                         saleZone:that.transformArea,
-                        userId:userInfo.account
+                        userId:userInfo.account,
+                        countyName:cyName
                     },
                     true,
                     res => {
@@ -733,6 +896,8 @@
                             that.tableData3=data;
                         }else if(index==3){
                             that.tableData4=data;
+                        }else if(index==4){
+                            that.tableData5=data;
                         }
 
                     },
@@ -754,7 +919,80 @@
                     this.pro=[];
                 }else if(tag==5){
                     this.city=[];
+                }else if(tag==6){
+                    this.county=[];
                 }
+            },
+            exportExcel(){//导出
+                var url = "getMultiScanDataExcel";
+                if(this.selectTab==1){//扫码
+                    url = "getMultiScanDataExcel";
+                }else if(this.selectTab==2){//成本
+                    url = "getMultiKPIDataExcel";
+                }else if(this.selectTab==3){//现金红包
+                    url = "getMultiCashDataExcel";
+                }else if(this.selectTab==4){//实物奖励数据
+                    url = "getMultiGoodDataExcel";
+                }else if(this.selectTab==5){//积分数据数据
+                    url = "getMultiScoreDataExcel";
+                }
+                var that = this;
+                var specName='所有';
+                var proName='合计';
+                var ctName='合计';
+                var cyName='合计';
+                if(that.transformSpec.length!=0){
+                    specName=that.transformSpec;
+                }
+                if(that.transformPro.length!=0){
+                    proName=that.transformPro;
+                }
+                if(that.transformCity.length!=0){
+                    ctName=that.transformCity;
+                }
+                if(that.transformCounty.length!=0){
+                    cyName=that.transformCounty;
+                }
+                var params={
+                    cityName:ctName,
+                    startTime:that.transformStart,
+                    endTime:that.transformEnd,
+                    productBrand:that.transformBrand,
+                    productName:specName,
+                    productPack:that.transformPack,
+                    provinceName:proName,
+                    saleZone:that.transformArea,
+                    countyName:cyName
+                }
+                var url = "/record/fixatreport/"+url;
+                var xhr = new XMLHttpRequest();
+                var formData = new FormData();
+                for(var attr in params) {
+                    formData.append(attr, params[attr]);
+                }
+                xhr.overrideMimeType("text/plain; charset=x-user-defined");
+                xhr.open('POST', url, true);
+                xhr.responseType = "blob";
+                xhr.responseType = "arraybuffer"
+                xhr.setRequestHeader("token", sessionStorage.getItem('access_token'));
+                xhr.setRequestHeader("loginId", sessionStorage.getItem('access_loginId'));
+                xhr.onload = function(res) {
+                    if (this.status == 200) {
+                        var blob = new Blob([this.response], {type: 'application/vnd.ms-excel'});
+                        var respHeader = xhr.getResponseHeader("Content-Disposition");
+                        var fileName = decodeURI(respHeader.match(/filename=(.*?)(;|$)/)[1]);
+                        if (window.navigator.msSaveOrOpenBlob) {
+                            navigator.msSaveBlob(blob, fileName);
+                        } else {
+                            var link = document.createElement('a');
+                            link.href = window.URL.createObjectURL(blob);
+                            link.download = fileName;
+                            link.click();
+                            window.URL.revokeObjectURL(link.href);
+                        }
+                    }
+                }
+                xhr.send(formData);
             }
 
         }
@@ -798,7 +1036,7 @@
 				.search-oper {
 					white-space: nowrap;
 					.oper-btn {
-						width:25%;
+						width:20%;
 						display: inline-block;
 						vertical-align: middle;
 						height: 60px;
