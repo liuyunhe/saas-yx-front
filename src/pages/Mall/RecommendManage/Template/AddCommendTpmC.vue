@@ -175,7 +175,12 @@
 
       <el-tabs v-model="listType" type="card" @tab-click="handleClick">
         <el-tab-pane label="京东商品" name="JD">
-          <el-table :data="listJD" ref="JDTable" v-loading="listLoading" highlight-current-row @current-change="handleSelectProduct">
+          <el-table :data="listJD" ref="JDTable" v-loading="listLoading" highlight-current-row @current-change="handleSelectProduct"  @row-click = "showRowJD">
+            <el-table-column label="选择" width="50" align="center">
+              <template slot-scope="scope">
+                <el-radio class="radio"  v-model="radiojd"  :label="scope.$index">&nbsp;</el-radio>
+              </template>
+            </el-table-column>
             <el-table-column type="index" label="序号" width="50"></el-table-column>
             <el-table-column property="productId" label="商品ID" width="200"></el-table-column>
             <el-table-column property="memo" label="商品名称" width="200"></el-table-column>
@@ -197,7 +202,12 @@
           </div>
         </el-tab-pane>
         <el-tab-pane label="自建商品" name="ZJ">
-          <el-table :data="listZJ" ref="ZJTable" v-loading="listLoading" highlight-current-row @current-change="handleSelectProduct">
+          <el-table :data="listZJ" ref="ZJTable" v-loading="listLoading" highlight-current-row @current-change="handleSelectProduct"  @row-click = "showRowZJ">
+            <el-table-column label="选择" width="50" align="center">
+              <template slot-scope="scope">
+                <el-radio class="radio"  v-model="radiozj"  :label="scope.$index">&nbsp;</el-radio>
+              </template>
+            </el-table-column>
             <el-table-column type="index" label="序号" width="50"></el-table-column>
             <el-table-column property="productId" label="商品ID" width="200"></el-table-column>
             <el-table-column property="memo" label="商品名称"  width="200"></el-table-column>
@@ -272,7 +282,8 @@
         dialogTableVisible:false,
         //对话框表格类型
         listType: 'JD',
-
+        radiojd:'',
+        radiozj:'',
         listJD: [],
         listZJ: [],
 
@@ -412,6 +423,14 @@
       this.getListZJ()
     },
     methods:{
+        showRowJD(row){
+            //赋值给radio
+            this.radiojd = this.listJD.indexOf(row);
+        },
+        showRowZJ(row){
+            //赋值给radio
+            this.radiozj = this.listZJ.indexOf(row);
+        },
         checkIdx(value){
             if (value) {
                 if (value > 99999 ) {
