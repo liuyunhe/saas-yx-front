@@ -50,7 +50,7 @@
 						<el-option v-for="item in cityList" :key="item.cityId" :label="item.cityName" :value="item.cityName">
 						</el-option>
 					</el-select>
-
+					<br /><br />
 					<span  v-show="displayInOut==1">区县：</span>
 					<el-select v-model="county" v-show="displayInOut==1" multiple filterable placeholder="请选择" size='small'@focus='getCounty'>
 						<el-option v-for="item in countyList" :key="item.name" :label="item.name" :value="item.name">
@@ -489,7 +489,7 @@
         methods: {
             //判断省内省外
             getProvInout(){
-                alert(1);
+                alert(2);
                 var that = this;
                 this.$request.post(
                     '/record/public/getDefaultProvInout', {},
