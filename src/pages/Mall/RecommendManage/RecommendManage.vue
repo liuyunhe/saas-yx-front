@@ -81,12 +81,13 @@
             </div>
             <p>B模板</p>
           </div>
-          <div class="left">
+          <!-- 屏蔽这个推荐位 -->
+          <!-- <div class="left">
             <div class="img" @click="templateLink('C')">
               <img src="http://qoss.qrmkt.cn/scoremall/template2.png" alt="C模板">
             </div>
             <p>C模板</p>
-          </div>
+          </div> -->
         </div>
         <span slot="footer" class="dialog-footer">
           <el-button style="width:79px;height:32px;line-height:8px;" @click="landingPage = false">取 消</el-button>
