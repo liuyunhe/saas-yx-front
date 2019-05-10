@@ -489,6 +489,7 @@
         methods: {
             //判断省内省外
             getProvInout(){
+                alert(1);
                 var that = this;
                 this.$request.post(
                     '/record/public/getDefaultProvInout', {},
@@ -889,6 +890,7 @@
 
                         })
                         if(index==0){
+
                             that.tableData=data;
                         }else if(index==1){
                             that.tableData2=data;
