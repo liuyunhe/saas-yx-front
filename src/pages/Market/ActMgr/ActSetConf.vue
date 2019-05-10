@@ -189,6 +189,7 @@ export default {
         'act-702': 1,
         'act-703': 1,
         'act-704': 1,
+        'act-705': 1,
         'act-301': 1
       }
     }
