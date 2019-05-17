@@ -105,9 +105,7 @@ export default {
           })
       },
     getUserList() {
-        if(this.queryParams.mobile=="") return this.$message.error('手机号搜索条件不能为空!');
-        if(this.queryParams.mobile.length<3) return this.$message.error('手机号搜索条件长度不小于3位!');
-        if(this.queryParams.nickName=="") return this.$message.error('昵称搜索条件不能为空!');
+      if(this.queryParams.mobile==""&&this.queryParams.nickName=="") return this.$message.error('昵称搜索条件和手机号搜索条件不能都为空!');
       this.$refs.queryRef.validate(valid => {
         if (!valid) return this.$message.error('请完善手机号!')
         this.load = true
