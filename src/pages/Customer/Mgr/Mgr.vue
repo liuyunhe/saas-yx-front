@@ -69,8 +69,8 @@ export default {
       total: 100,
       load: true,
       queryParams: {
-        mobile: '', //电话号
-        nickName: '', //昵称
+        mobile: '159', //电话号
+        nickName: '马', //昵称
         gradeNumber: '', //等级
         pageNo:1,
         pageSize:10,
@@ -90,6 +90,9 @@ export default {
   },
   methods: {
     getUserList() {
+        if(this.queryParams.mobile=="") return this.$message.error('手机号搜索条件不能为空!');
+        if(this.queryParams.mobile.length<3) return this.$message.error('手机号搜索条件长度不小于3位!');
+        if(this.queryParams.nickName=="") return this.$message.error('昵称搜索条件不能为空!');
       this.$refs.queryRef.validate(valid => {
         if (!valid) return this.$message.error('请完善手机号!')
         this.load = true
@@ -119,7 +122,7 @@ export default {
           this.$message.error(res.message)
         })
       }).catch(() => {
-        this.$message.info('已取消')     
+        this.$message.info('已取消')
       })
     },
     isNum(val) {
