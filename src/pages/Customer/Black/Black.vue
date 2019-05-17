@@ -18,6 +18,10 @@
           <el-button plain @click="reset">重置</el-button>
         </div>
       </el-card>
+      <el-form>
+        <el-form-item label="黑名单用户总数" ><span>{{queryParams.countDate}}</span>
+        </el-form-item>
+      </el-form>
       <!-- <el-button plain class="mt20 mb20">导出</el-button> -->
       <el-table :data="userList" v-loading="load" border>
         <el-table-column type="index" label="序号" align="center"></el-table-column>
@@ -69,8 +73,9 @@ export default {
       total: 100,
       load: true,
       queryParams: {
-        mobile: '', // 电话号
-        nickName: '', // 昵称
+        countDate:'',
+        mobile: '159', // 电话号
+        nickName: '马', // 昵称
         gradeNumber: '', // 等级
         pageNo:1,
         pageSize:10,
@@ -86,10 +91,23 @@ export default {
     }
   },
   mounted () {
-    this.getUserList()
+    this.getUserList();
+     this.getCount();
   },
   methods: {
+      getCount(){
+          this.$request.post('/api/wiseqr/mber/userCount', {ban:1}, true, res => {
+              if (res.ret === '200000') {
+                  this.queryParams.countDate=res.data;
+                  return
+              }
+              this.$message.error(res.message)
+          })
+      },
     getUserList() {
+        if(this.queryParams.mobile=="") return this.$message.error('手机号搜索条件不能为空!');
+        if(this.queryParams.mobile.length<3) return this.$message.error('手机号搜索条件长度不小于3位!');
+        if(this.queryParams.nickName=="") return this.$message.error('昵称搜索条件不能为空!');
       this.$refs.queryRef.validate(valid => {
         if (!valid) return this.$message.error('请完善手机号!')
         this.$request.post('/api/wiseqr/mber/listUser', this.queryParams, true, res => {
@@ -121,7 +139,7 @@ export default {
         this.$message({
           type: 'info',
           message: '已取消'
-        })          
+        })
       })
     },
     isNum(val) {
