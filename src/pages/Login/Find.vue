@@ -37,7 +37,7 @@
 						<el-form-item label="密码" prop="pass">
 							<el-input type="password" v-model="ruleForm2.pass" class='style_user' name="pwd" autocomplete="new-password"></el-input>
 						</el-form-item>
-						<el-form-item label="确认密码" prop="pass">
+						<el-form-item label="确认密码" prop="checkPass">
 							<el-input type="password" v-model="ruleForm2.checkPass" class='style_user'></el-input>
 						</el-form-item>
 
@@ -70,10 +70,20 @@
 					callback(new Error('8-16位字符(至少包含字母、数字、符号中的两种形式)'));
 				} else {
 					if(this.ruleForm2.checkPass !== '') {
+						console.log(this.ruleForm2.checkPass)
 						this.$refs.ruleForm2.validateField('checkPass');
 					}
 					callback();
 				}
+			};
+			var validatePass2 = (rule, value, callback) => {
+						if (value === '') {
+							callback(new Error('请再次输入密码'));
+						} else if (value !== this.ruleForm2.pass) {
+							callback(new Error('两次输入密码不一致!'));
+						} else {
+							callback();
+						}
 			};
 			return {
 				dynamicValidateForm: {
@@ -93,6 +103,10 @@
 				rules2: {
 					pass: [{
 						validator: validatePass,
+						trigger: 'blur'
+					}],
+					checkPass: [{
+						validator: validatePass2,
 						trigger: 'blur'
 					}],
 					user: [{
