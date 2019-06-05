@@ -528,17 +528,17 @@ export default {
     },
     upHookPoleImgUrlSuccess(resule) {
       if (resule.ret === '200000')
-        return (this.configItem.toyCImgUrl = resule.data.accessUrl)
+        return (this.configItem.hookPoleImgUrl = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
     upHookLeftImgUrlSuccess(resule) {
       if (resule.ret === '200000')
-        return (this.configItem.toyCImgUrl = resule.data.accessUrl)
+        return (this.configItem.hookLeftImgUrl = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
     upHookRightImgUrlSuccess(resule) {
       if (resule.ret === '200000')
-        return (this.configItem.toyCImgUrl = resule.data.accessUrl)
+        return (this.configItem.hookRightImgUrl = resule.data.accessUrl)
       this.$message.error(resule.message)
     },
     // 上传未中奖图片
