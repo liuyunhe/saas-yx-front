@@ -23,9 +23,9 @@
                 <div class="hookLeft"><img :src="configItem.hookLeftImgUrl" alt=""></div>
                 <div class="hookRight"><img :src="configItem.hookRightImgUrl" alt=""></div>
               </div>
-              <img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/common/zhuawawa/jww-title-bg.png" class="title-bg" alt="">
+<!--              <img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/common/zhuawawa/jww-title-bg.png" class="title-bg" alt="">-->
               <div class="bg"><img :src="configItem.bgImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 1"></div>
-              <div class="top"><img :src="configItem.headerImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 2"></div>
+              <div class="title-bg"><img :src="configItem.headerImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 2"></div>
               <div class="start" ><img :src="configItem.startImgUrl" title="点击编辑" alt="" @click="showEditConIndex = 3"/></div>
               <div class="tip"><img :src="configItem.actTip" title="点击编辑" @click="showEditConIndex = 4"alt="" /></div>
               <div class="toysBg"><img :src="configItem.toysBgImgUrl" title="点击编辑" @click="showEditConIndex = 5" alt=""></div>
@@ -183,7 +183,7 @@
                 </div>
 
                 <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1600px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 336*65px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 591*141px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 602*192px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 92*109px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 5">* 图片建议尺寸为 690*202px格式为jpg\bmp\png\gif</p>
@@ -665,6 +665,10 @@ export default {
           left: 50%;
           transform: translateX(-50%);
           z-index: 39;
+          img {
+            width: 100%;
+            height: 100%;
+          }
         }
         .top {
           position: absolute;
@@ -674,10 +678,6 @@ export default {
           width: 134px;
           height: 26px;
           z-index: 49;
-          img {
-            width: 100%;
-            height: 100%;
-          }
         }
         .tip {
         	width:37px;
@@ -1024,6 +1024,7 @@ export default {
   .toyA:hover,
   .toyB:hover,
   .toyC:hover,
+  .title-bg:hover,
   .hook:hover{
     transform: scale(0.99);
     cursor: pointer;
@@ -1031,7 +1032,7 @@ export default {
     border: 2px dotted #fff;
     box-sizing: border-box;
   }
-  .top:hover,.btn:hover,.hook:hover {
+  .title-bg:hover,.top:hover,.btn:hover,.hook:hover {
     transform: translateX(-50%) scale(0.99);
   }
   .start:hover{
