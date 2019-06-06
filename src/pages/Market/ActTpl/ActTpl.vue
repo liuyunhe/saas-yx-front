@@ -72,7 +72,7 @@
           <div style="clear: both"></div>
         </div>
         <div v-if="actForms.length !== 0">
-          <div class="act-item" v-for="item in actForms" :key="item.id">
+          <div class="act-item" v-for="item in actForms" :key="item.id" v-if="item.code!='act-601'">
             <img style="height: 282px;" :src="item.extUrl" :alt="item.name">
             <p>{{item.name}}<i class="el-icon-circle-plus" @click="goAddActTpl(item.code, '')"></i></p>
           </div>
