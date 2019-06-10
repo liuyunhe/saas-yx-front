@@ -742,8 +742,8 @@
                 let arr=this.loadList;
                 this.startDate=arr[index].startTime.substr(0,10);
                 this.endDate=arr[index].endTime.substr(0,10);
-                this.startTime=arr[index].startTime.substr(11,2)+':00';
-                this.endTime=arr[index].endTime.substr(11,2)+':00';
+                this.startTime=arr[index].startTime.substr(11,2);
+                this.endTime=arr[index].endTime.substr(11,2);
                 this.brand=arr[index].productBrand.split(',');
                 this.spec=arr[index].productName=='所有'?[]:arr[index].productName.split(',');
                 this.packing=arr[index].productPack==''?[]:arr[index].productPack.split(',');
@@ -821,8 +821,8 @@
                 let arr=this.historyList;
                 this.startDate=arr[index].startTime.substr(0,10);
                 this.endDate=arr[index].endTime.substr(0,10);
-                this.startTime=arr[index].startTime.substr(11,2)+':00';
-                this.endTime=arr[index].endTime.substr(11,2)+':00';
+                this.startTime=arr[index].startTime.substr(11,2);
+                this.endTime=arr[index].endTime.substr(11,2);
                 this.brand=arr[index].productBrand.split(',');
                 this.spec=arr[index].productName=='所有'?[]:arr[index].productName.split(',');
                 this.packing=arr[index].productPack==''?[]:arr[index].productPack.split(',');
@@ -1042,7 +1042,7 @@
 				.search-oper {
 					white-space: nowrap;
 					.oper-btn {
-						width:20%;
+						width:70px;
 						display: inline-block;
 						vertical-align: middle;
 						height: 60px;
