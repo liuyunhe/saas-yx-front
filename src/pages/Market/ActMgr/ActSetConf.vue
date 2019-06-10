@@ -64,7 +64,7 @@
           <quill-editor ref="myTextEditor" v-model="confData.actDesc" :options="editorOption" placeholder="请输入活动说明，300字以内" @blur="onEditorBlur($event)">
           </quill-editor>
         </el-form-item>
-        <el-form-item label="答题时间：" prop="quesTime" v-show='form=="act-501"'>
+        <el-form-item label="答题时间：" prop="quesTime" v-if='form=="act-501"'>
         	<el-radio v-model="extInfo.limited" :label="1">不限</el-radio>
   				<el-radio v-model="extInfo.limited" :label="2">总时间限<input v-model="extInfo.time" type='number' class='limited-time' @input='limitNum'/>秒</el-radio>
         </el-form-item>
@@ -159,7 +159,8 @@ export default {
         showStatus: 1,
         tplCode: '',
         extInfo: '',
-        number: ''
+        number: '',
+        status:''
       },
       redConf: {
         joinNum: 1,
@@ -238,9 +239,9 @@ export default {
           } else {
             this.confData = res.data.act
           }
-          if (this.shareAct[this.form]) this.redConf = JSON.parse(this.confData.extInfo)
+          if (this.shareAct[this.form]) this.redConf = this.confData.extInfo?JSON.parse(this.confData.extInfo):''
           this.confData.idx = this.confData.idx + ''
-          if (this.redConf.extInfo) this.extInfo=JSON.parse(this.confData.extInfo)
+          if (this.redConf.extInfo) this.extInfo=this.confData.extInfo?JSON.parse(this.confData.extInfo):''
           if (this.confData.stimeStr && this.confData.etimeStr) {
             this.handleDisableTime()
           }
@@ -255,8 +256,12 @@ export default {
     handleDisableTime() {
       let newTime = new Date().getTime(),
         stime = new Date(this.confData.stimeStr).getTime()
-        if (newTime >= stime && this.confData.status != 2) {
+        if (newTime >= stime && this.confData.status == 1) {    //1-进行中，2-未发布，4-已结束，
+
           this.timeDisable = true
+        }
+        if(this.clone == '1'){
+          this.timeDisable = false
         }
     },
     // 获取优先级
