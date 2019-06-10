@@ -37,7 +37,7 @@
             <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
             </el-option>
           </el-select>
-          <el-select v-model="confData.selectProductList" multiple collapse-tags placeholder="请选择" @change="restrictSonBrand" class="select-two">
+          <el-select v-model="confData.selectProductList" multiple collapse-tags placeholder="请选择"  class="select-two">
             <el-option v-for="item in productList" :key="item.id" :label="item.allName" :value="item.sn">
             </el-option>
           </el-select>
@@ -398,8 +398,11 @@ export default {
     handleDisableTime() {
       let newTime = new Date().getTime(),
         stime = new Date(this.confData.stimeStr).getTime()
-        if (newTime >= stime) {
+        if (newTime >= stime&&this.confData.status == 1) {
           this.timeDisable = true
+        }
+        if(this.clone == '1'){
+          this.timeDisable = false
         }
     },
     // 上传活动图片
