@@ -248,12 +248,13 @@ export default {
                 if(this.datetime_to_unix(this.confData.etimeStr)<Date.now()){
                 console.log(Date.now()>Date.parse(new Date(this.confData.etimeStr)))
                   this.confData.etimeStr = ''
-                  this.pickerOptions = {
-                    disabledDate(time) {
-                      return time.getTime() <= Date.now();
-                    },
-                  }
+
                 }
+              }
+              this.pickerOptions = {
+                disabledDate(time) {
+                  return time.getTime() <= Date.now();
+                },
               }
             }
           } else {
