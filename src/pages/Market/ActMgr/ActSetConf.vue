@@ -33,7 +33,7 @@
           </el-date-picker> -->
           <el-date-picker v-model="confData.stimeStr" :disabled="timeDisable" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择开始时间"></el-date-picker>
           至
-          <el-date-picker v-model="confData.etimeStr" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择结束时间"></el-date-picker>
+          <el-date-picker v-model="confData.etimeStr" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择结束时间" :picker-options="pickerOptions"></el-date-picker>
         </el-form-item>
         <!-- 常规图片上传 -->
         <el-form-item label="活动图片：" prop="banner" v-if="form !== 'act-301'">
@@ -130,6 +130,7 @@ export default {
       }
     } 
     return {
+      pickerOptions: {},
       // 富文本设置
       editorOption: {
         modules: {
@@ -221,7 +222,14 @@ export default {
     this.getIdxSelect()
   },
   methods: {
-  	limitNum(){
+     datetime_to_unix(datetime){
+        var tmp_datetime = datetime.replace(/:/g,'-');
+        tmp_datetime = tmp_datetime.replace(/ /g,'-');
+        var arr = tmp_datetime.split("-");
+        var now = new Date(Date.UTC(arr[0],arr[1]-1,arr[2],arr[3]-8,arr[4],arr[5]));
+        return parseInt(now.getTime());
+    },
+    limitNum(){
   		var len=4;
   		if(this.extInfo.time.length>len){
   			var str=this.extInfo.time.slice(0,len);
@@ -235,6 +243,18 @@ export default {
           if (this.clone == '1') {
             for (let key in this.confData) {
               this.confData[key] = res.data.act[key]
+              if(this.confData.etimeStr){
+                // 复制的时候结束日期不能小于当前时间
+                if(this.datetime_to_unix(this.confData.etimeStr)<Date.now()){
+                console.log(Date.now()>Date.parse(new Date(this.confData.etimeStr)))
+                  this.confData.etimeStr = ''
+                  this.pickerOptions = {
+                    disabledDate(time) {
+                      return time.getTime() <= Date.now();
+                    },
+                  }
+                }
+              }
             }
           } else {
             this.confData = res.data.act
