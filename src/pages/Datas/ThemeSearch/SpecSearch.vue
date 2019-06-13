@@ -88,6 +88,7 @@
 	import '../../../common/js/dateFormat.js';
 	import DATA from './data.js';
 	import 'echarts/map/js/china.js';
+	import { mapState } from 'vuex'
 	export default {
 		data() {
 			return {
@@ -124,6 +125,13 @@
 		},
 		mounted(){
 			var that=this;
+			var org = ""
+			console.log(this.cluser.orgName)
+			if(this.cluser.orgName.indexOf('山西')!=-1){
+				org = "山西省"
+			}else if(this.cluser.orgName.indexOf('河北')!=-1){
+				org = "河北省"
+			}
 			var inter=setInterval(()=>{
 				if(that.spec){
 					this.getBrief();
@@ -131,8 +139,8 @@
 					this.drawScanDate();
 					this.drawScanResult();
 					this.drawNumTime();
-					this.drawmapTime("山西省");
-					this.drawmapRange("山西省");
+					this.drawmapTime(org);
+					this.drawmapRange(org);
 					this.drawScanAllRange();
 					this.drawMoney();
 					this.drawProduct();
@@ -141,6 +149,9 @@
 				}
 			},10)
 		},
+		computed: mapState({
+			cluser: 'cluser',
+		}),
 		methods: {
 			//			获取省份
 			getBrand() {
@@ -233,8 +244,13 @@
 				this.drawScanDate();
 				this.drawScanResult();
 				this.drawNumTime();
-				this.drawmapTime("山西省");
-				this.drawmapRange("山西省");
+				if(this.cluser.orgName.indexOf('山西')!=-1){
+					this.drawmapTime("山西省");
+					this.drawmapRange("山西省");
+				}else if(this.cluser.orgName.indexOf('河北')!=-1){
+					this.drawmapTime("河北省");
+					this.drawmapRange("河北省");
+				}
 				this.drawScanAllRange();
 				this.drawMoney();
 				this.drawProduct();
@@ -260,7 +276,12 @@
 			getBrief(){
 				var that = this;
 				this.$request.post(
-					'/record/statistics/specificationKPI', {},
+					'/record/statistics/specificationKPI', {
+							flag: 2,
+							productSn: that.spec,
+							statTime: that.startTime,
+							statType: that.type1
+						},
 					true,
 					res => {
 						var data = res || [];
