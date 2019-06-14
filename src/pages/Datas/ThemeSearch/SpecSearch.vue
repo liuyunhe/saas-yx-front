@@ -33,7 +33,7 @@
 				<el-option v-for='(item,key) in specList' :key='key' :label="item.name" :value="item.sn"></el-option>
 			</el-select>
 			<div class="input-btns">
-				<el-button type="primary" size='small' class='pri-btn' @click='search'>查询</el-button>
+				<el-button type="primary" size='small' class='pri-btn' @click='search(org)'>查询</el-button>
 				<el-button type="primary" size='small' class='pri-btn' @click='resetSearch'>重置</el-button>
 			</div>
 		</div>
