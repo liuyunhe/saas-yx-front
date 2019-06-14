@@ -120,6 +120,7 @@
 		},
 		created() {
 				this.getBrand();
+
 				this.specChange();
 
 		},
@@ -132,38 +133,7 @@
       //     org = "河北省"
       //   }
       // }
-      this.$request.post(`/record/public/getDefaultProvByorgId`,{ },true,res => {
-          let datas = res || [];
-          if(datas.length>0){
-          let org=datas[0].orgRegion;
-            if(org.indexOf('山西')!=-1){
-                this.org = "山西省"
-              }else if(org.indexOf('河北')!=-1){
-                this.org = "河北省"
-              }
-            this.search(this.org);
-            var inter=setInterval(()=>{
-              if(that.spec){
-                this.getBrief();
-                this.drawScanTime();
-                this.drawScanDate();
-                this.drawScanResult();
-                this.drawNumTime();
-                this.drawmapTime(this.org);
-                this.drawmapRange(this.org);
-                this.drawScanAllRange();
-                this.drawMoney();
-                this.drawProduct();
-                clearInterval(inter);
-                inter=null;
-              }
-            },10)
-          }
-        },
-        err => {
-          console.log(err)
-        }
-      )
+
 
 		},
 		computed: mapState({
@@ -238,6 +208,38 @@
 						if(data.length!=0){
 							that.spec=data[0].sn;
 						}
+						this.$request.post(`/record/public/getDefaultProvByorgId`,{ },true,res => {
+									let datas = res || [];
+									if(datas.length>0){
+										let org=datas[0].orgRegion;
+										if(org.indexOf('山西')!=-1){
+											this.org = "山西省"
+										}else if(org.indexOf('河北')!=-1){
+											this.org = "河北省"
+										}
+										this.search(this.org);
+										// var inter=setInterval(()=>{
+										// 	if(that.spec){
+										// 		this.getBrief();
+										// 		this.drawScanTime();
+										// 		this.drawScanDate();
+										// 		this.drawScanResult();
+										// 		this.drawNumTime();
+										// 		this.drawmapTime(this.org);
+										// 		this.drawmapRange(this.org);
+										// 		this.drawScanAllRange();
+										// 		this.drawMoney();
+										// 		this.drawProduct();
+										// 		clearInterval(inter);
+										// 		inter=null;
+										// 	}
+										// },10)
+									}
+								},
+								err => {
+									console.log(err)
+								}
+						)
 						
 					},
 					err => {
