@@ -114,40 +114,57 @@
 				loading9:true,
 				loading10:true,
 				briefList:[],
-				tempPro:''
-				
+				tempPro:'',
+				org:''
 			};
 		},
 		created() {
 				this.getBrand();
 				this.specChange();
-				this.search();
+
 		},
 		mounted(){
 			var that=this;
-			var org = ""
-			console.log(this.cluser.orgName)
-			if(this.cluser.orgName.indexOf('山西')!=-1){
-				org = "山西省"
-			}else if(this.cluser.orgName.indexOf('河北')!=-1){
-				org = "河北省"
-			}
-			var inter=setInterval(()=>{
-				if(that.spec){
-					this.getBrief();
-					this.drawScanTime();
-					this.drawScanDate();
-					this.drawScanResult();
-					this.drawNumTime();
-					this.drawmapTime(org);
-					this.drawmapRange(org);
-					this.drawScanAllRange();
-					this.drawMoney();
-					this.drawProduct();
-					clearInterval(inter);
-					inter=null;
-				}
-			},10)
+      // if(this.cluser){
+      //   if(this.cluser.orgName.indexOf('山西')!=-1){
+      //     org = "山西省"
+      //   }else if(this.cluser.orgName.indexOf('河北')!=-1){
+      //     org = "河北省"
+      //   }
+      // }
+      this.$request.post(`/record/public/getDefaultProvByorgId`,{ },true,res => {
+          let datas = res || [];
+          if(datas.length>0){
+          let org=datas[0].orgRegion;
+            if(org.indexOf('山西')!=-1){
+                this.org = "山西省"
+              }else if(org.indexOf('河北')!=-1){
+                this.org = "河北省"
+              }
+            this.search(this.org);
+            var inter=setInterval(()=>{
+              if(that.spec){
+                this.getBrief();
+                this.drawScanTime();
+                this.drawScanDate();
+                this.drawScanResult();
+                this.drawNumTime();
+                this.drawmapTime(this.org);
+                this.drawmapRange(this.org);
+                this.drawScanAllRange();
+                this.drawMoney();
+                this.drawProduct();
+                clearInterval(inter);
+                inter=null;
+              }
+            },10)
+          }
+        },
+        err => {
+          console.log(err)
+        }
+      )
+
 		},
 		computed: mapState({
 			cluser: 'cluser',
@@ -228,7 +245,7 @@
 					}
 				)
 			},
-			search() {
+			search(org) {
 				this.loading1=true;
 				this.loading2=true;
 				this.loading3=true;
@@ -244,13 +261,8 @@
 				this.drawScanDate();
 				this.drawScanResult();
 				this.drawNumTime();
-				if(this.cluser.orgName.indexOf('山西')!=-1){
-					this.drawmapTime("山西省");
-					this.drawmapRange("山西省");
-				}else if(this.cluser.orgName.indexOf('河北')!=-1){
-					this.drawmapTime("河北省");
-					this.drawmapRange("河北省");
-				}
+        this.drawmapTime(org);
+        this.drawmapRange(org);
 				this.drawScanAllRange();
 				this.drawMoney();
 				this.drawProduct();
@@ -277,7 +289,7 @@
 				var that = this;
 				this.$request.post(
 					'/record/statistics/specificationKPI', {
-							flag: 2,
+							// flag: 2,
 							productSn: that.spec,
 							statTime: that.startTime,
 							statType: that.type1
