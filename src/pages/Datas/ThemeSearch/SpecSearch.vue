@@ -535,10 +535,14 @@
 			},
 			drawNumTime(){
 				var that=this;
+				let startTime = this.startTime
+				if (this.startTime == new Date().Format('yyyy-MM-dd')){
+					startTime = new Date(new Date().getTime()-24*60*60*1000).Format('yyyy-MM-dd')
+				}
 				this.$request.post(
 					'/record/statistics/specifMapData', {
 						productSn: that.spec,
-						statTime: that.startTime,
+						statTime: startTime,
 						statType: that.type1
 					},
 					true,
@@ -638,10 +642,14 @@
 			},
 			drawmapTime(pro){
 				var that=this;
+				let startTime = this.startTime
+				if (this.startTime == new Date().Format('yyyy-MM-dd')){
+					startTime = new Date(new Date().getTime()-24*60*60*1000).Format('yyyy-MM-dd')
+				}
 				this.$request.post(
 					'/record/statistics/specifAllProvScancode', {
 						productSn: that.spec,
-						statTime: that.startTime,
+						statTime: startTime,
 						statType: that.type1,
 						provinceName:pro
 					},
@@ -689,10 +697,14 @@
 			},
 			drawmapRange(pro){
 				var that=this;
+				let startTime = this.startTime
+				if (this.startTime == new Date().Format('yyyy-MM-dd')){
+					startTime = new Date(new Date().getTime()-24*60*60*1000).Format('yyyy-MM-dd')
+				}
 				this.$request.post(
 					'/record/statistics/specifInterProvScancode', {
 						productSn: that.spec,
-						statTime: that.startTime,
+						statTime: startTime,
 						statType: that.type1,
 						provinceName:pro
 					},
@@ -753,10 +765,14 @@
 			},
 			drawScanAllRange(){
 				var that=this;
+				let startTime = this.startTime
+				if (this.startTime == new Date().Format('yyyy-MM-dd')){
+					startTime = new Date(new Date().getTime()-24*60*60*1000).Format('yyyy-MM-dd')
+				}
 				this.$request.post(
 					'/record/statistics/specifScanTimesOfCity', {
 						productSn: that.spec,
-						statTime: that.startTime,
+						statTime: startTime,
 						statType: that.type1
 					},
 					true,
@@ -806,10 +822,14 @@
 			},
 			drawMoney(){
 				var that=this;
+				let startTime = this.startTime
+				if (this.startTime == new Date().Format('yyyy-MM-dd')){
+					startTime = new Date(new Date().getTime()-24*60*60*1000).Format('yyyy-MM-dd')
+				}
 				this.$request.post(
 					'/record/statistics/specifAwardDistribute', {
 						productSn: that.spec,
-						statTime: that.startTime,
+						statTime: startTime,
 						statType: that.type1,
 						awardFlag:2
 					},
@@ -881,10 +901,14 @@
 			},
 			drawProduct(){
 				var that=this;
+				let startTime = this.startTime
+				if (this.startTime == new Date().Format('yyyy-MM-dd')){
+					startTime = new Date(new Date().getTime()-24*60*60*1000).Format('yyyy-MM-dd')
+				}
 				this.$request.post(
 					'/record/statistics/specifAwardDistribute', {
 						productSn: that.spec,
-						statTime: that.startTime,
+						statTime: startTime,
 						statType: that.type1,
 						awardFlag:1
 					},

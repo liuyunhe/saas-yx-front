@@ -93,19 +93,19 @@
 							<div>
 								<div>
 									<el-progress :text-inside="false" :show-text='false' :stroke-width="18" :percentage="item.per1"></el-progress>
-									<span class='show-num'>No{{item.rownum}}:{{item.scanPv}}</span>
+									<span class='show-num'><i style="float: left;width: 60px;text-align: right;margin-right: 20px">No{{item.rownum}}:</i><span style="color: #3398DB;float: left">{{item.scanPv}}</span></span>
 								</div>
 							</div>
 							<div>
 								<div>
 									<el-progress :text-inside="false" :show-text='false' :stroke-width="18" :percentage="item.per2"></el-progress>
-									<span class='show-num'>No{{item.rownum2}}:{{item.scanCode}}</span>
+									<span class='show-num'><i style="float: left;width: 60px;text-align: right;margin-right: 20px">No{{item.rownum2}}:</i><span style="color: #3398DB;float: left">{{item.scanCode}}</span></span>
 								</div>
 							</div>
 							<div>
 								<div>
 									<el-progress :text-inside="false" :show-text='false' :stroke-width="18" :percentage="item.per3"></el-progress>
-									<span class='show-num'>No{{item.rownum3}}:{{item.scanUv}}</span>
+									<span class='show-num'><i style="float: left;width: 60px;text-align: right;margin-right: 20px">No{{item.rownum3}}:</i><span style="color: #3398DB;float: left">{{item.scanUv}}</span></span>
 								</div>
 							</div>
 						</li>
@@ -294,11 +294,15 @@
 			},
 			drawyibiao() {
 				var that = this;
+				let startTime = this.startTime
+				if (this.startTime == new Date().Format('yyyy-MM-dd')){
+					startTime = new Date(new Date().getTime()-24*60*60*1000).Format('yyyy-MM-dd')
+				}
 				this.$request.post(
 					'/record/statistics/getScanDataCity', {
 						kpiType: "pv",
 						provinceName: that.provice,
-						statTime: that.startTime,
+						statTime: startTime,
 						statType: that.type1,
 						cityName: that.city
 					},
@@ -822,11 +826,15 @@
 			},
 			drawRange(){
 				var that=this;
+				let startTime = this.startTime
+				if (this.startTime == new Date().Format('yyyy-MM-dd')){
+					 startTime = new Date(new Date().getTime()-24*60*60*1000).Format('yyyy-MM-dd')
+				}
 				this.$request.post(
 					'/record/statistics/scanTimesOfProvAndSpecCity', {
 						kpiType: "pv",
 						provinceName: that.provice,
-						statTime: that.startTime,
+						statTime: startTime,
 						statType: that.type1,
 						cityName: that.city
 					},
@@ -895,11 +903,15 @@
 			},
 			getCityItems(kpiType){
 				var that=this;
+				let startTime = this.startTime
+				if (this.startTime == new Date().Format('yyyy-MM-dd')){
+					startTime = new Date(new Date().getTime()-24*60*60*1000).Format('yyyy-MM-dd')
+				}
 				this.$request.post(
 					'/record/statistics/scanCityRandings', {
 						kpiType: kpiType,
 						provinceName: that.provice,
-						statTime: that.startTime,
+						statTime: startTime,
 						statType: that.type1,
 						cityName: that.city
 					},
@@ -1048,17 +1060,18 @@
 						white-space: nowrap;
 						text-align: center;
 						vertical-align: middle;
+						height: 20px;
 						div {
 							width:98%;
 							margin: 0 auto;
 							position: relative;
 							.show-num {
+								width: 140px;
 								position: absolute;
 								left: 50%;
 								transform: translateX(-50%);
 								-webkit-transform: translateX(-50%);
 								top:0;
-								color:#FF7525;
 							}
 						}
 						&:nth-child(1){
