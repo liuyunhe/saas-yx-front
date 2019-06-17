@@ -792,6 +792,12 @@
 						let myChart = this.$echarts.init(document.getElementById('scanAllRange'));
 						// 绘制图表
 						myChart.setOption({
+							tooltip : {
+								trigger: 'axis',
+								axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+									type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+								}
+							},
 							title: {  
 	                    text: '',  
 	                    subtext: '全国地市扫码烟包数排名',  
@@ -800,6 +806,10 @@
 						    xAxis: {
 						    		name:'市',
 						        data:  showX,
+										axisLabel: {
+											interval:0,
+											rotate:-40
+										}
 						    },
 						    yAxis: {
 						    	name:'(单位：次)',
@@ -809,7 +819,7 @@
 						    		{
 						            name:'扫码烟包数',
 						            type:'bar',
-						            barWidth : 20,
+						            barWidth : 10,
 						            data:scanCodeArr
 						        }
 						    ]				
