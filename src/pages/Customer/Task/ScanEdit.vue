@@ -42,7 +42,7 @@
           <el-input v-model="data.mbTask.taskDetail" type="textarea" :rows="2" placeholder="请输入内容" :maxlength="20"></el-input>
         </el-form-item>
         <el-form-item label="扫码限制：" v-if="data.mbTask.orgId != 'hebeihehua'">
-          每人每月最多可获得 
+          每人每月最多可获得
           <el-input-number v-model="data.mbTask.scoreUpperLimit"  :controls="false" :min="0" :max="1000000" :precision="0"></el-input-number>
           积分
           <el-input-number v-model="data.mbTask.growthUpperLimit" :controls="false" :min="0" :max="1000000" :precision="0"></el-input-number>
@@ -129,7 +129,6 @@ export default {
     },
     // 保存
     save() {
-      console.table(this.sizeList)
       // return
       if (this.data.mbTask.orgId == 'hebeihehua') { // 荷花  隐藏名称 说明和扫码限制
         var arr = this.sizeList.filter(item => {
@@ -210,7 +209,7 @@ export default {
         this.$message({
           type: 'info',
           message: '已取消删除'
-        })          
+        })
       })
     },
     // 默认勾选规格对应的品牌

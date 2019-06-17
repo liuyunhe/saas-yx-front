@@ -952,6 +952,7 @@
 <style lang="scss" scoped>
 	.region-root {
 		color: #666;
+		padding-bottom: 40px;
 		.region-title {
 			line-height: 30px;
 			font-size: 16px;

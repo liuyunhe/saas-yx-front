@@ -43,12 +43,12 @@
 					<img :src="item.image" alt="" />
 				</div>
 				<div class="text">
-					<p>本日扫码次数：<span>{{item.scanPv}}</span>次</p>
-					<p>本日连续月活用户：<span>{{item.activeUv}}</span>次</p>
+					<p>本{{ type2 | dataType }}扫码总次数：<span>{{item.scanPv}}</span>次</p>
+					<p>本{{ type2 | dataType }}扫码包数：<span>{{item.scanCode}}</span>次</p>
 				</div>
 				<div class="text">
-					<p>本日扫码烟包数：<span>{{item.scanCode}}</span>次</p>
-					<p>本日连续周活用户：<span>{{item.weekActiveUv}}</span>次</p>
+					<p>本{{ type2 | dataType }}活跃用户数：<span>{{item.scanUv}}</span>次</p>
+					<p>本{{ type2 | dataType }}新增扫码用户：<span>{{item.scanAddUv}}</span>次</p>
 				</div>
 			</div>
 			<div class="scan-time" v-loading='loading2'>
@@ -93,6 +93,7 @@
 		data() {
 			return {
 				type1: 'day',
+				type2: 'day',
 				searchShow: 'day',
 				date1: new Date().Format('yyyy-MM-dd'),
 				week: '',
@@ -139,6 +140,19 @@
 		computed: mapState({
 			cluser: 'cluser',
 		}),
+    filters:{
+      dataType(val){
+        if(val == "day"){
+          return "日"
+        }
+        else if(val == "week"){
+          return "周"
+        }
+        else if (val == "month"){
+          return "月"
+        }
+      }
+    },
 		methods: {
 			//			获取省份
 			getBrand() {
@@ -240,7 +254,7 @@
 									console.log(err)
 								}
 						)
-						
+
 					},
 					err => {
 						console.log(err)
@@ -299,6 +313,7 @@
 					true,
 					res => {
 						var data = res || [];
+						  that.type2 = that.type1
 //						data=DATA.s1;
 						if(data.length!=0){
 							that.briefList=data;
@@ -948,6 +963,7 @@
 <style lang="scss" scoped>
 	.spec-root {
 		color: #707478;
+    padding-bottom: 40px;
 		.spec-title {
 			line-height: 30px;
 			font-size: 16px;
@@ -999,7 +1015,8 @@
 					p{
 						color: #707478;
 						font-size: 15px;
-						line-height: 46px;
+						line-height: 50px;
+            margin: 0;
 						span {
 							color:#8CD7F7;
 						}
