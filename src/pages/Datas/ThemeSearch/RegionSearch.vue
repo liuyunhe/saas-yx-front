@@ -567,6 +567,11 @@
 						let myChart = this.$echarts.init(document.getElementById('scanTime'));
 						// 绘制图表
 						myChart.setOption({
+							tooltip : {
+								trigger: 'axis',
+								axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+									type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+								}},
 							xAxis: {
 								name:'时刻（时）',
         						type: 'category',
@@ -577,6 +582,7 @@
 						        type: 'value'
 						    },
 						    series: [{
+										name:"扫码次数",
 						        data: showArr,
 						        type: 'line'
 						    }]						
@@ -622,6 +628,12 @@
 						let myChart = this.$echarts.init(document.getElementById('scanDate'));
 						// 绘制图表
 						myChart.setOption({
+								tooltip : {
+									trigger: 'axis',
+									axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+										type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+									}
+								},
 						    legend: {
 						    	x:0,
 						        data:['扫码次数','扫码烟包数','扫码人数']
@@ -703,6 +715,12 @@
 						let myChart = this.$echarts.init(document.getElementById('scanResult'));
 						// 绘制图表
 						myChart.setOption({
+								tooltip : {
+									trigger: 'axis',
+									axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+										type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+									}
+								},
 						    legend: {
 						    	x:0,
 						        data:['领取数量','促销计划','抽奖次数','中奖数量']
@@ -785,6 +803,12 @@
 						let myChart = this.$echarts.init(document.getElementById('scanNumTime'));
 						// 绘制图表
 						myChart.setOption({
+								tooltip : {
+									trigger: 'axis',
+									axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+										type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+									}
+								},
 						    legend: {
 						    	x:0,
 						        data:['盒','条']
