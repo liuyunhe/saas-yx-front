@@ -84,7 +84,7 @@
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 2" @click="post(scope.row.id)">发布</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 3" @click="post(scope.row.id)">发布</a>
             <a style="color: #347ab7" href="javascript:;" @click="clone(scope.row.id,scope.row.form)">复制</a>
-            <a style="color: #347ab7" href="javascript:;" @click="getLogList(scope.row.actCode)" v-show="1==2">投放日志</a>
+            <a style="color: #347ab7" href="javascript:;" @click="getLogList(scope.row.actCode)">投放日志</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="stop(scope.row.id)">暂停</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 1" @click="over(scope.row.id)">结束</a>
             <a style="color: #347ab7" href="javascript:;" v-if="scope.row.status == 4" @click="del(scope.row.id)">删除</a>
