@@ -28,7 +28,7 @@
         </el-form-item>
         <el-form-item label="物料名称:" prop="name">
           <el-col :span="10">
-            <el-input v-model="awae.prizeName" disabled="true" placeholder="奖品名称"></el-input>
+            <el-input v-model="awae.prizeName" :disabled="true" placeholder="奖品名称"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="投放数量:" prop="putNum">
@@ -47,7 +47,7 @@
         </el-form-item>
         <el-form-item label="物料名称:" prop="name">
           <el-col :span="10">
-            <el-input v-model="awae.prizeName" disabled="true" placeholder="奖品名称"></el-input>
+            <el-input v-model="awae.prizeName" :disabled="true" placeholder="奖品名称"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="投放数量:" prop="putNum">
@@ -66,7 +66,7 @@
         </el-form-item>
         <el-form-item label="物料名称:" prop="name">
           <el-col :span="10">
-            <el-input v-model="awae.prizeName" disabled="true" placeholder="奖品名称"></el-input>
+            <el-input v-model="awae.prizeName" :disabled="true" placeholder="奖品名称"></el-input>
           </el-col>
         </el-form-item>
         <!-- <el-col :span="10"> -->
@@ -96,7 +96,7 @@
         </el-form-item>
         <el-form-item label="物料名称:" prop="name">
           <el-col :span="10">
-            <el-input v-model="awae.prizeName" disabled="true" placeholder="奖品名称"></el-input>
+            <el-input v-model="awae.prizeName" :disabled="true" placeholder="奖品名称"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="投放数量:" prop="putNum">

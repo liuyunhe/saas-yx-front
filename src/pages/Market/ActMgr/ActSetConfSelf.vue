@@ -65,7 +65,11 @@
         <el-form-item label="是否立即发布：">
           <el-switch v-model="confData.status" :active-value="1" :inactive-value="2" :disabled="statusDisabled"></el-switch>
         </el-form-item>
-        <el-form-item>
+        <el-form-item label="是否配置奖池：">
+          <el-switch v-model="useAwardArr" :active-value="true" :inactive-value="false"></el-switch>
+        </el-form-item>
+        <ActPutConf :awardArr="awardArr" @modifyAwardArr = "modifyAwardArr" v-show="useAwardArr"></ActPutConf>
+        <el-form-item v-if="!useAwardArr">
           <el-button type="primary" @click="confirmSubmit">确定</el-button>
           <el-button @click="$router.push('/market/actMgr')">返回列表</el-button>
         </el-form-item>
@@ -75,10 +79,12 @@
 </template>
 <script>
 import { quillEditor } from 'vue-quill-editor'
+import ActPutConf from './components/ActPutConf'
 export default {
   props: ['form', 'tplCode', 'id', 'clone'],
   components: {
-    quillEditor
+    quillEditor,
+    ActPutConf
   },
   data() {
     var validateDate = (rule, value, callback) => {
@@ -196,7 +202,10 @@ export default {
       
       initProd: false, // 是否编辑或复制时的页面品牌规格初始化
       initCity: false, // 是否编辑或复制时的页面城市初始化
-      initDistrict: false // 是否编辑或复制时的页面区县初始化
+      initDistrict: false, // 是否编辑或复制时的页面区县初始化
+
+      awardArr:[],
+      useAwardArr:false
     }
   },
   created() {
@@ -211,6 +220,11 @@ export default {
     }
   },
   methods: {
+    modifyAwardArr(data){
+      this.awardArr = data
+      console.log(this.awardArr)
+      this.confirmSubmit()
+    },
     initAjax() {
       this.getIdxSelect();
       this.getBrandList();
@@ -389,6 +403,10 @@ export default {
         if (res.ret == '200000') {
           this.copyDetailAttr(res.data.act);
           this.strategyArr = res.data.strategyArr;
+          if(res.data.strategyArr[0].awardArr){
+            this.useAwardArr = true
+            this.awardArr = res.data.strategyArr[0].awardArr
+          }
           this.initAjax();
           return
         }
@@ -434,6 +452,9 @@ export default {
           }
           params.strategyArr = [];
           params.strategyArr.push(strategyParams);
+          if(this.useAwardArr){
+            params.strategyArr[0].awardArr = this.awardArr
+          }
           this.$request.post('/api/wiseqr/act/somtfSelf', params, true, res => {
             if (res.ret == '200000') {
               this.$message({type: 'success', message: '操作成功!'});
