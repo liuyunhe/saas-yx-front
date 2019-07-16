@@ -603,7 +603,11 @@ export default {
     },
     // 复制
     clone(id,form) {
-      this.$router.push('/market/actTpl/actSetConf?id=' + id + '&clone=1&form='+form)
+      if(form == 'act-601'){
+        this.$router.push('/market/actTpl/actSetConfSelf?id=' + id + '&clone=1&form='+form)
+      }else {
+        this.$router.push('/market/actTpl/actSetConf?id=' + id + '&clone=1&form='+form)
+      }
     },
     // 发布
     async post(id) {

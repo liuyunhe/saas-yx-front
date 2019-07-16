@@ -403,11 +403,11 @@ export default {
         if (res.ret == '200000') {
           this.copyDetailAttr(res.data.act);
           this.strategyArr = res.data.strategyArr;
+          this.initAjax();
           if(res.data.strategyArr[0].awardArr){
             this.useAwardArr = true
             this.awardArr = res.data.strategyArr[0].awardArr
           }
-          this.initAjax();
           return
         }
         this.$message.error(res.messgae)
@@ -447,8 +447,12 @@ export default {
           let strategyParams = {tf:{}, tfType:'common', snArr: this.confData.selectProductList, areas: {provinceArr:this.confData.selectProvList, cityArr:this.confData.selectCityList, districtArr:this.confData.selectDistrictList}};
           let strategy = this.strategyArr[0];
           if(strategy) {
+
             strategyParams.tf['id'] = strategy.tf.id;
             strategyParams.tf['tfCode'] = strategy.tf.tfCode;
+          }
+          if(this.clone == 1){
+            strategyParams.tf = {}
           }
           params.strategyArr = [];
           params.strategyArr.push(strategyParams);
