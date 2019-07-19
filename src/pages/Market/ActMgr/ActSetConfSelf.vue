@@ -68,6 +68,9 @@
         <el-form-item label="是否配置奖池：">
           <el-switch v-model="useAwardArr" :active-value="true" :inactive-value="false"></el-switch>
         </el-form-item>
+        <el-form-item label="是否直接抽奖：" v-if="useAwardArr">
+          <el-switch v-model="directDraw" :active-value="'1'" :inactive-value="'0'"></el-switch>
+        </el-form-item>
         <ActPutConf :awardArr="awardArr" @modifyAwardArr = "modifyAwardArr" v-show="useAwardArr"></ActPutConf>
         <el-form-item v-if="!useAwardArr">
           <el-button type="primary" @click="confirmSubmit">确定</el-button>
@@ -205,7 +208,8 @@ export default {
       initDistrict: false, // 是否编辑或复制时的页面区县初始化
 
       awardArr:[],
-      useAwardArr:false
+      useAwardArr:false,
+      directDraw:"0"
     }
   },
   created() {
@@ -407,6 +411,11 @@ export default {
           if(res.data.strategyArr[0].awardArr){
             this.useAwardArr = true
             this.awardArr = res.data.strategyArr[0].awardArr
+            if('directDraw' in JSON.parse(res.data.act.extInfo)){
+              if(JSON.parse(res.data.act.extInfo)['directDraw']=='1'){
+                this.directDraw = '1'
+              }
+            }
           }
           return
         }
@@ -440,7 +449,7 @@ export default {
     confirmSubmit() {
       this.$refs.actSetConfRef.validate(valid => {
         if (valid) {
-          this.extInfo = {link: this.confData.link};
+          this.extInfo = {link: this.confData.link,directDraw:this.directDraw};
           this.confData.extInfo = JSON.stringify(this.extInfo);
           let params = {};
           params.act = this.confData;
