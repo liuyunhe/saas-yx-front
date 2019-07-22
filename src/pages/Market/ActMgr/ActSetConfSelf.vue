@@ -383,7 +383,7 @@ export default {
         note: act.note||'', // 活动说明
         stimeStr: act.stimeStr||'', // 活动开始时间
         etimeStr: act.etimeStr||'', // 活动结束时间
-        showStatus: act.showStatus||1, // 活动是否在落地页展示：0-不展示；1-展示
+        showStatus: act.showStatus||0, // 活动是否在落地页展示：0-不展示；1-展示
         tplCode: act.tplCode||'', // 活动投放使用的模板编码。自定义活动为空
         extInfo: act.extInfo||'', // 活动扩展字段。自定义活动存储外链：{link: ''}
         status: act.status||2, // 活动是否启用：1-启用；2-不启用
