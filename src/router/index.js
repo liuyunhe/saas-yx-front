@@ -225,6 +225,7 @@ const PrizeConf = () => import(/* webpackChunkName: "member" */ '@/pages/Member/
 const PrizeList = () => import(/* webpackChunkName: "member" */ '@/pages/Member/PrizeConf/PrizeList')
 const Turn = () => import(/* webpackChunkName: "member" */ '@/pages/Member/GameConf/TurnConf')
 const Answer = () => import(/* webpackChunkName: "member" */ '@/pages/Member/GameConf/AnswerConf')
+const HeSheng = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HeSheng')
 
 // 用户
 const Mgr = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Mgr/Mgr')
@@ -369,7 +370,7 @@ export default new Router({
         { path: '/market/actTpl/AddRound', name: '新建大转盘活动模板配置', component: AddRound, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/addActQuestion', name: '新建答题活动模板配置', component: AddActQuestion, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/actSetConf', name: '基础设置', component: ActSetConf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode, id: router.query.id, clone: router.query.clone,}) },
-        { path: '/market/actTpl/actSetConfSelf', name: '自定义活动基础设置', component: ActSetConfSelf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode, id: router.query.id, clone: router.query.clone,}) }, 
+        { path: '/market/actTpl/actSetConfSelf', name: '自定义活动基础设置', component: ActSetConfSelf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode, id: router.query.id, clone: router.query.clone,}) },
         { path: '/market/actTpl/quesActSetConf', name: '题目设置', component: QuesList, props: (router) => ({id: router.query.id, actCode: router.query.actCode,form: router.query.form}) },
         { path: '/market/actTpl/quesEdit', name: '题目编辑', component: QuesEdit, props: (router) => ({quesId: router.query.quesId,id: router.query.id, actCode: router.query.actCode,form: router.query.form}) },
         { path: '/market/actTpl/actPutConf', name: '投放设置', component: ActPutConf, props: (router) => ({id: router.query.id, actCode: router.query.actCode,form: router.query.form}) },
@@ -473,6 +474,8 @@ export default new Router({
         { path: '/memberday/material/prizeList', name: '会员日奖品列表', component: PrizeList, props: (route) => ({type: route.query.type}) },
         { path: '/memberday/turn', name: '大转盘活动管理', component: Turn },
         { path: '/memberday/qa', name: '大转盘活动管理', component: Answer },
+        { path: '/memberday/HeSheng', name: '大转盘活动管理', component: HeSheng },
+
 
         // 用户
         { path: '/customer', name: '用户' },

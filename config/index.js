@@ -31,7 +31,12 @@ module.exports = {
         target: 'http://cs-saas.qrmkt.cn/',
         changeOrigin: true
         //pathRewrite: {'^/sc': ''}
-      }
+      },
+      '/hbact': { // SAAS后端积分商城接口
+        target: 'http://cs-saas.qrmkt.cn/',
+        changeOrigin: true
+        //pathRewrite: {'^/sc': ''}
+      },
     },
 //			proxyTable: {
 //    '/api': { // SAAS后端主接口
