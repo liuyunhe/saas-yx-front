@@ -227,6 +227,9 @@ const Turn = () => import(/* webpackChunkName: "member" */ '@/pages/Member/GameC
 const Answer = () => import(/* webpackChunkName: "member" */ '@/pages/Member/GameConf/AnswerConf')
 const HeSheng = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HeSheng')
 
+const SignMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/SignMgr')
+const CardCollectingMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/CardCollectingMgr')
+
 // 用户
 const Mgr = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Mgr/Mgr')
 const Black = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Black/Black')
@@ -475,6 +478,8 @@ export default new Router({
         { path: '/memberday/turn', name: '大转盘活动管理', component: Turn },
         { path: '/memberday/qa', name: '大转盘活动管理', component: Answer },
         { path: '/memberday/HeSheng', name: '大转盘活动管理', component: HeSheng },
+        { path: '/memberday/SignMgr', name: '每日扫码', component: SignMgr },
+        { path: '/memberday/CardCollectingMgr', name: '社区卡', component: CardCollectingMgr },
 
 
         // 用户
