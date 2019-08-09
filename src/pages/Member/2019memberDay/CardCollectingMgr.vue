@@ -53,7 +53,7 @@
 
 <script>
   export default {
-    name: "SignMgr",
+    name: "CardColletingMgr",
     data(){
       return {
         list:[],

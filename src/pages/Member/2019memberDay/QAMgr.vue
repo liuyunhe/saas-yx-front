@@ -95,7 +95,7 @@
 
 <script>
   export default {
-    name: "SignMgr",
+    name: "QAMgr",
     data(){
       return {
         id:'',
