@@ -27,12 +27,13 @@
           </div>
           <div style="margin-bottom: 20px">选择实物:<el-button size="" style="margin-left: 20px"  @click="getList(1)">选择</el-button></div>
             <el-form-item label='物料名称：' prop="awardName">
-              <el-input style="width: 400px" v-if="config.awardName" disabled v-model="config.awardName"></el-input>
+              <el-input style="width: 400px" disabled v-model="config.awardName"></el-input>
             </el-form-item>
             <el-form-item label='商品图片：' prop="awardPic">
-              <img width="355" height="289" :src="config.awardPic" alt="">
+              <img width="355" height="289" v-if="config.awardPic" :src="config.awardPic" alt="">
+
               <el-upload :action="uploadURL" :headers="headerObj" :on-success="upClockImgUrlSuccess" :show-file-list="false">
-                <el-button style="margin-left: 87px" size="small" type="primary" v-if="newAct">更换图片</el-button>
+                <el-button size="small" type="primary" v-if="!config.awardPic">上传图片</el-button>
               </el-upload>
             </el-form-item>
             <el-form-item label='商品描述：' prop="awardDesc">
@@ -170,6 +171,7 @@
         this.$request.post('/hbact/one/points/sass/act/config', {}, true, res => {
           if (res.code == '200') {
             this.config = res.data
+            this.newAct = false
             return
           }else if(res.code == '500'){
             this.newAct = true
@@ -221,15 +223,15 @@
               scanCont : this.config.scanCont,
               awardName : this.config.awardName,
               marketMoney : this.config.marketMoney,
-              awardPic :this.config.awardPic,
+              awardPic : this.config.awardPic,
               awardDesc : this.config.awardDesc
             };
-            this.$request.post('/hbact/one/points/sass/act/add', params, true, res => {
+            this.$request.post('/hbact/one/points/sass/act/add', params, false, res => {
               if (res.code == '200') {
                 this.$message({type: 'success', message: '操作成功!'});
                 this.getDetail()
               } else {
-                this.$message.error(res.message);
+                this.$message.error(res.msg);
               }
             })
           }
