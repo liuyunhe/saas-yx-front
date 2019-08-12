@@ -230,6 +230,7 @@ const HeSheng = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/
 const SignMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/SignMgr')
 const CardCollectingMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/CardCollectingMgr')
 const QAMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/QAMgr')
+const PartyMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/PartyMgr')
 
 // 用户
 const Mgr = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Mgr/Mgr')
@@ -482,6 +483,7 @@ export default new Router({
         { path: '/memberday/SignMgr', name: '每日扫码', component: SignMgr },
         { path: '/memberday/CardCollectingMgr', name: '社区卡', component: CardCollectingMgr },
         { path: '/memberday/QAMgr', name: '钻石学堂', component: QAMgr },
+        { path: '/memberday/PartyMgr', name: '钻石Party', component: PartyMgr },
 
 
         // 用户
