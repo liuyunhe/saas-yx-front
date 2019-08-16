@@ -232,6 +232,7 @@ const CardCollectingMgr = () => import(/* webpackChunkName: "activity" */ '@/pag
 const QAMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/QAMgr')
 const PartyMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/PartyMgr')
 const MineMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/MineMgr')
+const SignMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/SignMgr')
 
 // 用户
 const Mgr = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Mgr/Mgr')
@@ -245,6 +246,9 @@ const PersonalDeatail = () =>import(/* webpackChunkName: "customer" */ '@/pages/
 const TaskDetail = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/TaskDetail')
 const ScanEdit = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/ScanEdit')
 const MarketQr = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/MarketQr')
+
+//分销
+const DistributionMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Distribution/DistributionMgr')
 
 
 Vue.use(Router)
@@ -486,6 +490,7 @@ export default new Router({
         { path: '/memberday/QAMgr', name: '钻石学堂', component: QAMgr },
         { path: '/memberday/MineMgr', name: '钻石矿场', component: MineMgr },
         { path: '/memberday/PartyMgr', name: '钻石Party', component: PartyMgr },
+        { path: '/memberday/SignMgr', name: '社区打卡', component: SignMgr },
 
 
         // 用户
@@ -499,6 +504,9 @@ export default new Router({
         { path: '/customer/black', name: '黑名单管理', component: Black },
         // { path: '/customer/task/sign', name: '会员签到任务设置', component: memberTaskSign, props: (route) => ({code:route.query.code, id:route.query.id}) },
         { path: '/customer/mgr/detail', name: '用户详情', component: PersonalDeatail, props: (route) => ({code:route.query.code, id:route.query.id}) },
+
+        //分销
+        { path: '/distribution/distributionMgr', name: '审核管理', component: DistributionMgr },
       ]
     },
     {
