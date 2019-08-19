@@ -249,6 +249,12 @@ const MarketQr = () => import(/* webpackChunkName: "activity" */ '@/pages/Market
 
 //分销
 const DistributionMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Distribution/DistributionMgr')
+const OrderMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Distribution/OrderMgr')
+const OrderDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Distribution/OrderDetail')
+const AmountExamine = () => import(/* webpackChunkName: "activity" */ '@/pages/Distribution/AmountExamine')
+const DealerMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Distribution/DealerMgr')
+const DealerDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Distribution/DealerDetail')
+const SystemMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Distribution/SystemMgr')
 
 
 Vue.use(Router)
@@ -507,6 +513,12 @@ export default new Router({
 
         //分销
         { path: '/distribution/distributionMgr', name: '审核管理', component: DistributionMgr },
+        { path: '/distribution/orderMgr', name: '订单管理', component: OrderMgr },
+        { path: '/distribution/orderDetail', name: '订单详情', component: OrderDetail },
+        { path: '/distribution/amountExamine', name: '提现管理', component: AmountExamine },
+        { path: '/distribution/dealerMgr', name: '经销商管理', component: DealerMgr },
+        { path: '/distribution/dealerDetail', name: '经销商详情', component: DealerDetail },
+        { path: '/distribution/systemMgr', name: '系统设置', component: SystemMgr },
       ]
     },
     {
