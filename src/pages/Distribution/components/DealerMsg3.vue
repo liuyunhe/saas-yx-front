@@ -82,11 +82,8 @@
             </template>
           </el-table-column>
           <el-table-column
-              prop="zjTime"
+              prop="ctime"
               label="下单时间	">
-            <template slot-scope="scope">
-              <span>{{ new Date(scope.row.ctime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
-            </template>
           </el-table-column>
         </el-table>
       </el-col>

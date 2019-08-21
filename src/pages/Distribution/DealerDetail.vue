@@ -10,7 +10,7 @@
         <dealer-msg3 :salerId="salerId" :returnPath="returnPath"></dealer-msg3>
       </el-tab-pane>
       <el-tab-pane label="提现记录" name="3">
-<!--        <dealer-msg4 :salerId="salerId" :returnPath="returnPath"></dealer-msg4>-->
+        <dealer-msg4 :salerId="salerId" :returnPath="returnPath"></dealer-msg4>
       </el-tab-pane>
       <el-tab-pane label="推广订单明细" name="4">
 <!--        <dealer-msg5 :salerId="salerId" :returnPath="returnPath"></dealer-msg5>-->

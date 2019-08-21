@@ -155,17 +155,12 @@
               prop="ctime"
               label="申请时间"
               width="200">
-            <template slot-scope="scope">
-              <span>{{ new Date(scope.row.ctime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
-            </template>
           </el-table-column>
           <el-table-column
               label="申请通过时间"
               width="200"
+              prop="appPassTime"
           >
-            <template slot-scope="scope">
-              <span>{{ new Date(scope.row.appPassTime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
-            </template>
           </el-table-column>
           <el-table-column
               prop="authStatus"

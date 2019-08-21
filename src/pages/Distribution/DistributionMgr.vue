@@ -93,44 +93,39 @@
               width="50">
           </el-table-column>
           <el-table-column
-              prop="licenceNo"
-              label="烟草专卖号	"
+              prop="wxId"
+              label="微信ID"
               width="200">
           </el-table-column>
           <el-table-column
-              prop="shopName"
-              label="门店名称"
-              width="120">
-          </el-table-column>
-          <!-- 
-          <el-table-column
-              prop="ownerName"
-              label="经营人姓名"
+              prop="salerName"
+              label="申请人姓名"
               width="120">
           </el-table-column>
           <el-table-column
-              prop="district"
-              label="区域"
+              prop="phoneNo"
+              label="手机号"
               width="120">
-            <template slot-scope="scope">
-              <span>{{ scope.row.district == "1" ? "城镇":"乡村"}}</span>
-            </template>
           </el-table-column>
           <el-table-column
-              prop="commercial"
-              label="业态"
-              width="120">
-            <template slot-scope="scope">
-              <span v-if="scope.row.commercial == '1'">{{ "食杂店" }}</span>
-              <span v-else-if="scope.row.commercial == '2'">{{ "便利店" }}</span>
-              <span v-else-if="scope.row.commercial == '3'">{{ "超市" }}</span>
-              <span v-else-if="scope.row.commercial == '4'">{{ "商场" }}</span>
-              <span v-else-if="scope.row.commercial == '5'">{{ "烟酒商店" }}</span>
-              <span v-else-if="scope.row.commercial == '6'">{{ "娱乐服务" }}</span>
-              <span v-else-if="scope.row.commercial == '7'">{{ "其他" }}</span>
-            </template>
+              prop="region"
+              width="200"
+              label="位置">
           </el-table-column>
-          -->
+          <el-table-column
+              prop="invitCode"
+              label="推荐码">
+          </el-table-column>
+          <el-table-column
+              prop="higherName"
+              label="推荐人">
+          </el-table-column>
+
+          <el-table-column
+              prop="ctime"
+              label="申请时间"
+              width="200">
+          </el-table-column>
           <el-table-column
               prop="ownerName"
               label="联系人姓名"
@@ -141,19 +136,10 @@
               label="联系人电话"
               width="120">
           </el-table-column>
-          <!--
           <el-table-column
-              prop="salesManNames"
-              label="业务员">
-          </el-table-column>
-          -->
-          <el-table-column
-              prop="applyTime"
+              prop="ctime"
               label="申请时间"
               width="200">
-            <template slot-scope="scope">
-              <span>{{ new Date(scope.row.applyTime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
-            </template>
           </el-table-column>
           <el-table-column label="位置">
             <template slot-scope="scope">
@@ -164,10 +150,9 @@
               prop="authStatus"
               label="状态">
             <template slot-scope="scope">
-              <span v-if="scope.row.authStatus == '1'">{{ "待审核" }}</span>
-              <span v-else-if="scope.row.authStatus == '2'">{{ "审核通过" }}</span>
-              <span v-else-if="scope.row.authStatus == '3'">{{ "审核未通过" }}</span>
-              <span v-else-if="scope.row.authStatus == '4'">{{ "待激活" }}</span>
+              <span v-if="scope.row.appStatus == '1'">{{ "待审核" }}</span>
+              <span v-else-if="scope.row.appStatus == '2'">{{ "审核通过" }}</span>
+              <span v-else-if="scope.row.appStatus == '3'">{{ "审核未通过" }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -179,17 +164,17 @@
               <el-button
                   type="text"
                   size="mini"
-                  @click="sellerDetail(scope.row.sellerId)"
+                  @click="sellerDetail(scope.row.saler_id)"
               >查看详情</el-button>
               <el-button
                   type="text"
                   size="mini"
-                  @click="disapprovalDialog(scope.row.sellerId)"
+                  @click="disapprovalDialog(scope.row.saler_id)"
               >审核不通过</el-button>
               <el-button
                   type="text"
                   size="mini"
-                  @click="approval(scope.row.sellerId)"
+                  @click="approval(scope.row.saler_id)"
               >审核通过</el-button>
             </template>
           </el-table-column>
@@ -371,10 +356,9 @@
           //审核状态
           appStatus:this.filters.authStatus,
 
-          addrProvince: this.filters.addrProvince,
-          addrCity: this.filters.addrCity,
-          addrArea: this.filters.addrArea,
-
+          provinceName: this.filters.addrProvince,
+          cityName: this.filters.addrCity,
+          areaName: this.filters.addrArea,
 
           pageNo: this.pageNo,
           pageSize: 10,
@@ -427,14 +411,14 @@
       },
 
       //审批通过
-      approval(sellerIds){
-        let params = {sellerIds,appStatus:2}
+      approval(salerId){
+        let params = {salerId,appStatus:2}
         this.$confirm(`您确定审核通过吗？`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$request.post('/fxweb/fxsaas/approvalSalers',params,false,res => {
+          this.$request.post('/fxweb/fxsaas/approvalSalers',params,true,res => {
             if(res.ok){
               this.$message({
                 message: '操作成功！',
@@ -451,18 +435,18 @@
         })
       },
       //审批不通过
-      disapprovalDialog(sellerIds){
+      disapprovalDialog(salerId){
         this.dialogVisible = true
-        this.sellerIds = sellerIds
+        this.sellerIds = salerId
       },
       disapproval(){
-        let params = {sellerIds:this.sellerIds,appStatus:3,appNote:this.failReason}
+        let params = {salerId:this.sellerIds,appStatus:3,appNote:this.failReason}
         this.$confirm(`您确定审核不通过吗？`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$request.post('/fxweb/fxsaas/getApprovaledSalers',params,false,res => {
+          this.$request.post('/fxweb/fxsaas/getApprovaledSalers',params,true,res => {
             if(res.ok){
               this.$message({
                 message: '操作成功！',

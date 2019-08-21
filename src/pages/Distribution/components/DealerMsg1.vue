@@ -11,8 +11,8 @@
       <div class="basic-msg-item"><span class="title">累积金额：</span>￥{{ form.totalIncome }}</div>
       <div class="basic-msg-item"><span class="title">可提现金额：</span>￥{{ form.balance }}</div>
       <div class="basic-msg-item"><span class="title">已提现金额：</span>￥{{ form.totalPay }}</div>
-      <div class="basic-msg-item"><span class="title">申请时间：</span>{{ new Date(form.ctime).Format('yyyy-MM-dd hh:mm:ss') }}</div>
-      <div class="basic-msg-item"><span class="title">申请通过时间：</span>{{ new Date(form.appPassTime).Format('yyyy-MM-dd hh:mm:ss') }}</div>
+      <div class="basic-msg-item"><span class="title">申请时间：</span>{{ form.ctime }}</div>
+      <div class="basic-msg-item"><span class="title">申请通过时间：</span>{{ form.appPassTime }}</div>
     </div>
   </section>
 </template>

@@ -4,19 +4,7 @@
       <!--查询表单-->
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;margin-bottom: 0">
         <el-form :inline="true" :model="filters" label-width="90px">
-          <el-form-item :size="'small'" label="时间区间：">
-            <el-date-picker
-                v-model="filters.time"
-                type="datetimerange"
-                placeholder="选择日期时间"
-                value-format="yyyy-MM-dd HH:mm"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                style="width: 350px">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item :size="'small'" label="交易类型：">
+          <el-form-item :size="'small'" label="提现状态：">
             <el-select
                 v-model="filters.type"
                 placeholder="请选择"
@@ -28,6 +16,18 @@
                   :value="item.code">
               </el-option>
             </el-select>
+          </el-form-item>
+          <el-form-item :size="'small'" label="时间区间：">
+            <el-date-picker
+                v-model="filters.time"
+                type="datetimerange"
+                placeholder="选择日期时间"
+                value-format="yyyy-MM-dd HH:mm"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                style="width: 350px">
+            </el-date-picker>
           </el-form-item>
           <div></div>
           <el-form-item class="mr0" :size="'small'">
@@ -50,27 +50,27 @@
               width="50">
           </el-table-column>
           <el-table-column
-              prop="type"
-              label="交易类型">
+              prop="txTime"
+              label="申请时间">
+          </el-table-column>
+          <el-table-column
+              prop="txAmount"
+              label="提现金额">
             <template slot-scope="scope">
-              <span v-if="scope.row.type == 1">{{"扫码返现"}}</span>
-              <span v-else-if="scope.row.type == 2">{{"提现"}}</span>
+              <span>￥{{ scope.row.txAmount }}</span>
             </template>
           </el-table-column>
           <el-table-column
-              prop="amount"
-              label="金额">
-            <template slot-scope="scope">
-              <span v-if="scope.row.type == 2" style="color: red">-￥{{ scope.row.amount }}</span>
-              <span v-else-if="scope.row.type == 1" style="color: #0c9b0d">+￥{{ scope.row.amount }}</span>
-            </template>
+              prop="txStatus"
+              label="状态">
           </el-table-column>
           <el-table-column
-              prop="time"
-              label="交易时间">
-            <template slot-scope="scope">
-              <span>{{ new Date(scope.row.time).Format('yyyy-MM-dd hh:mm:ss')}}</span>
-            </template>
+              prop="finishTime"
+              label="到账时间">
+          </el-table-column>
+          <el-table-column
+              prop="failReason"
+              label="备注">
           </el-table-column>
         </el-table>
       </el-col>
@@ -98,7 +98,7 @@
 
 <script>
   export default {
-    props:['sellerId','returnPath'],
+    props:['salerId','returnPath'],
     name: "SellerManage",
     data(){
       return{
@@ -108,16 +108,24 @@
 
         typeList:[
           {
-            code:"",
+            code:"null",
             name:"全部"
           },
           {
             code:"1",
-            name:"扫码返现"
+            name:"申请中"
           },
           {
             code:"2",
-            name:"提现"
+            name:"已到账"
+          },
+          {
+            code:"3",
+            name:"申请失败"
+          },
+          {
+            code:"4",
+            name:"审核通过"
           },
 
         ],
@@ -150,9 +158,8 @@
     methods:{
       getAccountFlowList() {
         let params = {
-
-          sellerId:this.sellerId,
-          type:this.filters.type,
+          salerId:this.salerId,
+          appStatus:this.filters.type,
 
           //时间
           startTime: this.filters.time?this.filters.time[0]?this.filters.time[0]:'':'',
@@ -168,13 +175,13 @@
       },
       postSearch(params) {
         // this.listLoading = true;
-        this.$request.post('/lsh/seller-manager/seller/accountFlow', params, false, (res) => {
+        this.$request.post('/fxweb/fxsaas/getMyWithDraw', params, true , (res) => {
 
             console.log(res.data)
             // this.listLoading = false;
-            this.accountFlowList = res.data.list
-            this.total = res.data.page.count
-            this.pageNo = res.data.page.pageNo
+            this.accountFlowList = res.data.listData
+            this.total = res.data.pageResult.count
+            this.pageNo = res.data.pageResult.pageNo
         })
       },
       //查詢
