@@ -20,14 +20,56 @@
       <div slot="header" class="clearfix">
         <span>收货人信息：</span>
       </div>
-      <el-form style="margin-left: 60px" label-width="100px" disabled>
-        <el-form-item label="抢购人:">
+      <el-form style="margin-left: 60px" label-width="100px" :model="ruleForm" :rules="rules" ref="ruleForm" :disabled="!orderStatus<2">
+        <el-form-item label="抢购人:" prop="contactName">
           <el-input style="width: 400px" v-model="ruleForm.contactName"></el-input>
         </el-form-item>
-        <el-form-item label="手机号:">
+        <el-form-item label="手机号:" prop="contactPhone">
           <el-input style="width: 400px" v-model="ruleForm.contactPhone"></el-input>
         </el-form-item>
-        <el-form-item label="收货地址:">
+        <el-form-item size="small" label="位置:" prop="provinceId">
+          <el-select
+              v-model="ruleForm.provinceId"
+              placeholder="请选择"
+              @change="selectBrand1"
+              style="width: 160px">
+            <el-option
+                v-for="item in cateLvl1List"
+                :key="item.code"
+                :label="item.name"
+                :value="item.code">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item size="small" label="" prop="cityId">
+          <el-select
+              v-model="ruleForm.cityId"
+              placeholder="请选择"
+              @change="selectBrand2"
+              style="width: 160px">
+            <el-option
+                v-for="item in cateLvl2List"
+                :key="item.code"
+                :label="item.name"
+                :value="item.code">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item size="small" label="" prop="areaId">
+          <el-select
+              v-model="ruleForm.areaId "
+              placeholder="请选择"
+              @change="selectBrand3"
+              style="width: 160px">
+            <el-option
+                v-for="item in cateLvl3List"
+                :key="item.code"
+                :label="item.name"
+                :value="item.code">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="收货地址:" prop="addrDetail">
           <el-input style="width: 400px" v-model="ruleForm.addrDetail"></el-input>
         </el-form-item>
       </el-form>
@@ -44,8 +86,8 @@
     </el-card>
     <div class="basic-msg-form-bt">
       <el-button type="primary" @click="cancelOrder">取消订单</el-button>
-      <el-button type="primary" @click="cancelModify">确定</el-button>
-      <el-button @click="returnMgr">取消</el-button>
+      <el-button type="primary" v-if="orderStatus<2" @click="submitModify">确定</el-button>
+      <el-button @click="returnMgr">返回列表</el-button>
     </div>
   </section>
 </template>
@@ -125,65 +167,41 @@
         invitCode:'',
         amount:'',
 
+        orderStatus: 0,
+        //分类列表
+        cateLvl1List:[],
+        cateLvl2List:[],
+        cateLvl3List:[],
         ruleForm: {
           contactName: "",
           contactPhone: "",
-          addrDetail:""
+          provinceId: "",
+          provinceName: "",
+          cityId: "",
+          cityName: "",
+          areaId: "",
+          areaName: "",
+          addrDetail:"",
         },
         rules: {
-          headImg: [
-            { required: true, message: '请上传门店照片', trigger: 'change' },
+          contactName: [
+            { required: true, message: '请输入抢购人', trigger: 'blur' },
           ],
-          shopName: [
-            { required: true, message: '请输入门店名称', trigger: 'blur' },
+          contactPhone: [
+            { required: true, message: '请输入手机号', trigger: 'blur' },
           ],
-          ownerName: [
-            { required: true, message: '请输入经营人姓名', trigger: 'blur' },
-          ],
-          phoneNo: [
-            { required: true, message: '请输入经营人电话', trigger: 'blur' },
-          ],
-          addrProvince: [
+          provinceId: [
             { required: true, message: '请选择省份', trigger: 'change' },
           ],
-          addrCity: [
+          cityId: [
             { required: true, message: '请选择城市', trigger: 'change' },
           ],
-          addrArea: [
+          areaId: [
             { required: true, message: '请选择地区', trigger: 'change' },
           ],
           addrDetail: [
-            { required: true, message: '请输入门店地址', trigger: 'blur' },
+            { required: true, message: '请输入收货地址', trigger: 'blur' },
           ],
-          licenceNo: [
-            { required: true, message: '请输入烟草专卖证号', trigger: 'blur' },
-          ],
-          licenceImg: [
-            { required: true, message: '请上传烟草专卖证号照片', trigger: 'change' },
-          ],
-          district: [
-            { required: true, message: '请选择区域', trigger: 'change' },
-          ],
-          commercial: [
-            { required: true, message: '请选择业态', trigger: 'change' },
-          ],
-          salesManNames: [
-            { required: true, message: '请输入业务员姓名', trigger: 'change' },
-          ],
-          contactName: [
-            { required: true, message: '请输入联系人姓名', trigger: 'change' },
-          ],
-          contactPhone: [
-            { required: true, message: '请输入联系人电话', trigger: 'change' },
-          ],
-          authStatus: [
-            { required: true, message: '请选择审核状态', trigger: 'change' },
-          ],
-          failReason: [
-
-          ],
-
-
         },
         orderTrack:[],
       }
@@ -191,32 +209,89 @@
     created(){
       this.getReviewDetail()
       this.getOrderTrack()
+      // this.getOneCategory()
     },
     methods:{
 
-      //从后台拿取商品类型列表
-      // getProductType(){
-      //   this.$request.post('/sc/saotx/mall/giftTypeMap',{}, true, (res) => {
-      //     if (res.ret == '200000') {
-      //       this.productTypeList = [...this.productTypeList,...res.data]
-      //     }
-      //   })
-      // },
 
+      //从后台拿取商品分类1
+      getOneCategory(){
+        this.$request.post('/fxweb/fxsaas/getProvince',{}, false, (res) => {
+          this.cateLvl1List = [...res.data]
+        })
+      },
+      selectBrand1(item){
+        let e = this.cateLvl1List.find((i)=>(i.code == item))
+        this.ruleForm.provinceName = e.name
+        this.ruleForm.cityName = ''
+        this.ruleForm.cityId = ''
+        this.cateLvl2List = []
+        this.ruleForm.areaId = ''
+        this.ruleForm.areaName = ''
+        this.cateLvl3List = []
+        this.getTwoCategory()
+      },
+      //从后台拿取商品分类2
+      getTwoCategory(){
+        if(this.ruleForm.provinceId  == '')return
+        this.$request.post('/fxweb/fxsaas/getCity',{parentCode:this.ruleForm.provinceId}, false, (res) => {
+          this.cateLvl2List = [...res.data]
+        })
+      },
+      selectBrand2(item){
+        let e = this.cateLvl2List.find((i)=>(i.code == item))
+        this.ruleForm.cityName = e.name
+        this.ruleForm.areaId = ''
+        this.ruleForm.areaName = ''
+        this.cateLvl3List = []
+        this.getThreeCategory()
+      },
+      //从后台拿取商品分类3
+      getThreeCategory(){
+        if(this.ruleForm.cityId == '')return
+        this.$request.post('/fxweb/fxsaas/getCounty',{parentCode:this.ruleForm.cityId}, false, (res) => {
+          this.cateLvl3List = [...res.data]
+        })
+      },
+      selectBrand3(item){
+        let e = this.cateLvl3List.find((i)=>(i.code == item))
+        this.ruleForm.areaName = e.name
+      },
       getReviewDetail(){
         this.$request.post('/fxweb/fxsaas/getOrderDetail',{orderId:this.orderId},true,res => {
           if (res.ok) {
-            this.buyNum = res.data.buyNum
-            this.region = res.data.region
-            this.nickname = res.data.nickname
-            this.salerName = res.data.salerName
-            this.invitCode = res.data.invitCode
-            this.amount = res.data.amount
-            this.ruleForm.contactName = res.data.contactName
-            this.ruleForm.contactPhone = res.data.contactPhone
-            this.ruleForm.addrDetail = res.data.addrDetail
+            this.buyNum = res.data.orderInfo.buyNum
+            this.region = res.data.orderInfo.region
+            this.nickname = res.data.orderInfo.nickname
+            this.salerName = res.data.orderInfo.salerName
+            this.invitCode = res.data.orderInfo.invitCode
+            this.amount = res.data.orderInfo.amount
+            this.ruleForm.contactName = res.data.orderAddress.contactName
+            this.ruleForm.contactPhone = res.data.orderAddress.contactPhone
+            this.ruleForm.provinceName = res.data.orderAddress.provinceName
+            // this.ruleForm.provinceId = res.data.orderAddress.provinceId+""
+            this.ruleForm.cityName = res.data.orderAddress.cityName
+            // this.ruleForm.cityId = res.data.orderAddress.cityId+""
+            this.ruleForm.areaName = res.data.orderAddress.areaName
+            // this.ruleForm.areaId = res.data.orderAddress.areaId+""
+            this.ruleForm.addrDetail = res.data.orderAddress.addrDetail
+
+            this.orderStatus = res.data.orderInfo.orderStatus
             //状态
             // this.ruleForm.authStatus = res.data.sellerInfo.authStatus+''
+
+            this.$request.post('/fxweb/fxsaas/getProvince',{}, false, (res1) => {
+              this.cateLvl1List = [...res1.data]
+              this.ruleForm.provinceId = res.data.orderAddress.provinceId+""
+              this.$request.post('/fxweb/fxsaas/getCity',{parentCode:this.ruleForm.provinceId}, false, (res2) => {
+                this.cateLvl2List = [...res2.data]
+                this.ruleForm.cityId = res.data.orderAddress.cityId+""
+                this.$request.post('/fxweb/fxsaas/getCounty',{parentCode:this.ruleForm.cityId}, false, (res3) => {
+                  this.cateLvl3List = [...res3.data]
+                  this.ruleForm.areaId = res.data.orderAddress.areaId+""
+                })
+              })
+            })
           }
         })
       },
@@ -289,10 +364,39 @@
         })
 
       },
-      cancelModify(){
-        this.disabled = !this.disabled
-        this.$refs['ruleForm'].resetFields();
-        this.getReviewDetail()
+      submitModify(){
+        this.$refs['ruleForm'].validate((valid) => {
+          if (valid) {
+            let params = this.ruleForm
+            params.orderId = this.orderId
+            let TEL_REGEXP = /^1[3456789]\d{9}$/;
+            if(!TEL_REGEXP.test(params.contactPhone)){
+              this.$message({
+                message: '手机号格式不正确！',
+                type: 'error'
+              });
+              return
+            }
+            this.$request.post('/fxweb/fxsaas/modifyOrderAddress',params,true,res => {
+              if(res.ok){
+                this.$message({
+                  message: '操作成功！',
+                  type: 'success'
+                });
+                this.returnMgr()
+              }else{
+                this.$message({
+                  message:res.msg,
+                  type: 'warning'
+                })
+              }
+            },err => {
+
+            })
+          } else {
+            return false;
+          }
+        });
       }
     },
   }
