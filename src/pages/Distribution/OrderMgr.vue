@@ -6,8 +6,8 @@
       </div>
       <!--查询表单-->
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;margin-bottom: 0">
-        <el-form :inline="true" :model="filters" label-width="80px">
-          <el-form-item :size="'small'" label="订单状态">
+        <el-form :inline="true" :model="filters" label-width="90px">
+          <el-form-item :size="'small'" label="订单状态：">
             <el-select
                 v-model="filters.authStatus"
                 placeholder="请选择"
@@ -20,7 +20,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item :size="'small'" label="时间区间">
+          <el-form-item :size="'small'" label="时间区间：">
             <el-date-picker
                 v-model="filters.time"
                 type="datetimerange"
@@ -32,7 +32,7 @@
                 style="width: 350px">
             </el-date-picker>
           </el-form-item>
-          <el-form-item :size="'small'" label="关键词">
+          <el-form-item :size="'small'" label="关键词：">
             <el-input placeholder="请输入内容" v-model="filters.keywords" class="input-with-select" style="width: 300px">
               <el-select v-model="filters.searchType" slot="prepend" @change="inputWithSelectChange" placeholder="请选择" style="width: 120px">
                 <el-option label="订单号" value="orderId"></el-option>
@@ -85,7 +85,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item :size="'small'" label="订单数量">
+          <el-form-item :size="'small'" label="订单数量：">
             <el-select
                 v-model="filters.buyNum"
                 placeholder="请选择"
