@@ -4,6 +4,19 @@
       <!--查询表单-->
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;margin-bottom: 0">
         <el-form :inline="true" :model="filters" label-width="90px">
+          <el-form-item :size="'small'" label="奖励类型：">
+            <el-select
+                v-model="filters.orderStatus"
+                placeholder="请选择"
+                style="width: 200px">
+              <el-option
+                  v-for="item in awardTypeList"
+                  :key="item.code"
+                  :label="item.name"
+                  :value="item.code">
+              </el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item :size="'small'" label="时间区间：">
             <el-date-picker
                 v-model="filters.time"
@@ -16,19 +29,7 @@
                 style="width: 350px">
             </el-date-picker>
           </el-form-item>
-          <el-form-item :size="'small'" label="奖励类型：">
-            <el-select
-                v-model="filters.awardType"
-                placeholder="请选择"
-                style="width: 200px">
-              <el-option
-                  v-for="item in awardTypeList"
-                  :key="item.code"
-                  :label="item.name"
-                  :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
+
           <div></div>
           <el-form-item class="mr0" :size="'small'">
             <el-button type="primary" size="small" @click="commitForm">查询</el-button>
@@ -50,37 +51,47 @@
               width="50">
           </el-table-column>
           <el-table-column
-            prop="brandName"
-            label="品牌">
+            prop="orderId"
+            label="订单号">
           </el-table-column>
           <el-table-column
-            prop="snName"
-            label="规格">
+            prop="contactPhone"
+            label="手机号">
           </el-table-column>
           <el-table-column
-            prop="num"
-            label="单次入库数量">
+            prop="nickname"
+            label="微信号">
           </el-table-column>
           <el-table-column
-            prop="award"
-            label="单次扫码奖励">
+            prop="buyNum"
+            label="收货地址">
           </el-table-column>
           <el-table-column
-            prop="awardType"
-            label="奖励类型">
+            prop="addrDetail"
+            label="数量">
+          </el-table-column>
+          <el-table-column
+              prop="amount"
+              label="支付金额">
             <template slot-scope="scope">
-              <span v-if="scope.row.awardType == 1">{{"实物奖励"}}</span>
-              <span v-else-if="scope.row.awardType == 3">{{"红包奖励"}}</span>
-              <span v-else-if="scope.row.awardType == 6">{{"积分奖励"}}</span>
+              <span>￥{{ scope.row.amount }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="orderStatus"
+            label="支付状态">
+            <template slot-scope="scope">
+              <span v-if="scope.row.orderStatus == 1">{{"待支付"}}</span>
+              <span v-else-if="scope.row.orderStatus == 2">{{"待发货"}}</span>
+              <span v-else-if="scope.row.orderStatus == 3">{{"待收货"}}</span>
+              <span v-else-if="scope.row.orderStatus == 4">{{"已完成"}}</span>
+              <span v-else-if="scope.row.orderStatus == 5">{{"已取消"}}</span>
             </template>
           </el-table-column>
 
           <el-table-column
               prop="ctime"
-              label="入库时间">
-            <template slot-scope="scope">
-              <span>{{ new Date(scope.row.ctime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
-            </template>
+              label="下单时间">
           </el-table-column>
         </el-table>
       </el-col>
@@ -108,36 +119,42 @@
 
 <script>
   export default {
-    props:['sellerId','returnPath'],
+    props:['salerId','returnPath'],
     name: "SellerManage",
     data(){
       return{
         listLoading:false,
 
         //状态列表
-
         awardTypeList:[
           {
-            code:"",
+            code:null,
             name:"全部"
           },
           {
             code:"1",
-            name:"实物奖励"
+            name:"待支付"
+          },
+          {
+            code:"2",
+            name:"待发货"
           },
           {
             code:"3",
-            name:"红包奖励"
+            name:"待收货"
           },
           {
-            code:"6",
-            name:"积分奖励"
+            code:"4",
+            name:"已完成"
           },
-
+          {
+            code:"5",
+            name:"已取消"
+          },
         ],
 
         filters: {
-          awardType:'',
+          orderStatus:null,
 
 
           time:[]
@@ -165,8 +182,8 @@
       getScanInstoreList() {
         let params = {
 
-          sellerId:this.sellerId,
-          awardType:this.filters.awardType,
+          salerId:this.salerId,
+          orderStatus:this.filters.orderStatus,
 
           //时间
           startTime: this.filters.time?this.filters.time[0]?this.filters.time[0]:'':'',
@@ -182,13 +199,13 @@
       },
       postSearch(params) {
         // this.listLoading = true;
-        this.$request.post('/lsh/seller-manager/seller/scanInstore', params, false, (res) => {
+        this.$request.post('/fxweb/fxsaas/getMyOrders', params, true, (res) => {
 
             console.log(res.data)
             // this.listLoading = false;
-            this.scanInstoreList = res.data.list
-            this.total = res.data.page.count
-            this.pageNo = res.data.page.pageNo
+            this.scanInstoreList = res.data.listData
+            this.total = res.data.pageResult.count
+            this.pageNo = res.data.pageResult.pageNo
         })
       },
       //查詢
@@ -200,7 +217,7 @@
       //重置
       getStatus() {
 
-        this.filters.awardType = ''
+        this.filters.orderStatus = null
         this.filters.time = []
 
 

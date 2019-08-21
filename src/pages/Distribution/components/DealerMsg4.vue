@@ -108,7 +108,7 @@
 
         typeList:[
           {
-            code:"null",
+            code:null,
             name:"全部"
           },
           {
@@ -131,7 +131,7 @@
         ],
 
         filters: {
-          type:'',
+          type:null,
 
 
           time:[]
@@ -193,7 +193,7 @@
       //重置
       getStatus() {
 
-        this.filters.type = ''
+        this.filters.type = null
         this.filters.time = []
 
 

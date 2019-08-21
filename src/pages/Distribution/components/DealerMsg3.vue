@@ -182,7 +182,7 @@
       //重置
       getStatus() {
 
-
+        this.filters.source = 0
         this.filters.time = []
 
 
