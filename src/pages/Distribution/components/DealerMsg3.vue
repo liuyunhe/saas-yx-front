@@ -4,6 +4,13 @@
       <!--查询表单-->
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;margin-bottom: 0">
         <el-form :inline="true" :model="filters" label-width="90px">
+          <el-form-item :size="'small'" label="佣金来源：">
+              <el-select v-model="filters.source" placeholder="请选择" style="width: 120px">
+                <el-option label="全部" value="0"></el-option>
+                <el-option label="我的返佣" value="1"></el-option>
+                <el-option label="团队返佣" value="2"></el-option>
+              </el-select>
+          </el-form-item>
           <el-form-item :size="'small'" label="时间区间：">
             <el-date-picker
                 v-model="filters.time"
@@ -16,33 +23,6 @@
                 style="width: 350px">
             </el-date-picker>
           </el-form-item>
-          <el-form-item :size="'small'" label="扫码单位：">
-            <el-select
-                v-model="filters.unit"
-                placeholder="请选择"
-                style="width: 200px">
-              <el-option
-                  v-for="item in unitList"
-                  :key="item.code"
-                  :label="item.name"
-                  :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item :size="'small'" label="有无返还：">
-            <el-select
-                v-model="filters.isFx"
-                placeholder="请选择"
-                style="width: 200px">
-              <el-option
-                  v-for="item in isFxList"
-                  :key="item.code"
-                  :label="item.name"
-                  :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
-
           <div></div>
           <el-form-item class="mr0" :size="'small'">
             <el-button type="primary" size="small" @click="commitForm">查询</el-button>
@@ -64,42 +44,49 @@
               width="50">
           </el-table-column>
           <el-table-column
-              prop="openId"
-              label="微信openld"
+              prop="orderId"
+              label="订单号"
               width="200">
           </el-table-column>
           <el-table-column
               prop="nickname"
-              label="昵称"
+              label="抢购人"
               width="120">
           </el-table-column>
           <el-table-column
-              prop="ctime"
-              label="扫店码时间	">
+              prop="contactPhone"
+              label="手机号"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="nickname"
+              label="微信号"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="region"
+              label="位置"
+              width="200">
+          </el-table-column>
+          <el-table-column
+              prop="sourceDesc"
+              label="佣金来源"
+              width="200">
+          </el-table-column>
+          <el-table-column
+              prop="reward"
+              label="佣金金额"
+              width="120">
             <template slot-scope="scope">
-              <span>{{ new Date(scope.row.ctime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
+              <span>￥{{ scope.row.reward }}</span>
             </template>
           </el-table-column>
           <el-table-column
               prop="zjTime"
-              label="扫烟码时间	">
+              label="下单时间	">
             <template slot-scope="scope">
-              <span>{{ new Date(scope.row.zjTime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
+              <span>{{ new Date(scope.row.ctime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
             </template>
-          </el-table-column>
-          <el-table-column
-              prop="unit"
-              label="扫码单位">
-            <template slot-scope="scope">
-              <span v-if="scope.row.unit == 1">{{"盒"}}</span>
-              <span v-else-if="scope.row.unit == 2">{{"条"}}</span>
-            </template>
-          </el-table-column>
-
-          <el-table-column
-              prop="fxAmount"
-              label="返回金额"
-              width="120">
           </el-table-column>
         </el-table>
       </el-col>
@@ -127,52 +114,20 @@
 
 <script>
   export default {
-    props:['sellerId','returnPath'],
+    props:['salerId','returnPath'],
     name: "SellerManage",
     data(){
       return{
         listLoading:false,
-
+        showMyTeam:false,
         //状态列表
 
-        isFxList:[
-          {
-            code:"",
-            name:"全部"
-          },
-          {
-            code:"0",
-            name:"无"
-          },
-          {
-            code:"1",
-            name:"有"
-          },
-
-        ],
-        unitList:[
-          {
-            code:"",
-            name:"全部"
-          },
-          {
-            code:"1",
-            name:"盒"
-          },
-          {
-            code:"2",
-            name:"条"
-          }
-        ],
-
-
         filters: {
-          unit:'',
-          isFx:'',
-
-          time:[]
+          source:'0',
+          time:[],
 
         },
+        myTeam:[],
         //表单内容
         newFxlist:[],
 
@@ -195,10 +150,9 @@
       getNewFxlist() {
         let params = {
 
-          sellerId:this.sellerId,
-          unit:this.filters.unit,
-          isFx:this.filters.isFx,
+          salerId:this.salerId,
 
+          source:this.filters.source,
           //时间
           startTime: this.filters.time?this.filters.time[0]?this.filters.time[0]:'':'',
           endTime: this.filters.time?this.filters.time[1]?this.filters.time[1]:'':'',
@@ -213,13 +167,13 @@
       },
       postSearch(params) {
         // this.listLoading = true;
-        this.$request.post('/lsh/seller-manager/seller/select/newFxlist', params, false, (res) => {
+        this.$request.post('/fxweb/fxsaas/getMyCommission', params, true, (res) => {
 
             console.log(res.data)
             // this.listLoading = false;
-            this.newFxlist = res.data.list
-            this.total = res.data.page.count
-            this.pageNo = res.data.page.pageNo
+            this.newFxlist = res.data.listData
+            this.total = res.data.pageResult.count
+            this.pageNo = res.data.pageResult.pageNo
         })
       },
       //查詢
@@ -231,8 +185,7 @@
       //重置
       getStatus() {
 
-        this.filters.unit = ''
-        this.filters.isFx = ''
+
         this.filters.time = []
 
 

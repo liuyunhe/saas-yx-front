@@ -27,30 +27,65 @@
               width="50">
           </el-table-column>
           <el-table-column
-            prop="openId"
-            label="微信openld"
-            width="300">
+            prop="wxId"
+            label="微信ld"
+            width="200">
           </el-table-column>
           <el-table-column
-            prop="nickname"
-            label="昵称"
+            prop="salerName"
+            label="经销商姓名"
             width="120">
           </el-table-column>
           <el-table-column
-            prop="scanSellerCount"
-            label="扫店码次数"
+            prop="phoneNo"
+            label="手机号"
             width="120">
           </el-table-column>
           <el-table-column
-            prop="scanProdCount"
-            label="扫烟码次数"
-            width="120">
+              prop="phoneNo"
+              label="微信号"
+              width="120">
           </el-table-column>
           <el-table-column
-              prop="lastScanTime"
-              label="最后一次扫店码时间">
+              prop="region"
+              width="200"
+              label="位置">
             <template slot-scope="scope">
-              <span>{{ new Date(scope.row.lastScanTime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
+              <span>{{ scope.row.provinceName }}{{ scope.row.cityName }}{{ scope.row.areaName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+              prop="invitCode"
+              label="推荐码">
+          </el-table-column>
+          <el-table-column
+              prop="totalIncome"
+              label="累积佣金">
+          </el-table-column>
+          <el-table-column
+              prop="balance"
+              width="100"
+              label="可提现金额">
+          </el-table-column>
+          <el-table-column
+              prop="totalPay"
+              width="100"
+              label="已提现金额">
+          </el-table-column>
+          <el-table-column
+              prop="ctime"
+              label="申请时间"
+              width="200">
+            <template slot-scope="scope">
+              <span>{{ new Date(scope.row.ctime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+              label="申请通过时间"
+              width="200"
+          >
+            <template slot-scope="scope">
+              <span>{{ new Date(scope.row.appPassTime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
             </template>
           </el-table-column>
         </el-table>
@@ -89,8 +124,7 @@
 
         filters: {
           //查询排序类型
-          sortType:1,
-          sortValue:1,
+          orderBy:1,
 
         },
         //表单内容
@@ -117,34 +151,31 @@
 
           sellerId:this.sellerId,
 
-          sortType:this.filters.sortType,
-          sortValue:this.filters.sortValue,
+          orderBy:this.filters.orderBy,
+
 
           pageNo: this.pageNo,
           pageSize: 10,
 
         };
         if(type){
-          params.sortType = type
-          if(this.filters.sortValue==1){
-            this.filters.sortValue = 0
-          }else {
-            this.filters.sortValue = 1
-          }
+          params.orderBy = type
+          params.pageNo = 1
+          this.pageNo = 1
+          this.filters.orderBy = type
         }
-
 
         this.postSearch(params)
       },
       postSearch(params) {
         // this.listLoading = true;
-        this.$request.post('/lsh/seller-manager/seller/querySellerFans', params, false, (res) => {
+        this.$request.post('/fxweb/fxsaas/getTeamList', params, true, (res) => {
 
             console.log(res.data)
             // this.listLoading = false;
-            this.fansList = res.data.list
-            this.total = res.data.page.count
-            this.pageNo = res.data.page.pageNo
+            this.fansList = res.data.listData
+            this.total = res.data.pageResult.count
+            this.pageNo = res.data.pageResult.pageNo
         })
       },
 

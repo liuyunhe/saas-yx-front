@@ -517,7 +517,7 @@ export default new Router({
         { path: '/distribution/orderDetail', name: '订单详情', component: OrderDetail },
         { path: '/distribution/amountExamine', name: '提现管理', component: AmountExamine },
         { path: '/distribution/dealerMgr', name: '经销商管理', component: DealerMgr },
-        { path: '/distribution/dealerDetail', name: '经销商详情', component: DealerDetail },
+        { path: '/distribution/dealerDetail', name: '经销商详情', component: DealerDetail ,props: (route) => ({salerId:route.query.salerId}) },
         { path: '/distribution/systemMgr', name: '系统设置', component: SystemMgr },
       ]
     },

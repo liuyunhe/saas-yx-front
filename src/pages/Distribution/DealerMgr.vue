@@ -7,7 +7,7 @@
       <!--查询表单-->
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;margin-bottom: 0">
         <el-form :inline="true" :model="filters" label-width="80px">
-          <el-form-item :size="'small'" label="审核状态">
+          <el-form-item :size="'small'" label="状态：">
             <el-select
                 v-model="filters.authStatus"
                 placeholder="请选择"
@@ -61,14 +61,13 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item :size="'small'" label="关键词">
+          <el-form-item :size="'small'" label="关键词：">
             <el-input placeholder="请输入内容" v-model="filters.keywords" class="input-with-select" style="width: 300px">
               <el-select v-model="filters.searchType" slot="prepend" @change="inputWithSelectChange" placeholder="请选择" style="width: 120px">
-                <el-option label="联系人名称" value="1" style="display:none"></el-option>
-                <el-option label="联系人电话" value="2"></el-option>
-                <el-option label="烟草证号" value="3"></el-option>
-                <el-option label="门店名称" value="4" style="display:none"></el-option>
-                <el-option label="业务员名称" value="5" style="display:none"></el-option>
+                <el-option label="经销商姓名" value="salerName"></el-option>
+                <el-option label="推荐人" value="higherName"></el-option>
+                <el-option label="手机号" value="phoneNo"></el-option>
+                <el-option label="微信ID" value="wxOpenId" ></el-option>
               </el-select>
             </el-input>
           </el-form-item>
@@ -84,97 +83,96 @@
     </div>
 
     <div class="box-container">
+      <el-col :span="24" class="toolbar" style="padding-bottom: 0px;margin-bottom: 30px">
+        <el-button type="primary" size="small" @click="querySellerFans(1)">按申请成功时间</el-button>
+        <el-button type="primary" size="small" @click="querySellerFans(2)">按团队数量排序</el-button>
+        <el-button type="primary" size="small" @click="querySellerFans(3)">按积累佣金排序</el-button>
+        <el-button type="primary" size="small" @click="querySellerFans(3)">按可提现金额排序</el-button>
+        <el-button type="primary" size="small" @click="querySellerFans(3)">按已提现金额排序</el-button>
+      </el-col>
       <!--列表-->
       <el-col class="crm-table-wrap" v-loading="listLoading" :span="24">
         <el-table
             :data="newList"
-            @selection-change="handleSelectionChange"
             style="width: 100%">
-          <el-table-column
-              type="selection"
-              width="55">
-          </el-table-column>
           <el-table-column
               type="index"
               label="序号"
               width="50">
           </el-table-column>
           <el-table-column
-              prop="licenceNo"
-              label="烟草专卖号	"
+              prop="wxId"
+              label="微信ID"
               width="200">
           </el-table-column>
           <el-table-column
-              prop="shopName"
-              label="门店名称"
-              width="120">
-          </el-table-column>
-          <!-- 
-          <el-table-column
-              prop="ownerName"
-              label="经营人姓名"
-              width="120">
-          </el-table-column>
-          <el-table-column
-              prop="district"
-              label="区域"
-              width="120">
-            <template slot-scope="scope">
-              <span>{{ scope.row.district == "1" ? "城镇":"乡村"}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-              prop="commercial"
-              label="业态"
-              width="120">
-            <template slot-scope="scope">
-              <span v-if="scope.row.commercial == '1'">{{ "食杂店" }}</span>
-              <span v-else-if="scope.row.commercial == '2'">{{ "便利店" }}</span>
-              <span v-else-if="scope.row.commercial == '3'">{{ "超市" }}</span>
-              <span v-else-if="scope.row.commercial == '4'">{{ "商场" }}</span>
-              <span v-else-if="scope.row.commercial == '5'">{{ "烟酒商店" }}</span>
-              <span v-else-if="scope.row.commercial == '6'">{{ "娱乐服务" }}</span>
-              <span v-else-if="scope.row.commercial == '7'">{{ "其他" }}</span>
-            </template>
-          </el-table-column>
-          -->
-          <el-table-column
-              prop="ownerName"
-              label="联系人姓名"
+              prop="salerName"
+              label="经销商姓名"
               width="120">
           </el-table-column>
           <el-table-column
               prop="phoneNo"
-              label="联系人电话"
+              label="手机号"
               width="120">
           </el-table-column>
-          <!--
           <el-table-column
-              prop="salesManNames"
-              label="业务员">
+              prop="phoneNo"
+              label="微信号"
+              width="120">
           </el-table-column>
-          -->
           <el-table-column
-              prop="applyTime"
+              prop="region"
+              width="200"
+              label="位置">
+          </el-table-column>
+          <el-table-column
+              prop="invitCode"
+              label="推荐码">
+          </el-table-column>
+          <el-table-column
+              prop="higherName"
+              label="推荐人">
+          </el-table-column>
+          <el-table-column
+              prop="totalIncome"
+              label="累积佣金">
+          </el-table-column>
+          <el-table-column
+              prop="balance"
+              width="100"
+              label="可提现金额">
+          </el-table-column>
+          <el-table-column
+              prop="totalPay"
+              width="100"
+              label="已提现金额">
+          </el-table-column>
+          <el-table-column
+              prop="teamAcount"
+              label="团队数量">
+          </el-table-column>
+          <el-table-column
+              prop="ctime"
               label="申请时间"
               width="200">
             <template slot-scope="scope">
-              <span>{{ new Date(scope.row.applyTime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
+              <span>{{ new Date(scope.row.ctime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="位置">
+          <el-table-column
+              label="申请通过时间"
+              width="200"
+          >
             <template slot-scope="scope">
-              <span>{{scope.row.addrProvinceName}}</span><span v-if="scope.row.addrProvinceName!=scope.row.addrCityName">{{scope.row.addrCityName}}</span><span>{{scope.row.addrAreaName}}</span><span>{{scope.row.addrDetail}}</span>
+              <span>{{ new Date(scope.row.appPassTime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
             </template>
           </el-table-column>
           <el-table-column
               prop="authStatus"
               label="状态">
             <template slot-scope="scope">
-              <span v-if="scope.row.authStatus == '1'">{{ "待审核" }}</span>
-              <span v-else-if="scope.row.authStatus == '2'">{{ "审核通过" }}</span>
-              <span v-else-if="scope.row.authStatus == '3'">{{ "审核未通过" }}</span>
-              <span v-else-if="scope.row.authStatus == '4'">{{ "待激活" }}</span>
+              <span v-if="scope.row.accountStatus == '1'">{{ "启用" }}</span>
+              <span v-else-if="scope.row.accountStatus == '2'">{{ "禁用" }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -186,18 +184,20 @@
               <el-button
                   type="text"
                   size="mini"
-                  @click="sellerDetail(scope.row.sellerId)"
+                  @click="sellerDetail(scope.row.salerId)"
               >查看详情</el-button>
               <el-button
                   type="text"
                   size="mini"
-                  @click="disapprovalDialog(scope.row.sellerId)"
-              >审核不通过</el-button>
+                  v-if="scope.row.accountStatus == '1'"
+                  @click="disapproval(scope.row.salerId)"
+              >禁用</el-button>
               <el-button
                   type="text"
                   size="mini"
-                  @click="approval(scope.row.sellerId)"
-              >审核通过</el-button>
+                  v-if="scope.row.accountStatus == '2'"
+                  @click="approval(scope.row.salerId)"
+              >启用</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -205,12 +205,6 @@
 
       <!--工具条-->
       <el-col :span="24" class="footer-toolbar">
-        <el-button
-            type="primary"
-            size="small"
-            :disabled="batchPass"
-            @click="passBatch(ids)"
-        >批量通过</el-button>
         <!--<el-button type="primary" class="btn-jump-to" @click="jumpTo">跳转</el-button>-->
         <el-pagination
             background
@@ -247,7 +241,7 @@
 
 <script>
   export default {
-    name: "Reviewmanage",
+    name: "dealerMgr",
     // beforeRouteLeave(to, from, next) {
     //   // console.log(to.path)
     //   if (to.path !== '/seller/review/addSeller') {
@@ -263,46 +257,16 @@
         //状态列表
         authStatusList:[
           {
-            code:"1",
-            name:"待审核"
-          },
-          {
-            code:"3",
-            name:"审核未通过"
-          },
-        ],
-        commercialList:[
-          {
-            code:"",
+            code:null,
             name:"全部"
           },
           {
             code:"1",
-            name:"食杂店"
+            name:"启用"
           },
           {
             code:"2",
-            name:"便利店"
-          },
-          {
-            code:"3",
-            name:"超市"
-          },
-          {
-            code:"4",
-            name:"商场"
-          },
-          {
-            code:"5",
-            name:"烟酒商店"
-          },
-          {
-            code:"6",
-            name:"娱乐服务"
-          },
-          {
-            code:"7",
-            name:"其他"
+            name:"禁用"
           },
         ],
         districtList:[
@@ -327,30 +291,19 @@
 
         filters: {
           //审核状态：1-待审核；2-审核通过；3-审核未通过；4-待激活
-          authStatus :'1',
-          //业态 : 1-食杂店；2-便利店；3-超市；4-商场；5-烟酒商店；6-娱乐服务；7-其他
-          commercial:'',
-          //区域: 1-城镇；2-乡村
-          district:'',
+          authStatus :null,
           //搜索类型  1-店主联系人名称；2-店主联系人电话；3-烟草专卖许可证号；4-门店名称；5-业务员名称
           searchType:'',
           //模糊搜索内容
           keywords:'',
-          //开始时间
-          // appStartTime:'',
-          // //结束时间
-          // appEndTime:'',
-          time:[],
-
           //门店所在省份编码
           addrProvince:'',
           //门店所在城市编码
           addrCity:'',
           //门店所在区县编码
           addrArea:'',
-
-
-
+          //排序
+          orderBy:'1'
         },
         //表单内容
         newList:[],
@@ -387,8 +340,8 @@
       },
       //从后台拿取商品分类1
       getOneCategory(){
-        this.$request.post('/lsh/seller-manager/region/province',{}, true, (res) => {
-          this.cateLvl1List = [...res]
+        this.$request.post('/fxweb/fxsaas/getProvince',{}, false, (res) => {
+          this.cateLvl1List = [...res.data]
         })
       },
       selectBrand1(){
@@ -401,8 +354,8 @@
       //从后台拿取商品分类2
       getTwoCategory(){
         if(this.filters.addrProvince  == '')return
-        this.$request.post('/lsh/seller-manager/region/newCity',{parentCode:this.filters.addrProvince}, true, (res) => {
-          this.cateLvl2List = [...res]
+        this.$request.post('/fxweb/fxsaas/getCity',{parentCode:this.filters.addrProvince}, false, (res) => {
+          this.cateLvl2List = [...res.data]
         })
       },
       selectBrand2(){
@@ -413,62 +366,40 @@
       //从后台拿取商品分类3
       getThreeCategory(){
         if(this.filters.addrCity == '')return
-        this.$request.post('/lsh/seller-manager/region/newDistrict',{parentCode:this.filters.addrCity}, true, (res) => {
-          this.cateLvl3List = [...res]
+        this.$request.post('/fxweb/fxsaas/getCounty',{parentCode:this.filters.addrCity}, false, (res) => {
+          this.cateLvl3List = [...res.data]
         })
       },
       //获取列表
       getListNewList() {
         let params = {
           //审核状态
-          authStatus:this.filters.authStatus,
-          //业态
-          commercial:this.filters.commercial,
+          accountStatus:this.filters.authStatus,
           //地区
-          district:this.filters.district,
-
-          searchType:this.filters.searchType,
-          //关键词
-          // keywords:this.filters.keywords,
-
-          //地区
-          addrProvince: this.filters.addrProvince,
-          addrCity: this.filters.addrCity,
-          addrArea: this.filters.addrArea,
-          //时间
-          appStartTime: this.filters.time?this.filters.time[0]?this.filters.time[0]:'':'',
-          appEndTime: this.filters.time?this.filters.time[1]?this.filters.time[1]:'':'',
-          //排序
-          sortType: 1,
-          sortValue: 1,
-
+          provinceName: this.filters.addrProvince,
+          cityName: this.filters.addrCity,
+          areaName: this.filters.addrArea,
+          orderBy:this.filters.orderBy,
           pageNo: this.pageNo,
           pageSize: 10,
 
         };
-        // 根据关键词搜索条件，传不同数据
-        if(this.filters.searchType == '3') {
-          params.licenceNo = this.filters.keywords || ''; // 烟草证号
-        } else if(this.filters.searchType == '1') {
-          params.ownerName = this.filters.keywords || ''; // 联系人信息
-        } else if(this.filters.searchType == '2') {
-          params.phoneNo = this.filters.keywords || ''; // 联系人手机号
-        } else if(this.filters.searchType == '4') {
-          params.shopName = this.filters.keywords || ''; // 门店名称
-        } else if(this.filters.searchType == '5') {
-          params.salesmanName = this.filters.keywords || ''; // 业务员
+        if(this.filters.searchType && this.filters.keywords){
+          params[this.filters.searchType] = this.filters.keywords
         }
+        // 根据关键词搜索条件，传不同数据
+
         this.postSearch(params)
       },
       postSearch(params) {
         // this.listLoading = true;
-        this.$request.post('/lsh/seller-manager/seller/select/newList', params, false, (res) => {
+        this.$request.post('/fxweb/fxsaas/getApprovaledSalers',params,true, (res) => {
 
             console.log(res.data)
             // this.listLoading = false;
-            this.newList = res.list
-            this.total = res.page.count
-            this.pageNo = res.page.pageNo
+            this.newList = res.data.listData
+            this.total = res.data.pageResult.count
+            this.pageNo = res.data.pageResult.pageNo
 
         })
       },
@@ -482,28 +413,23 @@
       getStatus() {
         //审核状态：1-待审核；2-审核通过；3-审核未通过；4-待激活
         this.filters.authStatus = '1',
-        //业态 : 1-食杂店；2-便利店；3-超市；4-商场；5-烟酒商店；6-娱乐服务；7-其他
-        this.filters.commercial = '',
-        //区域: 1-城镇；2-乡村
-        this.filters.district = '',
         //搜索类型  1-店主联系人名称；2-店主联系人电话；3-烟草专卖许可证号；4-门店名称；5-业务员名称
         this.filters.searchType = '',
         //模糊搜索内容
         this.filters.keywords = '',
-
-        this.filters.time = [];
-        //开始时间
-        this.filters.appStartTime = '',
-        //结束时间
-        this.filters.appEndTime = '',
-
         //门店所在省份编码
         this.filters.addrProvince = '',
         //门店所在城市编码
         this.filters.addrCity = '',
         //门店所在区县编码
         this.filters.addrArea = '',
-
+        this.filters.orderBy = '1',
+        this.pageNo = 1
+        this.currentPage = 1
+        this.getListNewList()
+      },
+      querySellerFans(orderBy){
+        this.filters.orderBy = orderBy
         this.pageNo = 1
         this.currentPage = 1
         this.getListNewList()
@@ -511,30 +437,16 @@
       inputWithSelectChange(val){
         this.filters.keywords = ""
       },
-      handleSelectionChange(val) {
-        let arr = val
-        console.log(arr)
-        let idsArr = []
-        if(arr.length > 0){
-          this.batchPass = false
-          arr.map((e,i) => {
-            idsArr.push(e.sellerId)
-          })
-          this.ids = idsArr.join(",")
-        }else{
-          this.ids = ""
-          this.batchPass = true
-        }
-      },
+
       //审批通过
-      approval(sellerIds){
-        let params = {sellerIds,authResult:1}
-        this.$confirm(`您确定审核通过吗？`, '提示', {
+      approval(salerId){
+        let params = {salerId,accountStatus:1}
+        this.$confirm(`您确定启用此商户吗？`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$request.post('/lsh/seller-manager/seller/approvalBatch',params,false,res => {
+          this.$request.post('/fxweb/fxsaas/updateSalers',params,true,res => {
             if(res.ok){
               this.$message({
                 message: '操作成功！',
@@ -551,18 +463,14 @@
         })
       },
       //审批不通过
-      disapprovalDialog(sellerIds){
-        this.dialogVisible = true
-        this.sellerIds = sellerIds
-      },
-      disapproval(){
-        let params = {sellerIds:this.sellerIds,authResult:2,failReason:this.failReason}
-        this.$confirm(`您确定审核不通过吗？`, '提示', {
+      disapproval(salerId){
+        let params = {salerId,accountStatus:2}
+        this.$confirm(`您确定禁用此商户吗？`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$request.post('/lsh/seller-manager/seller/approvalBatch',params,false,res => {
+          this.$request.post('/fxweb/fxsaas/updateSalers',params,true,res => {
             if(res.ok){
               this.$message({
                 message: '操作成功！',
@@ -570,36 +478,6 @@
               });
               this.dialogVisible = false
               this.failReason = ""
-              this.getListNewList()
-            }else{
-              this.$message({
-                message: res.message,
-                type: 'warning'
-              });
-              this.dialogVisible = false
-              this.failReason = ""
-              this.getListNewList()
-            }
-          })
-        })
-      },
-      cancelDialog(){
-        this.dialogVisible = false
-        this.failReason = ""
-      },
-      //批量通过
-      passBatch(){
-        this.$confirm(`您确定批量审核通过吗？`, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$request.post('/lsh/seller-manager/seller/approvalBatch',{sellerIds:this.ids,authResult:1},false,res => {
-            if(res.ok){
-              this.$message({
-                message: '操作成功！',
-                type: 'success'
-              });
               this.getListNewList()
             }else{
               this.$message({
@@ -610,9 +488,14 @@
           })
         })
       },
-      sellerDetail(sellerId){
+      cancelDialog(){
+        this.dialogVisible = false
+        this.failReason = ""
+      },
+
+      sellerDetail(salerId){
         this.$router.push({
-          path:'/seller/review/reviewDetail?sellerId='+sellerId
+          path:'/distribution/dealerDetail?salerId='+salerId
         })
       },
       //跳转按钮功能

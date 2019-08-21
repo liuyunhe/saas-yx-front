@@ -1,19 +1,19 @@
 <template>
   <section class="seller-detail-container">
-    <dealer-msg1 :sellerId="sellerId" :returnPath="returnPath"></dealer-msg1>
+    <dealer-msg1 :salerId="salerId" :returnPath="returnPath"></dealer-msg1>
     <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
 
       <el-tab-pane label="TA的团队" name="1">
-        <dealer-msg2 :sellerId="sellerId" :returnPath="returnPath"></dealer-msg2>
+        <dealer-msg2 :salerId="salerId" :returnPath="returnPath"></dealer-msg2>
       </el-tab-pane>
       <el-tab-pane label="佣金明细" name="2">
-        <dealer-msg3 :sellerId="sellerId" :returnPath="returnPath"></dealer-msg3>
+        <dealer-msg3 :salerId="salerId" :returnPath="returnPath"></dealer-msg3>
       </el-tab-pane>
       <el-tab-pane label="提现记录" name="3">
-        <dealer-msg4 :sellerId="sellerId" :returnPath="returnPath"></dealer-msg4>
+<!--        <dealer-msg4 :salerId="salerId" :returnPath="returnPath"></dealer-msg4>-->
       </el-tab-pane>
       <el-tab-pane label="推广订单明细" name="4">
-        <dealer-msg5 :sellerId="sellerId" :returnPath="returnPath"></dealer-msg5>
+<!--        <dealer-msg5 :salerId="salerId" :returnPath="returnPath"></dealer-msg5>-->
       </el-tab-pane>
     </el-tabs>
   </section>
@@ -27,7 +27,7 @@
   import DealerMsg5 from './components/DealerMsg5'
   export default {
     name: "DealerDetail",
-    props:['sellerId'],
+    props:['salerId'],
     components :{
       DealerMsg1,
       DealerMsg2,
@@ -39,7 +39,7 @@
       return {
         activeName: '1',
 
-        returnPath:'/seller/mgr'
+        returnPath:'/distribution/dealerMgr'
       };
     },
     methods: {
