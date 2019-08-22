@@ -20,7 +20,7 @@
       <div slot="header" class="clearfix">
         <span>收货人信息：</span>
       </div>
-      <el-form style="margin-left: 60px" label-width="100px" :model="ruleForm" :rules="rules" ref="ruleForm" :disabled="!orderStatus<2">
+      <el-form style="margin-left: 60px" label-width="100px" :model="ruleForm" :rules="rules" ref="ruleForm" :disabled="!orderStatus<3">
         <el-form-item label="抢购人:" prop="contactName">
           <el-input style="width: 400px" v-model="ruleForm.contactName"></el-input>
         </el-form-item>
