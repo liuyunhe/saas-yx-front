@@ -86,7 +86,7 @@
     </el-card>
     <div class="basic-msg-form-bt">
       <el-button type="primary" @click="cancelOrder">取消订单</el-button>
-      <el-button type="primary" v-if="orderStatus<2" @click="submitModify">确定</el-button>
+      <el-button type="primary" v-if="orderStatus<3" @click="submitModify">确定</el-button>
       <el-button @click="returnMgr">返回列表</el-button>
     </div>
   </section>
