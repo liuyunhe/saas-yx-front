@@ -77,7 +77,7 @@
 
 <script>
   export default {
-    props:['salerId','returnPath'],
+    props:['sellerId','returnPath'],
     name: "SellerManage",
     data(){
       return{
@@ -113,7 +113,7 @@
       querySellerFans(type) {
         let params = {
 
-          salerId:this.salerId,
+          sellerId:this.sellerId,
 
           sortType:this.filters.sortType,
           sortValue:this.filters.sortValue,
