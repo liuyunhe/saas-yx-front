@@ -109,7 +109,7 @@
 
 <script>
   export default {
-    props:['sellerId','returnPath'],
+    props:['salerId','returnPath'],
     name: "SellerManage",
     data(){
       return{
@@ -143,12 +143,8 @@
     methods:{
       querySellerFans(type) {
         let params = {
-
-          sellerId:this.sellerId,
-
+          salerId:this.salerId,
           orderBy:this.filters.orderBy,
-
-
           pageNo: this.pageNo,
           pageSize: 10,
 
