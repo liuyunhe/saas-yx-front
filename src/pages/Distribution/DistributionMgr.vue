@@ -93,11 +93,6 @@
               width="50">
           </el-table-column>
           <el-table-column
-              prop="wxId"
-              label="微信ID"
-              width="200">
-          </el-table-column>
-          <el-table-column
               prop="salerName"
               label="申请人姓名"
               width="120">

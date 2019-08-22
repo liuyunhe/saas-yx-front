@@ -103,6 +103,18 @@
             <el-button type="primary" size="small" @click="commitForm">查询</el-button>
             <el-button size="small" class="important" @click="getStatus">重置</el-button>
             <el-button size="small" class="important" @click="exportData">导出未发出订单</el-button>
+            <el-button  size="small" ><el-upload
+                class="upload-demo"
+                action="/fxweb/fxsaas/importOrders"
+                :headers="headers"
+                :data="addPool"
+                :before-upload="handlerSourceFileBUpload"
+                :on-success="handleSourceFileSuccess"
+                :on-remove="handleSourceFileRemove"
+                :file-list="sourceFiles"
+                :auto-upload="true">
+              <el-button slot="trigger" size="small" type="primary">导入物流信息</el-button>
+            </el-upload></el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -337,7 +349,16 @@
         //审批不通过原因
         dialogVisible:false,
         failReason:'',
-        sellerIds:''
+        sellerIds:'',
+
+        headers: {
+          "token": sessionStorage.getItem("access_token"),
+          "loginId": sessionStorage.getItem("access_loginId")
+        },
+        addPool: {
+
+        },
+        sourceFiles: []
       }
 
     },
@@ -580,6 +601,20 @@
           }
         }
         xhr.send(formData);
+      },
+      handlerSourceFileBUpload(file) {
+      },
+      // 文件上传控制。成功之后的回调
+      handleSourceFileSuccess(res, file) {
+        if(res.ok) {
+          this.$message({type:'success', message:'上传成功！'});
+        } else {
+          this.$message.error(res.msg);
+        }
+      },
+      // 卡密文件上传之后，删除文件
+      handleSourceFileRemove(file, fileList) {
+        this.sourceFiles = []; // 清空上传文件内容的引用
       },
     }
   }

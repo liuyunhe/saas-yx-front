@@ -101,11 +101,6 @@
               width="50">
           </el-table-column>
           <el-table-column
-              prop="wxId"
-              label="微信ID"
-              width="200">
-          </el-table-column>
-          <el-table-column
               prop="salerName"
               label="经销商姓名"
               width="120">
@@ -113,11 +108,6 @@
           <el-table-column
               prop="phoneNo"
               label="手机号"
-              width="120">
-          </el-table-column>
-          <el-table-column
-              prop="phoneNo"
-              label="微信号"
               width="120">
           </el-table-column>
           <el-table-column
