@@ -92,19 +92,19 @@
 							</div>
 							<div>
 								<div>
-									<el-progress :text-inside="false" :show-text='false' :stroke-width="18" :percentage="item.per1"></el-progress>
+<!--									<el-progress :text-inside="false" :show-text='false' :stroke-width="18" :percentage="item.per1"></el-progress>-->
 									<span class='show-num'><i style="float: left;width: 60px;text-align: right;margin-right: 20px">No{{item.rownum}}:</i><span style="color: #3398DB;float: left">{{item.scanPv}}</span></span>
 								</div>
 							</div>
 							<div>
 								<div>
-									<el-progress :text-inside="false" :show-text='false' :stroke-width="18" :percentage="item.per2"></el-progress>
+<!--									<el-progress :text-inside="false" :show-text='false' :stroke-width="18" :percentage="item.per2"></el-progress>-->
 									<span class='show-num'><i style="float: left;width: 60px;text-align: right;margin-right: 20px">No{{item.rownum2}}:</i><span style="color: #3398DB;float: left">{{item.scanCode}}</span></span>
 								</div>
 							</div>
 							<div>
 								<div>
-									<el-progress :text-inside="false" :show-text='false' :stroke-width="18" :percentage="item.per3"></el-progress>
+<!--									<el-progress :text-inside="false" :show-text='false' :stroke-width="18" :percentage="item.per3"></el-progress>-->
 									<span class='show-num'><i style="float: left;width: 60px;text-align: right;margin-right: 20px">No{{item.rownum3}}:</i><span style="color: #3398DB;float: left">{{item.scanUv}}</span></span>
 								</div>
 							</div>

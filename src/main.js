@@ -73,7 +73,8 @@ import {
   OptionGroup,
   Radio,
   RadioGroup,
-  TimePicker
+  TimePicker,
+  Progress,
 } from 'element-ui'
 
 
@@ -148,6 +149,7 @@ Vue.use(Header)
 Vue.use(Aside)
 Vue.use(Main)
 Vue.use(Loading)
+Vue.use(Progress)
 
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
