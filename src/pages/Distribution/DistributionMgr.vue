@@ -441,7 +441,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$request.post('/fxweb/fxsaas/getApprovaledSalers',params,true,res => {
+          this.$request.post('/fxweb/fxsaas/approvalSalers',params,true,res => {
             if(res.ok){
               this.$message({
                 message: '操作成功！',
