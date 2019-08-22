@@ -18,70 +18,70 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item :size="'small'" label="关键词">
-            <el-input placeholder="请输入内容" v-model="filters.keywords" class="input-with-select" style="width: 300px">
-              <el-select v-model="filters.searchType" slot="prepend" @change="inputWithSelectChange" placeholder="请选择" style="width: 120px">
-                <el-option label="联系人名称" value="1"></el-option>
-                <el-option label="联系人电话" value="2"></el-option>
-                <el-option label="门店名称" value="4"></el-option>
-              </el-select>
-            </el-input>
-          </el-form-item>
-          <el-form-item :size="'small'" label="时间区间">
-            <el-date-picker
-                v-model="filters.time"
-                type="datetimerange"
-                placeholder="选择日期时间"
-                value-format="yyyy-MM-dd HH:mm"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                style="width: 350px">
-            </el-date-picker>
-          </el-form-item>
+<!--          <el-form-item :size="'small'" label="关键词">-->
+<!--            <el-input placeholder="请输入内容" v-model="filters.keywords" class="input-with-select" style="width: 300px">-->
+<!--              <el-select v-model="filters.searchType" slot="prepend" @change="inputWithSelectChange" placeholder="请选择" style="width: 120px">-->
+<!--                <el-option label="联系人名称" value="1"></el-option>-->
+<!--                <el-option label="联系人电话" value="2"></el-option>-->
+<!--                <el-option label="门店名称" value="4"></el-option>-->
+<!--              </el-select>-->
+<!--            </el-input>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item :size="'small'" label="时间区间">-->
+<!--            <el-date-picker-->
+<!--                v-model="filters.time"-->
+<!--                type="datetimerange"-->
+<!--                placeholder="选择日期时间"-->
+<!--                value-format="yyyy-MM-dd HH:mm"-->
+<!--                range-separator="至"-->
+<!--                start-placeholder="开始日期"-->
+<!--                end-placeholder="结束日期"-->
+<!--                style="width: 350px">-->
+<!--            </el-date-picker>-->
+<!--          </el-form-item>-->
 
           <div></div>
-          <el-form-item size="small" label="位置：" prop="addrProvince">
-            <el-select
-                v-model="filters.addrProvince"
-                placeholder="请选择"
-                @change="selectBrand1"
-                style="width: 160px">
-              <el-option
-                  v-for="item in cateLvl1List"
-                  :key="item.code"
-                  :label="item.name"
-                  :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item size="small" label="" prop="addrCity">
-            <el-select
-                v-model="filters.addrCity"
-                placeholder="请选择"
-                @change="selectBrand2"
-                style="width: 160px">
-              <el-option
-                  v-for="item in cateLvl2List"
-                  :key="item.code"
-                  :label="item.name"
-                  :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item size="small" label="" prop="addrArea">
-            <el-select
-                v-model="filters.addrArea "
-                placeholder="请选择"
-                style="width: 160px">
-              <el-option
-                  v-for="item in cateLvl3List"
-                  :key="item.code"
-                  :label="item.name"
-                  :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
+<!--          <el-form-item size="small" label="位置：" prop="addrProvince">-->
+<!--            <el-select-->
+<!--                v-model="filters.addrProvince"-->
+<!--                placeholder="请选择"-->
+<!--                @change="selectBrand1"-->
+<!--                style="width: 160px">-->
+<!--              <el-option-->
+<!--                  v-for="item in cateLvl1List"-->
+<!--                  :key="item.code"-->
+<!--                  :label="item.name"-->
+<!--                  :value="item.code">-->
+<!--              </el-option>-->
+<!--            </el-select>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item size="small" label="" prop="addrCity">-->
+<!--            <el-select-->
+<!--                v-model="filters.addrCity"-->
+<!--                placeholder="请选择"-->
+<!--                @change="selectBrand2"-->
+<!--                style="width: 160px">-->
+<!--              <el-option-->
+<!--                  v-for="item in cateLvl2List"-->
+<!--                  :key="item.code"-->
+<!--                  :label="item.name"-->
+<!--                  :value="item.code">-->
+<!--              </el-option>-->
+<!--            </el-select>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item size="small" label="" prop="addrArea">-->
+<!--            <el-select-->
+<!--                v-model="filters.addrArea "-->
+<!--                placeholder="请选择"-->
+<!--                style="width: 160px">-->
+<!--              <el-option-->
+<!--                  v-for="item in cateLvl3List"-->
+<!--                  :key="item.code"-->
+<!--                  :label="item.name"-->
+<!--                  :value="item.code">-->
+<!--              </el-option>-->
+<!--            </el-select>-->
+<!--          </el-form-item>-->
           <div></div>
           <el-form-item class="mr0" :size="'small'">
             <el-button type="primary" size="small" @click="commitForm">查询</el-button>
@@ -103,24 +103,35 @@
               width="50">
           </el-table-column>
           <el-table-column
-              prop="sellerInfo.shopName"
-              label="门店名称	"
+              prop="salerName"
+              label="经销商姓名"
               width="200">
           </el-table-column>
           <el-table-column
-              prop="sellerInfo.ownerName"
-              label="联系人姓名"
-              width="120">
+              prop="phoneNo"
+              label="手机号"
+              width="200">
           </el-table-column>
           <el-table-column
-              prop="sellerInfo.phoneNo"
-              label="联系人电话"
+              prop="totalNum"
+              label="返佣数量"
               width="120">
           </el-table-column>
           <el-table-column
               prop="balance"
-              label="账户余额"
+              label="累积佣金"
               width="120">
+            <template slot-scope="scope">
+              <span>￥{{ scope.row.totalNum }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+              prop="ktxAmount"
+              label="可提现金额"
+              width="120">
+            <template slot-scope="scope">
+              <span>￥{{ scope.row.ktxAmount }}</span>
+            </template>
           </el-table-column>
           <el-table-column
               prop="txAmount"
@@ -135,26 +146,15 @@
               prop="txTime"
               label="申请时间"
               width="200">
-            <template slot-scope="scope">
-              <span>{{ new Date(scope.row.txTime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
-            </template>
           </el-table-column>
           <el-table-column
-              prop="txTime"
+              prop="finishTime"
               label="到账时间"
               width="200">
-            <template slot-scope="scope">
-              <!--<span>{{ new Date(scope.row.txTime).Format('yyyy-MM-dd hh:mm:ss')}}</span>-->
-            </template>
           </el-table-column>
           <el-table-column
-              prop="authStatus"
+              prop="txStatus"
               label="状态">
-            <template slot-scope="scope">
-              <span v-if="scope.row.status == '1'">{{ "未审核" }}</span>
-              <span v-else-if="scope.row.status == '2'">{{ "已到账" }}</span>
-              <span v-else-if="scope.row.status == '3'">{{ "申请失败" }}</span>
-            </template>
           </el-table-column>
           <el-table-column
               fixed="right"
@@ -163,18 +163,13 @@
           >
             <template slot-scope="scope" >
               <el-button
-                  type="text"
-                  size="mini"
-                  @click="sellerDetail(scope.row.sellerId)"
-              >查看详情</el-button>
-              <el-button
-                  :disabled="scope.row.status !== 1"
+                  :disabled="scope.row.appStatus !== 0"
                   type="text"
                   size="mini"
                   @click="disapprovalDialog(scope.row.id)"
               >审核不通过</el-button>
               <el-button
-                  :disabled="scope.row.status !== 1"
+                  :disabled="scope.row.appStatus !== 0"
                   type="text"
                   size="mini"
                   @click="approval(scope.row.id)"
@@ -231,20 +226,24 @@
         //状态列表
         statusList:[
           {
-            code:"",
+            code:null,
             name:"全部"
           },
           {
             code:"1",
-            name:"未审核"
+            name:"待审核"
           },
           {
             code:"2",
-            name:"已到账"
+            name:"提现完成"
           },
           {
             code:"3",
-            name:"申请失败"
+            name:"审核未通过"
+          },
+          {
+            code:"4",
+            name:"审核通过未到账"
           },
         ],
         //分类列表
@@ -254,26 +253,7 @@
 
         filters: {
           //审核状态：1-未审核；2-已到账；3-申请失败
-          status :'1',
-
-          //搜索类型  1-店主联系人名称；2-店主联系人电话；3-烟草专卖许可证号；4-门店名称；5-业务员名称
-          searchType:'',
-          //模糊搜索内容
-          keywords:'',
-          //开始时间
-          // appStartTime:'',
-          // //结束时间
-          // appEndTime:'',
-          time:[],
-
-          //门店所在省份编码
-          addrProvince:'',
-          //门店所在城市编码
-          addrCity:'',
-          //门店所在区县编码
-          addrArea:'',
-
-
+          status :null,
 
         },
         //表单内容
@@ -298,59 +278,59 @@
     },
     created(){
       this.getListTx()
-      this.getOneCategory()
+      // this.getOneCategory()
     },
     methods:{
       //从后台拿取商品分类1
-      getOneCategory(){
-        this.$request.post('/lsh/seller-manager/region/province',{}, true, (res) => {
-          this.cateLvl1List = [...res]
-        })
-      },
-      selectBrand1(){
-        this.filters.addrCity = ''
-        this.cateLvl2List = []
-        this.filters.addrArea = ''
-        this.cateLvl3List = []
-        this.getTwoCategory()
-      },
-      //从后台拿取商品分类2
-      getTwoCategory(){
-        if(this.filters.addrProvince  == '')return
-        this.$request.post('/lsh/seller-manager/region/newCity',{parentCode:this.filters.addrProvince}, true, (res) => {
-          this.cateLvl2List = [...res]
-        })
-      },
-      selectBrand2(){
-        this.filters.addrArea = ''
-        this.cateLvl3List = []
-        this.getThreeCategory()
-      },
-      //从后台拿取商品分类3
-      getThreeCategory(){
-        if(this.filters.addrCity == '')return
-        this.$request.post('/lsh/seller-manager/region/newDistrict',{parentCode:this.filters.addrCity}, true, (res) => {
-          this.cateLvl3List = [...res]
-        })
-      },
+      // getOneCategory(){
+      //   this.$request.post('/lsh/seller-manager/region/province',{}, true, (res) => {
+      //     this.cateLvl1List = [...res]
+      //   })
+      // },
+      // selectBrand1(){
+      //   this.filters.addrCity = ''
+      //   this.cateLvl2List = []
+      //   this.filters.addrArea = ''
+      //   this.cateLvl3List = []
+      //   this.getTwoCategory()
+      // },
+      // //从后台拿取商品分类2
+      // getTwoCategory(){
+      //   if(this.filters.addrProvince  == '')return
+      //   this.$request.post('/lsh/seller-manager/region/newCity',{parentCode:this.filters.addrProvince}, true, (res) => {
+      //     this.cateLvl2List = [...res]
+      //   })
+      // },
+      // selectBrand2(){
+      //   this.filters.addrArea = ''
+      //   this.cateLvl3List = []
+      //   this.getThreeCategory()
+      // },
+      // //从后台拿取商品分类3
+      // getThreeCategory(){
+      //   if(this.filters.addrCity == '')return
+      //   this.$request.post('/lsh/seller-manager/region/newDistrict',{parentCode:this.filters.addrCity}, true, (res) => {
+      //     this.cateLvl3List = [...res]
+      //   })
+      // },
       //获取列表
       getListTx() {
         let params = {
           //审核状态
-          status:this.filters.status,
+          appStatus:this.filters.status,
 
 
-          searchType:this.filters.searchType,
-          //关键词
-          keywords:this.filters.keywords,
-
-          //地区
-          addrProvince: this.filters.addrProvince,
-          addrCity: this.filters.addrCity,
-          addrArea: this.filters.addrArea,
-          //时间
-          stime: this.filters.time?this.filters.time[0]?this.filters.time[0]:'':'',
-          etime: this.filters.time?this.filters.time[1]?this.filters.time[1]:'':'',
+          // searchType:this.filters.searchType,
+          // //关键词
+          // keywords:this.filters.keywords,
+          //
+          // //地区
+          // addrProvince: this.filters.addrProvince,
+          // addrCity: this.filters.addrCity,
+          // addrArea: this.filters.addrArea,
+          // //时间
+          // stime: this.filters.time?this.filters.time[0]?this.filters.time[0]:'':'',
+          // etime: this.filters.time?this.filters.time[1]?this.filters.time[1]:'':'',
 
 
           pageNo: this.pageNo,
@@ -362,13 +342,13 @@
       },
       postSearch(params) {
         // this.listLoading = true;
-        this.$request.post('/lsh/seller-manager/seller/txList', params, false, (res) => {
+        this.$request.post('/fxweb/fxsaas/tx/list', params, true, (res) => {
 
             console.log(res.data)
             // this.listLoading = false;
-            this.TxList = res.data.list
-            this.total = res.data.page.count
-            this.pageNo = res.data.page.pageNo
+            this.TxList = res.data.dataList
+            this.total = res.data.pageResult.count
+            this.pageNo = res.data.pageResult.pageNo
 
         })
       },
@@ -380,19 +360,7 @@
       },
       //重置
       getStatus() {
-        this.filters.status = '1'
-
-        this.filters.searchType = ''
-        //模糊搜索内容
-        this.filters.keywords = ''
-        this.filters.time = []
-
-        //门店所在省份编码
-        this.filters.addrProvince = ''
-        //门店所在城市编码
-        this.filters.addrCity = ''
-        //门店所在区县编码
-        this.filters.addrArea = ''
+        this.filters.status = null
 
         this.pageNo = 1
         this.currentPage = 1
@@ -403,14 +371,14 @@
       },
 
       //审批通过
-      approval(txId){
-        let params = {txId,authResult:1}
-        this.$confirm(`您确定为此账户转账？`, '提示', {
+      approval(id){
+        let params = {id,appStatus:1}
+        this.$confirm(`您确定审核通过？`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$request.post('/lsh/seller-manager/seller/txAuth',params,false,res => {
+          this.$request.post('/fxweb/fxsaas/tx/audit',params,true,res => {
             if(res.ok){
               this.$message({
                 message: '操作成功！',
@@ -428,18 +396,18 @@
         })
       },
       //审批不通过
-      disapprovalDialog(txId){
+      disapprovalDialog(id){
         this.dialogVisible = true
-        this.txId = txId
+        this.txId = id
       },
       disapproval(){
-        let params = {txId:this.txId,authResult:0,authDesc:this.failReason}
+        let params = {id:this.txId,appStatus:2,failReason:this.failReason}
         this.$confirm(`您确定审核不通过？`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$request.post('/lsh/seller-manager/seller/txAuth',params,false,res => {
+          this.$request.post('/fxweb/fxsaas/tx/audit',params,true,res => {
             if(res.ok){
               this.$message({
                 message: '操作成功！',

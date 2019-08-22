@@ -102,6 +102,7 @@
           <el-form-item class="mr0" :size="'small'">
             <el-button type="primary" size="small" @click="commitForm">查询</el-button>
             <el-button size="small" class="important" @click="getStatus">重置</el-button>
+            <el-button size="small" class="important" @click="exportData">导出未发出订单</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -535,6 +536,50 @@
         this.pageNo = val
         this.currentPage = val
         this.getListNewList()
+      },
+
+      exportData(){//导出
+        var url = "/fxweb/fxsaas/exportOrders";
+        var xhr = new XMLHttpRequest();
+        var formData = new FormData();
+        let params = {
+          //地区
+          provinceId: this.filters.addrProvince,
+          cityId: this.filters.addrCity,
+          areaId: this.filters.addrArea,
+          //时间
+          startTime: this.filters.time?this.filters.time[0]?this.filters.time[0]:'':'',
+          endTime: this.filters.time?this.filters.time[1]?this.filters.time[1]:'':'',
+        };
+        if(this.filters.searchType&&this.filters.keywords){
+          params[this.filters.searchType] = this.filters.keywords
+        }
+        for(var attr in params) {
+          formData.append(attr, params[attr]);
+        }
+        xhr.overrideMimeType("text/plain; charset=x-user-defined");
+        xhr.open('POST', url, true);
+        xhr.responseType = "blob";
+        xhr.responseType = "arraybuffer"
+        xhr.setRequestHeader("token", sessionStorage.getItem('access_token'));
+        xhr.setRequestHeader("loginId", sessionStorage.getItem('access_loginId'));
+        xhr.onload = function(res) {
+          if (this.status == 200) {
+            var blob = new Blob([this.response], {type: 'application/vnd.ms-excel'});
+            var respHeader = xhr.getResponseHeader("Content-Disposition");
+            var fileName = decodeURI(respHeader.match(/filename=(.*?)(;|$)/)[1]);
+            if (window.navigator.msSaveOrOpenBlob) {
+              navigator.msSaveBlob(blob, fileName);
+            } else {
+              var link = document.createElement('a');
+              link.href = window.URL.createObjectURL(blob);
+              link.download = fileName;
+              link.click();
+              window.URL.revokeObjectURL(link.href);
+            }
+          }
+        }
+        xhr.send(formData);
       },
     }
   }
