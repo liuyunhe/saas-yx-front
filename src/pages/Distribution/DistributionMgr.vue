@@ -6,7 +6,7 @@
       </div>
       <!--查询表单-->
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;margin-bottom: 0">
-        <el-form :inline="true" :model="filters" label-width="80px">
+        <el-form :inline="true" :model="filters" label-width="90px">
           <el-form-item :size="'small'" label="审核状态：">
             <el-select
                 v-model="filters.authStatus"
@@ -91,11 +91,6 @@
               type="index"
               label="序号"
               width="50">
-          </el-table-column>
-          <el-table-column
-              prop="wxId"
-              label="微信ID"
-              width="200">
           </el-table-column>
           <el-table-column
               prop="salerName"
