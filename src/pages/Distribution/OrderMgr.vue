@@ -147,11 +147,6 @@
               width="120">
           </el-table-column>
           <el-table-column
-              prop="nickname"
-              label="微信号"
-              width="120">
-          </el-table-column>
-          <el-table-column
               prop="addrDetail"
               label="收货地址"
               width="120">
