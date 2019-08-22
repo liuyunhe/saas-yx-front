@@ -156,17 +156,19 @@
               width="240"
           >
             <template slot-scope="scope" >
+<!--              <el-button-->
+<!--                  type="text"-->
+<!--                  size="mini"-->
+<!--                  @click="sellerDetail(scope.row.saler_id)"-->
+<!--              >查看详情</el-button>-->
               <el-button
-                  type="text"
-                  size="mini"
-                  @click="sellerDetail(scope.row.saler_id)"
-              >查看详情</el-button>
-              <el-button
+                  :disabled="scope.row.appStatus !== 1"
                   type="text"
                   size="mini"
                   @click="disapprovalDialog(scope.row.saler_id)"
               >审核不通过</el-button>
               <el-button
+                  :disabled="scope.row.appStatus !== 1"
                   type="text"
                   size="mini"
                   @click="approval(scope.row.saler_id)"
