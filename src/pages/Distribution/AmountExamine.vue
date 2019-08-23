@@ -5,7 +5,7 @@
       <!--查询表单-->
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;margin-bottom: 0">
         <el-form :inline="true" :model="filters" label-width="80px">
-          <el-form-item :size="'small'" label="订单状态">
+          <el-form-item :size="'small'" label="提现状态">
             <el-select
                 v-model="filters.status"
                 placeholder="请选择"
