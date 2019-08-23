@@ -133,13 +133,12 @@
           </el-table-column>
           <el-table-column
               prop="orderId"
-              label="订单号"
-              width="200">
+              label="订单号">
           </el-table-column>
           <el-table-column
               prop="contactName"
               label="抢购人"
-              width="120">
+             >
           </el-table-column>
           <el-table-column
               prop="contactPhone"
@@ -149,7 +148,7 @@
           <el-table-column
               prop="addrDetail"
               label="收货地址"
-              width="120">
+          width="300">
           </el-table-column>
           <el-table-column
               prop="region"
@@ -171,18 +170,16 @@
           </el-table-column>
           <el-table-column
               prop="salerName"
-              label="经销商"
-              width="120">
+              label="经销商">
           </el-table-column>
           <el-table-column
               prop="desc"
-              label="订单状态"
-              width="120">
+              label="订单状态">
           </el-table-column>
           <el-table-column
               prop="ctime"
               label="下单时间"
-              width="120">
+              width="200">
           </el-table-column>
 
           <el-table-column
