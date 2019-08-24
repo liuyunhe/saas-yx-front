@@ -227,6 +227,13 @@ const Turn = () => import(/* webpackChunkName: "member" */ '@/pages/Member/GameC
 const Answer = () => import(/* webpackChunkName: "member" */ '@/pages/Member/GameConf/AnswerConf')
 const HeSheng = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HeSheng')
 
+const ScanMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/ScanMgr')
+const CardCollectingMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/CardCollectingMgr')
+const QAMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/QAMgr')
+const PartyMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/PartyMgr')
+const MineMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/MineMgr')
+const SignMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/SignMgr')
+
 // 用户
 const Mgr = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Mgr/Mgr')
 const Black = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Black/Black')
@@ -239,6 +246,15 @@ const PersonalDeatail = () =>import(/* webpackChunkName: "customer" */ '@/pages/
 const TaskDetail = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/TaskDetail')
 const ScanEdit = () =>import(/* webpackChunkName: "customer" */ '@/pages/Customer/Task/ScanEdit')
 const MarketQr = () => import(/* webpackChunkName: "activity" */ '@/pages/Market/ActMgr/MarketQr')
+
+//分销
+const DistributionMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Distribution/DistributionMgr')
+const OrderMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Distribution/OrderMgr')
+const OrderDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Distribution/OrderDetail')
+const AmountExamine = () => import(/* webpackChunkName: "activity" */ '@/pages/Distribution/AmountExamine')
+const DealerMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Distribution/DealerMgr')
+const DealerDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Distribution/DealerDetail')
+const SystemMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Distribution/SystemMgr')
 
 
 Vue.use(Router)
@@ -475,6 +491,12 @@ export default new Router({
         { path: '/memberday/turn', name: '大转盘活动管理', component: Turn },
         { path: '/memberday/qa', name: '大转盘活动管理', component: Answer },
         { path: '/memberday/HeSheng', name: '大转盘活动管理', component: HeSheng },
+        { path: '/memberday/ScanMgr', name: '每日扫码', component: ScanMgr },
+        { path: '/memberday/CardCollectingMgr', name: '社区卡', component: CardCollectingMgr },
+        { path: '/memberday/QAMgr', name: '钻石学堂', component: QAMgr },
+        { path: '/memberday/MineMgr', name: '钻石矿场', component: MineMgr },
+        { path: '/memberday/PartyMgr', name: '钻石Party', component: PartyMgr },
+        { path: '/memberday/SignMgr', name: '社区打卡', component: SignMgr },
 
 
         // 用户
@@ -488,6 +510,15 @@ export default new Router({
         { path: '/customer/black', name: '黑名单管理', component: Black },
         // { path: '/customer/task/sign', name: '会员签到任务设置', component: memberTaskSign, props: (route) => ({code:route.query.code, id:route.query.id}) },
         { path: '/customer/mgr/detail', name: '用户详情', component: PersonalDeatail, props: (route) => ({code:route.query.code, id:route.query.id}) },
+
+        //分销
+        { path: '/distribution/distributionMgr', name: '审核管理', component: DistributionMgr },
+        { path: '/distribution/orderMgr', name: '订单管理', component: OrderMgr },
+        { path: '/distribution/orderDetail', name: '订单详情', component: OrderDetail ,props: (route) => ({orderId:route.query.orderId}) },
+        { path: '/distribution/amountExamine', name: '提现管理', component: AmountExamine },
+        { path: '/distribution/dealerMgr', name: '经销商管理', component: DealerMgr },
+        { path: '/distribution/dealerDetail', name: '经销商详情', component: DealerDetail ,props: (route) => ({salerId:route.query.salerId}) },
+        { path: '/distribution/systemMgr', name: '系统设置', component: SystemMgr },
       ]
     },
     {
