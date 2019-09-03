@@ -111,6 +111,10 @@ const MaterielVirtual = () => import(/* webpackChunkName: "product" */ '@/pages/
 const MaterielRedpack = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Redpack.vue')
 // 产品-物料管理-积分礼品
 const MaterielIntegral = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Integral.vue')
+// 产品-物料管理-折扣卡
+const MaterielCardDiscount = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/cardDiscount.vue')
+// 产品-物料管理-翻倍卡
+const MaterielCardDouble = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/cardDouble.vue')
 // 产品-品牌管理
 const prodBrand = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Brand.vue')
 
@@ -359,12 +363,14 @@ export default new Router({
         { path: '/product/mgr/tobacco/addTobaccoMr', name: '新建卷烟', component: addTobaccoMr },
         { path: '/product/mgr/tobacco/editTobaccoMr', name: '编辑卷烟', component: editTobaccoMr,props: (route) => ({id:route.query.id}) },
         { path: '/product/mgr/liquor', name: '酒管理', component: KPI },
-        { path: '/product/materiel', name: '物料管理'},
+        { path: '/product/materiel', name: '物料管理',redirect:'/product/materiel/object'},
         // { path: '/product/materiel', name: '物料管理', redirect: '/product/materiel/object' },
         { path: '/product/materiel/object', name: '实物礼品', component: MaterielObject },
         { path: '/product/materiel/virtual', name: '虚拟礼品', component: MaterielVirtual },
         { path: '/product/materiel/redpack', name: '红包', component: MaterielRedpack },
         { path: '/product/materiel/integral', name: '积分', component: MaterielIntegral },
+        { path: '/product/materiel/cardDiscount', name: '折扣卡', component: MaterielCardDiscount },
+        { path: '/product/materiel/cardDouble', name: '翻倍卡', component: MaterielCardDouble },
         { path: '/product/brand', name: '品牌管理', component: prodBrand },
         // 营销
         { path: '/market', name: '营销'},
@@ -487,8 +493,7 @@ export default new Router({
         { path: '/memberday/order/superAward', name: '中奖名单-超级金荷奖', component: SuperAward },
         // { path: '/memberday/order/superAwardDetail', name: '金荷奖详情', component: SuperAwardDetail, props: (route) => ({orderCode: route.query.orderCode}) },
         { path: '/memberday/memberSetting', name: '会员日设置', component: MemberSetting },
-        { path: '/memberday/material/prizeConf', name: '会员日奖品配置', component: PrizeConf, props: (route) => ({type: route.query.type, id: route.query.id}) },
-        { path: '/memberday/material/prizeList', name: '会员日奖品列表', component: PrizeList, props: (route) => ({type: route.query.type}) },
+
         { path: '/memberday/turn', name: '大转盘活动管理', component: Turn },
         { path: '/memberday/qa', name: '大转盘活动管理', component: Answer },
         { path: '/memberday/HeSheng', name: '大转盘活动管理', component: HeSheng },
@@ -499,6 +504,9 @@ export default new Router({
         { path: '/memberday/MineMgr', name: '钻石矿场', component: MineMgr },
         { path: '/memberday/PartyMgr', name: '钻石Party', component: PartyMgr },
         { path: '/memberday/SignMgr', name: '社区打卡', component: SignMgr },
+
+        { path: '/memberday/material/prizeConf', name: '会员日实物奖品配置', component: PrizeConf, props: (route) => ({type: route.query.type, id: route.query.id}) },
+        { path: '/memberday/material/prizeList', name: '会员日实物奖品列表', component: PrizeList, props: (route) => ({type: route.query.type}) },
 
 
         // 用户
