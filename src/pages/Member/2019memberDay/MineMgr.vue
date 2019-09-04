@@ -97,7 +97,7 @@
             剩余{{ item.totalNum - item.outNum }}个
             </span>
             <span style="margin-right: 20px"></span>
-            总金额:{{ item.redMoney*item.totalNum }}元
+            总金额:{{ parseFloat((item.redMoney*item.totalNum).toPrecision(12)) }}元
             <span style="margin-right: 20px"></span>
             中奖概率 <el-input-number v-model="item.probability" :precision="0" :min="0" controls-position="right"></el-input-number>
             %
@@ -140,6 +140,32 @@
         </el-form>
       </el-card>
       <div style="height: 30px"></div>
+      <el-card :body-style="{ padding: '20px' }">
+        <div slot="header" class="clearfix">
+          <span>折扣卡：</span>
+        </div>
+        <div style="margin-bottom: 20px">选择折扣卡:<el-button style="margin-left: 20px"  @click="getList(7)">选择</el-button></div>
+        <el-form>
+          <el-form-item v-for="(item,index) in zkk" :key="index" label='名称：'>
+            <el-input-number v-model="item.awardPrice" :disabled="item.id ? true : false" :step="0.01" :precision="2" :min="0" :max="1" controls-position="right"></el-input-number>折扣卡
+            <span style="margin-right: 20px"></span>
+            投放数量<el-input-number v-model="item.totalNum" :disabled="item.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number>个
+            <span v-if="item.id ? true : false">
+               <span style="margin-right: 20px"></span>
+            剩余{{ item.totalNum - item.outNum }}个
+            </span>
+            <span style="margin-right: 20px"></span>
+            中奖概率<el-input-number v-model="item.probability" :precision="0" :min="0" controls-position="right"></el-input-number>
+            %
+            <span v-if="item.id ? true : false">
+              <span style="margin-right: 20px"></span>
+              <el-button type="primary" @click="addRepertory(item)">增库</el-button>
+            </span>
+            <span style="margin-right: 20px"></span>
+            <el-button type='danger' @click="deleteAward('zkk',index)">删除</el-button>
+          </el-form-item>
+        </el-form>
+      </el-card>
     </div>
 
 
@@ -205,8 +231,10 @@
 
         hb:[],
         hsb:[],
+        zkk:[],
         defaultAwae: { // 给个默认 好复制
           awardPic: '',
+          awardPrice:'',
           awardType: 1, // 奖项类型
           curActive: true,
           giveScore: 0, // 是否赠送积分 0-否 1-是
@@ -293,6 +321,7 @@
             let awardArr = this.strategyArr.awardArr
             this.hb = []
             this.hsb = []
+            this.zkk = []
             awardArr.forEach((e,i)=>{
               if(e.awardType == 3){
                 this.hb.push(e)
@@ -300,6 +329,10 @@
               else if(e.awardType == 6){
                 this.hsb.push(e)
               }
+              else if(e.awardType == 7){
+                this.zkk.push(e)
+              }
+
             })
             return
           }
@@ -319,6 +352,9 @@
         } else if (type == '6') {
           this.params.metraFlag = 'integral'
           this.title = '选择荷石币'
+        } else if (type == '7') {
+          this.params.metraFlag = 'cdDisc'
+          this.title = '选择折扣卡'
         }
         this.$request.post('/api/wiseqr/metra/list', this.params, true, res => {
           if (res.ret === '200000') {
@@ -388,7 +424,7 @@
               cityArr:this.strategyArr.areas.cityArr,
               districtArr:this.strategyArr.areas.districtArr,
             },
-            awardArr:[...this.hb,...this.hsb],
+            awardArr:[...this.hb,...this.hsb,...this.zkk],
             snArr:this.strategyArr.snArr,
             brandArr:this.strategyArr.brandArr,
             tf:{
@@ -452,6 +488,10 @@
         if(title == '选择荷石币'){
           newAwae.awardType = 6
           this.hsb.push(newAwae)
+        }
+        if(title == '选择折扣卡'){
+          newAwae.awardType = 7
+          this.zkk.push(newAwae)
         }
         this.listVisible = false
       },

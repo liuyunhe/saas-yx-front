@@ -4,31 +4,31 @@
     "virtual": "https://qoss.qrmkt.cn/saas_platform/common/materiel-virtual.png",
     "redpack": "https://qoss.qrmkt.cn/saas_platform/common/materiel-redpack.png",
     "integral": "https://qoss.qrmkt.cn/saas_platform/common/materiel-integral.png",
-    "cardDiscount": "https://qrmkt.oss-cn-beijing.aliyuncs.com/common/memberDay/zkka%402x.png",
-    "cardDouble": "https://qrmkt.oss-cn-beijing.aliyuncs.com/common/memberDay/fbka%402x.png"
+    "cdDisc": "https://qrmkt.oss-cn-beijing.aliyuncs.com/common/memberDay/zkka%402x.png",
+    "cdDouble": "https://qrmkt.oss-cn-beijing.aliyuncs.com/common/memberDay/fbka%402x.png"
   },
   "materielName": {
     "object":"实物礼品",
     "virtual":"虚拟礼品",
     "redpack":"红包池",
     "integral":"积分池",
-    "cardDiscount": "折扣卡",
-    "cardDouble": "翻倍卡"
+    "cdDisc": "折扣卡",
+    "cdDouble": "翻倍卡"
   },
   "materielUnit": {
     "object":"件",
     "virtual":"个",
     "redpack":"元",
     "integral":"个",
-    "cardDiscount": "张",
-    "cardDouble": "张"
+    "cdDisc": "张",
+    "cdDouble": "张"
   },
   "materielType": {
     "object": 1,
     "virtual": 2,
     "redpack": 3,
     "integral": 6,
-    "cardDiscount": 7,
-    "cardDouble": 8
+    "cdDisc": 7,
+    "cdDouble": 8
   }
 }

@@ -15,7 +15,7 @@
     data() {
       return {
         table: true,
-        metraFlag: 'cardDiscount',
+        metraFlag: 'cdDisc',
         id: "", // form表单中使用
       }
     },
