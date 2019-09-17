@@ -10,9 +10,9 @@
          {{ item.snName }} 奖励
           <el-input-number v-model="item.points" :precision="0" :min="0" controls-position="right"></el-input-number>
           荷石币
-          <span class="ml20">
-            每周首次抽奖免费
-          </span>
+<!--          <span class="ml20">-->
+<!--            每周首次抽奖免费-->
+<!--          </span>-->
         </el-form-item>
       </el-form>
     </el-card>
