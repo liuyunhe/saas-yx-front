@@ -19,7 +19,7 @@
           <template v-for="(ai,key) in item.awardConf" >
             <div  style="height: 30px;font-size: 18px;line-height: 30px;margin: 30px 0;color: #409EFF">奖项{{ key + 1 }}:</div>
             <el-form-item label="奖品类型:">
-              <el-select :disabled="!!ai.id" v-model="ai.awardType" placeholder="请选择">
+              <el-select :disabled="!!ai.id" @change="handleSelectChange(ai)" v-model="ai.awardType"  placeholder="请选择">
                 <el-option
                     v-for="i in awardType"
                     :key="i.value"
@@ -33,10 +33,10 @@
                 <el-button size="" style="margin-left: 20px"  @click="getList(ai.awardType,index,key)">选择</el-button>
               </div>
             </el-form-item>
-            <el-form-item v-if="ai.awardType">
+            <el-form-item v-if="ai.awardType&&ai.awardName">
                 <span v-if="ai.awardType !== 1 " style="margin-right: 20px">名称: {{ ai.awardName }}</span>
                 {{ ai.awardType == 3 || ai.awardType == 6 ? "面额:" : "名称:" }}
-                <el-input-number v-if="ai.awardType == 3 || ai.awardType == 6" v-model="ai.awardPrice" :disabled="!!ai.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number>
+                <el-input-number v-if="ai.awardType == 3 || ai.awardType == 6" v-model="ai.awardPrice" :disabled="!!ai.id ? true : false" :precision="2" :min="0" controls-position="right"></el-input-number>
                 {{ ai.awardType == 1 ? ai.awardName : ai.awardType == 3 ? "元" : "荷石币" }}
                 <span style="margin-right: 20px"></span>
 
@@ -70,6 +70,7 @@
             <span style="margin-right: 20px">名称:{{ bi.awardName }}</span>
             <span style="margin-right: 20px">奖品类型:{{ bi.awardType == 1 ? "实物" : bi.awardType == 3 ? "红包" : "积分" }}</span>
             <span style="margin-right: 20px">投放数量:{{ bi.totalNum }}</span>
+            <span style="margin-right: 20px" v-if="bi.awardType == 3 || bi.awardType == 6">投放面额:{{ bi.awardPrice }}{{ bi.awardType == 1 ? bi.awardName : bi.awardType == 3 ? "元" : "荷石币" }}</span>
             <span style="margin-right: 20px">剩余数量:{{ bi.totalNum - bi.outNum }}</span>
             <span style="margin-right: 20px" v-if="bi.awardType == 3">总金额:{{ parseFloat((bi.awardPrice*bi.totalNum).toPrecision(12))  }}元</span>
             <span style="margin-right: 20px" v-if="bi.awardType == 6">总荷石币:{{ bi.awardPrice*bi.totalNum }}</span>
@@ -167,6 +168,12 @@
     mounted() {
     },
     methods:{
+      handleSelectChange(item){
+        console.log(item)
+        item.awardName = ""
+        item.awardPic = ""
+        item.totalNum = null
+      },
       // 扫码奖励查询
       getDetail(){
         this.$request.post('/hbact/commucard/saas/queryConfig', {}, true, res => {
