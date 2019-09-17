@@ -3,6 +3,17 @@
     <el-card class="box-card">
       <el-row>
         <el-button size="small" type="primary" @click="materielForm">新建</el-button>
+        <template v-if="metraFlag == 'integral'">
+          <span style="margin-left: 30px"></span>
+          <span>总奖池：{{ pointsPool }}</span>
+          <span style="margin-left: 30px"></span>
+          <span>已使用：{{ usedPoints }}</span>
+          <span style="margin-left: 30px"></span>
+          <span>已回收：{{ receivedPoints  }}</span>
+          <span style="margin-left: 30px"></span>
+          <span>可使用：{{ pointsPool + receivedPoints - usedPoints }}</span>
+
+        </template>
       </el-row>
       <div class="space"></div>
       <el-tabs type="border-card" @tab-click="changeTab">
@@ -187,7 +198,11 @@ export default {
         num: '', // 增库时，增库数量
         type: '',  // 虚拟物料增库时，记录物料类型
       },
-      sourceFiles: [] // 卡密文件上传结果存储{name:'', sourceCode: ''}
+      sourceFiles: [], // 卡密文件上传结果存储{name:'', sourceCode: ''}
+
+      pointsPool : '',
+      usedPoints : '',
+      receivedPoints : ''
     }
   },
   created() {
@@ -195,6 +210,9 @@ export default {
     this.getSuppliers();
     this.getStatus();
     this.getOperTypes();
+    if(this.metraFlag == 'integral'){
+      this.getOrgPoint()
+    }
   },
   watch: {
     // 供应商选择变化监听
@@ -208,6 +226,15 @@ export default {
     }
   },
   methods: {
+    getOrgPoint(){
+      this.$request.post('/sc/orgPoint/info', {}, false, (res)=>{
+        if (res.code == '200') {
+          this.pointsPool = res.context.pointsPool
+          this.usedPoints = res.context.usedPoints
+          this.receivedPoints = res.context.receivedPoints
+        }
+      });
+    },
     currentChange(pageNo) {
       // 分页pageNo变更监听
       if(this.tabIdx==0) {

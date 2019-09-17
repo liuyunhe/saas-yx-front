@@ -131,6 +131,7 @@ export default {
     }
   },
   methods: {
+
     downTpl() {
       location.href = 'https://qoss.qrmkt.cn/saas_platform/common/materiel-tpl890.xlsx';
     },
