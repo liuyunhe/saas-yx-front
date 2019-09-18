@@ -34,6 +34,7 @@
 
               <el-upload :action="uploadURL" :headers="headerObj" :on-success="upClockImgUrlSuccess" :show-file-list="false">
                 <el-button size="small" type="primary" v-if="!config.awardPic">上传图片</el-button>
+                <span style="margin-left: 20px">上传商品图片尺寸（630x348px）</span>
               </el-upload>
             </el-form-item>
             <el-form-item label='商品描述：' prop="awardDesc">
