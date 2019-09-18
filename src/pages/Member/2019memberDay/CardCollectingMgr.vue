@@ -1,32 +1,32 @@
 <template>
   <div class="sign-container">
+    <el-card :body-style="{ padding: '20px' }">
+      <div slot="header" class="clearfix">
+        <span style="font-size: 18px;font-weight: bolder">兑换时间设置</span>
+      </div>
+      <el-form>
+        <el-form-item>
+          <span>选择时间：</span>
+          <el-date-picker
+              v-model="exStime"
+              type="datetime"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              format="yyyy-MM-dd HH:mm:ss"
+              placeholder="选择日期时间">
+          </el-date-picker>
+          <span>至</span>
+          <el-date-picker
+              v-model="exEtime"
+              type="datetime"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              format="yyyy-MM-dd HH:mm:ss"
+              placeholder="选择日期时间">
+          </el-date-picker>
+          <el-button size="small" type="primary" style="margin-left: 20px"  @click="configTime">保存</el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
     <div v-for="(item,index) in list" :key="index" >
-      <el-card :body-style="{ padding: '20px' }">
-        <div slot="header" class="clearfix">
-          <span style="font-size: 18px;font-weight: bolder">兑换时间设置</span>
-        </div>
-        <el-form>
-          <el-form-item>
-            <span>选择时间：</span>
-            <el-date-picker
-                v-model="exStime"
-                type="datetime"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                format="yyyy-MM-dd HH:mm:ss"
-                placeholder="选择日期时间">
-            </el-date-picker>
-            <span>至</span>
-            <el-date-picker
-                v-model="exEtime"
-                type="datetime"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                format="yyyy-MM-dd HH:mm:ss"
-                placeholder="选择日期时间">
-            </el-date-picker>
-            <el-button size="small" type="primary" style="margin-left: 20px"  @click="configTime">保存</el-button>
-          </el-form-item>
-        </el-form>
-      </el-card>
       <div style="height: 30px"></div>
       <el-card :body-style="{ padding: '20px' }">
         <div slot="header" class="clearfix">
