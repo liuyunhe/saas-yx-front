@@ -1,6 +1,33 @@
 <template>
   <div class="sign-container">
+    <el-card :body-style="{ padding: '20px' }">
+      <div slot="header" class="clearfix">
+        <span style="font-size: 18px;font-weight: bolder">兑换时间设置</span>
+      </div>
+      <el-form>
+        <el-form-item>
+          <span>选择时间：</span>
+          <el-date-picker
+              v-model="exStime"
+              type="datetime"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              format="yyyy-MM-dd HH:mm:ss"
+              placeholder="选择日期时间">
+          </el-date-picker>
+          <span>至</span>
+          <el-date-picker
+              v-model="exEtime"
+              type="datetime"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              format="yyyy-MM-dd HH:mm:ss"
+              placeholder="选择日期时间">
+          </el-date-picker>
+          <el-button size="small" type="primary" style="margin-left: 20px"  @click="configTime">保存</el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
     <div v-for="(item,index) in list" :key="index" >
+      <div style="height: 30px"></div>
       <el-card :body-style="{ padding: '20px' }">
         <div slot="header" class="clearfix">
           <span style="font-size: 18px;font-weight: bolder">卡片{{ index+1 }}设置（卡片兑换时间每月20日-25日）</span>
@@ -119,6 +146,8 @@
 
     data(){
       return {
+        exStime:'',
+        exEtime:'',
         list:[],
         form:{
           num:0,
@@ -178,7 +207,9 @@
       getDetail(){
         this.$request.post('/hbact/commucard/saas/queryConfig', {}, true, res => {
           if (res.code == '200') {
-            this.list = res.data
+            this.exStime = res.data.exConfig.exStime || ""
+            this.exEtime = res.data.exConfig.exEtime || ""
+            this.list = res.data.mainConfig
             this.list.map((item,index)=>{
               if(item.awardConf.length < 3){
                 let length = item.awardConf.length
@@ -264,6 +295,15 @@
         })
       },
 
+      configTime(){
+        this.$request.post('hbact/commucard/saas/exchange/config', { exStime:this.exStime,exEtime:this.exEtime }, false, res => {
+          if (res.code === '200') {
+            this.$message.success('保存成功！')
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      },
 
       getList(type,index,key) {
         if (type == '1') {

@@ -266,6 +266,9 @@ export default {
           if (this.confData.stimeStr && this.confData.etimeStr) {
             this.handleDisableTime()
           }
+          if(this.form == 'act-501'){
+            this.extInfo=this.confData.extInfo?JSON.parse(this.confData.extInfo):{limited:1, time:60}
+          }
           // this.actTime.push(this.confData.stimeStr)
           // this.actTime.push(this.confData.etimeStr)
           callback && callback()

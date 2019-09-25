@@ -14,7 +14,7 @@
               至
               <el-date-picker v-model="config.etime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择结束时间" ></el-date-picker>
             </el-form-item>
-            <el-form-item label='活动时间：' prop="scanCont">
+            <el-form-item label='参与条件：' prop="scanCont">
               本周连续
               <el-input-number v-model="config.scanCont" :precision="0" :min="0" controls-position="right"></el-input-number>
               天扫码可参与1荷石币抢大礼活动
@@ -34,6 +34,7 @@
 
               <el-upload :action="uploadURL" :headers="headerObj" :on-success="upClockImgUrlSuccess" :show-file-list="false">
                 <el-button size="small" type="primary" v-if="!config.awardPic">上传图片</el-button>
+                <span style="margin-left: 20px">上传商品图片尺寸（630x348px）</span>
               </el-upload>
             </el-form-item>
             <el-form-item label='商品描述：' prop="awardDesc">
