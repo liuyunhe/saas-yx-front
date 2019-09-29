@@ -71,11 +71,12 @@
               </el-form-item>
           </el-form>
           <el-table :data="listData" style="width: 100%" border>
+              <el-table-column prop="hdCode" width="150px" label="活动编号" ></el-table-column>
               <el-table-column prop="orderCode" label="订单号" ></el-table-column>
               <el-table-column prop="actCode" label="活动ID" ></el-table-column>
               <el-table-column prop="actName" label="活动名称"></el-table-column>
               <el-table-column prop="nickname" label="中奖人"></el-table-column>
-              <el-table-column prop="winnerMobile" label="中奖人手机号"></el-table-column>
+              <el-table-column prop="mobile" label="中奖人手机号"></el-table-column>
               <el-table-column prop="prizeName" label="奖项名称"></el-table-column>
               <el-table-column prop="snName" label="关联规格"></el-table-column>
               <el-table-column  label="领奖时间">
