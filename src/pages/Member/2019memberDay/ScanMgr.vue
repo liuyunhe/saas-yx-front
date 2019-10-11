@@ -53,8 +53,8 @@
       return {
         list:[
           {
-            sn:'1234567',
-            snName:'河北测试（变长一点）',
+            sn:'11111111010123456',
+            snName:'Test盒',
             points:0
           },
           {
