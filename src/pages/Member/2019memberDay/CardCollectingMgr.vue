@@ -36,12 +36,14 @@
           <el-form-item label='名称：'>
             {{ item.cardConf.name }}
             <span style="margin-right: 20px"></span>
-            投放数量<el-input-number v-model="item.cardConf.totalNum" :precision="0" :min="0" controls-position="right"></el-input-number>个
+            投放数量<el-input-number v-model="item.cardConf.totalNum" disabled :precision="0" :min="0" controls-position="right"></el-input-number>个
             <span style="margin-right: 20px"></span>
-            剩余数量{{ item.cardConf.outNum }}个
+            剩余数量{{ item.cardConf.totalNum - item.cardConf.outNum }}个
             <span style="margin-right: 20px"></span>
             中奖概率<el-input-number v-model="item.cardConf.prizePert" :precision="0" :min="0" controls-position="right"></el-input-number>
             %
+            <span style="margin-right: 20px"></span>
+            <el-button type="primary" @click="addCardNum(item.cardConf.code)">增库</el-button>
           </el-form-item>
           <template v-for="(ai,key) in item.awardConf" >
             <div  style="height: 30px;font-size: 18px;line-height: 30px;margin: 30px 0;color: #409EFF">奖项{{ key + 1 }}:</div>
@@ -397,6 +399,32 @@
       handCurrentChange(newSize) {
         this.params.pageNo = newSize
         this.getList()
+      },
+      addCardNum(code) {
+        this.$prompt('请输入数字', '增库', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: /^\d{1,}$/,
+          inputErrorMessage: '请输入数字'
+        }).then(({ value }) => {
+          if (value == 0) return this.$message.error('数字不能为0')
+          this.$request.post('/hbact/commucard/saas/card/add', {
+            code,
+            addNum: value
+          }, false, res => {
+            if (res.code === '200') {
+              this.$message.success('增库成功')
+              this.getDetail()
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消输入'
+          });
+        });
       },
       addRepertory(id) {
         this.$prompt('请输入数字', '增库', {
