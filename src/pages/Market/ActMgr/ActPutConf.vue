@@ -141,7 +141,7 @@
           <div class="prize-limit">
             <div class="title">
               <span>抽奖限制</span>
-              <el-switch v-model="prizeLimitFlag">
+              <el-switch v-model="prizeLimitFlag" @change="act.dwnum = 0">
               </el-switch>
             </div>
             <div class="con" v-if="prizeLimitFlag">
