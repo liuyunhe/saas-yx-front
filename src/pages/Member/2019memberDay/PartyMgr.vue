@@ -4,19 +4,19 @@
       <div style="margin-bottom: 30px;color: #0B1019">
         <el-button type="primary" @click="handleOpen">开奖</el-button>（可开奖时间每周六20:30）
       </div>
-      <el-form ref="actSetConfRef" :disabled="!newAct" :model="config" label-width="150px" :rules="confRules">
+      <el-form ref="actSetConfRef" :model="config" label-width="150px" :rules="confRules">
         <el-card :body-style="{ padding: '20px' }">
           <div slot="header" class="clearfix">
             <span>基本设置：</span>
           </div>
             <el-form-item label='活动时间：' prop="date">
-              <el-date-picker v-model="config.stime"  value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择开始时间"></el-date-picker>
+              <el-date-picker v-model="config.stime"  :disabled="!newAct" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择开始时间"></el-date-picker>
               至
-              <el-date-picker v-model="config.etime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择结束时间" ></el-date-picker>
+              <el-date-picker v-model="config.etime" :disabled="!newAct" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择结束时间" ></el-date-picker>
             </el-form-item>
             <el-form-item label='参与条件：' prop="scanCont">
               本周连续
-              <el-input-number v-model="config.scanCont" :precision="0" :min="0" controls-position="right"></el-input-number>
+              <el-input-number v-model="config.scanCont" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>
               天扫码可参与1荷石币抢大礼活动
             </el-form-item>
         </el-card>
@@ -33,7 +33,7 @@
               <img width="355" height="289" v-if="config.awardPic" :src="config.awardPic" alt="">
 
               <el-upload :action="uploadURL" :headers="headerObj" :on-success="upClockImgUrlSuccess" :show-file-list="false">
-                <el-button size="small" type="primary" v-if="!config.awardPic">上传图片</el-button>
+                <el-button size="small" type="primary">上传图片</el-button>
                 <span style="margin-left: 20px">上传商品图片尺寸（630x348px）</span>
               </el-upload>
             </el-form-item>
@@ -47,7 +47,7 @@
 
 
     <div style="height: 40px;text-align: center;margin-top: 30px">
-      <el-button type="primary" v-if="newAct" @click="confirmSubmit">保存</el-button>
+      <el-button type="primary" @click="confirmSubmit">保存</el-button>
     </div>
 
     <!-- 通用 -->
@@ -225,7 +225,8 @@
               awardName : this.config.awardName,
               marketMoney : this.config.marketMoney,
               awardPic : this.config.awardPic,
-              awardDesc : this.config.awardDesc
+              awardDesc : this.config.awardDesc,
+              id : this.config.id ? this.config.id : ""
             };
             this.$request.post('/hbact/one/points/sass/act/add', params, false, res => {
               if (res.code == '200') {

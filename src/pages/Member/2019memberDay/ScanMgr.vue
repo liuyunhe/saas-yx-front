@@ -19,6 +19,36 @@
     <div style="height: 30px"></div>
     <el-card :body-style="{ padding: '20px' }">
       <div slot="header" class="clearfix">
+        <span>红包：</span>
+      </div>
+      <div style="margin-bottom: 20px">选择红包:<el-button size="" style="margin-left: 20px"  @click="getList(3)">选择</el-button></div>
+      <el-form>
+        <el-form-item v-for="(item,index) in hb" :key="index" label='名称：'>
+          面额 <el-input-number v-model="item.awardPrice" :disabled="item.id ? true : false" :precision="2" :min="0" controls-position="right"></el-input-number>元
+          <span style="margin-right: 20px"></span>
+          投放数量 <el-input-number v-model="item.totalNum" :disabled="item.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number>个
+
+          <span v-if="item.id ? true : false">
+               <span style="margin-right: 20px"></span>
+            剩余{{ item.totalNum - item.outNum }}个
+            </span>
+          <span style="margin-right: 20px"></span>
+          总金额:{{ parseFloat((item.awardPrice*item.totalNum).toPrecision(12))  }}元
+          <span style="margin-right: 20px"></span>
+          中奖概率 <el-input-number v-model="item.prizePert" :precision="0" :min="0" controls-position="right"></el-input-number>
+          %
+          <span v-if="item.id ? true : false">
+              <span style="margin-right: 20px"></span>
+              <el-button type='primary' @click="addRepertory(item)">增库</el-button>
+            </span>
+          <span style="margin-right: 20px"></span>
+          <el-button type='danger' @click="deleteAward(item,index)">删除</el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
+    <div style="height: 30px"></div>
+    <el-card :body-style="{ padding: '20px' }">
+      <div slot="header" class="clearfix">
         <span>连续扫码奖励设置（不区分规格）</span>
       </div>
       <el-form>
@@ -43,6 +73,31 @@
     <div style="height: 40px;text-align: center;margin-top: 30px">
       <el-button type="primary" @click="handleSave">保存</el-button>
     </div>
+
+
+    <el-dialog :title="title" :visible.sync="listVisible" width="800px">
+      <el-table :data="awdList" border :stripe="true" style="width: 100%">
+        <el-table-column prop="name" label="礼品名称" align="center">
+        </el-table-column>
+        <el-table-column label="礼品图片" align="center">
+          <template slot-scope="scope">
+            <img :src="scope.row.pic" alt="" style="height: 60px">
+          </template>
+        </el-table-column>
+        <el-table-column prop="stock" label="剩余库存" align="center">
+        </el-table-column>
+        <el-table-column label="操作" align="center">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="selectPrize(scope.row,title)">选择</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-col :span="24">
+        <el-pagination background @size-change="handSizeChange" @current-change="handCurrentChange" :current-page="params.pageNo" :page-size="params.pageSize" layout="total, prev, pager, next, jumper" :total="listTotal">
+        </el-pagination>
+      </el-col>
+      <div style="clear:both"></div>
+    </el-dialog>
   </div>
 </template>
 
@@ -53,8 +108,8 @@
       return {
         list:[
           {
-            sn:'1234567',
-            snName:'河北测试（变长一点）',
+            sn:'11111111010123456',
+            snName:'Test盒',
             points:0
           },
           {
@@ -179,21 +234,124 @@
           },
 
         ],
+        hb:[],
         form:{
           num:0,
           contDay5:0,
           contDay6:0,
           contDay7:0,
-        }
+        },
+        title: '选择物品',
+        awdList: [],
+        params: {
+          metraFlag: '',
+          pageNo: 1,
+          pageSize: 10,
+          status: 1
+        },
+        listTotal: 0,
+        listVisible: false,
+
+        defaultAwae: { // 给个默认 好复制
+          "awardPrice": 0,
+          "prizePert": 0,
+          "totalNum": 0,
+          "awardPic": "",
+        },
       }
     },
     created() {
       this.getScanConf()
       this.getContConf()
+      this.getRedpackConf()
     },
     mounted() {
     },
     methods:{
+      getList(type) {
+        if (type == '1') {
+          this.params.metraFlag = 'object'
+          this.title = '选择实物'
+        } else if (type == '2') {
+          this.params.metraFlag = 'virtual'
+          this.title = '选择虚拟'
+        } else if (type == '3') {
+          this.params.metraFlag = 'redpack'
+          this.title = '选择红包'
+        } else if (type == '6') {
+          this.params.metraFlag = 'integral'
+          this.title = '选择荷石币'
+        } else if (type == '7') {
+          this.params.metraFlag = 'cdDisc'
+          this.title = '选择折扣卡'
+        } else if (type == '8') {
+          this.params.metraFlag = 'cdDouble'
+          this.title = '选择翻倍卡'
+        }
+        this.$request.post('/api/wiseqr/metra/list', this.params, true, res => {
+          if (res.ret === '200000') {
+            this.awdList = []
+            this.awdList = res.data.list
+            this.listTotal = res.data.page.count
+            this.listVisible = true
+            return
+          }
+          this.$message.error(res.message)
+        })
+      },
+      addRepertory(item) {
+        this.$prompt('请输入数字', '增库', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: /^\d{1,}$/,
+          inputErrorMessage: '请输入数字'
+        }).then(({ value }) => {
+          if (value == 0) return this.$message.error('数字不能为0')
+          this.$request.post('/hbact/dayscan/redpack/stock', {
+            id: item.id ,
+            addNum : value
+          }, false, res => {
+            if (res.code == '200') {
+              this.$message.success('增库成功')
+              this.getRedpackConf()
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消输入'
+          });
+        });
+      },
+      // 选择奖品
+      selectPrize(obj,title) {
+        let newAwae = JSON.parse(JSON.stringify(this.defaultAwae))
+        newAwae.awardPic = obj.pic
+        this.hb.push(newAwae)
+        this.listVisible = false
+      },
+      deleteAward(item,index){
+        this.$request.post('/hbact/dayscan/redpack/delete', {
+          id: item.id ,
+        }, false, res => {
+          if (res.code == '200') {
+            this.$message.success('删除成功')
+            this.getRedpackConf()
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      },
+      handSizeChange(newSize) {
+        this.params.pageSize = newSize
+        this.getList()
+      },
+      handCurrentChange(newSize) {
+        this.params.pageNo = newSize
+        this.getList()
+      },
       // 扫码奖励查询
       getScanConf(){
         this.$request.post('/hbact/dayscan/conf/list', {}, true, res => {
@@ -228,6 +386,15 @@
                 this.form.contDay7 = e.points
               }
             })
+            return
+          }
+          this.$message.error(res.msg)
+        })
+      },
+      getRedpackConf(){
+        this.$request.post('/hbact/dayscan/redpack/query', {}, true, res => {
+          if (res.code == '200') {
+            this.hb = res.data
             return
           }
           this.$message.error(res.msg)
@@ -269,13 +436,38 @@
           })
         })
       },
+      setRedpack(){
+        return new Promise ((resolve,reject)=>{
+          let params = this.hb.map( e =>{
+            if(e.id){
+              return {
+                id:e.id,
+                awardPrice:e.awardPrice,
+                prizePert:e.prizePert,
+                totalNum:e.totalNum,
+                awardPic:e.awardPic
+              }
+            }else{
+              return {
+                awardPrice:e.awardPrice,
+                prizePert:e.prizePert,
+                totalNum:e.totalNum,
+                awardPic:e.awardPic
+              }
+            }
+          })
+          this.$request.post('/hbact/dayscan/redpack/set', params, true, res => {
+            resolve(res)
+          })
+        })
+      },
       handleSave(){
         Promise.all([
           this.dayscanUpdate(),
           this.contDayUpdate(),
-
+          this.setRedpack()
         ])
-        .then(([dayscan, contDay]) => {
+        .then(([dayscan, contDay,setRedpack]) => {
           if (dayscan.code == '200') {
             console.log(dayscan.data)
           }else {
@@ -288,7 +480,16 @@
             this.$message.error(contDay.msg)
             return
           }
+          if (setRedpack.code == '200') {
+            console.log(setRedpack.data)
+          }else {
+            this.$message.error(setRedpack.msg)
+            return
+          }
           this.$message.success('保存成功！')
+          this.getScanConf()
+          this.getContConf()
+          this.getRedpackConf()
         })
       }
     }
