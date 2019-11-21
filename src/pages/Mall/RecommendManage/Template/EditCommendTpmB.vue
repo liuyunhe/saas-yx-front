@@ -448,7 +448,8 @@
       },
       postSearchJD(params) {
         this.listLoading = true;
-        this.$request.post('/sc/saotx/mall/product/listJD', params, true, (res) => {
+        // this.$request.post('/sc/saotx/mall/product/listJD', params, true, (res) => {
+        this.$request.post('/sc/mall/suning/product/list', params, true, (res) => {
           if (res.ret == '200000') {
             this.listLoading = false;
             this.listJD = res.data.list

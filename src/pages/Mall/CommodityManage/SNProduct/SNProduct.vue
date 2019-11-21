@@ -2,7 +2,7 @@
   <section class="build-product-container">
     <div class="box-container">
       <div style="margin-bottom:20px;">
-        <el-button type="primary" size="small" @click="addJDProduct">新建商品</el-button>
+        <el-button type="primary" size="small" @click="addSNProduct">新建商品</el-button>
       </div>
       <!--查询表单-->
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;margin-bottom: 0">
@@ -202,7 +202,7 @@
             <template slot-scope="scope" >
               <el-button
                   size="mini"
-                  @click="editJDProduct(scope.row.id)"
+                  @click="editSNProduct(scope.row.id)"
               >编辑</el-button>
               <el-button
                   v-if="scope.row.status == '1'"
@@ -319,7 +319,7 @@
       this.getProductList()
       this.getProductType()
       this.getOneCategory()
-      this.getListJD()
+      this.getListSN()
     },
     methods:{
       //从后台拿取商品状态列表
@@ -402,7 +402,7 @@
         }
       },
       //获取列表
-      getListJD(type) {
+      getListSN(type) {
         let params = {
           //商品状态
           status:this.filters.status,
@@ -438,7 +438,7 @@
       },
       postSearch(params) {
         this.listLoading = true;
-        this.$request.post('/sc/saotx/mall/product/listJD', params, true, (res) => {
+        this.$request.post('/sc/mall/suning/product/list', params, true, (res) => {
           if (res.ret == '200000') {
             console.log(res.data)
             this.listLoading = false;
@@ -464,32 +464,32 @@
 
         this.pageNo = 1
         this.currentPage = 1
-        this.getListJD()
+        this.getListSN()
       },
       //查询按钮
       commitForm() {
         this.pageNo = 1
         this.currentPage = 1
-        this.getListJD()
+        this.getListSN()
       },
       //按销量排序
       sortBySales(){
-        this.getListJD("bySales")
+        this.getListSN("bySales")
       },
       sortByScore(){
-        this.getListJD("byScore")
+        this.getListSN("byScore")
       },
       sortByTime(){
-        this.getListJD("byTime")
+        this.getListSN("byTime")
       },
-      addJDProduct(){
+      addSNProduct(){
         this.$router.push({
-          path:'/mall/product/jd/addJDProduct'
+          path:'/mall/product/sn/addSNProduct'
         })
       },
-      editJDProduct(id){
+      editSNProduct(id){
         this.$router.push({
-          path:'/mall/product/jd/editJDProduct?id='+id
+          path:'/mall/product/sn/editSNProduct?id='+id
         })
       },
       //删除商品
@@ -506,7 +506,7 @@
               message: '操作成功！',
               type: 'success'
             });
-            this.getListJD()
+            this.getListSN()
           }else{
             this.$message({
               message: res.message,
@@ -525,7 +525,7 @@
               message: '操作成功！',
               type: 'success'
             });
-            this.getListJD()
+            this.getListSN()
           }else{
             this.$message({
               message: res.message,
@@ -542,7 +542,7 @@
               message: '操作成功！',
               type: 'success'
             });
-            this.getListJD()
+            this.getListSN()
           }else{
             this.$message({
               message: res.message,
@@ -579,7 +579,7 @@
                 message: '操作成功！',
                 type: 'success'
               });
-              this.getListJD()
+              this.getListSN()
             }else{
               this.$message({
                 message: res.message,
@@ -597,7 +597,7 @@
       handleCurrentChange(val) {
         this.pageNo = val
         this.currentPage = val
-        this.getListJD()
+        this.getListSN()
       },
     }
   }

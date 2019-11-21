@@ -1,8 +1,22 @@
 <template>
-  <section class="edit-jd-product-container">
-    <div class="edit-jd-product-msg-container">
+  <section class="add-jd-product-container">
+    <div v-show="showSkuQuery" class="add-jd-product-msg-container" style="background: #fff;text-align: center">
+      <span class="imp">*</span><span style="margin-right: 30px">SKU：</span>
+      <el-input
+          size="small"
+          style="width: 200px;margin-right: 30px"
+          v-model="sku">
+      </el-input>
+      <el-button type="primary" size="small" @click="queryJDSKU">查询</el-button>
+      <div class="add-jd-product-form-bt">
+        <el-button type="primary" size="small" @click="returnSNProduct">返回列表</el-button>
+      </div>
+    </div>
+
+    <div v-show="!showSkuQuery">
+      <div class="add-jd-product-msg-container">
         <div class="title">基本信息：</div>
-        <div class="edit-jd-product-msg">
+        <div class="add-jd-product-msg">
           <div class="left-side">
             <div class="line"><span class="imp">*</span>主图：</div>
             <div class="img">
@@ -17,23 +31,13 @@
             <div class="line"><span class="imp">*</span>产地： {{ basicMsg.productArea }} </div>
             <div class="line"><span class="imp">*</span>销售单位： {{ basicMsg.saleUnit }} </div>
             <div class="line"><span class="imp">*</span>类别：{{ basicMsg.category }}</div>
-            <div class="line"><span class="imp">*</span>京东价格：{{ basicMsg.jdPrice }}</div>
+<!--            <div class="line"><span class="imp">*</span>京东价格：{{ basicMsg.jdPrice }}</div>-->
             <div class="line"><span class="imp">*</span>内部价格：{{ basicMsg.price }}</div>
           </div>
         </div>
       </div>
-    <el-form :model="ruleForm" :inline="true" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <div class="edit-jd-product-form-container">
-          <el-form-item label="商品ID：" prop="productId" size="small">
-            <el-input v-model="ruleForm.productId" disabled style="width: 200px"></el-input>
-          </el-form-item>
-          <el-form-item label="销量：" prop="saleNum" size="small">
-            <el-input v-model="ruleForm.saleNum" disabled style="width: 200px"></el-input>
-          </el-form-item>
-          <el-form-item label="创建时间：" prop="updateTime" size="small">
-            <el-input v-model="ruleForm.createTime" disabled style="width: 200px"></el-input>
-          </el-form-item>
-          <div></div>
+      <el-form :model="ruleForm" :inline="true" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <div class="add-jd-product-form-container">
           <el-form-item label="商品名称：" prop="memo" size="small">
             <el-input v-model="ruleForm.memo" style="width: 200px" :maxlength="100"></el-input>
           </el-form-item>
@@ -121,32 +125,34 @@
             <el-radio v-model="ruleForm.status" label="-1">下架</el-radio>
           </el-form-item>
           <div></div>
-      <!--    <el-form-item label="是否热门：" prop="isHostGood" size="small" >
+       <!--   <el-form-item label="是否热门：" prop="isHostGood" size="small" >
             <el-radio v-model="ruleForm.isHostGood" label="0">否</el-radio>
             <el-radio v-model="ruleForm.isHostGood" label="1">是</el-radio>
           </el-form-item>-->
           <div></div>
-          <div class="edit-jd-product-form-bt">
+          <div class="add-jd-product-form-bt">
             <el-form-item>
-              <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
-              <el-button @click="returnJDProduct">取消</el-button>
+              <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+              <el-button @click="returnSNProduct">取消</el-button>
             </el-form-item>
           </div>
 
         </div>
       </el-form>
+    </div>
+
   </section>
 </template>
 
 <style lang="scss" scoped>
-  .edit-jd-product-container{
+  .add-jd-product-container{
     background-color:#fff;
     padding: 30px 15px;
     color:#606266;
     .imp{
       color: red;
     }
-    .edit-jd-product-msg-container{
+    .add-jd-product-msg-container{
       width: 910px;
       margin: 0 auto;
       background: #ddd;
@@ -157,7 +163,7 @@
         line-height: 30px;
         margin-bottom: 10px;
       }
-      .edit-jd-product-msg{
+      .add-jd-product-msg{
         display: flex;
         flex-wrap: nowrap;
         .left-side{
@@ -190,23 +196,22 @@
             width: 50%;
             height: 40px;
             line-height: 40px;
-
           }
           .lines{
-            width: 200px;
-            overflow:hidden;
-            text-overflow:ellipsis;
-            white-space: nowrap;/*加宽度width属来兼容部分浏览*/
-          }
+              width: 200px;
+              overflow:hidden;
+              text-overflow:ellipsis;
+              white-space: nowrap;/*加宽度width属来兼容部分浏览*/
+            }
         }
       }
 
     }
-    .edit-jd-product-form-container{
-      width: 940px;
+    .add-jd-product-form-container{
+      width: 910px;
       margin: 0 auto;
     }
-    .edit-jd-product-form-bt{
+    .add-jd-product-form-bt{
       margin-top: 30px;
       text-align: center;
     }
@@ -217,9 +222,12 @@
 <script>
   export default {
     name: "",
-    props:["id"],
     data() {
       return {
+        showSkuQuery:true,
+
+
+        sku:"",
         //商品状态下拉
         productList:[
           {name: "全部", id: ""}
@@ -228,16 +236,16 @@
         productTypeList:[],
         //分类列表
         cateLvl1List:[
-          {name: "全部", id: -1}
+          {name: "全部", id: "-1"}
         ],
         cateLvl2List:[
-          {name: "全部", id: -1}
+          {name: "全部", id: "-1"}
         ],
         cateLvl3List:[
-          {name: "全部", id: -1}
+          {name: "全部", id: "-1"}
         ],
         cateLvl4List:[
-          {name: "全部", id: -1}
+          {name: "全部", id: "-1"}
         ],
         basicMsg:{
           imagePath:'',
@@ -248,19 +256,10 @@
           productArea:'',
           saleUnit:'',
           category:'',
-          jdPrice:'',
+          // jdPrice:'',
           price: '',
         },
         ruleForm: {
-          id:'',
-          //商品ID
-          productId:'',
-          //销量
-          saleNum:'',
-          //创建时间
-          createTime:'',
-
-
           //商品名称
           memo: '',
           //商品类型
@@ -310,44 +309,10 @@
     created(){
       this.getProductType()
       this.getOneCategory()
-      this.getJDProductDetail()
     },
     methods:{
-      getJDProductDetail(){
-        this.$request.post('/sc/saotx/mall/product/detail',{id:this.id},true,res => {
-          if (res.ret == '200000') {
-            let params = {sku:res.data.outSourceId}
-            this.queryJDSKU(params)
-
-            this.ruleForm.id = res.data.id
-            this.ruleForm.productId = res.data.productId
-            this.ruleForm.saleNum = res.data.saleNum
-            this.ruleForm.createTime = new Date(res.data.createTime).Format('yyyy-MM-dd hh:mm:ss')
-
-            //商品名称
-            this.ruleForm.memo = res.data.memo
-            //商品类型
-            this.ruleForm.giftType = res.data.giftType
-            //分类
-            this.ruleForm.cateLvl1Id = res.data.cateLvl1Id
-            this.ruleForm.cateLvl2Id = res.data.cateLvl2Id
-            this.ruleForm.cateLvl3Id = res.data.cateLvl3Id
-            this.ruleForm.cateLvl4Id = res.data.cateLvl4Id
-            this.getTwoCategory()
-            this.getThreeCategory()
-            this.getFourCategory()
-            //兑换值
-            this.ruleForm.score = res.data.score
-            //运费
-            this.ruleForm.deliveryScore = res.data.deliveryScore
-            //状态
-            this.ruleForm.status = res.data.status+""
-            // this.ruleForm.isHostGood=res.data.isHostGood+""
-          }
-        })
-      },
-      queryJDSKU(params){
-        this.$request.post('/sc/saotx/mall/product/queryJDSKU',params, true, (res) => {
+      queryJDSKU(){
+        this.$request.post('/sc/mall/suning/queryBySku',{sku:this.sku}, true, (res) => {
           if (res.ret == '200000') {
             this.basicMsg.imagePath = res.data.propertiesObject.imagePath
             this.basicMsg.name = res.data.propertiesObject.name
@@ -357,9 +322,10 @@
             this.basicMsg.productArea = res.data.propertiesObject.productArea
             this.basicMsg.saleUnit = res.data.propertiesObject.saleUnit
             this.basicMsg.category = res.data.propertiesObject.category
-            this.basicMsg.jdPrice = res.data.propertiesObject.jdPrice
+            // this.basicMsg.jdPrice = res.data.propertiesObject.jdPrice
             this.basicMsg.price = res.data.propertiesObject.price
             this.ruleForm.score = res.data.propertiesObject.score
+            this.showSkuQuery = !this.showSkuQuery
           }else {
             this.$message({
               message:res.message,
@@ -393,17 +359,17 @@
         })
       },
       selectBrand1(){
-        this.ruleForm.cateLvl2Id = -1
-        this.cateLvl2List = [{name: "全部", id: -1}]
-        this.ruleForm.cateLvl3Id = -1
-        this.cateLvl3List = [{name: "全部", id: -1}]
-        this.ruleForm.cateLvl4Id = -1
-        this.cateLvl4List = [{name: "全部", id: -1}]
+        this.ruleForm.cateLvl2Id = "-1"
+        this.cateLvl2List = [{name: "全部", id: "-1"}]
+        this.ruleForm.cateLvl3Id = "-1"
+        this.cateLvl3List = [{name: "全部", id: "-1"}]
+        this.ruleForm.cateLvl4Id = "-1"
+        this.cateLvl4List = [{name: "全部", id: "-1"}]
         this.getTwoCategory()
       },
       //从后台拿取商品分类2
       getTwoCategory(){
-        if(this.ruleForm.cateLvl1Id  == -1)return
+        if(this.ruleForm.cateLvl1Id  == "-1")return
         this.$request.post('/sc/saotx/mall/cate/moreCategory',{id:this.ruleForm.cateLvl1Id}, true, (res) => {
           if (res.ret == '200000') {
             this.cateLvl2List = [...this.cateLvl2List,...res.data]
@@ -411,15 +377,15 @@
         })
       },
       selectBrand2(){
-        this.ruleForm.cateLvl3Id = -1
-        this.cateLvl3List = [{name: "全部", id: -1}]
-        this.ruleForm.cateLvl4Id = -1
-        this.cateLvl4List = [{name: "全部", id: -1}]
+        this.ruleForm.cateLvl3Id = "-1"
+        this.cateLvl3List = [{name: "全部", id: "-1"}]
+        this.ruleForm.cateLvl4Id = "-1"
+        this.cateLvl4List = [{name: "全部", id: "-1"}]
         this.getThreeCategory()
       },
       //从后台拿取商品分类3
       getThreeCategory(){
-        if(this.ruleForm.cateLvl2Id == -1)return
+        if(this.ruleForm.cateLvl2Id == "-1")return
         this.$request.post('/sc/saotx/mall/cate/moreCategory',{id:this.ruleForm.cateLvl2Id}, true, (res) => {
           if (res.ret == '200000') {
             this.cateLvl3List = [...this.cateLvl3List,...res.data]
@@ -427,8 +393,8 @@
         })
       },
       selectBrand3(){
-        this.ruleForm.cateLvl4Id = -1
-        this.cateLvl4List = [{name: "全部", id: -1}]
+        this.ruleForm.cateLvl4Id = "-1"
+        this.cateLvl4List = [{name: "全部", id: "-1"}]
         this.getFourCategory()
       },
       //从后台拿取商品分类4
@@ -450,7 +416,6 @@
 
               deliveryScore: this.ruleForm.deliveryScore,
               giftType: this.ruleForm.giftType,
-              id: this.id,
               image: this.basicMsg.imagePath,
               memo: this.ruleForm.memo,
               outSourceId: this.basicMsg.sku,
@@ -467,13 +432,13 @@
         });
       },
       postParams(params){
-        this.$request.post('/sc/saotx/mall/product/saveOrModifyJD',params,true,res => {
+        this.$request.post('/sc/mall/suning/saveOrModify',params,true,res => {
           if(res.ret == '200000'){
             this.$message({
               message: '保存成功！',
               type: 'success'
             });
-            this.returnJDProduct()
+            this.returnSNProduct()
           }else{
             this.$message({
               message:res.message,
@@ -484,9 +449,9 @@
 
         })
       },
-      returnJDProduct(){
+      returnSNProduct(){
         this.$router.push({
-          path:'/mall/product/jd'
+          path:'/mall/product/sn'
         })
       }
     }

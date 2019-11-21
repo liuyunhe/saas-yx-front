@@ -15,7 +15,9 @@ const IntegralPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Or
 //商城订单管理
 const ZjOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ZjOrderPage.vue')
 const ZjOrderPageDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ZjOrderPageDetail.vue')
-const JdOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/JdOrderPage.vue')
+
+// const JdOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/JdOrderPage.vue')
+const SnOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/SnOrderPage.vue')
 // 权益订单
 const RightsOrder = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/Rights/RightsOrder.vue')
 const RightsOrderDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/Rights/RightsOrderDetail.vue')
@@ -160,9 +162,14 @@ const buildProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/
 const addProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/BuildProduct/AddProduct')
 const editProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/BuildProduct/EditProduct')
 // 商城-商品管理-京东商品管理
-const JDProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/JDProduct/JDProduct')
-const addJDProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/JDProduct/AddJDProduct')
-const editJDProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/JDProduct/EditJDProduct')
+// const JDProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/JDProduct/JDProduct')
+// const addJDProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/JDProduct/AddJDProduct')
+// const editJDProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/JDProduct/EditJDProduct')
+
+// 商城-商品管理-苏宁商品管理
+const SNProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/SNProduct/SNProduct')
+const AddSNProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/SNProduct/AddSNProduct')
+const EditSNProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/SNProduct/EditSNProduct')
 // 商城-商品管理-活动物料管理
 const ActProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ActProduct/ActProduct')
 const AddActProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ActProduct/AddActProduct')
@@ -414,7 +421,8 @@ export default new Router({
         // { path: '/Orders/mall', name: '商城订单', redirect: '/Orders/mall/zj'},
         { path: '/Orders/mall/zj', name: '自建商品订单', component: ZjOrderPage },
         { path: '/Orders/mall/zjOrderPageDetail', name: '自建商品订单详情',  component: ZjOrderPageDetail,props: (route) => ({orderCode:route.query.orderCode})  },
-        { path: '/Orders/mall/jd', name: '京东商品订单', component: JdOrderPage },
+        // { path: '/Orders/mall/jd', name: '京东商品订单', component: JdOrderPage },
+        { path: '/Orders/mall/sn', name: '苏宁商品订单', component: SnOrderPage },
         // { path: '/Orders/mall/integral', name: '积分活动订单', component: ScoreOrderPage },
         { path: '/Orders/mall/act', name: '积分活动订单', component: ActOrderPage },
         { path: '/Orders/mall/actOrderPageDetail', name: '积分活动订单详情', component: ActOrderPageDetail,props: (route) => ({orderCode:route.query.orderCode})  },
@@ -457,9 +465,12 @@ export default new Router({
         { path: '/mall/product/zj', name: '自建商品管理', component: buildProduct},
         { path: '/mall/product/zj/addProduct', name: '新建自建商品', component: addProduct},
         { path: '/mall/product/zj/editProduct', name: '编辑自建商品', component: editProduct,props: (route) => ({id:route.query.id})},
-        { path: '/mall/product/jd', name: '京东商品管理', component: JDProduct },
-        { path: '/mall/product/jd/addJDProduct', name: '新建京东商品', component: addJDProduct },
-        { path: '/mall/product/jd/editJDProduct', name: '编辑京东商品', component: editJDProduct,props: (route) => ({id:route.query.id})},
+        // { path: '/mall/product/jd', name: '京东商品管理', component: JDProduct },
+        // { path: '/mall/product/jd/addJDProduct', name: '新建京东商品', component: addJDProduct },
+        // { path: '/mall/product/jd/editJDProduct', name: '编辑京东商品', component: editJDProduct,props: (route) => ({id:route.query.id})},
+        { path: '/mall/product/sn', name: '苏宁商品管理', component: SNProduct },
+        { path: '/mall/product/sn/addSNProduct', name: '新建苏宁商品', component: AddSNProduct },
+        { path: '/mall/product/sn/editSNProduct', name: '编辑苏宁商品', component: EditSNProduct,props: (route) => ({id:route.query.id})},
         { path: '/mall/product/act', name: '活动物料管理', component: ActProduct },
         { path: '/mall/product/act/addActProduct', name: '新建活动物料管理', component: AddActProduct },
         { path: '/mall/product/act/editActProduct', name: '编辑活动物料管理', component: EditActProduct,props: (route) => ({pid:route.query.pid})},
