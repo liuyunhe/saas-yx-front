@@ -628,6 +628,7 @@
               })
             }
             let params = {
+              id:this.id,
               type:2,
               name:this.ruleForm.name,
               idx:this.ruleForm.idx,
@@ -733,6 +734,8 @@
       handleClick(tab, event) {
         this.filters.pageNo = 1
         this.currentPage = 1
+        this.radiojd = ''
+        this.radiozj = ''
         if(this.listType == "JD"){
           this.getListJD()
         }else if(this.listType == "ZJ"){
@@ -745,17 +748,21 @@
       },
       //分页器功能
       handleCurrentChangeZJ(val) {
+        this.radiojd = ''
+        this.radiozj = ''
         this.filters.pageNo = val
         this.currentPage = val
         this.getListZJ()
       },handleCurrentChangeJD(val) {
+        this.radiojd = ''
+        this.radiozj = ''
         this.filters.pageNo = val
         this.currentPage = val
         this.getListJD()
       },
 
       confirmDialog(){
-        if(this.ruleForm.product1Id == this.selectProduct.productId || this.ruleForm.product2Id == this.selectProduct.productId || this.ruleForm.product3Id == this.selectProduct.productId || this.ruleForm.product4Id == this.selectProduct.productId){
+        if(this.ruleForm.product1Id == this.selectProduct.productId || this.ruleForm.product2Id == this.selectProduct.productId || this.ruleForm.product3Id == this.selectProduct.productId || this.ruleForm.product4Id == this.selectProduct.productId || this.ruleForm.addItem.findIndex((e)=>e.productId == this.selectProduct.productId) > -1){
           this.$message({
             message:"已选择当前商品",
             type: 'warning'
@@ -782,6 +789,8 @@
           this.getListJD()
           this.selectProduct.productName = ""
           this.selectProduct.productId = ""
+          this.radiojd = ''
+          this.radiozj = ''
         }
       },
       cancelDialog() {
@@ -800,6 +809,8 @@
         this.selectProduct.productName = ""
         this.selectProduct.productId = ""
         this.dialogTableVisible = false
+        this.radiojd = ''
+        this.radiozj = ''
       }
     }
   }

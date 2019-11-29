@@ -628,6 +628,8 @@
       handleClick(tab, event) {
         this.filters.pageNo = 1
         this.currentPage = 1
+        this.radiojd = ''
+        this.radiozj = ''
         if(this.listType == "JD"){
           this.getListJD()
         }else if(this.listType == "ZJ"){
@@ -643,10 +645,14 @@
         this.filters.pageNo = val
         this.currentPage = val
         this.getListZJ()
+        this.radiojd = ''
+        this.radiozj = ''
       },handleCurrentChangeJD(val) {
         this.filters.pageNo = val
         this.currentPage = val
         this.getListJD()
+        this.radiojd = ''
+        this.radiozj = ''
       },
 
       confirmDialog(){
@@ -672,6 +678,8 @@
           this.getListJD()
           this.selectProduct.productName = ""
           this.selectProduct.productId = ""
+          this.radiojd = ''
+          this.radiozj = ''
         }
       },
       cancelDialog() {
@@ -690,6 +698,8 @@
         this.selectProduct.productName = ""
         this.selectProduct.productId = ""
         this.dialogTableVisible = false
+        this.radiojd = ''
+        this.radiozj = ''
       }
     }
   }
