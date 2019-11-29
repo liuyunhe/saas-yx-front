@@ -100,8 +100,36 @@
         </el-form-item>
         <div></div>
 
+        <!--        额外增加商品-->
+        <template v-for="(item,index) in ruleForm.addItem">
+          <el-form :model="item" :inline="true" :rules="addItemRules" ref="addItem" label-width="120px" class="demo-ruleForm">
+            <el-form-item :label="`商品${index + 5}：`" :prop="`productName`" size="small">
+              <el-input v-model="item.productName" disabled placeholder="请选择商品" style="width: 200px"></el-input>
+              <el-button type="primary" @click="chooseProduct(`${index+5}`)" style="margin-left: 30px">选择商品</el-button>
+              <el-button type="danger" @click="delProduct(index)" style="margin-left: 30px">删除商品</el-button>
+            </el-form-item>
+            <div></div>
+            <el-form-item :label="`图${index + 5}：`" prop="image" size="small">
+              <el-input v-model="item.image" style="display: none" ></el-input>
+              <el-upload
+                  action="/api/wiseqr/attach/commonAliUpload"
+                  list-type="picture-card"
+                  class="product-img"
+                  :headers="headers"
+                  :show-file-list="false"
+                  :on-success="(res)=> handleSuccess(index, res)"
+              >
+                <img v-if="item.image" width="100" height="63" :src="item.image" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+              <div class="pic-tips">* 图片建议尺寸为 120*148px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
+            </el-form-item>
+            <div></div>
+          </el-form>
+        </template>
         <div class="add-commend-form-bt">
           <el-form-item>
+            <el-button type="primary" @click="handleAddItem">新增商品</el-button>
             <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
             <el-button @click="returnRecommend">取消</el-button>
           </el-form-item>
@@ -306,6 +334,7 @@
           product4Id:'',
           product4Name:'',
           image4:'',
+          addItem:[],
 
         },
         rules: {
@@ -351,7 +380,14 @@
           ],
 
         },
-
+        addItemRules:{
+          productName: [
+            { required: true, message: '请选择商品', trigger: 'change' },
+          ],
+          image: [
+            { required: true, message: '请上传图片', trigger: 'change' },
+          ],
+        },
         filters:{
           inputWithSelect:"",
           select:"",
@@ -415,9 +451,20 @@
             this.ruleForm.idx = res.data.idx
             let recommendProducts = res.data.recommendProducts
             recommendProducts.map((e,i)=>{
-              this.ruleForm['product'+e.idx+'Id'] = e.productId
-              this.ruleForm['product'+e.idx+'Name'] = e.productName
-              this.ruleForm['image'+e.idx] = e.productImage
+              if(i<4){
+                this.ruleForm['product'+e.idx+'Id'] = e.productId
+                this.ruleForm['product'+e.idx+'Name'] = e.productName
+                this.ruleForm['image'+e.idx] = e.productImage
+              }else {
+                this.ruleForm.addItem.push(
+                  {
+                    productId:e.productId,
+                    productName:e.productName,
+                    image:e.productImage
+                  }
+                )
+              }
+
             })
 
           }
@@ -521,12 +568,65 @@
         this.dialogTableVisible = true
         this.ProductIndex = index
       },
-
+      handleAddItem(){
+        this.ruleForm.addItem.push(
+          {
+            productId:'',
+            productName:'',
+            image:'',
+          }
+        )
+      },
+      delProduct(index){
+        this.ruleForm.addItem.splice(index,1)
+      },
       submitForm(formName) {
+        let $this = this
+        let flag = true
+        console.log($this.$refs['addItem'] && $this.$refs['addItem'].length)
+        if($this.$refs['addItem'] && $this.$refs['addItem'].length){
+          let arr = []
+          $this.$refs['addItem'].forEach((e,i)=>{
+            let func = function () {
+              return new Promise((resolve, reject) => {
+                e.validate((valid1) =>{
+                  if(valid1){
+                    resolve()
+                  }else {
+                    flag = false
+                    resolve()
+                  }
+                })
+              })
+            }
+            arr.push(func)
+          })
+          console.log(arr)
+          let queue = (arr)=>{
+            let sequence = Promise.resolve()
+            arr.forEach((item)=>{
+              sequence = sequence.then(item())
+            })
+            return sequence
+          }
+          queue(arr)
+
+        }
         this.$refs[formName].validate((valid) => {
-          if (valid) {
+          console.log(flag)
+          if (valid && flag) {
+            let addItem = []
+            if(this.ruleForm.addItem.length){
+              addItem = this.ruleForm.addItem.map((e,i)=>{
+                return {
+                  productId: e.productId,
+                  productName:e.productName,
+                  productImage:e.image,
+                  idx: i+5
+                }
+              })
+            }
             let params = {
-              id:this.id,
               type:2,
               name:this.ruleForm.name,
               idx:this.ruleForm.idx,
@@ -554,7 +654,8 @@
                   productName:this.ruleForm.product4Name,
                   productImage:this.ruleForm.image4,
                   idx: 4
-                }
+                },
+                ...addItem
               ]
 
             }
@@ -607,7 +708,11 @@
         var imgUrl = data && data.accessUrl;
         this.ruleForm.image4 = imgUrl;
       },
-
+      handleSuccess(idx,res){
+        var data = res.data || {};
+        var imgUrl = data && data.accessUrl;
+        this.ruleForm.addItem[idx].image = imgUrl;
+      },
       returnRecommend(){
         this.$router.push({
           path:'/mall/recommend'
@@ -655,8 +760,13 @@
             type: 'warning'
           })
         }else {
-          this.ruleForm["product"+this.ProductIndex+"Id"] = this.selectProduct.productId
-          this.ruleForm["product"+this.ProductIndex+"Name"] = this.selectProduct.productName
+          if(this.ProductIndex <= 4){
+            this.ruleForm["product"+this.ProductIndex+"Id"] = this.selectProduct.productId
+            this.ruleForm["product"+this.ProductIndex+"Name"] = this.selectProduct.productName
+          }else {
+            this.ruleForm.addItem[this.ProductIndex -5].productId = this.selectProduct.productId
+            this.ruleForm.addItem[this.ProductIndex -5].productName = this.selectProduct.productName
+          }
           this.$refs.JDTable.setCurrentRow();
           this.$refs.ZJTable.setCurrentRow();
           this.dialogTableVisible = false
