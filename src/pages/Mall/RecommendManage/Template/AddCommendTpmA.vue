@@ -433,7 +433,8 @@
       },
       postSearchJD(params) {
         this.listLoading = true;
-        this.$request.post('/sc/saotx/mall/product/listJD', params, true, (res) => {
+        // this.$request.post('/sc/saotx/mall/product/listJD', params, true, (res) => {
+        this.$request.post('/sc/mall/suning/product/list', params, true, (res) => {
           if (res.ret == '200000') {
             this.listLoading = false;
             this.listJD = res.data.list
@@ -611,6 +612,8 @@
       handleClick(tab, event) {
         this.filters.pageNo = 1
         this.currentPage = 1
+        this.radiojd = ''
+        this.radiozj = ''
         if(this.listType == "JD"){
           this.getListJD()
         }else if(this.listType == "ZJ"){
@@ -623,10 +626,14 @@
       },
       //分页器功能
       handleCurrentChangeZJ(val) {
+        this.radiojd = ''
+        this.radiozj = ''
         this.filters.pageNo = val
         this.currentPage = val
         this.getListZJ()
       },handleCurrentChangeJD(val) {
+        this.radiojd = ''
+        this.radiozj = ''
         this.filters.pageNo = val
         this.currentPage = val
         this.getListJD()
@@ -655,6 +662,8 @@
           this.getListJD()
           this.selectProduct.productName = ""
           this.selectProduct.productId = ""
+          this.radiojd = ''
+          this.radiozj = ''
         }
       },
       cancelDialog() {
@@ -673,6 +682,8 @@
         this.selectProduct.productName = ""
         this.selectProduct.productId = ""
         this.dialogTableVisible = false
+        this.radiojd = ''
+        this.radiozj = ''
       }
     }
   }

@@ -241,8 +241,8 @@
           startTime: this.filters.startTime,
           endTime: this.filters.endTime,
           pageNo: this.pageNo,
-          pageSize: this.pageSize
-
+          pageSize: this.pageSize,
+          orderType:4    //苏宁
         };
         this.postSearch(params)
       },
@@ -319,7 +319,8 @@
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-          this.$request.post('/sc/saotx/mall/order/authOrder',params,true,res => {
+            // this.$request.post('/sc/saotx/mall/order/authOrder',params,true,res => {
+              this.$request.post('/sc/saotx/mall/order/authOrder/suning',params,true,res => {
             if(res.ret == "200000"){
               this.$message({
                 message: '操作成功！',
