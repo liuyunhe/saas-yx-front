@@ -112,9 +112,9 @@
             <el-input type="number" disabled v-model="ruleForm.score" style="width: 200px"></el-input>&nbsp;&nbsp;<span>积分</span>
           </el-form-item>
           <div></div>
-          <el-form-item  label="运费：" prop="deliveryScore" size="small">
-            <el-input type="number" v-model="ruleForm.deliveryScore" style="width: 200px"></el-input>&nbsp;&nbsp;<span>积分</span>
-          </el-form-item>
+<!--          <el-form-item  label="运费：" prop="deliveryScore" size="small">-->
+<!--            <el-input type="number" v-model="ruleForm.deliveryScore" style="width: 200px"></el-input>&nbsp;&nbsp;<span>积分</span>-->
+<!--          </el-form-item>-->
           <div></div>
           <el-form-item label="状态：" prop="status" size="small">
             <el-radio v-model="ruleForm.status" label="1">上架</el-radio>
@@ -273,7 +273,7 @@
           //兑换值
           score:'',
           //运费
-          deliveryScore:'',
+          deliveryScore:0,
           //状态
           status:'1',
           //是否为热门商品0否，1是
@@ -301,9 +301,9 @@
           score: [
             { required: true, message: '请输入兑换值', trigger: 'blur' },
           ],
-          deliveryScore: [
-            { required: true, message: '请输入运费', trigger: 'blur' },
-          ],
+          // deliveryScore: [
+          //   { required: true, message: '请输入运费', trigger: 'blur' },
+          // ],
         }
       }
     },
@@ -339,7 +339,7 @@
             //兑换值
             this.ruleForm.score = res.data.score
             //运费
-            this.ruleForm.deliveryScore = res.data.deliveryScore
+            // this.ruleForm.deliveryScore = res.data.deliveryScore
             //状态
             this.ruleForm.status = res.data.status+""
             // this.ruleForm.isHostGood=res.data.isHostGood+""
