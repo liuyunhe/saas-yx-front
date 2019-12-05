@@ -153,7 +153,7 @@
       </el-form>
 
       <el-tabs v-model="listType" type="card" @tab-click="handleClick">
-        <el-tab-pane label="京东商品" name="JD">
+        <el-tab-pane label="苏宁商品" name="JD">
           <el-table :data="listJD" ref="JDTable" v-loading="listLoading" highlight-current-row @current-change="handleSelectProduct" @row-click = "showRowJD">
             <el-table-column label="选择" width="50" align="center">
               <template slot-scope="scope">
