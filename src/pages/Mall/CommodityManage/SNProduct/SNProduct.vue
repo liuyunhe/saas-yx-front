@@ -419,7 +419,7 @@
           cateLvl4:this.filters.cateLvl4,
 
           pageSize:this.pageSize,
-          currentPageNumber:this.pageNo
+          pageNo:this.pageNo
         };
         if(type == "bySales"){
           params.order = 1
