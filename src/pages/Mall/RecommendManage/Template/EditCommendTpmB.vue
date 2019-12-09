@@ -417,7 +417,8 @@
 
         selectProduct:{
           productId : "",
-          productName : ""
+          productName : "",
+          image:""
         }
 
       }
@@ -726,6 +727,7 @@
           let product = val
           this.selectProduct.productId = product.productId
           this.selectProduct.productName = product.memo
+          this.selectProduct.image = product.image
         }
 
 
@@ -771,9 +773,11 @@
           if(this.ProductIndex <= 4){
             this.ruleForm["product"+this.ProductIndex+"Id"] = this.selectProduct.productId
             this.ruleForm["product"+this.ProductIndex+"Name"] = this.selectProduct.productName
+            this.ruleForm["image"+this.ProductIndex] = this.selectProduct.image
           }else {
             this.ruleForm.addItem[this.ProductIndex -5].productId = this.selectProduct.productId
             this.ruleForm.addItem[this.ProductIndex -5].productName = this.selectProduct.productName
+            this.ruleForm.addItem[this.ProductIndex -5].image = this.selectProduct.image
           }
           this.$refs.JDTable.setCurrentRow();
           this.$refs.ZJTable.setCurrentRow();
@@ -789,6 +793,7 @@
           this.getListJD()
           this.selectProduct.productName = ""
           this.selectProduct.productId = ""
+          this.selectProduct.image = ""
           this.radiojd = ''
           this.radiozj = ''
         }
@@ -808,6 +813,7 @@
         this.getListJD()
         this.selectProduct.productName = ""
         this.selectProduct.productId = ""
+        this.selectProduct.image = ""
         this.dialogTableVisible = false
         this.radiojd = ''
         this.radiozj = ''
