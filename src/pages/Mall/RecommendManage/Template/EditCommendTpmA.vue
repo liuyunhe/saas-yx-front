@@ -152,7 +152,7 @@
       </el-form>
 
       <el-tabs v-model="listType" type="card" @tab-click="handleClick">
-        <el-tab-pane label="京东商品" name="JD">
+        <el-tab-pane label="苏宁商品" name="JD">
           <el-table :data="listJD" ref="JDTable" v-loading="listLoading" highlight-current-row @current-change="handleSelectProduct"  @row-click = "showRowJD">
             <el-table-column label="选择" width="50" align="center">
               <template slot-scope="scope">
@@ -381,7 +381,8 @@
 
         selectProduct:{
           productId : "",
-          productName : ""
+          productName : "",
+          image:""
         }
 
       }
@@ -620,6 +621,7 @@
           let product = val
           this.selectProduct.productId = product.productId
           this.selectProduct.productName = product.memo
+          this.selectProduct.image = product.image
         }
 
 
@@ -664,6 +666,7 @@
         }else {
           this.ruleForm["product"+this.ProductIndex+"Id"] = this.selectProduct.productId
           this.ruleForm["product"+this.ProductIndex+"Name"] = this.selectProduct.productName
+          this.ruleForm["image"+this.ProductIndex] = this.selectProduct.image
           this.$refs.JDTable.setCurrentRow();
           this.$refs.ZJTable.setCurrentRow();
           this.dialogTableVisible = false
@@ -678,6 +681,7 @@
           this.getListJD()
           this.selectProduct.productName = ""
           this.selectProduct.productId = ""
+          this.selectProduct.image = ""
           this.radiojd = ''
           this.radiozj = ''
         }
@@ -697,6 +701,7 @@
         this.getListJD()
         this.selectProduct.productName = ""
         this.selectProduct.productId = ""
+        this.selectProduct.image = ""
         this.dialogTableVisible = false
         this.radiojd = ''
         this.radiozj = ''

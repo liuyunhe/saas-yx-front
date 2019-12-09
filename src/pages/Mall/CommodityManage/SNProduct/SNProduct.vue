@@ -419,7 +419,7 @@
           cateLvl4:this.filters.cateLvl4,
 
           pageSize:this.pageSize,
-          currentPageNumber:this.pageNo
+          pageNo:this.pageNo
         };
         if(type == "bySales"){
           params.order = 1
@@ -519,7 +519,7 @@
       //上架商品
       productOnline(id){
         let params = {id}
-        this.$request.post('/sc/saotx/mall/product/online',params,true,res => {
+        this.$request.post('/sc/saotx/mall/product/onlineSuning',params,true,res => {
           if(res.ret == "200000"){
             this.$message({
               message: '操作成功！',
