@@ -628,6 +628,7 @@
               })
             }
             let params = {
+              id:this.id,
               type:2,
               name:this.ruleForm.name,
               idx:this.ruleForm.idx,
