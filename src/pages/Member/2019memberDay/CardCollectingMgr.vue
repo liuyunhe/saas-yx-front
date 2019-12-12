@@ -115,7 +115,7 @@
 
 
     <!-- 通用 -->
-    <el-dialog :title="title" :visible.sync="listVisible" width="800px">
+    <el-dialog :title="title" :visible.sync="listVisible" width="800px" @close="handleColseList">
       <el-table :data="metraList" border :stripe="true" style="width: 100%">
         <el-table-column prop="name" label="礼品名称" align="center">
         </el-table-column>
@@ -353,7 +353,11 @@
         card.awardConf[awardNo].awardName = obj.name
         card.awardConf[awardNo].awardPrice = obj.marketMoney
         card.awardConf[awardNo].awardPic = obj.pic
+        this.handleColseList()
+      },
+      handleColseList(){
         this.listVisible = false
+        this.params.pageNo = 1
       },
       deleteAward(id){
         this.$confirm('此操作将删除该奖品, 是否继续?', '提示', {

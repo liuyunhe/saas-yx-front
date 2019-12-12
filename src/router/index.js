@@ -245,6 +245,7 @@ const QAMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/20
 const PartyMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/PartyMgr')
 const MineMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/MineMgr')
 const SignMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/SignMgr')
+const WinningPrizeMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/WinningPrizeMgr')
 
 // 用户
 const Mgr = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Mgr/Mgr')
@@ -514,6 +515,7 @@ export default new Router({
         { path: '/memberday/QAMgr', name: '钻石学堂', component: QAMgr },
         { path: '/memberday/MineMgr', name: '钻石矿场', component: MineMgr },
         { path: '/memberday/PartyMgr', name: '钻石Party', component: PartyMgr },
+        { path: '/memberday/WinningPrizeMgr', name: '中奖风采', component: WinningPrizeMgr },
         { path: '/memberday/SignMgr', name: '社区打卡', component: SignMgr },
 
         { path: '/memberday/material/prizeConf', name: '会员日实物奖品配置', component: PrizeConf, props: (route) => ({type: route.query.type, id: route.query.id}) },
