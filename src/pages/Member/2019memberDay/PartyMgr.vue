@@ -125,15 +125,6 @@
 </template>
 
 <script>
-  const awardDemo = {
-      "awardName": "",
-      "marketMoney": null,
-      "cardValue": null,
-      "awardPic": "",
-      "awardDesc": "",
-      "awardType": null,
-      "prizeNum": null
-    }
   export default {
     name: "PartyMgr",
     data(){
@@ -230,6 +221,15 @@
     },
     methods:{
       addItem(){
+        const awardDemo = {
+          "awardName": "",
+          "marketMoney": null,
+          "cardValue": null,
+          "awardPic": "",
+          "awardDesc": "",
+          "awardType": null,
+          "prizeNum": null
+        }
         this.awardConf.push(awardDemo)
       },
       delItem(index){
