@@ -246,7 +246,7 @@
             this.id = res.data.conf.id
             this.isStart = res.data.isStart
             if(res.data.prizeList.length > 0){
-              this.awardConf.splice(0,1)
+              this.awardConf = []
               res.data.prizeList.forEach(item => {
                 this.awardConf.push(
                   {
