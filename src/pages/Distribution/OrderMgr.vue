@@ -164,6 +164,10 @@
               prop="alcoholDegree"
               label="度数"
               width="120">
+            <template slot-scope="scope">
+              <span v-if="scope.row.alcoholDegree == 1">{{ "42度" }}</span>
+              <span v-if="scope.row.alcoholDegree == 2">{{ "52度" }}</span>
+            </template>
           </el-table-column>
           <el-table-column
               prop="amount"
