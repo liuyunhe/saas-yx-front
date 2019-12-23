@@ -161,6 +161,11 @@
               width="120">
           </el-table-column>
           <el-table-column
+              prop="alcoholDegree"
+              label="度数"
+              width="120">
+          </el-table-column>
+          <el-table-column
               prop="amount"
               label="支付金额"
               width="120">
