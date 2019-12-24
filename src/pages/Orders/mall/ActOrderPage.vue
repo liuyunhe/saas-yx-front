@@ -90,7 +90,14 @@
                 <el-table-column prop="awardName" label="奖项名称" ></el-table-column>
                 <el-table-column label="中奖时间">
                     <template slot-scope="scope">
-                        {{new Date(scope.row.createTime).Format("yyyy-MM-dd hh:mm:ss")}}
+                        <span v-if="scope.row.createTime">
+                            {{new Date(scope.row.createTime).Format("yyyy-MM-dd hh:mm:ss")}}
+                        </span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="领奖时间">
+                    <template slot-scope="scope">
+                        {{new Date(scope.row.updateTime).Format("yyyy-MM-dd hh:mm:ss")}}
                     </template>
                 </el-table-column>
                 <el-table-column  label="订单状态	">
