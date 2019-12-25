@@ -14,17 +14,33 @@
                     <el-form-item label="活动名称:" size="small" >
                         <el-input v-model="form.jmcnl" placeholder="请输入关键词" ></el-input>
                     </el-form-item>
-
                     <el-form-item label="手机号:" size="small" >
                         <el-input v-model="form.mobile" placeholder="请输入关键词" ></el-input>
                     </el-form-item>
+                    <el-form-item label="收货人姓名:" size="small" >
+                        <el-input v-model="form.userName" placeholder="请输入关键词" ></el-input>
+                    </el-form-item>
+
                 </el-row>
                 <el-row>
-                    <el-form-item label="时间段:"  size="small" >
-                        <el-date-picker v-model="form.startTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm"> </el-date-picker>
+                    <el-form-item label="中奖时间:"  size="small" >
+                        <el-date-picker v-model="form.startTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss"> </el-date-picker>
                     </el-form-item>
                     <el-form-item label="至" size="small" >
-                        <el-date-picker v-model="form.endTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm"> </el-date-picker>
+                        <el-date-picker v-model="form.endTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss"> </el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="奖品类型:"  size="small" >
+                        <el-select v-model="form.physicalOrVirtual" placeholder="请选择">
+                            <el-option v-for="(item,index) in physicalOrVirtualGroup" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-row>
+                <el-row>
+                    <el-form-item label="领奖时间:"  size="small" >
+                        <el-date-picker v-model="form.startUpdateTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss"> </el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="至" size="small" >
+                        <el-date-picker v-model="form.endUpdateTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss"> </el-date-picker>
                     </el-form-item>
                     <el-form-item label="订单状态:"  size="small" >
                         <el-select v-model="form.status" placeholder="请选择">
@@ -46,9 +62,9 @@
                                 :file-list="sourceFiles"
                                 :auto-upload="true"
                                 >
-                            <el-button slot="trigger" size="small" type="primary">导入物流信息</el-button>
+                            <el-button slot="trigger" size="small" type="primary" >导入物流信息</el-button>
                         </el-upload></el-button>
-                        <el-button plain  v-on:click="exportData" >导出搜索结果</el-button>
+                        <el-button plain  v-on:click="exportData" :disabled="form.physicalOrVirtual !== 2">导出搜索结果</el-button>
                     </el-row>
                 </el-form-item>
             </el-form>
@@ -74,7 +90,14 @@
                 <el-table-column prop="awardName" label="奖项名称" ></el-table-column>
                 <el-table-column label="中奖时间">
                     <template slot-scope="scope">
-                        {{new Date(scope.row.createTime).Format("yyyy-MM-dd hh:mm:ss")}}
+                        <span v-if="scope.row.createTime">
+                            {{new Date(scope.row.createTime).Format("yyyy-MM-dd hh:mm:ss")}}
+                        </span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="领奖时间">
+                    <template slot-scope="scope">
+                        {{new Date(scope.row.updateTime).Format("yyyy-MM-dd hh:mm:ss")}}
                     </template>
                 </el-table-column>
                 <el-table-column  label="订单状态	">
@@ -111,15 +134,33 @@
                     status:"",//订单状态
                     orderType: 3,
                     orderId:'',
+                    physicalOrVirtual:'',
                     awardName:'',
                     userName:'',
                     jmcnl:'',
+                    startUpdateTime:'',
+                    endUpdateTime:'',
                     pageNo: 1,
                     pageSize: 10
                 },
                 pagination: { // 分页
                     total: 0
                 },
+                physicalOrVirtualGroup:[
+                    {
+                        id:'',
+                        name:'全部'
+                    },{
+                        id:2,
+                        name:'实物'
+                    },{
+                        id:3,
+                        name:'红包'
+                    },{
+                        id:4,
+                        name:'积分'
+                    },
+                ],
                 //分页器当前选中页码
                 currentPage: 1,
                 headers: {
@@ -170,6 +211,7 @@
                     }
             },
             queryData: function(event){//搜索
+                this.form.pageNo = 1
                 this.getlistData();
             },
             currentChange(pageNo) {
@@ -195,7 +237,10 @@
                     orderType: 3,
                     orderId:'',
                     awardName:'',
+                    physicalOrVirtual:'',
                     userName:'',
+                    startUpdateTime:'',
+                    endUpdateTime:'',
                     pageNo: 1,
                     pageSize: 10
                 }
@@ -217,8 +262,13 @@
                 var url = "/sc/saotx/mall/order/exportActOrder";
                 var xhr = new XMLHttpRequest();
                 var formData = new FormData();
-                for(var attr in this.form) {
-                    formData.append(attr, this.form[attr]);
+                let params = JSON.parse(JSON.stringify(this.form))
+                if(params.startTime == null) params.startTime = ""
+                if(params.endTime == null) params.endTime = ""
+                if(params.startUpdateTime == null) params.startUpdateTime = ""
+                if(params.endUpdateTime == null) params.endUpdateTime = ""
+                for(var attr in params) {
+                    formData.append(attr, params[attr]);
                 }
                 xhr.overrideMimeType("text/plain; charset=x-user-defined");
                 xhr.open('POST', url, true);
