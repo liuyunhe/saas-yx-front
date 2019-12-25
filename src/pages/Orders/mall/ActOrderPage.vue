@@ -24,10 +24,10 @@
                 </el-row>
                 <el-row>
                     <el-form-item label="中奖时间:"  size="small" >
-                        <el-date-picker v-model="form.startTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm"> </el-date-picker>
+                        <el-date-picker v-model="form.startTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss"> </el-date-picker>
                     </el-form-item>
                     <el-form-item label="至" size="small" >
-                        <el-date-picker v-model="form.endTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm"> </el-date-picker>
+                        <el-date-picker v-model="form.endTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss"> </el-date-picker>
                     </el-form-item>
                     <el-form-item label="奖品类型:"  size="small" >
                         <el-select v-model="form.physicalOrVirtual" placeholder="请选择">
@@ -37,10 +37,10 @@
                 </el-row>
                 <el-row>
                     <el-form-item label="领奖时间:"  size="small" >
-                        <el-date-picker v-model="form.startUpdateTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm"> </el-date-picker>
+                        <el-date-picker v-model="form.startUpdateTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss"> </el-date-picker>
                     </el-form-item>
                     <el-form-item label="至" size="small" >
-                        <el-date-picker v-model="form.endUpdateTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm"> </el-date-picker>
+                        <el-date-picker v-model="form.endUpdateTime" type="datetime" placeholder="选择日期" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss"> </el-date-picker>
                     </el-form-item>
                     <el-form-item label="订单状态:"  size="small" >
                         <el-select v-model="form.status" placeholder="请选择">
@@ -262,8 +262,13 @@
                 var url = "/sc/saotx/mall/order/exportActOrder";
                 var xhr = new XMLHttpRequest();
                 var formData = new FormData();
-                for(var attr in this.form) {
-                    formData.append(attr, this.form[attr]);
+                let params = JSON.parse(JSON.stringify(this.form))
+                if(params.startTime == null) params.startTime = ""
+                if(params.endTime == null) params.endTime = ""
+                if(params.startUpdateTime == null) params.startUpdateTime = ""
+                if(params.endUpdateTime == null) params.endUpdateTime = ""
+                for(var attr in params) {
+                    formData.append(attr, params[attr]);
                 }
                 xhr.overrideMimeType("text/plain; charset=x-user-defined");
                 xhr.open('POST', url, true);
