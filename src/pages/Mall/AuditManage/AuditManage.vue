@@ -90,6 +90,10 @@
               prop="userName"
               label="收货人姓名"
               width="100px">
+          </el-table-column
+          ><el-table-column
+              prop="mobile"
+              label="手机号">
           </el-table-column>
           <el-table-column
               prop="mobile"
