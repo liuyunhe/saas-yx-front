@@ -12,6 +12,9 @@
           <el-form-item label="用户等级：" prop="gradeNumber">
             <el-input v-model="queryParams.gradeNumber" @change="isNum"></el-input>
           </el-form-item>
+          <el-form-item label="openid：" prop="openid">
+            <el-input v-model="queryParams.openid"></el-input>
+          </el-form-item>
         </el-form>
         <div class="btn">
           <el-button type="primary" @click="getUserList">查询</el-button>
@@ -42,6 +45,7 @@
           </template>
         </el-table-column>
         <el-table-column label="等级" prop="gradeNumber" align="center" width="60px"></el-table-column>
+        <el-table-column label="openid" prop="openid" align="center" width="150px"></el-table-column>
         <el-table-column label="积分" prop="points" align="center" width="100px"></el-table-column>
         <el-table-column label="成长值" prop="growth" align="center" width="100px"></el-table-column>
         <el-table-column label="地区" align="center" width="140px">
@@ -77,6 +81,7 @@ export default {
         mobile: '159', //电话号
         nickName: '马', //昵称
         gradeNumber: '', //等级
+        openid:'',
         pageNo:1,
         pageSize:10,
         ban: 0 //正常用户
@@ -105,7 +110,7 @@ export default {
           })
       },
     getUserList() {
-      if(this.queryParams.mobile==""&&this.queryParams.nickName=="") return this.$message.error('昵称搜索条件和手机号搜索条件不能都为空!');
+      if(this.queryParams.mobile==""&&this.queryParams.nickName==""&&this.queryParams.openid=="") return this.$message.error('搜索条件:昵称、手机号、openid不能都为空!');
       this.$refs.queryRef.validate(valid => {
         if (!valid) return this.$message.error('请完善手机号!')
         this.load = true
