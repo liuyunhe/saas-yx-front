@@ -64,7 +64,7 @@
                                 >
                             <el-button slot="trigger" size="small" type="primary" >导入物流信息</el-button>
                         </el-upload></el-button>
-                        <el-button plain  v-on:click="exportData" :disabled="form.physicalOrVirtual !== 2">导出搜索结果</el-button>
+                        <el-button plain  v-on:click="exportData" :disabled="form.physicalOrVirtual ==''">导出搜索结果</el-button>
                     </el-row>
                 </el-form-item>
             </el-form>
@@ -97,7 +97,7 @@
                 </el-table-column>
                 <el-table-column label="领奖时间">
                     <template slot-scope="scope">
-                        {{new Date(scope.row.updateTime).Format("yyyy-MM-dd hh:mm:ss")}}
+                        {{scope.row.updateTime ? new Date(scope.row.updateTime).Format("yyyy-MM-dd hh:mm:ss") : ""}}
                     </template>
                 </el-table-column>
                 <el-table-column  label="订单状态	">
