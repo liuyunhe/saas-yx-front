@@ -97,7 +97,7 @@
                 </el-table-column>
                 <el-table-column label="领奖时间">
                     <template slot-scope="scope">
-                        {{new Date(scope.row.updateTime).Format("yyyy-MM-dd hh:mm:ss")}}
+                        {{scope.row.updateTime ? new Date(scope.row.updateTime).Format("yyyy-MM-dd hh:mm:ss") : ""}}
                     </template>
                 </el-table-column>
                 <el-table-column  label="订单状态	">
