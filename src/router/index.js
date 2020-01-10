@@ -269,6 +269,8 @@ const DealerMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Distr
 const DealerDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Distribution/DealerDetail')
 const SystemMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Distribution/SystemMgr')
 
+//成码
+const Application = () => import(/* webpackChunkName: "activity" */ '@/pages/Code/Application')
 
 Vue.use(Router)
 
@@ -542,6 +544,9 @@ export default new Router({
         { path: '/distribution/dealerMgr', name: '经销商管理', component: DealerMgr },
         { path: '/distribution/dealerDetail', name: '经销商详情', component: DealerDetail ,props: (route) => ({salerId:route.query.salerId}) },
         { path: '/distribution/systemMgr', name: '系统设置', component: SystemMgr },
+
+        //成码
+        { path: '/code/application', name: '成码申请', component: Application },
       ]
     },
     {

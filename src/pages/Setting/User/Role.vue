@@ -266,10 +266,11 @@ export default {
         return false;
       }
       let checkedMenus = this.$refs.menuTree.getHalfCheckedKeys()||[];
+      console.log(checkedMenus)
       let checkedKeys = this.$refs.menuTree.getCheckedKeys()||[];
-      if(checkedMenus&&checkedMenus.length>0) {
-        checkedMenus = checkedMenus.concat(checkedKeys);
-      }
+      console.log(checkedKeys)
+      checkedMenus = checkedMenus.concat(checkedKeys);
+
       this.roleForm.menus = checkedMenus.join(',')||'';
       this.$request.post('/api/wiseqr/role/saveOrModify', this.roleForm, true, (res)=>{
         if (res.ret == '200000') {
