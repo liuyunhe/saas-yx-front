@@ -156,7 +156,7 @@
             <el-input-number style="width: 200px" v-model="f.codeSize" :controls="false" :max="50000000" :min="1"></el-input-number>个
           </el-form-item>
           <el-form-item label="印刷厂名称：" prop="factoryCode" label-width="200px">
-            <el-select v-model="f.factoryCode" placeholder="请选择活动区域">
+            <el-select v-model="f.factoryCode" placeholder="请选择">
               <el-option v-for="(item,index) in factoryList" :label="item.factoryName" :value="item.factoryCode" :key="index"></el-option>
             </el-select>
           </el-form-item>
