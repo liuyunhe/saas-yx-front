@@ -61,6 +61,7 @@
         <el-table-column prop="productSn" label="产品SN" align="center"></el-table-column>
         <el-table-column prop="codeSize" label="源码数量" align="center"></el-table-column>
         <el-table-column prop="factoryName" label="印刷厂名称" align="center"></el-table-column>
+        <el-table-column prop="loadFileSql" label="库文件" align="center"></el-table-column>
         <el-table-column prop="requestTime" label="申请时间" align="center"></el-table-column>
         <el-table-column prop="requestStatus" label="任务状态" align="center">
           <template slot-scope="scope">
