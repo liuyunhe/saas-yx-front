@@ -152,13 +152,13 @@ export default {
       // if (this.selectedPrevArr.length == 0 || this.selectedCityArr.length == 0) return this.$message.error('请选择地区')
       // 不是全部地区  清除选中地区里面的全部选项
       if (!this.isDisabled) {
-        if(this.selectedCityArr.indexOf('000000') != -1) {
+        if(this.selectedCityArr.indexOf('000000') != -1 && this.selectedCityArr.length > 1) {
           this.selectedCityArr.splice(this.selectedCityArr.indexOf('000000'), 1)
         }
-        if(this.selectedAreaArr.indexOf('000000') != -1) {
+        if(this.selectedAreaArr.indexOf('000000') != -1 && this.selectedAreaArr.length > 1) {
           this.selectedAreaArr.splice(this.selectedAreaArr.indexOf('000000'), 1)
         }
-        if(this.selectedPrevArr.indexOf('000000') != -1) {
+        if(this.selectedPrevArr.indexOf('000000') != -1 && this.selectedPrevArr.length > 1) {
           this.selectedPrevArr.splice(this.selectedPrevArr.indexOf('000000'), 1)
         }
       }
