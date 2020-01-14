@@ -47,12 +47,15 @@ export default {
         this.selectCityList = ['000000']
         this.selectAreaList = ['000000']
         this.done()
+        this.$emit('isAllSelect',true)
       } else {
-        this.selectProvList = []
+        this.selectProvList.splice(0,this.selectProvList.length)
         this.selectCityList = []
         this.selectAreaList = []
         this.cityList = []
         this.areaList = []
+        this.done()
+        this.$emit('isAllSelect',false)
       }
     },
   },

@@ -34,16 +34,24 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   function (response) {
     // Do something with response data
-    if(response.data.ret == '100405') {
-      //alert(response.data.message || "请重新登陆！")
-      router.push({path:"/login?message="+ (response.data.message || "请重新登陆！")})
-    }else if(response.data.ret == '100408') {
-      //alert(response.data.message ||"此帐号已在其他地方登录，您已被迫下线！")
-      router.push({path:"/login?message="+ (response.data.message || "此帐号已在其他地方登录，您已被迫下线！")})
-    }else if(response.data.ret == '100409') {
-      //alert(response.data.message ||"密码时限超出，请修改密码！")
-      router.push({path:"/login?message="+ (response.data.message || "密码时限超出，请修改密码！")})
+    if(response.data.ret){
+      if(response.data.ret == '100405') {
+        //alert(response.data.message || "请重新登陆！")
+        router.push({path:"/login?message="+ (response.data.message || "请重新登陆！")})
+      }else if(response.data.ret == '100408') {
+        //alert(response.data.message ||"此帐号已在其他地方登录，您已被迫下线！")
+        router.push({path:"/login?message="+ (response.data.message || "此帐号已在其他地方登录，您已被迫下线！")})
+      }else if(response.data.ret == '100409') {
+        //alert(response.data.message ||"密码时限超出，请修改密码！")
+        router.push({path:"/login?message="+ (response.data.message || "密码时限超出，请修改密码！")})
+      }
+    }else if(response.data.code){
+      if(response.data.code == '100405') {
+        //alert(response.data.message || "请重新登陆！")
+        router.push({path:"/login?message="+ (response.data.message || "请重新登陆！")})
+      }
     }
+
 
     NProgress.done()
 

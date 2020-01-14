@@ -24,7 +24,7 @@
         </el-form-item>
         <el-form-item label="奖品名称:" prop="name">
           <el-col :span="10">
-            <el-input v-model="awae.prizeName" disabled="true" placeholder="奖品名称"></el-input>
+            <el-input v-model="awae.prizeName" :disabled="true" placeholder="奖品名称"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="红包面额:" v-if="awae.awardType == 3" prop="redNum">
