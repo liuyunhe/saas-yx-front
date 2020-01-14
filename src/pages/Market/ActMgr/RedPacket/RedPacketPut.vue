@@ -13,7 +13,7 @@
             cityArr: data.strategyArr[0].areas.cityArr,
             districtArr: data.strategyArr[0].areas.districtArr,
             provinceArr: data.strategyArr[0].areas.provinceArr
-          }" :isDis="isDisabled"></selected-area>
+          }" :isDis="isDisabled" @isAllSelect="(flag)=>{isDisabled = flag}"></selected-area>
         </el-form-item>
         <put-conf v-if="isShow" :astrictRedflg="astrictRedflg" :data="data"></put-conf>
         <el-form-item class="mt20" label="是否立即发布：">
@@ -152,8 +152,10 @@ export default {
       // if (this.selectedPrevArr.length == 0 || this.selectedCityArr.length == 0) return this.$message.error('请选择地区')
       // 不是全部地区  清除选中地区里面的全部选项
       if (!this.isDisabled) {
+        console.log(this.selectedCityArr)
         if(this.selectedCityArr.indexOf('000000') != -1 && this.selectedCityArr.length > 1) {
           this.selectedCityArr.splice(this.selectedCityArr.indexOf('000000'), 1)
+          console.log(this.selectedCityArr)
         }
         if(this.selectedAreaArr.indexOf('000000') != -1 && this.selectedAreaArr.length > 1) {
           this.selectedAreaArr.splice(this.selectedAreaArr.indexOf('000000'), 1)
