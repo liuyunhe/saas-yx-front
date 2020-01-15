@@ -155,6 +155,7 @@
         <el-form ref="form" :model="f" :rules="formRules">
           <el-form-item label="码源数量：" prop="codeSize" label-width="200px">
             <el-input-number style="width: 200px" v-model="f.codeSize" :controls="false" :max="50000000" :min="1"></el-input-number>个
+            <span style="margin-left: 20px">（{{parseFloat((f.codeSize/10000).toPrecision(12))}}万）</span>
           </el-form-item>
           <el-form-item label="印刷厂名称：" prop="factoryCode" label-width="200px">
             <el-select v-model="f.factoryCode" placeholder="请选择">
@@ -227,6 +228,9 @@
       this.getFactoryList()
     },
     methods: {
+      aaaa(num){
+        console.log(num)
+      },
       getFactoryList() {
         this.$request.get('/codesrc/saas/factory/list', {}, res => {
           if (res.code === '200') {
