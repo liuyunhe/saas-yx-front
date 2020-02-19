@@ -354,16 +354,11 @@ export default {
           flag = true
           return false
         }
-        if(!e.probability) {
-          this.$message.error('请输入中奖概率')
-          flag = true
-          return false
-        }
         if(!e.totalNum) {
           this.$message.error('请输入投放数量')
           flag = true
         }
-        if(!e.probability) {
+        if(e.probability == '') {
           this.$message.error('请输入中奖概率')
           flag = true
           return false
