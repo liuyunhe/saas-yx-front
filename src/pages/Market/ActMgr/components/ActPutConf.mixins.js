@@ -358,7 +358,7 @@ export default {
           this.$message.error('请输入投放数量')
           flag = true
         }
-        if(e.probability == '') {
+        if(e.probability === '') {
           this.$message.error('请输入中奖概率')
           flag = true
           return false
