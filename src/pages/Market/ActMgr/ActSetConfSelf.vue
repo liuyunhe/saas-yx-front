@@ -51,10 +51,10 @@
             <el-option v-for="item in cityList" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
           </el-select>
-          <el-select size="small" v-model="confData.selectDistrictList" multiple collapse-tags filterable placeholder="请选择" class="select-three">
-            <el-option v-for="item in districtList" :key="item.code" :label="item.name" :value="item.code">
-            </el-option>
-          </el-select>
+<!--          <el-select size="small" v-model="confData.selectDistrictList" multiple collapse-tags filterable placeholder="请选择" class="select-three">-->
+<!--            <el-option v-for="item in districtList" :key="item.code" :label="item.name" :value="item.code">-->
+<!--            </el-option>-->
+<!--          </el-select>-->
         </el-form-item>
         <el-form-item label="活动链接：" prop="link">
           <el-input v-model="confData.link" placeholder='请输入活动链接'></el-input>
@@ -270,9 +270,23 @@ export default {
         if(this.confData.selectProvList[this.confData.selectProvList.length-1]=='000000') {
           // 最后一次点击是全国
           this.confData.selectProvList = ['000000'];
-          this.cityList = [{code: '000000',name: '全国'}];
+          this.cityList.splice(0,this.cityList.length)
+          let allcity = Object.values(this.allCity)
+          let tmpList = [];
+          for(let i = 0; i < allcity.length; i++){
+            tmpList = tmpList.concat(allcity[i])
+          }
+          for(let i = 0; i < tmpList.length; i++){
+            this.cityList.push(tmpList[i])
+          }
+          this.confData.selectCityList = this.cityList.map(item => {
+            return item.code
+          })
           if (this.initCity) {
-            this.confData.selectCityList = ['000000'];
+            let strategy = this.strategyArr[0];
+            if(strategy) {
+              this.confData.selectCityList = strategy.areas.cityArr||[];
+            }
             this.initCity = false;
           }
           return;
