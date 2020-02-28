@@ -43,11 +43,11 @@
           </el-select>
         </el-form-item>
         <el-form-item label="地区：" prop="selectCityList">
-          <el-select size="small" v-model="confData.selectProvList" multiple collapse-tags filterable placeholder="请选择" @change="getCityList" class="select-three">
+          <el-select size="small" v-model="confData.selectProvList" multiple collapse-tags filterable placeholder="请选择" @change="getCityList" class="select-three" :disabled="isDisabled">
             <el-option v-for="item in provList" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
           </el-select>
-          <el-select size="small" v-model="confData.selectCityList" multiple collapse-tags filterable placeholder="请选择" @change="getDistrictList" class="select-three">
+          <el-select size="small" v-model="confData.selectCityList" multiple collapse-tags filterable placeholder="请选择" @change="getDistrictList" class="select-three" :disabled="isDisabled">
             <el-option v-for="item in cityList" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
           </el-select>
@@ -55,6 +55,7 @@
 <!--            <el-option v-for="item in districtList" :key="item.code" :label="item.name" :value="item.code">-->
 <!--            </el-option>-->
 <!--          </el-select>-->
+          <el-checkbox v-model="isDisabled" label="全部地区" border></el-checkbox>
         </el-form-item>
         <el-form-item label="活动链接：" prop="link">
           <el-input v-model="confData.link" placeholder='请输入活动链接'></el-input>
@@ -202,7 +203,8 @@ export default {
       allProv: [], // 所有省份：[{code:'',name:'',pcode:'',pname:''}, ...]
       allCity: {}, // 所有城市：{'provCode': [{code:'',name:'',pcode:'',pname:''}], ...}
       allDistrict: {}, // 所有区县：{'cityCode': [{code:'',name:'',pcode:'',pname:''}], ...}
-      
+      isDisabled: false, // 是否全国
+
       initProd: false, // 是否编辑或复制时的页面品牌规格初始化
       initCity: false, // 是否编辑或复制时的页面城市初始化
       initDistrict: false, // 是否编辑或复制时的页面区县初始化
@@ -211,6 +213,23 @@ export default {
       useAwardArr:false,
       directDraw:"0"
     }
+  },
+  watch:{
+    isDisabled: function (val) {
+      // console.log(val)
+      if (val) {
+        this.confData.selectProvList = ['000000']
+        this.confData.selectCityList = ['000000']
+        this.cityList = []
+        this.cityList.push({code: '000000',name: '全国'})
+        // this.confData.selectDistrictList = ['000000']
+      } else {
+        this.confData.selectProvList = []
+        this.confData.selectCityList = []
+        // this.confData.selectDistrictList = []
+        this.cityList = []
+      }
+    },
   },
   created() {
     if( this.id&&this.id>0 ) {
@@ -285,6 +304,9 @@ export default {
           if (this.initCity) {
             let strategy = this.strategyArr[0];
             if(strategy) {
+              if(strategy.areas.cityArr[0] =='000000'){
+                this.isDisabled = true
+              }
               this.confData.selectCityList = strategy.areas.cityArr||[];
             }
             this.initCity = false;
