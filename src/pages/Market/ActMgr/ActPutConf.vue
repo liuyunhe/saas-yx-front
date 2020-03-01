@@ -37,10 +37,10 @@
             <el-option v-for="item in cityList" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
           </el-select>
-          <el-select v-model="selectAreaList" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择" @change="selectAll">
-            <el-option v-for="item in areaList" :key="item.code" :label="item.name" :value="item.code">
-            </el-option>
-          </el-select>
+<!--          <el-select v-model="selectAreaList" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择" @change="selectAll">-->
+<!--            <el-option v-for="item in areaList" :key="item.code" :label="item.name" :value="item.code">-->
+<!--            </el-option>-->
+<!--          </el-select>-->
           <el-checkbox v-model="isDisabled" label="全部地区" border></el-checkbox>
           <!-- 暂时不做 -->
           <!-- <el-button type="primary" @click="regionVisible = true" class="ml20">已选明细</el-button> -->

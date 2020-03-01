@@ -355,9 +355,9 @@ export default {
                   this.selectProvList = item.areas.provinceArr
                   this.selectCityList = item.areas.cityArr
                   this.getCityList(this.selectProvList)
-                  this.getAreaList(this.selectCityList)
-                  this.selectAreaList = item.areas.districtArr
-                  this.selectAll(this.selectAreaList)
+                  // this.getAreaList(this.selectCityList)
+                  // this.selectAreaList = item.areas.districtArr
+                  // this.selectAll(this.selectAreaList)
                 }
                 this.selectBrand = item.brandArr
                 this.getBrandSonList()
