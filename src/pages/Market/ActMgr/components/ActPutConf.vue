@@ -115,10 +115,6 @@
               </div>
             </div>
           </el-form-item>
-          <el-form-item>
-            是否立即发布
-            <el-switch class="ml20" :disabled="statusDisabled" v-model="status"></el-switch>
-          </el-form-item>
         </el-form-item>
         <el-form-item>
           <el-row class="mt20">

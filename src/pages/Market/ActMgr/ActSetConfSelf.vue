@@ -459,7 +459,9 @@ export default {
               }
             }
             if (item.tfType == 'sn_first') {
-              this.$refs.actPutConf.firstScanTfId = item.tf.id
+              if(this.clone != 1){
+                this.$refs.actPutConf.firstScanTfId = item.tf.id
+              }
               item.awardArr.forEach((sonItem, i) => {
                 if (i != 0) {
                   this.$refs.actPutConf.firstScanTabs.push({
@@ -483,7 +485,9 @@ export default {
               this.$refs.actPutConf.firstScanConf = item.awardArr
             }
             if (item.tfType == 'n_mwin') {
-              this.$refs.actPutConf.nWinTfId = item.tf.id
+              if(this.clone != 1){
+                this.$refs.actPutConf.nWinTfId = item.tf.id
+              }
               item.awardArr.forEach((sonItem, i) => {
                 if (i != 0) {
                   this.$refs.actPutConf.nWinTabs.push({
@@ -507,7 +511,9 @@ export default {
               this.$refs.actPutConf.nWinConf = item.awardArr
             }
             if (item.tfType == 'special') {
-              this.$refs.actPutConf.fixationPutTfId = item.tf.id
+              if(this.clone != 1){
+                this.$refs.actPutConf.fixationPutTfId = item.tf.id
+              }
               item.awardArr.forEach((sonItem, i) => {
                 if (i != 0) {
                   this.$refs.actPutConf.fixationPutTabs.push({
