@@ -261,7 +261,8 @@ export default {
     }
   },
   created() {
-
+    this.getBrandList()
+    this.getProvList()
   },
   computed: {
     // TODO 暂时不做
@@ -342,6 +343,201 @@ export default {
     }
   },
   methods: {
+
+    // 获取品牌列表
+    getBrandList() {
+      this.$request.post('/api/wiseqr/prod/listBrand', {
+        pageSize: '-1'
+      }, true, res => {
+        if (res.ret === '200000') {
+          this.brandList = res.data.list
+          this.restrictBrand()
+          return
+        }
+        this.$message.error(res.message)
+      })
+    },
+    // 获取子品牌列表
+    getBrandSonList() {
+      // 定投限制品牌
+      this.restrictBrand()
+      this.$request.post(
+        '/api/wiseqr/prod/list', {
+          brandCodeArr: this.selectBrand,
+          pageSize: '-1'
+        },
+        true,
+        res => {
+          if (res.ret === '200000') {
+            this.brandSonList = res.data.list
+            this.restrictSonBrand()
+            return
+          }
+          this.$message.error(res.message)
+        }
+      )
+    },
+    // 获取省
+    getProvList() {
+      this.$request.post('/api/wiseqr/dim/regionByMultiParent', {
+        parentArr: []
+      }, true, res => {
+        if (res.ret === '200000') {
+          this.provList.push(...res.data)
+          // this.provList.unshift({
+          //   code: '000000',
+          //   name: '全部'
+          // })
+          return
+        }
+        this.$message.error(res.message)
+      })
+    },
+    // 获取市
+    getCityList(val) {
+      if (this.provList.length == 1) {
+        setTimeout(() => {
+          this.getCityList(val)
+        }, 1000)
+        return
+      }
+      let allValue = []
+      // 保存所有的值
+      for (let item of this.provList) {
+        allValue.push(item.code)
+      }
+      // 储存上一次的值 用来进行对比
+      const oldVal = this.oldSlectProvList.length === 1 ? [] : this.oldSlectProvList[1]
+      // 点击全部选择
+      /**
+       * Array.includes()
+       * ES6方法 用于判断是否包含某一元素 返回布尔值
+       */
+      if (val.includes('000000')) this.selectProvList = allValue
+      // 取消全部选择
+      if (oldVal.includes('000000') && !val.includes('000000')) this.selectProvList = []
+      // 全选之后取消单个
+      if (oldVal.includes('000000') && val.includes('000000')) {
+        // 全选也跟着取消
+        const index = val.indexOf('000000')
+        val.splice(index, 1)
+        this.selectProvList = val
+      }
+      // 全选未选 其它全部选上 则全选选上(上次和当前都没有全选)
+      if (!oldVal.includes('000000') && !val.includes('000000')) {
+        if (val.length === allValue.length - 1) {
+          this.selectProvList = ['000000'].concat(val)
+        }
+      }
+      this.oldSlectProvList[1] = this.selectProvList
+      if (this.selectProvList.length == 0) {
+        this.cityList = []
+        this.selectCityList = []
+        this.areaList = []
+        this.selectAreaList = []
+        return
+      }
+      this.$request.post(
+        '/api/wiseqr/dim/regionByMultiParent', {
+          parentArr: this.selectProvList
+        },
+        true,
+        res => {
+          if (res.ret === '200000') {
+            this.cityList = [{ code: '000000', name: '全部'}]
+            this.cityList.push(...res.data)
+            // 定点投放地区限制
+            this.restrictProv()
+            // this.cityList.unshift({
+            //   code: '000000',
+            //   name: '全部'
+            // })
+            return
+          }
+          this.message.error(res.message)
+        }
+      )
+    },
+    // 获取区
+    getAreaList(val) {
+      if (this.cityList.length == 1) {
+        setTimeout(() => {
+          this.getAreaList(val)
+        }, 1000)
+        return
+      }
+      let allValue = []
+      for (let item of this.cityList) {
+        allValue.push(item.code)
+      }
+      const oldVal = this.oldSelectCityList.length === 1 ? [] : this.oldSelectCityList[1]
+      if (val.includes('000000')) this.selectCityList = allValue
+      if (oldVal.includes('000000') && !val.includes('000000')) this.selectCityList = []
+      if (oldVal.includes('000000') && val.includes('000000')) {
+        const index = val.indexOf('000000')
+        val.splice(index, 1)
+        this.selectCityList = val
+      }
+      if (!oldVal.includes('000000') && !val.includes('000000')) {
+        if (val.length === allValue.length - 1) {
+          this.selectCityList = ['000000'].concat(val)
+        }
+      }
+      this.oldSelectCityList[1] = this.selectCityList
+      if (this.selectCityList.length == 0) {
+        this.areaList = []
+        this.selectAreaList = []
+        return
+      }
+      this.$request.post(
+        '/api/wiseqr/dim/regionByMultiParent', {
+          parentArr: this.selectCityList
+        },
+        true,
+        res => {
+          if (res.ret === '200000') {
+            this.areaList = [{ code: '000000', name: '全部'}]
+            this.areaList.push(...res.data)
+            // 定点投放地区限制
+            this.restrictCity()
+            // this.areaList.unshift({
+            //   code: '000000',
+            //   name: '全部'
+            // })
+            return
+          }
+          this.$message.error(res.message)
+        }
+      )
+    },
+    // 选择区
+    selectAll(val) {
+      if (this.areaList.length == 1) {
+        setTimeout(() => {
+          this.selectAll(val)
+        }, 1000)
+        return
+      }
+      this.restrictArea()
+      let allValue = []
+      for (let item of this.areaList) {
+        allValue.push(item.code)
+      }
+      const oldVal = this.oldSelectAreaList.length === 1 ? [] : this.oldSelectAreaList[1]
+      if (val.includes('000000')) this.selectAreaList = allValue
+      if (oldVal.includes('000000') && !val.includes('000000')) this.selectAreaList = []
+      if (oldVal.includes('000000') && val.includes('000000')) {
+        const index = val.indexOf('000000')
+        val.splice(index, 1)
+        this.selectAreaList = val
+      }
+      if (!oldVal.includes('000000') && !val.includes('000000')) {
+        if (val.length === allValue.length - 1) {
+          this.selectAreaList = ['000000'].concat(val)
+        }
+      }
+      this.oldSelectAreaList[1] = this.selectAreaList
+    },
     // 保存
     save() {
 
@@ -407,7 +603,15 @@ export default {
       // }
       this.addOrRemove('normal', targetName, action)
     },
-
+    firstScanTabsEdit(targetName, action) {
+      this.addOrRemove('firstScan', targetName, action)
+    },
+    nWinTabsEdit(targetName, action) {
+      this.addOrRemove('nWin', targetName, action)
+    },
+    fixationPutTabsEdit(targetName, action) {
+      this.addOrRemove('fixationPut', targetName, action)
+    },
     addOrRemove(confName, targetName, action) {
       if (action === 'add') {
         if (this[confName + 'Conf'].length == 10) return
@@ -445,5 +649,67 @@ export default {
         // this[confName + 'Tabs'] = tabs.filter(tab => tab.name !== targetName)
       }
     },
+    // 定点投放地区限制
+    restrictProv() {
+      this.specialProvList = JSON.parse(JSON.stringify(this.provList))
+      // if (this.selectProvList == ['000000']) return
+      this.specialProvList.forEach(speciaItem => {
+        speciaItem['disabled'] = true
+        this.selectProvList.forEach(item => {
+          if (speciaItem.code == item) {
+            speciaItem['disabled'] = false
+          }
+        })
+      })
+    },
+    restrictCity() {
+      this.specialCityList = JSON.parse(JSON.stringify(this.cityList))
+      // if (this.selectCityList == ['000000']) return
+      this.specialCityList.forEach(speciaItem => {
+        speciaItem['disabled'] = true
+        this.selectCityList.forEach(item => {
+          if (speciaItem.code == item) {
+            speciaItem['disabled'] = false
+          }
+        })
+      })
+    },
+    restrictArea() {
+      this.specialAreaList = JSON.parse(JSON.stringify(this.areaList))
+      // if (this.selectAreaList == ['000000']) return
+      this.specialAreaList.forEach(speciaItem => {
+        speciaItem['disabled'] = true
+        this.selectAreaList.forEach(item => {
+          if (speciaItem.code == item) {
+            speciaItem['disabled'] = false
+          }
+        })
+      })
+    },
+    // 定点投放品牌限制
+    restrictBrand() {
+      // console.log(this.selectBrand)
+      this.specialBrandList = JSON.parse(JSON.stringify(this.brandList))
+      this.specialBrandList.forEach(speciaItem => {
+        speciaItem['disabled'] = true
+        this.selectBrand.forEach(item => {
+          if (speciaItem.brandCode == item) {
+            speciaItem['disabled'] = false
+          }
+        })
+      })
+      // console.log(this.specialBrandList)
+    },
+    restrictSonBrand() {
+      this.specialBrandSonList = JSON.parse(JSON.stringify(this.brandSonList))
+      this.specialBrandSonList.forEach(speciaItem => {
+        speciaItem['disabled'] = true
+        this.selectSonBrand.forEach(item => {
+          if (speciaItem.sn == item) {
+            speciaItem['disabled'] = false
+          }
+        })
+      })
+    }
   }
 }
