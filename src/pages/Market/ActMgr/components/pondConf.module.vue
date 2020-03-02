@@ -244,7 +244,7 @@ export default {
     },
     totalRed: {
       get: function() {
-        return this.awae.redMoney * this.awae.totalNum
+        return parseFloat((this.awae.redMoney * this.awae.totalNum).toPrecision(12))
       },
       set: function(newValue) {
         // console.log(newValue)
