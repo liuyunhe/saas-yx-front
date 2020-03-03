@@ -72,7 +72,7 @@
         <el-form-item label="是否直接抽奖：" v-if="useAwardArr">
           <el-switch v-model="directDraw" :active-value="'1'" :inactive-value="'0'"></el-switch>
         </el-form-item>
-        <ActPutConf :awardArr="awardArr" @modifyAwardArr = "modifyAwardArr" v-show="useAwardArr"></ActPutConf>
+        <ActPutConf ref="actPutConf" :awardArr="awardArr" @modifyAwardArr = "modifyAwardArr" v-show="useAwardArr"></ActPutConf>
         <el-form-item v-if="!useAwardArr">
           <el-button type="primary" @click="confirmSubmit">确定</el-button>
           <el-button @click="$router.push('/market/actMgr')">返回列表</el-button>
@@ -211,7 +211,8 @@ export default {
 
       awardArr:[],
       useAwardArr:false,
-      directDraw:"0"
+      directDraw:"0",
+      Cindex:0,
     }
   },
   watch:{
@@ -269,7 +270,7 @@ export default {
           this.allDistrict = allAreas['district']||{};
           this.provList = this.provList.concat(this.allProv);
           // 处理地区
-          let strategy = this.strategyArr[0];
+          let strategy = this.strategyArr[this.Cindex];
           if(strategy) {
             this.confData.selectProvList = strategy.areas.provinceArr||[];
           }
@@ -302,7 +303,7 @@ export default {
             return item.code
           })
           if (this.initCity) {
-            let strategy = this.strategyArr[0];
+            let strategy = this.strategyArr[this.Cindex];
             if(strategy) {
               if(strategy.areas.cityArr[0] =='000000'){
                 this.isDisabled = true
@@ -327,7 +328,7 @@ export default {
         this.cityList = [];
       }
       if (this.initCity) {
-        let strategy = this.strategyArr[0];
+        let strategy = this.strategyArr[this.Cindex];
         if(strategy) {
           this.confData.selectCityList = strategy.areas.cityArr||[];
         }
@@ -358,7 +359,7 @@ export default {
         this.districtList = [];
       }
       if (this.initDistrict) {
-        let strategy = this.strategyArr[0];
+        let strategy = this.strategyArr[this.Cindex];
         if(strategy) {
           this.confData.selectDistrictList = strategy.areas.districtArr||[];
         }
@@ -371,7 +372,7 @@ export default {
         if (res.ret == '200000') {
           this.brandList = res.data.list || [];
           // 处理产品规格
-          let strategy = this.strategyArr[0];
+          let strategy = this.strategyArr[this.Cindex];
           if(strategy) {
             this.confData.selectBrand = strategy.brandArr||[];
             if (this.initProd) {
@@ -389,7 +390,7 @@ export default {
         if (res.ret == '200000') {
           this.productList = res.data.list || [];
           if (this.initProd) {
-            let strategy = this.strategyArr[0];
+            let strategy = this.strategyArr[this.Cindex];
             if(strategy) {
               this.confData.selectProductList = strategy.snArr||[];
             }
@@ -443,16 +444,107 @@ export default {
         if (res.ret == '200000') {
           this.copyDetailAttr(res.data.act);
           this.strategyArr = res.data.strategyArr;
-          this.initAjax();
-          if(res.data.strategyArr[0].awardArr){
-            this.useAwardArr = true
-            this.awardArr = res.data.strategyArr[0].awardArr
-            if('directDraw' in JSON.parse(res.data.act.extInfo)){
-              if(JSON.parse(res.data.act.extInfo)['directDraw']=='1'){
-                this.directDraw = '1'
+          res.data.strategyArr.forEach((item, index) => {
+            if (item.tfType == 'common') {
+              this.Cindex = index
+              this.initAjax();
+              if(res.data.strategyArr[this.Cindex].awardArr){
+                this.useAwardArr = true
+                this.awardArr = res.data.strategyArr[this.Cindex].awardArr
+                if('directDraw' in JSON.parse(res.data.act.extInfo)){
+                  if(JSON.parse(res.data.act.extInfo)['directDraw']=='1'){
+                    this.directDraw = '1'
+                  }
+                }
               }
             }
-          }
+            if (item.tfType == 'sn_first') {
+              if(this.clone != 1){
+                this.$refs.actPutConf.firstScanTfId = item.tf.id
+              }
+              item.awardArr.forEach((sonItem, i) => {
+                if (i != 0) {
+                  this.$refs.actPutConf.firstScanTabs.push({
+                    title: '常规奖项' + (i + 1),
+                    name: '' + (i + 1)
+                  })
+                }
+                // for (let k in sonItem) {
+                //   this.firstScanTabs[i][k] = sonItem[k]
+                // }
+                if (i == 0) {
+                  for (let k in sonItem) {
+                    this.$refs.actPutConf.firstScanConf[0][k] = sonItem[k]
+                  }
+                } else {
+                  this.$refs.actPutConf.firstScanConf.push(sonItem)
+                }
+              })
+              this.$refs.actPutConf.specialRuleConfFlag = true
+              this.$refs.actPutConf.firstScanFlag = true
+              this.$refs.actPutConf.firstScanConf = item.awardArr
+            }
+            if (item.tfType == 'n_mwin') {
+              if(this.clone != 1){
+                this.$refs.actPutConf.nWinTfId = item.tf.id
+              }
+              item.awardArr.forEach((sonItem, i) => {
+                if (i != 0) {
+                  this.$refs.actPutConf.nWinTabs.push({
+                    title: '常规奖项' + (i + 1),
+                    name: '' + (i + 1)
+                  })
+                }
+                // for (let k in sonItem) {
+                //   this.nWinTabs[i][k] = sonItem[k]
+                // }
+                if (i == 0) {
+                  for (let k in sonItem) {
+                    this.$refs.actPutConf.nWinConf[0][k] = sonItem[k]
+                  }
+                } else {
+                  this.$refs.actPutConf.nWinConf.push(sonItem)
+                }
+              })
+              this.$refs.actPutConf.specialRuleConfFlag = true
+              this.$refs.actPutConf.nWinFlag = true
+              this.$refs.actPutConf.nWinConf = item.awardArr
+            }
+            if (item.tfType == 'special') {
+              if(this.clone != 1){
+                this.$refs.actPutConf.fixationPutTfId = item.tf.id
+              }
+              item.awardArr.forEach((sonItem, i) => {
+                if (i != 0) {
+                  this.$refs.actPutConf.fixationPutTabs.push({
+                    title: '常规奖项' + (i + 1),
+                    name: '' + (i + 1)
+                  })
+                }
+                // for (let k in sonItem) {
+                //   console.log(this.normalConf[i][k])
+                //   this.fixationPutTabs[i][k] = sonItem[k]
+                // }
+                if (i == 0) {
+                  for (let k in sonItem) {
+                    this.$refs.actPutConf.fixationPutConf[0][k] = sonItem[k]
+                  }
+                } else {
+                  this.$refs.actPutConf.fixationPutConf.push(sonItem)
+                }
+              })
+              this.$refs.actPutConf.specialRuleConfFlag = true
+              this.$refs.actPutConf.fixationPutFlag = true
+              this.$refs.actPutConf.fixationPutConf = item.awardArr
+              this.$refs.actPutConf.specialAreas = item.areas
+              this.$refs.actPutConf.specialBrand.brandArr = item.brandArr
+              this.$refs.actPutConf.specialBrand.snArr = item.snArr
+              this.$refs.actPutConf.tfDurationArr.push(item.tf.sduration)
+              this.$refs.actPutConf.tfDurationArr.push(item.tf.eduration)
+              this.$refs.actPutConf.tfTimeArr.push(item.tf.stimeStr)
+              this.$refs.actPutConf.tfTimeArr.push(item.tf.etimeStr)
+            }
+          })
           return
         }
         this.$message.error(res.messgae)
@@ -490,7 +582,7 @@ export default {
           let params = {};
           params.act = this.confData;
           let strategyParams = {tf:{}, tfType:'common', snArr: this.confData.selectProductList, areas: {provinceArr:this.confData.selectProvList, cityArr:this.confData.selectCityList, districtArr:this.confData.selectDistrictList}};
-          let strategy = this.strategyArr[0];
+          let strategy = this.strategyArr[this.Cindex];
           if(strategy) {
 
             strategyParams.tf['id'] = strategy.tf.id;
@@ -503,6 +595,45 @@ export default {
           params.strategyArr.push(strategyParams);
           if(this.useAwardArr){
             params.strategyArr[0].awardArr = this.awardArr
+          }
+          let index = 0
+          if (this.$refs.actPutConf.firstScanFlag) {
+            params.strategyArr.push(JSON.parse(JSON.stringify(this.$refs.actPutConf.strategy)))
+            index = params.strategyArr.length
+            params.strategyArr[index - 1].awardArr = this.$refs.actPutConf.firstScanConf
+            params.strategyArr[index - 1].confOpen = true
+            params.strategyArr[index - 1].tfType = 'sn_first'
+            params.strategyArr[index - 1].tf = { id: this.$refs.actPutConf.firstScanTfId }
+          }
+          if (this.$refs.actPutConf.nWinFlag) {
+            params.strategyArr.push(JSON.parse(JSON.stringify(this.$refs.actPutConf.strategy)))
+            index = params.strategyArr.length
+            params.strategyArr[index - 1].awardArr = this.$refs.actPutConf.nWinConf
+            params.strategyArr[index - 1].confOpen = true
+            params.strategyArr[index - 1].tfType = 'n_mwin'
+            params.strategyArr[index - 1].tf = { id: this.$refs.actPutConf.nWinTfId }
+          }
+          if (this.$refs.actPutConf.fixationPutFlag) {
+            params.strategyArr.push(JSON.parse(JSON.stringify(this.$refs.actPutConf.strategy)))
+            index = params.strategyArr.length
+            params.strategyArr[index - 1].areas = this.$refs.actPutConf.specialAreas
+            params.strategyArr[index - 1].awardArr = this.$refs.actPutConf.fixationPutConf
+            params.strategyArr[index - 1].confOpen = true
+            params.strategyArr[index - 1].brandArr = this.$refs.actPutConf.specialBrand.brandArr
+            params.strategyArr[index - 1].snArr = this.$refs.actPutConf.specialBrand.snArr
+            // data.strategyArr[index - 1].tf.sduration = this.tfDurationArr[0]
+            // data.strategyArr[index - 1].tf.eduration = this.tfDurationArr[1]
+            // data.strategyArr[index - 1].tf.stimeStr = this.tfTimeArr[0]
+            // data.strategyArr[index - 1].tf.etimeStr = this.tfTimeArr[1]
+            params.strategyArr[index - 1].tf = {
+              sduration: this.$refs.actPutConf.tfDurationArr[0],
+              eduration: this.$refs.actPutConf.tfDurationArr[1],
+              stimeStr: this.$refs.actPutConf.tfTimeArr[0],
+              etimeStr: this.$refs.actPutConf.tfTimeArr[1],
+              id: this.$refs.actPutConf.fixationPutTfId
+            }
+            params.strategyArr[index - 1].tfType = 'special'
+            // data.strategyArr[index - 1].tf = { id: this.fixationPutTfId }
           }
           this.$request.post('/api/wiseqr/act/somtfSelf', params, true, res => {
             if (res.ret == '200000') {
