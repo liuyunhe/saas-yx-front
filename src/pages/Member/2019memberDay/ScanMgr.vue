@@ -35,7 +35,7 @@
           <span style="margin-right: 20px"></span>
           总金额:{{ parseFloat((item.awardPrice*item.totalNum).toPrecision(12))  }}元
           <span style="margin-right: 20px"></span>
-          中奖概率 <el-input-number v-model="item.prizePert" :precision="0" :min="0" controls-position="right"></el-input-number>
+          中奖概率 <el-input-number v-model="item.prizePert" :precision="1" :step="0.1" :min="0" controls-position="right"></el-input-number>
           %
           <span v-if="item.id ? true : false">
               <span style="margin-right: 20px"></span>
