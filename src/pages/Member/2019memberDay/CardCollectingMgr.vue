@@ -40,7 +40,7 @@
             <span style="margin-right: 20px"></span>
             剩余数量{{ item.cardConf.totalNum - item.cardConf.outNum }}个
             <span style="margin-right: 20px"></span>
-            中奖概率<el-input-number v-model="item.cardConf.prizePert" :precision="0" :min="0" controls-position="right"></el-input-number>
+            中奖概率<el-input-number v-model="item.cardConf.prizePert" :precision="1" :step="0.1" :min="0" controls-position="right"></el-input-number>
             %
             <span style="margin-right: 20px"></span>
             <el-button type="primary" @click="addCardNum(item.cardConf.code)">增库</el-button>
