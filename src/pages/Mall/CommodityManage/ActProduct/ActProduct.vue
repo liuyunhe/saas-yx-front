@@ -59,7 +59,7 @@
                 </el-table-column>
                 <el-table-column  label="礼品分类">
                     <template slot-scope="scope">
-                        {{scope.row.giftType==1?'虚拟':scope.row.giftType==2?'实物':scope.row.giftType==3?'红包':'积分' }}
+                        {{scope.row.giftType==1?'虚拟':scope.row.giftType==2?'实物':scope.row.giftType==3?'红包':scope.row.giftType==4?'积分':scope.row.giftType==7?"折扣卡":scope.row.giftType==8?"翻倍卡":"" }}
                     </template>
                 </el-table-column>
               <!--  <el-table-column prop="shopQuantity" label="剩余库存"></el-table-column>-->
