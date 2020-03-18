@@ -157,6 +157,10 @@ const Person = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/Wplat
 const auditManage = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/AuditManage/AuditManage')
 // 商城-折扣管理
 const discountManage = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/DiscountManage/DiscountManage')
+// 商城-新增折扣
+const addDiscount = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/DiscountManage/AddDiscount')
+// 商城-编辑折扣
+const editDiscount = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/DiscountManage/EditDiscount')
 // 商城-系统设置
 const systemLayout = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/SystemLayout/SystemLayout')
 // 商城-商品管理-自建商品管理
@@ -454,6 +458,8 @@ export default new Router({
         { path: '/mall', name: '商城'},
         { path: '/mall/auth', name: '审核管理', component: auditManage },
         { path: '/mall/discount', name: '折扣管理', component: discountManage },
+        { path: '/mall/addDiscount', name: '新增折扣', component: addDiscount },
+        { path: '/mall/editDiscount', name: '编辑折扣', component: editDiscount,props: (route) => ({id:route.query.id,disable:route.query.disable}) },
         { path: '/mall/systemLayout', name: '系统配置', component: systemLayout },
         { path: '/mall/category', name: '分类管理', component: sortManage },
         { path: '/mall/recommend', name: '推荐位管理', component: recommendManage },
