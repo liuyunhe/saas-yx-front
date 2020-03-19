@@ -3,50 +3,50 @@
     <div class="box-container">
       <!--查询表单-->
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;margin-bottom: 0">
-        <div style="margin-bottom: 20px">
+        <div>
           <el-button type="primary" size="small" @click="jumpAddDiscount">添加限时折扣</el-button>
         </div>
-        <el-form :inline="true" :model="filters" label-width="80px">
-          <el-form-item :size="'small'" label="标题名称">
-            <el-input v-model="filters.keywords" style="width: 200px" placeholder="请输入标题名称"></el-input>
-          </el-form-item>
-          <el-form-item :size="'small'" label="审核状态">
-            <el-select
-                v-model="filters.jdOrderStatus"
-                placeholder="请选择"
-                style="width: 200px">
-              <el-option
-                  v-for="item in jdOrderStatusList"
-                  :key="item.code"
-                  :label="item.name"
-                  :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item :size="'small'" label="时间区间">
-            <el-date-picker
-                v-model="filters.startTime"
-                type="datetime"
-                placeholder="选择日期时间"
-                value-format="yyyy-MM-dd HH:mm"
-                style="width: 200px">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item :size="'small'" label="至" class="mini">
-            <el-date-picker
-                v-model="filters.endTime"
-                type="datetime"
-                placeholder="选择日期时间"
-                value-format="yyyy-MM-dd HH:mm"
-                style="width: 200px">
-            </el-date-picker>
-          </el-form-item>
-          <div></div>
-          <el-form-item class="mr0" :size="'small'">
-            <el-button type="primary" size="small" @click="commitForm">查询</el-button>
-            <el-button size="small" class="important" @click="getStatus">重置</el-button>
-          </el-form-item>
-        </el-form>
+<!--        <el-form :inline="true" :model="filters" label-width="80px">-->
+<!--          <el-form-item :size="'small'" label="标题名称">-->
+<!--            <el-input v-model="filters.keywords" style="width: 200px" placeholder="请输入标题名称"></el-input>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item :size="'small'" label="审核状态">-->
+<!--            <el-select-->
+<!--                v-model="filters.jdOrderStatus"-->
+<!--                placeholder="请选择"-->
+<!--                style="width: 200px">-->
+<!--              <el-option-->
+<!--                  v-for="item in jdOrderStatusList"-->
+<!--                  :key="item.code"-->
+<!--                  :label="item.name"-->
+<!--                  :value="item.code">-->
+<!--              </el-option>-->
+<!--            </el-select>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item :size="'small'" label="时间区间">-->
+<!--            <el-date-picker-->
+<!--                v-model="filters.startTime"-->
+<!--                type="datetime"-->
+<!--                placeholder="选择日期时间"-->
+<!--                value-format="yyyy-MM-dd HH:mm"-->
+<!--                style="width: 200px">-->
+<!--            </el-date-picker>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item :size="'small'" label="至" class="mini">-->
+<!--            <el-date-picker-->
+<!--                v-model="filters.endTime"-->
+<!--                type="datetime"-->
+<!--                placeholder="选择日期时间"-->
+<!--                value-format="yyyy-MM-dd HH:mm"-->
+<!--                style="width: 200px">-->
+<!--            </el-date-picker>-->
+<!--          </el-form-item>-->
+<!--          <div></div>-->
+<!--          <el-form-item class="mr0" :size="'small'">-->
+<!--            <el-button type="primary" size="small" @click="commitForm">查询</el-button>-->
+<!--            <el-button size="small" class="important" @click="getStatus">重置</el-button>-->
+<!--          </el-form-item>-->
+<!--        </el-form>-->
       </el-col>
     </div>
     <div class="box-container">
@@ -118,19 +118,19 @@
       </el-col>
 
       <!--工具条-->
-      <el-col :span="24" class="footer-toolbar">
+<!--      <el-col :span="24" class="footer-toolbar">-->
 
-        <el-button type="primary" class="btn-jump-to" @click="jumpTo">跳转</el-button>
-        <el-pagination
-            background
-            layout="total,prev, pager, next,jumper"
-            :current-page="currentPage"
-            @current-change="handleCurrentChange"
-            :page-size="pageSize"
-            :total="total"
-            style="float:right;">
-        </el-pagination>
-      </el-col>
+<!--        <el-button type="primary" class="btn-jump-to" @click="jumpTo">跳转</el-button>-->
+<!--        <el-pagination-->
+<!--            background-->
+<!--            layout="total,prev, pager, next,jumper"-->
+<!--            :current-page="currentPage"-->
+<!--            @current-change="handleCurrentChange"-->
+<!--            :page-size="pageSize"-->
+<!--            :total="total"-->
+<!--            style="float:right;">-->
+<!--        </el-pagination>-->
+<!--      </el-col>-->
     </div>
   </div>
 </template>
@@ -242,8 +242,8 @@
             console.log(res.data)
             this.listLoading = false;
             this.discountList = res.data
-            this.total = res.data.page.count
-            this.pageNo = res.data.page.pageNo
+            // this.total = res.data.page.count
+            // this.pageNo = res.data.page.pageNo
           }
         })
       },
