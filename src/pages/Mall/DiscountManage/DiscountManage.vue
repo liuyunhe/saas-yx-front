@@ -3,54 +3,57 @@
     <div class="box-container">
       <!--查询表单-->
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;margin-bottom: 0">
-        <el-form :inline="true" :model="filters" label-width="80px">
-          <el-form-item :size="'small'" label="标题名称">
-            <el-input v-model="filters.keywords" style="width: 200px" placeholder="请输入标题名称"></el-input>
-          </el-form-item>
-          <el-form-item :size="'small'" label="审核状态">
-            <el-select
-                v-model="filters.jdOrderStatus"
-                placeholder="请选择"
-                style="width: 200px">
-              <el-option
-                  v-for="item in jdOrderStatusList"
-                  :key="item.code"
-                  :label="item.name"
-                  :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item :size="'small'" label="时间区间">
-            <el-date-picker
-                v-model="filters.startTime"
-                type="datetime"
-                placeholder="选择日期时间"
-                value-format="yyyy-MM-dd HH:mm"
-                style="width: 200px">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item :size="'small'" label="至" class="mini">
-            <el-date-picker
-                v-model="filters.endTime"
-                type="datetime"
-                placeholder="选择日期时间"
-                value-format="yyyy-MM-dd HH:mm"
-                style="width: 200px">
-            </el-date-picker>
-          </el-form-item>
-          <div></div>
-          <el-form-item class="mr0" :size="'small'">
-            <el-button type="primary" size="small" @click="commitForm">查询</el-button>
-            <el-button size="small" class="important" @click="getStatus">重置</el-button>
-          </el-form-item>
-        </el-form>
+        <div>
+          <el-button type="primary" size="small" @click="jumpAddDiscount">添加限时折扣</el-button>
+        </div>
+<!--        <el-form :inline="true" :model="filters" label-width="80px">-->
+<!--          <el-form-item :size="'small'" label="标题名称">-->
+<!--            <el-input v-model="filters.keywords" style="width: 200px" placeholder="请输入标题名称"></el-input>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item :size="'small'" label="审核状态">-->
+<!--            <el-select-->
+<!--                v-model="filters.jdOrderStatus"-->
+<!--                placeholder="请选择"-->
+<!--                style="width: 200px">-->
+<!--              <el-option-->
+<!--                  v-for="item in jdOrderStatusList"-->
+<!--                  :key="item.code"-->
+<!--                  :label="item.name"-->
+<!--                  :value="item.code">-->
+<!--              </el-option>-->
+<!--            </el-select>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item :size="'small'" label="时间区间">-->
+<!--            <el-date-picker-->
+<!--                v-model="filters.startTime"-->
+<!--                type="datetime"-->
+<!--                placeholder="选择日期时间"-->
+<!--                value-format="yyyy-MM-dd HH:mm"-->
+<!--                style="width: 200px">-->
+<!--            </el-date-picker>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item :size="'small'" label="至" class="mini">-->
+<!--            <el-date-picker-->
+<!--                v-model="filters.endTime"-->
+<!--                type="datetime"-->
+<!--                placeholder="选择日期时间"-->
+<!--                value-format="yyyy-MM-dd HH:mm"-->
+<!--                style="width: 200px">-->
+<!--            </el-date-picker>-->
+<!--          </el-form-item>-->
+<!--          <div></div>-->
+<!--          <el-form-item class="mr0" :size="'small'">-->
+<!--            <el-button type="primary" size="small" @click="commitForm">查询</el-button>-->
+<!--            <el-button size="small" class="important" @click="getStatus">重置</el-button>-->
+<!--          </el-form-item>-->
+<!--        </el-form>-->
       </el-col>
     </div>
     <div class="box-container">
       <!--列表-->
       <el-col class="crm-table-wrap" v-loading="listLoading" :span="24">
         <el-table
-            :data="authList"
+            :data="discountList"
             @selection-change="handleSelectionChange"
             style="width: 100%">
           <el-table-column
@@ -59,59 +62,28 @@
               width="100">
           </el-table-column>
           <el-table-column
+              prop="id"
+              label="ID">
+          </el-table-column>
+          <el-table-column
+              prop="actName"
+              label="标题名称">
+          </el-table-column>
+          <el-table-column
+              label="折扣时间"
+              width="300">
+            <template slot-scope="scope">
+              <span>{{ scope.row.stime }}至{{ scope.row.etime }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
               prop="jdOrderStatus"
-              label="审核状态">
+              label="状态">
             <template slot-scope="scope">
-              <span v-if="scope.row.jdOrderStatus == 0">{{ '待审核' }}</span>
-              <span v-else-if="scope.row.jdOrderStatus == 1">{{ '审核通过' }}</span>
-              <span v-else>{{ '审核不通过' }}</span>
+              <span v-if="scope.row.status == 1">{{ '启用' }}</span>
+              <span v-else-if="scope.row.status == 2">{{ '禁用' }}</span>
             </template>
           </el-table-column>
-          <el-table-column
-              prop="orderId"
-              label="订单号"
-              width="300">
-          </el-table-column>
-          <el-table-column
-              prop="awardName"
-              label="商品名称">
-          </el-table-column>
-          <el-table-column
-              prop="score"
-              label="兑换币">
-          </el-table-column>
-          <el-table-column
-              prop="openId"
-              label="下单人opid"
-              width="300">
-          </el-table-column>
-          <el-table-column
-              prop="userName"
-              label="收货人姓名"
-              width="100px">
-          </el-table-column
-          ><el-table-column
-              prop="mobile"
-              label="手机号">
-          </el-table-column>
-          <el-table-column
-              prop="mobile"
-              label="收货地址"
-              width="300">
-            <template slot-scope="scope">
-              <span>{{ scope.row.provinceName + scope.row.cityName + scope.row.countryName + scope.row.address  }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-              prop="createTime"
-              label="下单时间"
-              width="200">
-            <template slot-scope="scope">
-              <span>{{ new Date(scope.row.createTime).Format('yyyy-MM-dd hh:mm:ss')}}</span>
-            </template>
-          </el-table-column>
-
-
           <el-table-column
               fixed="right"
               label="操作"
@@ -119,36 +91,46 @@
           >
             <template slot-scope="scope" >
               <el-button
-                  v-if="scope.row.jdOrderStatus == 0"
+                  v-if="scope.row.status == 1"
                   size="mini"
-                  @click="modifyAuthOrder(scope.row.id,'1')"
-              >审核通过</el-button>
+                  @click="jumpEditDiscount(scope.row.id,1)"
+              >详情</el-button>
               <el-button
-                  v-if="scope.row.jdOrderStatus == 0"
+                  v-if="scope.row.status == 2"
+                  size="mini"
+                  @click="jumpEditDiscount(scope.row.id,0)"
+              >编辑</el-button>
+              <el-button
+                  v-if="scope.row.status == 2"
+                  size="mini"
+                  type="primary"
+                  @click="modifyAuthOrder(scope.row.id,'1')"
+              >启用</el-button>
+              <el-button
+                  v-if="scope.row.status == 1"
                   size="mini"
                   type="danger"
                   @click="modifyAuthOrder(scope.row.id,'2')"
-              >审核不通过</el-button>
-              <span v-else>无</span>
+              >禁用</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-col>
 
       <!--工具条-->
-      <el-col :span="24" class="footer-toolbar">
+<!--      <el-col :span="24" class="footer-toolbar">-->
 
-        <el-button type="primary" class="btn-jump-to" @click="jumpTo">跳转</el-button>
-        <el-pagination
-            background
-            layout="total,prev, pager, next,jumper"
-            :current-page="currentPage"
-            @current-change="handleCurrentChange"
-            :page-size="pageSize"
-            :total="total"
-            style="float:right;">
-        </el-pagination>
-      </el-col>
+<!--        <el-button type="primary" class="btn-jump-to" @click="jumpTo">跳转</el-button>-->
+<!--        <el-pagination-->
+<!--            background-->
+<!--            layout="total,prev, pager, next,jumper"-->
+<!--            :current-page="currentPage"-->
+<!--            @current-change="handleCurrentChange"-->
+<!--            :page-size="pageSize"-->
+<!--            :total="total"-->
+<!--            style="float:right;">-->
+<!--        </el-pagination>-->
+<!--      </el-col>-->
     </div>
   </div>
 </template>
@@ -220,7 +202,7 @@
 
         },
         //表单内容
-        authList:[],
+        discountList:[],
 
         //每页条数
         pageSize:10,
@@ -233,8 +215,14 @@
       }
     },
     methods:{
+      jumpAddDiscount(){
+        this.$router.push('/mall/addDiscount')
+      },
+      jumpEditDiscount(id,n){
+        this.$router.push(`/mall/editDiscount?id=${id}&disable=${n}`)
+      },
       //获取列表
-      getAuthList() {
+      getDiscountList() {
         let params = {
           jdOrderStatus: this.filters.jdOrderStatus,
           startTime: this.filters.startTime,
@@ -249,13 +237,13 @@
 
       postSearch(params) {
         this.listLoading = true;
-        this.$request.post('/sc/saotx/mall/order/authList', params, true, (res) => {
-          if (res.ret == '200000') {
+        this.$request.post('/sc/discount/act/select//list', {}, true, (res) => {
+          if (res.code == '200') {
             console.log(res.data)
             this.listLoading = false;
-            this.authList = res.data.list
-            this.total = res.data.page.count
-            this.pageNo = res.data.page.pageNo
+            this.discountList = res.data
+            // this.total = res.data.page.count
+            // this.pageNo = res.data.page.pageNo
           }
         })
       },
@@ -263,7 +251,7 @@
       commitForm() {
         this.pageNo = 1
         this.currentPage = 1
-        this.getAuthList()
+        this.getDiscountList()
       },
       //radio按钮,重置
       getStatus() {
@@ -273,7 +261,7 @@
 
         this.pageNo = 1
         this.currentPage = 1
-        this.getAuthList()
+        this.getDiscountList()
       },
       //编辑
       handleEdit(index, row) {
@@ -283,7 +271,7 @@
       handleCurrentChange(val) {
         this.pageNo = val
         this.currentPage = val
-        this.getAuthList()
+        this.getDiscountList()
       },
       //跳转按钮功能
       jumpTo() {
@@ -315,11 +303,42 @@
           this.batchOperations = true
         }
 
-      }
+      },
+      modifyAuthOrder(id,status) {
+        let params = {
+          id,
+          status
+        }
+        let flag = "启用"
+        if(status == '2'){
+          flag = "禁用"
+        }
+        this.$confirm(`您确定${flag}此折扣活动？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          // this.$request.post('/sc/saotx/mall/order/authOrder',params,true,res => {
+          this.$request.post('/sc/discount/act/update/status',params,false,res => {
+            if(res.code == "200"){
+              this.$message({
+                message: '操作成功！',
+                type: 'success'
+              });
+              this.getStatus()
+            }else{
+              this.$message({
+                message: res.message,
+                type: 'warning'
+              });
+            }
+          })
+        })
+      },
 
     },
     created(){
-      this.getAuthList()
+      this.getDiscountList()
     }
   }
 </script>
