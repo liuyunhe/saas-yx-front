@@ -71,7 +71,7 @@
                         <span v-else>{{ scope.row.id }}</span>
                       </template>
                     </el-table-column>
-                    <el-table-column property="productName" label="商品名称" width="200"></el-table-column>
+                    <el-table-column property="memo" label="商品名称" width="200"></el-table-column>
                     <el-table-column property="firstCategoryName" label="一级分类">
                       <template slot-scope="scope">
                         <span v-if="scope.row.firstCategoryName">{{ scope.row.firstCategoryName }}</span>
@@ -123,7 +123,7 @@
                         <span v-else>{{ scope.row.id }}</span>
                       </template>
                     </el-table-column>
-                    <el-table-column property="productName" label="商品名称" width="200"></el-table-column>
+                    <el-table-column property="memo" label="商品名称" width="200"></el-table-column>
                     <el-table-column property="firstCategoryName" label="一级分类">
                       <template slot-scope="scope">
                         <span v-if="scope.row.firstCategoryName">{{ scope.row.firstCategoryName }}</span>
