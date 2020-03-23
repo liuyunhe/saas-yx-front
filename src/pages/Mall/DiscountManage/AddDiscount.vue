@@ -45,7 +45,7 @@
                     v-model="item.num">
                 </el-input-number>
               </el-form-item>
-              <el-form-item label='折扣：'  prop="discount">
+              <el-form-item label='折扣：'  prop="discount" label-width="75px">
                 <el-input-number
                     :step="0.01"
                     :precision="2"
@@ -265,6 +265,24 @@
           callback()
         }
       }
+      var validateNum = (rule, value, callback) => {
+        if (!value) {
+          callback(new Error('请输入数量，数量必须大于0'))
+        } else if (value == 0){
+          callback(new Error('数量必须大于0'))
+        } else {
+          callback()
+        }
+      }
+      var validateDiscount = (rule, value, callback) => {
+        if (!value) {
+          callback(new Error('请输入折扣，折扣必须大于0'))
+        } else if (value == 0){
+          callback(new Error('折扣必须大于0'))
+        } else {
+          callback()
+        }
+      }
       return {
         listLoading:false,
         loading:false,
@@ -291,8 +309,8 @@
           name: [{ required: true, message: '请输入推荐位名称', trigger: 'blur' }],
           date: [{ required: true, validator: validateDate, trigger: 'change' }],
           time: [{ required: true, message: '选择时间范围', trigger: 'change' }],
-          num: [{ required: true, message: '请输入数量', trigger: 'blur' }],
-          discount: [{ required: true, message: '请输入折扣', trigger: 'blur' }],
+          num: [{ required: true, validator: validateNum, trigger: 'blur' }],
+          discount: [{ required: true, validator: validateDiscount, trigger: 'blur' }],
 
         },
         discountIndex:'',
@@ -627,6 +645,16 @@
                 "etime":this.ruleForm.etime //活动结束时间
               },
               actItemWrapperList
+            }
+            let f = true
+            params.actItemWrapperList.forEach((item)=>{
+              if(item.smDisActItemProductList.length<4) {
+                f = false
+              }
+            })
+            if(!f){
+              this.$message.error('配置的商品合计不少于4个！');
+              return
             }
             console.log(params)
             this.$request.post('/sc/discount/act/save', params, true, res => {
