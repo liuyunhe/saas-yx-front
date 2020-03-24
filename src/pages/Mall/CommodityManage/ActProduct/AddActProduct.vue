@@ -53,6 +53,16 @@
                         </el-form-item>
                     </el-row>
                     <el-row>
+                        <el-form-item size="small" label="折扣值：" prop="price" v-if="giftTypeDisPlay==7">
+                            <el-input-number  class="tobacco-input" v-model="filters.price" placeholder="请输入内容" :step="0.01" :precision="2" :min="0" :max="1" controls-position="right"></el-input-number>
+                        </el-form-item>
+                    </el-row>
+                    <el-row>
+                        <el-form-item size="small" label="翻倍值：" prop="price" v-if="giftTypeDisPlay==8">
+                            <el-input-number  class="tobacco-input" v-model="filters.price" placeholder="请输入内容" :step="0.01" :precision="2" :min="1"  controls-position="right"></el-input-number>
+                        </el-form-item>
+                    </el-row>
+                    <el-row>
                         <el-form-item label="礼品图片：" prop="image" size="small">
                             <el-input v-model="filters.image" style="display: none" ></el-input>
                             <el-upload
@@ -112,10 +122,10 @@
         data(){
             return{
                 allGiftTypeActData:[],
-                allEchangeTypeData:[{id:4,name:"卡券"},{id:5,name:"外链"}],
+                allEchangeTypeData:[{id:5,name:"外链"}],
                 allCardTypeData:[{id:1,name:"折扣卡"},{id:2,name:"翻倍卡"}],
                 seletGiftType:2,
-                seletExchangeType:4,
+                seletExchangeType:5,
                 seletCardType:1,
                 giftTypeDisPlay:2,
                 cardTypeDisplay:1,
@@ -133,7 +143,7 @@
                     cardType:1,
                     shopQuantity:'',
                     quantity:'',
-                    exchangeType:4,
+                    exchangeType:5,
                     exchangeUrl:'',
                     afterService:'',
                     abc:0
@@ -188,6 +198,24 @@
                         this.giftTypeDisPlay=nval;
                         this.filters.giftType=nval;
                         this.clearData();
+                    }
+                    if(nval==7){
+                        this.giftTypeDisPlay=nval;
+                        this.filters.giftType=nval;
+                        if(this.gitTypek!=nval){
+                            this.clearData();
+                        }else{
+                            this.editDeatil(this.pid);
+                        }
+                    }
+                    if(nval==8){
+                        this.giftTypeDisPlay=nval;
+                        this.filters.giftType=nval;
+                        if(this.gitTypek!=nval){
+                            this.clearData();
+                        }else{
+                            this.editDeatil(this.pid);
+                        }
                     }
                 }
             },
@@ -325,7 +353,7 @@
                 this.filters.cardType=1,
                 // this.filters.shopQuantity='',
                 // this.filters.quantity='',
-                this.filters.exchangeType=4,
+                this.filters.exchangeType=5,
                 this.filters.exchangeUrl='',
                 this.filters.afterService=''
                 // this.filters.abc=''
