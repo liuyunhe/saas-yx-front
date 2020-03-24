@@ -328,7 +328,7 @@
               this.getStatus()
             }else{
               this.$message({
-                message: res.message,
+                message: res.msg,
                 type: 'warning'
               });
             }
