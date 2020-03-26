@@ -150,7 +150,7 @@
           {{ f.name }}
           <span style="margin-left: 20px"></span>
           产品SN：{{ f.productSn }}
-          <el-button type="danger" size="mini"  style="float: right" @click="deleteItem(f.sn)">删除</el-button>
+          <el-button type="danger" size="mini"  style="float: right" @click="deleteItem(index)">删除</el-button>
         </div>
         <el-form ref="form" :model="f" :rules="formRules">
           <el-form-item label="码源数量：" prop="codeSize" label-width="200px">
@@ -525,10 +525,8 @@
         }
         this.form.push(item)
       },
-      deleteItem(sn){
-        let index = this.form.findIndex(item => {
-          return item.sn == sn
-        })
+      deleteItem(index){
+        console.log(index)
         this.form.splice(index,1)
       }
     }
