@@ -249,6 +249,7 @@ const ScanMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/
 const CardCollectingMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/CardCollectingMgr')
 const QAMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/QAMgr')
 const PartyMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/PartyMgr')
+const ParkourMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/ParkourMgr')
 const MineMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/MineMgr')
 const SignMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/SignMgr')
 const WinningPrizeMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/WinningPrizeMgr')
@@ -526,6 +527,7 @@ export default new Router({
         { path: '/memberday/QAMgr', name: '钻石学堂', component: QAMgr },
         { path: '/memberday/MineMgr', name: '钻石矿场', component: MineMgr },
         { path: '/memberday/PartyMgr', name: '钻石Party', component: PartyMgr },
+        { path: '/memberday/ParkourMgr', name: '钻石Party', component: ParkourMgr },
         { path: '/memberday/WinningPrizeMgr', name: '中奖风采', component: WinningPrizeMgr },
         { path: '/memberday/SignMgr', name: '社区打卡', component: SignMgr },
 
