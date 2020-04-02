@@ -102,7 +102,7 @@
                 </el-table-column>
                 <el-table-column  label="订单状态	">
                     <template slot-scope="scope">
-                        <span>{{scope.row.status == 1 ? "待发货":scope.row.status == 2 ? "已发货":scope.row.status == 0 ? "待领取": "已完成"}}</span>
+                        <span>{{scope.row.status == 1 ? "待发货":scope.row.status == 2 ? "已发货":scope.row.status == 0 ? "待领取":scope.row.status == 5 ? "已过期": "已完成"}}</span>
                     </template>
                 </el-table-column>
 
