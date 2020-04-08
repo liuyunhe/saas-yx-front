@@ -178,8 +178,9 @@
         }
       }
       var validateExchangeCount = (rule, value, callback) => {
-        if (!this.config.exchangeCount) {
-          callback(new Error('请输入兑换所需积分'))
+        if (this.config.exchangeCount === "") {
+          console.log(this.config.exchangeCount )
+          callback(new Error('请输入兑换次数'))
         } else {
           callback()
         }
@@ -347,7 +348,7 @@
         })
       },
       handleOpen(){
-        this.$request.post('/hbact/one/points/sass/open/award', {}, true, res => {
+        this.$request.post('/hbact/pk/saas/open/award', {}, true, res => {
           if (res.code == '200') {
             this.$message.success("开奖成功！")
           }else {
