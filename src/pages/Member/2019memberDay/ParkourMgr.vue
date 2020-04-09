@@ -351,6 +351,7 @@
         this.$request.post('/hbact/pk/saas/open/award', {}, true, res => {
           if (res.code == '200') {
             this.$message.success("开奖成功！")
+            this.getDetail()
           }else {
             this.$message.error(res.msg)
           }
