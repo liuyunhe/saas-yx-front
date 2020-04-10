@@ -342,6 +342,7 @@
             return
           }else if(res.code == '500'){
             this.newAct = true
+            this.id = null
           }else {
             this.$message.error(res.msg)
           }
