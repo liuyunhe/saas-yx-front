@@ -243,6 +243,7 @@ const PrizeList = () => import(/* webpackChunkName: "member" */ '@/pages/Member/
 const Turn = () => import(/* webpackChunkName: "member" */ '@/pages/Member/GameConf/TurnConf')
 const Answer = () => import(/* webpackChunkName: "member" */ '@/pages/Member/GameConf/AnswerConf')
 const HeSheng = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HeSheng')
+const HeFood = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HeFood')
 const HeShengLC = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HeShengLC')
 
 const ScanMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/ScanMgr')
@@ -521,6 +522,7 @@ export default new Router({
         { path: '/memberday/turn', name: '大转盘活动管理', component: Turn },
         { path: '/memberday/qa', name: '大转盘活动管理', component: Answer },
         { path: '/memberday/HeSheng', name: '大转盘活动管理', component: HeSheng },
+        { path: '/memberday/HeFood', name: '荷美食', component: HeFood },
         { path: '/memberday/HeShengLC', name: '荷开九州', component: HeShengLC },
         { path: '/memberday/ScanMgr', name: '每日扫码', component: ScanMgr },
         { path: '/memberday/CardCollectingMgr', name: '社区卡', component: CardCollectingMgr },

@@ -120,6 +120,7 @@
 
     <div style="height: 40px;text-align: center;margin-top: 30px">
       <el-button type="primary" v-if="!isStart" @click="confirmSubmit">保存</el-button>
+      <el-button type="danger" v-if="id" @click="handleDelete">删除</el-button>
     </div>
 
     <!-- 通用 -->
@@ -308,6 +309,16 @@
       },
       delItem(index){
         this.awardConf.splice(index,1)
+      },
+      handleDelete(){
+        this.$request.post('/hbact/pk/saas/act/delete', {pkActId:this.id}, false, res => {
+          if (res.code == '200') {
+            this.$message.success("删除成功！")
+            this.getDetail()
+          }else {
+            this.$message.error(res.msg)
+          }
+        })
       },
       // 当前正在进行的活动查询
       getDetail() {
