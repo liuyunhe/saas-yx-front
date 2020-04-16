@@ -315,6 +315,7 @@
           if (res.code == '200') {
             this.$message.success("删除成功！")
             this.getDetail()
+            this.id = null
           }else {
             this.$message.error(res.msg)
           }

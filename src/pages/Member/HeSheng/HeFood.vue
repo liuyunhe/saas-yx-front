@@ -33,7 +33,7 @@
     },
     methods: {
       getInfo() {
-        this.$request.post('/hbact/card/act/info', {}, true, res => {
+        this.$request.post('/hbact/lc/saas/act/info', {}, true, res => {
           if (res.code == '200') {
             this.info = res.data
             this.loading = false
@@ -55,7 +55,7 @@
         })
       },
       open(){
-        this.$request.post('/hbact/card/award/open?pwd=111', {}, true, res => {
+        this.$request.post('/hbact/lc/saas/award/open', {}, true, res => {
           if (res.code == '200') {
             this.$message.success(res.msg)
             this.getInfo()
@@ -64,7 +64,7 @@
           this.$message.error(res.msg)
           this.getInfo()
         })
-      }
+      },
     }
   };
 </script>
