@@ -2,9 +2,10 @@
   <div class="container">
     <el-card v-loading="loading">
       <el-col class="mb20">
-        新增特殊卡片数量：<el-input-number v-model="addNum" :precision="0" :min="0" controls-position="right" ></el-input-number><span style="margin-left:30px"></span><el-button type="primary" @click="save">新增</el-button>
+        新增特殊卡片数量：<el-input-number v-model="addNum" :precision="0" :min="0" controls-position="right" ></el-input-number><span style="margin-left:30px"></span><el-button type="primary" @click="save">新增</el-button>（特殊卡一次投放数量1-500张）
       </el-col>
       <el-col class="mb20">
+        <div style="margin-bottom: 20px">投放总数：{{totalCardNum}}</div>
         <div style="margin-bottom: 20px">
           开奖状态：{{info.lotteryStatus == 1 ? '等待开奖':info.lotteryStatus == 2 ? '开奖中': info.lotteryStatus == 3 ? '已开奖' : ''}}
         </div>
@@ -25,7 +26,8 @@
       return {
         loading:true,
         info:{},
-        addNum :0
+        addNum :0,
+        totalCardNum:0
       }
     },
     created() {
@@ -35,7 +37,9 @@
       getInfo() {
         this.$request.post('/hbact/lc/saas/act/info', {}, true, res => {
           if (res.code == '200') {
-            this.info = res.data
+            console.log(res.data)
+            this.info = res.data.actInfo
+            this.totalCardNum = res.data.totalCardNum
             this.loading = false
             return
           }
@@ -49,6 +53,7 @@
           if (res.code == '200') {
             this.addNum = 0
             this.$message.success("新增成功！")
+            this.getInfo()
             return
           }
           this.$message.error(res.msg)
