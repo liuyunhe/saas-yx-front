@@ -41,6 +41,14 @@
               <el-input-number v-model="config.inviteLuckyScore" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>
               幸运值
             </el-form-item>
+            <el-form-item label='分享设置：' prop="discountCardNum">
+              本期新用户可获得折扣卡数量：
+              <el-input-number v-model="config.discountCardNum" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>
+            </el-form-item>
+            <el-form-item label='' prop="discountCardValue">
+              折扣值：
+              <el-input-number v-model="config.discountCardValue" :disabled="!newAct" :step="0.01" :precision="2":min="0" :max="1" controls-position="right"></el-input-number>
+            </el-form-item>
         </el-card>
         <div style="height: 30px"></div>
 
@@ -200,6 +208,20 @@
           callback()
         }
       }
+      var validateDiscountCardNum = (rule, value, callback) => {
+        if (!this.config.discountCardNum) {
+          callback(new Error('请输入折扣卡数量'))
+        } else {
+          callback()
+        }
+      }
+      var validateDiscountCardValue = (rule, value, callback) => {
+        if (!this.config.discountCardValue) {
+          callback(new Error('请输入折扣值'))
+        } else {
+          callback()
+        }
+      }
 
       return {
         uploadURL: '/api/wiseqr/attach/commonAliUpload',
@@ -220,6 +242,8 @@
           exchangePoints:'',
           sysLuckyScore:'',
           inviteLuckyScore:'',
+          discountCardNum:'',
+          discountCardValue:''
         },
 
         awardConf:[
@@ -254,6 +278,8 @@
           inviteLuckyScore: [{ required: true, validator: validateInviteLuckyScore, trigger: 'change' }],
           exchangeCount: [{ required: true, validator: validateExchangeCount, trigger: 'change' }],
           exchangePoints: [{ required: true, validator: validateExchangePoints, trigger: 'change' }],
+          discountCardNum: [{ required: true, validator: validateDiscountCardNum, trigger: 'change' }],
+          discountCardValue: [{ required: true, validator: validateDiscountCardValue, trigger: 'change' }],
 
           awardType: [{ required: true, message: '请选择奖品类型', trigger: 'change' }],
           awardName: [{ required: true, message: '请选择物料', trigger: 'change' }],
@@ -332,6 +358,8 @@
             this.config.exchangePoints = res.data.conf.exchangePoints
             this.config.sysLuckyScore = res.data.conf.sysLuckyScore
             this.config.inviteLuckyScore = res.data.conf.inviteLuckyScore
+            this.config.discountCardNum = res.data.conf.discountCardNum
+            this.config.discountCardValue = res.data.conf.discountCardValue
             this.newAct = false
             this.id = res.data.conf.id
             this.isStart = res.data.isStart
@@ -355,6 +383,7 @@
           }else if(res.code == '500'){
             this.newAct = true
             this.id = null
+            this.isStart = false
           }else {
             this.$message.error(res.msg)
           }
