@@ -39,9 +39,13 @@
             <el-form-item label='' prop="inviteLuckyScore">
               邀请PK获胜方一次可获得
               <el-input-number v-model="config.inviteLuckyScore" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>
-              幸运值
+              幸运值；
             </el-form-item>
-            <el-form-item label='分享设置：' prop="discountCardNum">
+            <el-form-item label='分享设置：' prop="invitedDayCount">
+              每天最多应战次数：
+              <el-input-number v-model="config.invitedDayCount" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>
+            </el-form-item>
+          <el-form-item label='' prop="discountCardNum">
               本期新用户可获得折扣卡数量：
               <el-input-number v-model="config.discountCardNum" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>
             </el-form-item>
@@ -208,6 +212,13 @@
           callback()
         }
       }
+      var validateInvitedDayCount = (rule, value, callback) => {
+        if (!this.config.invitedDayCount) {
+          callback(new Error('请输入每天最多应战次数'))
+        } else {
+          callback()
+        }
+      }
       var validateDiscountCardNum = (rule, value, callback) => {
         if (!this.config.discountCardNum) {
           callback(new Error('请输入折扣卡数量'))
@@ -242,6 +253,7 @@
           exchangePoints:'',
           sysLuckyScore:'',
           inviteLuckyScore:'',
+          invitedDayCount:'',
           discountCardNum:'',
           discountCardValue:''
         },
@@ -278,6 +290,7 @@
           inviteLuckyScore: [{ required: true, validator: validateInviteLuckyScore, trigger: 'change' }],
           exchangeCount: [{ required: true, validator: validateExchangeCount, trigger: 'change' }],
           exchangePoints: [{ required: true, validator: validateExchangePoints, trigger: 'change' }],
+          invitedDayCount: [{ required: true, validator: validateInvitedDayCount, trigger: 'change' }],
           discountCardNum: [{ required: true, validator: validateDiscountCardNum, trigger: 'change' }],
           discountCardValue: [{ required: true, validator: validateDiscountCardValue, trigger: 'change' }],
 
@@ -358,6 +371,7 @@
             this.config.exchangePoints = res.data.conf.exchangePoints
             this.config.sysLuckyScore = res.data.conf.sysLuckyScore
             this.config.inviteLuckyScore = res.data.conf.inviteLuckyScore
+            this.config.invitedDayCount = res.data.conf.invitedDayCount
             this.config.discountCardNum = res.data.conf.discountCardNum
             this.config.discountCardValue = res.data.conf.discountCardValue
             this.newAct = false
