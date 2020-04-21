@@ -67,6 +67,8 @@
       <el-table v-loading="loading" :data="actList" border style="width: 100%" :stripe="true">
         <el-table-column type="index" width="50" label="序号" align="center">
         </el-table-column>
+        <el-table-column property="actCode" label="活动ID" align="center" width="180px">
+        </el-table-column>
         <el-table-column property="hdCode" label="活动编号" align="center" width="180px">
         </el-table-column>
         <el-table-column property="actName" label="活动名称" align="center">
@@ -710,7 +712,7 @@ export default {
       //  switch (form) {
       //   case 'act-101':
       //     this.$router.push('/market/actTpl/AddActSudoku?edit=' + code)
-      //     break; 
+      //     break;
       //   case 'act-102':
       //     this.$router.push('/market/actTpl/AddWingAct?edit=' + code)
       //     break;
@@ -763,7 +765,7 @@ export default {
   li.active {
     color: #409eff;
   }
-  
+
 }
 .act-name {
   margin: 10px 0;
