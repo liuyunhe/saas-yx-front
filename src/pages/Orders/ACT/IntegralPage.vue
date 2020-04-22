@@ -7,8 +7,8 @@
             <div class="space"></div>
             <el-form :inline="true" :model="form" class="demo-form-inline">
                 <el-row>
-                    <el-form-item label="活动编号" size="small" >
-                        <el-input  v-model="form.hdCode" placeholder="请输入活动编号"></el-input>
+                    <el-form-item label="活动ID" size="small" >
+                        <el-input  v-model="form.hdCode" placeholder="请输入活动ID"></el-input>
                     </el-form-item>
                     <el-form-item label="品牌" size="small" >
                         <el-select   v-model="selectAllBrands" placeholder="请选择">

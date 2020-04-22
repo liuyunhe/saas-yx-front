@@ -7,8 +7,8 @@
             <div class="space"></div>
             <el-form :inline="true" :model="form" class="demo-form-inline">
                 <el-row>
-                    <el-form-item label="活动编号" size="small" >
-                        <el-input v-model="form.hdCode" placeholder="请输入活动编号"></el-input>
+                    <el-form-item label="活动ID" size="small" >
+                        <el-input v-model="form.hdCode" placeholder="请输入活动ID"></el-input>
                     </el-form-item>
                     <el-form-item label="品牌" size="small" >
                         <el-select v-model="selectAllBrands" placeholder="请选择">
@@ -56,6 +56,7 @@
             <el-table :data="listData" style="width: 100%" border>
                 <el-table-column prop="hdCode" label="活动编号" ></el-table-column>
                 <el-table-column prop="orderCode" label="订单号" ></el-table-column>
+                <el-table-column prop="actCode" label="活动ID" ></el-table-column>
                 <el-table-column prop="nickname" label="中奖人"></el-table-column>
                 <el-table-column prop="actName" label="活动名称"></el-table-column>
                 <el-table-column prop="prizeName" label="所领奖项"></el-table-column>
