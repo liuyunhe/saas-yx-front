@@ -45,13 +45,17 @@
               每天最多应战次数：
               <el-input-number v-model="config.invitedDayCount" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>
             </el-form-item>
-          <el-form-item label='' prop="discountCardNum">
+            <el-form-item label='' prop="discountCardName">
+              折扣卡名称：
+              <el-input v-model="config.discountCardName" style="width: 300px" :disabled="!newAct"></el-input>；
+            </el-form-item>
+            <el-form-item label='' prop="discountCardNum">
               本期新用户可获得折扣卡数量：
-              <el-input-number v-model="config.discountCardNum" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>
+              <el-input-number v-model="config.discountCardNum" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>；
             </el-form-item>
             <el-form-item label='' prop="discountCardValue">
               折扣值：
-              <el-input-number v-model="config.discountCardValue" :disabled="!newAct" :step="0.01" :precision="2":min="0" :max="1" controls-position="right"></el-input-number>
+              <el-input-number v-model="config.discountCardValue" :disabled="!newAct" :step="0.01" :precision="2":min="0" :max="1" controls-position="right"></el-input-number>。
             </el-form-item>
         </el-card>
         <div style="height: 30px"></div>
@@ -226,6 +230,13 @@
           callback()
         }
       }
+      var validateDiscountCardName = (rule, value, callback) => {
+        if (!this.config.discountCardName) {
+          callback(new Error('请输入折扣卡数量'))
+        } else {
+          callback()
+        }
+      }
       var validateDiscountCardValue = (rule, value, callback) => {
         if (!this.config.discountCardValue) {
           callback(new Error('请输入折扣值'))
@@ -255,6 +266,7 @@
           inviteLuckyScore:'',
           invitedDayCount:'',
           discountCardNum:'',
+          discountCardName:'',
           discountCardValue:''
         },
 
@@ -292,6 +304,7 @@
           exchangePoints: [{ required: true, validator: validateExchangePoints, trigger: 'change' }],
           invitedDayCount: [{ required: true, validator: validateInvitedDayCount, trigger: 'change' }],
           discountCardNum: [{ required: true, validator: validateDiscountCardNum, trigger: 'change' }],
+          discountCardName: [{ required: true, validator: validateDiscountCardName, trigger: 'change' }],
           discountCardValue: [{ required: true, validator: validateDiscountCardValue, trigger: 'change' }],
 
           awardType: [{ required: true, message: '请选择奖品类型', trigger: 'change' }],
@@ -373,6 +386,7 @@
             this.config.inviteLuckyScore = res.data.conf.inviteLuckyScore
             this.config.invitedDayCount = res.data.conf.invitedDayCount
             this.config.discountCardNum = res.data.conf.discountCardNum
+            this.config.discountCardName = res.data.conf.discountCardName
             this.config.discountCardValue = res.data.conf.discountCardValue
             this.newAct = false
             this.id = res.data.conf.id
