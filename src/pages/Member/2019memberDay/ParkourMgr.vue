@@ -43,14 +43,18 @@
             </el-form-item>
             <el-form-item label='分享设置：' prop="invitedDayCount">
               每天最多应战次数：
-              <el-input-number v-model="config.invitedDayCount" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>
+              <el-input-number v-model="config.invitedDayCount" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>；
+            </el-form-item>
+            <el-form-item label='' prop="inviteAcceptNum">
+              每个用户每周最多被
+              <el-input-number v-model="config.inviteAcceptNum" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>人应战；
             </el-form-item>
             <el-form-item label='' prop="discountCardName">
               折扣卡名称：
               <el-input v-model="config.discountCardName" style="width: 300px" :disabled="!newAct"></el-input>；
             </el-form-item>
             <el-form-item label='' prop="discountCardNum">
-              本期新用户可获得折扣卡数量：
+              本周投放折扣卡数量（仅新用户有机会获得）：
               <el-input-number v-model="config.discountCardNum" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>；
             </el-form-item>
             <el-form-item label='' prop="discountCardValue">
@@ -218,7 +222,14 @@
       }
       var validateInvitedDayCount = (rule, value, callback) => {
         if (!this.config.invitedDayCount) {
-          callback(new Error('请输入每天最多应战次数'))
+          callback(new Error('请输入每个用户每天最多应战次数'))
+        } else {
+          callback()
+        }
+      }
+      var validateInviteAcceptNum = (rule, value, callback) => {
+        if (!this.config.inviteAcceptNum) {
+          callback(new Error('请输入每个用户每周最多被应战人数'))
         } else {
           callback()
         }
@@ -265,6 +276,7 @@
           sysLuckyScore:'',
           inviteLuckyScore:'',
           invitedDayCount:'',
+          inviteAcceptNum:'',
           discountCardNum:'',
           discountCardName:'',
           discountCardValue:''
@@ -303,6 +315,7 @@
           exchangeCount: [{ required: true, validator: validateExchangeCount, trigger: 'change' }],
           exchangePoints: [{ required: true, validator: validateExchangePoints, trigger: 'change' }],
           invitedDayCount: [{ required: true, validator: validateInvitedDayCount, trigger: 'change' }],
+          inviteAcceptNum: [{ required: true, validator: validateInviteAcceptNum, trigger: 'change' }],
           discountCardNum: [{ required: true, validator: validateDiscountCardNum, trigger: 'change' }],
           discountCardName: [{ required: true, validator: validateDiscountCardName, trigger: 'change' }],
           discountCardValue: [{ required: true, validator: validateDiscountCardValue, trigger: 'change' }],
@@ -385,6 +398,7 @@
             this.config.sysLuckyScore = res.data.conf.sysLuckyScore
             this.config.inviteLuckyScore = res.data.conf.inviteLuckyScore
             this.config.invitedDayCount = res.data.conf.invitedDayCount
+            this.config.inviteAcceptNum = res.data.conf.inviteAcceptNum
             this.config.discountCardNum = res.data.conf.discountCardNum
             this.config.discountCardName = res.data.conf.discountCardName
             this.config.discountCardValue = res.data.conf.discountCardValue
