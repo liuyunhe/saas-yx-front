@@ -1,17 +1,17 @@
 <template>
   <div class="container">
     <el-card v-loading="loading">
-<!--      <el-col class="mb20">-->
-<!--        <div style="margin-bottom: 20px">-->
-<!--          开奖状态：{{info.lotteryStatus == 1 ? '等待开奖':info.lotteryStatus == 2 ? '开奖中': info.lotteryStatus == 3 ? '已开奖' : ''}}-->
-<!--        </div>-->
-<!--        <div style="margin-bottom: 20px">-->
-<!--          开奖时间：{{ info.awdBeginTime }}-->
-<!--        </div>-->
-<!--        <div>-->
-<!--          活动结束时间：{{ info.joinEndTime }}-->
-<!--        </div>-->
-<!--      </el-col>-->
+      <el-col class="mb20">
+        <div style="margin-bottom: 20px">
+          开奖状态：{{info.lotteryStatus == 1 ? '等待开奖':info.lotteryStatus == 2 ? '开奖中': info.lotteryStatus == 3 ? '已开奖' : ''}}
+        </div>
+        <div style="margin-bottom: 20px">
+          开奖时间：{{ info.awdBeginTime }}
+        </div>
+        <div>
+          活动结束时间：{{ info.joinEndTime }}
+        </div>
+      </el-col>
       <el-button type="primary" @click="open">开奖</el-button>
     </el-card>
   </div>
@@ -20,16 +20,16 @@
   export default {
     data() {
       return {
-        loading:false,
+        loading:true,
         info:{},
       }
     },
     created() {
-      // this.getInfo()
+      this.getInfo()
     },
     methods: {
       getInfo() {
-        this.$request.post('/hbact/card/act/info', {}, true, res => {
+        this.$request.post('/hbact/flower/saas/act/info', {}, true, res => {
           if (res.code == '200') {
             this.info = res.data
             this.loading = false
