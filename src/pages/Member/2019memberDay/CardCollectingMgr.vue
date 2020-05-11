@@ -327,8 +327,10 @@
         if(index != -1){
           this.cardNo = index
         }
-        if(key != -1){
-          this.awardNo = key
+        if(key != undefined){
+          if(key != -1){
+            this.awardNo = key
+          }
         }
         this.$request.post('/api/wiseqr/metra/list', this.params, true, res => {
           if (res.ret === '200000') {
