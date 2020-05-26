@@ -133,6 +133,7 @@ export default {
         'act-102': '/market/actTpl/AddWingAct?id=',
         'act-103': '/market/actTpl/addActEgg?id=',
         'act-104': '/market/actTpl/addActFanpaizi?id=',
+        'act-111': '/market/actTpl/addHePiaoXiang?id=',
         'act-501': '/market/actTpl/addActQuestion?id=',
         'act-301': '/market/actTpl/addActRedPacked?id=',
         'act-105': '/market/actTpl/addRound?id=',
@@ -269,7 +270,7 @@ export default {
         target: '.el-dialog'
       })
       this.getAct(() => loading.close())
-    }, 
+    },
     // 按条件查询活动模板
     queryActList() {
       this.actListParams.pageNo = 1

@@ -1,5 +1,5 @@
 <template>
-  <!-- 
+  <!--
   Author: chenxin
   Create Date: 2018-10-18
   Description: 活动投放设置
@@ -193,6 +193,7 @@ export default {
 }
 .title {
   height: 40px;
+  line-height: 40px;
   padding-left: 20px;
   background: #f0f0f0;
 }
