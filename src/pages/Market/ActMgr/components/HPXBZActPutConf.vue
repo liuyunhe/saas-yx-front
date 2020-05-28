@@ -133,8 +133,8 @@
   </div>
 </template>
 <script>
-import pondConf from './HPXPondConf.module'
-import mix from './HPXActPutConf.mixins.js'
+import pondConf from './HPXBZPondConf.module'
+import mix from './HPXBZActPutConf.mixins.js'
 export default {
   props:[
     'formName',

@@ -1,5 +1,5 @@
 <template>
-  <!-- 
+  <!--
   Author: chenxin
   Create Date: 2018-10-18
   Description: 活动基础设置
@@ -8,7 +8,7 @@
     <el-breadcrumb separator-class="el-icon-arrow-right" v-show='form!="act-501"'>
       <el-breadcrumb-item>活动管理</el-breadcrumb-item>
       <el-breadcrumb-item>基础设置</el-breadcrumb-item>
-    </el-breadcrumb>   
+    </el-breadcrumb>
     <el-card>
     	<el-steps :active="stepActive" finish-status="success" align-center class='step-style' v-show='form=="act-501"'>
 			  <el-step title="基础设置"></el-step>
@@ -121,14 +121,14 @@ export default {
     }
     var valideShare = (rules, value, callback) => {
       callback()
-    } 
+    }
     var valideNumber = (rules, value, callback) => {
       if (this.redConf.joinNum) {
         callback()
       } else {
         callback(new Error('请输入参与次数'))
       }
-    } 
+    }
     return {
       pickerOptions: {},
       // 富文本设置
@@ -208,7 +208,7 @@ export default {
   //   }
   // },
   created() {
-    
+
   },
   mounted() {
     if (!this.id) {
@@ -235,7 +235,7 @@ export default {
   			var str=this.extInfo.time.slice(0,len);
   			this.extInfo.time=parseInt(str);
   		}
-  		
+
   	},
     getDetail(callback) {
       this.$request.post('/api/wiseqr/act/detail', { id: this.id }, true, res => {
@@ -316,17 +316,17 @@ export default {
 	        		 return this.$message.error('请填写时间限制的具体值!')
 	        	}
 	        }
-        }       
+        }
         if (!this.id) {
           this.confData.form = this.form;
           if(this.form=='act-501'){
           	this.confData.extInfo=JSON.stringify(this.extInfo);
-          }         
+          }
           this.confData.tplCode = this.tplCode
         }else {
         	if(this.form=='act-501'){
           	this.confData.extInfo=JSON.stringify(this.extInfo);
-          } 
+          }
         }
         if (this.shareAct[this.form]) this.confData.extInfo = JSON.stringify(this.redConf)
         this.$request.post('/api/wiseqr/act/saveOrModify', this.confData, true, res => {
@@ -339,10 +339,10 @@ export default {
               return this.$router.push(`/market/actTpl/redPut?id=${res.data.id}&actCode=${res.data.actCode}`)
             } else {
           		return this.$router.push(
-              '/market/actTpl/actPutConf?id=' + res.data.id + '&actCode=' + res.data.actCode
+              '/market/actTpl/actPutConf?id=' + res.data.id + '&actCode=' + res.data.actCode+'&form='+this.form
             	)
           	}
-            
+
           }
           this.$message.error(res.message)
         })

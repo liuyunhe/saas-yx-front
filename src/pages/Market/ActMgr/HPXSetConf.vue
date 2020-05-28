@@ -3,18 +3,18 @@
     <el-card>
       <el-form ref="actSetConfRef" :model="confData" label-width="150px" :rules="confRules">
         <el-form-item label="浇水设置：" prop="dayNum">
-          每人每天可浇水<el-input-number v-model="confData.dayNum" :disabled="confData.id ? true : false" :min="0" controls-position="right"></el-input-number> 次；
+          每人每天可浇水<el-input-number v-model="confData.dayNum" :disabled="actStatus>1" :min="0" controls-position="right"></el-input-number> 次；
         </el-form-item>
         <el-form-item label="" prop="blossomNum">
-          浇水<el-input-number v-model="confData.blossomNum" :disabled="confData.id ? true : false" :min="0" controls-position="right"></el-input-number> 次，可以养成一朵花；
+          浇水<el-input-number v-model="confData.blossomNum" :disabled="actStatus>1" :min="0" controls-position="right"></el-input-number> 次，可以养成一朵花；
         </el-form-item>
         <el-form-item label="" prop="flowerNum">
-          集齐<el-input-number v-model="confData.flowerNum" :disabled="confData.id ? true : false" :min="0" controls-position="right"></el-input-number> 朵花，可以瓜分奖池；
+          集齐<el-input-number v-model="confData.flowerNum" :disabled="actStatus>1" :min="0" controls-position="right"></el-input-number> 朵花，可以瓜分奖池；
         </el-form-item>
         <el-form-item label="浇水结束时间：" prop="JSEtimeStr">
-          <el-date-picker v-model="confData.JSEtimeStr" :disabled="confData.id ? true : false" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择浇水时间"></el-date-picker>
+          <el-date-picker v-model="confData.JSEtimeStr" :disabled="actStatus>1"value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择浇水时间"></el-date-picker>
         </el-form-item>
-        <ActPutConf :form-name="'浇水必中奖池：'" ref="awardArr" :actCode="actCode" :awardArr="awardArr" @modifyAwardArr = "modifyAwardArr" @modifyAwardArrError="modifyAwardArrError"></ActPutConf>
+        <BZActPutConf :form-name="'浇水必中奖池：'" ref="awardArr" :configId="confData.id" :awardArr="awardArr" :editable="actStatus<2" @modifyAwardArr = "modifyAwardArr" @modifyAwardArrError="modifyAwardArrError"></BZActPutConf>
         <div style="margin-bottom: 30px"></div>
 
         <el-card>
@@ -22,13 +22,16 @@
             <span>瓜分奖池:</span>
           </div>
           <el-form-item label="开奖时间：" prop="OpenTimeStr">
-            <el-date-picker v-model="confData.OpenTimeStr" :disabled="confData.id ? true : false" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择开奖时间"></el-date-picker>
+            <el-date-picker v-model="confData.OpenTimeStr" :disabled="actStatus>1"value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择开奖时间"></el-date-picker>
           </el-form-item>
           <el-form-item label="总奖池：" prop="totalMoney">
-            红包总金额：<el-input-number v-model="confData.totalMoney" :disabled="confData.id ? true : false" :min="0" controls-position="right"></el-input-number>元
+            红包总金额：<el-input-number v-model="confData.totalMoney" :disabled="actStatus>=4" :min="0" controls-position="right"></el-input-number>元
           </el-form-item>
-          <el-form-item label="奖池类型：" v-show="!confData.id">
-            <el-select   v-model="jcType" style="width: 220px" placeholder="请选择">
+          <el-form-item v-if="jcType == 1" label="总奖池：" prop="totalWinnerNum">
+            瓜分总人数：<el-input-number v-model="confData.totalWinnerNum" :min="0" :max="100000"  :disabled="actStatus>=4" controls-position="right"></el-input-number>人
+          </el-form-item>
+          <el-form-item label="奖池类型：" >
+            <el-select   v-model="jcType" :disabled="actStatus>=4" style="width: 220px" placeholder="请选择">
               <el-option
                   v-for="i in jcTypeArr"
                   :key="i.value"
@@ -38,7 +41,7 @@
             </el-select>
           </el-form-item>
           <template v-if="jcType == 1">
-            <el-form ref="ZawardArr" :model="ZawardArr" label-width="150px" :rules="confRules" :disabled="confData.id ? true : false">
+            <el-form ref="ZawardArr" :model="ZawardArr" label-width="150px" :rules="confRules" >
               <el-form-item label="奖品类型：" prop="awardType">
                 <el-select :disabled="!!confData.id" @change="handleSelectChange(ZawardArr)" v-model="ZawardArr.awardType" style="width: 220px" placeholder="请选择">
                   <el-option
@@ -50,7 +53,7 @@
                 </el-select>
               </el-form-item>
 
-              <el-form-item  label="选择红包：">
+              <el-form-item  label="选择红包：" v-if="actStatus < 4">
                 <el-button size="" @click="getList(ZawardArr.awardType)">选择</el-button>
               </el-form-item>
 
@@ -58,10 +61,10 @@
                 <el-input style="width: 220px" disabled v-model="ZawardArr.awardName"></el-input>
               </el-form-item>
 
-              <el-form-item v-if="ZawardArr.awardType==3" label='红包金额：' prop="redpackValue">
-                <el-input-number :step="0.01" :precision="2":min="0" controls-position="right" v-model="ZawardArr.redpackValue"></el-input-number>
-                <span>元</span>
-              </el-form-item>
+<!--              <el-form-item v-if="ZawardArr.awardType==3" label='红包金额：' prop="redpackValue">-->
+<!--                <el-input-number :step="0.01" :precision="2":min="0" controls-position="right" v-model="ZawardArr.redpackValue"></el-input-number>-->
+<!--                <span>元</span>-->
+<!--              </el-form-item>-->
               <el-form-item>
                 <el-checkbox v-model="ZawardArr.guideGzh" :checked="ZawardArr.guideGzh == 1 ? true : false" :true-label=1 :false-label=0>中奖后引导关注公众号</el-checkbox>
               </el-form-item>
@@ -69,9 +72,7 @@
               <div style="height: 30px"></div>
             </el-form>
           </template>
-          <template v-if="jcType == 2">
-            <ActPutConf ref="GFAwardArr" :form-name="'多奖品类奖池：'" :actCode="actCode" :awardArr="GFAwardArr" @modifyAwardArr = "modifyGFAwardArr" @modifyAwardArrError="modifyGFAwardArrError"></ActPutConf>
-          </template>
+            <ActPutConf v-show="jcType == 2" ref="GFAwardArr" :form-name="'多奖品类奖池：'" :configId="confData.id" :editable="actStatus<4" :awardArr="GFAwardArr" @modifyAwardArr = "modifyGFAwardArr" @modifyAwardArrError="modifyGFAwardArrError"></ActPutConf>
 
         </el-card>
         <el-form-item>
@@ -112,11 +113,13 @@
 
 <script>
   import ActPutConf from './components/HPXActPutConf'
+  import BZActPutConf from './components/HPXBZActPutConf'
   export default {
     name: "HPXSetConf",
     props: ['form', 'actCode', 'id',],
     components: {
-      ActPutConf
+      ActPutConf,
+      BZActPutConf
     },
     data() {
       var validateDayNum = (rule, value, callback) => {
@@ -147,6 +150,13 @@
           callback()
         }
       }
+      var validateTotalWinnerNum = (rule, value, callback) => {
+        if (!this.confData.totalWinnerNum) {
+          callback(new Error('请输瓜分总人数'))
+        } else {
+          callback()
+        }
+      }
       var validateRedpackValue = (rule, value, callback) => {
         if (!this.ZawardArr.redpackValue) {
           callback(new Error('请输红包金额'))
@@ -155,6 +165,7 @@
         }
       }
       return {
+        actStatus:0,   //   1：未开始 ，2：进行中，3：等待开奖，4：已开奖
         confData: {
           id: '', // 活动数据主键id
           actCode: '', // 活动唯一编码
@@ -165,6 +176,7 @@
 
           OpenTimeStr: '', //
           totalMoney: '', //
+          totalWinnerNum: ''
 
 
         },
@@ -175,6 +187,7 @@
           JSEtimeStr: [{ required: true, message: '请选择结束时间', trigger: 'change' }],
           OpenTimeStr: [{ required: true, message: '请选择开奖时间', trigger: 'change' }],
           totalMoney: [{ required: true, validator: validateTotalMoney, trigger: 'change' }],
+          totalWinnerNum: [{ required: true, validator: validateTotalWinnerNum, trigger: 'change' }],
 
           awardType: [{ required: true, message: '请选择奖品类型', trigger: 'change' }],
           awardName: [{ required: true, message: '请选择物料', trigger: 'change' }],
@@ -184,6 +197,7 @@
         awardArr:[],
         awardArrFlag:true,
         ZawardArr:{
+          "awdCode": "",
           "awardName": "",
           "redpackValue": null,
           "awardPic": "",
@@ -223,7 +237,69 @@
         listVisible: false,
       }
     },
+    created(){
+      this.getActDetail()
+    },
     methods: {
+      getActDetail(){
+        this.$request.post('/api/flower/config/select', {actCode:this.actCode}, false, res => {
+          if (res.code === '200') {
+            if(res.data.config != null){
+              this.actStatus = res.data.actStatus
+              this.confData.id = res.data.config.id
+              this.confData.JSEtimeStr = res.data.config.joinEndTime
+              this.confData.OpenTimeStr = res.data.config.awdBeginTime
+              this.confData.dayNum = res.data.config.dayMaxNum
+              this.confData.blossomNum = res.data.config.oneFlowerNeedNum
+              this.confData.flowerNum = res.data.config.finishNeedNum
+
+              this.jcType =  res.data.config.openAwardType
+              this.confData.totalMoney = res.data.config.totalAmount
+
+
+              this.awardArr = res.data.prizeList.map((item)=>{
+                return {
+                  "id": item.id,
+                  "actCode":item.actCode,
+                  "prizeName":item.awdName,
+                  // "awardName":"0.8元鼓励金",
+                  "totalNum":item.totalNum,
+                  "outNum":item.outNum,
+                  "redMoney":item.redpackValue,
+                  "awardType":item.awdType,
+                  "awardPic":item.awdPicture,
+                  "goodsPrice":item.goodsPrice,
+                  "integral": item.scoreValue,
+                  "poolId":item.awdCode,
+                }
+              })
+
+              if(this.jcType == 1){
+                this.confData.totalWinnerNum = res.data.config.totalWinnerNum
+                this.ZawardArr.awardName = res.data.config.prizeName
+                this.ZawardArr.awardPic =  res.data.config.prizePicture
+              }
+              if(this.jcType == 2){
+                this.GFAwardArr = res.data.awardList.map((item)=>{
+                  return {
+                    "id": item.id,
+                    "awardType":3,
+                    "prizeName":item.awardName,
+                    "awardPic":item.awdPicture,
+                    "redMoney":item.awardMoney,
+                    "totalNum":item.awardNum, //奖品投放数量
+                    "outNum":item.outNum
+                  }
+
+                })
+              }
+            }
+
+          }else {
+            this.$message.error(res.msg)
+          }
+        })
+      },
       modifyAwardArrError(data){
         this.awardArrFlag = data
       },
@@ -251,7 +327,7 @@
             return
           }
         }
-        console.log(this.awardArr,this.GFAwardArr)
+        // console.log(this.awardArr,this.GFAwardArr)
         let awardConfig = true
         this.$refs.actSetConfRef.validate(valid => {
           if(valid){
@@ -270,64 +346,126 @@
           })
         }
         if(!awardConfig) return
+        console.log(this.confData.JSEtimeStr - this.confData.OpenTimeStr)
+        if(new Date(this.confData.OpenTimeStr).getTime() - new Date(this.confData.JSEtimeStr)< 60 *60 *1000){
+          this.$message.error('开奖时间必须大于浇花截止时间1小时')
+          return
+        }
         let flowerPrizeList = this.awardArr.map((item)=>{
-          return {
-            "awdCode":item.poolId,
-            "awdType":item.awardType,
-            "awdName":item.prizeName,
-            "awdPicture":item.awardPic,
-            "goodsPrice":0,
-            "scoreValue":0,
-            "redpackValue":item.redMoney,
-            "totalNum":item.totalNum //奖品投放数量
+          if(item.awardType == 1){
+            return {
+              "awdCode":item.poolId,
+              "awdType":item.awardType,
+              "awdName":item.prizeName,
+              "awdPicture":item.awardPic,
+              "goodsPrice":item.goodsPrice,
+              "scoreValue":0,
+              "redpackValue":0,
+              "totalNum":item.totalNum //奖品投放数量
+            }
           }
+          if(item.awardType == 3){
+            return {
+              "awdCode":item.poolId,
+              "awdType":item.awardType,
+              "awdName":item.prizeName,
+              "awdPicture":item.awardPic,
+              "goodsPrice":0,
+              "scoreValue":0,
+              "redpackValue":item.redMoney,
+              "totalNum":item.totalNum //奖品投放数量
+            }
+          }
+          if(item.awardType == 6){
+            return {
+              "awdCode":item.poolId,
+              "awdType":item.awardType,
+              "awdName":item.prizeName,
+              "awdPicture":item.awardPic,
+              "goodsPrice":0,
+              "scoreValue":item.integral,
+              "redpackValue":0,
+              "totalNum":item.totalNum //奖品投放数量
+            }
+          }
+
         })
-        let params = {
-          "flowerConfig":{
-            "actCode":this.actCode, //活动code
-            "joinEndTime":this.confData.JSEtimeStr, //浇花截止时间
-            "awdBeginTime":this.confData.OpenTimeStr, //开奖时间
-            "dayMaxNum":this.confData.dayNum, //每天的最多参与次数
-            "oneFlowerNeedNum":this.confData.blossomNum, //养成一朵花需要浇水几次
-            "finishNeedNum":this.confData.flowerNum, //完成任务需要几朵花
-            "openAwardType":this.jcType, //开奖类型 1表示瓜分总奖池 2表示多种奖品奖池
-            "totalAmount":this.confData.totalMoney //奖池总金额
-          },
-          flowerPrizeList
+        let params
+        if(this.jcType == 1){
+          params = {
+            "flowerConfig":{
+              "actCode":this.actCode, //活动code
+              "joinEndTime":this.confData.JSEtimeStr, //浇花截止时间
+              "awdBeginTime":this.confData.OpenTimeStr, //开奖时间
+              "dayMaxNum":this.confData.dayNum, //每天的最多参与次数
+              "oneFlowerNeedNum":this.confData.blossomNum, //养成一朵花需要浇水几次
+              "finishNeedNum":this.confData.flowerNum, //完成任务需要几朵花
+
+              "openAwardType":this.jcType, //开奖类型 1表示瓜分总奖池 2表示多种奖品奖池
+              "totalAmount":this.confData.totalMoney, //奖池总金额
+              "totalWinnerNum":this.confData.totalWinnerNum, //奖池总金额
+              "prizeName": this.ZawardArr.awardName,
+              "prizePicture": this.ZawardArr.awardPic
+            },
+            flowerPrizeList
+          }
+        }
+        if(this.jcType == 2){
+          let flowerAwardList = this.GFAwardArr.map((item)=>{
+            return {
+              "awardName":item.prizeName,
+              "awdPicture":item.awardPic,
+              "awardMoney":item.redMoney,
+              "awardNum":item.totalNum //奖品投放数量
+            }
+          })
+          params = {
+            "flowerConfig":{
+              "actCode":this.actCode, //活动code
+              "joinEndTime":this.confData.JSEtimeStr, //浇花截止时间
+              "awdBeginTime":this.confData.OpenTimeStr, //开奖时间
+              "dayMaxNum":this.confData.dayNum, //每天的最多参与次数
+              "oneFlowerNeedNum":this.confData.blossomNum, //养成一朵花需要浇水几次
+              "finishNeedNum":this.confData.flowerNum, //完成任务需要几朵花
+
+              "openAwardType":this.jcType, //开奖类型 1表示瓜分总奖池 2表示多种奖品奖池
+              "totalAmount":this.confData.totalMoney, //奖池总金额
+            },
+            flowerPrizeList,
+            flowerAwardList
+          }
         }
         console.log(params)
-        return
-        this.$request.post('/api/flower/config/add', params, true, res => {
-          if (res.code === '200') {
-            this.$message({type: 'success', message: '操作成功!'});
-            return
-          }
-          this.$message.error(res.msg)
-        })
+        if(this.confData.id){
+          params.flowerConfig.id = this.confData.id
+          this.$request.post('/api/flower/config/update', params, true, res => {
+            if (res.code === '200') {
+              this.$message({type: 'success', message: '操作成功!'});
+              this.backList()
+              return
+            }
+            this.$message.error(res.msg)
+          })
+        }else {
+          this.$request.post('/api/flower/config/add', params, true, res => {
+            if (res.code === '200') {
+              this.$message({type: 'success', message: '操作成功!'});
+              this.backList()
+              return
+            }
+            this.$message.error(res.msg)
+          })
+        }
       },
       backList(){
-        this.awardArr = [
-          {
-            "id":1361,
-            "actCode":"ACT-763F275W885U",
-            "prizeName":"测试红保池",
-            "awardName":"0.8元鼓励金",
-            "totalNum":2,
-            "outNum":1,
-            "redMoney":0.8,
-            "awardType":3,
-            "awardPic":"https://qoss.qrmkt.cn/saas_platform/test/29213D082BE64A78BFDB078852AD21DC.png",
-            "awardPrice":0,
-            "poolId":6,
-          },
-        ]
+        this.$router.push('/market/actMgr')
       },
       // 选择奖品
       selectPrize(obj,title) {
         this.ZawardArr.awardName = obj.name
         this.ZawardArr.awdCode = obj.id
         this.ZawardArr.awardPrice = obj.marketMoney
-        this.ZawardArr.marketMoney = obj.marketMoney
+        this.ZawardArr.awardPic = obj.pic
         this.handleColseList()
       },
       handleColseList(){

@@ -720,6 +720,11 @@ export default {
       this.$request.post('/api/wiseqr/act/somtf', data, true, res => {
         if (res.ret === '200000') {
           this.$message.success('保存成功')
+          if(this.form == "act-111"){
+            return this.$router.push(
+              '/market/actTpl/HPXSetConf?id=' + this.id + '&actCode=' + this.actCode+'&form='+this.form
+            )
+          }
           this.$router.push('/market/actMgr')
           this.routerRefresh() // 调用home.vue的 routerRefresh
         } else {

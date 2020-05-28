@@ -3,7 +3,7 @@ export default {
   inject:['routerRefresh'], //在子组件中注入在父组件中出创建的属性
   data() {
     return {
-    	stepActive:2,
+      stepActive:2,
       act: {
         id: null,
         actCode: '', // 编码
@@ -37,7 +37,7 @@ export default {
       },
       normalConf: [{ // 正常选项
         awardPic: '',
-        awardType: 3, // 奖项类型
+        awardType: 1, // 奖项类型
         curActive: true,
         giveScore: 0, // 是否赠送积分 0-否 1-是
         guideGzh: 0, // 是否引导关注公众号 0-否 1-是
@@ -66,7 +66,7 @@ export default {
       normalTfId: '',
       defaultAwae: { // 给个默认 好复制
         awardPic: '',
-        awardType: 3, // 奖项类型
+        awardType: 1, // 奖项类型
         curActive: true,
         giveScore: 0, // 是否赠送积分 0-否 1-是
         guideGzh: 0, // 是否引导关注公众号 0-否 1-是
@@ -95,7 +95,7 @@ export default {
       },
       firstScanConf: [{
         awardPic: '',
-        awardType: 3,
+        awardType: 1,
         curActive: true,
         giveScore: 0,
         guideGzh: 0,
@@ -121,7 +121,7 @@ export default {
       firstScanTfId: '',
       nWinConf: [{
         awardPic: '',
-        awardType: 3,
+        awardType: 1,
         curActive: true,
         giveScore: 0,
         guideGzh: 0,
@@ -148,7 +148,7 @@ export default {
       nWinTfId: '',
       fixationPutConf: [{
         awardPic: '',
-        awardType: 3,
+        awardType: 1,
         curActive: true,
         giveScore: 0,
         guideGzh: 0,
@@ -195,12 +195,22 @@ export default {
       tfId: '', // 投放策略主键id
       tfTimeArr: [], // 投放策略开始/结束时间 0-开始时间 1-结束时间
       tfDurationArr: [], // 投放策略开始/结束时段(发放时间) 0-开始时间 1-结束时间
-      prizeType: [
+      prizeType: [{ // 类型
+        name: '实物礼品',
+        type: 1
+      },
+        {
+          name: '虚拟礼品',
+          type: 2
+        },
         {
           name: '红包',
           type: 3
         },
-
+        {
+          name: '积分',
+          type: 6
+        }
       ],
       normalIndex: 1,
       firstScanIndex: 1,
@@ -271,7 +281,7 @@ export default {
       }]
       this.normalConf = [{ // 正常选项
         awardPic: '',
-        awardType: 3, // 奖项类型
+        awardType: 1, // 奖项类型
         curActive: true,
         giveScore: 0, // 是否赠送积分 0-否 1-是
         guideGzh: 0, // 是否引导关注公众号 0-否 1-是
@@ -539,11 +549,7 @@ export default {
           flag = true
           return false
         }
-        if(!e.redMoney) {
-          this.$message.error('请输入红包金额')
-          flag = true
-          return false
-        }
+
         if(!e.totalNum) {
           this.$message.error('请输入投放数量')
           flag = true

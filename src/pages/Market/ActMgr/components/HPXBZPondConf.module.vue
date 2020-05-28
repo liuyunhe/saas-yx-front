@@ -35,7 +35,7 @@
           <el-input-number v-model="awae.totalNum" :disabled="awae.id ? true : false" :min="0" controls-position="right"></el-input-number> 个
           <span v-if="awae.id ? true : false">
             剩余<el-input-number v-model="residue" :disabled="true"></el-input-number>个
-<!--            <el-button @click="addRepertory">增库</el-button>-->
+            <el-button @click="addRepertory">增库</el-button>
           </span>
         </el-form-item>
       </template>
@@ -54,7 +54,7 @@
           <el-input-number v-model="awae.totalNum" :disabled="awae.id ? true : false" :min="0" controls-position="right"></el-input-number> 个
           <span v-if="awae.id ? true : false">
             剩余<el-input-number v-model="residue" :disabled="true"></el-input-number>个
-<!--            <el-button @click="addRepertory">增库</el-button>-->
+            <el-button @click="addRepertory">增库</el-button>
           </span>
         </el-form-item>
       </template>
@@ -80,7 +80,7 @@
           <el-input-number v-model="awae.totalNum" :disabled="awae.id ? true : false" :min="0" controls-position="right" @change="countRedTotal"></el-input-number> 个
           <span v-if="awae.id ? true : false">
             剩余<el-input-number v-model="residue" :disabled="true"></el-input-number>个
-<!--            <el-button @click="addRepertory">增库</el-button>-->
+            <el-button @click="addRepertory">增库</el-button>
           </span>
         </el-form-item>
         <!-- </el-col> -->
@@ -103,7 +103,7 @@
           <el-input-number v-model="awae.totalNum" :precision="0" :disabled="awae.id ? true : false" :min="0" controls-position="right"></el-input-number> 个
           <span v-if="awae.id ? true : false">
             剩余<el-input-number v-model="residue" :disabled="true"></el-input-number>个
-<!--            <el-button @click="addRepertory">增库</el-button>-->
+            <el-button @click="addRepertory">增库</el-button>
           </span>
         </el-form-item>
         <el-form-item label="积分面额:" prop="intTotal">
@@ -268,6 +268,10 @@ export default {
       this.awae.prizeName = obj.name
       this.awae.poolId = obj.id
       this.listVisible = false
+      if(this.awae.awardType == 1){
+        this.awae.goodsPrice = obj.marketMoney
+      }
+      console.log(this.awae)
     },
     // 重置奖品
     resetPrize() {
