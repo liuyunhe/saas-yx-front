@@ -340,7 +340,7 @@
           <share-conf style="width: 50%; display: inline-block" :editData="[{url: configItem.shareIconUrl}]" :shareConf="configItem.share" @shareChange="editPic"></share-conf>
         </el-tab-pane>
         <div class="btn">
-          <p>是否投放: <el-switch v-model="isPut">
+          <p v-if="false">是否投放: <el-switch v-model="isPut">
             </el-switch>
           </p>
           <el-button size="small" type="primary" @click="saveActTpl">保存</el-button>
