@@ -545,9 +545,10 @@
           this.params.metraFlag = 'cdDouble'
           this.title = '选择翻倍卡'
         }
-
-        if(key != -1){
-          this.awardNo = key
+        if(key != undefined){
+          if(key != -1){
+            this.awardNo = key
+          }
         }
         this.$request.post('/api/wiseqr/metra/list', this.params, true, res => {
           if (res.ret === '200000') {
