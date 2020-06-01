@@ -152,7 +152,7 @@
                 </div>
 
                 <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1600px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 697*252px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 228*59px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 519*167px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 130*126px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 5">* 图片建议尺寸为 225*167px格式为jpg\bmp\png\gif</p>
@@ -258,7 +258,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
+                <p class="tips">* 图片建议尺寸为 563*638px格式为jpg\bmp\png\gif</p>
               </div>
               <div class="edit-con">
                 <div class="edit-winning-img">
@@ -270,7 +270,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
+                <p class="tips">* 图片建议尺寸为 316*72px格式为jpg\bmp\png\gif</p>
               </div>
             </el-card>
           </div>
@@ -284,8 +284,7 @@
                 <div class="prize-con">
                   <div class="close"><img src="http://qoss.qrmkt.cn/new_platform/close_icon.png" alt=""></div>
                   <img class="pic" :src="configItem.cryImgUrl" alt="">
-                  <div style="width: 100%;height: 20px;color:#29A9E0;line-height: 20px;text-align: center;position: absolute;left: 0;top: 285px">未中奖</div>
-                  <img class="prize-btn" style="width: 112px;height: 24px;top: 315px" :src="configItem.cryBtnUrl" alt="">
+                  <img class="prize-btn" style="width: 112px;height: 34px;top: 285px" :src="configItem.cryBtnUrl" alt="">
                 </div>
               </div>
             </div>
@@ -306,7 +305,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
+                <p class="tips">* 图片建议尺寸为 525*592px格式为jpg\bmp\png\gif</p>
               </div>
               <div class="edit-con">
                 <div class="edit-notWinning-img">
@@ -318,7 +317,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
+                <p class="tips">* 图片建议尺寸为 285*75px格式为jpg\bmp\png\gif</p>
               </div>
             </el-card>
           </div>
@@ -389,8 +388,8 @@ export default {
 
         drawImgUrl: 'http://qoss.qrmkt.cn/common/dhongbao/award-pop.png',
         drawBtnUrl:'http://qoss.qrmkt.cn/common/dhongbao/award-btn.png',
-        cryImgUrl: 'http://qoss.qrmkt.cn/common/dhongbao/dhb-nolucky.png',
-        cryBtnUrl:'http://qoss.qrmkt.cn/common/dhongbao/nolucky-btn.png',
+        cryImgUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/hepiaoxiang/no-award.png',
+        cryBtnUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/hepiaoxiang/get-no-award.png',
         shareImgUrl: 'http://qoss.qrmkt.cn/common/dhongbao/share-bg-img.png',
         shareBtnUrl: 'http://qoss.qrmkt.cn/common/dhongbao/share-btn-img.png',
         shareIconUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/hepiaoxiang/share-icon.png',
