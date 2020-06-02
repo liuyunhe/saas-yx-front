@@ -296,6 +296,7 @@ export default {
         'act-101': '/market/actTpl/AddActSudoku?edit=',
         'act-102': '/market/actTpl/AddWingAct?edit=',
         'act-103': '/market/actTpl/addActEgg?edit=',
+        'act-111': '/market/actTpl/addHePiaoXiang?edit=',
         'act-104': '/market/actTpl/addActFanpaizi?edit=',
         'act-501': '/market/actTpl/addActQuestion?edit=',
         'act-301': '/market/actTpl/addActRedPacked?edit=',

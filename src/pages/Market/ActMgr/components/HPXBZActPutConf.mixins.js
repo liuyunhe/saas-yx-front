@@ -200,10 +200,6 @@ export default {
         type: 1
       },
         {
-          name: '虚拟礼品',
-          type: 2
-        },
-        {
           name: '红包',
           type: 3
         },
