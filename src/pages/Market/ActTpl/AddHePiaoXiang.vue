@@ -377,7 +377,7 @@ export default {
         description: '',
         headerImgUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/hepiaoxiang/hpx-title.png',
         bgImgUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/hepiaoxiang/bg.png',
-        actTip:'http://qoss.qrmkt.cn/common/dhongbao/dhb-tips.png',
+        actTip:'http://qoss.qrmkt.cn/common/hepiaoxiang/hpx-tips.png',
         startImgUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/hepiaoxiang/begin.png',
         wateringcanImgUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/hepiaoxiang/wateringcan.png',
         flowerImgUrl1:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/hepiaoxiang/hehua-1.png',
