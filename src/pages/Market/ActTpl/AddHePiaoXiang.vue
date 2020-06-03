@@ -152,7 +152,7 @@
                 </div>
 
                 <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1600px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 228*59px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 290*82px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 519*167px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 130*126px格式为jpg\bmp\png\gif</p>
                 <p class="tips" v-if="showEditConIndex == 5">* 图片建议尺寸为 225*167px格式为jpg\bmp\png\gif</p>
@@ -201,7 +201,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 516*166px格式为jpg\bmp\png\gif</p>
+                <p class="tips">* 图片建议尺寸为 417*107px格式为jpg\bmp\png\gif</p>
               </div>
             </el-card>
           </div>
@@ -235,8 +235,8 @@
                   <img class="pic" :src="configItem.drawImgUrl" alt="" style="margin-right: 0">
                   <img src="http://qrmkt.oss-cn-beijing.aliyuncs.com/saas_platform/common/model-gift.png" alt=""
                        style="position: absolute;width: 94px;height: 77px;left: 50%;transform: translateX(-50%);top: 180px">
-                  <p style="position: absolute;top: 265px;width: 100%;font-size: 10px;">请在24小时内领取</p>
-                  <p style="position: absolute;top: 245px;width: 100%;font-size: 14px;">1.05红包+50积分</p>
+                  <p style="position: absolute;top: 259px;width: 100%;font-size: 10px;color: #004b5e;">请在24小时内领取</p>
+                  <p style="position: absolute;top: 238px;width: 100%;font-size: 14px;color: #004b5e;">1.05红包+50积分</p>
                   <img class="prize-btn" :src="configItem.drawBtnUrl" alt="">
                 </div>
               </div>
@@ -375,7 +375,7 @@ export default {
       configItem: {
         title: '',
         description: '',
-        headerImgUrl: 'http://qoss.qrmkt.cn/common/dhongbao/dhb-title.png',
+        headerImgUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/hepiaoxiang/hpx-title.png',
         bgImgUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/hepiaoxiang/bg.png',
         actTip:'http://qoss.qrmkt.cn/common/dhongbao/dhb-tips.png',
         startImgUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/hepiaoxiang/begin.png',
@@ -386,12 +386,12 @@ export default {
         flowerImgUrl4:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/hepiaoxiang/hehua-4.png',
         flowerImgUrl5:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/hepiaoxiang/hehua-5.png',
 
-        drawImgUrl: 'http://qoss.qrmkt.cn/common/dhongbao/award-pop.png',
-        drawBtnUrl:'http://qoss.qrmkt.cn/common/dhongbao/award-btn.png',
+        drawImgUrl: 'http://qoss.qrmkt.cn/common/hepiaoxiang/award-pop.png',
+        drawBtnUrl:'http://qoss.qrmkt.cn/common/hepiaoxiang/award-btn.png',
         cryImgUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/hepiaoxiang/no-award.png',
         cryBtnUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/hepiaoxiang/get-no-award.png',
-        shareImgUrl: 'http://qoss.qrmkt.cn/common/dhongbao/share-bg-img.png',
-        shareBtnUrl: 'http://qoss.qrmkt.cn/common/dhongbao/share-btn-img.png',
+        shareImgUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/hepiaoxiang/share-bg-img.png',
+        shareBtnUrl: 'http://qoss.qrmkt.cn/common/hepiaoxiang/share-btn-img.png',
         shareIconUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/hepiaoxiang/share-icon.png',
         share: {shareTitle: '', shareDesc: ''}
       },
@@ -641,8 +641,8 @@ export default {
           top: 62px;
           left: 50%;
           transform: translateX(-50%);
-          width: 91px;
-          height: 23px;
+          width: 100px;
+          height: 31px;
           z-index: 49;
           img {
             width: 100%;
@@ -1062,8 +1062,8 @@ export default {
   }
   img:nth-child(2) {
     width: 182px;
-    height: 58px;
-    top: 415px;
+    height: 44px;
+    top: 380px;
     left: 50%;
     transform: translateX(-50%);
   }
