@@ -1,5 +1,5 @@
 <template>
-  <!-- 
+  <!--
   Author: chenxin
   Create Date: 2018-10-18
   Description: 活动投放设置
@@ -153,10 +153,12 @@
             </div>
           </div>
         </el-form-item>
-        <el-form-item>
+        <el-form-item v-if="form !== 'act-111'">
           是否立即发布
           <el-switch class="ml20" :disabled="statusDisabled" v-model="status">
           </el-switch>
+        </el-form-item>
+        <el-form-item>
           <el-row class="mt20">
             <el-button type="primary" @click="save">保存</el-button>
             <el-button @click="backList">返回列表</el-button>
@@ -193,6 +195,7 @@ export default {
 }
 .title {
   height: 40px;
+  line-height: 40px;
   padding-left: 20px;
   background: #f0f0f0;
 }

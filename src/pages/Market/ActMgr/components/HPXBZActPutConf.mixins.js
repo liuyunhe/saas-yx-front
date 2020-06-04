@@ -1,9 +1,9 @@
 export default {
-  props: ['id', 'actCode','form'],
+  props: ['id', 'configId','form','awardArr'],
   inject:['routerRefresh'], //在子组件中注入在父组件中出创建的属性
   data() {
     return {
-    	stepActive:2,
+      stepActive:2,
       act: {
         id: null,
         actCode: '', // 编码
@@ -24,7 +24,7 @@ export default {
         awardArr: [],
         brandArr: [],
         snArr: [],
-        tfType: '' // 投放策略类型 common常规；special定投；sn_first首扫必中；n_mwin必中
+        tfType: '' // 投放策略类型 common；special定投；sn_first首扫必中；n_mwin必中
       },
       specialAreas: {
         provinceArr: [],
@@ -174,35 +174,31 @@ export default {
       fixationPutTfId: '',
       normalTabsValue: '1', // 正常tabs
       normalTabs: [{
-        title: '常规奖项1',
+        title: '奖项1',
         name: '1'
       }],
       firstScanTabsValue: '1', // 首扫
       firstScanTabs: [{
-        title: '常规奖项1',
+        title: '奖项1',
         name: '1'
       }],
       nWinTabsValue: '1', // n次
       nWinTabs: [{
-        title: '常规奖项1',
+        title: '奖项1',
         name: '1'
       }],
       fixationPutTabsValue: '1', // 定投
       fixationPutTabs: [{
-        title: '常规奖项1',
+        title: '奖项1',
         name: '1'
       }],
       tfId: '', // 投放策略主键id
       tfTimeArr: [], // 投放策略开始/结束时间 0-开始时间 1-结束时间
       tfDurationArr: [], // 投放策略开始/结束时段(发放时间) 0-开始时间 1-结束时间
       prizeType: [{ // 类型
-          name: '实物礼品',
-          type: 1
-        },
-        {
-          name: '虚拟礼品',
-          type: 2
-        },
+        name: '实物礼品',
+        type: 1
+      },
         {
           name: '红包',
           type: 3
@@ -251,7 +247,6 @@ export default {
       nWinFlag: false,
       fixationPutFlag: false,
       isPut: false, // 是否投放
-      isDisabled: false, // 是否禁用
       // 时间限制
       pickerOptions: {
         disabledDate: (time) => {
@@ -262,9 +257,8 @@ export default {
     }
   },
   created() {
-    this.getActDetail()
-    this.getBrandList()
-    this.getProvList()
+    // this.getBrandList()
+    // this.getProvList()
   },
   computed: {
     // TODO 暂时不做
@@ -276,23 +270,62 @@ export default {
     // }
   },
   watch: {
+    awardArr(val) {
+      this.normalTabs = [{
+        title: '奖项1',
+        name: '1'
+      }]
+      this.normalConf = [{ // 正常选项
+        awardPic: '',
+        awardType: 1, // 奖项类型
+        curActive: true,
+        giveScore: 0, // 是否赠送积分 0-否 1-是
+        guideGzh: 0, // 是否引导关注公众号 0-否 1-是
+        hasPdMaxOut: false,
+        hasWarn: false,
+        integral: null, // 投放积分面额 如果非积分奖，赠送积分时，代表赠送的积分面额
+        integralPool: null, // 赠送积分池主键id
+        integralPoolName: null,
+        integralPoolPic: null,
+        isGiveScore: false,
+        isGuideGzh: false,
+        isPdMaxOut: false,
+        isWarn: false,
+        outNum: '',
+        pdMaxOut: '', // 奖项每天最多出奖个数
+        poolId: 1, // 奖项物料池主键id
+        poolName: '',
+        prizeName: '', // 奖项名称
+        probability: '', // 中奖概率
+        redMoney: '', // 投放红包面额
+        redTotalMoney: '',
+        remainNum: 0,
+        totalNum: '', // totalNum
+        warnValue: '' //告警阀值 非空且大于0时为设置告警
+      }]
+      if(val.length>0){
+        val.forEach((sonItem, i) => {
+          if (i != 0) {
+            this.normalTabs.push({
+              title: '奖项' + (i + 1),
+              name: '' + (i + 1)
+            })
+          }
+          if (i == 0) {
+            for (let k in sonItem) {
+              this.normalConf[0][k] = sonItem[k]
+            }
+          } else {
+            this.normalConf.push(sonItem)
+          }
+        })
+      }
+    },
     status: function (val) {
       if (val) {
         this.act.status = 1
       } else {
         this.act.status = 2
-      }
-    },
-    isDisabled: function (val) {
-      // console.log(val)
-      if (val) {
-        this.selectProvList = ['000000']
-        this.selectCityList = ['000000']
-        this.selectAreaList = ['000000']
-      } else {
-        this.selectProvList = []
-        this.selectCityList = []
-        this.selectAreaList = []
       }
     },
     fixationPutFlag: function (val) {
@@ -306,151 +339,7 @@ export default {
     }
   },
   methods: {
-    // 获取活动详情
-    getActDetail() {
-      if (this.id) {
-        this.$request.post('/api/wiseqr/act/detail', {
-          id: this.id
-        }, true, res => {
-          if (res.ret !== '200000') return this.$message.error(res.message)
-          if (res.data.act.orgId === 'guest') this.astrictRedflg = true
-          if (res.data.act.status == 1) {
-            this.statusDisabled = true
-          } else {
-            this.statusDisabled = false
-          }
-          this.status = res.data.act.status == 1 ? true : false
-          this.prizeLimitFlag = res.data.act.dwnum ? true : false
-          this.act.dwnum = res.data.act.dwnum
-          this.actSTime = res.data.act.stimeStr
-          this.actETime = res.data.act.etimeStr
-          if (res.data.strategyArr.length != 0) {
-            // this.isEdit = true
-            res.data.strategyArr.forEach((item, index) => {
-              if (item.tfType == 'common') {
-                if (item.awardArr.length == 0) return
-                this.normalTfId = item.tf.id
-                // let data = item.awardArr
-                item.awardArr.forEach((sonItem, i) => {
-                  if (i != 0) {
-                    this.normalTabs.push({
-                      title: '常规奖项' + (i + 1),
-                      name: '' + (i + 1)
-                    })
-                  }
-                  if (i == 0) {
-                    for (let k in sonItem) {
-                      this.normalConf[0][k] = sonItem[k]
-                    }
-                  } else {
-                    this.normalConf.push(sonItem)
-                  }
-                })
-                // this.normalConf = item.awardArr
 
-                // console.log(this.normalConf)
-                if (item.areas.provinceArr[0] == '000000' && item.areas.cityArr[0] == '000000') {
-                  this.isDisabled = true
-                } else {
-                  this.selectProvList = item.areas.provinceArr
-                  this.selectCityList = item.areas.cityArr
-                  this.getCityList(this.selectProvList)
-                  // this.getAreaList(this.selectCityList)
-                  // this.selectAreaList = item.areas.districtArr
-                  // this.selectAll(this.selectAreaList)
-                }
-                this.selectBrand = item.brandArr
-                this.getBrandSonList()
-                this.selectSonBrand = item.snArr
-                // this.restrictSonBrand()
-              }
-              if (item.tfType == 'sn_first') {
-                this.firstScanTfId = item.tf.id
-                item.awardArr.forEach((sonItem, i) => {
-                  if (i != 0) {
-                    this.firstScanTabs.push({
-                      title: '常规奖项' + (i + 1),
-                      name: '' + (i + 1)
-                    })
-                  }
-                  // for (let k in sonItem) {
-                  //   this.firstScanTabs[i][k] = sonItem[k]
-                  // }
-                  if (i == 0) {
-                    for (let k in sonItem) {
-                      this.firstScanConf[0][k] = sonItem[k]
-                    }
-                  } else {
-                    this.firstScanConf.push(sonItem)
-                  }
-                })
-                this.specialRuleConfFlag = true
-                this.firstScanFlag = true
-                this.firstScanConf = item.awardArr
-              }
-              if (item.tfType == 'n_mwin') {
-                this.nWinTfId = item.tf.id
-                item.awardArr.forEach((sonItem, i) => {
-                  if (i != 0) {
-                    this.nWinTabs.push({
-                      title: '常规奖项' + (i + 1),
-                      name: '' + (i + 1)
-                    })
-                  }
-                  // for (let k in sonItem) {
-                  //   this.nWinTabs[i][k] = sonItem[k]
-                  // }
-                  if (i == 0) {
-                    for (let k in sonItem) {
-                      this.nWinConf[0][k] = sonItem[k]
-                    }
-                  } else {
-                    this.nWinConf.push(sonItem)
-                  }
-                })
-                this.specialRuleConfFlag = true
-                this.nWinFlag = true
-                this.nWinConf = item.awardArr
-              }
-              if (item.tfType == 'special') {
-                this.fixationPutTfId = item.tf.id
-                item.awardArr.forEach((sonItem, i) => {
-                  if (i != 0) {
-                    this.fixationPutTabs.push({
-                      title: '常规奖项' + (i + 1),
-                      name: '' + (i + 1)
-                    })
-                  }
-                  // for (let k in sonItem) {
-                  //   console.log(this.normalConf[i][k])
-                  //   this.fixationPutTabs[i][k] = sonItem[k]
-                  // }
-                  if (i == 0) {
-                    for (let k in sonItem) {
-                      this.fixationPutConf[0][k] = sonItem[k]
-                    }
-                  } else {
-                    this.fixationPutConf.push(sonItem)
-                  }
-                })
-                this.specialRuleConfFlag = true
-                this.fixationPutFlag = true
-                this.fixationPutConf = item.awardArr
-                this.specialAreas = item.areas
-                this.specialBrand.brandArr = item.brandArr
-                this.specialBrand.snArr = item.snArr
-                this.tfDurationArr.push(item.tf.sduration)
-                this.tfDurationArr.push(item.tf.eduration)
-                this.tfTimeArr.push(item.tf.stimeStr)
-                this.tfTimeArr.push(item.tf.etimeStr)
-              }
-            })
-          }
-        })
-      } else {
-        this.$router.push('/market/actMgr')
-      }
-    },
     // 获取品牌列表
     getBrandList() {
       this.$request.post('/api/wiseqr/prod/listBrand', {
@@ -645,92 +534,32 @@ export default {
       }
       this.oldSelectAreaList[1] = this.selectAreaList
     },
-
     // 保存
     save() {
       // console.log(this.normalConf)
-      if (this.selectBrand.length == 0 || this.selectSonBrand.length == 0) return this.$message.error('请选择品牌规格')
-      if (this.selectProvList.length == 0 || this.selectCityList.length == 0) return this.$message.error('请选择地区')
-      if (!this.isDisabled) {
-        if(this.selectCityList.indexOf('000000') != -1) {
-          this.selectCityList.splice(this.selectCityList.indexOf('000000'), 1)
+      let data = this.normalConf
+      let flag = false
+      data.forEach((e,i)=>{
+        if(!e.prizeName) {
+          this.$message.error('请选择奖品')
+          flag = true
+          return false
         }
-        if(this.selectAreaList.indexOf('000000') != -1) {
-          this.selectAreaList.splice(this.selectAreaList.indexOf('000000'), 1)
-        }
-        if(this.selectProvList.indexOf('000000') != -1) {
-          this.selectProvList.splice(this.selectProvList.indexOf('000000'), 1)
-        }
-      }
-      this.act.id = this.id
-      this.act.actCode = this.actCode
-      let data = {
-        act: {},
-        strategyArr: []
-      }
-      data.act = this.act
-      data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
-      data.strategyArr[0].awardArr = this.normalConf
-      data.strategyArr[0].areas.cityArr = this.selectCityList
-      data.strategyArr[0].areas.districtArr = this.selectAreaList
-      data.strategyArr[0].areas.provinceArr = this.selectProvList
-      data.strategyArr[0].brandArr = this.selectBrand
-      data.strategyArr[0].snArr = this.selectSonBrand
-      data.strategyArr[0].tfType = 'common'
-      data.strategyArr[0].tf = { id: this.normalTfId }
-      let index = 0
-      if (this.firstScanFlag) {
-        data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
-        index = data.strategyArr.length
-        data.strategyArr[index - 1].awardArr = this.firstScanConf
-        data.strategyArr[index - 1].confOpen = true
-        data.strategyArr[index - 1].tfType = 'sn_first'
-        data.strategyArr[index - 1].tf = { id: this.firstScanTfId }
-      }
-      if (this.nWinFlag) {
-        data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
-        index = data.strategyArr.length
-        data.strategyArr[index - 1].awardArr = this.nWinConf
-        data.strategyArr[index - 1].confOpen = true
-        data.strategyArr[index - 1].tfType = 'n_mwin'
-        data.strategyArr[index - 1].tf = { id: this.nWinTfId }
-      }
-      if (this.fixationPutFlag) {
-        data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
-        index = data.strategyArr.length
-        data.strategyArr[index - 1].areas = this.specialAreas
-        data.strategyArr[index - 1].awardArr = this.fixationPutConf
-        data.strategyArr[index - 1].confOpen = true
-        data.strategyArr[index - 1].brandArr = this.specialBrand.brandArr
-        data.strategyArr[index - 1].snArr = this.specialBrand.snArr
-        // data.strategyArr[index - 1].tf.sduration = this.tfDurationArr[0]
-        // data.strategyArr[index - 1].tf.eduration = this.tfDurationArr[1]
-        // data.strategyArr[index - 1].tf.stimeStr = this.tfTimeArr[0]
-        // data.strategyArr[index - 1].tf.etimeStr = this.tfTimeArr[1]
-        data.strategyArr[index - 1].tf = {
-          sduration: this.tfDurationArr[0],
-          eduration: this.tfDurationArr[1],
-          stimeStr: this.tfTimeArr[0],
-          etimeStr: this.tfTimeArr[1],
-          id: this.fixationPutTfId
-        }
-        data.strategyArr[index - 1].tfType = 'special'
-        // data.strategyArr[index - 1].tf = { id: this.fixationPutTfId }
-      }
-      this.$request.post('/api/wiseqr/act/somtf', data, true, res => {
-        if (res.ret === '200000') {
-          this.$message.success('保存成功')
-          if(this.form == "act-111"){
-            return this.$router.push(
-              '/market/actTpl/HPXSetConf?id=' + this.id + '&actCode=' + this.actCode+'&form='+this.form
-            )
-          }
-          this.$router.push('/market/actMgr')
-          this.routerRefresh() // 调用home.vue的 routerRefresh
-        } else {
-          this.$message.error(res.message)
+
+        if(!e.totalNum) {
+          this.$message.error('请输入投放数量')
+          flag = true
         }
       })
+      if(!flag) {
+        this.$emit('modifyAwardArrError',true)
+        this.$emit('modifyAwardArr',data)
+      }else {
+        this.$emit('modifyAwardArrError',false)
+        this.$emit('modifyAwardArr',data)
+      }
+
+
     },
     // 返回列表
     backList() {
@@ -743,7 +572,7 @@ export default {
       //   // 深拷贝 防止数据相互串通
       //   let newAwae = JSON.parse(JSON.stringify(this.defaultAwae))
       //   this.normalConf.push(newAwae)
-      //   let newTabTitle = '常规奖项' + ++this.normalIndex
+      //   let newTabTitle = '奖项' + ++this.normalIndex
       //   this.normalTabs.push({
       //     title: newTabTitle,
       //     name: this.normalIndex + ''
@@ -786,7 +615,7 @@ export default {
         // 深拷贝 防止数据相互串通
         let newAwae = JSON.parse(JSON.stringify(this.defaultAwae))
         this[confName + 'Conf'].push(newAwae)
-        let newTabTitle = '常规奖项' + this[confName + 'Conf'].length
+        let newTabTitle = '奖项' + this[confName + 'Conf'].length
         this[confName + 'Tabs'].push({
           title: newTabTitle,
           name: this[confName + 'Conf'].length + ''
@@ -801,7 +630,7 @@ export default {
         this[confName + 'Conf'].splice(targetName - 1, 1)
         this[confName + 'Tabs'] = []
         for (var i = 1; i <= this[confName + 'Conf'].length; i++) {
-          this[confName + 'Tabs'].push({ title: '常规奖项' + i, name: i + ''})
+          this[confName + 'Tabs'].push({ title: '奖项' + i, name: i + ''})
         }
         // if (activeName === targetName) {
         //   tabs.forEach((tab, index) => {
@@ -879,6 +708,5 @@ export default {
         })
       })
     }
-
   }
 }

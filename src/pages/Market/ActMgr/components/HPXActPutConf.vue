@@ -10,14 +10,14 @@
       <el-form ref="form" :model="strategy" label-width="100px">
         <el-form-item>
           <div class="prize-conf">
-            <div class="title">常规奖池</div>
-            <el-tabs v-model="normalTabsValue" type="card" editable @edit="normalTabsEdit" class="put-conf">
+            <div class="title">{{ formName }}</div>
+            <el-tabs v-model="normalTabsValue" type="card" :editable="editable" @edit="normalTabsEdit" class="put-conf">
               <el-tab-pane :key="index" v-for="(item, index) in normalTabs" :label="item.title" :name="item.name">
-                <pond-conf :astrict="astrictRedflg" :awae="normalConf[index]" :prizeType="prizeType"></pond-conf>
+                <pond-conf :astrict="astrictRedflg" :configId="configId" :awae="normalConf[index]" :hide="true"  :prizeType="prizeType"></pond-conf>
               </el-tab-pane>
             </el-tabs>
           </div>
-          <el-form-item>
+          <el-form-item v-if="false">
             <div class="special-rule-conf">
               <div class="title">
                 <span>特殊规则设置</span>
@@ -99,7 +99,7 @@
               </div>
             </div>
           </el-form-item>
-          <el-form-item>
+          <el-form-item v-if="false">
             <div class="prize-limit">
               <div class="title">
                 <span>抽奖限制</span>
@@ -116,7 +116,7 @@
             </div>
           </el-form-item>
         </el-form-item>
-        <el-form-item>
+        <el-form-item v-if="false">
           <el-row class="mt20">
             <el-button type="primary" @click="save">保存</el-button>
             <el-button @click="backList">返回列表</el-button>
@@ -133,9 +133,14 @@
   </div>
 </template>
 <script>
-import pondConf from './pondConf.module'
-import mix from './ActPutConf.mixins.js'
+import pondConf from './HPXPondConf.module'
+import mix from './HPXActPutConf.mixins.js'
 export default {
+  props:[
+    'formName',
+    'configId',
+    'editable'
+  ],
   components: {
     pondConf
   },
