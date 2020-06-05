@@ -28,7 +28,7 @@
             红包总金额：<el-input-number v-model="confData.totalMoney" :disabled="actStatus>=4" :min="0" controls-position="right"></el-input-number>元<span style="margin-left: 20px" v-if="confData.id">（集齐人数：{{ finishUser }}人）</span>
           </el-form-item>
           <el-form-item v-if="jcType == 1" label="总奖池：" prop="totalWinnerNum">
-            瓜分总人数：<el-input-number v-model="confData.totalWinnerNum" :min="0" :max="100000"  :disabled="actStatus>=4" controls-position="right"></el-input-number>人
+            瓜分总人数：<el-input-number v-model="confData.totalWinnerNum" :min="0" :max="100000"  :disabled="actStatus>=4" controls-position="right"></el-input-number>人<span style="margin-left: 20px">（瓜分金额等于红包总金额除以配置的瓜分总人数）</span>
           </el-form-item>
           <el-form-item label="奖池类型：" >
             <el-select   v-model="jcType" :disabled="actStatus>=4" style="width: 220px" placeholder="请选择">
@@ -317,6 +317,19 @@
       },
       confirmSubmit(){
       },
+      judgeDivisor(m, n) {
+        var num = {};
+        var i = 0;
+        var x = parseInt(m / n);
+        m = m % n;
+        var result = "";
+        while (m != 0 && !(m in num)) {
+          num[m] = i++;
+          result += parseInt(m * 10 / n);
+          m = m * 10 % n;
+        }
+        return m == 0;
+      },
       save(){
         this.$refs['awardArr'].save()
         if(!this.awardArrFlag){
@@ -351,6 +364,13 @@
         if(new Date(this.confData.OpenTimeStr).getTime() - new Date(this.confData.JSEtimeStr)< 60 *60 *1000){
           this.$message.error('开奖时间必须大于浇花截止时间1小时')
           return
+        }
+        if(this.jcType == 1){
+          let flag = this.judgeDivisor(this.confData.totalMoney-0, this.confData.totalWinnerNum-0)
+          if(!flag){
+            this.$message.error('红包总金额除不尽配置的瓜分总人数')
+            return
+          }
         }
         let flowerPrizeList = this.awardArr.map((item)=>{
           if(item.awardType == 1){
