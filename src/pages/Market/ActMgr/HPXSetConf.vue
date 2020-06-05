@@ -25,7 +25,7 @@
             <el-date-picker v-model="confData.OpenTimeStr" :disabled="actStatus>1"value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择开奖时间"></el-date-picker>
           </el-form-item>
           <el-form-item label="总奖池：" prop="totalMoney">
-            红包总金额：<el-input-number v-model="confData.totalMoney" :disabled="actStatus>=4" :min="0" controls-position="right"></el-input-number>元
+            红包总金额：<el-input-number v-model="confData.totalMoney" :disabled="actStatus>=4" :min="0" controls-position="right"></el-input-number>元<span style="margin-left: 20px" v-if="confData.id">（集齐人数：{{ finishUser }}人）</span>
           </el-form-item>
           <el-form-item v-if="jcType == 1" label="总奖池：" prop="totalWinnerNum">
             瓜分总人数：<el-input-number v-model="confData.totalWinnerNum" :min="0" :max="100000"  :disabled="actStatus>=4" controls-position="right"></el-input-number>人
@@ -206,7 +206,7 @@
         },
         GFAwardArr:[],
         GFAwardArrFlag:true,
-
+        finishUser:'',
         awardType:[
           {
             value: 3,
@@ -255,6 +255,7 @@
 
               this.jcType =  res.data.config.openAwardType
               this.confData.totalMoney = res.data.config.totalAmount
+              this.finishUser = res.data.finishUser
 
 
               this.awardArr = res.data.prizeList.map((item)=>{
