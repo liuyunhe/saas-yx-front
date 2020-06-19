@@ -166,6 +166,7 @@ export default {
             that.account = data.account
             that.name = data.name
             that.orgName = data.orgName
+            sessionStorage.setItem('account',that.account)
           } else {
             this.$message.error(res.message)
           }

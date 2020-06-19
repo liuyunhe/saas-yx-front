@@ -45,6 +45,16 @@
           <!-- 暂时不做 -->
           <!-- <el-button type="primary" @click="regionVisible = true" class="ml20">已选明细</el-button> -->
         </el-form-item>
+        <el-form-item label="销区：" v-if="showSaleZone">
+          <el-select size="small" :disabled="saleZoneDisabled" v-model="saleZoneCode" placeholder="请选择">
+            <el-option
+                v-for="(item,index) in saleZone"
+                :key="index"
+                :label="item.zoneName"
+                :value="item.zoneCode">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item>
           <div class="prize-conf">
             <div class="title">常规奖池</div>
