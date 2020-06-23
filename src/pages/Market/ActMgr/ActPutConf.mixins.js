@@ -228,6 +228,8 @@ export default {
       brandSonList: [], // 子品牌
       specialBrandList: [], // 定投品牌
       specialBrandSonList: [],
+      saleZoneCode:null,
+      saleZone:[],
       provList: [{
         code: '000000',
         name: '全部'
@@ -252,19 +254,22 @@ export default {
       fixationPutFlag: false,
       isPut: false, // 是否投放
       isDisabled: false, // 是否禁用
+      saleZoneDisabled:false,
       // 时间限制
       pickerOptions: {
         disabledDate: (time) => {
           return time.getTime() < new Date(this.actSTime).getTime() || time.getTime() > new Date(this.actETime).getTime()
         }
       },
-      astrictRedflg: false // 红包限制  为true 红包最高金额为0.3
+      astrictRedflg: false, // 红包限制  为true 红包最高金额为0.3
+      showSaleZone:sessionStorage.getItem('account').indexOf('shankun') == -1
     }
   },
   created() {
     this.getActDetail()
     this.getBrandList()
     this.getProvList()
+    this.getSaleZone()
   },
   computed: {
     // TODO 暂时不做
@@ -306,6 +311,13 @@ export default {
     }
   },
   methods: {
+    getSaleZone() {
+      this.$request.post('/api/saleZone/list', {}, true, (res)=>{
+        if (res.code == '200') {
+          this.saleZone = res.data||[];
+        }
+      });
+    },
     // 获取活动详情
     getActDetail() {
       if (this.id) {
@@ -319,11 +331,17 @@ export default {
           } else {
             this.statusDisabled = false
           }
+          if (res.data.act.status == 2) {
+            this.saleZoneDisabled = false
+          } else {
+            this.saleZoneDisabled = true
+          }
           this.status = res.data.act.status == 1 ? true : false
           this.prizeLimitFlag = res.data.act.dwnum ? true : false
           this.act.dwnum = res.data.act.dwnum
           this.actSTime = res.data.act.stimeStr
           this.actETime = res.data.act.etimeStr
+          this.saleZoneCode = res.data.act.saleZoneCode
           if (res.data.strategyArr.length != 0) {
             // this.isEdit = true
             res.data.strategyArr.forEach((item, index) => {
@@ -669,6 +687,7 @@ export default {
         strategyArr: []
       }
       data.act = this.act
+      data.act.saleZoneCode = this.saleZoneCode
       data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
       data.strategyArr[0].awardArr = this.normalConf
       data.strategyArr[0].areas.cityArr = this.selectCityList

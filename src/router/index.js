@@ -121,6 +121,10 @@ const MaterielCardDiscount = () => import(/* webpackChunkName: "product" */ '@/p
 const MaterielCardDouble = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/cardDouble.vue')
 // 产品-品牌管理
 const prodBrand = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Brand.vue')
+// 产品-预算管理
+const BudgetObject = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Budget/Object.vue')
+const BudgetRedpack = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Budget/Redpack.vue')
+const BudgetIntegral = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Budget/Integral.vue')
 
 
 // 设置-日志管理
@@ -393,6 +397,10 @@ export default new Router({
         { path: '/product/materiel/cardDiscount', name: '折扣卡', component: MaterielCardDiscount },
         { path: '/product/materiel/cardDouble', name: '翻倍卡', component: MaterielCardDouble },
         { path: '/product/brand', name: '品牌管理', component: prodBrand },
+        { path: '/product/budget', name: '预算管理',redirect:'/product/budget/redpack'},
+        { path: '/product/budget/object', name: '预算管理-实物', component: BudgetObject },
+        { path: '/product/budget/redpack', name: '预算管理-红包', component: BudgetRedpack },
+        { path: '/product/budget/integral', name: '预算管理-积分', component: BudgetIntegral },
         // 营销
         { path: '/market', name: '营销'},
         { path: '/market/actTpl', name: '活动模板', component: ActTpl },
