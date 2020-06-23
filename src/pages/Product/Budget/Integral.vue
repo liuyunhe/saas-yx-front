@@ -52,6 +52,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="saleZoneName" label="销区" align="center" ></el-table-column>
+        <el-table-column prop="budgetYear" label="年份" align="center" ></el-table-column>
         <el-table-column label="操作" align="center" width="300">
           <template slot-scope="scope">
             <!--                        <el-button size="mini" @click="dataForm(scope.$index, scope.row)">编辑</el-button>-->
@@ -68,15 +69,15 @@
                      :total="pagination.total">
       </el-pagination>
     </el-card>
-    <el-dialog title="新建实物" width="500px" :visible.sync="form.show">
-      <el-form label-width="150px">
-        <el-form-item label="积分礼品名称：">
+    <el-dialog title="新建积分" width="500px" :visible.sync="form.show" @close="resetForm">
+      <el-form ref="ruleForm" label-width="150px" :model="form" :rules="formRules">
+        <el-form-item label="积分礼品名称：" prop="materialName">
           <el-input size="small" v-model="form.materialName" placeholder="请输入礼品名称"></el-input>
         </el-form-item>
-        <el-form-item label="预算（积分）：">
+        <el-form-item label="预算（积分）：" prop="budgetValue">
           <el-input-number v-model="form.budgetValue" :precision="0" :min="0" controls-position="right"></el-input-number>
         </el-form-item>
-        <el-form-item label="使用时间：" >
+        <el-form-item label="使用季度：" prop="budgetSeason">
           <el-select size="small" v-model="form.budgetSeason" placeholder="请选择">
             <el-option label="第一季度（1月1日00:00-3月31日23:59:59）" value="1"></el-option>
             <el-option label="第二季度（4月1日00:00-6月30日23:59:59）" value="2"></el-option>
@@ -84,7 +85,15 @@
             <el-option label="第四季度（10月1日00:00-12月31日23:59:59）" value="4"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="销区：">
+        <el-form-item label="使用年份：" prop="budgetYear">
+          <el-date-picker
+              v-model="form.budgetYear"
+              type="year"
+              value-format="yyyy"
+              placeholder="选择年">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="销区：" prop="saleZoneCode">
           <el-select size="small" v-model="form.saleZoneCode" @change="handleSelectZone" placeholder="请选择">
             <el-option
                 v-for="(item,index) in saleZone"
@@ -96,7 +105,7 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-                <el-button size="small" @click="resetForm(),form.show=false">取 消</el-button>
+                <el-button size="small" @click="form.show=false">取 消</el-button>
                 <el-button size="small" type="primary" @click="saveForm">确 定</el-button>
             </span>
     </el-dialog>
@@ -132,6 +141,13 @@
   export default {
     name: 'Brand',
     data() {
+      var validateBudgetValue = (rule, value, callback) => {
+        if (value == '0') {
+          callback(new Error('请输入预算（个）'))
+        } else {
+          callback()
+        }
+      }
       return {
         saleZone: [],
         search: {
@@ -154,8 +170,17 @@
           materialType: 6,
           materialPoolId: null,
           budgetSeason:"",
+          budgetYear:"",
           saleZoneCode: "", // 销区code
           saleZoneName: "", // 销区名称
+        },
+
+        formRules: {
+          materialName: [{ required: true, message: '请输入积分礼品名称', trigger: 'change' }],
+          budgetValue: [{ required: true, validator:validateBudgetValue, trigger: 'blur' }],
+          budgetSeason: [{ required: true, message: '请选择季度', trigger: 'change' }],
+          budgetYear: [{ required: true, message: '请选择年份', trigger: 'change' }],
+          saleZoneCode: [{ required: true, message: '请选择销区', trigger: 'change' }],
         },
 
         title: '选择物品',
@@ -222,6 +247,7 @@
       },
       // 重置查询
       reset() {
+        this.$refs.ruleForm.resetFields()
         this.search = {
           pageNo: 1,
           pageSize: 10,
@@ -232,6 +258,7 @@
         this.getTableList();
       },
       resetForm(){
+        this.$refs.ruleForm.resetFields()
         this.form =  {
           show: false, // 增库弹框是否展示
           id: '',
@@ -240,6 +267,7 @@
           materialType: 6,
           materialPoolId: null,
           budgetSeason:"",
+          budgetYear:"",
           saleZoneCode: "", // 销区code
           saleZoneName: "", // 销区名称
         }
@@ -282,26 +310,30 @@
         if(this.form.id){
 
         }else {
-          let params = {
-            "saleZoneCode":this.form.saleZoneCode, // 销区code
-            "saleZoneName":this.form.saleZoneName, // 销区名称
-            "budgetValue":this.form.budgetValue, // 预算数量
-            "budgetSeason":this.form.budgetSeason, // 预算季节, 1,2,3,4 分别对应每个季度
-            "materialType":this.form.materialType, // 物料类型, 1-实物; 3-红包; 6-积分;
-            "materialName":this.form.materialName, // 礼品名称
-            "materialPoolId":this.form.materialPoolId // 红包类型的时候，不用传递或者传空
-          }
-          this.$request.post('/api/materialBudget/add', params , true, (res)=>{
-            if (res.code == '200') {
-              this.getTableList();
-              this.form.show = false;
-              this.$message({type: 'success', message: '操作成功!'});
-            } else {
-              this.$message.error(res.message);
+          this.$refs.ruleForm.validate(valid => {
+            if (valid) {
+              let params = {
+                "saleZoneCode":this.form.saleZoneCode, // 销区code
+                "saleZoneName":this.form.saleZoneName, // 销区名称
+                "budgetValue":this.form.budgetValue, // 预算数量
+                "budgetSeason":this.form.budgetSeason, // 预算季节, 1,2,3,4 分别对应每个季度
+                "budgetYear":this.form.budgetYear, //
+                "materialType":this.form.materialType, // 物料类型, 1-实物; 3-红包; 6-积分;
+                "materialName":this.form.materialName, // 礼品名称
+                "materialPoolId":this.form.materialPoolId // 红包类型的时候，不用传递或者传空
+              }
+              this.$request.post('/api/materialBudget/add', params , true, (res)=>{
+                if (res.code == '200') {
+                  this.getTableList();
+                  this.form.show = false;
+                  this.$message({type: 'success', message: '操作成功!'});
+                } else {
+                  this.$message.error(res.message);
+                }
+              });
             }
-          });
+          })
         }
-
       },
       addRepertory(item) {
         this.$prompt('请输入数字', '增库', {
