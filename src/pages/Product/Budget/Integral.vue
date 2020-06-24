@@ -247,7 +247,6 @@
       },
       // 重置查询
       reset() {
-        this.$refs.ruleForm.resetFields()
         this.search = {
           pageNo: 1,
           pageSize: 10,
@@ -328,7 +327,7 @@
                   this.form.show = false;
                   this.$message({type: 'success', message: '操作成功!'});
                 } else {
-                  this.$message.error(res.message);
+                  this.$message.error(res.msg);
                 }
               });
             }
@@ -351,7 +350,7 @@
               this.$message.success('增库成功')
               this.getTableList()
             } else {
-              this.$message.error(res.message)
+              this.$message.error(res.msg)
             }
           })
         }).catch(() => {
@@ -382,7 +381,7 @@
               this.$message.success('删除成功')
               this.getTableList()
             } else {
-              this.$message.error(res.message)
+              this.$message.error(res.msg)
             }
           },
           err => {
