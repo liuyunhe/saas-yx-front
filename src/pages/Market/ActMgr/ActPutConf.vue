@@ -46,7 +46,7 @@
           <!-- <el-button type="primary" @click="regionVisible = true" class="ml20">已选明细</el-button> -->
         </el-form-item>
         <el-form-item label="销区：" v-if="showSaleZone">
-          <el-select size="small" :disabled="saleZoneDisabled" v-model="saleZoneCode" placeholder="请选择">
+          <el-select size="small" :disabled="saleZoneDisabled" :clearable="true" v-model="saleZoneCode" placeholder="请选择">
             <el-option
                 v-for="(item,index) in saleZone"
                 :key="index"
