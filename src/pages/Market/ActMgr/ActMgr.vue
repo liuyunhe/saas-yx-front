@@ -306,7 +306,7 @@ export default {
         'act-702': '/market/actTpl/addDadishu?edit=',
         'act-703': '/market/actTpl/addDaqiqiu?edit=',
         'act-704': '/market/actTpl/addJiawawa?edit=',
-        'act-705': '/market/actTpl/addDiaohongbao?id='
+        'act-705': '/market/actTpl/addDiaohongbao?edit='
       }
     }
   },
