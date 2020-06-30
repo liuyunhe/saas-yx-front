@@ -67,7 +67,7 @@
     </el-card>
 
     <el-dialog title="成员管理" width="550px" center :visible.sync="userForm.show" :show-close="userForm.showClose">
-      <el-form :model="userForm" :rules="userFormRules" ref="userForm" class="form" label-width="80px">
+      <el-form :model="userForm" :rules="userFormRules" ref="userForm" class="form" label-width="100px">
         <el-form-item label="公司">
           <el-input size="small" v-model="cluser.orgName" disabled></el-input>
         </el-form-item>
@@ -90,9 +90,25 @@
           <el-input size="small" type="password" v-model="userForm.pwd" placeholder="8-16位字符(至少包含字母、数字、符号中的两种形式)"></el-input>
         </el-form-item>
         <el-form-item label="角色" prop="roleCode">
-          <el-select size="small" v-model="userForm.roleCode" placeholder="全部">
+          <el-select size="small" v-model="userForm.roleCode" placeholder="全部" @change="handleRoleChange">
             <el-option label="全部" value=""></el-option>
             <el-option v-for="item in roleList" :key="item.roleCode" :label="item.roleName" :value="item.roleCode"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item v-if="userForm.xpUser == 1" label="小屏角色" prop="xpAdmin">
+          <el-select size="small" v-model="userForm.xpAdmin" placeholder="请选择" @change="userForm.xpSaleZone = null">
+            <el-option label="管理人员" :value="1"></el-option>
+            <el-option label="销区人员" :value="0"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item v-if="userForm.xpAdmin == '0'" label="销区：" prop="xpSaleZone">
+          <el-select size="small" v-model="userForm.xpSaleZone" placeholder="请选择">
+            <el-option
+                v-for="(item,index) in saleZone"
+                :key="index"
+                :label="item.zoneName"
+                :value="item.zoneCode">
+            </el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -144,6 +160,7 @@ export default {
       },
       roleList: [],
       statusList: [],
+      saleZone: [],
       form: {
         pageNo: 1,
         pageSize: 10,
@@ -166,15 +183,21 @@ export default {
         mobile: '',
         email: '',
         pwd: '',
-        roleCode: ''
+        roleCode: '',
+        xpUser: 0,
+        xpAdmin: '',
+        xpSaleZone:null
+
       },
       userFormRules: {
         account: [{required:true, message:'账号不能为空', trigger:'blur'}],
         name: [{required:true, message:'账号昵称不能为空', trigger:'blur'}],
         mobile: [{required:true, validator:validMobile, trigger:'blur'}],
-        email: [{required:true, validator:validEmail, trigger:'blur'}],
+        email: [{required:true, validator:validEmail, trigger:'change'}],
         pwd: [{required:true, validator:validPwd, trigger:'blur'}],
-        roleCode: [{required:true, message:'角色不能为空', trigger:'blur'}]
+        roleCode: [{required:true, message:'角色不能为空', trigger:'blur'}],
+        xpAdmin: [{required:true, message:'小屏角色不能为空', trigger:'change'}],
+        xpSaleZone: [{required:true, message:'销区不能为空', trigger:'change'}]
       }
     }
   },
@@ -186,6 +209,7 @@ export default {
         return false;
     }
     this.getRoleList();
+    this.getSaleZone()
     this.list();
   },
   methods: {
@@ -208,6 +232,13 @@ export default {
       this.$request.post('/api/wiseqr/role/list', {pageSize:-1}, true, (res)=>{
         if (res.ret == '200000') {
           this.roleList = res.data.list||[];
+        }
+      });
+    },
+    getSaleZone() {
+      this.$request.post('/api/saleZone/list', {}, true, (res)=>{
+        if (res.code == '200') {
+          this.saleZone = res.data||[];
         }
       });
     },
@@ -288,9 +319,32 @@ export default {
         mobile: '',
         email: '',
         pwd: '',
-        roleCode: ''
+        roleCode: '',
+        xpUser: 0,
+        xpAdmin: '',
+        xpSaleZone:null
       };
       this.$refs[form].clearValidate();
+    },
+    handleRoleChange(item){
+      console.log(item)
+      if(item == ''){
+        this.userForm.xpUser = 0
+        this.userForm.xpAdmin = ''
+        this.userForm.xpSaleZone = null
+        return
+      }
+      let role = this.roleList.find((i)=>{
+        return  i.roleCode == item
+      })
+      console.log(role.roleName == "数据小屏")
+      if(role.roleName == "数据小屏") {
+        this.userForm.xpUser = 1
+      }else {
+        this.userForm.xpUser = 0
+        this.userForm.xpAdmin = ''
+        this.userForm.xpSaleZone = null
+      }
     },
     // 确认提交弹框
     userFormOk(form) {

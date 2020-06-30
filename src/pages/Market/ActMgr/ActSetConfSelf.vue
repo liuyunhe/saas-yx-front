@@ -57,6 +57,16 @@
 <!--          </el-select>-->
           <el-checkbox v-model="isDisabled" label="全部地区" border></el-checkbox>
         </el-form-item>
+        <el-form-item label="销区：" v-if="showSaleZone">
+          <el-select size="small" :disabled="saleZoneDisabled" :clearable="true" v-model="confData.saleZoneCode" placeholder="请选择">
+            <el-option
+                v-for="(item,index) in saleZone"
+                :key="index"
+                :label="item.zoneName"
+                :value="item.zoneCode">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="活动链接：" prop="link">
           <el-input v-model="confData.link" placeholder='请输入活动链接'></el-input>
         </el-form-item>
@@ -169,6 +179,7 @@ export default {
         selectProvList: [], // 选择的省份
         selectCityList: [], // 选择的城市
         selectDistrictList: [], // 选择的区县
+        saleZoneCode: null,
         link: '' // 活动链接
       },
       statusDisabled: false,
@@ -196,7 +207,7 @@ export default {
 
       brandList: [], // 品牌
       productList: [], // 产品
-
+      saleZone:[],  //  销区
       provList: [{code: '000000',name: '全国'}], // 省
       cityList: [], // 市
       districtList: [], // 区
@@ -213,6 +224,9 @@ export default {
       useAwardArr:false,
       directDraw:"0",
       Cindex:0,
+
+      showSaleZone:sessionStorage.getItem('account').indexOf('shankun') == -1,
+      saleZoneDisabled:false
     }
   },
   watch:{
@@ -244,6 +258,13 @@ export default {
     }
   },
   methods: {
+    getSaleZone() {
+      this.$request.post('/api/saleZone/list', {}, true, (res)=>{
+        if (res.code == '200') {
+          this.saleZone = res.data||[];
+        }
+      });
+    },
     modifyAwardArr(data){
       this.awardArr = data
       console.log(this.awardArr)
@@ -253,6 +274,7 @@ export default {
       this.getIdxSelect();
       this.getBrandList();
       this.getAllRegions();
+      this.getSaleZone()
     },
     // 获取优先级
     getIdxSelect() {
@@ -405,6 +427,11 @@ export default {
       if(act.status == 1) {
         this.statusDisabled = true;
       }
+      if (act.status == 2) {
+        this.saleZoneDisabled = false
+      } else {
+        this.saleZoneDisabled = true
+      }
       // 处理活动链接
       if (act.extInfo) {
         this.extInfo = JSON.parse(act.extInfo);
@@ -424,6 +451,7 @@ export default {
         tplCode: act.tplCode||'', // 活动投放使用的模板编码。自定义活动为空
         extInfo: act.extInfo||'', // 活动扩展字段。自定义活动存储外链：{link: ''}
         status: act.status||2, // 活动是否启用：1-启用；2-不启用
+        saleZoneCode: act.saleZoneCode||null, // 销区
         selectBrand: [], // 选择的品牌
         selectProductList: [], // 选择的产品
         selectProvList: [], // 选择的省份
