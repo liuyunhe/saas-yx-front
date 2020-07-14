@@ -49,7 +49,7 @@
               </el-select>
             </el-form-item>
 
-            <el-form-item v-if="ai.awardType&&!ai.id" :label="`选择${ ai.awardType == '1' ? '实物' : ai.awardType == '7' ? '折扣卡' : '翻倍卡' }：`">
+            <el-form-item v-show="ai.awardType&&!ai.id" :label="`选择${ ai.awardType == '1' ? '实物' : ai.awardType == '7' ? '折扣卡' : '翻倍卡' }：`">
               <el-button size="" @click="getList(ai.awardType,key)">选择</el-button>
             </el-form-item>
 
@@ -82,6 +82,18 @@
 
             <el-form-item label='中奖人数：' prop="prizeNum">
               <el-input style="width: 300px" type="number"   v-model="ai.prizeNum"></el-input>
+            </el-form-item>
+
+            <el-form-item label="关联规格：" prop="prizeProductList">
+              <el-select multiple :disabled="!!ai.id" value-key="sn" v-model="ai.prizeProductList" style="width: 300px" placeholder="请选择">
+                <el-option
+                    v-for="i in brandList"
+                    :key="i.sn"
+                    :label="i.productName"
+                    :value="i"
+                >
+                </el-option>
+              </el-select>
             </el-form-item>
             <div style="height: 30px"></div>
           </el-form>
@@ -145,6 +157,13 @@
           callback()
         }
       }
+      var validatePrizeProductList = (rule, value, callback) => {
+        if (value.length<1) {
+          callback(new Error('请输入连续扫码天数'))
+        } else {
+          callback()
+        }
+      }
 
       return {
         uploadURL: '/api/wiseqr/attach/commonAliUpload',
@@ -171,7 +190,8 @@
             "awardPic": "",
             "awardDesc": "",
             "awardType": null,
-            "prizeNum": null
+            "prizeNum": null,
+            "prizeProductList":[]
           }
         ],
         title: '选择物品',
@@ -185,6 +205,8 @@
         listTotal: 0,
         listVisible: false,
 
+        brandList:[],
+
 
         confRules: {
           date: [{ required: true, validator: validateDate, trigger: 'change' }],
@@ -194,6 +216,7 @@
           awardPic: [{ required: true, message: '请上传奖品图片' ,trigger: 'change'}],
           awardDesc: [{ required: true, message: '请输入奖品描述',trigger:'blur' }],
           prizeNum: [{ required: true, message: '请输入中奖人数',trigger:'blur' }],
+          prizeProductList: [{ required: true, validator: validatePrizeProductList,trigger:'change' }],
           cardValue: [{ required: true, message: '请输入面额',trigger:'blur' }],
         },
 
@@ -215,6 +238,7 @@
       }
     },
     created() {
+      this.getBrandList()
       this.getDetail()
     },
     mounted() {
@@ -228,12 +252,35 @@
           "awardPic": "",
           "awardDesc": "",
           "awardType": null,
-          "prizeNum": null
+          "prizeNum": null,
+          "prizeProductList":[]
         }
         this.awardConf.push(awardDemo)
       },
       delItem(index){
         this.awardConf.splice(index,1)
+      },
+      getBrandList() {
+        // 关联品牌
+        this.$request.post(
+          '/api/wiseqr/prod/list', {
+            brandCodeArr: ["BRAND-7D41JAAAAA"],
+            pageSize: '-1'
+          },
+          true,
+          res => {
+            if (res.ret === '200000') {
+              this.brandList = res.data.list.map(item=>{
+                return {
+                  sn:item.sn,
+                  productName:item.allName
+                }
+              })
+              return
+            }
+            this.$message.error(res.message)
+          }
+        )
       },
       // 当前正在进行的活动查询
       getDetail() {
@@ -256,7 +303,8 @@
                     "awardPic": item.awardPic,
                     "awardDesc": item.awardDesc,
                     "awardType": item.awardType,
-                    "prizeNum": item.prizeNum
+                    "prizeNum": item.prizeNum,
+                    "prizeProductList": item.prizeProductList
                   }
                 )
               })
@@ -296,10 +344,10 @@
               conf:this.config,
               prizeList:this.awardConf
             };
-            console.log(params)
             if(this.id){
               params['conf'].id = this.id
             }
+            console.log(params)
             this.$request.post('/hbact/one/points/sass/act/save', params, true, res => {
               if (res.code == '200') {
                 this.$message({type: 'success', message: '操作成功!'});
