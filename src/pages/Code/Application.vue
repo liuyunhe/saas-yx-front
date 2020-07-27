@@ -2,7 +2,7 @@
   <div>
     <el-card class="box-card">
       <el-row>
-        <el-button size="small" type="primary" @click="showApplication">新赠成码申请</el-button>
+        <el-button size="small" type="primary" @click="showApplication">新增成码申请</el-button>
       </el-row>
       <div class="space"></div>
       <!-- 数据查询条件 -->
