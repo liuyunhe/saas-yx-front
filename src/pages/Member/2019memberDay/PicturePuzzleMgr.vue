@@ -1,9 +1,9 @@
 <template>
-  <div class="QA-container">
+  <div class="QA-container" >
     <div >
 
       <!--基本设置-->
-      <el-card :body-style="{ padding: '20px' }">
+      <el-card :body-style="{ padding: '20px' }" v-loading="loading">
         <div slot="header" class="clearfix">
           <span>基本设置：</span>
         </div>
@@ -13,102 +13,105 @@
               至
               <el-date-picker v-model="config.etime" :disabled="!newAct" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择结束时间" ></el-date-picker>
             </el-form-item>
-            <el-form-item label='抽奖限制：' prop="scanCont">
+            <el-form-item label='抽奖限制：' prop="dayAwardNum">
               每人每天前
-              <el-input-number v-model="config.scanCont" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>
+              <el-input-number v-model="config.dayAwardNum" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>
               次抽奖可获得卡片
             </el-form-item>
-            <el-form-item label='转赠限制：' prop="scanCont">
+            <el-form-item label='转赠限制：' prop="weekOutNum">
               每人每周可转增
-              <el-input-number v-model="config.scanCont" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>
+              <el-input-number v-model="config.weekOutNum" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>
               张卡片
             </el-form-item>
-            <el-form-item label='收卡限制：' prop="scanCont">
+            <el-form-item label='收卡限制：' prop="weekInNum">
               每人每周可接收
-              <el-input-number v-model="config.scanCont" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>
+              <el-input-number v-model="config.weekInNum" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>
               张卡片
             </el-form-item>
             <el-form-item label-width="auto" label='卡片设置：(上传卡片图片尺寸313x313px)' prop="">
             </el-form-item>
             <div style="width: 1120px">
               <div style="overflow: auto">
-                <el-form-item label-width="0px" prop="awardPic" style="width: 120px;float: left">
-                  <el-input v-model="config.awardPic" style="display: none" ></el-input>
-                  <el-upload  class="avatar-uploader" :action="uploadURL" :headers="headerObj" :on-success="(res)=>{uploadImgUrlSuccess(res)}" :show-file-list="false">
-                    <img v-if="config.awardPic" :src="config.awardPic" class="avatar">
+                <el-form-item label-width="0px" prop="cardImg1" style="width: 120px;float: left">
+                  <el-input v-model="config.cardImg1" style="display: none" ></el-input>
+                  <el-upload  class="avatar-uploader" :action="uploadURL" :headers="headerObj" :disabled="!newAct" :on-success="(res)=>{uploadImgUrlSuccess(res,'1')}" :show-file-list="false">
+                    <img v-if="config.cardImg1" :src="config.cardImg1" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                   </el-upload>
                 </el-form-item>
                 <div style="width: 430px;float: left;margin-right: 20px">
-                  <el-form-item label='卡片名称：' prop="awardDesc" >
-                    <el-input style="width: 300px"  v-model="config.awardDesc"></el-input>
+                  <el-form-item label='卡片名称：' prop="cardName1" >
+                    <el-input style="width: 300px" :disabled="!newAct"  v-model="config.cardName1"></el-input>
                   </el-form-item>
-                  <el-form-item label='卡片介绍：' prop="awardDesc" >
-                    <el-input type="textarea" style="width: 300px"  v-model="config.awardDesc"></el-input>
+                  <el-form-item label='卡片介绍：' prop="cardDesc1" >
+                    <el-input type="textarea" style="width: 300px" :disabled="!newAct"  v-model="config.cardDesc1"></el-input>
                   </el-form-item>
                 </div>
-                <el-form-item label-width="0px" prop="awardPic" style="width: 120px;float: left">
-                  <el-input v-model="config.awardPic" style="display: none" ></el-input>
-                  <el-upload  class="avatar-uploader" :action="uploadURL" :headers="headerObj" :on-success="(res)=>{uploadImgUrlSuccess(res)}" :show-file-list="false">
-                    <img v-if="config.awardPic" :src="config.awardPic" class="avatar">
+                <el-form-item label-width="0px" prop="cardDesc2" style="width: 120px;float: left">
+                  <el-input v-model="config.cardImg2" style="display: none" ></el-input>
+                  <el-upload  class="avatar-uploader" :action="uploadURL" :headers="headerObj" :disabled="!newAct" :on-success="(res)=>{uploadImgUrlSuccess(res,'2')}" :show-file-list="false">
+                    <img v-if="config.cardImg2" :src="config.cardImg2" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                   </el-upload>
                 </el-form-item>
                 <div style="width: 430px;float: left">
-                  <el-form-item label='卡片名称：' prop="awardDesc" >
-                    <el-input style="width: 300px"  v-model="config.awardDesc"></el-input>
+                  <el-form-item label='卡片名称：' prop="cardName2" >
+                    <el-input style="width: 300px" :disabled="!newAct" v-model="config.cardName2"></el-input>
                   </el-form-item>
-                  <el-form-item label='卡片介绍：' prop="awardDesc" >
-                    <el-input type="textarea" style="width: 300px"  v-model="config.awardDesc"></el-input>
+                  <el-form-item label='卡片介绍：' prop="cardDesc2" >
+                    <el-input type="textarea" style="width: 300px" :disabled="!newAct" v-model="config.cardDesc2"></el-input>
                   </el-form-item>
                 </div>
               </div>
             </div>
             <div style="width: 1120px">
               <div style="overflow: auto">
-                <el-form-item label-width="0px" prop="awardPic" style="width: 120px;float: left">
-                  <el-input v-model="config.awardPic" style="display: none" ></el-input>
-                  <el-upload  class="avatar-uploader" :action="uploadURL" :headers="headerObj" :on-success="(res)=>{uploadImgUrlSuccess(res)}" :show-file-list="false">
-                    <img v-if="config.awardPic" :src="config.awardPic" class="avatar">
+                <el-form-item label-width="0px" prop="cardImg3" style="width: 120px;float: left">
+                  <el-input v-model="config.cardImg3" style="display: none" ></el-input>
+                  <el-upload  class="avatar-uploader" :action="uploadURL" :headers="headerObj" :disabled="!newAct" :on-success="(res)=>{uploadImgUrlSuccess(res,'3')}" :show-file-list="false">
+                    <img v-if="config.cardImg3" :src="config.cardImg3" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                   </el-upload>
                 </el-form-item>
                 <div style="width: 430px;float: left;margin-right: 20px">
-                  <el-form-item label='卡片名称：' prop="awardDesc" >
-                    <el-input style="width: 300px"  v-model="config.awardDesc"></el-input>
+                  <el-form-item label='卡片名称：' prop="cardName3" >
+                    <el-input style="width: 300px" :disabled="!newAct" v-model="config.cardName3"></el-input>
                   </el-form-item>
-                  <el-form-item label='卡片介绍：' prop="awardDesc" >
-                    <el-input type="textarea" style="width: 300px"  v-model="config.awardDesc"></el-input>
+                  <el-form-item label='卡片介绍：' prop="cardDesc3" >
+                    <el-input type="textarea" style="width: 300px" :disabled="!newAct" v-model="config.cardDesc3"></el-input>
                   </el-form-item>
                 </div>
-                <el-form-item label-width="0px" prop="awardPic" style="width: 120px;float: left">
-                  <el-input v-model="config.awardPic" style="display: none" ></el-input>
-                  <el-upload  class="avatar-uploader" :action="uploadURL" :headers="headerObj" :on-success="(res)=>{uploadImgUrlSuccess(res)}" :show-file-list="false">
-                    <img v-if="config.awardPic" :src="config.awardPic" class="avatar">
+                <el-form-item label-width="0px" prop="cardImg4" style="width: 120px;float: left">
+                  <el-input v-model="config.cardImg4" style="display: none" ></el-input>
+                  <el-upload  class="avatar-uploader" :action="uploadURL" :headers="headerObj" :disabled="!newAct" :on-success="(res)=>{uploadImgUrlSuccess(res,'4')}" :show-file-list="false">
+                    <img v-if="config.cardImg4" :src="config.cardImg4" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                   </el-upload>
                 </el-form-item>
                 <div style="width: 430px;float: left">
-                  <el-form-item label='卡片名称：' prop="awardDesc" >
-                    <el-input style="width: 300px"  v-model="config.awardDesc"></el-input>
+                  <el-form-item label='卡片名称：' prop="cardName4" >
+                    <el-input style="width: 300px" :disabled="!newAct" v-model="config.cardName4"></el-input>
                   </el-form-item>
-                  <el-form-item label='卡片介绍：' prop="awardDesc" >
-                    <el-input type="textarea" style="width: 300px"  v-model="config.awardDesc"></el-input>
+                  <el-form-item label='卡片介绍：' prop="cardDesc4" >
+                    <el-input type="textarea" style="width: 300px" :disabled="!newAct" v-model="config.cardDesc4"></el-input>
                   </el-form-item>
                 </div>
               </div>
             </div>
           </el-form>
+        <div v-show="newAct" style="height: 40px;text-align: center">
+          <el-button type="primary" @click="handleBaseSave">保存</el-button>
+        </div>
       </el-card>
       <div style="height: 30px"></div>
 
       <!--规格设置-->
-      <el-card :body-style="{ padding: '20px' }">
+      <el-card :body-style="{ padding: '20px' }" v-loading="loading">
         <div slot="header" class="clearfix">
           <span>规格设置：</span>
         </div>
         <div>
-          <el-button size="small" type="primary" @click="addItem" v-if="newAct">新增商品</el-button>
+          <el-button size="small" type="primary" @click="addItem" v-if="newAct">新增规格</el-button>
         </div>
         <template v-for="(item,key) in snConf">
           <div  style="height: 30px;font-size: 18px;line-height: 30px;margin:20px;color: #409EFF">
@@ -116,46 +119,49 @@
           </div>
           <el-form ref="awardConf" :model="item" label-width="150px" :rules="snRules" :disabled="!newAct">
 
-            <el-form-item label="关联规格：" prop="prizeProductList">
-              <el-select multiple :disabled="!!item.id" value-key="sn" v-model="item.prizeProductList" style="width: 300px" placeholder="请选择">
+            <el-form-item label="关联规格：" prop="snInfo">
+              <el-select multiple v-model="item.snInfo" style="width: 300px" placeholder="请选择" @remove-tag="handleRemoveTag" @visible-change="handleVisbleChange">
                 <el-option
                     v-for="i in brandList"
                     :key="i.sn"
                     :label="i.productName"
-                    :value="i"
+                    :value="i.sn"
                 >
                 </el-option>
               </el-select>
             </el-form-item>
 
             <el-form-item label="选择卡片：" prop="cardsLength">
-              <el-button @click="add(item)">选择</el-button>
+              <el-button @click="add(key)">选择</el-button>
               <el-input style="width: 300px;display: none" disabled v-model="item.cardsLength"></el-input>
             </el-form-item>
-
-            <template v-for="(card,cardKey) in item.cards">
-              <el-form ref="cardsConf" :model="card" label-width="150px" :rules="cardsRules" :disabled="!newAct">
-                <el-form-item label="卡片名称：" prop="name">
-                  <el-input style="width: 300px" v-model="card.name"></el-input>
+            <div></div>
+            <template v-for="(card,cardKey) in item.cardInfo">
+              <el-form ref="cardsConf" :model="card" label-width="150px" :rules="cardsRules">
+                <el-form-item label="卡片名称：" prop="cardName">
+                  <el-input style="width: 300px" :disabled="!newAct" readonly v-model="card.cardName"></el-input>
                 </el-form-item>
-                <div style="overflow: auto">
+                <div style="overflow: auto;height: 60px">
                   <div style="float: left">
                     <el-form-item label="投放数量：" prop="totalNum">
-                      <el-input-number v-model="card.totalNum" :disabled="item.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number>个
-                      <span v-if="item.id ? true : false">
-                       <span style="margin-right: 20px"></span>
-                    剩余{{ card.totalNum - card.outNum }}个
-                    </span>
+                      <el-input-number v-model="card.totalNum" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>个
+                      <span v-if="!newAct">
+                        <span style="margin-right: 20px"></span>
+                        剩余{{ card.totalNum - (card.outNum?card.outNum:0) }}个
+                      </span>
                     </el-form-item>
                   </div>
                   <div style="float: left">
-                    <el-form-item label="中奖概率：" prop="probability">
-                      <el-input-number v-model="card.probability" :precision="1" :step="0.1" :min="0" controls-position="right"></el-input-number>%
+                    <el-form-item label="中奖概率：" prop="prizePert">
+                      <el-input-number v-model="card.prizePert" :disabled="!newAct" :precision="1" :step="0.1" :min="0" controls-position="right"></el-input-number>%
                     </el-form-item>
                   </div>
+                  <span v-if="!newAct">
+                    <span style="margin-right: 20px"></span>
+                    <el-button type="primary" @click="addCardRepertory(card)">增库</el-button>
+                  </span>
                 </div>
               </el-form>
-
             </template>
 
           </el-form>
@@ -165,7 +171,7 @@
       <div style="height: 30px"></div>
 
       <!--奖池设置-->
-      <el-card :body-style="{ padding: '20px' }">
+      <el-card :body-style="{ padding: '20px' }" v-loading="loading">
         <div slot="header" class="clearfix">
           <span>奖池设置：</span>
         </div>
@@ -173,29 +179,27 @@
           <div slot="header" class="clearfix">
             <span>红包：</span>
           </div>
-          <div style="margin-bottom: 20px">选择红包:<el-button size="" style="margin-left: 20px"  @click="getList(3)">选择</el-button></div>
-          <el-form>
-            <el-form-item v-for="(item,index) in hb" :key="index" label='名称：'>
-              面额 <el-input-number v-model="item.redMoney" :disabled="item.id ? true : false" :precision="2" :min="0" controls-position="right"></el-input-number>元
-              <span style="margin-right: 20px"></span>
-              投放数量 <el-input-number v-model="item.totalNum" :disabled="item.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number>个
-
-              <span v-if="item.id ? true : false">
-               <span style="margin-right: 20px"></span>
-            剩余{{ item.totalNum - item.outNum }}个
-            </span>
-              <span style="margin-right: 20px"></span>
-              总金额:{{ parseFloat((item.redMoney*item.totalNum).toPrecision(12)) }}元
-              <span style="margin-right: 20px"></span>
-              中奖概率 <el-input-number v-model="item.probability" :precision="1" :step="0.1" :min="0" controls-position="right"></el-input-number>
-              %
-              <span v-if="item.id ? true : false">
-              <span style="margin-right: 20px"></span>
-              <el-button type='primary' @click="addRepertory(item)">增库</el-button>
-            </span>
-              <span style="margin-right: 20px"></span>
-              <el-button type='danger' @click="deleteAward('hb',index)">删除</el-button>
+          <div style="margin-bottom: 20px">选择红包:<el-button size="" style="margin-left: 20px" :disabled="!newAct"  @click="getList(3)">选择</el-button></div>
+          <el-form ref="hbConfRef" :inline="true" label-width="100px" v-for="(item,index) in hb" :key="index" :model="item"  :rules="confRules">
+            <el-form-item  label='名称：' prop="redpackValue">
+              面额 <el-input-number v-model="item.redpackValue" :disabled="!newAct" :precision="2" :min="0" controls-position="right"></el-input-number>元
             </el-form-item>
+            <el-form-item  label='投放数量：' prop="totalNum">
+               <el-input-number v-model="item.totalNum" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>个
+            </el-form-item>
+            <span v-if="!newAct">
+               <span style="margin-right: 20px"></span>
+                剩余{{ item.totalNum - item.outNum }}个
+              </span>
+            <span style="margin-right: 20px"></span>
+            总金额:{{ parseFloat((item.redpackValue*item.totalNum).toPrecision(12)) }}元
+            <span style="margin-right: 20px"></span>
+            <span v-if="!newAct">
+                <span style="margin-right: 20px"></span>
+                <el-button type='primary' @click="addRepertory(item)">增库</el-button>
+              </span>
+            <span style="margin-right: 20px"></span>
+            <el-button v-if="newAct" type='danger' @click="deleteAward('hb',index)">删除</el-button>
           </el-form>
         </el-card>
         <div style="height: 30px"></div>
@@ -203,28 +207,27 @@
           <div slot="header" class="clearfix">
             <span>荷石币：</span>
           </div>
-          <div style="margin-bottom: 20px">选择荷石币:<el-button style="margin-left: 20px"  @click="getList(6)">选择</el-button></div>
-          <el-form>
-            <el-form-item v-for="(item,index) in hsb" :key="index" label='名称：'>
-              面额 <el-input-number v-model="item.integral" :disabled="item.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number>荷石币
-              <span style="margin-right: 20px"></span>
-              投放数量<el-input-number v-model="item.totalNum" :disabled="item.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number>个
-              <span v-if="item.id ? true : false">
-               <span style="margin-right: 20px"></span>
-            剩余{{ item.totalNum - item.outNum }}个
-            </span>
-              <span style="margin-right: 20px"></span>
-              总荷石币:{{ item.integral*item.totalNum }}
-              <span style="margin-right: 20px"></span>
-              中奖概率<el-input-number v-model="item.probability" :precision="1" :min="0" controls-position="right"></el-input-number>
-              %
-              <span v-if="item.id ? true : false">
-              <span style="margin-right: 20px"></span>
-              <el-button type="primary" @click="addRepertory(item)">增库</el-button>
-            </span>
-              <span style="margin-right: 20px"></span>
-              <el-button type='danger' @click="deleteAward('hsb',index)">删除</el-button>
+          <div style="margin-bottom: 20px">选择荷石币:<el-button style="margin-left: 20px" :disabled="!newAct"  @click="getList(6)">选择</el-button></div>
+          <el-form ref="hsbConfRef" :inline="true" label-width="100px" v-for="(item,index) in hsb" :key="index" :model="item"  :rules="confRules">
+            <el-form-item label='名称：' prop="scoreValue">
+              面额 <el-input-number v-model="item.scoreValue" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>荷石币
             </el-form-item>
+            <el-form-item label="投放数量：" prop="totalNum">
+              <el-input-number v-model="item.totalNum" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>个
+            </el-form-item>
+            <span v-if="!newAct">
+               <span style="margin-right: 20px"></span>
+              剩余{{ item.totalNum - item.outNum }}个
+              </span>
+            <span style="margin-right: 20px"></span>
+            总荷石币:{{ item.scoreValue*item.totalNum }}
+            <span style="margin-right: 20px"></span>
+            <span v-if="!newAct">
+                <span style="margin-right: 20px"></span>
+                <el-button type="primary" @click="addRepertory(item)">增库</el-button>
+              </span>
+            <span style="margin-right: 20px"></span>
+            <el-button v-if="newAct" type='danger' @click="deleteAward('hsb',index)">删除</el-button>
           </el-form>
         </el-card>
         <div style="height: 30px"></div>
@@ -232,26 +235,25 @@
           <div slot="header" class="clearfix">
             <span>折扣卡：</span>
           </div>
-          <div style="margin-bottom: 20px">选择折扣卡:<el-button style="margin-left: 20px"  @click="getList(7)">选择</el-button></div>
-          <el-form>
-            <el-form-item v-for="(item,index) in zkk" :key="index" label='名称：'>
-              <el-input-number v-model="item.awardPrice" :disabled="item.id ? true : false" :step="0.01" :precision="2" :min="0" :max="1" controls-position="right"></el-input-number>折扣卡
-              <span style="margin-right: 20px"></span>
-              投放数量<el-input-number v-model="item.totalNum" :disabled="item.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number>个
-              <span v-if="item.id ? true : false">
-               <span style="margin-right: 20px"></span>
-            剩余{{ item.totalNum - item.outNum }}个
-            </span>
-              <span style="margin-right: 20px"></span>
-              中奖概率<el-input-number v-model="item.probability" :precision="1" :step="0.1" :min="0" controls-position="right"></el-input-number>
-              %
-              <span v-if="item.id ? true : false">
-              <span style="margin-right: 20px"></span>
-              <el-button type="primary" @click="addRepertory(item)">增库</el-button>
-            </span>
-              <span style="margin-right: 20px"></span>
-              <el-button type='danger' @click="deleteAward('zkk',index)">删除</el-button>
+          <div style="margin-bottom: 20px">选择折扣卡:<el-button style="margin-left: 20px" :disabled="!newAct"  @click="getList(7)">选择</el-button></div>
+          <el-form ref="zkkConfRef" :inline="true" label-width="100px" v-for="(item,index) in zkk" :key="index" :model="item"  :rules="confRules">
+            <el-form-item label='名称：' prop="cardValue">
+              <el-input-number v-model="item.cardValue" :disabled="!newAct" :step="0.01" :precision="2" :min="0" :max="1" controls-position="right"></el-input-number>折扣卡
             </el-form-item>
+            <el-form-item label="投放数量：" prop="totalNum">
+              <el-input-number v-model="item.totalNum" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>个
+            </el-form-item>
+            <span v-if="!newAct">
+               <span style="margin-right: 20px"></span>
+              剩余{{ item.totalNum - item.outNum }}个
+              </span>
+            <span style="margin-right: 20px"></span>
+            <span v-if="!newAct">
+                <span style="margin-right: 20px"></span>
+                <el-button type="primary" @click="addRepertory(item)">增库</el-button>
+              </span>
+            <span style="margin-right: 20px"></span>
+            <el-button v-if="newAct" type='danger' @click="deleteAward('zkk',index)">删除</el-button>
           </el-form>
         </el-card>
         <div style="height: 30px"></div>
@@ -259,26 +261,25 @@
           <div slot="header" class="clearfix">
             <span>翻倍卡：</span>
           </div>
-          <div style="margin-bottom: 20px">选择翻倍卡:<el-button style="margin-left: 20px"  @click="getList(8)">选择</el-button></div>
-          <el-form>
-            <el-form-item v-for="(item,index) in fbk" :key="index" label='名称：'>
-              <el-input-number v-model="item.awardPrice" :disabled="item.id ? true : false" :step="0.01" :precision="2" :min="1"  controls-position="right"></el-input-number>翻倍卡
-              <span style="margin-right: 20px"></span>
-              投放数量<el-input-number v-model="item.totalNum" :disabled="item.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number>个
-              <span v-if="item.id ? true : false">
-               <span style="margin-right: 20px"></span>
-            剩余{{ item.totalNum - item.outNum }}个
-            </span>
-              <span style="margin-right: 20px"></span>
-              中奖概率<el-input-number v-model="item.probability" :precision="1" :step="0.1" :min="0" controls-position="right"></el-input-number>
-              %
-              <span v-if="item.id ? true : false">
-              <span style="margin-right: 20px"></span>
-              <el-button type="primary" @click="addRepertory(item)">增库</el-button>
-            </span>
-              <span style="margin-right: 20px"></span>
-              <el-button type='danger' @click="deleteAward('fbk',index)">删除</el-button>
+          <div style="margin-bottom: 20px">选择翻倍卡:<el-button style="margin-left: 20px" :disabled="!newAct" @click="getList(8)">选择</el-button></div>
+          <el-form ref="fbkConfRef" :inline="true" label-width="100px" v-for="(item,index) in fbk" :key="index" :model="item"  :rules="confRules">
+            <el-form-item label='名称：' prop="cardValue">
+              <el-input-number v-model="item.cardValue" :disabled="!newAct"  :step="0.01" :precision="2" :min="1"  controls-position="right"></el-input-number>翻倍卡
             </el-form-item>
+            <el-form-item label="投放数量：" prop="totalNum">
+              <el-input-number v-model="item.totalNum" :disabled="!newAct"  :precision="0" :min="0" controls-position="right"></el-input-number>个
+            </el-form-item>
+            <span v-if="!newAct">
+               <span style="margin-right: 20px"></span>
+              剩余{{ item.totalNum - item.outNum }}个
+              </span>
+            <span style="margin-right: 20px"></span>
+            <span v-if="!newAct">
+                <span style="margin-right: 20px"></span>
+                <el-button type="primary" @click="addRepertory(item)">增库</el-button>
+              </span>
+            <span style="margin-right: 20px"></span>
+            <el-button v-if="newAct" type='danger' @click="deleteAward('fbk',index)">删除</el-button>
           </el-form>
         </el-card>
         <div style="height: 30px"></div>
@@ -314,6 +315,29 @@
       </el-col>
       <div style="clear:both"></div>
     </el-dialog>
+
+    <!--    选择卡片-->
+    <el-dialog title="选择卡片" :visible.sync="cardListVisible" width="800px" @close="toggleSelection">
+      <el-table ref="multipleTable" :data="cardList" border :stripe="true" style="width: 100%" @selection-change="handleSelectionChange">
+        <el-table-column
+            type="selection"
+            width="55">
+        </el-table-column>
+        <el-table-column prop="cardName" label="卡片名称" align="center">
+        </el-table-column>
+        <el-table-column label="卡片图片" align="center">
+          <template slot-scope="scope">
+            <img :src="scope.row.cardImg" alt="" style="height: 60px">
+          </template>
+        </el-table-column>
+        <el-table-column prop="cardDesc" label="卡片介绍" align="center">
+        </el-table-column>
+      </el-table>
+      <div style="height: 40px;text-align: center;margin-top: 30px">
+        <el-button type="primary" @click="handleSelectCards">保存</el-button>
+        <el-button type="" @click="toggleSelection">取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -330,52 +354,68 @@
           callback()
         }
       }
-      var validateScanCont = (rule, value, callback) => {
-        if (!this.config.scanCont) {
-          if(this.config.scanCont == 0){
-            callback(new Error('每天可扫码次数不能为0'))
+      var validateDayAwardNum = (rule, value, callback) => {
+        if (!this.config.dayAwardNum) {
+          if(this.config.dayAwardNum == 0){
+            callback(new Error('每天可抽奖次数不能为0'))
           }else {
-            callback(new Error('请输入每天可扫码次数'))
+            callback(new Error('请输入每天可抽奖次数'))
           }
         } else {
           callback()
         }
       }
-      var validateScanCont = (rule, value, callback) => {
-        if (!this.config.scanCont) {
-          if(this.config.scanCont == 0){
-            callback(new Error('每天可扫码次数不能为0'))
+      var validateWeekOutNum = (rule, value, callback) => {
+        if (!this.config.weekOutNum) {
+          if(this.config.weekOutNum == 0){
+            callback(new Error('每周可转赠次数不能为0'))
           }else {
-            callback(new Error('请输入每天可扫码次数'))
+            callback(new Error('请输入每周可转赠次数'))
           }
         } else {
           callback()
         }
       }
-      var validateScanCont = (rule, value, callback) => {
-        if (!this.config.scanCont) {
-          if(this.config.scanCont == 0){
-            callback(new Error('每天可扫码次数不能为0'))
+      var validateWeekInNum = (rule, value, callback) => {
+        if (!this.config.weekInNum) {
+          if(this.config.weekInNum == 0){
+            callback(new Error('每周可接受次数不能为0'))
           }else {
-            callback(new Error('请输入每天可扫码次数'))
+            callback(new Error('请输入每周可接受次数'))
           }
         } else {
           callback()
         }
       }
-      var validateScanCont = (rule, value, callback) => {
-        if (!this.config.scanCont) {
-          if(this.config.scanCont == 0){
-            callback(new Error('每天可扫码次数不能为0'))
-          }else {
-            callback(new Error('请输入每天可扫码次数'))
-          }
+      var validateRedpackValue = (rule, value, callback) => {
+        if (value == 0) {
+          callback(new Error('请输入红包金额'))
+        } else {
+          callback()
+        }
+      }
+      var validateScoreValue = (rule, value, callback) => {
+        if (value == 0) {
+          callback(new Error('请输入荷石币数量'))
+        } else {
+          callback()
+        }
+      }
+      var validateAwardPrice = (rule, value, callback) => {
+        if (value == 0) {
+          callback(new Error('请输入折扣卡数量'))
+        } else {
+          callback()
+        }
+      }
+      var validateTotalNum = (rule, value, callback) => {
+        if (value == 0) {
+          callback(new Error('请输入投放数量'))
         } else {
           callback()
         }
       }
       var validateCardsLength = (rule, value, callback) => {
-        console.log(value)
         if (value == 0) {
           callback(new Error('请选择卡片'))
         } else {
@@ -383,7 +423,6 @@
         }
       }
       var validatePrizeProductList = (rule, value, callback) => {
-        console.log(value)
         if (value.length<1) {
           callback(new Error('请选择规格'))
         } else {
@@ -406,6 +445,7 @@
       }
 
       return {
+        loading:false,
         uploadURL: '/api/wiseqr/attach/commonAliUpload',
         headerObj: {
           loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
@@ -415,45 +455,82 @@
         id:'',
         actCode:'',
         newAct: true,
-        strategyArr:{},
         brandList:[],
+        brandListReadOnly:[],
         act:{},
         config:{
+          id:'',
           stime: "",
           etime: "",
-          scanCont: "",
-          awardPic: "",
-          awardDesc:""
+          dayAwardNum: "",
+          weekOutNum: "",
+          weekInNum:"",
+
+          cardImg1: "",
+          cardName1: "",
+          cardDesc1: "",
+          card1Id:"",
+
+          cardImg2: "",
+          cardName2: "",
+          cardDesc2: "",
+          card2Id:"",
+
+          cardImg3: "",
+          cardName3: "",
+          cardDesc3: "",
+          card3Id:"",
+
+          cardImg4: "",
+          cardName4: "",
+          cardDesc4: "",
+          card4Id:""
         },
         confRules: {
           date: [{ required: true, validator: validateDate, trigger: 'change' }],
-          scanCont: [{ required: true, validator: validateScanCont, trigger: 'change' }],
-          awardPic: [{ required: true, message: '请上传奖品图片', trigger: 'change' }],
-          awardDesc: [{ required: true, message: '请输入奖品信息', trigger: 'blur' }],
+          dayAwardNum: [{ required: true, validator: validateDayAwardNum, trigger: 'blur' }],
+          weekOutNum: [{ required: true, validator: validateWeekOutNum, trigger: 'blur' }],
+          weekInNum: [{ required: true, validator: validateWeekInNum, trigger: 'blur' }],
+
+          cardImg1: [{ required: true, message: '请上传卡片图片', trigger: 'change' }],
+          cardName1: [{ required: true, message: '请输入卡片名称', trigger: 'blur' }],
+          cardDesc1: [{ required: true, message: '请输入卡片介绍', trigger: 'blur' }],
+
+          cardImg2: [{ required: true, message: '请上传卡片图片', trigger: 'change' }],
+          cardName2: [{ required: true, message: '请输入卡片名称', trigger: 'blur' }],
+          cardDesc2: [{ required: true, message: '请输入卡片介绍', trigger: 'blur' }],
+
+          cardImg3: [{ required: true, message: '请上传卡片图片', trigger: 'change' }],
+          cardName3: [{ required: true, message: '请输入卡片名称', trigger: 'blur' }],
+          cardDesc3: [{ required: true, message: '请输入卡片介绍', trigger: 'blur' }],
+
+          cardImg4: [{ required: true, message: '请上传卡片图片', trigger: 'change' }],
+          cardName4: [{ required: true, message: '请输入卡片名称', trigger: 'blur' }],
+          cardDesc4: [{ required: true, message: '请输入卡片介绍', trigger: 'blur' }],
+
+          redpackValue:[{ required: true, validator: validateRedpackValue, trigger: 'blur' }],
+          scoreValue:[{ required: true, validator: validateScoreValue, trigger: 'blur' }],
+          cardValue:[{ required: true, validator: validateAwardPrice, trigger: 'blur' }],
+          totalNum:[{ required: true, validator: validateTotalNum, trigger: 'blur' }],
+
         },
 
         snConf:[
           {
-            prizeProductList:[],
-            cards:[
-              {
-                name:'111',
-                totalNum:2,
-                outNum:2,
-                probability:''
-              }
-            ],
-            cardsLength:1
+            snInfo:[],
+            cardInfo:[],
+            cardsLength:0
           }
         ],
+        snConfIndex:'',
         snRules:{
-          prizeProductList: [{ required: true, validator: validatePrizeProductList,trigger:'change' }],
+          snInfo: [{ required: true, validator: validatePrizeProductList,trigger:'change' }],
           cardsLength: [{ required: true, validator: validateCardsLength, trigger: 'change' }],
         },
         cardsRules:{
-          name: [{ required: true, message: '请输入奖品信息', trigger: 'blur' }],
+          cardName: [{ required: true, message: '请选择卡片', trigger: 'change' }],
           totalNum: [{ required: true, validator: validateTotalNumb, trigger: 'change' }],
-          probability: [{ required: true, validator: validateProbability, trigger: 'change' }],
+          prizePert: [{ required: true, validator: validateProbability, trigger: 'change' }],
         },
 
         title: '选择物品',
@@ -466,45 +543,34 @@
         },
         listTotal: 0,
         listVisible: false,
-
+        pintuConfig:'',
+        pintuCardBases:[],
+        pintuGroupSettings:[],
+        pintuPrizes:[],
         hb:[],
         hsb:[],
         zkk:[],
         fbk:[],
         defaultAwae: { // 给个默认 好复制
-          awardPic: '',
-          awardPrice:'',
-          awardType: 1, // 奖项类型
-          curActive: true,
-          giveScore: 0, // 是否赠送积分 0-否 1-是
-          guideGzh: 0, // 是否引导关注公众号 0-否 1-是
-          hasPdMaxOut: false,
-          hasWarn: false,
-          integral: null, // 投放积分面额 如果非积分奖，赠送积分时，代表赠送的积分面额
-          integralPool: null, // 赠送积分池主键id
-          integralPoolName: null,
-          integralPoolPic: null,
-          isGiveScore: false,
-          isGuideGzh: false,
-          isPdMaxOut: false,
-          isWarn: false,
-          n: '',
-          outNum: '',
-          pdMaxOut: '', // 奖项每天最多出奖个数
-          poolId: 1, // 奖项物料池主键id
-          poolName: '',
-          prizeName: '', // 奖项名称
-          probability: '', // 中奖概率
-          redMoney: '', // 投放红包面额
-          redTotalMoney: '',
-          remainNum: 0,
+          awdCode: '',
+          awdPicture: '',
+          awdName: '',
+          awdType: 1, // 奖项类型
+          scoreValue: null, // 投放积分面额 如果非积分奖，赠送积分时，代表赠送的积分面额
+          redpackValue: '', // 投放红包面额
+          cardValue:'',
           totalNum: '', // totalNum
-          warnValue: '' //告警阀值 非空且大于0时为设置告警
+          outNum: '',
+          poolId: 1, // 奖项物料池主键id
         },
+
+        cardListVisible:false,
+        cardList:[],
+        multipleSelection:''
       }
     },
     created() {
-      this.getActCode()
+      this.getDetail()
       this.getBrandList()
     },
     mounted() {
@@ -520,7 +586,7 @@
       },
       totalRed: {
         get: function() {
-          return this.awae.redMoney * this.awae.totalNum
+          return this.awae.redpackValue * this.awae.totalNum
         },
         set: function(newValue) {
           // console.log(newValue)
@@ -528,19 +594,103 @@
       }
     },
     methods:{
-      add(item){
-        item.cards = []
-        item.cardsLength = item.cards.length
+      add(index){
+        this.snConfIndex = index
+        let rows = []
+        this.snConf[this.snConfIndex].cardInfo.forEach(item => {
+          this.cardList.forEach((card,index) => {
+            if(card.id == item.cardId){
+              rows.push(card)
+            }
+          })
+        })
+        this.cardListVisible = true
+        this.$nextTick(()=>{
+          rows.forEach(row => {
+            this.$refs.multipleTable.toggleRowSelection(row);
+          });
+        })
+      },
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
+        // console.log(val)
+      },
+      toggleSelection(){
+        this.$refs.multipleTable.clearSelection();
+        this.cardListVisible = false
+      },
+      handleSelectCards(){
+        if(!this.multipleSelection) {
+          this.multipleSelection = []
+        }
+        let cardIdArr = this.snConf[this.snConfIndex].cardInfo.map(item=>{
+          return item.cardId
+        })
+        let cards = []
+        console.log(cardIdArr)
+        this.multipleSelection.forEach(item => {
+          if(cardIdArr.includes(item.id)){
+            let cardObj = this.snConf[this.snConfIndex].cardInfo.find( card =>{
+              return item.id == card.cardId
+            })
+            cards.push(cardObj)
+          }else {
+            cards.push({
+              actId:item.actId,
+              cardId:item.id,
+              totalNum:'',
+              cardName:item.cardName,
+              outNum:'',
+              prizePert:''
+            })
+          }
+        })
+        // this.snConf[this.snConfIndex].cardInfo = this.multipleSelection.map(item => {
+        //   return {
+        //     actId:item.actId,
+        //     cardId:item.id,
+        //     totalNum:'',
+        //     cardName:item.cardName,
+        //     outNum:'',
+        //     prizePert:''
+        //   }
+        // })
+        this.snConf[this.snConfIndex].cardInfo = [...cards]
+        this.snConf[this.snConfIndex].cardsLength = this.multipleSelection.length
+        this.toggleSelection()
+      },
+      handleRemoveTag(value){
+        let snGroup = []
+        this.snConf.forEach(k => {
+          k.snInfo.map(j => {
+            snGroup.push(j)
+          })
+        })
+        console.log(snGroup)
+        this.brandList = this.brandListReadOnly.filter(i => {
+          return !snGroup.includes(i.sn)
+        })
+      },
+      handleVisbleChange(flag){
+        if(!flag){
+          let snGroup = []
+          this.snConf.forEach(k => {
+            k.snInfo.map(j => {
+              snGroup.push(j)
+            })
+          })
+          this.brandList = this.brandListReadOnly.filter(i => {
+            return !snGroup.includes(i.sn)
+          })
+        }
       },
       uploadImgUrlSuccess(resule,index) {
         if (resule.ret === '200000')
-          return (this.config.awardPic = resule.data.accessUrl)
+          console.log(`cardImg${index}`)
+          return (this.config[`cardImg${index}`] = resule.data.accessUrl)
         this.$message.error(resule.message)
       },
-      // 扫码奖励查询
-      getTimeConf(){
 
-      },
       getBrandList() {
         // 关联品牌
         this.$request.post(
@@ -557,52 +707,104 @@
                   productName:item.allName
                 }
               })
+              this.brandListReadOnly = res.data.list.map(item=>{
+                return {
+                  sn:item.sn,
+                  productName:item.allName
+                }
+              })
               return
             }
             this.$message.error(res.message)
           }
         )
       },
-      getActCode(){
-        this.$request.post('/hbact/hyr/home/actCode', {actType:3}, false, res => {
-          if (res.code == '200') {
-            this.actCode = res.data.actCode
-            this.id = res.data.id
-            this.getDetail()
+      getCardList() {
+        // 关联品牌
+        this.$request.get('/hbact/hyr/ptsaas/cardBase/show', {actId:this.config.id}, res => {
+          if (res.code === '200') {
+            this.cardList = res.data
             return
           }
-          this.$message.error(res.msg)
+          this.$message.error(res.message)
         })
       },
       getDetail() {
-        this.$request.post('/api/wiseqr/act/detail', { id: this.id }, true, res => {
-          if (res.ret == '200000') {
+        this.loading = true
+        this.$request.post('/hbact/hyr/ptsaas/actInfo/show', { id: this.id }, true, res => {
+          this.loading = false
+          if (res.code == '200') {
+            if (!res.data.canModify){
+              this.newAct = false
+            }
+            this.pintuConfig = res.data.pintuConfig
 
-            this.strategyArr = res.data.strategyArr[0];
-            this.act = res.data.act
-            let awardArr = this.strategyArr.awardArr
+            if(res.data.pintuConfig){
+              this.config.stime = res.data.pintuConfig.stime
+              this.config.etime = res.data.pintuConfig.etime
+              this.config.dayAwardNum = res.data.pintuConfig.dayAwardNum
+              this.config.weekOutNum = res.data.pintuConfig.weekOutNum
+              this.config.weekInNum = res.data.pintuConfig.weekInNum
+              if(res.data.pintuConfig.id){
+                this.config.id = res.data.pintuConfig.id
+                this.getCardList()
+              }
+            }
+            this.pintuCardBases = res.data.pintuCardBases
+            if(res.data.pintuCardBases && res.data.pintuCardBases.length == 4){
+              this.config.cardImg1 = res.data.pintuCardBases[0].cardImg
+              this.config.cardName1 = res.data.pintuCardBases[0].cardName
+              this.config.cardDesc1 = res.data.pintuCardBases[0].cardDesc
+              this.config.card1Id = res.data.pintuCardBases[0].id
+
+              this.config.cardImg2 = res.data.pintuCardBases[1].cardImg
+              this.config.cardName2 = res.data.pintuCardBases[1].cardName
+              this.config.cardDesc2 = res.data.pintuCardBases[1].cardDesc
+              this.config.card2Id = res.data.pintuCardBases[1].id
+
+              this.config.cardImg3 = res.data.pintuCardBases[2].cardImg
+              this.config.cardName3 = res.data.pintuCardBases[2].cardName
+              this.config.cardDesc3 = res.data.pintuCardBases[2].cardDesc
+              this.config.card3Id = res.data.pintuCardBases[2].id
+
+              this.config.cardImg4 = res.data.pintuCardBases[3].cardImg
+              this.config.cardName4 = res.data.pintuCardBases[3].cardName
+              this.config.cardDesc4 = res.data.pintuCardBases[3].cardDesc
+              this.config.card4Id = res.data.pintuCardBases[3].id
+            }
+            this.pintuGroupSettings = res.data.pintuGroupSettings
+            if(res.data.pintuPrizes && res.data.pintuPrizes.length) {
+              this.snConf = res.data.pintuGroupSettings
+              this.snConf.forEach((item,index) => {
+                this.snConf[index].cardsLength = item.cardInfo.length
+
+              })
+            }
+            this.pintuPrizes = res.data.pintuPrizes;
+            if(!(res.data.pintuPrizes && res.data.pintuPrizes.length)) return
+            let awardArr = this.pintuPrizes
             this.hb = []
             this.hsb = []
             this.zkk = []
             this.fbk = []
             awardArr.forEach((e,i)=>{
-              if(e.awardType == 3){
+              if(e.awdType == 3){
                 this.hb.push(e)
               }
-              else if(e.awardType == 6){
+              else if(e.awdType == 6){
                 this.hsb.push(e)
               }
-              else if(e.awardType == 7){
+              else if(e.awdType == 7){
                 this.zkk.push(e)
               }
-              else if(e.awardType == 8){
+              else if(e.awdType == 8){
                 this.fbk.push(e)
               }
 
             })
             return
           }
-          this.$message.error(res.messgae)
+          this.$message.error(res.msg)
         })
       },
       getList(type) {
@@ -636,23 +838,105 @@
           this.$message.error(res.message)
         })
       },
+      handleBaseSave(){
+        this.$refs.actSetConfRef.validate(valid => {
+          if(valid){
+            let params = {
+              "pintuConfig": {
+                "stime": this.config.stime,
+                "etime": this.config.etime,
+                "weekOutNum": this.config.weekOutNum,
+                "weekInNum": this.config.weekInNum,
+                "dayAwardNum": this.config.dayAwardNum
+              },
+              "pintuCardBases": [
+                {
+                  "cardDesc": this.config.cardDesc1,
+                  "cardImg": this.config.cardImg1,
+                  "cardName": this.config.cardName1
+                },
+                {
+                  "cardDesc": this.config.cardDesc2,
+                  "cardImg": this.config.cardImg2,
+                  "cardName": this.config.cardName2
+                },
+                {
+                  "cardDesc": this.config.cardDesc3,
+                  "cardImg": this.config.cardImg3,
+                  "cardName": this.config.cardName3
+                },
+                {
+                  "cardDesc": this.config.cardDesc4,
+                  "cardImg": this.config.cardImg4,
+                  "cardName": this.config.cardName4
+                },
+              ]
+            }
+            if(this.config.id){
+              params.pintuConfig.id = this.config.id
+              params.pintuCardBases.forEach((item,index) => {
+                item.actId = this.config.id
+                item.id = this.config[`card${index+1}Id`]
+              })
+            }
+            console.log(params)
+            this.$request.post('/hbact/hyr/ptsaas/actInfo/baseSave', params, true, res => {
+              if (res.code === '200') {
+                this.$message.success('保存成功')
+                this.getDetail()
+              } else {
+                this.$message.error(res.message)
+              }
+            })
+
+          }
+        })
+      },
       addRepertory(item) {
         this.$prompt('请输入数字', '增库', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           inputPattern: /^\d{1,}$/,
-          inputErrorMessage: '请输入数字'
+          inputErrorMessage: '请输入大于0的整数'
         }).then(({ value }) => {
-          if (value == 0) return this.$message.error('数字不能为0')
-          this.$request.post('/api/wiseqr/act/addNum', {
+          console.log(value)
+          if (value == 0) return this.$message.error('数字必须大于0')
+          this.$request.post('/hbact/hyr/ptsaas/actInfo/prizeStockAdd', {
             id: item.id ,
-            increment: value
+            addNum: value
           }, true, res => {
-            if (res.ret === '200000') {
+            if (res.code === '200') {
               this.$message.success('增库成功')
               this.getDetail()
             } else {
-              this.$message.error(res.message)
+              this.$message.error(res.msg)
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消输入'
+          });
+        });
+      },
+      addCardRepertory(item) {
+        this.$prompt('请输入数字', '增库', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: /^\d{1,}$/,
+          inputErrorMessage: '请输入大于0的整数'
+        }).then(({ value }) => {
+          console.log(value)
+          if (value == 0) return this.$message.error('数字必须大于0')
+          this.$request.post('/hbact/hyr/ptsaas/actInfo/cardStockAdd', {
+            id: item.id ,
+            addNum: value
+          }, true, res => {
+            if (res.code === '200') {
+              this.$message.success('增库成功')
+              this.getDetail()
+            } else {
+              this.$message.error(res.msg)
             }
           })
         }).catch(() => {
@@ -663,107 +947,117 @@
         });
       },
       confirmSubmit() {
-        let params = {};
-        params.act = {
-          actCode: this.act.actCode,
-          actDesc: this.act.actDesc,
-          actName: this.act.actName,
-          banner: this.act.banner,
-          etimeStr: this.act.etimeStr,
-          extInfo: this.act.extInfo,
-          form: this.act.form,
-          id: this.act.id,
-          idx: this.act.idx,
-          note: this.act.note,
-          selectBrand: this.strategyArr.brandArr,
-          selectCityList: this.strategyArr.areas.cityArr,
-          selectDistrictList: this.strategyArr.areas.districtArr,
-          selectProductList: this.strategyArr.snArr,
-          selectProvList: this.strategyArr.areas.provinceArr,
-          showStatus: this.act.showStatus,
-          status: this.act.status,
-          stimeStr: this.act.stimeStr,
-          tplCode: this.act.tplCode,
+        let awardConfig = true
+        if(this.$refs.hbConfRef){
+          this.$refs.hbConfRef.forEach(item => {
+            item.validate(valid => {
+              if(valid){
+
+              }else {
+                awardConfig = false
+              }
+            })
+          })
         }
+        if(this.$refs.hsbConfRef){
+          this.$refs.hsbConfRef.forEach(item => {
+            item.validate(valid => {
+              if(valid){
 
-        params.strategyArr = [
-          {
-            areas:{
-              provinceArr:this.strategyArr.areas.provinceArr,
-              cityArr:this.strategyArr.areas.cityArr,
-              districtArr:this.strategyArr.areas.districtArr,
-            },
-            awardArr:[...this.hb,...this.hsb,...this.zkk,...this.fbk],
-            snArr:this.strategyArr.snArr,
-            brandArr:this.strategyArr.brandArr,
-            tf:{
-              id:this.strategyArr.tf.id,
-              tfCode:this.strategyArr.tf.tfCode,
-            },
-            tfType: this.strategyArr.tfType,
-          }
-        ]
-        Promise.all([
-          this.confirmAward(params),
-          this.confirmTime()
-        ]).then(([award,time])=>{
-          if (award.ret == '200000') {
-            this.getDetail()
-          } else {
-            this.$message.error(award.message);
-            return
-          }
-          if (time.code == '200') {
-            this.$message.success('操作成功！')
-          }else {
-            this.$message.error(time.msg);
-          }
-        })
+              }else {
+                awardConfig = false
+              }
+            })
+          })
+        }
+        if(this.$refs.zkkConfRef){
+          this.$refs.zkkConfRef.forEach(item => {
+            item.validate(valid => {
+              if(valid){
 
-      },
-      confirmAward(params){
-        return new Promise((resolve, reject) => {
-          this.$request.post('/api/wiseqr/act/somtfSelf', params, true, res => {
-            resolve(res)
+              }else {
+                awardConfig = false
+              }
+            })
+          })
+        }
+        if(this.$refs.fbkConfRef){
+          this.$refs.fbkConfRef.forEach(item => {
+            item.validate(valid => {
+              if(valid){
+
+              }else {
+                awardConfig = false
+              }
+            })
+          })
+        }
+        this.$refs.awardConf.forEach(item => {
+          item.validate(valid => {
+            if(valid){
+
+            }else {
+              awardConfig = false
+            }
           })
         })
-      },
-      confirmTime(){
-        return new Promise((resolve, reject) => {
-          let params = {
-            t1Stime: this.config.t1Stime,
-            t1Etime: this.config.t1Etime,
-            t2Stime: this.config.t2Stime,
-            t2Etime: this.config.t2Etime,
-            t3Stime: this.config.t3Stime,
-            t3Etime: this.config.t3Etime,
-          }
-          this.$request.post('/hbact/hyr/mine/conf/update', params, false, res => {
-            resolve(res)
+        this.$refs.cardsConf.forEach(item => {
+          item.validate(valid => {
+            if(valid){
+
+            }else {
+              awardConfig = false
+            }
           })
         })
+       if(awardConfig){
+         let arr = [...this.hb,...this.hsb,...this.zkk,...this.fbk]
+         arr.forEach((i,k) => {
+           arr[k].actId = this.config.id
+         })
+         let params = {
+           actId: this.config.id,
+           pintuGroupSettings:this.snConf.map(item => {
+             return {
+               snInfo: item.snInfo,
+               cardInfo: item.cardInfo,
+             }
+           }),
+           pintuPrizes:arr
+         }
+         console.log(params)
+         this.$request.post('/hbact/hyr/ptsaas/actInfo/cardAwardSave', params, true, res => {
+           if (res.code === '200') {
+             this.$message.success('保存成功')
+             this.getDetail()
+             this.getBrandList()
+           } else {
+             this.$message.error(res.msg)
+           }
+         })
+       }
       },
       // 选择奖品
       selectPrize(obj,title) {
         let newAwae = JSON.parse(JSON.stringify(this.defaultAwae))
-        newAwae.awardPic = obj.pic
-        newAwae.poolName = obj.name
-        newAwae.prizeName = obj.name
+        newAwae.awdPicture = obj.pic
+        newAwae.awdName = obj.name
         newAwae.poolId = obj.id
+        newAwae.awdCode = obj.id
         if(title == '选择红包'){
-          newAwae.awardType = 3
+          newAwae.awdType = 3
           this.hb.push(newAwae)
         }
         if(title == '选择荷石币'){
-          newAwae.awardType = 6
+          newAwae.awdType = 6
           this.hsb.push(newAwae)
         }
         if(title == '选择折扣卡'){
-          newAwae.awardType = 7
+          newAwae.awdType = 7
           this.zkk.push(newAwae)
         }
         if(title == '选择翻倍卡'){
-          newAwae.awardType = 8
+          newAwae.awdType = 8
           this.fbk.push(newAwae)
         }
         this.listVisible = false
@@ -781,15 +1075,9 @@
       },
       addItem(){
         const snItem = {
-          prizeProductList:[],
-          cards:[
-            {
-              name:'111',
-              totalNum:'',
-              probability:''
-            }
-          ],
-          cardsLength:1
+          snInfo:[],
+          cardInfo:[],
+          cardsLength:0
         }
         this.snConf.push(snItem)
       },
