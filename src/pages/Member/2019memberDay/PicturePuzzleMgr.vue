@@ -287,7 +287,7 @@
     </div>
 
 
-    <div style="height: 40px;text-align: center;margin-top: 30px">
+    <div v-show="newAct"  style="height: 40px;text-align: center;margin-top: 30px">
       <el-button type="primary" @click="confirmSubmit">保存</el-button>
     </div>
 
@@ -1012,6 +1012,10 @@
         })
        if(awardConfig){
          let arr = [...this.hb,...this.hsb,...this.zkk,...this.fbk]
+         if(arr.length == 0){
+           this.$message.error('请配置奖池')
+           return
+         }
          arr.forEach((i,k) => {
            arr[k].actId = this.config.id
          })
