@@ -41,10 +41,10 @@
                 </el-form-item>
                 <div style="width: 430px;float: left;margin-right: 20px">
                   <el-form-item label='卡片名称：' prop="cardName1" >
-                    <el-input style="width: 300px" :disabled="!newAct"  v-model="config.cardName1"></el-input>
+                    <el-input style="width: 300px" maxlength="10" :disabled="!newAct"  v-model="config.cardName1"></el-input>
                   </el-form-item>
                   <el-form-item label='卡片介绍：' prop="cardDesc1" >
-                    <el-input type="textarea" style="width: 300px" :disabled="!newAct"  v-model="config.cardDesc1"></el-input>
+                    <el-input type="textarea" maxlength="100" style="width: 300px" :disabled="!newAct"  v-model="config.cardDesc1"></el-input>
                   </el-form-item>
                 </div>
                 <el-form-item label-width="0px" prop="cardDesc2" style="width: 120px;float: left">
@@ -56,10 +56,10 @@
                 </el-form-item>
                 <div style="width: 430px;float: left">
                   <el-form-item label='卡片名称：' prop="cardName2" >
-                    <el-input style="width: 300px" :disabled="!newAct" v-model="config.cardName2"></el-input>
+                    <el-input style="width: 300px" maxlength="10" :disabled="!newAct" v-model="config.cardName2"></el-input>
                   </el-form-item>
                   <el-form-item label='卡片介绍：' prop="cardDesc2" >
-                    <el-input type="textarea" style="width: 300px" :disabled="!newAct" v-model="config.cardDesc2"></el-input>
+                    <el-input type="textarea" maxlength="100" style="width: 300px" :disabled="!newAct" v-model="config.cardDesc2"></el-input>
                   </el-form-item>
                 </div>
               </div>
@@ -75,10 +75,10 @@
                 </el-form-item>
                 <div style="width: 430px;float: left;margin-right: 20px">
                   <el-form-item label='卡片名称：' prop="cardName3" >
-                    <el-input style="width: 300px" :disabled="!newAct" v-model="config.cardName3"></el-input>
+                    <el-input style="width: 300px" maxlength="10" :disabled="!newAct" v-model="config.cardName3"></el-input>
                   </el-form-item>
                   <el-form-item label='卡片介绍：' prop="cardDesc3" >
-                    <el-input type="textarea" style="width: 300px" :disabled="!newAct" v-model="config.cardDesc3"></el-input>
+                    <el-input type="textarea" maxlength="100" style="width: 300px" :disabled="!newAct" v-model="config.cardDesc3"></el-input>
                   </el-form-item>
                 </div>
                 <el-form-item label-width="0px" prop="cardImg4" style="width: 120px;float: left">
@@ -90,10 +90,10 @@
                 </el-form-item>
                 <div style="width: 430px;float: left">
                   <el-form-item label='卡片名称：' prop="cardName4" >
-                    <el-input style="width: 300px" :disabled="!newAct" v-model="config.cardName4"></el-input>
+                    <el-input style="width: 300px" maxlength="10" :disabled="!newAct" v-model="config.cardName4"></el-input>
                   </el-form-item>
                   <el-form-item label='卡片介绍：' prop="cardDesc4" >
-                    <el-input type="textarea" style="width: 300px" :disabled="!newAct" v-model="config.cardDesc4"></el-input>
+                    <el-input type="textarea" maxlength="100" style="width: 300px" :disabled="!newAct" v-model="config.cardDesc4"></el-input>
                   </el-form-item>
                 </div>
               </div>
@@ -885,7 +885,7 @@
                 this.$message.success('保存成功')
                 this.getDetail()
               } else {
-                this.$message.error(res.message)
+                this.$message.error(res.msg)
               }
             })
 
