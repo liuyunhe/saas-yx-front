@@ -19,7 +19,7 @@
               次抽奖可获得卡片
             </el-form-item>
             <el-form-item label='转赠限制：' prop="weekOutNum">
-              每人每周可转增
+              每人每周可转赠
               <el-input-number v-model="config.weekOutNum" :disabled="!newAct" :precision="0" :min="0" controls-position="right"></el-input-number>
               张卡片
             </el-form-item>
