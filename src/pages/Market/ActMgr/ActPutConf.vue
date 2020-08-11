@@ -110,18 +110,18 @@
                       <!-- <el-button type="primary" @click="brandVisible = true" class="ml20">已选明细</el-button> -->
                     </el-form-item>
                     <el-form-item label="地区：">
-                      <el-select v-model="specialAreas.provinceArr" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择">
+                      <el-select v-model="specialAreas.provinceArr" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择" @change="getCityListSpecial">
                         <el-option v-for="item in specialProvList" :key="item.code" :disabled="item.disabled" :label="item.name" :value="item.code">
                         </el-option>
                       </el-select>
-                      <el-select v-model="specialAreas.cityArr" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择">
+                      <el-select v-model="specialAreas.cityArr" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择" @change="getAreaListSpecial">
                         <el-option v-for="item in specialCityList" :key="item.code" :disabled="item.disabled" :label="item.name" :value="item.code">
                         </el-option>
                       </el-select>
-                      <el-select v-model="specialAreas.districtArr" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择">
-                        <el-option v-for="item in specialAreaList" :key="item.code" :disabled="item.disabled" :label="item.name" :value="item.code">
-                        </el-option>
-                      </el-select>
+<!--                      <el-select v-model="specialAreas.districtArr" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择">-->
+<!--                        <el-option v-for="item in specialAreaList" :key="item.code" :disabled="item.disabled" :label="item.name" :value="item.code">-->
+<!--                        </el-option>-->
+<!--                      </el-select>-->
                       <!-- <el-checkbox v-model="isDisabled" label="全部地区" border></el-checkbox> -->
                       <!-- 暂时不做 -->
                       <!-- <el-button type="primary" @click="regionVisible = true" class="ml20">已选明细</el-button> -->
