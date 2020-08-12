@@ -553,6 +553,7 @@ export default {
       if (val.includes('000000')) {
         this.selectProvList = allValue
         this.specialAreas.provinceArr = []
+        this.specialAreas.cityArr = []
         this.restrictProv()
       }
       // 取消全部选择
@@ -629,6 +630,7 @@ export default {
       const oldVal = this.oldSelectCityList.length === 1 ? [] : this.oldSelectCityList[1]
       if (val.includes('000000')){
         this.selectCityList = allValue
+        this.specialAreas.cityArr = []
         this.restrictCity()
       }
       if (oldVal.includes('000000') && !val.includes('000000')){
@@ -761,8 +763,12 @@ export default {
         index = data.strategyArr.length
 
         data.strategyArr[index - 1].areas = this.specialAreas
-        data.strategyArr[index - 1].areas.provinceArr.splice(0,1)
-        data.strategyArr[index - 1].areas.cityArr.splice(0,1)
+        if(data.strategyArr[index - 1].areas.provinceArr[0] == '000000'){
+          data.strategyArr[index - 1].areas.provinceArr.splice(0,1)
+        }
+        if(data.strategyArr[index - 1].areas.cityArr[0] == '000000'){
+          data.strategyArr[index - 1].areas.cityArr.splice(0,1)
+        }
 
         data.strategyArr[index - 1].awardArr = this.fixationPutConf
         data.strategyArr[index - 1].confOpen = true
