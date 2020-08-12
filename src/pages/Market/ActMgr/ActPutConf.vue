@@ -103,7 +103,7 @@
                         </el-option>
                       </el-select>
                       <el-select v-model="specialBrand.snArr" multiple placeholder="请选择">
-                        <el-option v-for="item in specialBrandSonList" :disabled="item.disabled" :key="item.id" :label="item.name" :value="item.sn">
+                        <el-option v-for="item in specialBrandSonList" :disabled="item.disabled" :key="item.id" :label="item.allName" :value="item.sn">
                         </el-option>
                       </el-select>
                       <!-- 暂时不做 -->
