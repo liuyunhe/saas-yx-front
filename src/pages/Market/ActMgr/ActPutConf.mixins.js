@@ -220,10 +220,13 @@ export default {
       selectSonBrand: [], // 子品牌
       selectProvList: [], // 省
       oldSlectProvList: ['1'], // 上次选中的省  给个默认值 不然会报错
+      oldSlectProvList1: ['1'], // 上次选中的省  给个默认值 不然会报错
       selectCityList: [], // 市
       oldSelectCityList: ['1'],
+      oldSelectCityList1: ['1'],
       selectAreaList: [], // 区
       oldSelectAreaList: ['1'],
+      oldSelectAreaList1: ['1'],
       brandList: [], // 品牌列表
       brandSonList: [], // 子品牌
       specialBrandList: [], // 定投品牌
@@ -342,6 +345,7 @@ export default {
           this.actSTime = res.data.act.stimeStr
           this.actETime = res.data.act.etimeStr
           this.saleZoneCode = res.data.act.saleZoneCode
+          console.log(res.data)
           if (res.data.strategyArr.length != 0) {
             // this.isEdit = true
             res.data.strategyArr.forEach((item, index) => {
@@ -369,6 +373,8 @@ export default {
                 // console.log(this.normalConf)
                 if (item.areas.provinceArr[0] == '000000' && item.areas.cityArr[0] == '000000') {
                   this.isDisabled = true
+                  this.restrictProv()
+                  this.restrictCity()
                 } else {
                   this.selectProvList = item.areas.provinceArr
                   this.selectCityList = item.areas.cityArr
@@ -431,6 +437,7 @@ export default {
                 this.nWinConf = item.awardArr
               }
               if (item.tfType == 'special') {
+                console.log(item)
                 this.fixationPutTfId = item.tf.id
                 item.awardArr.forEach((sonItem, i) => {
                   if (i != 0) {
@@ -455,6 +462,7 @@ export default {
                 this.fixationPutFlag = true
                 this.fixationPutConf = item.awardArr
                 this.specialAreas = item.areas
+                console.log(this.specialAreas,item.areas)
                 this.specialBrand.brandArr = item.brandArr
                 this.specialBrand.snArr = item.snArr
                 this.tfDurationArr.push(item.tf.sduration)
@@ -509,6 +517,7 @@ export default {
       }, true, res => {
         if (res.ret === '200000') {
           this.provList.push(...res.data)
+          this.restrictProv()
           // this.provList.unshift({
           //   code: '000000',
           //   name: '全部'
@@ -526,6 +535,9 @@ export default {
         }, 1000)
         return
       }
+      // this.specialAreas.provinceArr = []
+      // this.specialAreas.cityArr = []
+      this.restrictProv()
       let allValue = []
       // 保存所有的值
       for (let item of this.provList) {
@@ -538,20 +550,37 @@ export default {
        * Array.includes()
        * ES6方法 用于判断是否包含某一元素 返回布尔值
        */
-      if (val.includes('000000')) this.selectProvList = allValue
+      if (val.includes('000000')) {
+        this.selectProvList = allValue
+        this.specialAreas.provinceArr = []
+        this.specialAreas.cityArr = []
+        this.restrictProv()
+      }
       // 取消全部选择
-      if (oldVal.includes('000000') && !val.includes('000000')) this.selectProvList = []
+      if (oldVal.includes('000000') && !val.includes('000000')) {
+        this.selectProvList = []
+        this.specialAreas.provinceArr = []
+        this.specialAreas.cityArr = []
+        this.restrictProv()
+
+      }
       // 全选之后取消单个
       if (oldVal.includes('000000') && val.includes('000000')) {
         // 全选也跟着取消
         const index = val.indexOf('000000')
         val.splice(index, 1)
         this.selectProvList = val
+        this.specialAreas.provinceArr = []
+        this.specialAreas.cityArr = []
+        this.restrictProv()
       }
       // 全选未选 其它全部选上 则全选选上(上次和当前都没有全选)
       if (!oldVal.includes('000000') && !val.includes('000000')) {
         if (val.length === allValue.length - 1) {
           this.selectProvList = ['000000'].concat(val)
+          this.specialAreas.provinceArr = []
+          this.specialAreas.cityArr = []
+          this.restrictProv()
         }
       }
       this.oldSlectProvList[1] = this.selectProvList
@@ -573,6 +602,7 @@ export default {
             this.cityList.push(...res.data)
             // 定点投放地区限制
             this.restrictProv()
+            this.restrictCity()
             // this.cityList.unshift({
             //   code: '000000',
             //   name: '全部'
@@ -591,22 +621,36 @@ export default {
         }, 1000)
         return
       }
+      // this.specialAreas.cityArr = []
+      this.restrictCity()
       let allValue = []
       for (let item of this.cityList) {
         allValue.push(item.code)
       }
       const oldVal = this.oldSelectCityList.length === 1 ? [] : this.oldSelectCityList[1]
-      if (val.includes('000000')) this.selectCityList = allValue
-      if (oldVal.includes('000000') && !val.includes('000000')) this.selectCityList = []
+      if (val.includes('000000')){
+        this.selectCityList = allValue
+        this.specialAreas.cityArr = []
+        this.restrictCity()
+      }
+      if (oldVal.includes('000000') && !val.includes('000000')){
+        this.selectCityList = []
+        this.specialAreas.cityArr = []
+        this.restrictCity()
+      }
       if (oldVal.includes('000000') && val.includes('000000')) {
         const index = val.indexOf('000000')
         val.splice(index, 1)
         this.selectCityList = val
+        this.specialAreas.cityArr = []
+        this.restrictCity()
       }
       if (!oldVal.includes('000000') && !val.includes('000000')) {
         if (val.length === allValue.length - 1) {
           this.selectCityList = ['000000'].concat(val)
         }
+        this.specialAreas.cityArr = []
+        this.restrictCity()
       }
       this.oldSelectCityList[1] = this.selectCityList
       if (this.selectCityList.length == 0) {
@@ -717,7 +761,15 @@ export default {
       if (this.fixationPutFlag) {
         data.strategyArr.push(JSON.parse(JSON.stringify(this.strategy)))
         index = data.strategyArr.length
+
         data.strategyArr[index - 1].areas = this.specialAreas
+        if(data.strategyArr[index - 1].areas.provinceArr[0] == '000000'){
+          data.strategyArr[index - 1].areas.provinceArr.splice(0,1)
+        }
+        if(data.strategyArr[index - 1].areas.cityArr[0] == '000000'){
+          data.strategyArr[index - 1].areas.cityArr.splice(0,1)
+        }
+
         data.strategyArr[index - 1].awardArr = this.fixationPutConf
         data.strategyArr[index - 1].confOpen = true
         data.strategyArr[index - 1].brandArr = this.specialBrand.brandArr
@@ -843,11 +895,58 @@ export default {
       this.specialProvList.forEach(speciaItem => {
         speciaItem['disabled'] = true
         this.selectProvList.forEach(item => {
-          if (speciaItem.code == item) {
+          if (speciaItem.code == item || speciaItem.code == '000000') {
             speciaItem['disabled'] = false
           }
         })
       })
+      if(this.specialProvList[0].code == '000000'){
+        this.specialProvList[0].name = "全选"
+      }else {
+        this.specialProvList.unshift(
+          {
+            code: '000000',
+            name: '全选'
+          }
+        )
+      }
+    },
+    getCityListSpecial(val) {
+      let allValue = []
+      // 保存所有的值
+      for (let item of this.specialProvList) {
+        if(!item.disabled){
+          allValue.push(item.code)
+        }
+      }
+      // 储存上一次的值 用来进行对比
+      const oldVal = this.oldSlectProvList1.length === 1 ? [] : this.oldSlectProvList1[1]
+      // 点击全部选择
+      /**
+       * Array.includes()
+       * ES6方法 用于判断是否包含某一元素 返回布尔值
+       */
+      if (val.includes('000000')) {
+        this.specialAreas.provinceArr = allValue
+      }
+      // 取消全部选择
+      if (oldVal.includes('000000') && !val.includes('000000')) {
+        this.specialAreas.provinceArr = []
+      }
+      // 全选之后取消单个
+      if (oldVal.includes('000000') && val.includes('000000')) {
+        // 全选也跟着取消
+        const index = val.indexOf('000000')
+        val.splice(index, 1)
+        this.specialAreas.provinceArr = val
+      }
+      // 全选未选 其它全部选上 则全选选上(上次和当前都没有全选)
+      if (!oldVal.includes('000000') && !val.includes('000000')) {
+        if (val.length === allValue.length - 1) {
+          this.specialAreas.provinceArr = ['000000'].concat(val)
+        }
+      }
+      this.oldSlectProvList1[1] = this.specialAreas.provinceArr
     },
     restrictCity() {
       this.specialCityList = JSON.parse(JSON.stringify(this.cityList))
@@ -855,11 +954,58 @@ export default {
       this.specialCityList.forEach(speciaItem => {
         speciaItem['disabled'] = true
         this.selectCityList.forEach(item => {
-          if (speciaItem.code == item) {
+          if (speciaItem.code == item || speciaItem.code == '000000') {
             speciaItem['disabled'] = false
           }
         })
       })
+      if(this.specialCityList[0].code == '000000'){
+        this.specialCityList[0].name = "全选"
+      }else {
+        this.specialCityList.unshift(
+          {
+            code: '000000',
+            name: '全选'
+          }
+        )
+      }
+    },
+    getAreaListSpecial(val) {
+      let allValue = []
+      // 保存所有的值
+      for (let item of this.specialCityList) {
+        if(!item.disabled){
+          allValue.push(item.code)
+        }
+      }
+      // 储存上一次的值 用来进行对比
+      const oldVal = this.oldSelectCityList1.length === 1 ? [] : this.oldSelectCityList1[1]
+      // 点击全部选择
+      /**
+       * Array.includes()
+       * ES6方法 用于判断是否包含某一元素 返回布尔值
+       */
+      if (val.includes('000000')) {
+        this.specialAreas.cityArr = allValue
+      }
+      // 取消全部选择
+      if (oldVal.includes('000000') && !val.includes('000000')) {
+        this.specialAreas.cityArr = []
+      }
+      // 全选之后取消单个
+      if (oldVal.includes('000000') && val.includes('000000')) {
+        // 全选也跟着取消
+        const index = val.indexOf('000000')
+        val.splice(index, 1)
+        this.specialAreas.cityArr = val
+      }
+      // 全选未选 其它全部选上 则全选选上(上次和当前都没有全选)
+      if (!oldVal.includes('000000') && !val.includes('000000')) {
+        if (val.length === allValue.length - 1) {
+          this.specialAreas.cityArr = ['000000'].concat(val)
+        }
+      }
+      this.oldSelectCityList1[1] = this.specialAreas.cityArr
     },
     restrictArea() {
       this.specialAreaList = JSON.parse(JSON.stringify(this.areaList))
