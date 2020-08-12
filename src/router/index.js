@@ -261,6 +261,7 @@ const ParkourMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Memb
 const MineMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/MineMgr')
 const SignMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/SignMgr')
 const WinningPrizeMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/WinningPrizeMgr')
+const PicturePuzzleMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/PicturePuzzleMgr')
 
 // 用户
 const Mgr = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Mgr/Mgr')
@@ -546,6 +547,7 @@ export default new Router({
         { path: '/memberday/ParkourMgr', name: '钻石Party', component: ParkourMgr },
         { path: '/memberday/WinningPrizeMgr', name: '中奖风采', component: WinningPrizeMgr },
         { path: '/memberday/SignMgr', name: '社区打卡', component: SignMgr },
+        { path: '/memberday/PicturePuzzleMgr', name: '钻石拼图', component: PicturePuzzleMgr },
 
         { path: '/memberday/material/prizeConf', name: '会员日实物奖品配置', component: PrizeConf, props: (route) => ({type: route.query.type, id: route.query.id}) },
         { path: '/memberday/material/prizeList', name: '会员日实物奖品列表', component: PrizeList, props: (route) => ({type: route.query.type}) },
