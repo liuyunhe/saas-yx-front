@@ -15,27 +15,27 @@
         <el-card :body-style="{padding:'40px'}">
             <el-row>
                 <el-col :span="8">
-                    <phone-model 
-                        :title="conf.title" 
-                        :titleLength="30" 
+                    <phone-model
+                        :title="conf.title"
+                        :titleLength="30"
                         :page = "page"
-                        imgKey ="ACT_FANPAIZI" 
+                        imgKey ="ACT_FANPAIZI"
                         :imgData="conf.img"
                         :commonImg =  "conf.commonImg"
                        	flag="pai"
                         @edit="editPhone" />
                 </el-col>
                 <el-col :span="14">
-                    <activity-info 
+                    <activity-info
                         :title = "conf.title"
                         :desc = "conf.description"
-                        @titleInput="titleInput" 
-                        @descInput="descInput" 
+                        @titleInput="titleInput"
+                        @descInput="descInput"
                         v-if="page == 1"/>
-                    <activity-image-editor 
+                    <activity-image-editor
                         v-if="page != 2 && page !=3"
-                        :editData="editData" 
-                        :type="editType" 
+                        :editData="editData"
+                        :type="editType"
                         :itemRepeat = "itemRepeat"
                         @picChange = "editPic"/>
                 </el-col>
@@ -70,7 +70,7 @@ props: ['id', 'edit'],
       defaultActive: "1",
       editData: [img.img.ACT_FANPAIZI['normal']['bg']],
       editType: "normal",
-      itemRepeat: true,   //元素格子是否重复，重复是true， 不重复为false
+      itemRepeat: false,   //元素格子是否重复，重复是true， 不重复为false
       page: 1,
       isPublish: false,
       conf : {
@@ -109,7 +109,7 @@ props: ['id', 'edit'],
         let that = this;
         that.page = key;
         if(key == 4) {
-            that.editData = [     
+            that.editData = [
             	that.conf.commonImg.getAwardBgPai,
             	that.conf.commonImg.getBtnPai
             ];
@@ -141,9 +141,9 @@ props: ['id', 'edit'],
         that.editData = type == 'item' ? that.itemRepeat ? [this.conf.img[type]['item0']] : this.conf.img[type] : [this.conf.img[type][index]];
     },
     editPic (e) {
-        let that = this, 
-            type = e.type, 
-            index = e.index, 
+        let that = this,
+            type = e.type,
+            index = e.index,
             url = e.url,
             itemRepeat = e.itemRepeat,
             item = 'item',
@@ -183,7 +183,7 @@ props: ['id', 'edit'],
                 this.$message.error(res.message)
                 }
             })
-            return 
+            return
         }
         if(!that.id) return;
         that.$request.post('/api/wiseqr/acttpl/detail', { id: that.id }, true, res => {
@@ -210,7 +210,7 @@ props: ['id', 'edit'],
       if (!that.conf.title) return this.$message.warning('请输入模板名称');
     //   if (that.conf.title.length > 15) return this.$message.warning('模板名称不能超过15个字符');
     //   if (that.conf.description.length > 50) return this.$message.warning('模板描述不能超过50个字符');
-        
+
       that.conf.conf.img = JSON.stringify(that.conf.img);
       that.conf.conf.commonImg = JSON.stringify(that.conf.commonImg);
       that.conf.conf.title = that.conf.title;
