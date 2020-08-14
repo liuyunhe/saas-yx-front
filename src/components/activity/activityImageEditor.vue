@@ -11,16 +11,16 @@
                       <div class="img-container">
                           <img :src="img.url" alt="">
                       </div>
-                      <el-upload 
-                      :action="uploadApi" 
-                      :headers="headerObj" 
-                      class="upload" 
-                      :show-file-list="showFile" 
+                      <el-upload
+                      :action="uploadApi"
+                      :headers="headerObj"
+                      class="upload"
+                      :show-file-list="showFile"
                       :on-success="uploadSuccess"
                       :before-upload="beforeAvatarUpload"
                       :on-error="uploadError">
                           <el-button type="primary" size="small" @click="onUploadClick(itemRepeat && type == 'item' ? 'item0' : img.index)">更换图片</el-button>
-                          
+
                       </el-upload>
                       <div slot="tip" class="el-upload__tip">* 图片建议尺寸为 {{img.size[0]}}*{{img.size[1]}}px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
                     </div>
@@ -32,16 +32,17 @@
                     <div class="img-container">
                         <img :src="img.url" alt="">
                     </div>
-                    <el-upload 
-                    :action="uploadApi" 
-                    :headers="headerObj" 
-                    class="upload" 
-                    :show-file-list="showFile" 
+                    <el-upload
+                    :action="uploadApi"
+                    :headers="headerObj"
+                    class="upload"
+                    :show-file-list="showFile"
                     :on-success="uploadSuccess"
                     :before-upload="beforeAvatarUpload"
                     :on-error="uploadError">
                         <el-button type="primary" size="small" @click="onUploadClick(index)">更换图片</el-button>
                     </el-upload>
+                    <div slot="tip" class="el-upload__tip">* 图片建议尺寸为 {{img.size[0]}}*{{img.size[1]}}px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
                 </div>
             </div>
         </el-card>
@@ -129,7 +130,7 @@ export default {
         margin: 0 10px;
         & > img {
           position: absolute;
-          top:50%; 
+          top:50%;
           left:50%;
           transform: translate(-50%,-50%);
           max-width: 90%;
