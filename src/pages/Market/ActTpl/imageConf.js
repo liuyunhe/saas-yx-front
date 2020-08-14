@@ -155,7 +155,7 @@ const img = {
         },
         item: {
             item0: {
-                name: '牌子',
+                name: '牌子1',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [89, 571],
                 size: [175, 240]
@@ -236,7 +236,7 @@ const img = {
                 pos: [265, 794],
                 size: [195, 162]
             },
-            
+
         },
         item: {
             item0: {
@@ -319,7 +319,7 @@ const img = {
                 pos: [620, 32],
                 size: [120, 120]
             },
-            
+
     	},
     	question:{
     		Quesbg: {
