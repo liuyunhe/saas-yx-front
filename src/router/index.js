@@ -262,6 +262,8 @@ const MineMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/
 const SignMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/SignMgr')
 const WinningPrizeMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/WinningPrizeMgr')
 const PicturePuzzleMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/PicturePuzzleMgr')
+const LetterCubeMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/LetterCubeMgr')
+const PatchMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/PatchMgr')
 
 // 用户
 const Mgr = () => import(/* webpackChunkName: "customer" */ '@/pages/Customer/Mgr/Mgr')
@@ -548,6 +550,8 @@ export default new Router({
         { path: '/memberday/WinningPrizeMgr', name: '中奖风采', component: WinningPrizeMgr },
         { path: '/memberday/SignMgr', name: '社区打卡', component: SignMgr },
         { path: '/memberday/PicturePuzzleMgr', name: '钻石拼图', component: PicturePuzzleMgr },
+        { path: '/memberday/LetterCubeMgr', name: '文字魔方', component: LetterCubeMgr },
+        { path: '/memberday/PatchMgr', name: '文字魔方', component: PatchMgr },
 
         { path: '/memberday/material/prizeConf', name: '会员日实物奖品配置', component: PrizeConf, props: (route) => ({type: route.query.type, id: route.query.id}) },
         { path: '/memberday/material/prizeList', name: '会员日实物奖品列表', component: PrizeList, props: (route) => ({type: route.query.type}) },
