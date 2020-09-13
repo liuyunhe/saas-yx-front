@@ -197,21 +197,15 @@
             value: 1,
             label:'实物'
           },
-          {
-            value: 3,
-            label:'红包'
-          },
-          {
-            value: 6,
-            label:'积分'
-          },
         ],
         awardNo:'',
+        startNumArr:[1,2,4,11,51,101],
+        endNumArr:[1,3,10,50,100,500],
       }
     },
     created() {
       // this.getBrandList()
-      // this.getDetail()
+      this.getDetail()
     },
     mounted() {
     },
@@ -254,25 +248,22 @@
       },
       // 当前正在进行的活动查询
       getDetail() {
-        this.$request.post('/hbact/one/points/sass/act/config', {}, true, res => {
+        this.$request.post('/hbact/jhPuzzle/saas/prizeConf/list', {}, true, res => {
           if (res.code == '200') {
-            this.config.stime = res.data.conf.stime
-            this.config.etime = res.data.conf.etime
-            this.config.scanCont = res.data.conf.scanCont
-            this.newAct = false
-            this.id = res.data.conf.id
-            this.isStart = res.data.isStart
-            if(res.data.prizeList.length > 0){
+            // this.newAct = false
+            // this.id = res.data.conf.id
+            // this.isStart = res.data.isStart
+            if(res.data.length > 0){
               this.awardConf = []
-              res.data.prizeList.forEach(item => {
+              res.data.forEach(item => {
                 this.awardConf.push(
                   {
-                    "awardName": item.awardName,
-                    "marketMoney": item.marketMoney,
-                    "awardPic": item.awardPic,
-                    "awardType": item.awardType,
-                    "scoreValue":item.scoreValue,  //积分值
-                    "redpackValue":item.redpackValue, //红包金额
+                    "awardName": item.awdName,
+                    // "marketMoney": item.marketMoney,
+                    "awardPic": item.awdPicture,
+                    "awardType": item.awdType,
+                    // "scoreValue":item.scoreValue,  //积分值
+                    // "redpackValue":item.redpackValue, //红包金额
                   }
                 )
               })
@@ -298,15 +289,18 @@
         })
 
         if (!awardConfig) return
-        let params = {
-          prizeList:this.awardConf
-        };
-        if(this.id){
-          params['conf'].id = this.id
-        }
+        let params = this.awardConf.map((item,index) => {
+          return {
+            "confLevel": index + 1,
+            "startNum": this.startNumArr[index],
+            "endNum": this.endNumArr[index],
+            "awdType": item.awardType,
+            "awdName": item.awardName,
+            "awdPicture": item.awardPic,
+          }
+        })
         console.log(params)
-        return
-        this.$request.post('/hbact/one/points/sass/act/save', params, true, res => {
+        this.$request.post('/hbact/jhPuzzle/saas/prizeConf/save', params, true, res => {
           if (res.code == '200') {
             this.$message({type: 'success', message: '操作成功!'});
             this.getDetail()
