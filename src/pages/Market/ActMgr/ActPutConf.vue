@@ -21,7 +21,7 @@
             <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.brandCode">
             </el-option>
           </el-select>
-          <el-select v-model="selectSonBrand" multiple collapse-tags placeholder="请选择" @change="restrictSonBrand">
+          <el-select v-model="selectSonBrand" style="width: 300px" multiple collapse-tags placeholder="请选择" @change="restrictSonBrand">
             <el-option v-for="item in brandSonList" :key="item.id" :label="item.allName" :value="item.sn">
             </el-option>
           </el-select>
