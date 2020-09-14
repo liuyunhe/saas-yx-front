@@ -40,6 +40,10 @@
                 <span style="margin-right: 20px"></span>
                 <el-button type="primary" @click="addCardRepertory(item)" style="margin-top: 15px">增库</el-button>
               </span>
+              <span v-if="!newAct">
+                <span style="margin-right: 20px"></span>
+                <el-button type="primary" @click="updateCardPert(item)" style="margin-top: 15px">修改中奖概率</el-button>
+              </span>
             </div>
           </el-form>
         </template>
@@ -299,7 +303,7 @@
         this.$message.error(resule.message)
       },
       addCardRepertory(item) {
-        this.$prompt('请输入数字', '增库', {
+        this.$prompt('请输入数字：', '增库', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           inputPattern: /^\d{1,}$/,
@@ -313,6 +317,33 @@
           }, false, res => {
             if (res.code === '200') {
               this.$message.success('增库成功')
+              this.getDetail()
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消输入'
+          })
+        })
+      },
+      updateCardPert(item) {
+        this.$prompt('请输入概率：', '修改概率', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: /^\d+(\.\d{0,1})?$/,
+          inputErrorMessage: '请输入大于等于0的数字且最多保留小数点后一位'
+        }).then(({value}) => {
+          console.log(value)
+          if (value > 100) return this.$message.error('数字必须小于100')
+          this.$request.post('/hbact/jh/saas/pintu/update/pert', {
+            id: item.id,
+            drawPert: value
+          }, false, res => {
+            if (res.code === '200') {
+              this.$message.success('修改成功')
               this.getDetail()
             } else {
               this.$message.error(res.msg)
