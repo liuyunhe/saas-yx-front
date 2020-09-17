@@ -1,5 +1,12 @@
 <template>
   <div class="QA-container">
+    <div style="margin-bottom: 30px;color: #0B1019">
+      <el-button type="primary" :disabled="openStatus != 0" @click="handleClickRunLottery">开奖</el-button>
+      <span v-if="openStatus == 0">（未开奖）</span>
+      <span v-if="openStatus == 1">（开奖中）</span>
+      <span v-if="openStatus == 2">（开奖成功）</span>
+      <span v-if="openStatus == 3">（开奖失败）</span>
+    </div>
     <div >
       <el-card :body-style="{ padding: '20px' }">
         <div slot="header" class="clearfix">
@@ -52,7 +59,7 @@
               <el-input v-model="ai.awardPic" style="display: none" ></el-input>
               <img height="100" v-if="ai.awardPic" :src="ai.awardPic" alt="">
               <el-upload :action="uploadURL" :headers="headerObj" :on-success="(res)=>{uploadImgUrlSuccess(res,key)}" :show-file-list="false">
-                <el-button size="small" type="primary">上传图片</el-button>
+                <el-button size="small" type="primary" style="margin-top: 10px">上传图片</el-button>
 <!--                <span style="margin-left: 20px">上传商品图片尺寸（630x348px）</span>-->
               </el-upload>
             </el-form-item>
@@ -119,6 +126,8 @@
           etime:'',
           scanCont:'',
         },
+        canRunLottery:true,
+        openStatus:0,
 
         awardConf:[
           {
@@ -275,6 +284,26 @@
             this.$message.error(res.msg)
           }
         })
+        this.$request.post('/hbact/jhPuzzle/saas/prizeConf/openStatus', {}, true, res => {
+          if (res.code == '200') {
+            this.openStatus = res.data.status
+            if(res.data.status > 0){
+              this.isStart = true
+            }
+          }else {
+            this.$message.error(res.msg)
+          }
+        })
+      },
+      handleClickRunLottery() {
+        this.$request.post('/hbact/jhPuzzle/saas/prizeConf/openAward', {}, true, res => {
+          if (res.code == '200') {
+            this.$message.success("开奖成功！")
+            this.getDetail()
+          }else {
+            this.$message.error(res.msg)
+          }
+        })
       },
       confirmSubmit() {
         let awardConfig = true
@@ -394,5 +423,11 @@
     background: #fff;
     padding: 30px;
     box-sizing: border-box;
+    .el-form-item__content{
+      img{
+        border: 1px dashed #dcdfe6;
+      }
+    }
   }
+
 </style>
