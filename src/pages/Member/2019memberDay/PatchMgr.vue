@@ -360,7 +360,7 @@
   }
 </script>
 <style>
-  .PatchMgr-container .el-form-item--small .el-form-item__content, .el-form-item--small .el-form-item__label {
+  .PatchMgr-container .el-form-item--small .el-form-item__content,.PatchMgr-container .el-form-item--small .el-form-item__label {
     line-height: 64px;
     height: 64px;
   }
