@@ -1,6 +1,7 @@
 <template>
   <div class="QA-container">
     <div style="margin-bottom: 30px;color: #0B1019">
+      <el-button type="primary" :disabled="openStatus != 0" @click="handleClickRefresh">刷新排行缓存</el-button>
       <el-button type="primary" :disabled="openStatus != 0" @click="handleClickRunLottery">开奖</el-button>
       <span v-if="openStatus == 0">（未开奖）</span>
       <span v-if="openStatus == 1">（开奖中）</span>
@@ -300,6 +301,15 @@
           if (res.code == '200') {
             this.$message.success("开奖成功！")
             this.getDetail()
+          }else {
+            this.$message.error(res.msg)
+          }
+        })
+      },
+      handleClickRefresh() {
+        this.$request.post('/hbact/jhPuzzle/saas/prizeConf/refreshRank', {}, true, res => {
+          if (res.code == '200') {
+            this.$message.success("刷新成功！")
           }else {
             this.$message.error(res.msg)
           }
