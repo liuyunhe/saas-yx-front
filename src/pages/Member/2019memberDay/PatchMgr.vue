@@ -259,7 +259,7 @@
       getDetail() {
         this.$request.post('/hbact/jh/saas/pintu/queryConfig', {}, true, res => {
           if(res.code == 200){
-            if(res.data){
+            if(res.data.length){
               this.newAct = false
               this.config = [
                 res.data.slice(0,6),
