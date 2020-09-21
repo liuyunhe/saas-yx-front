@@ -408,7 +408,7 @@ export default {
     },
     // 获取子品牌列表
     getProductList() {
-      this.$request.post('/api/wiseqr/prod/list', {brandCodeArr:this.confData.selectBrand, pageSize:'-1'}, true, res => {
+      this.$request.post('/api/wiseqr/prod/list', {brandCodeArr:this.confData.selectBrand, pageSize:'-1', status: '1',}, true, res => {
         if (res.ret == '200000') {
           this.productList = res.data.list || [];
           if (this.initProd) {
