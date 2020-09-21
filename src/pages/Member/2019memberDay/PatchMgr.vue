@@ -8,7 +8,7 @@
         <template v-for="(item,index) in i">
           <el-form ref="PatchConf" :model="item" label-width="100px" :rules="confRules">
             <div style="height: 90px">
-              <el-form-item :label="`碎片${index+1}:`" prop="img" style="width: 220px;float: left;margin-right: 20px">
+              <el-form-item :label="`碎片${index+1}:`" prop="img" style="width: 220px;float: left;margin-right: 10px">
                 <el-input v-model="item.img" style="display: none"></el-input>
                 <el-upload :disabled="!newAct " class="avatar-uploader" :action="uploadURL" :headers="headerObj"
                            :on-success="(res)=>{uploadImgUrlSuccess(res,index,j)}" :show-file-list="false">
@@ -16,33 +16,33 @@
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
               </el-form-item>
-              <div style="float: left;margin-right: 20px;height: 64px;line-height: 64px">
-                <template v-if="index == 0 || index == 1">(尺寸：405*506)</template>
-                <template v-if="index == 2">(尺寸：339*506)</template>
-                <template v-if="index == 3 || index == 4">(尺寸：405*576)</template>
-                <template v-if="index == 5">(尺寸：339*576)</template>
+              <div style="float: left;margin-right: 10px;height: 64px;line-height: 64px">
+                <template v-if="index == 0 || index == 1">(405*506)</template>
+                <template v-if="index == 2">(339*506)</template>
+                <template v-if="index == 3 || index == 4">(405*576)</template>
+                <template v-if="index == 5">(339*576)</template>
               </div>
-              <div style="width: 230px;float: left;margin-right: 20px">
+              <div style="width: 230px;float: left;margin-right: 10px">
                 <el-form-item label="投放数量：" prop="totalNum">
                   <el-input-number :disabled="!newAct " v-model="item.totalNum" :precision="0" :min="0" controls-position="right"/>
                 </el-form-item>
               </div>
-              <div v-if="item.id ? true : false" style="float: left;margin-right: 20px;height: 64px;line-height: 64px">
+              <div v-if="item.id ? true : false" style="float: left;margin-right: 10px;height: 64px;line-height: 64px">
                 剩余{{ item.totalNum - item.outNum }}个
               </div>
-              <div style="width: 250px;float: left;margin-right: 20px">
+              <div style="width: 250px;float: left;margin-right: 10px">
                 <el-form-item label="中奖概率：" prop="drawPert">
                   <el-input-number :disabled="!newAct " v-model="item.drawPert" :precision="1" :step="0.1" :min="0" controls-position="right"/>
                   %
                 </el-form-item>
               </div>
               <span v-if="!newAct">
-                <span style="margin-right: 20px"></span>
+                <span style="margin-right: 10px"></span>
                 <el-button type="primary" @click="addCardRepertory(item)" style="margin-top: 15px">增库</el-button>
               </span>
               <span v-if="!newAct">
-                <span style="margin-right: 20px"></span>
-                <el-button type="primary" @click="updateCardPert(item)" style="margin-top: 15px">修改中奖概率</el-button>
+                <span style="margin-right: 10px"></span>
+                <el-button type="primary" @click="updateCardPert(item)" style="margin-top: 15px">概率</el-button>
               </span>
             </div>
           </el-form>
