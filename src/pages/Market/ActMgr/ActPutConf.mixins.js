@@ -496,6 +496,7 @@ export default {
       this.restrictBrand()
       this.$request.post(
         '/api/wiseqr/prod/list', {
+          status: "1",
           brandCodeArr: this.selectBrand,
           pageSize: '-1'
         },
