@@ -234,6 +234,10 @@ const sellerAuditStep1 = () => import(/* webpackChunkName: "seller" */ '@/pages/
 const sellerAuditStep2 = () => import(/* webpackChunkName: "seller" */ '@/pages/Seller/Audit/Step2')
 //零售户-助力活动
 const sellerHelp = () => import(/* webpackChunkName: "seller" */ '@/pages/Seller/Help')
+//零售户-图片审核
+const ImgReview = () => import(/* webpackChunkName: "seller" */ '@/pages/Seller/ImgReview/ImgReview')
+//零售户-零售户审核
+const SellerReview = () => import(/* webpackChunkName: "seller" */ '@/pages/Seller/SellerReview/SellerReview')
 
 
 // 会员日
@@ -472,6 +476,8 @@ export default new Router({
         { path: '/seller/audStep1', name: '初审管理', component: sellerAuditStep1},
         { path: '/seller/audStep2', name: '终审管理', component: sellerAuditStep2},
         { path: '/seller/help', name: '助力活动', component: sellerHelp},
+        { path: '/seller/imgReview', name: '图片审核', component: ImgReview},
+        { path: '/seller/sellerReview', name: '图片审核', component: SellerReview},
         // 商城
         { path: '/mall', name: '商城'},
         { path: '/mall/auth', name: '审核管理', component: auditManage },
