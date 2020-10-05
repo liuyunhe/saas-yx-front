@@ -184,7 +184,7 @@ export default {
                 auditStatus: this.form.auditStatus
             }
             this.$request.post(' /api/hsInfoAudit/doAudit', params, false, (res)=>{
-                if (res.code == '200000') {
+                if (res.code == '200') {
                     this.list();
                     this.form.show = false;
                     this.$message({type: 'success', message: '操作成功!'});
