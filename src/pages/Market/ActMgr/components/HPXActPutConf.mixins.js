@@ -609,7 +609,7 @@ export default {
     },
     addOrRemove(confName, targetName, action) {
       if (action === 'add') {
-        if (this[confName + 'Conf'].length == 10) return
+        if (this[confName + 'Conf'].length == 15) return
         // 深拷贝 防止数据相互串通
         let newAwae = JSON.parse(JSON.stringify(this.defaultAwae))
         this[confName + 'Conf'].push(newAwae)

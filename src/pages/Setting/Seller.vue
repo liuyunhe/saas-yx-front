@@ -27,13 +27,54 @@
                         <span class="unit-info" v-show="form.printQr">单位：元</span>
                     </div>
                 </li>
-                <li class="last">
+                <li>
                     <p class="title">提现申请阀值设置：</p>
                     <div>
                         提现需申请阀值金额：
                         <el-input-number size="small" v-model="form.auditingMoney" controls-position="right" :min="0" :max="2147483647"></el-input-number>
                         <span class="unit-info">单位：元</span>
                     </div>
+                </li>
+                <li class="last">
+                    <p class="title">零售户佣金提现设置：</p>
+                    <div>
+                        是否开启：
+                        <el-switch
+                            size="small"
+                            v-model="form.open"
+                            active-color="#13ce66"
+                            inactive-color="#eeeeee"
+                            :active-value="1"
+                            :inactive-value="0"
+                        >
+                        </el-switch>
+                    </div>
+                    <div v-show="form.open">
+                        <span>提现时间：</span>
+                        <el-time-select
+                            v-model="form.t1Stime"
+                            :picker-options="{
+                              start: '00:00',
+                              step: '00:01',
+                              end: '23:59',
+                            }"
+                            value-format="HH:mm"
+                            placeholder="选择提现时间"></el-time-select>
+
+                        <span style="margin-left: 30px">重复日期：</span>
+                        <el-select  multiple collapse-tags size="small" v-model="form.cron" @change="handleCronChange" placeholder="请选择">
+                            <el-option
+                                v-for="(item,index) in times"
+                                :key="index"
+                                :label="item.name"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </div>
+                    <div>
+
+                    </div>
+
                 </li>
             </ul>
             <div class="oper-block">
@@ -50,16 +91,45 @@ export default {
                 time: false, // 是否开启店铺与消费者关联时间
                 timeText: "", // 开启时，店铺与消费者关联时间分钟数
                 showGetQr: false, // 是否显示领取店码标牌
-                printQr: false, // 是否收费店码的打印
+                open: 0, // 是否开启佣金提现
                 printMoney: "", // 收费店码的打印金额（含运费和税费）
-                auditingMoney: "" // 提现申请阀值
-            }
+                auditingMoney: "", // 提现申请阀值
+                t1Stime:"",
+                cron:[],
+            },
+            times:[
+                {
+                    name: "星期一",
+                    value:"1"
+                },{
+                    name: "星期二",
+                    value:"2"
+                },{
+                    name: "星期三",
+                    value:"3"
+                },{
+                    name: "星期四",
+                    value:"4"
+                },{
+                    name: "星期五",
+                    value:"5"
+                },{
+                    name: "星期六",
+                    value:"6"
+                },{
+                    name: "星期日",
+                    value:"7"
+                },
+            ]
         }
     },
     created() {
         this.initSettings();
     },
     methods: {
+        handleCronChange(value){
+            this.form.cron = value.sort()
+        },
         initSettings() {
             this.$request.post('/lsh/seller-manager/setting/querySysSetting', {}, true, (res)=>{
                 if (res.ok) {
@@ -70,6 +140,10 @@ export default {
                     this.form.printQr = datas.SELLER_QRPRINT_CHARGE_ISSET==1?true:false;
                     this.form.printMoney = datas.SELLER_QRPRINT_CHARGE_STANDARD||"";
                     this.form.auditingMoney = datas.SELLER_TX_AMOUNT_AUTH||"";
+                    let tx = JSON.parse(datas.SELLER_TX_AUTORUN_SETTING)
+                    this.form.open = tx.open || "0";
+                    this.form.t1Stime = tx.time || "";
+                    this.form.cron = tx.cron.split(',').sort() || [];
                 }
             });
         },
@@ -89,6 +163,31 @@ export default {
             if(this.form.printQr) { // 店码二维码打印：设置开启
                 params.SELLER_QRPRINT_CHARGE_ISSET = 1;
                 params.SELLER_QRPRINT_CHARGE_STANDARD = this.form.printMoney;
+            }
+            if(this.form.open){
+                if(!this.form.t1Stime) {
+                    this.$message.error("零售户佣金提现时间不能为空！");
+                    return false;
+                }
+                if(this.form.cron.length == 0) {
+                    this.$message.error("零售户佣金提现重复日期不能为空！");
+                    return false;
+                }
+                params.SELLER_TX_AUTORUN_SETTING = JSON.stringify(
+                    {
+                        "time": this.form.t1Stime,
+                        "cron": this.form.cron.join(','),
+                        "open": this.form.open
+                    }
+                )
+            }else {
+                params.SELLER_TX_AUTORUN_SETTING = JSON.stringify(
+                    {
+                        "time": null,
+                        "cron": null,
+                        "open": 0
+                    }
+                )
             }
             this.$request.post('/lsh/seller-manager/setting/sellerSysSetting', {settings:params}, true, (res)=>{
                 if (res.ok) {
