@@ -1,5 +1,5 @@
 <template>
-    <div v-loading="loading">
+    <div>
         <el-card class="box-card">
             <div class="space"></div>
             <!-- 数据查询条件 -->
@@ -10,7 +10,7 @@
                         <el-option label="提现成功" value="2"></el-option>
                         <el-option label="审批拒绝" value="3"></el-option>
                         <el-option label="审批通过" value="4"></el-option>
-                        <el-option label="转账重试N次仍失败" value="5"></el-option>
+                        <el-option label="转账重试多次仍失败" value="5"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="转账时间：">
@@ -37,7 +37,7 @@
         <div class="space"></div>
         <el-card>
             <!-- 数据表格 -->
-            <el-table :data="tableList" style="width: 100%">
+            <el-table :data="tableList" style="width: 100%" v-loading="loading">
                 <el-table-column label="序号" type="index" align="center" width="50">
                     <template slot-scope="scope">
                     {{ (search.pageNo-1)*search.pageSize + scope.$index + 1 }}
@@ -53,7 +53,7 @@
                         <span v-if="scope.row.tx_time">{{new Date(scope.row.tx_time).Format("yyyy-MM-dd hh:mm:ss")}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column  label="到账时间" align="center" width="90" v-if="search.status == 2">
+                <el-table-column  label="到账时间" align="center" width="90" v-if="showTX">
                     <template slot-scope="scope">
                         <span v-if="scope.row.opt_finish_time">{{new Date(scope.row.opt_finish_time).Format("yyyy-MM-dd hh:mm:ss")}}</span>
                     </template>
@@ -64,14 +64,14 @@
                     <span v-if="scope.row.status==2">提现完成</span>
                     <span v-if="scope.row.status==3">审批拒绝</span>
                     <span v-if="scope.row.status==4">审批通过</span>
-                    <span v-if="scope.row.status==5">转账重试N次仍失败</span>
+                    <span v-if="scope.row.status==5">转账重试多次仍失败</span>
                     </template>
                 </el-table-column>
 
                 <el-table-column label="操作" align="center" >
                     <template slot-scope="scope">
                     <span v-if="scope.row.status==5" size="mini" @click="dataForm(scope.$index, scope.row)" style="color: #409EFF;cursor: pointer">失败原因</span>
-                    <span v-else="scope.row.status==3">无</span>
+                    <span v-else>无</span>
                     <span type="danger" v-if="scope.row.status==5" size="mini" @click="handleUnDeal(scope.$index, scope.row)" style="margin-left: 20px;color: red;cursor: pointer">不再处理</span>
                     </template>
                 </el-table-column>
@@ -123,7 +123,8 @@ export default {
             },
             failNum: 0,
             loading:false,
-            showTransferAccounts: false
+            showTransferAccounts: false,
+            showTX: false,
         }
     },
     created() {
@@ -174,9 +175,15 @@ export default {
             let _pageSize = 10;
             if(pageSize) _pageSize = pageSize;
             this.search.pageSize = _pageSize;
-
+            this.loading = true
+            this.tableList = []
             this.$request.post('/lsh/seller-manager/seller/sellerTx/query', this.search, true, (res)=>{
-                console.log(res)
+                this.loading = false
+                if(this.search.status == 2){
+                    this.showTX = true
+                }else{
+                    this.showTX = false
+                }
                 if (res.ok) {
                     this.tableList = res.data.list || [];
                     this.initPagination(res.data.page||{});
