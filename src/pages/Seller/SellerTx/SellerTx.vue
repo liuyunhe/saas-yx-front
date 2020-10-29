@@ -1,5 +1,5 @@
 <template>
-    <div v-loading="loading">
+    <div>
         <el-card class="box-card">
             <div class="space"></div>
             <!-- 数据查询条件 -->
@@ -37,7 +37,7 @@
         <div class="space"></div>
         <el-card>
             <!-- 数据表格 -->
-            <el-table :data="tableList" style="width: 100%">
+            <el-table :data="tableList" style="width: 100%" v-loading="loading">
                 <el-table-column label="序号" type="index" align="center" width="50">
                     <template slot-scope="scope">
                     {{ (search.pageNo-1)*search.pageSize + scope.$index + 1 }}
@@ -71,7 +71,7 @@
                 <el-table-column label="操作" align="center" >
                     <template slot-scope="scope">
                     <span v-if="scope.row.status==5" size="mini" @click="dataForm(scope.$index, scope.row)" style="color: #409EFF;cursor: pointer">失败原因</span>
-                    <span v-else="scope.row.status==3">无</span>
+                    <span v-else>无</span>
                     <span type="danger" v-if="scope.row.status==5" size="mini" @click="handleUnDeal(scope.$index, scope.row)" style="margin-left: 20px;color: red;cursor: pointer">不再处理</span>
                     </template>
                 </el-table-column>
@@ -175,7 +175,10 @@ export default {
             let _pageSize = 10;
             if(pageSize) _pageSize = pageSize;
             this.search.pageSize = _pageSize;
+            this.loading = true
+            this.tableList = []
             this.$request.post('/lsh/seller-manager/seller/sellerTx/query', this.search, true, (res)=>{
+                this.loading = false
                 if(this.search.status == 2){
                     this.showFT = true
                 }else {
