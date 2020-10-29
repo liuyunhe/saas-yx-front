@@ -30,7 +30,7 @@
                     <el-button size="small" type="primary" @click="list">查询</el-button>
                     <el-button size="small" @click="reset">重置</el-button>
                     <el-button size="small" type="primary" @click="exportData" style="float: right">导出转账失败列表</el-button>
-                    <el-button size="small" type="primary" @click="showTransferAccounts = true" style="float: right">重新转帐</el-button>
+                    <el-button size="small" type="primary" :disabled="failNum == 0" @click="showTransferAccounts = true" style="float: right">重新转帐({{failNum}}条)</el-button>
                 </div>
             </el-form>
         </el-card>
@@ -53,7 +53,7 @@
                         <span v-if="scope.row.tx_time">{{new Date(scope.row.tx_time).Format("yyyy-MM-dd hh:mm:ss")}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column  label="到账时间" align="center" width="90" v-if="showTX">
+                <el-table-column  label="到账时间" align="center" width="90" v-if="showFT">
                     <template slot-scope="scope">
                         <span v-if="scope.row.opt_finish_time">{{new Date(scope.row.opt_finish_time).Format("yyyy-MM-dd hh:mm:ss")}}</span>
                     </template>
@@ -124,7 +124,7 @@ export default {
             failNum: 0,
             loading:false,
             showTransferAccounts: false,
-            showTX: false,
+            showFT: false
         }
     },
     created() {
@@ -180,9 +180,9 @@ export default {
             this.$request.post('/lsh/seller-manager/seller/sellerTx/query', this.search, true, (res)=>{
                 this.loading = false
                 if(this.search.status == 2){
-                    this.showTX = true
-                }else{
-                    this.showTX = false
+                    this.showFT = true
+                }else {
+                    this.showFT = false
                 }
                 if (res.ok) {
                     this.tableList = res.data.list || [];
