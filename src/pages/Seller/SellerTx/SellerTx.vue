@@ -8,9 +8,10 @@
                     <el-select size="small" v-model="search.status" placeholder="全部">
                         <el-option label="提现中" value="1"></el-option>
                         <el-option label="提现成功" value="2"></el-option>
-                        <el-option label="审批拒绝" value="3"></el-option>
-                        <el-option label="审批通过" value="4"></el-option>
+                        <el-option label="审批失败" value="3"></el-option>
+                        <el-option label="转账中(审核通过)" value="4"></el-option>
                         <el-option label="转账重试多次仍失败" value="5"></el-option>
+                        <el-option label="失败不再处理" value="6"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="转账时间：">
@@ -62,17 +63,18 @@
                     <template slot-scope="scope">
                     <span v-if="scope.row.status==1">待审核</span>
                     <span v-if="scope.row.status==2">提现完成</span>
-                    <span v-if="scope.row.status==3">审批拒绝</span>
-                    <span v-if="scope.row.status==4">审批通过</span>
+                    <span v-if="scope.row.status==3">审批失败</span>
+                    <span v-if="scope.row.status==4">转账中(审核通过)</span>
                     <span v-if="scope.row.status==5">转账重试多次仍失败</span>
+                    <span v-if="scope.row.status==6">失败不再处理</span>
                     </template>
                 </el-table-column>
 
                 <el-table-column label="操作" align="center" >
                     <template slot-scope="scope">
-                    <span v-if="scope.row.status==5" size="mini" @click="dataForm(scope.$index, scope.row)" style="color: #409EFF;cursor: pointer">失败原因</span>
+                    <span v-if="scope.row.status==3 || scope.row.status==5 || scope.row.status==6" size="mini" @click="dataForm(scope.$index, scope.row)" style="color: #409EFF;cursor: pointer">失败原因</span>
                     <span v-else>无</span>
-                    <span type="danger" v-if="scope.row.status==5" size="mini" @click="handleUnDeal(scope.$index, scope.row)" style="margin-left: 20px;color: red;cursor: pointer">不再处理</span>
+                    <span type="danger" v-if="scope.row.status==3 || scope.row.status==5" size="mini" @click="handleUnDeal(scope.$index, scope.row)" style="margin-left: 20px;color: red;cursor: pointer">不再处理</span>
                     </template>
                 </el-table-column>
             </el-table>
@@ -214,7 +216,11 @@ export default {
             console.log(row)
             if(row&&row.id) {
                 this.form.id = row.id;
-                this.form.tips = row.err_msg || "暂无"
+                if(this.search.status == 3){
+                    this.form.tips = row.memo || "暂无"
+                }else {
+                    this.form.tips = row.err_msg || "暂无"
+                }
             }
             console.log(row)
             this.form.show = true;
