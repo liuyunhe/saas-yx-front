@@ -10,7 +10,7 @@
                         <el-option label="提现成功" value="2"></el-option>
                         <el-option label="审批拒绝" value="3"></el-option>
                         <el-option label="审批通过" value="4"></el-option>
-                        <el-option label="转账重试N次仍失败" value="5"></el-option>
+                        <el-option label="转账重试多次仍失败" value="5"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="转账时间：">
@@ -30,7 +30,7 @@
                     <el-button size="small" type="primary" @click="list">查询</el-button>
                     <el-button size="small" @click="reset">重置</el-button>
                     <el-button size="small" type="primary" @click="exportData" style="float: right">导出转账失败列表</el-button>
-                    <el-button size="small" type="primary" @click="showTransferAccounts = true" style="float: right">重新转帐</el-button>
+                    <el-button size="small" type="primary" :disabled="failNum == 0" @click="showTransferAccounts = true" style="float: right">重新转帐({{failNum}}条)</el-button>
                 </div>
             </el-form>
         </el-card>
@@ -53,7 +53,7 @@
                         <span v-if="scope.row.tx_time">{{new Date(scope.row.tx_time).Format("yyyy-MM-dd hh:mm:ss")}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column  label="到账时间" align="center" width="90" v-if="search.status == 2">
+                <el-table-column  label="到账时间" align="center" width="90" v-if="showFT">
                     <template slot-scope="scope">
                         <span v-if="scope.row.opt_finish_time">{{new Date(scope.row.opt_finish_time).Format("yyyy-MM-dd hh:mm:ss")}}</span>
                     </template>
@@ -64,7 +64,7 @@
                     <span v-if="scope.row.status==2">提现完成</span>
                     <span v-if="scope.row.status==3">审批拒绝</span>
                     <span v-if="scope.row.status==4">审批通过</span>
-                    <span v-if="scope.row.status==5">转账重试N次仍失败</span>
+                    <span v-if="scope.row.status==5">转账重试多次仍失败</span>
                     </template>
                 </el-table-column>
 
@@ -123,7 +123,8 @@ export default {
             },
             failNum: 0,
             loading:false,
-            showTransferAccounts: false
+            showTransferAccounts: false,
+            showFT: false
         }
     },
     created() {
@@ -174,9 +175,12 @@ export default {
             let _pageSize = 10;
             if(pageSize) _pageSize = pageSize;
             this.search.pageSize = _pageSize;
-
             this.$request.post('/lsh/seller-manager/seller/sellerTx/query', this.search, true, (res)=>{
-                console.log(res)
+                if(this.search.status == 2){
+                    this.showFT = true
+                }else {
+                    this.showFT = false
+                }
                 if (res.ok) {
                     this.tableList = res.data.list || [];
                     this.initPagination(res.data.page||{});
