@@ -74,7 +74,7 @@
                     <template slot-scope="scope">
                     <span v-if="scope.row.status==3 || scope.row.status==5 || scope.row.status==6" size="mini" @click="dataForm(scope.$index, scope.row)" style="color: #409EFF;cursor: pointer">失败原因</span>
                     <span v-else>无</span>
-                    <span type="danger" v-if="scope.row.status==3 || scope.row.status==5" size="mini" @click="handleUnDeal(scope.$index, scope.row)" style="margin-left: 20px;color: red;cursor: pointer">不再处理</span>
+                    <span type="danger" v-if="scope.row.status==5" size="mini" @click="handleUnDeal(scope.$index, scope.row)" style="margin-left: 20px;color: red;cursor: pointer">不再处理</span>
                     </template>
                 </el-table-column>
             </el-table>
