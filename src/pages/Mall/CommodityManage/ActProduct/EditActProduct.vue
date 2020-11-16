@@ -5,7 +5,7 @@
                 <div class="add-tobaccomgr-form-container">
                     <el-row>
                         <el-form-item size="small" label="礼品类型：" prop="giftType">
-                            <el-select class="tobacco-input" v-model="seletGiftType" placeholder="请选择">
+                            <el-select class="tobacco-input" v-model="seletGiftType" disabled placeholder="请选择">
                                 <el-option
                                         v-for="item in allGiftTypeActData"
                                         :key="item.id"
