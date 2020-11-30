@@ -76,7 +76,7 @@ export default {
     }else {
     	this.codeSrc = location.origin + '/api/sys/login/verifyCode?'+this.ran
     }
-    
+
     if(this.message) {
       this.$message.error(this.message);
     }
@@ -116,6 +116,8 @@ export default {
           var data = res.data || {}
           sessionStorage.setItem('access_token', data.token)
           sessionStorage.setItem('access_loginId', data.loginId)
+          sessionStorage.setItem('orgHasSaleZone', res.orgHasSaleZone ? "1" : "0")
+          sessionStorage.setItem('isAllSaleZone', res.isAllSaleZone ? "1" : "0")
           // that.getMenuList()
           sessionStorage.setItem('ran',that.ran+1)
           that.$router.replace({name: '首页'})
@@ -137,7 +139,7 @@ export default {
         }
       })
     },
-    
+
     srcClick(e) {
       this.ran+=1;
       this.codeSrc += this.ran

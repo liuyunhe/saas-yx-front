@@ -101,7 +101,7 @@
             <el-option label="销区人员" :value="0"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item v-if="userForm.xpAdmin == '0'" label="销区：" prop="xpSaleZone">
+        <el-form-item v-if="orgHasSaleZone == '1'" label="销区：" prop="xpSaleZone">
           <el-select size="small" v-model="userForm.xpSaleZone" placeholder="请选择">
             <el-option
                 v-for="(item,index) in saleZone"
@@ -154,6 +154,8 @@ export default {
       }
     };
     return {
+      orgHasSaleZone:sessionStorage.orgHasSaleZone,
+      isAllSaleZone:sessionStorage.isAllSaleZone,
       cluser: {
         account: '',
         orgName: ''
@@ -236,7 +238,7 @@ export default {
       });
     },
     getSaleZone() {
-      this.$request.post('/api/saleZone/list', {}, true, (res)=>{
+      this.$request.post('/api/saleZone/listWithQ', {}, true, (res)=>{
         if (res.code == '200') {
           this.saleZone = res.data||[];
         }
