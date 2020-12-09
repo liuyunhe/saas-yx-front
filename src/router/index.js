@@ -261,6 +261,7 @@ const HeSheng = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/
 const HePiaoXiang = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HePiaoXiang')
 const HeFood = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HeFood')
 const HeShengLC = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HeShengLC')
+const HeYearEndRun = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HeYearEndRun')
 
 const ScanMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/ScanMgr')
 const CardCollectingMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/CardCollectingMgr')
@@ -558,6 +559,9 @@ export default new Router({
         { path: '/memberday/HePiaoXiang', name: '荷飘香', component: HePiaoXiang },
         { path: '/memberday/HeFood', name: '荷美食', component: HeFood },
         { path: '/memberday/HeShengLC', name: '荷开九州', component: HeShengLC },
+
+        { path: '/actall/HeYearEndRun', name: '集荷跑步', component: HeYearEndRun },
+
         { path: '/memberday/ScanMgr', name: '每日扫码', component: ScanMgr },
         { path: '/memberday/CardCollectingMgr', name: '社区卡', component: CardCollectingMgr },
         { path: '/memberday/QAMgr', name: '钻石学堂', component: QAMgr },
