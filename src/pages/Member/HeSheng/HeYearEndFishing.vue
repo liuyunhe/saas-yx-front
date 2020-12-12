@@ -18,10 +18,10 @@
             <span>活动设置：</span>
           </div>
           <el-form :model="info" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm">
-            <el-form-item label="跑步活动ID：" prop="actCode">
+            <el-form-item label="锦鲤活动ID：" prop="actCode">
               <el-input :disabled="!!info.id" v-model="info.actCode" style="width: 220px"></el-input>
             </el-form-item>
-            <el-form-item label="跑步活动结束参与时间：" prop="joinEtime">
+            <el-form-item label="锦鲤活动结束参与时间：" prop="joinEtime">
               <el-date-picker :disabled="!!info.id" v-model="info.joinEtime"  value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择结束时间"></el-date-picker>
             </el-form-item>
             <el-form-item label="单个用户可瓜分获得金额：" prop="redpackMoney">
