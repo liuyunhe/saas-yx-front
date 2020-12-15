@@ -55,13 +55,13 @@
       </el-pagination>
     </el-card>
 
-    <el-dialog title="角色管理" width="550px" center :visible.sync="roleForm.show">
+    <el-dialog title="角色管理" width="550px" center :visible.sync="roleForm.show" @close="roleFormInit">
       <el-form :model="roleForm" class="form">
-        <el-form-item label="角色名称">
+        <el-form-item label="角色名称：">
           <el-input size="small" v-model="roleForm.roleName" placeholder="角色名称" :disabled="roleForm.id?true:false"></el-input>
         </el-form-item>
         <el-form-item>
-          <div class="label">权限菜单</div>
+          <div class="label">权限菜单：</div>
           <div class="menu-tree">
             <el-tree ref="menuTree"
               :data="menus.datas"
@@ -70,6 +70,19 @@
               :default-expanded-keys="menus.defaultExpanded"
               :default-checked-keys="menus.defaultChecked"
               :props="menus.props">
+            </el-tree>
+          </div>
+        </el-form-item>
+        <el-form-item>
+          <div class="label">操作权限：</div>
+          <div class="menu-tree" style="height: 100px">
+            <el-tree ref="optMenuTree"
+                     :data="optMenuNodeList.datas"
+                     show-checkbox
+                     node-key="optCode"
+                     :default-expanded-keys="optMenuNodeList.defaultExpanded"
+                     :default-checked-keys="optMenuNodeList.defaultChecked"
+                     :props="optMenuNodeList.props">
             </el-tree>
           </div>
         </el-form-item>
@@ -112,7 +125,17 @@ export default {
           children: 'children',
           label: 'label'
         }
-      }
+      },
+      optMenuNodeList:{
+        datas: [], // 默认菜单数据
+        defaultExpanded: [], // 默认展开
+        defaultChecked: [], // 默认选中
+        props: {
+          children: 'children',
+          label: 'label'
+        }
+      },
+      optParent:[],
     }
   },
   created() {
@@ -211,6 +234,16 @@ export default {
           label: 'label'
         }
       };
+      this.optMenuNodeList = {
+        datas: [], // 默认菜单数据
+        defaultExpanded: [], // 默认展开
+        defaultChecked: [], // 默认选中
+        props: {
+          children: 'children',
+          label: 'label'
+        }
+      };
+      this.optParent = []
     },
     // 新增或修改角色信息
     mgrForm(index, row) {
@@ -237,6 +270,35 @@ export default {
             }
           }
           this.menus.datas = treeNodes;
+          let optParent = []
+          res.data.optMenuNodeList.forEach(item=>{
+            if(optParent.indexOf(item.sortCode)<0){
+              optParent.push(item.sortCode)
+            }
+            if(item.checked){
+              this.optMenuNodeList.defaultChecked.push(item.optCode)
+            }
+          })
+          this.optParent = optParent
+          let optNode = optParent.map(item=>{
+            let children = []
+            res.data.optMenuNodeList.forEach(i=>{
+              if(i.sortCode == item) {
+                children.push({
+                  label: i.optName,
+                  optCode:i.optCode,
+                })
+              }
+            })
+            return {
+              label: res.data.optMenuNodeList.find(i=>{
+                return i.sortCode == item
+              })['sortName'],
+              optCode:item,
+              children:children
+            }
+          })
+          this.optMenuNodeList.datas = optNode
           this.roleForm.show = true;
         } else {
           this.$message.error(res.message);
@@ -272,10 +334,24 @@ export default {
       checkedMenus = checkedMenus.concat(checkedKeys);
 
       this.roleForm.menus = checkedMenus.join(',')||'';
+      let optMenus = this.$refs.optMenuTree.getCheckedKeys()||[];
+      console.log(optMenus)
+      optMenus.forEach((item,index)=>{
+        if(this.optParent.indexOf(item)>-1){
+          optMenus.splice(index,1)
+        }
+      })
+      console.log(optMenus)
+      this.roleForm.optMenuNodeList = optMenus.map(item=>{
+        return {
+          "optCode": item
+        }
+      })
       this.$request.post('/api/wiseqr/role/saveOrModify', this.roleForm, true, (res)=>{
         if (res.ret == '200000') {
           this.$message({type: 'success', message: '操作成功!'});
           this.roleForm.show = false;
+          this.roleFormInit()
           this.list();
         } else {
           this.$message.error(res.message);
