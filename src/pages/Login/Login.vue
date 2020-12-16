@@ -42,9 +42,10 @@
 
 <script>
 //import NProgress from 'nprogress'
-
+import store from '@/store/index'
 export default {
   props: ['message'],
+	store,
   data() {
     return {
       username: localStorage.getItem('username'),
@@ -118,6 +119,12 @@ export default {
           sessionStorage.setItem('access_loginId', data.loginId)
           sessionStorage.setItem('orgHasSaleZone', res.orgHasSaleZone ? "1" : "0")
           sessionStorage.setItem('isAllSaleZone', res.isAllSaleZone ? "1" : "0")
+          sessionStorage.setItem('saleZoneCode', res.saleZoneCode ? res.saleZoneCode : "0")
+					that.$store.commit('setRoleOptList', res.roleOptList)
+					let roleOptList = res.roleOptList.map(item=>{
+						return item.optCode
+					})
+					sessionStorage.setItem('roleOptList', roleOptList.join(","))
           // that.getMenuList()
           sessionStorage.setItem('ran',that.ran+1)
           that.$router.replace({name: '首页'})

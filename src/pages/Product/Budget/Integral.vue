@@ -2,17 +2,21 @@
   <div>
     <el-card class="box-card">
       <el-row>
-        <el-button size="small" type="primary" @click="dataForm">新建</el-button>
+        <el-button size="small" type="primary" @click="dataForm" v-if="isAllSaleZone == 1">新建</el-button>
       </el-row>
       <div class="space"></div>
       <!-- 数据查询条件 -->
       <el-form :inline="true" :model="search">
-        <el-form-item label="礼品名称：">
-          <el-input size="small" v-model="search.materialName" placeholder="请输入礼品名称"></el-input>
+        <el-form-item label="使用年份：" prop="budgetYear">
+          <el-date-picker
+              v-model="search.budgetYear"
+              type="year"
+              value-format="yyyy"
+              placeholder="选择年">
+          </el-date-picker>
         </el-form-item>
         <el-form-item label="销区：">
           <el-select size="small" v-model="search.saleZoneCode" placeholder="请选择">
-            <el-option label="全部" :value="null"></el-option>
             <el-option
                 v-for="(item,index) in saleZone"
                 :key="index"
@@ -25,6 +29,7 @@
         <el-form-item>
           <el-button size="small" type="primary" @click="getTableList">查询</el-button>
           <el-button size="small" @click="reset">重置</el-button>
+          <div v-if="yearSum" style="width: auto;float: right;margin-left: 30px">当年预算：{{ yearSum }}（积分）</div>
         </el-form-item>
       </el-form>
     </el-card>
@@ -38,9 +43,24 @@
           </template>
         </el-table-column>
         <el-table-column prop="materialName" label="礼品名称" align="center"></el-table-column>
-        <el-table-column prop="budgetValue" label="预算（积分）" align="center" >
+        <el-table-column prop="budgetValue" label="当季度预算（积分）" align="center" >
           <template slot-scope="scope">
             <span>{{scope.row.budgetValue}}积分</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="statGiven" label="已发放（积分）" align="center" >
+          <template slot-scope="scope">
+            <span>{{scope.row.statGiven || 0}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="statReceived" label="已领取（积分）" align="center" >
+          <template slot-scope="scope">
+            <span>{{scope.row.statReceived || 0}}积分</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="statTime" label="统计数据时间" align="center" >
+          <template slot-scope="scope">
+            <span>{{scope.row.statTime || "暂无"}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="budgetSeason" label="使用时间" align="center">
@@ -53,7 +73,12 @@
         </el-table-column>
         <el-table-column prop="saleZoneName" label="销区" align="center" ></el-table-column>
         <el-table-column prop="budgetYear" label="年份" align="center" ></el-table-column>
-        <el-table-column label="操作" align="center" width="300">
+        <el-table-column prop="statRest" label="季度结算(积分)" align="center" >
+          <template slot-scope="scope">
+            <span>{{scope.row.statRest || 0}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" align="center" width="300" v-if="isAllSaleZone == 1">
           <template slot-scope="scope">
             <!--                        <el-button size="mini" @click="dataForm(scope.$index, scope.row)">编辑</el-button>-->
             <el-button size="mini" @click="addRepertory(scope.row)" type="primary">增库</el-button>
@@ -72,10 +97,15 @@
     <el-dialog title="新建积分" width="500px" :visible.sync="form.show" @close="resetForm">
       <el-form ref="ruleForm" label-width="150px" :model="form" :rules="formRules">
         <el-form-item label="积分礼品名称：" prop="materialName">
-          <el-input size="small" v-model="form.materialName" placeholder="请输入礼品名称"></el-input>
+          <el-button size="small" @click="getList(6)">{{ form.materialName ? form.materialName : "选择" }}</el-button>
+          <el-input style="display: none;" size="small" v-model="form.materialName" placeholder="请输入礼品名称"></el-input>
+        </el-form-item>
+        <el-form-item label="剩余库存（积分）：" prop="stock">
+          <el-input-number style="width: 300px" v-model="form.stock" :precision="0" :min="0" controls-position="right" disabled></el-input-number>
         </el-form-item>
         <el-form-item label="预算（积分）：" prop="budgetValue">
-          <el-input-number v-model="form.budgetValue" :precision="0" :min="0" controls-position="right"></el-input-number>
+          <el-input-number v-model="form.budgetValue" :precision="0" :min="0" :max="form.stock || 0" controls-position="right"></el-input-number>
+          <span style="margin-left: 10px">提示：不可超过剩余库存</span>
         </el-form-item>
         <el-form-item label="使用季度：" prop="budgetSeason">
           <el-select size="small" v-model="form.budgetSeason" placeholder="请选择">
@@ -149,11 +179,14 @@
         }
       }
       return {
+        orgHasSaleZone:sessionStorage.orgHasSaleZone,   // 组织公司是否含有销区
+        isAllSaleZone:sessionStorage.isAllSaleZone,     // 是否有所有销区权限
+        saleZoneCode:sessionStorage.saleZoneCode,     // 销区code
         saleZone: [],
         search: {
           pageNo: 1,
           pageSize: 10,
-          materialName: '',
+          budgetYear:  new Date().getFullYear().toString(),
           saleZoneCode: null,
           materialType: 6
         },
@@ -161,7 +194,7 @@
           total: 0
         },
         tableList: [],
-
+        yearSum: '',
         form: {
           show: false, // 增库弹框是否展示
           id: '',
@@ -173,6 +206,7 @@
           budgetYear:"",
           saleZoneCode: "", // 销区code
           saleZoneName: "", // 销区名称
+          stock:""          // 剩余库存
         },
 
         formRules: {
@@ -219,13 +253,18 @@
       }
     },
     created() {
-      this.getTableList();
-      this.getSaleZone()
+      if(this.isAllSaleZone == 1){
+        this.getSaleZone()
+      }else {
+        this.getSaleZone()
+        this.search.saleZoneCode = this.saleZoneCode
+        this.getTableList();
+      }
     },
     methods: {
       // 查询所有的销区数据
       getSaleZone() {
-        this.$request.post('/api/saleZone/list', {}, true, (res)=>{
+        this.$request.post('/api/saleZone/userSzList', {}, true, (res)=>{
           if (res.code == '200') {
             this.saleZone = res.data||[];
           }
@@ -250,11 +289,17 @@
         this.search = {
           pageNo: 1,
           pageSize: 10,
-          materialName: '',
+          budgetYear: '',
           saleZoneCode: null,
           materialType: 6
         }
-        this.getTableList();
+        this.search.budgetYear =  new Date().getFullYear().toString()
+        if(this.isAllSaleZone == 1){
+          this.tableList = []
+        }else {
+          this.search.saleZoneCode = this.saleZoneCode
+          this.getTableList();
+        }
       },
       resetForm(){
         this.$refs.ruleForm.resetFields()
@@ -269,6 +314,7 @@
           budgetYear:"",
           saleZoneCode: "", // 销区code
           saleZoneName: "", // 销区名称
+          stock:""          // 剩余库存
         }
       },
       // 查询礼品库列表数据
@@ -282,8 +328,9 @@
 
         this.$request.post('/api/materialBudget/list', this.search, true, (res)=>{
           if (res.code == '200') {
-            this.tableList = res.data.list || [];
-            this.initPagination(res.data.page||{});
+            this.tableList = res.data.budgetList.list || [];
+            this.yearSum = res.data.yearSum
+            this.initPagination(res.data.budgetList.page||{});
           }
         });
       },
@@ -298,10 +345,12 @@
         this.form.id = "";
         this.form.materialName = "";
         this.form.materialPoolId = "";
+        this.form.stock = "";
         if(row&&row.id) {
           this.form.id = row.id;
           this.form.materialName = row.materialName;
           this.form.materialPoolId = row.materialPoolId;
+          this.form.stock = row.stock;
         }
         this.form.show = true;
       },
@@ -319,7 +368,7 @@
                 "budgetYear":this.form.budgetYear, //
                 "materialType":this.form.materialType, // 物料类型, 1-实物; 3-红包; 6-积分;
                 "materialName":this.form.materialName, // 礼品名称
-                "materialPoolId":this.form.materialPoolId // 红包类型的时候，不用传递或者传空
+                "materialPoolId":this.form.materialPoolId // 不允许为空
               }
               this.$request.post('/api/materialBudget/add', params , true, (res)=>{
                 if (res.code == '200') {
@@ -327,7 +376,7 @@
                   this.form.show = false;
                   this.$message({type: 'success', message: '操作成功!'});
                 } else {
-                  this.$message.error(res.msg);
+                  this.$message.error(res.msg || res.message);
                 }
               });
             }
@@ -335,30 +384,44 @@
         }
       },
       addRepertory(item) {
-        this.$prompt('请输入数字', '增库', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          inputPattern: /^\d{1,}$/,
-          inputErrorMessage: '请输入数字'
-        }).then(({ value }) => {
-          if (value == 0) return this.$message.error('数字不能为0')
-          this.$request.get('/api/materialBudget/valueAdd', {
-            budgetId: item.id ,
-            budgetValue: value
-          }, res => {
-            if (res.code == '200') {
-              this.$message.success('增库成功')
-              this.getTableList()
-            } else {
-              this.$message.error(res.msg)
-            }
-          })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消输入'
-          });
-        });
+        this.$request.post('/api/wiseqr/metra/detail', {id:item.materialPoolId, metraFlag:'integral'}, true, (res)=>{
+          if (res.ret == '200000') {
+            let stock = res.data.stock
+            this.$prompt(
+              `<div style="line-height: 30px">物料库积分池：${item.materialName}</div>
+                         <div style="line-height: 30px">剩余库存（积分）：${ stock }</div>
+                         增加预算（积分）：（提示：不可超过剩余库存）`,
+              '增库', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                inputPattern: /^\d{1,}$/,
+                inputErrorMessage: '请输入数字',
+                dangerouslyUseHTMLString:true
+              }).then(({ value }) => {
+              if (value == 0) return this.$message.error('数字不能为0')
+              if (value > stock) return this.$message.error('增库不可超过剩余库存')
+              this.$request.get('/api/materialBudget/valueAdd', {
+                budgetId: item.id ,
+                budgetValue: value,
+                materialPoolId: item.materialPoolId
+              }, res1 => {
+                if (res1.code == '200') {
+                  this.$message.success('增库成功')
+                  this.getTableList()
+                } else {
+                  this.$message.error(res1.msg)
+                }
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '取消输入'
+              });
+            });
+          }else {
+            this.$message.error(res.msg || res.message);
+          }
+        })
       },
       async del(id) {
         const confirmResult = await this.$confirm('您确定删除此预算？', '删除提示', {
@@ -393,6 +456,7 @@
       selectPrize(obj,title,awardNo) {
         this.form.materialName = obj.name
         this.form.materialPoolId = obj.id
+        this.form.stock = obj.stock
         console.log(obj)
 
         this.handleColseList()

@@ -22,10 +22,14 @@ export default new Vuex.Store({
     },
     setCluser(state, data) {
       state.cluser = data
+    },
+    setRoleOptList(state, data) {
+      state.roleOptList = data
     }
     // getMenu: (state) => state.menu
   },
   getters: {
-    getMenu: (state) => state.menu
+    getMenu: (state) => state.menu,
+    getRoleOptList: (state) => state.roleOptList
   }
 })
