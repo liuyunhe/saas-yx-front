@@ -2,7 +2,7 @@
   <div>
     <el-card class="box-card">
       <el-row>
-        <el-button size="small" type="primary" @click="dataForm" v-if="isAllSaleZone == 1">新建</el-button>
+        <el-button size="small" type="primary" @click="dataForm" v-if="roleOptList.indexOf('materialBudget_add')> - 1">新建</el-button>
       </el-row>
       <div class="space"></div>
       <!-- 数据查询条件 -->
@@ -78,11 +78,11 @@
             <span>{{scope.row.statRest || 0}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="300" v-if="isAllSaleZone == 1">
+        <el-table-column label="操作" align="center" width="200" v-if="roleOptList.indexOf('materialBudget_valueAdd')> - 1 || roleOptList.indexOf('materialBudget_delete')> - 1">
           <template slot-scope="scope">
             <!--                        <el-button size="mini" @click="dataForm(scope.$index, scope.row)">编辑</el-button>-->
-            <el-button size="mini" @click="addRepertory(scope.row)" type="primary">增库</el-button>
-            <el-button type="danger" size="mini" @click="del(scope.row.id)">删除</el-button>
+            <el-button size="mini" @click="addRepertory(scope.row)" type="primary" v-if="roleOptList.indexOf('materialBudget_valueAdd')> - 1">增库</el-button>
+            <el-button type="danger" size="mini" @click="del(scope.row.id)" v-if="roleOptList.indexOf('materialBudget_delete')> - 1">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -186,6 +186,7 @@
         orgHasSaleZone: sessionStorage.orgHasSaleZone,   // 组织公司是否含有销区
         isAllSaleZone: sessionStorage.isAllSaleZone,     // 是否有所有销区权限
         saleZoneCode: sessionStorage.saleZoneCode,     // 销区code
+        roleOptList: sessionStorage.roleOptList.split(","),
         saleZone: [],
         search: {
           pageNo: 1,
