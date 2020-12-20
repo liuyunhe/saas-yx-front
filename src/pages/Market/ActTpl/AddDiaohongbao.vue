@@ -395,7 +395,8 @@ export default {
         form: 'act-705',
         id: '',
         name: '',
-        note: ''
+        note: '',
+        saleZone: sessionStorage.getItem('isAllSaleZone') == 1 ? null : sessionStorage.getItem('saleZoneCode')
       },
       addActRules: {
         name: [

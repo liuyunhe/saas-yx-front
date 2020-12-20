@@ -56,6 +56,18 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
+          <el-col :span="7">
+            <el-form-item label="销区：" prop="saleZoneCode">
+              <el-select size="small" v-model="queryActParams.saleZoneCode" placeholder="请选择">
+                <el-option
+                    v-for="(item,index) in saleZone"
+                    :key="index"
+                    :label="item.zoneName"
+                    :value="item.zoneCode">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
           <el-col>
             <el-button type="primary" size="small" @click="queryActList">查询</el-button>
             <el-button type="primary" size="small" @click="resetForm">重置</el-button>
@@ -238,6 +250,10 @@
 export default {
   data() {
     return {
+      orgHasSaleZone: sessionStorage.orgHasSaleZone,   // 组织公司是否含有销区
+      isAllSaleZone: sessionStorage.isAllSaleZone,     // 是否有所有销区权限
+      saleZoneCode: sessionStorage.saleZoneCode,     // 销区code
+      saleZone:[],
       queryActParams: {
         allFormCode: '',
         brandCodeArr: [],
@@ -251,7 +267,8 @@ export default {
         provinceCodeArr: [],
         snArr: [],
         status: '',
-        stime: ''
+        stime: '',
+        saleZoneCode:null
       },
       actListTotal: 0,
       addActDialogVisible: false,
@@ -267,7 +284,8 @@ export default {
       actParams: {
         pageNo: 1,
         pageSize: 4,
-        pcode: ''
+        pcode: '',
+        saleZone: sessionStorage.getItem('isAllSaleZone') == 1 ? null : sessionStorage.getItem('saleZoneCode')
       },
       actForms: [],
       actTotal: 0,
@@ -338,11 +356,25 @@ export default {
   methods: {
     // 初始化
     init() {
-      this.getActList()
       this.getProvList()
       this.getActStatus()
       this.getBrandList()
       this.getActCodeList()
+      if (this.isAllSaleZone == 1) {
+        this.getSaleZone()
+        this.getActList()
+      } else {
+        this.getSaleZone()
+        this.queryActParams.saleZoneCode = this.saleZoneCode
+        this.getActList()
+      }
+    },
+    getSaleZone() {
+      this.$request.post('/api/saleZone/userSzList', {}, true, (res) => {
+        if (res.code == '200') {
+          this.saleZone = res.data || []
+        }
+      })
     },
     // 获取活动列表
     getActList() {
@@ -514,6 +546,9 @@ export default {
       this.queryActParams.cityCodeArr = []
       this.actTime = []
       this.queryActParams.pageNo = 1
+      if(this.isAllSaleZone == 1){
+        this.queryActParams.saleZoneCode = null
+      }
       this.getActList()
     },
     // 投放日志

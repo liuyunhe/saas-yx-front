@@ -17,27 +17,27 @@
         <el-card :body-style="{padding:'40px'}">
             <el-row>
                 <el-col :span="8">
-                    <phone-model 
-                        :title="conf.title" 
-                        :titleLength="30" 
+                    <phone-model
+                        :title="conf.title"
+                        :titleLength="30"
                         :page = "page"
-                        imgKey ="ACT_QUESTION" 
+                        imgKey ="ACT_QUESTION"
                         :imgData="conf.img"
                         :commonImg =  "conf.commonImg"
                         flag="ques"
                         @edit="editTpl" />
                 </el-col>
                 <el-col :span="14">
-                    <activity-info 
+                    <activity-info
                         :title = "conf.title"
                         :desc = "conf.description"
-                        @titleInput="titleInput" 
-                        @descInput="descInput" 
+                        @titleInput="titleInput"
+                        @descInput="descInput"
                         v-show="page == 1"/>
-                    <activity-image-editor 
+                    <activity-image-editor
                         v-if="page != 2 && page !=3"
-                        :editData="editData" 
-                        :type="editType" 
+                        :editData="editData"
+                        :type="editType"
                         :itemRepeat = "itemRepeat"
                         @picChange = "editPic"/>
                 </el-col>
@@ -84,7 +84,8 @@ props: ['id', 'edit'],
         commonImg: JSON.parse(JSON.stringify(img.commonImg)),
         conf: {img: '', commonImg: '', title: '', desc: ''},
         name: '',
-        note: ''
+        note: '',
+        saleZone: sessionStorage.getItem('isAllSaleZone') == 1 ? null : sessionStorage.getItem('saleZoneCode')
       }
     };
   },
@@ -110,7 +111,7 @@ props: ['id', 'edit'],
         let that = this;
         that.page = key;
         if(key == 4) {
-            that.editData = [           	
+            that.editData = [
             	that.conf.commonImg.getAwardBg,
             	that.conf.commonImg.getBtn
             ];
@@ -149,7 +150,7 @@ props: ['id', 'edit'],
         let index = e.index;
         let type = index.indexOf('item') > -1 ? 'item' : 'normal';
         that.editType =  type;
-        
+
         if(that.page!=6){
         	that.editData = type == 'item' ? that.itemRepeat ? [this.conf.img[type]['item0']] : this.conf.img[type] : [this.conf.img[type][index]];
         }else {
@@ -158,14 +159,14 @@ props: ['id', 'edit'],
         }
     },
     editPic (e) {
-        let that = this, 
-            type = e.type, 
-            index = e.index, 
+        let that = this,
+            type = e.type,
+            index = e.index,
             url = e.url,
             itemRepeat = e.itemRepeat,
             item = 'item',
             conf = that.conf;
-            
+
         if(!url) return;
         if(type == 'item' && itemRepeat){
             for(let i in conf.img[type]){
@@ -194,6 +195,7 @@ props: ['id', 'edit'],
                     that.conf.description = conf.desc;
                     that.conf.title = conf.title;
                     that.conf.id = res.data.id;
+                    that.conf.saleZone = res.data.saleZone
                     if (res.data.statusName == '未投放') {
                         that.isPublish = false
                     } else {
@@ -214,6 +216,7 @@ props: ['id', 'edit'],
                 that.conf.description = res.data.note;
                 that.conf.title = res.data.name;
                 that.conf.id = res.data.id;
+                that.conf.saleZone = res.data.saleZone
                 if (res.data.statusName == '未投放') {
                     that.isPublish = false
                 } else {

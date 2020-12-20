@@ -7,24 +7,36 @@
   <div class="actTpl-container" v-cloak>
     <el-card>
       <el-button type="primary" size="small" @click="addAct()">新建活动模板</el-button>
-      <el-form ref="form" :model="actListParams" label-width="80px">
+      <el-form ref="form" :model="actListParams" label-width="100px">
         <el-row>
           <el-col :span="7">
-            <el-form-item label="模板类型">
+            <el-form-item label="模板类型：">
               <el-select size="small" v-model="actListParams.form">
                 <el-option v-for="item in selectOption" :key="item.form" :label="item.name" :value="item.form"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="创建时间">
+            <el-form-item label="创建时间：">
               <el-col>
                 <el-date-picker size="small" type="date" placeholder="开始时间" v-model="actListParams.ctime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
               </el-col>
             </el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="关键词">
+            <el-form-item label="销区：" prop="saleZoneCode">
+              <el-select size="small" v-model="actListParams.saleZone" placeholder="请选择">
+                <el-option
+                    v-for="(item,index) in saleZone"
+                    :key="index"
+                    :label="item.zoneName"
+                    :value="item.zoneCode">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="关键词：">
               <el-input size="small" v-model="actListParams.keywords" placeholder="请输入关键词"></el-input>
             </el-form-item>
           </el-col>
@@ -40,6 +52,7 @@
       <el-table v-loading="loading" border :data="actList" style="width: 100%" @select-all="handleSelectionAllChange" @select="handleSelectionChange" class="mt20">
         <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
         <el-table-column type="selection" width="55" align="center"></el-table-column>
+        <el-table-column prop="tplCode" label="模板编号" align="center"></el-table-column>
         <el-table-column prop="tplCode" label="模板编号" align="center"></el-table-column>
         <el-table-column prop="name" label="模板名称" align="center"></el-table-column>
         <el-table-column prop="note" label="模板说明" align="center"></el-table-column>
@@ -101,12 +114,17 @@ export default {
   },
   data() {
     return {
+      orgHasSaleZone: sessionStorage.orgHasSaleZone,   // 组织公司是否含有销区
+      isAllSaleZone: sessionStorage.isAllSaleZone,     // 是否有所有销区权限
+      saleZoneCode: sessionStorage.saleZoneCode,     // 销区code
       selectOption: [],
+      saleZone:[],
       keywords: '',
       actListParams: {
         ctime: '',
         form: '',
         keywords: '',
+        saleZone:null,
         pageNo: 1,
         pageSize: 10
       },
@@ -147,7 +165,14 @@ export default {
     }
   },
   created() {
-    this.getActList()
+    if (this.isAllSaleZone == 1) {
+      this.getSaleZone()
+      this.getActList()
+    } else {
+      this.getSaleZone()
+      this.actListParams.saleZone = this.saleZoneCode
+      this.getActList()
+    }
     this.getActType()
     this.getActCodeList()
   },
@@ -165,6 +190,13 @@ export default {
     next()
   },
   methods: {
+    getSaleZone() {
+      this.$request.post('/api/saleZone/userSzList', {}, true, (res) => {
+        if (res.code == '200') {
+          this.saleZone = res.data || []
+        }
+      })
+    },
     // 获取活动list
     getActList() {
       this.loading = true
@@ -282,6 +314,9 @@ export default {
       this.actListParams.form = ''
       this.actListParams.keywords = ''
       this.actListParams.pageNo = 1
+      if(this.isAllSaleZone == 1){
+        this.actListParams.saleZone = null
+      }
       this.getActList()
     },
     // 删除模板
