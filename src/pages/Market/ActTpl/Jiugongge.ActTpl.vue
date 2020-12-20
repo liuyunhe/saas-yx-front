@@ -15,26 +15,26 @@
         <el-card :body-style="{padding:'40px'}">
             <el-row>
                 <el-col :span="8">
-                    <phone-model 
-                        :title="conf.title" 
-                        :titleLength="30" 
+                    <phone-model
+                        :title="conf.title"
+                        :titleLength="30"
                         :page = "page"
-                        imgKey ="ACT_JIUGONGGE" 
+                        imgKey ="ACT_JIUGONGGE"
                         :imgData="conf.img"
                         :commonImg =  "conf.commonImg"
                         @edit="edit" />
                 </el-col>
                 <el-col :span="14">
-                    <activity-info 
+                    <activity-info
                         :title = "conf.title"
                         :desc = "conf.description"
-                        @titleInput="titleInput" 
-                        @descInput="descInput" 
+                        @titleInput="titleInput"
+                        @descInput="descInput"
                         v-if="page == 1"/>
-                    <activity-image-editor 
+                    <activity-image-editor
                         v-if="page != 2 && page !=3"
-                        :editData="editData" 
-                        :type="editType" 
+                        :editData="editData"
+                        :type="editType"
                         :itemRepeat = "itemRepeat"
                         @picChange = "editPic"/>
                 </el-col>
@@ -81,7 +81,8 @@ props: ['id'],
         commonImg: img.commonImg,
         conf: {img: '', commonImg: '', title: '', desc: ''},
         name: '',
-        note: ''
+        note: '',
+        saleZone: sessionStorage.getItem('isAllSaleZone') == 1 ? null : sessionStorage.getItem('saleZoneCode')
       }
     };
   },
@@ -136,9 +137,9 @@ props: ['id'],
         that.editData = type == 'item' ? that.itemRepeat ? [this.conf.img[type]['item0']] : this.conf.img[type] : [this.conf.img[type][index]];
     },
     editPic (e) {
-        let that = this, 
-            type = e.type, 
-            index = e.index, 
+        let that = this,
+            type = e.type,
+            index = e.index,
             url = e.url,
             itemRepeat = e.itemRepeat,
             item = 'item',

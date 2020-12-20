@@ -83,7 +83,8 @@ props: ['id', 'edit'],
         commonImg: JSON.parse(JSON.stringify(img.commonImg)),
         conf: {img: '', commonImg: '', title: '', desc: ''},
         name: '',
-        note: ''
+        note: '',
+        saleZone: sessionStorage.getItem('isAllSaleZone') == 1 ? null : sessionStorage.getItem('saleZoneCode')
       }
     };
   },
@@ -173,6 +174,7 @@ props: ['id', 'edit'],
                     that.conf.description = conf.desc;
                     that.conf.title = conf.title
                     that.conf.id = res.data.id;
+                    that.conf.saleZone = res.data.saleZone
                     that.conf.actCode = res.data.actCode
                 if (res.data.statusName == '未投放') {
                     that.isPublish = false
@@ -194,6 +196,7 @@ props: ['id', 'edit'],
                 that.conf.description = res.data.note;
                 that.conf.title = res.data.name;
                 that.conf.id = res.data.id;
+                that.conf.saleZone = res.data.saleZone
             if (res.data.statusName == '未投放') {
                 that.isPublish = false
             } else {

@@ -270,7 +270,8 @@
                     form: 'act-101',
                     id: '',
                     name: '',
-                    note: ''
+                    note: '',
+                    saleZone: sessionStorage.getItem('isAllSaleZone') == 1 ? null : sessionStorage.getItem('saleZoneCode')
                 },
                 addActRules: {
                     name: [
@@ -708,9 +709,9 @@
 	                            	top:100px;
 	                            }
 	                            .close {
-	                                position: absolute;	                           
+	                                position: absolute;
 	                                width: 26px;
-	                                height: 26px;	                             
+	                                height: 26px;
 	                                z-index: 2;
 	                                bottom:75px;
 	                                left: 50%;

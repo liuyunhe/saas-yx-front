@@ -1,5 +1,6 @@
 const state = {
   menu: [],
-  cluser: []
+  cluser: [],
+  roleOptList:[]
 }
 export default state

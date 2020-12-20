@@ -244,7 +244,8 @@
 					form: 'act-102',
 					id: '',
 					name: '',
-					note: ''
+					note: '',
+					saleZone: sessionStorage.getItem('isAllSaleZone') == 1 ? null : sessionStorage.getItem('saleZoneCode')
 				},
 				addActRules: {
 					name: [{
@@ -802,7 +803,7 @@
 			}
 		}
 	}
-	
+
 	// 只有首页有效果
 	.el-tabs .el-tab-pane:first-child {
 		.bg:hover,
@@ -838,7 +839,7 @@
 			transform: translateX(-50%) scale(0.99);
 		}
 	}
-	
+
 	.btn {
 		text-align: center;
 		p {

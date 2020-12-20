@@ -145,6 +145,8 @@ const SettingSystemMenu = () => import(/* webpackChunkName: "setting" */ '@/page
 const SettingSystemAuth = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Resources/SystemAuth.vue')
 const Sign = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Sign/Sign.vue')
 const SignDetail = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Sign/signActEdit.vue')
+const ActSetting = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Act.vue')
+const BrandGroup = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/BrandGroup.vue')
 
 //菜单配置
 const MenuConf = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/MenuConf/MenuConf.vue')
@@ -527,6 +529,10 @@ export default new Router({
         { path: '/setting/logs', name: '日志管理', component: SettingLogs },
         { path: '/setting/seller', name: '零售户管理', component: SettingSeller },
         { path: '/setting/mall', name: '积分设置', component: PointsConf },
+        { path: '/setting/act', name: '活动设置' },
+        { path: '/setting/act/setting', name: '活动类型管理', component: ActSetting },
+        { path: '/setting/act/brandGroup', name: '规格设置', component: BrandGroup },
+
         { path: '/setting/resource/smenu', name: '菜单管理', component: SettingSystemMenu },
         { path: '/setting/resource/smgrOrgRole', name: '菜单管理', component: SettingSystemAuth },
         { path: '/setting/sign', name: '菜单管理', component: Sign },

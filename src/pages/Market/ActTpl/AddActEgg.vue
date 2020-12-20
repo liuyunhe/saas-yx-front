@@ -1,5 +1,5 @@
 <template>
-	<!-- 
+	<!--
   Author: chenxin
   Create Date: 2018-10-18
   Description: 新建活动模板
@@ -147,7 +147,7 @@
 								</div>
 								<p class="tips">* 图片建议尺寸为 280*60px,格式为jpg\bmp\png\gif</p>
 							</div>
-							
+
 						</el-card>
 					</div>
 				</el-tab-pane>
@@ -156,7 +156,7 @@
 						<div class="header"></div>
 						<div class="content">
 							<div class="bg"><img :src="configItem.bgImgUrl"></div>
-							<div class="not-winning">								
+							<div class="not-winning">
 								<div class="prize-con award-con">
 									<div class="close"><img src="http://qoss.qrmkt.cn/new_platform/close_icon.png" alt="" /></div>
 									<img class="award-alert" :src="configItem.cryImgUrl" alt="">
@@ -223,7 +223,8 @@
 					form: 'act-103',
 					id: '',
 					name: '',
-					note: ''
+					note: '',
+					saleZone: sessionStorage.getItem('isAllSaleZone') == 1 ? null : sessionStorage.getItem('saleZoneCode')
 				},
 				addActRules: {
 					name: [{
@@ -524,9 +525,9 @@
 									top: 100px;
 								}
 								.close {
-	                                position: absolute;	                           
+	                                position: absolute;
 	                                width: 26px;
-	                                height: 26px;	                             
+	                                height: 26px;
 	                                z-index: 2;
 	                                bottom:75px;
 	                                left: 50%;
@@ -658,7 +659,7 @@
 									max-width: 90%;
 							    max-height: 90%;
 							    margin-top: 5%;
-							    object-fit: contain;	
+							    object-fit: contain;
 							}
 						}
 					}
@@ -709,7 +710,7 @@
 			}
 		}
 	}
-	
+
 	// 只有首页有效果
 	.el-tabs .el-tab-pane:first-child {
 		.bg:hover,
@@ -725,7 +726,7 @@
 			transform: translateX(-50%) scale(0.99);
 		}
 	}
-	
+
 	.btn {
 		text-align: center;
 		p {

@@ -69,7 +69,8 @@ export default {
         name: '',
         note: '',
         share: {shareTitle: '', shareDesc: ''},
-        actCode: ''
+        actCode: '',
+        saleZone: sessionStorage.getItem('isAllSaleZone') == 1 ? null : sessionStorage.getItem('saleZoneCode')
       }
     }
   },
@@ -93,6 +94,7 @@ export default {
               this.conf.description = res.data.note
               this.conf.title = res.data.name
               this.conf.id = res.data.id
+              this.conf.saleZone = res.data.saleZone
               this.conf.share = JSON.parse(conf.share)
             if (res.data.statusName == '未投放') {
               this.isPublish = false
@@ -113,6 +115,7 @@ export default {
             this.conf.description = conf.desc;
             this.conf.title = conf.title;
             this.conf.id = res.data.id;
+            this.conf.saleZone = res.data.saleZone
             this.conf.share = JSON.parse(conf.share)
             if (res.data.statusName == '未投放') {
                 this.isPublish = false
@@ -142,7 +145,7 @@ export default {
             this.conf.img.rules.btnImg
           ]
           break;
-      
+
         case '3':
           this.editData = [
             this.conf.img.downCount.bg,
@@ -186,7 +189,7 @@ export default {
         value ? this.conf.description = value : this.description = ''
     },
     editPic (e) {
-      let index = e.index || '', 
+      let index = e.index || '',
           url = e.url
       if(!url) return
       switch (this.page) {

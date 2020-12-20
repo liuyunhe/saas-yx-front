@@ -119,7 +119,7 @@
                   <div class="award-text">
                   	<h3>奖品名称</h3>
                   	<p>请在24小时内领取</p>
-                  </div>                  
+                  </div>
                   <img class="prize-btn" :src="configItem.getBtn" alt="">
                 </div>
               </div>
@@ -227,7 +227,8 @@ export default {
         form: 'act-100',
         id: '',
         name: '',
-        note: ''
+        note: '',
+        saleZone: sessionStorage.getItem('isAllSaleZone') == 1 ? null : sessionStorage.getItem('saleZoneCode')
       },
       addActRules: {
         name: [
@@ -548,9 +549,9 @@ export default {
 	                            	top:100px;
 	                            }
 	                            .close {
-	                                position: absolute;	                           
+	                                position: absolute;
 	                                width: 26px;
-	                                height: 26px;	                             
+	                                height: 26px;
 	                                z-index: 2;
 	                                bottom:75px;
 	                                left: 50%;
@@ -647,7 +648,7 @@ export default {
           margin: 0 10px;
           img {
             position: absolute;
-            top:50%; 
+            top:50%;
             left:50%;
             transform: translate(-50%,-50%);
             max-width: 90%;

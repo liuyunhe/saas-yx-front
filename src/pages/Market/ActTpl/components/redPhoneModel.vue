@@ -95,7 +95,6 @@ export default {
   data() {
     return {
       isHover: '',
-      title: '',
     }
   },
   created() {

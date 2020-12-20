@@ -56,7 +56,7 @@
                             :picker-options="{
                               start: '00:00',
                               step: '00:01',
-                              end: '23:59',
+                              end: '22:00',
                             }"
                             value-format="HH:mm"
                             placeholder="选择提现时间"></el-time-select>
