@@ -262,7 +262,8 @@
         this.$request.post(
           '/api/wiseqr/prod/list', {
             brandCodeArr: this.selectBrand,
-            pageSize: '-1'
+            pageSize: '-1',
+            status: '1',
           },
           true,
           res => {
@@ -281,7 +282,8 @@
         this.$request.post(
           '/api/wiseqr/prod/list', {
             brandCodeArr: this.selectBrand2,
-            pageSize: '-1'
+            pageSize: '-1',
+            status: '1',
           },
           true,
           res => {
