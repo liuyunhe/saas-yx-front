@@ -83,6 +83,8 @@
         </el-table-column>
         <el-table-column property="hdCode" label="活动编号" align="center" width="180px">
         </el-table-column>
+        <el-table-column property="saleZoneCode" label="销区" align="center" width="180px">
+        </el-table-column>
         <el-table-column property="actName" label="活动名称" align="center">
         </el-table-column>
         <el-table-column label="活动时间" align="center">

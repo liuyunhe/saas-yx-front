@@ -5,6 +5,16 @@
                 <el-input placeholder="请输入模板名称" v-model="info.title" @input="titleInput" maxlength="15"></el-input>
                 <span class="words-tips">{{info.title.length}}/{{titleLength}}</span>
             </el-form-item>
+            <el-form-item label="销区：" prop="saleZoneCode">
+                <el-select size="small" v-model="info.saleZone" placeholder="请选择">
+                    <el-option
+                        v-for="(item,index) in saleZoneGroup"
+                        :key="index"
+                        :label="item.zoneName"
+                        :value="item.zoneCode">
+                    </el-option>
+                </el-select>
+            </el-form-item>
             <el-form-item label="模板描述：" prop="desc">
                 <el-input placeholder="请输入模板描述" v-model="info.desc" type="textarea" @input="descInput" maxlength="50" resize="false"></el-input>
                 <span class="words-tips">{{info.desc.length}}/{{descLength}}</span>
@@ -28,6 +38,9 @@ export default {
         },
         desc: {
             type: String
+        },
+        saleZone: {
+            type: String
         }
     },
     data () {
@@ -37,7 +50,8 @@ export default {
             },
             info: {
                 title: '',
-                desc: ''
+                desc: '',
+                saleZone: ''
             },
             rules: {
                 title: [
@@ -46,12 +60,15 @@ export default {
                 desc: [
                     {min: 0, max: this.descLength, message: `活动描述在0-${this.descLength}个字符之间`, trigger: 'blur'}
                 ]
-            }
+            },
+            saleZoneGroup:[]
         }
     },
     created () {
+        this.getSaleZone()
         this.info.title = this.title
         this.info.desc = this.desc
+        this.info.saleZone = this.saleZone
         let that = this;
         this.$watch('title', v => {
             that.info.title = v;
@@ -61,6 +78,13 @@ export default {
         })
     },
     methods: {
+        getSaleZone() {
+            this.$request.post('/api/saleZone/userSzList', {}, true, (res) => {
+                if (res.code == '200') {
+                    this.saleZoneGroup = res.data || []
+                }
+            })
+        },
         titleInput (value) {
             this.$emit('titleInput', {value: value});
         },

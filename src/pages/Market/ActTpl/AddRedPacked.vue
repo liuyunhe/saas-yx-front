@@ -22,7 +22,7 @@
           <phone-model :title="conf.title" :commonImg="conf.commonImg" :shareConf="conf.share" :titleLength="30" :page = "page" :imgData="conf.img"></phone-model>
         </el-col>
         <el-col :span="12">
-          <activity-info :title = "conf.title" :desc = "conf.description" @titleInput="titleInput" @descInput="descInput" v-show="page == 1"/>
+          <activity-info :title = "conf.title" :desc = "conf.description" :saleZone = "conf.saleZone" @titleInput="titleInput" @descInput="descInput"  @saleZoneInput="saleZoneInput" v-show="page == 1"/>
           <activity-image-editor v-show="page != 4 && page != 5 && page != 9" :editData="editData" :type="editType" :itemRepeat = "itemRepeat" @picChange = "editPic"/>
           <share-conf v-show="page == 9" :editData="editData" :shareConf="conf.share" @shareChange="editPic"></share-conf>
         </el-col>
@@ -187,6 +187,10 @@ export default {
     descInput (e) {
         let value = e.value
         value ? this.conf.description = value : this.description = ''
+    },
+    saleZoneInput (e) {
+      let value = e.value;
+      value ? this.conf.saleZone = value : this.saleZone = '';
     },
     editPic (e) {
       let index = e.index || '',

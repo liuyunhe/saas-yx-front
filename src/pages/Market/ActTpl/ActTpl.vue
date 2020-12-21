@@ -53,6 +53,7 @@
         <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="tplCode" label="模板编号" align="center"></el-table-column>
+        <el-table-column prop="saleZone" label="销区" align="center"></el-table-column>
         <el-table-column prop="tplCode" label="模板编号" align="center"></el-table-column>
         <el-table-column prop="name" label="模板名称" align="center"></el-table-column>
         <el-table-column prop="note" label="模板说明" align="center"></el-table-column>

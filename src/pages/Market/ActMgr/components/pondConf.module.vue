@@ -1,5 +1,5 @@
 <template>
-  <!-- 
+  <!--
   Author: chenxin
   Create Date: 2018-10-18
   Description: 活动投放设置组件
@@ -146,7 +146,7 @@
             <img :src="scope.row.pic" alt="" style="height: 60px">
           </template>
         </el-table-column>
-        <el-table-column prop="stock" label="剩余库存" align="center">
+        <el-table-column prop="budget_value" label="剩余库存" align="center">
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
@@ -190,7 +190,7 @@
 </template>
 <script>
 export default {
-  props: ['awae', 'prizeType', 'nWin', 'isRed', 'hide', 'astrict'],
+  props: ['awae', 'prizeType', 'nWin', 'isRed', 'hide', 'astrict','saleZone','budgetTime'],
   data() {
     var validateImgUrl = (rule, value, callback) => {
       if (this.awae.awardPic) {
@@ -220,10 +220,12 @@ export default {
       title: '选择物品',
       list: [],
       params: {
-        metraFlag: '',
+        materialType: '',
         pageNo: 1,
         pageSize: 10,
-        status: 1
+        status: 1,
+        saleZoneCode:null,
+        budgetTime: null,
       },
       listTotal: 0,
       listVisible: false,
@@ -231,6 +233,18 @@ export default {
       integralList: [],
       integralTotal: 0,
       integralVisible: false,
+    }
+  },
+  watch:{     //监听value的变化，进行相应的操作即可
+    saleZone(a,b){     //a是value的新值，b是旧值
+      console.log(a,b)
+      this.saleZone = a;
+      this.params.saleZoneCode = a
+    },
+    budgetTime(a,b){     //a是value的新值，b是旧值
+      console.log(a,b)
+      this.budgetTime = a;
+      this.params.budgetTime = a
     }
   },
   computed: {
@@ -281,20 +295,20 @@ export default {
     },
     getList() {
       if (this.awae.awardType == '1') {
-        this.params.metraFlag = 'object'
+        this.params.materialType = '1'
         this.title = '选择实物'
       } else if (this.awae.awardType == '2') {
-        this.params.metraFlag = 'virtual'
+        this.params.materialType = '2'
         this.title = '选择虚拟'
       } else if (this.awae.awardType == '3') {
-        this.params.metraFlag = 'redpack'
+        this.params.materialType = '3'
         this.title = '选择红包'
       } else if (this.awae.awardType == '6') {
-        this.params.metraFlag = 'integral'
+        this.params.materialType = '4'
         this.title = '选择积分'
       }
-      this.$request.post('/api/wiseqr/metra/list', this.params, true, res => {
-        if (res.ret === '200000') {
+      this.$request.post('/api/materialBudget/materialList', this.params, true, res => {
+        if (res.code === '200') {
           this.list = []
           this.list = res.data.list
           this.listTotal = res.data.page.count
@@ -391,7 +405,7 @@ export default {
           this.$message({
             type: 'info',
             message: '取消输入'
-          });       
+          });
         });
     }
   }
