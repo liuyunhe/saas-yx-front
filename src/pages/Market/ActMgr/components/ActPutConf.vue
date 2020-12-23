@@ -133,7 +133,7 @@
   </div>
 </template>
 <script>
-import pondConf from './pondConf.module'
+import pondConf from './ActPutPondConf.module'
 import mix from './ActPutConf.mixins.js'
 export default {
   components: {

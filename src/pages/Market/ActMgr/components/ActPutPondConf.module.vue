@@ -146,10 +146,7 @@
             <img :src="scope.row.pic" alt="" style="height: 60px">
           </template>
         </el-table-column>
-        <el-table-column prop="budget_value" label="剩余库存" align="center">
-          <template slot-scope="scope">
-            {{ scope.row.budget_value || scope.row.stock}}
-          </template>
+        <el-table-column prop="stock" label="剩余库存" align="center">
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
@@ -192,214 +189,187 @@
   </div>
 </template>
 <script>
-export default {
-  props: ['awae', 'prizeType', 'nWin', 'isRed', 'hide', 'astrict','saleZone','budgetTime'],
-  data() {
-    var validateImgUrl = (rule, value, callback) => {
-      if (this.awae.awardPic) {
-        callback()
-      } else {
-        callback(new Error('请选择奖品'))
-      }
-    }
-    var tips = (rule, value, callback) => {
-      // callback()
-    }
-    return {
-      // awae: this.awae,
-      prizeList: this.prizeType,
-      rules: {
-        n: [{required: true, validator: tips}],
-        type: [{required: true, validator: tips}],
-        name: [{required: true, validator: tips}],
-        probability: [{required: true, validator: tips}],
-        redNum: [{required: true, validator: tips}],
-        pool: [{required: true, validator: tips}],
-        putNum: [{required: true, validator: tips}],
-        intTotal: [{required: true, validator: tips}],
-        redTotal: [{required: true, validator: tips}],
-        // pool: [{required: true, validator: tips}],
-      },
-      title: '选择物品',
-      list: [],
-      params: {
-        metraFlag: '',
-        materialType: '',
-        pageNo: 1,
-        pageSize: 10,
-        status: 1,
-        saleZoneCode:null,
-        budgetTime: null,
-      },
-      listTotal: 0,
-      listVisible: false,
-
-      integralList: [],
-      integralTotal: 0,
-      integralVisible: false,
-    }
-  },
-  watch:{     //监听value的变化，进行相应的操作即可
-    saleZone(a,b){     //a是value的新值，b是旧值
-      console.log(a,b)
-      this.saleZone = a;
-      this.params.saleZoneCode = a
-    },
-    budgetTime(a,b){     //a是value的新值，b是旧值
-      console.log(a,b)
-      this.budgetTime = a;
-      this.params.budgetTime = a
-    }
-  },
-  computed: {
-    residue: {
-      get: function() {
-        return this.awae.totalNum - this.awae.outNum
-      },
-      set: function(newValue) {
-        // console.log(newValue)
-      }
-    },
-    totalRed: {
-      get: function() {
-        return parseFloat((this.awae.redMoney * this.awae.totalNum).toPrecision(12))
-      },
-      set: function(newValue) {
-        // console.log(newValue)
-      }
-    }
-  },
-  created() {
-    // if (this.awae.id) {
-    //   this.isEdit = true
-    // } else {
-    //   this.isEdit = false
-    // }
-    // console.log(this.awae)
-  },
-  methods: {
-    // 选择奖品
-    selectPrize(obj) {
-      this.awae.awardPic = obj.pic
-      this.awae.poolName = obj.name
-      this.awae.prizeName = obj.name
-      this.awae.poolId = obj.id
-      if(this.saleZone){
-        this.awae.budgetId = obj.id
-      }
-      this.listVisible = false
-    },
-    // 重置奖品
-    resetPrize() {
-      this.awae.awardPic = ''
-      this.awae.prizeName = ''
-      this.awae.poolName = ''
-      this.awae.totalNum = ''
-      this.awae.probability = ''
-      this.awae.redMoney = ''
-      this.awae.redTotalMoney = ''
-      this.awae.integral = ''
-      this.awae.budgetId = ''
-    },
-    getList() {
-      if (this.awae.awardType == '1') {
-        this.params.materialType = '1'
-        this.params.metraFlag = 'object'
-        this.title = '选择实物'
-      } else if (this.awae.awardType == '2') {
-        this.params.metraFlag = 'virtual'
-        this.params.materialType = '2'
-        this.title = '选择虚拟'
-      } else if (this.awae.awardType == '3') {
-        this.params.metraFlag = 'redpack'
-        this.params.materialType = '3'
-        this.title = '选择红包'
-      } else if (this.awae.awardType == '6') {
-        this.params.metraFlag = 'integral'
-        this.params.materialType = '4'
-        this.title = '选择积分'
-      }
-      let url = "/api/materialBudget/materialList"
-      if(!this.params.saleZoneCode){
-        url = "/api/wiseqr/metra/list"
-      }
-      this.$request.post(url, this.params, true, res => {
-        if ((res.code && res.code == '200')||(res.ret && res.ret == '200000')) {
-          this.list = []
-          this.list = res.data.list
-          this.listTotal = res.data.page.count
-          this.listVisible = true
-          return
+  export default {
+    props: ['awae', 'prizeType', 'nWin', 'isRed', 'hide', 'astrict'],
+    data() {
+      var validateImgUrl = (rule, value, callback) => {
+        if (this.awae.awardPic) {
+          callback()
+        } else {
+          callback(new Error('请选择奖品'))
         }
-        this.$message.error(res.message || res.msg)
-      })
-    },
-    // 同时送积分
-    giveIntegral() {
-      this.$request.post(
-        '/api/wiseqr/metra/list',
-        {
-          metraFlag: 'integral',
+      }
+      var tips = (rule, value, callback) => {
+        // callback()
+      }
+      return {
+        // awae: this.awae,
+        prizeList: this.prizeType,
+        rules: {
+          n: [{required: true, validator: tips}],
+          type: [{required: true, validator: tips}],
+          name: [{required: true, validator: tips}],
+          probability: [{required: true, validator: tips}],
+          redNum: [{required: true, validator: tips}],
+          pool: [{required: true, validator: tips}],
+          putNum: [{required: true, validator: tips}],
+          intTotal: [{required: true, validator: tips}],
+          redTotal: [{required: true, validator: tips}],
+          // pool: [{required: true, validator: tips}],
+        },
+        title: '选择物品',
+        list: [],
+        params: {
+          metraFlag: '',
           pageNo: 1,
           pageSize: 10,
           status: 1
         },
-        true,
-        res => {
+        listTotal: 0,
+        listVisible: false,
+
+        integralList: [],
+        integralTotal: 0,
+        integralVisible: false,
+      }
+    },
+    computed: {
+      residue: {
+        get: function() {
+          return this.awae.totalNum - this.awae.outNum
+        },
+        set: function(newValue) {
+          // console.log(newValue)
+        }
+      },
+      totalRed: {
+        get: function() {
+          return parseFloat((this.awae.redMoney * this.awae.totalNum).toPrecision(12))
+        },
+        set: function(newValue) {
+          // console.log(newValue)
+        }
+      }
+    },
+    created() {
+      // if (this.awae.id) {
+      //   this.isEdit = true
+      // } else {
+      //   this.isEdit = false
+      // }
+      // console.log(this.awae)
+    },
+    methods: {
+      // 选择奖品
+      selectPrize(obj) {
+        this.awae.awardPic = obj.pic
+        this.awae.poolName = obj.name
+        this.awae.prizeName = obj.name
+        this.awae.poolId = obj.id
+        this.listVisible = false
+      },
+      // 重置奖品
+      resetPrize() {
+        this.awae.awardPic = ''
+        this.awae.prizeName = ''
+        this.awae.poolName = ''
+        this.awae.totalNum = ''
+        this.awae.probability = ''
+        this.awae.redMoney = ''
+        this.awae.redTotalMoney = ''
+        this.awae.integral = ''
+      },
+      getList() {
+        if (this.awae.awardType == '1') {
+          this.params.metraFlag = 'object'
+          this.title = '选择实物'
+        } else if (this.awae.awardType == '2') {
+          this.params.metraFlag = 'virtual'
+          this.title = '选择虚拟'
+        } else if (this.awae.awardType == '3') {
+          this.params.metraFlag = 'redpack'
+          this.title = '选择红包'
+        } else if (this.awae.awardType == '6') {
+          this.params.metraFlag = 'integral'
+          this.title = '选择积分'
+        }
+        this.$request.post('/api/wiseqr/metra/list', this.params, true, res => {
           if (res.ret === '200000') {
             this.list = []
-            this.integralList = res.data.list
-            this.integralTotal = res.data.page.count
-            this.integralVisible = true
+            this.list = res.data.list
+            this.listTotal = res.data.page.count
+            this.listVisible = true
             return
           }
           this.$message.error(res.message)
+        })
+      },
+      // 同时送积分
+      giveIntegral() {
+        this.$request.post(
+          '/api/wiseqr/metra/list',
+          {
+            metraFlag: 'integral',
+            pageNo: 1,
+            pageSize: 10,
+            status: 1
+          },
+          true,
+          res => {
+            if (res.ret === '200000') {
+              this.list = []
+              this.integralList = res.data.list
+              this.integralTotal = res.data.page.count
+              this.integralVisible = true
+              return
+            }
+            this.$message.error(res.message)
+          }
+        )
+      },
+      // 选择积分
+      selectIntegral(obj) {
+        this.awae.integralPool = obj.id
+        this.integralVisible = false
+      },
+      handSizeChange(newSize) {
+        this.params.pageSize = newSize
+        this.getList()
+      },
+      handCurrentChange(newSize) {
+        this.params.pageNo = newSize
+        this.getList()
+      },
+      // 重置积分
+      resetScore(val) {
+        if (!val) {
+          this.awae.integralPool = null
+          this.awae.integral = ''
+          this.awae.giveScore = 0
+        } else {
+          this.awae.giveScore = 1
         }
-      )
-    },
-    // 选择积分
-    selectIntegral(obj) {
-      this.awae.integralPool = obj.id
-      this.integralVisible = false
-    },
-    handSizeChange(newSize) {
-      this.params.pageSize = newSize
-      this.getList()
-    },
-    handCurrentChange(newSize) {
-      this.params.pageNo = newSize
-      this.getList()
-    },
-    // 重置积分
-    resetScore(val) {
-      if (!val) {
-        this.awae.integralPool = null
-        this.awae.integral = ''
-        this.awae.giveScore = 0
-      } else {
-        this.awae.giveScore = 1
-      }
-    },
-    // 重置阈值预警
-    resetWarn(val) {
-      if (!val) {
-        this.awae.hasWarn = null
-        this.awae.warnValue = ''
-      }
-    },
-    resetPdMaxOut(val) {
-      if (!val) {
-        this.awae.pdMaxOut = ''
-      }
-    },
-    countRedTotal(val) {
-      const redMoney = this.awae.redMoney
-      const totalNum = this.awae.totalNum
-      if (redMoney != 0 && totalNum != 0) return this.awae.redTotalMoney = redMoney * totalNum
-    },
-    // 增库
-    addRepertory() {
-      this.$prompt('请输入数字', '增库', {
+      },
+      // 重置阈值预警
+      resetWarn(val) {
+        if (!val) {
+          this.awae.hasWarn = null
+          this.awae.warnValue = ''
+        }
+      },
+      resetPdMaxOut(val) {
+        if (!val) {
+          this.awae.pdMaxOut = ''
+        }
+      },
+      countRedTotal(val) {
+        const redMoney = this.awae.redMoney
+        const totalNum = this.awae.totalNum
+        if (redMoney != 0 && totalNum != 0) return this.awae.redTotalMoney = redMoney * totalNum
+      },
+      // 增库
+      addRepertory() {
+        this.$prompt('请输入数字', '增库', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           inputPattern: /^\d{1,}$/,
@@ -423,19 +393,19 @@ export default {
             message: '取消输入'
           });
         });
+      }
     }
   }
-}
 </script>
 <style lang="scss" scoped>
-.el-pagination {
-  margin-top: 20px;
-}
-// .el-form-item {
-//   margin-bottom: 10px;
-// }
-img {
-  width: 120px;
-  height: 90px;
-}
+  .el-pagination {
+    margin-top: 20px;
+  }
+  // .el-form-item {
+  //   margin-bottom: 10px;
+  // }
+  img {
+    width: 120px;
+    height: 90px;
+  }
 </style>

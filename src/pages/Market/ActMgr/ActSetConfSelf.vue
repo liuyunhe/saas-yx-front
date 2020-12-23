@@ -259,7 +259,7 @@ export default {
   },
   methods: {
     getSaleZone() {
-      this.$request.post('/api/saleZone/list', {}, true, (res)=>{
+      this.$request.post('/api/saleZone/userSzList', {}, true, (res)=>{
         if (res.code == '200') {
           this.saleZone = res.data||[];
         }

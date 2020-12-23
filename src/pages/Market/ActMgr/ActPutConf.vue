@@ -28,6 +28,16 @@
           <!-- 暂时不做 -->
           <!-- <el-button type="primary" @click="brandVisible = true" class="ml20">已选明细</el-button> -->
         </el-form-item>
+        <el-form-item label="销区：" v-if="showSaleZone && saleZoneCode">
+          <el-select size="small" :disabled="saleZoneDisabled || !!id " :clearable="true" v-model="saleZoneCode" placeholder="请选择">
+            <el-option
+                v-for="(item,index) in saleZone"
+                :key="index"
+                :label="item.zoneName"
+                :value="item.zoneCode">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="地区：">
           <el-select v-model="selectProvList" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择" @change="getCityList">
             <el-option v-for="item in provList" :key="item.code" :label="item.name" :value="item.code">
@@ -41,19 +51,9 @@
 <!--            <el-option v-for="item in areaList" :key="item.code" :label="item.name" :value="item.code">-->
 <!--            </el-option>-->
 <!--          </el-select>-->
-          <el-checkbox v-model="isDisabled" label="全部地区" border></el-checkbox>
+          <el-checkbox v-if="!saleZoneCode" v-model="isDisabled" label="全部地区" border></el-checkbox>
           <!-- 暂时不做 -->
           <!-- <el-button type="primary" @click="regionVisible = true" class="ml20">已选明细</el-button> -->
-        </el-form-item>
-        <el-form-item label="销区：" v-if="showSaleZone">
-          <el-select size="small" :disabled="saleZoneDisabled" :clearable="true" v-model="saleZoneCode" placeholder="请选择">
-            <el-option
-                v-for="(item,index) in saleZone"
-                :key="index"
-                :label="item.zoneName"
-                :value="item.zoneCode">
-            </el-option>
-          </el-select>
         </el-form-item>
         <el-form-item>
           <div class="prize-conf">
