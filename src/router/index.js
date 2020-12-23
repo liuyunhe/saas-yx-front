@@ -147,6 +147,7 @@ const Sign = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Sig
 const SignDetail = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Sign/signActEdit.vue')
 const ActSetting = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Act.vue')
 const BrandGroup = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/BrandGroup.vue')
+const CodeLimit = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/CodeLimit.vue')
 
 //菜单配置
 const MenuConf = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/MenuConf/MenuConf.vue')
@@ -530,6 +531,7 @@ export default new Router({
         { path: '/setting/act', name: '活动设置' },
         { path: '/setting/act/setting', name: '活动类型管理', component: ActSetting },
         { path: '/setting/act/brandGroup', name: '规格设置', component: BrandGroup },
+        { path: '/setting/act/codeLimit', name: '规格设置', component: CodeLimit },
 
         { path: '/setting/resource/smenu', name: '菜单管理', component: SettingSystemMenu },
         { path: '/setting/resource/smgrOrgRole', name: '菜单管理', component: SettingSystemAuth },
