@@ -12,7 +12,7 @@
 </template>
 <script>
 export default {
-  props: ['data'],
+  props: ['data','saleZone','id'],
   data() {
     return {
       selectBrand: [],
@@ -20,6 +20,12 @@ export default {
       brandList: [],
       brandSonList: []
     }
+  },
+  watch:{
+    saleZone(a,b){     //a是value的新值，b是旧值
+      console.log(a,b)
+      this.saleZone = a;
+    },
   },
   created() {
     this.getBrandList()
@@ -36,6 +42,7 @@ export default {
     },
     // 获取品牌列表
     getBrandList() {
+
       this.$request.post('/api/wiseqr/prod/listBrand', { pageSize: '-1' }, true, res => {
         if (res.ret === '200000') {
           this.brandList = res.data.list
@@ -51,15 +58,33 @@ export default {
           this.getBrandSonList()
         }, 1000)
       }
-      this.$request.post( '/api/wiseqr/prod/list', { brandCodeArr: this.selectBrand, pageSize: '-1' }, true, res => {
-          if (res.ret === '200000') {
-            this.brandSonList = res.data.list
-            this.done()
-            return
+      if(this.saleZone){
+        this.$request.post(
+          '/api/actSale/product/sn', {
+            id: this.id,
+            brandCode : this.selectBrand.join(","),
+          },
+          false,
+          res => {
+            if (res.code === '200') {
+              this.brandSonList = res.data
+              this.done()
+              return
+            }
+            this.$message.error(res.msg)
           }
-          this.$message.error(res.message)
-        }
-      )
+        )
+      }else {
+        this.$request.post( '/api/wiseqr/prod/list', { brandCodeArr: this.selectBrand, pageSize: '-1' }, true, res => {
+            if (res.ret === '200000') {
+              this.brandSonList = res.data.list
+              this.done()
+              return
+            }
+            this.$message.error(res.message)
+          }
+        )
+      }
     },
     // 选择完成
     done() {

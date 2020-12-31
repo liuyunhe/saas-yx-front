@@ -61,7 +61,9 @@ export default {
         redTotalMoney: '',
         remainNum: 0,
         totalNum: '', // totalNum
-        warnValue: '' //告警阀值 非空且大于0时为设置告警
+        warnValue: '', //告警阀值 非空且大于0时为设置告警
+        budgetId: null,
+        integralBudgetId:null
       }],
       normalTfId: '',
       defaultAwae: { // 给个默认 好复制
@@ -91,7 +93,9 @@ export default {
         redTotalMoney: '',
         remainNum: 0,
         totalNum: '', // totalNum
-        warnValue: '' //告警阀值 非空且大于0时为设置告警
+        warnValue: '', //告警阀值 非空且大于0时为设置告警
+        budgetId: null,
+        integralBudgetId:null
       },
       firstScanConf: [{
         awardPic: '',
@@ -116,7 +120,9 @@ export default {
         redTotalMoney: '',
         remainNum: 0,
         totalNum: '',
-        warnValue: ''
+        warnValue: '',
+        budgetId: null,
+        integralBudgetId:null
       }], // 首扫选项
       firstScanTfId: '',
       nWinConf: [{
@@ -143,7 +149,9 @@ export default {
         redTotalMoney: '',
         remainNum: 0,
         totalNum: '',
-        warnValue: ''
+        warnValue: '',
+        budgetId: null,
+        integralBudgetId:null
       }], // n次选项
       nWinTfId: '',
       fixationPutConf: [{
@@ -169,7 +177,9 @@ export default {
         redTotalMoney: '',
         remainNum: 0,
         totalNum: '',
-        warnValue: ''
+        warnValue: '',
+        budgetId: null,
+        integralBudgetId:null
       }], // 定投选项
       fixationPutTfId: '',
       normalTabsValue: '1', // 正常tabs

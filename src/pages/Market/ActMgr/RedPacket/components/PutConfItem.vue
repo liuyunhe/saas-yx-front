@@ -12,7 +12,7 @@
       <div @mouseover="tabsIndex = index">
         <el-tabs v-model="putTabsValue[index]" type="card" editable @edit="putTabsEdit">
           <el-tab-pane :key="i" v-for="(tab, i) in putTabs[index]" :label="tab.title" :name="tab.name">
-            <pond-conf :awae="item.awardArr[i]" :prizeType="prizeType" :astrict="astrictRedflg" :isDisable="isDisableArr[index]"></pond-conf>
+            <pond-conf :awae="item.awardArr[i]" :prizeType="prizeType" :astrict="astrictRedflg" :isDisable="isDisableArr[index]" :saleZone="saleZone" :budgetTime="budgetTime"></pond-conf>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -25,10 +25,22 @@ import pondConf from './redPondConf'
 export default {
   props: {
     data: { type: Object, required: true },
-    astrictRedflg: {}
+    astrictRedflg: {},
+    saleZone:{},
+    budgetTime:{}
   },
   components: {
     pondConf
+  },
+  watch:{     //监听value的变化，进行相应的操作即可
+    saleZone(a,b){     //a是value的新值，b是旧值
+      console.log(a,b)
+      this.saleZone = a;
+    },
+    budgetTime(a,b){     //a是value的新值，b是旧值
+      console.log(a,b)
+      this.budgetTime = a;
+    }
   },
   data() {
     return {
@@ -89,7 +101,9 @@ export default {
             redTotalMoney: '',
             remainNum: 0,
             totalNum: '', // totalNum
-            warnValue: '' //告警阀值 非空且大于0时为设置告警
+            warnValue: '', //告警阀值 非空且大于0时为设置告警
+            budgetId: null,
+            integralBudgetId:null
           }
         ],
         brandArr: [],
@@ -141,7 +155,7 @@ export default {
           this.putTabsValue.push('0')
         }
         item.awardArr.forEach((d, i) => {
-          if (i == 0) return 
+          if (i == 0) return
           this.putTabs[index].push({ title: '常规奖项' + (i + 1), name: i + ''})
         })
       })
@@ -260,7 +274,7 @@ export default {
         this.$message({
           type: 'info',
           message: '已取消删除'
-        })          
+        })
       })
     }
   }

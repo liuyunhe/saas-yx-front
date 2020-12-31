@@ -1,5 +1,5 @@
 <template>
-  <!-- 
+  <!--
   Author: chenxin
   Create Date: 2019-01-18
   Description: 红包雨活动投放设置组件
@@ -67,7 +67,15 @@
             <img class="list-img" :src="scope.row.pic">
           </template>
         </el-table-column>
-        <el-table-column prop="stock" label="剩余库存" align="center">
+        <el-table-column  prop="stock" label="剩余库存" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.budget_value">
+              {{ scope.row.budget_value - scope.row.budget_used}}
+            </span>
+            <span v-else>
+              {{ scope.row.stock }}
+            </span>
+          </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
@@ -93,6 +101,14 @@
           </template>
         </el-table-column>
         <el-table-column prop="stock" label="剩余库存" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.budget_value">
+              {{ scope.row.budget_value - scope.row.budget_used}}
+            </span>
+            <span v-else>
+              {{ scope.row.stock }}
+            </span>
+          </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
@@ -111,7 +127,7 @@
 </template>
 <script>
 export default {
-  props: ['awae', 'prizeType', 'isDisable', 'astrict'],
+  props: ['awae', 'prizeType', 'isDisable', 'astrict','saleZone','budgetTime'],
   data() {
     var validateImgUrl = (rule, value, callback) => {
       if (this.awae.awardPic) {
@@ -162,9 +178,12 @@ export default {
       list: [],
       params: {
         metraFlag: 'object',
+        materialType: '',
         pageNo: 1,
         pageSize: 10,
-        status: 1
+        status: 1,
+        saleZoneCode:null,
+        budgetTime: null,
       },
       listTotal: 0,
       listVisible: false,
@@ -194,6 +213,18 @@ export default {
       }
     }
   },
+  watch:{     //监听value的变化，进行相应的操作即可
+    saleZone(a,b){     //a是value的新值，b是旧值
+      console.log(a,b)
+      this.saleZone = a;
+      this.params.saleZoneCode = a
+    },
+    budgetTime(a,b){     //a是value的新值，b是旧值
+      console.log(a,b)
+      this.budgetTime = a;
+      this.params.budgetTime = a
+    }
+  },
   created() {
     // if (this.awae.id) {
     //   this.isEdit = true
@@ -201,6 +232,8 @@ export default {
     //   this.isEdit = false
     // }
     // this.handleIsDisable()
+    this.params.saleZoneCode = this.saleZone
+    this.params.budgetTime = this.budgetTime
     console.log(this.astrict)
   },
   methods: {
@@ -210,6 +243,13 @@ export default {
       this.awae.poolName = obj.name
       this.awae.prizeName = obj.name
       this.awae.poolId = obj.id
+      if(this.saleZone){
+        this.awae.budgetId = obj.id
+        this.awae.poolId = obj.material_pool_id
+      }
+      if(this.saleZone && this.awae.awardType == 6){
+        this.awae.integralBudgetId = obj.id
+      }
       this.listVisible = false
     },
     // 重置奖品
@@ -222,6 +262,8 @@ export default {
       this.awae.redMoney = ''
       this.awae.redTotalMoney = ''
       this.awae.integral = ''
+      this.awae.budgetId = ''
+      this.awae.integralBudgetId = ''
       this.params.metraFlag = this.typeObj.metraObj[val]
     },
     handleIsDisable() {
@@ -234,42 +276,91 @@ export default {
       }
     },
     getList() {
-      this.$request.post('/api/wiseqr/metra/list', this.params, true, res => {
-        if (res.ret === '200000') {
+      if (this.awae.awardType == '1') {
+        this.params.materialType = '1'
+        this.params.metraFlag = 'object'
+      } else if (this.awae.awardType == '2') {
+        this.params.metraFlag = 'virtual'
+        this.params.materialType = '2'
+      } else if (this.awae.awardType == '3') {
+        this.params.metraFlag = 'redpack'
+        this.params.materialType = '3'
+      } else if (this.awae.awardType == '6') {
+        this.params.metraFlag = 'integral'
+        this.params.materialType = '6'
+      }
+      console.log(this.params.saleZoneCode)
+      let url = "/api/materialBudget/materialList"
+      if(!this.params.saleZoneCode){
+        url = "/api/wiseqr/metra/list"
+      }
+      this.$request.post(url, this.params, true, res => {
+        if ((res.code && res.code == '200')||(res.ret && res.ret == '200000')) {
           this.list = []
           this.list = res.data.list
           this.listTotal = res.data.page.count
           this.listVisible = true
           return
         }
-        this.$message.error(res.message)
+        this.$message.error(res.message || res.msg)
       })
     },
     // 同时送积分
     giveIntegral() {
-      this.$request.post('/api/wiseqr/metra/list',
-        {
-          metraFlag: 'integral',
-          pageNo: 1,
-          pageSize: 10,
-          status: 1
-        },
-        true,
-        res => {
-          if (res.ret === '200000') {
-            this.list = []
-            this.integralList = res.data.list
-            this.integralTotal = res.data.page.count
-            this.integralVisible = true
-            return
+      console.log(this.saleZone)
+      if(this.saleZone){
+        this.$request.post(
+          '/api/materialBudget/materialList',
+          {
+            metraFlag: 'integral',
+            materialType: '6',
+            budgetTime: this.budgetTime,
+            saleZoneCode: this.saleZone,
+            pageNo: 1,
+            pageSize: 10,
+            status: 1
+          },
+          true,
+          res => {
+            if (res.code == '200') {
+              this.list = []
+              this.integralList = res.data.list
+              this.integralTotal = res.data.page.count
+              this.integralVisible = true
+              return
+            }
+            this.$message.error(res.msg)
           }
-          this.$message.error(res.message)
-        }
-      )
+        )
+      }else {
+        this.$request.post('/api/wiseqr/metra/list',
+          {
+            metraFlag: 'integral',
+            pageNo: 1,
+            pageSize: 10,
+            status: 1
+          },
+          true,
+          res => {
+            if (res.ret === '200000') {
+              this.list = []
+              this.integralList = res.data.list
+              this.integralTotal = res.data.page.count
+              this.integralVisible = true
+              return
+            }
+            this.$message.error(res.message)
+          }
+        )
+      }
     },
     // 选择积分
     selectIntegral(obj) {
-      this.awae.integralPool = obj.id
+      if(this.saleZone){
+        this.awae.integralPool = obj.material_pool_id
+      }else {
+        this.awae.integralPool = obj.id
+      }
       this.integralVisible = false
     },
     handSizeChange(newSize) {

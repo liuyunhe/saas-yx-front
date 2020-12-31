@@ -14,7 +14,7 @@
         <el-form-item label="浇水结束时间：" prop="JSEtimeStr">
           <el-date-picker v-model="confData.JSEtimeStr" :disabled="actStatus>1"value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择浇水时间"></el-date-picker>
         </el-form-item>
-        <BZActPutConf :form-name="'浇水必中奖池：'" ref="awardArr" :configId="confData.id" :awardArr="awardArr" :editable="actStatus<2" @modifyAwardArr = "modifyAwardArr" @modifyAwardArrError="modifyAwardArrError"></BZActPutConf>
+        <BZActPutConf :form-name="'浇水必中奖池：'" ref="awardArr" :configId="confData.id" :awardArr="awardArr" :editable="actStatus<2" @modifyAwardArr = "modifyAwardArr" @modifyAwardArrError="modifyAwardArrError" :saleZone="saleZone" :budgetTime="budgetTime"></BZActPutConf>
         <div style="margin-bottom: 30px"></div>
 
         <el-card>
@@ -72,7 +72,7 @@
               <div style="height: 30px"></div>
             </el-form>
           </template>
-            <ActPutConf v-show="jcType == 2" ref="GFAwardArr" :form-name="'多奖品类奖池：'" :configId="confData.id" :editable="actStatus<4" :awardArr="GFAwardArr" @modifyAwardArr = "modifyGFAwardArr" @modifyAwardArrError="modifyGFAwardArrError"></ActPutConf>
+            <ActPutConf v-show="jcType == 2" ref="GFAwardArr" :form-name="'多奖品类奖池：'" :configId="confData.id" :editable="actStatus<4" :awardArr="GFAwardArr" @modifyAwardArr = "modifyGFAwardArr" @modifyAwardArrError="modifyGFAwardArrError" :saleZone="saleZone" :budgetTime="budgetTime"></ActPutConf>
 
         </el-card>
         <el-form-item>
@@ -95,6 +95,14 @@
           </template>
         </el-table-column>
         <el-table-column prop="stock" label="剩余库存" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.budget_value">
+              {{ scope.row.budget_value - scope.row.budget_used}}
+            </span>
+            <span v-else>
+              {{ scope.row.stock }}
+            </span>
+          </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
@@ -116,7 +124,7 @@
   import BZActPutConf from './components/HPXBZActPutConf'
   export default {
     name: "HPXSetConf",
-    props: ['form', 'actCode', 'id',],
+    props: ['form', 'actCode', 'id','saleZone','budgetTime'],
     components: {
       ActPutConf,
       BZActPutConf
@@ -229,9 +237,12 @@
         list: [],
         params: {
           metraFlag: '',
+          materialType: '',
           pageNo: 1,
           pageSize: 10,
-          status: 1
+          status: 1,
+          saleZoneCode:null,
+          budgetTime: null,
         },
         listTotal: 0,
         listVisible: false,
@@ -239,6 +250,8 @@
     },
     created(){
       this.getActDetail()
+      this.params.saleZoneCode = this.saleZone
+      this.params.budgetTime = this.budgetTime
     },
     methods: {
       getActDetail(){
@@ -297,7 +310,7 @@
             }
 
           }else {
-            this.$message.error(res.msg)
+            this.$message.error(res.msg || res.message)
           }
         })
       },
@@ -510,34 +523,44 @@
       },
       getList(type) {
         if (type == '1') {
+          this.params.materialType = '1'
           this.params.metraFlag = 'object'
           this.title = '选择实物'
         } else if (type == '2') {
+          this.params.materialType = '2'
           this.params.metraFlag = 'virtual'
           this.title = '选择虚拟'
         } else if (type == '3') {
+          this.params.materialType = '3'
           this.params.metraFlag = 'redpack'
           this.title = '选择红包'
         } else if (type == '6') {
+          this.params.materialType = '6'
           this.params.metraFlag = 'integral'
           this.title = '选择荷石币'
         } else if (type == '7') {
+          this.params.materialType = '7'
           this.params.metraFlag = 'cdDisc'
           this.title = '选择折扣卡'
         } else if (type == '8') {
+          this.params.materialType = '8'
           this.params.metraFlag = 'cdDouble'
           this.title = '选择翻倍卡'
         }
-
-        this.$request.post('/api/wiseqr/metra/list', this.params, true, res => {
-          if (res.ret === '200000') {
+        console.log(this.params.saleZoneCode)
+        let url = "/api/materialBudget/materialList"
+        if(!this.params.saleZoneCode){
+          url = "/api/wiseqr/metra/list"
+        }
+        this.$request.post(url, this.params, true, res => {
+          if ((res.code && res.code == '200')||(res.ret && res.ret == '200000')) {
             this.list = []
             this.list = res.data.list
             this.listTotal = res.data.page.count
             this.listVisible = true
             return
           }
-          this.$message.error(res.message)
+          this.$message.error(res.message || res.msg)
         })
       },
     }

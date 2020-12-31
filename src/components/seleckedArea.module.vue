@@ -12,12 +12,12 @@
       <el-option v-for="item in areaList" :key="item.code" :label="item.name" :value="item.code">
       </el-option>
     </el-select>
-    <el-checkbox v-model="isDisabled" label="全部地区" border></el-checkbox>
+    <el-checkbox v-if="!saleZone" v-model="isDisabled" label="全部地区" border></el-checkbox>
   </div>
 </template>
 <script>
 export default {
-  props: ['data', 'isDis'],
+  props: ['data', 'isDis', 'saleZone','id'],
   data() {
     // var tips = (rule, value, callback) => {
     //   // callback()
@@ -39,6 +39,10 @@ export default {
     }
   },
   watch: {
+    saleZone(a,b){     //a是value的新值，b是旧值
+      console.log(a,b)
+      this.saleZone = a;
+    },
     isDisabled: function (val) {
       if (val) {
         this.cityList = [{ code: '000000', name: '全部' }]
@@ -81,13 +85,25 @@ export default {
       }
     },
     getProvList() {
-      this.$request.post('/api/wiseqr/dim/regionByMultiParent', { parentArr: [] }, true, res => {
-        if (res.ret === '200000') {
-          this.provList.push(...res.data)
-          return
-        }
-        this.$message.error(res.message)
-      })
+      if(this.saleZone){
+        this.$request.post('/api/actSale/province/list', {
+          id: this.id
+        }, false, res => {
+          if (res.code === '200') {
+            this.provList.push(...res.data)
+            return
+          }
+          this.$message.error(res.msg)
+        })
+      }else {
+        this.$request.post('/api/wiseqr/dim/regionByMultiParent', { parentArr: [] }, true, res => {
+          if (res.ret === '200000') {
+            this.provList.push(...res.data)
+            return
+          }
+          this.$message.error(res.message)
+        })
+      }
     },
     // 获取市
     getCityList(val) {

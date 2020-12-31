@@ -840,7 +840,7 @@ export default {
           this.$message.success('保存成功')
           if(this.form == "act-111"){
             return this.$router.push(
-              '/market/actTpl/HPXSetConf?id=' + this.id + '&actCode=' + this.actCode+'&form='+this.form
+              '/market/actTpl/HPXSetConf?id=' + this.id + '&actCode=' + this.actCode + '&form=' + this.form + '&saleZone=' + (this.saleZoneCode || '') + '&budgetTime=' + this.actSTime
             )
           }
           this.$router.push('/market/actMgr')

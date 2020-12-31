@@ -148,7 +148,12 @@
         </el-table-column>
         <el-table-column prop="budget_value" label="剩余库存" align="center">
           <template slot-scope="scope">
-            {{ scope.row.budget_value - scope.row.budget_used || scope.row.stock}}
+            <span v-if="scope.row.budget_value">
+              {{ scope.row.budget_value - scope.row.budget_used}}
+            </span>
+            <span v-else>
+              {{ scope.row.stock }}
+            </span>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
@@ -176,7 +181,12 @@
         </el-table-column>
         <el-table-column prop="stock" label="剩余库存" align="center">
           <template slot-scope="scope">
-            {{ scope.row.budget_value - scope.row.budget_used || scope.row.stock}}
+            <span v-if="scope.row.budget_value">
+              {{ scope.row.budget_value - scope.row.budget_used}}
+            </span>
+            <span v-else>
+              {{ scope.row.stock }}
+            </span>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
