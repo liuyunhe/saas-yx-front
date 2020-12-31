@@ -28,6 +28,16 @@
           <!-- 暂时不做 -->
           <!-- <el-button type="primary" @click="brandVisible = true" class="ml20">已选明细</el-button> -->
         </el-form-item>
+        <el-form-item label="销区：" v-if="showSaleZone && saleZoneCode">
+          <el-select size="small" :disabled="saleZoneDisabled || !!id " :clearable="true" v-model="saleZoneCode" placeholder="请选择">
+            <el-option
+                v-for="(item,index) in saleZone"
+                :key="index"
+                :label="item.zoneName"
+                :value="item.zoneCode">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="地区：">
           <el-select v-model="selectProvList" :disabled="isDisabled" multiple collapse-tags filterable placeholder="请选择" @change="getCityList">
             <el-option v-for="item in provList" :key="item.code" :label="item.name" :value="item.code">
@@ -41,26 +51,16 @@
 <!--            <el-option v-for="item in areaList" :key="item.code" :label="item.name" :value="item.code">-->
 <!--            </el-option>-->
 <!--          </el-select>-->
-          <el-checkbox v-model="isDisabled" label="全部地区" border></el-checkbox>
+          <el-checkbox v-if="!saleZoneCode" v-model="isDisabled" label="全部地区" border></el-checkbox>
           <!-- 暂时不做 -->
           <!-- <el-button type="primary" @click="regionVisible = true" class="ml20">已选明细</el-button> -->
-        </el-form-item>
-        <el-form-item label="销区：" v-if="showSaleZone">
-          <el-select size="small" :disabled="saleZoneDisabled" :clearable="true" v-model="saleZoneCode" placeholder="请选择">
-            <el-option
-                v-for="(item,index) in saleZone"
-                :key="index"
-                :label="item.zoneName"
-                :value="item.zoneCode">
-            </el-option>
-          </el-select>
         </el-form-item>
         <el-form-item>
           <div class="prize-conf">
             <div class="title">常规奖池</div>
             <el-tabs v-model="normalTabsValue" type="card" editable @edit="normalTabsEdit" class="put-conf">
               <el-tab-pane :key="index" v-for="(item, index) in normalTabs" :label="item.title" :name="item.name">
-                <pond-conf :astrict="astrictRedflg" :awae="normalConf[index]" :prizeType="prizeType"></pond-conf>
+                <pond-conf :astrict="astrictRedflg" :awae="normalConf[index]" :prizeType="prizeType" :saleZone="saleZoneCode" :budgetTime="actSTime"></pond-conf>
               </el-tab-pane>
             </el-tabs>
           </div>
@@ -78,7 +78,7 @@
                 <div class="conf" v-if="firstScanFlag">
                   <el-tabs v-model="firstScanTabsValue" type="card" editable @edit="firstScanTabsEdit">
                     <el-tab-pane :key="item.name" v-for="(item, index) in firstScanTabs" :label="item.title" :name="item.name">
-                      <pond-conf :astrict="astrictRedflg" :awae="firstScanConf[index]" :hide="true" :prizeType="prizeType"></pond-conf>
+                      <pond-conf :astrict="astrictRedflg" :awae="firstScanConf[index]" :hide="true" :prizeType="prizeType" :saleZone="saleZoneCode" :budgetTime="actSTime"></pond-conf>
                     </el-tab-pane>
                   </el-tabs>
                 </div>
@@ -88,7 +88,7 @@
                 <div class="conf" v-if="nWinFlag">
                   <el-tabs v-model="nWinTabsValue" type="card" editable @edit="nWinTabsEdit">
                     <el-tab-pane :key="item.name" v-for="(item, index) in nWinTabs" :label="item.title" :name="item.name">
-                      <pond-conf :astrict="astrictRedflg" :awae="nWinConf[index]" :hide="true" :prizeType="prizeType" :nWin="true"></pond-conf>
+                      <pond-conf :astrict="astrictRedflg" :awae="nWinConf[index]" :hide="true" :prizeType="prizeType" :saleZone="saleZoneCode" :budgetTime="actSTime" :nWin="true"></pond-conf>
                     </el-tab-pane>
                   </el-tabs>
                 </div>
@@ -139,7 +139,7 @@
                   </el-form>
                   <el-tabs v-model="fixationPutTabsValue" type="card" editable @edit="fixationPutTabsEdit">
                     <el-tab-pane :key="item.name" v-for="(item, index) in fixationPutTabs" :label="item.title" :name="item.name">
-                      <pond-conf :astrict="astrictRedflg" :awae="fixationPutConf[index]" :prizeType="prizeType"></pond-conf>
+                      <pond-conf :astrict="astrictRedflg" :awae="fixationPutConf[index]" :prizeType="prizeType" :saleZone="saleZoneCode" :budgetTime="actSTime"></pond-conf>
                     </el-tab-pane>
                   </el-tabs>
                 </div>

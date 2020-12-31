@@ -50,13 +50,7 @@
           </el-col>
         </el-row>
         <el-row :gutter="30">
-          <el-col :span="10">
-            <el-form-item label="时间段:">
-              <el-date-picker size="small" v-model="actTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="datetimerange" :editable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
+          <el-col :span="8">
             <el-form-item label="销区：" prop="saleZoneCode">
               <el-select size="small" v-model="queryActParams.saleZoneCode" placeholder="请选择">
                 <el-option
@@ -66,6 +60,12 @@
                     :value="item.zoneCode">
                 </el-option>
               </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="时间段:">
+              <el-date-picker size="small" v-model="actTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="datetimerange" :editable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+              </el-date-picker>
             </el-form-item>
           </el-col>
           <el-col>
@@ -82,6 +82,8 @@
         <el-table-column property="actCode" label="活动ID" align="center" width="180px">
         </el-table-column>
         <el-table-column property="hdCode" label="活动编号" align="center" width="180px">
+        </el-table-column>
+        <el-table-column property="saleZoneCode" label="销区" align="center" width="180px">
         </el-table-column>
         <el-table-column property="actName" label="活动名称" align="center">
         </el-table-column>

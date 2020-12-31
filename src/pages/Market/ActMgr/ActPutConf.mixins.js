@@ -61,7 +61,9 @@ export default {
         redTotalMoney: '',
         remainNum: 0,
         totalNum: '', // totalNum
-        warnValue: '' //告警阀值 非空且大于0时为设置告警
+        warnValue: '', //告警阀值 非空且大于0时为设置告警
+        budgetId: null,
+        integralBudgetId:null
       }],
       normalTfId: '',
       defaultAwae: { // 给个默认 好复制
@@ -91,7 +93,9 @@ export default {
         redTotalMoney: '',
         remainNum: 0,
         totalNum: '', // totalNum
-        warnValue: '' //告警阀值 非空且大于0时为设置告警
+        warnValue: '', //告警阀值 非空且大于0时为设置告警
+        budgetId: null,
+        integralBudgetId:null
       },
       firstScanConf: [{
         awardPic: '',
@@ -116,7 +120,9 @@ export default {
         redTotalMoney: '',
         remainNum: 0,
         totalNum: '',
-        warnValue: ''
+        warnValue: '',
+        budgetId: null,
+        integralBudgetId:null
       }], // 首扫选项
       firstScanTfId: '',
       nWinConf: [{
@@ -143,7 +149,9 @@ export default {
         redTotalMoney: '',
         remainNum: 0,
         totalNum: '',
-        warnValue: ''
+        warnValue: '',
+        budgetId: null,
+        integralBudgetId:null
       }], // n次选项
       nWinTfId: '',
       fixationPutConf: [{
@@ -169,7 +177,9 @@ export default {
         redTotalMoney: '',
         remainNum: 0,
         totalNum: '',
-        warnValue: ''
+        warnValue: '',
+        budgetId: null,
+        integralBudgetId:null
       }], // 定投选项
       fixationPutTfId: '',
       normalTabsValue: '1', // 正常tabs
@@ -271,7 +281,6 @@ export default {
   created() {
     this.getActDetail()
     this.getBrandList()
-    this.getProvList()
     this.getSaleZone()
   },
   computed: {
@@ -315,7 +324,7 @@ export default {
   },
   methods: {
     getSaleZone() {
-      this.$request.post('/api/saleZone/list', {}, true, (res)=>{
+      this.$request.post('/api/saleZone/userSzList', {}, true, (res)=>{
         if (res.code == '200') {
           this.saleZone = res.data||[];
         }
@@ -345,6 +354,7 @@ export default {
           this.actSTime = res.data.act.stimeStr
           this.actETime = res.data.act.etimeStr
           this.saleZoneCode = res.data.act.saleZoneCode
+          this.getProvList()
           console.log(res.data)
           if (res.data.strategyArr.length != 0) {
             // this.isEdit = true
@@ -494,44 +504,80 @@ export default {
     getBrandSonList() {
       // 定投限制品牌
       this.restrictBrand()
-      this.$request.post(
-        '/api/wiseqr/prod/list', {
-          status: "1",
-          brandCodeArr: this.selectBrand,
-          pageSize: '-1'
-        },
-        true,
-        res => {
-          if (res.ret === '200000') {
-            this.brandSonList = res.data.list
-            this.restrictSonBrand()
-            return
+      if(this.saleZoneCode){
+        this.$request.post(
+          '/api/actSale/product/sn', {
+            id: this.id,
+            brandCode : this.selectBrand.join(","),
+          },
+          false,
+          res => {
+            if (res.code === '200') {
+              this.brandSonList = res.data
+              this.restrictSonBrand()
+              return
+            }
+            this.$message.error(res.msg)
           }
-          this.$message.error(res.message)
-        }
-      )
+        )
+      }else {
+        this.$request.post(
+          '/api/wiseqr/prod/list', {
+            status: "1",
+            brandCodeArr: this.selectBrand,
+            pageSize: '-1'
+          },
+          true,
+          res => {
+            if (res.ret === '200000') {
+              this.brandSonList = res.data.list
+              this.restrictSonBrand()
+              return
+            }
+            this.$message.error(res.message)
+          }
+        )
+      }
     },
     // 获取省
     getProvList() {
-      this.$request.post('/api/wiseqr/dim/regionByMultiParent', {
-        parentArr: []
-      }, true, res => {
-        if (res.ret === '200000') {
-          this.provList.push(...res.data)
-          this.restrictProv()
-          // this.provList.unshift({
-          //   code: '000000',
-          //   name: '全部'
-          // })
-          return
-        }
-        this.$message.error(res.message)
-      })
+      if(this.saleZoneCode){
+        this.$request.post('/api/actSale/province/list', {
+          id: this.id
+        }, false, res => {
+          if (res.code === '200') {
+            this.provList.push(...res.data)
+            this.restrictProv()
+            // this.provList.unshift({
+            //   code: '000000',
+            //   name: '全部'
+            // })
+            return
+          }
+          this.$message.error(res.msg)
+        })
+      }else {
+        this.$request.post('/api/wiseqr/dim/regionByMultiParent', {
+          parentArr: []
+        }, true, res => {
+          if (res.ret === '200000') {
+            this.provList.push(...res.data)
+            this.restrictProv()
+            // this.provList.unshift({
+            //   code: '000000',
+            //   name: '全部'
+            // })
+            return
+          }
+          this.$message.error(res.message)
+        })
+      }
     },
     // 获取市
     getCityList(val) {
-      if (this.provList.length == 1) {
+      if (this.provList.length == 1 && !this.saleZoneCode) {
         setTimeout(() => {
+          console.log(111)
           this.getCityList(val)
         }, 1000)
         return
@@ -794,7 +840,7 @@ export default {
           this.$message.success('保存成功')
           if(this.form == "act-111"){
             return this.$router.push(
-              '/market/actTpl/HPXSetConf?id=' + this.id + '&actCode=' + this.actCode+'&form='+this.form
+              '/market/actTpl/HPXSetConf?id=' + this.id + '&actCode=' + this.actCode + '&form=' + this.form + '&saleZone=' + (this.saleZoneCode || '') + '&budgetTime=' + this.actSTime
             )
           }
           this.$router.push('/market/actMgr')

@@ -13,7 +13,7 @@
             <div class="title">{{ formName }}</div>
             <el-tabs v-model="normalTabsValue" type="card" :editable="editable" @edit="normalTabsEdit" class="put-conf">
               <el-tab-pane :key="index" v-for="(item, index) in normalTabs" :label="item.title" :name="item.name">
-                <pond-conf :astrict="astrictRedflg" :configId="configId" :awae="normalConf[index]" :hide="true"  :prizeType="prizeType"></pond-conf>
+                <pond-conf :astrict="astrictRedflg" :configId="configId" :awae="normalConf[index]" :hide="true"  :prizeType="prizeType" :saleZone="saleZone" :budgetTime="budgetTime"></pond-conf>
               </el-tab-pane>
             </el-tabs>
           </div>
@@ -30,7 +30,7 @@
                   <div class="conf" v-if="firstScanFlag">
                     <el-tabs v-model="firstScanTabsValue" type="card" editable @edit="firstScanTabsEdit">
                       <el-tab-pane :key="item.name" v-for="(item, index) in firstScanTabs" :label="item.title" :name="item.name">
-                        <pond-conf :astrict="astrictRedflg" :awae="firstScanConf[index]" :hide="true" :prizeType="prizeType"></pond-conf>
+                        <pond-conf :astrict="astrictRedflg" :awae="firstScanConf[index]" :hide="true" :prizeType="prizeType" :saleZone="saleZone" :budgetTime="budgetTime"></pond-conf>
                       </el-tab-pane>
                     </el-tabs>
                   </div>
@@ -40,7 +40,7 @@
                   <div class="conf" v-if="nWinFlag">
                     <el-tabs v-model="nWinTabsValue" type="card" editable @edit="nWinTabsEdit">
                       <el-tab-pane :key="item.name" v-for="(item, index) in nWinTabs" :label="item.title" :name="item.name">
-                        <pond-conf :astrict="astrictRedflg" :awae="nWinConf[index]" :hide="true" :prizeType="prizeType" :nWin="true"></pond-conf>
+                        <pond-conf :astrict="astrictRedflg" :awae="nWinConf[index]" :hide="true" :prizeType="prizeType" :nWin="true" :saleZone="saleZone" :budgetTime="budgetTime"></pond-conf>
                       </el-tab-pane>
                     </el-tabs>
                   </div>
@@ -139,10 +139,22 @@ export default {
   props:[
     'formName',
     'configId',
-    'editable'
+    'editable',
+    'saleZone',
+    'budgetTime'
   ],
   components: {
     pondConf
+  },
+  watch:{     //监听value的变化，进行相应的操作即可
+    saleZone(a,b){     //a是value的新值，b是旧值
+      console.log(a,b)
+      this.saleZone = a;
+    },
+    budgetTime(a,b){     //a是value的新值，b是旧值
+      console.log(a,b)
+      this.budgetTime = a;
+    }
   },
   mixins: [mix]
 }

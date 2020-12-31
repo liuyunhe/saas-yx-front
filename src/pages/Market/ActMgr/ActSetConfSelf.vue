@@ -57,16 +57,16 @@
 <!--          </el-select>-->
           <el-checkbox v-model="isDisabled" label="全部地区" border></el-checkbox>
         </el-form-item>
-        <el-form-item label="销区：" v-if="showSaleZone">
-          <el-select size="small" :disabled="saleZoneDisabled" :clearable="true" v-model="confData.saleZoneCode" placeholder="请选择">
-            <el-option
-                v-for="(item,index) in saleZone"
-                :key="index"
-                :label="item.zoneName"
-                :value="item.zoneCode">
-            </el-option>
-          </el-select>
-        </el-form-item>
+<!--        <el-form-item label="销区：" v-if="showSaleZone">-->
+<!--          <el-select size="small" :disabled="saleZoneDisabled" :clearable="true" v-model="confData.saleZoneCode" placeholder="请选择">-->
+<!--            <el-option-->
+<!--                v-for="(item,index) in saleZone"-->
+<!--                :key="index"-->
+<!--                :label="item.zoneName"-->
+<!--                :value="item.zoneCode">-->
+<!--            </el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
         <el-form-item label="活动链接：" prop="link">
           <el-input v-model="confData.link" placeholder='请输入活动链接'></el-input>
         </el-form-item>
@@ -179,6 +179,7 @@ export default {
         selectProvList: [], // 选择的省份
         selectCityList: [], // 选择的城市
         selectDistrictList: [], // 选择的区县
+        saleZoneFlag:0,
         saleZoneCode: null,
         link: '' // 活动链接
       },
@@ -259,7 +260,7 @@ export default {
   },
   methods: {
     getSaleZone() {
-      this.$request.post('/api/saleZone/list', {}, true, (res)=>{
+      this.$request.post('/api/saleZone/userSzList', {}, true, (res)=>{
         if (res.code == '200') {
           this.saleZone = res.data||[];
         }
@@ -575,7 +576,7 @@ export default {
           })
           return
         }
-        this.$message.error(res.messgae)
+        this.$message.error(res.message)
       })
     },
     handleDisableTime() {

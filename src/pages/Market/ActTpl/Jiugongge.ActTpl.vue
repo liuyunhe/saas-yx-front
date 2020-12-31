@@ -28,8 +28,10 @@
                     <activity-info
                         :title = "conf.title"
                         :desc = "conf.description"
+                        :saleZone = "conf.saleZone"
                         @titleInput="titleInput"
                         @descInput="descInput"
+                        @saleZoneInput="saleZoneInput"
                         v-if="page == 1"/>
                     <activity-image-editor
                         v-if="page != 2 && page !=3"
@@ -128,6 +130,10 @@ props: ['id'],
     descInput (e) {
         let value = e.value;
         value ? this.conf.description = value : this.description = '';
+    },
+    saleZoneInput (e) {
+        let value = e.value;
+        value ? this.conf.saleZone = value : this.saleZone = '';
     },
     edit(e){
         let that = this;

@@ -42,6 +42,16 @@
               <el-form-item label="模板名称" prop="name">
                 <el-input v-model="addActParams.name" placeholder="请输入模板名称"maxLength='15'></el-input>
               </el-form-item>
+              <el-form-item label="销区：" prop="saleZoneCode">
+                <el-select size="small" v-model="addActParams.saleZone" placeholder="请选择">
+                  <el-option
+                      v-for="(item,index) in saleZone"
+                      :key="index"
+                      :label="item.zoneName"
+                      :value="item.zoneCode">
+                  </el-option>
+                </el-select>
+              </el-form-item>
               <el-form-item label="模板说明">
                 <el-input type="textarea" :rows="3" v-model="addActParams.note"maxLength='20' placeholder="请输入模板描述" maxlength="50" resize="none"></el-input>
               </el-form-item>
@@ -399,6 +409,7 @@ export default {
         note: '',
         saleZone: sessionStorage.getItem('isAllSaleZone') == 1 ? null : sessionStorage.getItem('saleZoneCode')
       },
+      saleZone:[],
       addActRules: {
         name: [
           { required: true, message: '请输入模板名称', trigger: 'blur' },
@@ -443,8 +454,16 @@ export default {
   computed: {},
   created() {
     this.getActDetail()
+    this.getSaleZone()
   },
   methods: {
+    getSaleZone() {
+      this.$request.post('/api/saleZone/userSzList', {}, true, (res) => {
+        if (res.code == '200') {
+          this.saleZone = res.data || []
+        }
+      })
+    },
     getActDetail() {
       if (this.id) {
         this.$request.post('/api/wiseqr/acttpl/detail', { id: this.id }, true, res => {

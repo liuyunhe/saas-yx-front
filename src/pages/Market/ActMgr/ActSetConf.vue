@@ -28,12 +28,35 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="是否投放销区活动：" v-if="isAllSaleZone == 1" >
+          <el-switch
+              v-model="showSaleZone"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              :disabled="id ? true : false"
+          >
+          </el-switch>
+        </el-form-item>
+        <el-form-item label="销区：" prop="saleZoneCode" v-if="showSaleZone" >
+          <el-select size="small" v-model="confData.saleZoneCode" @change="handleChangeSaleZone" :disabled="id ? true : false" placeholder="请选择">
+            <el-option
+                v-for="(item,index) in saleZone"
+                :key="index"
+                :label="item.zoneName"
+                :value="item.zoneCode">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="活动标签：" prop="actTag" v-if="showSaleZone">
+          <el-radio v-for="(item,index) in actTagGroup" :key="index" :disabled="id ? true : false" v-model="confData.actTag" :label="item.id">{{ item.name }}</el-radio>
+        </el-form-item>
         <el-form-item label="活动时间：" prop="date">
           <!-- <el-date-picker v-model="actTime" :time-arrow-control="true" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" :editable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker> -->
           <el-date-picker v-model="confData.stimeStr" :disabled="timeDisable" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择开始时间"></el-date-picker>
           至
           <el-date-picker v-model="confData.etimeStr" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择结束时间" :picker-options="pickerOptions"></el-date-picker>
+          （提示：配置跨季度销区活动，需拆分活动时间配置2个相同活动）
         </el-form-item>
         <!-- 常规图片上传 -->
         <el-form-item label="活动图片：" prop="banner" v-if="form !== 'act-301'">
@@ -94,7 +117,36 @@ export default {
         callback(new Error('请选择活动时间'))
       } else if (this.confData.stimeStr >= this.confData.etimeStr){
         callback(new Error('开始时间必须小于结束时间'))
-      } else {
+      } else if(this.confData.saleZoneFlag) {
+        let month = new Date(this.confData.stimeStr).getMonth()
+        let year = new Date(this.confData.stimeStr).getFullYear()
+        if(month < 3){
+          if(new Date(this.confData.etimeStr).getTime() > new Date(`${year}-04-01 00:00:00`)){
+            callback(new Error('配置销区活动时间不支持跨季度'))
+          }else {
+            callback()
+          }
+        }else if(month >= 3 && month < 6 ) {
+          if(new Date(this.confData.etimeStr).getTime() > new Date(`${year}-07-01 00:00:00`)){
+            callback(new Error('配置销区活动时间不支持跨季度'))
+          }else {
+            callback()
+          }
+        }else if(month >= 6 && month < 9 ) {
+          if(new Date(this.confData.etimeStr).getTime() > new Date(`${year}-10-01 00:00:00`)){
+            callback(new Error('配置销区活动时间不支持跨季度'))
+          }else {
+            callback()
+          }
+        }else if(month >= 9 ) {
+          if(new Date(this.confData.etimeStr).getTime() > new Date(`${year+1}-01-01 00:00:00`)){
+            callback(new Error('配置销区活动时间不支持跨季度'))
+          }else {
+            callback()
+          }
+        }
+      }
+      else {
         callback()
       }
     }
@@ -130,6 +182,8 @@ export default {
       }
     }
     return {
+      isAllSaleZone: sessionStorage.isAllSaleZone,
+      showSaleZone:true,
       pickerOptions: {},
       // 富文本设置
       editorOption: {
@@ -149,6 +203,7 @@ export default {
       },
       idxSelect: {},
       confData: {
+        actTag: null,
         actDesc: '',
         actName: '',
         banner: '',
@@ -161,8 +216,12 @@ export default {
         tplCode: '',
         extInfo: '',
         number: '',
-        status:''
+        status:'',
+        saleZoneFlag:1,
+        saleZoneCode: sessionStorage.getItem('isAllSaleZone') == 1 ? null : sessionStorage.getItem('saleZoneCode'),
       },
+      saleZone:[],
+      actTagGroup:[],
       redConf: {
         joinNum: 1,
         share: 0
@@ -170,6 +229,8 @@ export default {
       confRules: {
         actName: [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
         note: [{ required: true, message: '请输入活动描述', trigger: 'blur' }],
+        saleZoneCode: [{ required: true, message: '请选择销区', trigger: 'change' }],
+        actTag: [{ required: true, message: '请选择活动类型', trigger: 'change' }],
         date: [{ required: true, validator: validateDate, trigger: 'change' }],
         idx: [{ required: true, validator: validateIdx, trigger: 'change' }],
         banner: [{ required: true, validator: validateBanner }],
@@ -211,9 +272,20 @@ export default {
   created() {
 
   },
+  watch:{
+    showSaleZone(n,o){
+      if(!n){
+        this.confData.saleZoneCode = null
+        this.confData.saleZoneFlag = 0
+      }else {
+        this.confData.saleZoneFlag = 1
+      }
+    }
+  },
   mounted() {
     if (!this.id) {
       this.confData.banner = Config.banner[this.form]
+      this.getActTag()
     } else {
       const loading = this.$loading({
         target: '.actSetConf-container'
@@ -221,8 +293,27 @@ export default {
       this.getDetail(() => loading.close())
     }
     this.getIdxSelect()
+    this.getSaleZone()
+
   },
   methods: {
+      getSaleZone() {
+        this.$request.post('/api/saleZone/userSzList', {}, true, (res) => {
+          if (res.code == '200') {
+            this.saleZone = res.data || []
+          }
+        })
+      },
+      getActTag() {
+        this.$request.post('/api/actTag/query/saleZoneTag', {saleZoneCode:this.confData.saleZoneCode}, false, (res) => {
+          if (res.code == '200') {
+            this.actTagGroup = res.data.tagList || []
+          }
+        })
+      },
+      handleChangeSaleZone(code){
+          this.getActTag()
+      },
      datetime_to_unix(datetime){
         var tmp_datetime = datetime.replace(/:/g,'-');
         tmp_datetime = tmp_datetime.replace(/ /g,'-');
@@ -261,6 +352,9 @@ export default {
           } else {
             this.confData = res.data.act
           }
+          if(!res.data.act.saleZoneFlag){
+            this.showSaleZone = false
+          }
           if (this.shareAct[this.form]) this.redConf = this.confData.extInfo?JSON.parse(this.confData.extInfo):''
           this.confData.idx = this.confData.idx + ''
           if (this.redConf.extInfo) this.extInfo=this.confData.extInfo?JSON.parse(this.confData.extInfo):''
@@ -272,10 +366,12 @@ export default {
           }
           // this.actTime.push(this.confData.stimeStr)
           // this.actTime.push(this.confData.etimeStr)
+          this.getActTag()
           callback && callback()
           return
         }
-        this.$message.error(res.messgae)
+        callback && callback()
+        this.$message.error(res.message)
       })
     },
     handleDisableTime() {

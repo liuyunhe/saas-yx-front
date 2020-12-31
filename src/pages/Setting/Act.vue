@@ -2,7 +2,7 @@
     <div v-loading="loading">
         <el-card class="box-card">
             <el-row>
-                <el-button size="small" type="primary" @click="dataNewForm">新建活动类型</el-button>
+                <el-button size="small" type="primary" @click="dataNewForm">新建活动标签</el-button>
             </el-row>
             <div class="space"></div>
             <!-- 数据查询条件 -->
@@ -10,7 +10,7 @@
                 <el-form-item label="ID：">
                     <el-input size="small" v-model="search.id"></el-input>
                 </el-form-item>
-                <el-form-item label="类型名称：">
+                <el-form-item label="标签名称：">
                     <el-input size="small" v-model="search.name"></el-input>
                 </el-form-item>
                 <div></div>
@@ -24,8 +24,8 @@
         <el-card>
             <!-- 数据表格 -->
             <el-table :data="tableList" style="width: 100%">
-                <el-table-column prop="id" label="活动类型ID" align="center"></el-table-column>
-                <el-table-column prop="name" label="活动类型名称" align="center"></el-table-column>
+                <el-table-column prop="id" label="活动标签ID" align="center"></el-table-column>
+                <el-table-column prop="name" label="活动标签名称" align="center"></el-table-column>
                 <el-table-column label="操作" align="center">
                     <template slot-scope="scope">
                         <el-button size="mini" @click="dataForm(scope.$index, scope.row)">绑定销区</el-button>
@@ -40,9 +40,9 @@
                 :total="pagination.total">
             </el-pagination>
         </el-card>
-        <el-dialog title="新增活动类型" width="380px" :visible.sync="showNewForm">
+        <el-dialog title="新增活动标签" width="380px" :visible.sync="showNewForm">
             <el-form label-width="100px">
-                <el-form-item label="类型名称：">
+                <el-form-item label="标签名称：">
                     <el-input size="small" v-model="form.name"></el-input>
                 </el-form-item>
                 <el-form-item label="关联销区：">
@@ -64,7 +64,7 @@
         </el-dialog>
         <el-dialog title="绑定销区" width="380px" :visible.sync="form.show">
             <el-form label-width="100px">
-                <el-form-item label="类型名称：">
+                <el-form-item label="标签名称：">
                     <el-input readonly size="small" v-model="form.name"></el-input>
                 </el-form-item>
               <el-form-item label="关联销区：">

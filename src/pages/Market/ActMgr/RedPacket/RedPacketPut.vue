@@ -6,16 +6,16 @@
           <selected-brand v-if="isShow" @done="brandDone" :data="{
             brandArr: data.strategyArr[0].brandArr,
             snArr: data.strategyArr[0].snArr
-          }"></selected-brand>
+          }" :saleZone="saleZoneCode" :id="id"></selected-brand>
         </el-form-item>
         <el-form-item label="地区：" prop="area">
           <selected-area v-if="isShow" @done="areaDone" :data="{
             cityArr: data.strategyArr[0].areas.cityArr,
             districtArr: data.strategyArr[0].areas.districtArr,
             provinceArr: data.strategyArr[0].areas.provinceArr
-          }" :isDis="isDisabled" @isAllSelect="(flag)=>{isDisabled = flag}"></selected-area>
+          }" :isDis="isDisabled" :saleZone="saleZoneCode" :id="id" @isAllSelect="(flag)=>{isDisabled = flag}"></selected-area>
         </el-form-item>
-        <put-conf v-if="isShow" :astrictRedflg="astrictRedflg" :data="data"></put-conf>
+        <put-conf v-if="isShow" :astrictRedflg="astrictRedflg" :data="data" :saleZone="saleZoneCode" :budgetTime="actSTime" ></put-conf>
         <el-form-item class="mt20" label="是否立即发布：">
           <el-switch v-model="data.act.status" :disabled="statusDisabled" :active-value="1" :inactive-value="2"></el-switch>
         </el-form-item>
@@ -106,6 +106,8 @@ export default {
       selectedPrevArr: [],
       selectedCityArr: [],
       selectedAreaArr: [],
+      saleZoneCode:null,
+      actSTime: '', // 活动开始时间
       isDisabled: false,
       isShow: false,
       statusDisabled: false,
@@ -132,6 +134,8 @@ export default {
       this.$request.post('/api/wiseqr/act/detail', {id: this.id}, true, res => {
         if (res.ret === '200000') {
           this.data.act = res.data.act
+          this.saleZoneCode = res.data.act.saleZoneCode
+          this.actSTime = res.data.act.stimeStr
           if (this.data.act.orgId === 'guest') this.astrictRedflg = true
           if (res.data.strategyArr.length !== 0) {
             if (res.data.strategyArr[0].areas.provinceArr[0] == '000000' && res.data.strategyArr[0].areas.cityArr[0] == '000000') this.isDisabled = true

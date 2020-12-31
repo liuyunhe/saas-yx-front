@@ -147,6 +147,7 @@ const Sign = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Sig
 const SignDetail = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Sign/signActEdit.vue')
 const ActSetting = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Act.vue')
 const BrandGroup = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/BrandGroup.vue')
+const CodeLimit = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/CodeLimit.vue')
 
 //菜单配置
 const MenuConf = () => import(/* webpackChunkName: "wplat" */ '@/pages/Wplat/MenuConf/MenuConf.vue')
@@ -437,7 +438,7 @@ export default new Router({
         { path: '/market/actTpl/addActQuestion', name: '新建答题活动模板配置', component: AddActQuestion, props: (router) => ({id: router.query.id, edit: router.query.edit})},
         { path: '/market/actTpl/actSetConf', name: '基础设置', component: ActSetConf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode, id: router.query.id, clone: router.query.clone,}) },
         { path: '/market/actTpl/actSetConfSelf', name: '自定义活动基础设置', component: ActSetConfSelf, props: (router) => ({form: router.query.form, tplCode: router.query.tplCode, id: router.query.id, clone: router.query.clone,}) },
-        { path: '/market/actTpl/HPXSetConf', name: '荷飘香活动设置', component: HPXSetConf, props: (router) => ({id: router.query.id, actCode: router.query.actCode,form: router.query.form}) },
+        { path: '/market/actTpl/HPXSetConf', name: '荷飘香活动设置', component: HPXSetConf, props: (router) => ({id: router.query.id, actCode: router.query.actCode,form: router.query.form,budgetTime: router.query.budgetTime,saleZone: router.query.saleZone}) },
         { path: '/market/actTpl/quesActSetConf', name: '题目设置', component: QuesList, props: (router) => ({id: router.query.id, actCode: router.query.actCode,form: router.query.form}) },
         { path: '/market/actTpl/quesEdit', name: '题目编辑', component: QuesEdit, props: (router) => ({quesId: router.query.quesId,id: router.query.id, actCode: router.query.actCode,form: router.query.form}) },
         { path: '/market/actTpl/actPutConf', name: '投放设置', component: ActPutConf, props: (router) => ({id: router.query.id, actCode: router.query.actCode,form: router.query.form}) },
@@ -532,6 +533,7 @@ export default new Router({
         { path: '/setting/act', name: '活动设置' },
         { path: '/setting/act/setting', name: '活动类型管理', component: ActSetting },
         { path: '/setting/act/brandGroup', name: '规格设置', component: BrandGroup },
+        { path: '/setting/act/codeLimit', name: '规格设置', component: CodeLimit },
 
         { path: '/setting/resource/smenu', name: '菜单管理', component: SettingSystemMenu },
         { path: '/setting/resource/smgrOrgRole', name: '菜单管理', component: SettingSystemAuth },
