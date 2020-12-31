@@ -148,7 +148,7 @@
         </el-table-column>
         <el-table-column prop="budget_value" label="剩余库存" align="center">
           <template slot-scope="scope">
-            {{ scope.row.budget_value || scope.row.stock}}
+            {{ scope.row.budget_value - scope.row.budget_used || scope.row.stock}}
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
@@ -175,6 +175,9 @@
           </template>
         </el-table-column>
         <el-table-column prop="stock" label="剩余库存" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.budget_value - scope.row.budget_used || scope.row.stock}}
+          </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
@@ -276,16 +279,23 @@ export default {
     //   this.isEdit = false
     // }
     // console.log(this.awae)
+    this.params.saleZoneCode = this.saleZone
+    this.params.budgetTime = this.budgetTime
   },
   methods: {
     // 选择奖品
     selectPrize(obj) {
+      console.log(obj)
       this.awae.awardPic = obj.pic
       this.awae.poolName = obj.name
       this.awae.prizeName = obj.name
       this.awae.poolId = obj.id
       if(this.saleZone){
         this.awae.budgetId = obj.id
+        this.awae.poolId = obj.material_pool_id
+      }
+      if(this.saleZone && this.awae.awardType == 6){
+        this.awae.integralBudgetId = obj.id
       }
       this.listVisible = false
     },
@@ -300,6 +310,7 @@ export default {
       this.awae.redTotalMoney = ''
       this.awae.integral = ''
       this.awae.budgetId = ''
+      this.awae.integralBudgetId = ''
     },
     getList() {
       if (this.awae.awardType == '1') {
@@ -316,9 +327,10 @@ export default {
         this.title = '选择红包'
       } else if (this.awae.awardType == '6') {
         this.params.metraFlag = 'integral'
-        this.params.materialType = '4'
+        this.params.materialType = '6'
         this.title = '选择积分'
       }
+      console.log(this.params.saleZoneCode)
       let url = "/api/materialBudget/materialList"
       if(!this.params.saleZoneCode){
         url = "/api/wiseqr/metra/list"
@@ -336,30 +348,61 @@ export default {
     },
     // 同时送积分
     giveIntegral() {
-      this.$request.post(
-        '/api/wiseqr/metra/list',
-        {
-          metraFlag: 'integral',
-          pageNo: 1,
-          pageSize: 10,
-          status: 1
-        },
-        true,
-        res => {
-          if (res.ret === '200000') {
-            this.list = []
-            this.integralList = res.data.list
-            this.integralTotal = res.data.page.count
-            this.integralVisible = true
-            return
+      console.log(this.saleZone)
+      if(this.saleZone){
+        this.$request.post(
+          '/api/materialBudget/materialList',
+          {
+            metraFlag: 'integral',
+            materialType: '6',
+            budgetTime: this.budgetTime,
+            saleZoneCode: this.saleZone,
+            pageNo: 1,
+            pageSize: 10,
+            status: 1
+          },
+          true,
+          res => {
+            if (res.code == '200') {
+              this.list = []
+              this.integralList = res.data.list
+              this.integralTotal = res.data.page.count
+              this.integralVisible = true
+              return
+            }
+            this.$message.error(res.msg)
           }
-          this.$message.error(res.message)
-        }
-      )
+        )
+      }else {
+        this.$request.post(
+          '/api/wiseqr/metra/list',
+          {
+            metraFlag: 'integral',
+            pageNo: 1,
+            pageSize: 10,
+            status: 1
+          },
+          true,
+          res => {
+            if (res.ret === '200000') {
+              this.list = []
+              this.integralList = res.data.list
+              this.integralTotal = res.data.page.count
+              this.integralVisible = true
+              return
+            }
+            this.$message.error(res.message)
+          }
+        )
+      }
     },
     // 选择积分
     selectIntegral(obj) {
-      this.awae.integralPool = obj.id
+      if(this.saleZone){
+        this.awae.integralPool = obj.material_pool_id
+      }else {
+        this.awae.integralPool = obj.id
+      }
       this.integralVisible = false
     },
     handSizeChange(newSize) {

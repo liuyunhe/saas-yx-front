@@ -38,7 +38,7 @@
           </el-switch>
         </el-form-item>
         <el-form-item label="销区：" prop="saleZoneCode" v-if="showSaleZone" >
-          <el-select size="small" v-model="confData.saleZoneCode" :disabled="id ? true : false" placeholder="请选择">
+          <el-select size="small" v-model="confData.saleZoneCode" @change="handleChangeSaleZone" :disabled="id ? true : false" placeholder="请选择">
             <el-option
                 v-for="(item,index) in saleZone"
                 :key="index"
@@ -117,7 +117,36 @@ export default {
         callback(new Error('请选择活动时间'))
       } else if (this.confData.stimeStr >= this.confData.etimeStr){
         callback(new Error('开始时间必须小于结束时间'))
-      } else {
+      } else if(this.confData.saleZoneFlag) {
+        let month = new Date(this.confData.stimeStr).getMonth()
+        let year = new Date(this.confData.stimeStr).getFullYear()
+        if(month < 3){
+          if(new Date(this.confData.etimeStr).getTime() > new Date(`${year}-04-01 00:00:00`)){
+            callback(new Error('配置销区活动时间不支持跨季度'))
+          }else {
+            callback()
+          }
+        }else if(month >= 3 && month < 6 ) {
+          if(new Date(this.confData.etimeStr).getTime() > new Date(`${year}-07-01 00:00:00`)){
+            callback(new Error('配置销区活动时间不支持跨季度'))
+          }else {
+            callback()
+          }
+        }else if(month >= 6 && month < 9 ) {
+          if(new Date(this.confData.etimeStr).getTime() > new Date(`${year}-10-01 00:00:00`)){
+            callback(new Error('配置销区活动时间不支持跨季度'))
+          }else {
+            callback()
+          }
+        }else if(month >= 9 ) {
+          if(new Date(this.confData.etimeStr).getTime() > new Date(`${year+1}-01-01 00:00:00`)){
+            callback(new Error('配置销区活动时间不支持跨季度'))
+          }else {
+            callback()
+          }
+        }
+      }
+      else {
         callback()
       }
     }
@@ -256,6 +285,7 @@ export default {
   mounted() {
     if (!this.id) {
       this.confData.banner = Config.banner[this.form]
+      this.getActTag()
     } else {
       const loading = this.$loading({
         target: '.actSetConf-container'
@@ -264,7 +294,7 @@ export default {
     }
     this.getIdxSelect()
     this.getSaleZone()
-    this.getActTag()
+
   },
   methods: {
       getSaleZone() {
@@ -275,11 +305,14 @@ export default {
         })
       },
       getActTag() {
-        this.$request.post('/api/actTag/query/saleZoneTag', {}, true, (res) => {
+        this.$request.post('/api/actTag/query/saleZoneTag', {saleZoneCode:this.confData.saleZoneCode}, false, (res) => {
           if (res.code == '200') {
-            this.actTagGroup = res.data || []
+            this.actTagGroup = res.data.tagList || []
           }
         })
+      },
+      handleChangeSaleZone(code){
+          this.getActTag()
       },
      datetime_to_unix(datetime){
         var tmp_datetime = datetime.replace(/:/g,'-');
@@ -333,10 +366,12 @@ export default {
           }
           // this.actTime.push(this.confData.stimeStr)
           // this.actTime.push(this.confData.etimeStr)
+          this.getActTag()
           callback && callback()
           return
         }
-        this.$message.error(res.messgae)
+        callback && callback()
+        this.$message.error(res.message)
       })
     },
     handleDisableTime() {
