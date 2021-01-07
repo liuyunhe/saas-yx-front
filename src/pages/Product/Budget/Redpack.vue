@@ -58,6 +58,11 @@
             <span>{{scope.row.statReceived || 0}}元</span>
           </template>
         </el-table-column>
+        <el-table-column prop="statReceived" label="剩余（元）" align="center">
+          <template slot-scope="scope">
+            <span>{{scope.row.budgetValue - scope.row.budgetUsed || 0}}元</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="statTime" label="统计数据时间" align="center">
           <template slot-scope="scope">
             <span>{{scope.row.statTime || "暂无"}}</span>
