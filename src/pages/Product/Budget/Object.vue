@@ -29,7 +29,7 @@
         <el-form-item>
           <el-button size="small" type="primary" @click="getTableList">查询</el-button>
           <el-button size="small" @click="reset">重置</el-button>
-          <div v-if="yearSum" style="width: auto;float: right;margin-left: 30px">当年预算(数量)：{{ yearSum }}（个）</div>
+<!--          <div v-if="yearSum" style="width: auto;float: right;margin-left: 30px">当年预算(数量)：{{ yearSum }}（个）</div>-->
         </el-form-item>
       </el-form>
     </el-card>
@@ -56,6 +56,11 @@
         <el-table-column prop="statReceived" label="已领取（数量）" align="center">
           <template slot-scope="scope">
             <span>{{scope.row.statReceived || 0}}个</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="statReceived" label="剩余（数量）" align="center">
+          <template slot-scope="scope">
+            <span>{{scope.row.budgetValue - scope.row.budgetUsed || 0}}个</span>
           </template>
         </el-table-column>
         <el-table-column prop="statTime" label="统计数据时间" align="center">

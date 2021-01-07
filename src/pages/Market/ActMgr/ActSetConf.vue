@@ -305,11 +305,22 @@ export default {
         })
       },
       getActTag() {
-        this.$request.post('/api/actTag/query/saleZoneTag', {saleZoneCode:this.confData.saleZoneCode}, false, (res) => {
-          if (res.code == '200') {
-            this.actTagGroup = res.data.tagList || []
-          }
-        })
+        if(!this.id){
+          this.$request.post('/api/actTag/query/saleZoneTag', {saleZoneCode:this.confData.saleZoneCode}, false, (res) => {
+            if (res.code == '200') {
+              this.actTagGroup = res.data.tagList || []
+            }
+          })
+        }else {
+          this.$request.post('/api/actTag/query/saleZoneTag', {saleZoneCode:null}, false, (res) => {
+            if (res.code == '200') {
+              this.actTagGroup = [ res.data.tagList.find((item)=>{
+                return item.id == this.confData.actTag
+              }) ] || []
+            }
+          })
+        }
+
       },
       handleChangeSaleZone(code){
           this.getActTag()

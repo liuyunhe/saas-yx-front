@@ -247,9 +247,6 @@ export default {
         this.awae.budgetId = obj.id
         this.awae.poolId = obj.material_pool_id
       }
-      if(this.saleZone && this.awae.awardType == 6){
-        this.awae.integralBudgetId = obj.id
-      }
       this.listVisible = false
     },
     // 重置奖品
@@ -357,6 +354,7 @@ export default {
     // 选择积分
     selectIntegral(obj) {
       if(this.saleZone){
+        this.awae.integralBudgetId = obj.id
         this.awae.integralPool = obj.material_pool_id
       }else {
         this.awae.integralPool = obj.id

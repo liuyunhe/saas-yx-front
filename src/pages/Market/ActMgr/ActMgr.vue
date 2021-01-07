@@ -77,15 +77,18 @@
     </el-card>
     <el-card class="mt20">
       <el-table v-loading="loading" :data="actList" border style="width: 100%" :stripe="true">
-        <el-table-column type="index" width="50" label="序号" align="center">
+        <el-table-column type="index" width="50px" label="序号" align="center">
         </el-table-column>
         <el-table-column property="actCode" label="活动ID" align="center" width="180px">
         </el-table-column>
         <el-table-column property="hdCode" label="活动编号" align="center" width="180px">
         </el-table-column>
         <el-table-column property="saleZoneCode" label="销区" align="center" width="180px">
+          <template slot-scope="scope">
+            {{ getSaleZoneName(scope.row.saleZoneCode) }}
+          </template>
         </el-table-column>
-        <el-table-column property="actName" label="活动名称" align="center">
+        <el-table-column property="actName" label="活动名称" align="center " width="200px">
         </el-table-column>
         <el-table-column label="活动时间" align="center">
           <template slot-scope="scope">
@@ -356,25 +359,36 @@ export default {
     }
   },
   methods: {
+    getSaleZoneName(saleZoneCode){
+      if(!saleZoneCode) return ""
+      let zoneName = ""
+      let item = this.saleZone.find((i) => {
+        if(i.zoneCode == saleZoneCode){
+          return i
+        }
+      })
+      // console.log(item)
+      zoneName = item ? item.zoneName : ''
+      return zoneName
+    },
     // 初始化
     init() {
       this.getProvList()
       this.getActStatus()
       this.getBrandList()
       this.getActCodeList()
-      if (this.isAllSaleZone == 1) {
-        this.getSaleZone()
-        this.getActList()
-      } else {
-        this.getSaleZone()
-        this.queryActParams.saleZoneCode = this.saleZoneCode
-        this.getActList()
-      }
+      this.getSaleZone()
     },
     getSaleZone() {
       this.$request.post('/api/saleZone/userSzList', {}, true, (res) => {
         if (res.code == '200') {
           this.saleZone = res.data || []
+          if (this.isAllSaleZone == 1) {
+            this.getActList()
+          } else {
+            this.queryActParams.saleZoneCode = this.saleZoneCode
+            this.getActList()
+          }
         }
       })
     },

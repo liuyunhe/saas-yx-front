@@ -53,7 +53,11 @@
         <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="tplCode" label="模板编号" align="center"></el-table-column>
-        <el-table-column prop="saleZone" label="销区" align="center"></el-table-column>
+        <el-table-column prop="saleZone" label="销区" align="center">
+          <template slot-scope="scope">
+            {{ getSaleZoneName(scope.row.saleZone) }}
+          </template>
+        </el-table-column>
         <el-table-column prop="tplCode" label="模板编号" align="center"></el-table-column>
         <el-table-column prop="name" label="模板名称" align="center"></el-table-column>
         <el-table-column prop="note" label="模板说明" align="center"></el-table-column>
@@ -166,14 +170,7 @@ export default {
     }
   },
   created() {
-    if (this.isAllSaleZone == 1) {
-      this.getSaleZone()
-      this.getActList()
-    } else {
-      this.getSaleZone()
-      this.actListParams.saleZone = this.saleZoneCode
-      this.getActList()
-    }
+    this.getSaleZone()
     this.getActType()
     this.getActCodeList()
   },
@@ -191,10 +188,28 @@ export default {
     next()
   },
   methods: {
+    getSaleZoneName(saleZoneCode){
+      if(!saleZoneCode) return ""
+      let zoneName = ""
+      let item = this.saleZone.find((i) => {
+        if(i.zoneCode == saleZoneCode){
+          return i
+        }
+      })
+      // console.log(item)
+      zoneName = item ? item.zoneName : ''
+      return zoneName
+    },
     getSaleZone() {
       this.$request.post('/api/saleZone/userSzList', {}, true, (res) => {
         if (res.code == '200') {
           this.saleZone = res.data || []
+          if (this.isAllSaleZone == 1) {
+            this.getActList()
+          } else {
+            this.actListParams.saleZone = this.saleZoneCode
+            this.getActList()
+          }
         }
       })
     },
