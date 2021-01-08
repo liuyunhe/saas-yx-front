@@ -52,23 +52,23 @@
       <el-table v-loading="loading" border :data="actList" style="width: 100%" @select-all="handleSelectionAllChange" @select="handleSelectionChange" class="mt20">
         <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
         <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="tplCode" label="模板编号" align="center"></el-table-column>
-        <el-table-column prop="saleZone" label="销区" align="center">
+        <el-table-column prop="tplCode" label="模板编号" width="200" align="center"></el-table-column>
+        <el-table-column prop="saleZone" label="销区" width="150" align="center">
           <template slot-scope="scope">
             {{ getSaleZoneName(scope.row.saleZone) }}
           </template>
         </el-table-column>
-        <el-table-column prop="tplCode" label="模板编号" align="center"></el-table-column>
+        <el-table-column prop="tplCode" label="模板编号" width="200" align="center"></el-table-column>
         <el-table-column prop="name" label="模板名称" align="center"></el-table-column>
-        <el-table-column prop="note" label="模板说明" align="center"></el-table-column>
-        <el-table-column prop="ctime" label="创建时间" align="center">
+        <el-table-column prop="note" label="模板说明" width="200" align="center"></el-table-column>
+        <el-table-column prop="ctime" label="创建时间" align="center" width="200">
           <template slot-scope="scope">
             {{new Date(scope.row.ctime).Format('yyyy-MM-dd hh:mm:ss')}}
           </template>
         </el-table-column>
-        <el-table-column prop="creatorName" label="创建人" align="center"></el-table-column>
-        <el-table-column prop="statusName" label="状态" align="center"></el-table-column>
-        <el-table-column label="操作" align="center" width="220px">
+        <el-table-column prop="creatorName" label="创建人" width="150" align="center"></el-table-column>
+        <el-table-column prop="statusName" label="状态" width="100" align="center"></el-table-column>
+        <el-table-column label="操作" align="center" width="220">
           <template slot-scope="scope">
             <el-button size="mini" type="primary" @click="goAddActTpl(scope.row.form,scope.row.id)">编辑</el-button>
             <el-button size="mini" type="success" @click="$router.push('/market/actTpl/actSetConf?form=' + scope.row.form + '&tplCode=' + scope.row.tplCode)">投放</el-button>
