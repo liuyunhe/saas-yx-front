@@ -11,7 +11,7 @@
         <template v-for="(ai,key) in awardConf">
           <div  style="height: 30px;font-size: 18px;line-height: 30px;margin:20px;color: #409EFF">
             奖项{{ key + 1 }}:
-            <el-button size="mini" type="danger" style="margin-left: 450px" @click="delItem(key)" v-if="key>0 && !isStart">删除奖品</el-button>
+            <el-button size="mini" type="danger" style="margin-left: 450px" @click="delItem(key)" v-if="!isStart">删除奖品</el-button>
           </div>
 
           <el-form ref="awardConf" :model="ai" label-width="150px" :rules="confRules" :disabled="isStart">
@@ -37,10 +37,10 @@
 
             <el-form-item label='奖品图片：' prop="awdPic">
               <el-input v-model="ai.awdPic" style="display: none" ></el-input>
-              <img width="300" height="165" v-if="ai.awdPic" :src="ai.awdPic" alt="">
+              <img width="100" height="100" v-if="ai.awdPic" :src="ai.awdPic" alt="" style="border: 1px dashed #e4e7ed;">
               <el-upload :disabled="!!ai.id" :action="uploadURL" :headers="headerObj" :on-success="(res)=>{uploadImgUrlSuccess(res,key)}" :show-file-list="false">
                 <el-button size="small" type="primary" :disabled="!!ai.id">上传图片</el-button>
-                <span style="margin-left: 20px">上传商品图片尺寸（630x348px）</span>
+                <span style="margin-left: 20px">上传商品图片尺寸（233x233px）</span>
               </el-upload>
             </el-form-item>
 
@@ -56,7 +56,8 @@
 
             <el-form-item label='奖品数量：' prop="numTotal">
               <el-input-number :disabled="!!ai.id" :step="1" :precision="0":min="0"  controls-position="right"  v-model="ai.numTotal"></el-input-number>
-              <el-button size="small" type="primary" :v-if="!!ai.id" style="margin-left: 20px" @click="addRepertory(ai)">增库</el-button>
+              <span v-if="!!ai.id" style="margin-left: 20px">剩余：{{ ai.numTotal - ai.numUsed }}</span>
+              <el-button size="small" type="primary" v-if="!!ai.id" style="margin-left: 20px" @click="addRepertory(ai)">增库</el-button>
             </el-form-item>
 
             <el-form-item label='中奖概率：' prop="awdPr">
