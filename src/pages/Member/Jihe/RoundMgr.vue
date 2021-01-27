@@ -6,7 +6,7 @@
           <span>荷家好礼-奖品设置：</span>
         </div>
         <div>
-          <el-button size="small" type="primary" @click="addItem" v-if="awardConf.length<=14 && !isStart">新增商品</el-button>
+          <el-button size="small" type="primary" @click="addItem" v-if="awardConf.length<14 && !isStart">新增商品</el-button>
         </div>
         <template v-for="(ai,key) in awardConf">
           <div  style="height: 30px;font-size: 18px;line-height: 30px;margin:20px;color: #409EFF">
@@ -61,7 +61,7 @@
             </el-form-item>
 
             <el-form-item label='中奖概率：' prop="awdPr">
-              <el-input-number :disabled="!!ai.id" controls-position="right" :precision="1" :step="0.1" :min="0" :max="100" v-model="ai.awdPr"></el-input-number>
+              <el-input-number controls-position="right" :precision="1" :step="0.1" :min="0" :max="100" v-model="ai.awdPr"></el-input-number>
               <span>%</span>
             </el-form-item>
 

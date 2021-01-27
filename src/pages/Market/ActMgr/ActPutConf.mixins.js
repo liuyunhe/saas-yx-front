@@ -638,10 +638,15 @@ export default {
         this.selectAreaList = []
         return
       }
+      let params = {
+        parentArr: this.selectProvList
+      }
+      if(this.saleZoneCode){
+        params.saleZoneCode =  this.saleZoneCode
+      }
       this.$request.post(
-        '/api/wiseqr/dim/regionByMultiParent', {
-          parentArr: this.selectProvList
-        },
+        '/api/wiseqr/dim/regionByMultiParent',
+        params,
         true,
         res => {
           if (res.ret === '200000') {
