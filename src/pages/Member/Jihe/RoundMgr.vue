@@ -61,7 +61,7 @@
             </el-form-item>
 
             <el-form-item label='中奖概率：' prop="awdPr">
-              <el-input-number :disabled="!!ai.id" controls-position="right" :precision="1" :step="0.1" :min="0" :max="100" v-model="ai.awdPr"></el-input-number>
+              <el-input-number controls-position="right" :precision="1" :step="0.1" :min="0" :max="100" v-model="ai.awdPr"></el-input-number>
               <span>%</span>
             </el-form-item>
 
