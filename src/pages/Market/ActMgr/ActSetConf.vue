@@ -47,8 +47,9 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="活动标签：" prop="actTag" v-if="showSaleZone">
+        <el-form-item label="活动标签：" prop="actTag" >
           <el-radio v-for="(item,index) in actTagGroup" :key="index" :disabled="id ? true : false" v-model="confData.actTag" :label="item.id">{{ item.name }}</el-radio>
+          <span v-if="showNoneActTag">无</span>
         </el-form-item>
         <el-form-item label="活动时间：" prop="date">
           <!-- <el-date-picker v-model="actTime" :time-arrow-control="true" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" :editable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
@@ -150,6 +151,17 @@ export default {
         callback()
       }
     }
+    var validateActTag = (rule, value, callback) =>{
+      if(this.confData.saleZoneCode){
+        if(value == null){
+          callback(new Error('请选择活动标签'))
+        }else {
+          callback()
+        }
+      }else {
+        callback()
+      }
+    }
     var validateIdx = (rule, value, callback) => {
       if (value == '0') {
         callback(new Error('请选择活动优先级'))
@@ -184,6 +196,7 @@ export default {
     return {
       isAllSaleZone: sessionStorage.isAllSaleZone,
       showSaleZone:true,
+      showNoneActTag:false,
       pickerOptions: {},
       // 富文本设置
       editorOption: {
@@ -230,7 +243,7 @@ export default {
         actName: [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
         note: [{ required: true, message: '请输入活动描述', trigger: 'blur' }],
         saleZoneCode: [{ required: true, message: '请选择销区', trigger: 'change' }],
-        actTag: [{ required: true, message: '请选择活动类型', trigger: 'change' }],
+        actTag: [{ required: true, validator:validateActTag, trigger: 'change' }],
         date: [{ required: true, validator: validateDate, trigger: 'change' }],
         idx: [{ required: true, validator: validateIdx, trigger: 'change' }],
         banner: [{ required: true, validator: validateBanner }],
@@ -277,6 +290,7 @@ export default {
       if(!n){
         this.confData.saleZoneCode = null
         this.confData.saleZoneFlag = 0
+        this.getActTag()
       }else {
         this.confData.saleZoneFlag = 1
       }
@@ -314,15 +328,21 @@ export default {
         }else {
           this.$request.post('/api/actTag/query/saleZoneTag', {saleZoneCode:null}, false, (res) => {
             if (res.code == '200') {
-              this.actTagGroup = [ res.data.tagList.find((item)=>{
+              let actTag = res.data.tagList.find((item)=>{
                 return item.id == this.confData.actTag
-              }) ] || []
+              })
+              if(actTag){
+                this.actTagGroup = [actTag]
+              }else {
+                this.actTagGroup = []
+              }
             }
           })
         }
 
       },
       handleChangeSaleZone(code){
+        this.confData.actTag = null
           this.getActTag()
       },
      datetime_to_unix(datetime){
@@ -378,6 +398,9 @@ export default {
           // this.actTime.push(this.confData.stimeStr)
           // this.actTime.push(this.confData.etimeStr)
           this.getActTag()
+          if(!this.confData.actTag){
+            this.showNoneActTag = true
+          }
           callback && callback()
           return
         }

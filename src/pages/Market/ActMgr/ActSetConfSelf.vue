@@ -57,6 +57,10 @@
 <!--          </el-select>-->
           <el-checkbox v-model="isDisabled" label="全部地区" border></el-checkbox>
         </el-form-item>
+        <el-form-item label="活动标签：" prop="actTag" >
+          <el-radio v-for="(item,index) in actTagGroup" :key="index" :disabled="id ? true : false" v-model="confData.actTag" :label="item.id">{{ item.name }}</el-radio>
+          <span v-if="showNoneActTag">无</span>
+        </el-form-item>
 <!--        <el-form-item label="销区：" v-if="showSaleZone">-->
 <!--          <el-select size="small" :disabled="saleZoneDisabled" :clearable="true" v-model="confData.saleZoneCode" placeholder="请选择">-->
 <!--            <el-option-->
@@ -159,6 +163,7 @@ export default {
         placeholder: '请输入活动说明'
       },
       idxSelect: {},
+      actTagGroup:[],
       confData: {
         id: '', // 活动数据主键id
         actCode: '', // 活动唯一编码
@@ -227,7 +232,8 @@ export default {
       Cindex:0,
 
       showSaleZone:sessionStorage.getItem('account').indexOf('shankun') == -1,
-      saleZoneDisabled:false
+      saleZoneDisabled:false,
+      showNoneActTag:false,
     }
   },
   watch:{
@@ -256,9 +262,33 @@ export default {
       this.getDetail();
     } else {
       this.initAjax();
+      this.getActTag()
     }
   },
   methods: {
+    getActTag() {
+      if(!this.id){
+        this.$request.post('/api/actTag/query/saleZoneTag', {saleZoneCode:this.confData.saleZoneCode}, false, (res) => {
+          if (res.code == '200') {
+            this.actTagGroup = res.data.tagList || []
+          }
+        })
+      }else {
+        this.$request.post('/api/actTag/query/saleZoneTag', {saleZoneCode:null}, false, (res) => {
+          if (res.code == '200') {
+            let actTag = res.data.tagList.find((item)=>{
+              return item.id == this.confData.actTag
+            })
+            if(actTag){
+              this.actTagGroup = [actTag]
+            }else {
+              this.actTagGroup = []
+            }
+          }
+        })
+      }
+
+    },
     getSaleZone() {
       this.$request.post('/api/saleZone/userSzList', {}, true, (res)=>{
         if (res.code == '200') {
@@ -441,6 +471,7 @@ export default {
         id: act.id||'', // 活动数据主键id
         actCode: act.actCode||'', // 活动唯一编码
         actDesc: act.actDesc||'', // 活动描述
+        actTag: act.actTag||'', // 活动标签
         actName: act.actName||'', // 活动名称
         banner: act.banner||'', // 活动入口banner
         form: this.form, // 活动类型
@@ -472,6 +503,10 @@ export default {
       this.$request.post('/api/wiseqr/act/detail', { id: this.id }, true, res => {
         if (res.ret == '200000') {
           this.copyDetailAttr(res.data.act);
+          this.getActTag()
+          if(!this.confData.actTag){
+            this.showNoneActTag = true
+          }
           this.strategyArr = res.data.strategyArr;
           res.data.strategyArr.forEach((item, index) => {
             if (item.tfType == 'common') {
