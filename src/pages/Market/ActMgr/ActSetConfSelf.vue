@@ -47,7 +47,8 @@
             <el-option v-for="item in provList" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
           </el-select>
-          <el-select size="small" v-model="confData.selectCityList" multiple collapse-tags filterable placeholder="请选择" @change="getDistrictList" class="select-three" :disabled="isDisabled">
+          <el-select size="small" v-model="confData.selectCityList" multiple collapse-tags filterable placeholder="请选择" @change="getDistrictList" class="select-three" :disabled="isDisabled" @remove-tag='removeTag'>
+            <el-option label='全选' value='全选' @click.native='selectAll'></el-option>
             <el-option v-for="item in cityList" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
           </el-select>
@@ -355,6 +356,7 @@ export default {
           this.confData.selectCityList = this.cityList.map(item => {
             return item.code
           })
+          this.confData.selectCityList.unshift('全选')
           if (this.initCity) {
             let strategy = this.strategyArr[this.Cindex];
             if(strategy) {
@@ -385,13 +387,32 @@ export default {
         if(strategy) {
           this.confData.selectCityList = strategy.areas.cityArr||[];
         }
+        if(this.confData.selectCityList.length !==0 && this.confData.selectCityList.length == this.cityList.length){
+          this.confData.selectCityList.unshift('全选')
+        }
         this.initCity = false;
       }
       if (this.initDistrict) {
         this.getDistrictList();
       }
     },
-    getDistrictList() {
+    selectAll() {
+      if (this.confData.selectCityList.length < this.cityList.length) {
+        this.confData.selectCityList = []
+        this.cityList.map((item) => {
+          this.confData.selectCityList.push(item.code)
+        })
+        this.confData.selectCityList.unshift('全选')
+      } else {
+        this.confData.selectCityList = []
+      }
+    },
+    removeTag(val) {
+      if (val === '全选') {
+        this.confData.selectCityList = []
+      }
+    },
+    getDistrictList(val) {
       this.districtList = [];
       this.confData.selectDistrictList = [];
       if(this.confData.selectProvList.length>0) {
@@ -417,6 +438,14 @@ export default {
           this.confData.selectDistrictList = strategy.areas.districtArr||[];
         }
         this.initDistrict = false;
+      }
+      if(!val) return
+      if (!val.includes('全选') && val.length === this.cityList.length) {
+        this.confData.selectCityList.unshift('全选')
+      } else if (val.includes('全选') && (val.length - 1) < this.cityList.length) {
+        this.confData.selectCityList = this.confData.selectCityList.filter((item) => {
+          return item !== '全选'
+        })
       }
     },
     // 获取品牌列表
@@ -467,6 +496,7 @@ export default {
       if (act.extInfo) {
         this.extInfo = JSON.parse(act.extInfo);
       }
+      console.log(act)
       this.confData = {
         id: act.id||'', // 活动数据主键id
         actCode: act.actCode||'', // 活动唯一编码
@@ -484,6 +514,7 @@ export default {
         extInfo: act.extInfo||'', // 活动扩展字段。自定义活动存储外链：{link: ''}
         status: act.status||2, // 活动是否启用：1-启用；2-不启用
         saleZoneCode: act.saleZoneCode||null, // 销区
+        saleZoneFlag: act.saleZoneFlag|| 0, // 销区标识
         selectBrand: [], // 选择的品牌
         selectProductList: [], // 选择的产品
         selectProvList: [], // 选择的省份
@@ -491,6 +522,7 @@ export default {
         selectDistrictList: [], // 选择的区县
         link: this.extInfo['link']||'' // 活动链接
       };
+
       if (this.clone == '1') {// 复制
         this.confData.id = '';
         this.confData.actCode = '';
@@ -646,6 +678,10 @@ export default {
           let params = {};
           params.act = this.confData;
           let strategyParams = {tf:{}, tfType:'common', snArr: this.confData.selectProductList, areas: {provinceArr:this.confData.selectProvList, cityArr:this.confData.selectCityList, districtArr:this.confData.selectDistrictList}};
+          console.log(strategyParams)
+          if(strategyParams.areas.cityArr[0] == '全选'){
+            strategyParams.areas.cityArr.shift()
+          }
           let strategy = this.strategyArr[this.Cindex];
           if(strategy) {
 
