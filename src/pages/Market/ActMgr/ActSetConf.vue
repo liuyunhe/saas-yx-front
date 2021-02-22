@@ -50,7 +50,9 @@
         <el-form-item label="活动标签：" prop="actTag" >
           <el-radio v-for="(item,index) in actTagGroup" :key="index" :disabled="id ? true : false" v-model="confData.actTag" :label="item.id">{{ item.name }}</el-radio>
           <span v-if="showNoneActTag">无</span>
+          <div class="">(非销区活动时为非必选项)</div>
         </el-form-item>
+
         <el-form-item label="活动时间：" prop="date">
           <!-- <el-date-picker v-model="actTime" :time-arrow-control="true" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" :editable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker> -->
