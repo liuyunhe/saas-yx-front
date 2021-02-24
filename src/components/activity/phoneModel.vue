@@ -6,7 +6,7 @@
             </div>
             <div class="phone-body">
                 <div class="cover" v-if="page != 1 && page !=6">
-                    <img 
+                    <img
                         v-if="page != 2 && page != 3 && page != 4 && page != 7"
                         :src="commonImg.close.url" alt=""
                         class='close_icon'
@@ -20,11 +20,11 @@
                 </div>
                  <!-- 第一页： 首页 -->
                 <div class="page1">
-                    <img 
-                    v-if="imgData.normal" 
-                    v-for="(pic, index) in imgData.normal" 
-                    :src="pic.url + '?v=1.1'" 
-                    title="点击编辑" 
+                    <img
+                    v-if="imgData.normal"
+                    v-for="(pic, index) in imgData.normal"
+                    :src="pic.url + '?v=1.1'"
+                    title="点击编辑"
                     :key="index + pic"
                     @mouseover="imgHover(index)"
                     @mouseout="unHover()"
@@ -36,11 +36,11 @@
                         'left': pic.pos[0] * 0.4 + 'px',
                         'top': pic.pos[1] * 0.4 + 'px'
                     }"/>
-                <img 
-                    v-if="imgData.item" 
-                    v-for="(pic, index) in imgData.item" 
-                    :src="pic.url + '?v=1.1'" 
-                    title="点击编辑" 
+                <img
+                    v-if="imgData.item"
+                    v-for="(pic, index) in imgData.item"
+                    :src="pic.url + '?v=1.1'"
+                    title="点击编辑"
                     :key="index + pic"
                     :class="[index, {imgHover: hover == index}]"
                     @mouseover="imgHover(index)"
@@ -54,12 +54,12 @@
                     }"/>
                 </div>
                 <!--答题页面-->
-                <div class="page1" v-show="page == 6">              	
-                    <img 
-                    v-if="imgData.question" 
-                    v-for="(pic, index) in imgData.question" 
-                    :src="pic.url + '?v=1.1'" 
-                    title="点击编辑" 
+                <div class="page1" v-show="page == 6">
+                    <img
+                    v-if="imgData.question"
+                    v-for="(pic, index) in imgData.question"
+                    :src="pic.url + '?v=1.1'"
+                    title="点击编辑"
                     :key="index + pic"
                     @mouseover="imgHover(index)"
                     @mouseout="unHover()"
@@ -87,7 +87,7 @@
                     <img :src="commonImg.myAward.url" alt="">
                 </div>
                 <div class="page page4" v-show="page == 4 && flag=='ques'">
-                	<img                     
+                	<img
                         :src="commonImg.close.url" alt=""
                         class='close_icon'
                         :style="{
@@ -97,7 +97,7 @@
                             'top': commonImg.close.pos[1] * 0.4 + 'px',
                         }"
                     >
-                	<img 
+                	<img
                 		:src="commonImg.getAwardBg.url"alt=""
                 		class="award-alert"
                 		:style="{
@@ -105,9 +105,9 @@
                             'height': commonImg.getAwardBg.size[1] * 0.4 + 'px'
                         }"
                 		 />
-                    <img 
-                        :src="commonImg.award.url" alt="" 
-                        class="award-pic" 
+                    <img
+                        :src="commonImg.award.url" alt=""
+                        class="award-pic"
                         :style="{
                             'width': commonImg.award.size[0] * 0.4 + 'px',
                             'height': commonImg.award.size[1] * 0.4 + 'px'
@@ -117,8 +117,8 @@
                         <h2>奖品名称</h2>
                         <p>请在24小时内领取</p>
                     </div>
-                    <img 
-                        :src="commonImg.getBtn.url" alt="" 
+                    <img
+                        :src="commonImg.getBtn.url" alt=""
                         class="award-btn"
                         :style="{
                             'width': commonImg.getBtn.size[0] * 0.4 + 'px',
@@ -128,7 +128,7 @@
                         >
                 </div>
                 <div class="page page4" v-show="page == 4 && flag=='pai'">
-                	<img                     
+                	<img
                         :src="commonImg.close.url" alt=""
                         class='close_icon'
                         :style="{
@@ -138,7 +138,7 @@
                             'top': commonImg.close.pos[1] * 0.4 + 'px',
                         }"
                     >
-                	<img 
+                	<img
                 		:src="commonImg.getAwardBgPai.url"alt=""
                 		class="award-alert"
                 		:style="{
@@ -146,9 +146,9 @@
                             'height': commonImg.getAwardBgPai.size[1] * 0.4 + 'px'
                         }"
                 		 />
-                    <img 
-                        :src="commonImg.award.url" alt="" 
-                        class="award-pic" 
+                    <img
+                        :src="commonImg.award.url" alt=""
+                        class="award-pic"
                         :style="{
                             'width': commonImg.award.size[0] * 0.4 + 'px',
                             'height': commonImg.award.size[1] * 0.4 + 'px'
@@ -158,8 +158,8 @@
                         <h2>奖品名称</h2>
                         <p>请在24小时内领取</p>
                     </div>
-                    <img 
-                        :src="commonImg.getBtnPai.url" alt="" 
+                    <img
+                        :src="commonImg.getBtnPai.url" alt=""
                         class="award-btn"
                         :style="{
                             'width': commonImg.getBtnPai.size[0] * 0.4 + 'px',
@@ -169,17 +169,17 @@
                         >
                 </div>
                 <div class="page page5" v-if="page == 5 && flag=='ques'">
-                    <img 
-                        :src="commonImg.noAward.url" alt="" 
+                    <img
+                        :src="commonImg.noAward.url" alt=""
                         class="award-alert"
                         :style="{
                             'width': commonImg.noAward.size[0] * 0.4 + 'px',
-                            'height': commonImg.noAward.size[1] * 0.4 + 'px'                            
+                            'height': commonImg.noAward.size[1] * 0.4 + 'px'
                         }"
                         />
                     <p>很遗憾，未中奖</p>
-                    <img 
-                        :src="commonImg.knowBtn.url" alt="" 
+                    <img
+                        :src="commonImg.knowBtn.url" alt=""
                         class="award-btn"
                         :style="{
                             'width': commonImg.knowBtn.size[0] * 0.4 + 'px',
@@ -189,17 +189,17 @@
                     >
                 </div>
                 <div class="page page5" v-if="page == 5 && flag=='pai'">
-                    <img 
-                        :src="commonImg.noAwardPai.url" alt="" 
+                    <img
+                        :src="commonImg.noAwardPai.url" alt=""
                        class="award-alert"
                         :style="{
                             'width': commonImg.noAwardPai.size[0] * 0.4 + 'px',
-                            'height': commonImg.noAwardPai.size[1] * 0.4 + 'px'                            
+                            'height': commonImg.noAwardPai.size[1] * 0.4 + 'px'
                         }"
                         />
                     <p>很遗憾，未中奖</p>
-                    <img 
-                        :src="commonImg.knowBtnPai.url" alt="" 
+                    <img
+                        :src="commonImg.knowBtnPai.url" alt=""
                         class="award-btn"
                         :style="{
                             'width': commonImg.knowBtnPai.size[0] * 0.4 + 'px',
@@ -209,8 +209,8 @@
                     >
                 </div>
                 <div class="page page5" v-if="page == 7">
-                    <img 
-                        :src="commonImg.errorTip.url" alt="" 
+                    <img
+                        :src="commonImg.errorTip.url" alt=""
                         class="award-pic no-award"
                         :style="{
                             'width': commonImg.errorTip.size[0] * 0.4 + 'px',
@@ -219,8 +219,8 @@
                         }"
                         />
                     <p class='error-text'>时间到!</p>
-                    <img 
-                        :src="commonImg.errorBtn.url" alt="" 
+                    <img
+                        :src="commonImg.errorBtn.url" alt=""
                         class="award-btn errorBtn"
                         :style="{
                             'width': commonImg.errorBtn.size[0] * 0.4 + 'px',
@@ -229,7 +229,7 @@
                         }"
                     >
                 </div>
-                
+
             </div>
             <div class="phone-footer"></div>
         </div>
@@ -295,7 +295,7 @@ export default {
         height: 614px;
         .phone-header{
             height: 66px;
-            background: url("http://qoss.qrmkt.cn/new_platform/pc_front/937@2x.png") center no-repeat / cover;
+            background: url("http://qoss.qrmkt.cn/new_platform/pc_front/937@2x.png") 50% no-repeat;
             overflow: hidden;
             & h4{
                 margin-block-start: 0;
@@ -317,7 +317,7 @@ export default {
                 height: 100%;
                 background: rgba($color: #000000, $alpha: 0.8);
                 z-index: 1;
-                
+
             }
             & img{
                 box-sizing: border-box;
@@ -342,7 +342,7 @@ export default {
                 height: 100%;
                 left: 0;
                 top: 0;
-                
+
                 &.page2>img, &.page3>img{
                     width: 100%;
                     height: 100%;
@@ -389,7 +389,7 @@ export default {
                     top: 265px;
                 }
             }
-            
+
             .errorBtn {
             	top:360px !important
             }
@@ -398,7 +398,7 @@ export default {
 	                	position: absolute;
 	                	left: 0;
 	                	top:50px;
-	                	
+
 	                	padding: 40px;
 	                	color:#fff;
 	                	.line {
@@ -418,7 +418,7 @@ export default {
 	                .QuesActive,.QuesWrong {
 	                	z-index: 3;
 	                }
-	                
+
                 }
                 .error-text{
 	                	top:260px !important;
@@ -427,7 +427,7 @@ export default {
         }
         .phone-footer{
             height: 64px;
-            background: url("http://qoss.qrmkt.cn/new_platform/pc_front/phone-footer@2x.png") center no-repeat/ cover;
+            background: url("http://qoss.qrmkt.cn/new_platform/pc_front/phone-footer@2x.png") 50% no-repeat;
         }
     }
 }
