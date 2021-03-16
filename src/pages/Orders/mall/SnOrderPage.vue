@@ -346,7 +346,7 @@
                         startTime:"",
                         endTime:"",
                         status:"",//订单状态
-                        orderType: 2,
+                        orderType: 4,
                         giftType:'',//商品状态
                         orderId:'',
                         awardName:'',
