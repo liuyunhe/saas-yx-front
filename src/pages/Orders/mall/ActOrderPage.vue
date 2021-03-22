@@ -251,7 +251,11 @@
             },
             // 文件上传控制。成功之后的回调
             handleSourceFileSuccess(res, file) {
-                this.$message({type:'success', message:res});
+              if(res.ret == 200000){
+                this.$message({type:'success', message:res.message});
+              }else {
+                this.$message.error(res.message);
+              }
                 this.getlistData();
             },
             // 卡密文件上传之后，删除文件
