@@ -82,6 +82,10 @@
               label="兑换币">
           </el-table-column>
           <el-table-column
+              prop="originScore"
+              label="原兑换币">
+          </el-table-column>
+          <el-table-column
               prop="openId"
               label="下单人opid"
               width="300">
