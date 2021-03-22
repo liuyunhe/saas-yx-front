@@ -81,6 +81,7 @@
                 <el-table-column prop="cate4Name" label="四级分类"></el-table-column>
                 <el-table-column prop="deliveryFee" label="运费"></el-table-column>
                 <el-table-column prop="score" label="兑换币"></el-table-column>
+                <el-table-column prop="originScore" label="原兑换币"></el-table-column>
                 <el-table-column prop="userName" label="联系人姓名"></el-table-column>
                 <el-table-column prop="mobile" label="联系人电话"></el-table-column>
                 <el-table-column prop="address" label="收货地址"></el-table-column>
