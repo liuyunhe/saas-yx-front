@@ -79,7 +79,7 @@ export default {
                 isWarn: false,
                 n: '',
                 outNum: '',
-                pdMaxOut: '', // 奖项每天最多出奖个数
+                pdMaxOut: 0, // 奖项每天最多出奖个数
                 poolId: 1, // 奖项物料池主键id
                 poolName: '',
                 prizeName: '', // 奖项名称

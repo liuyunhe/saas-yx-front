@@ -52,7 +52,7 @@ export default {
         isPdMaxOut: false,
         isWarn: false,
         outNum: '',
-        pdMaxOut: '', // 奖项每天最多出奖个数
+        pdMaxOut: 0, // 奖项每天最多出奖个数
         poolId: 1, // 奖项物料池主键id
         poolName: '',
         prizeName: '', // 奖项名称
@@ -84,7 +84,7 @@ export default {
         isWarn: false,
         n: '',
         outNum: '',
-        pdMaxOut: '', // 奖项每天最多出奖个数
+        pdMaxOut: 0, // 奖项每天最多出奖个数
         poolId: 1, // 奖项物料池主键id
         poolName: '',
         prizeName: '', // 奖项名称
@@ -111,7 +111,7 @@ export default {
         integralPoolPic: '',
         isGiveScore: false,
         outNum: '',
-        pdMaxOut: '',
+        pdMaxOut: 0,
         poolId: 1,
         poolName: '',
         prizeName: '',
@@ -140,7 +140,7 @@ export default {
         isGiveScore: false,
         n: '',
         outNum: '',
-        pdMaxOut: '',
+        pdMaxOut: 0,
         poolId: 1,
         poolName: '',
         prizeName: '',
@@ -168,7 +168,7 @@ export default {
         integralPoolPic: '',
         isGiveScore: false,
         outNum: '',
-        pdMaxOut: '',
+        pdMaxOut: 0,
         poolId: 1,
         poolName: '',
         prizeName: '',

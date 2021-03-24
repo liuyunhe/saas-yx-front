@@ -359,7 +359,7 @@
       },
       resetPdMaxOut(val) {
         if (!val) {
-          this.awae.pdMaxOut = ''
+          this.awae.pdMaxOut = 0
         }
       },
       countRedTotal(val) {
