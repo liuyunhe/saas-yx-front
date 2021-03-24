@@ -2,7 +2,7 @@
 	<div class="loginRoot">
 		<div class="ui-wrapper">
 			<div class="header">
-				<img src="../../assets/img/logo-new.png" />欢迎登录
+<!--				<img src="../../assets/img/logo-new.png" />欢迎登录-->
 			</div>
 			<div class="ui-login-form">
 				<!--用户名-->
@@ -34,7 +34,7 @@
 			</div>
 		</div>
 		<div class="footer">
-			<img src="../../assets/img/login-footer.png" />
+<!--			<img src="../../assets/img/login-footer.png" />-->
 		</div>
 	</div>
 
