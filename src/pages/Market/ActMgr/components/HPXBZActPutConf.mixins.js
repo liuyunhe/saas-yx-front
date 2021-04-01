@@ -216,6 +216,10 @@ export default {
         {
           name: '积分',
           type: 6
+        },
+        {
+          name: '自定义礼品',
+          type: 9
         }
       ],
       normalIndex: 1,

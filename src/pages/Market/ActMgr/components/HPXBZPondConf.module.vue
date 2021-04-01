@@ -113,6 +113,31 @@
 <!--      <el-form-item v-if="!hide" label="中奖概率:" prop="probability">-->
 <!--        <el-input-number v-model="awae.probability" :min="0" :max="100" controls-position="right"></el-input-number> %-->
 <!--      </el-form-item>-->
+      <template v-if="awae.awardType == '9'">
+        <el-form-item label="奖品图片:" prop="pool">
+          <el-input v-model="awae.awardPic" style="display: none" ></el-input>
+          <el-upload  class="avatar-uploader" :action="uploadURL" :headers="headerObj" :on-success="(res)=>{uploadImgUrlSuccess(res,'2')}" :show-file-list="false">
+            <img v-if="awae.awardPic" :src="awae.awardPic" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+          <span>* 图片建议尺寸为380*280px，格式为*.jpg\ *.bmp\ *.png\ *.gif</span>
+        </el-form-item>
+        <el-form-item label="奖品名称:" prop="name">
+          <el-col :span="10">
+            <el-input v-model="awae.prizeName"  placeholder="奖品名称" :disabled="awae.id ? true : false"></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="投放数量:" prop="putNum">
+          <el-input-number v-model="awae.totalNum" :precision="0" :disabled="awae.id ? true : false" :min="0" controls-position="right"></el-input-number> 个
+          <span v-if="awae.id ? true : false">
+            剩余<el-input-number v-model="residue" :disabled="true"></el-input-number>个
+            <el-button @click="addRepertory">增库</el-button>
+          </span>
+        </el-form-item>
+        <el-form-item label="奖品面额:" prop="intTotal">
+          <el-input-number v-model="awae.integral" :disabled="awae.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number> 分
+        </el-form-item>
+      </template>
       <el-form-item v-if="false">
         <el-checkbox v-model="awae.hasWarn" @change="resetWarn">阈值预警</el-checkbox>
         <span v-if="awae.hasWarn">
@@ -219,7 +244,12 @@ export default {
       // callback()
     }
     return {
-
+      uploadURL: '/api/wiseqr/attach/commonAliUpload',
+      headerObj: {
+        loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
+        token: sessionStorage.getItem('access_token'),
+        CLIENTSESSIONID: sessionStorage.getItem('CLIENTSESSIONID')
+      },
       // awae: this.awae,
       prizeList: this.prizeType,
       rules: {
@@ -294,6 +324,11 @@ export default {
     this.params.budgetTime = this.budgetTime
   },
   methods: {
+    uploadImgUrlSuccess(resule,index) {
+      if (resule.ret === '200000')
+        return (this.awae.awardPic = resule.data.accessUrl)
+      this.$message.error(resule.message)
+    },
     // 选择奖品
     selectPrize(obj) {
       this.awae.awardPic = obj.pic
@@ -478,6 +513,31 @@ export default {
   }
 }
 </script>
+<style>
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 110px;
+  height: 110px;
+  line-height: 110px;
+  text-align: center;
+}
+.avatar {
+  width: 110px;
+  height: 110px;
+  display: block;
+}
+</style>
 <style lang="scss" scoped>
 .el-pagination {
   margin-top: 20px;
