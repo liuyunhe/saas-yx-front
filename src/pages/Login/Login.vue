@@ -13,11 +13,14 @@
 				<div class="ui-label">
 					<label>登录密码</label><input type="password" name="password" placeholder="" v-model="password" />
 				</div>
+        <div class="ui-label">
+          <label>手机号后4位</label><input type="text" name="mobileCode" placeholder="" v-model='mobile'/>
+        </div>
 				<!--验证码-->
 				<div class="ui-label ui-code">
 					<label class="check">验证码</label>
 					<input type="text" name="verifyCode" placeholder="" v-model="verifyCode" @keyup.enter="submitLogin">
-					<img :src="codeSrc" @click="srcClick" id="verifyCode">
+          <button type="button" id="get-code" @click="getCode" :class="{disabled:btnDisabled}" :disabled="btnDisabled">{{ buttonText }}</button>
 					<div id="drag" style="display: none;"></div>
 				</div>
 				<!--记住用户名-->
@@ -29,7 +32,7 @@
 				</div>
 				<!--登陆-->
 				<button type="button" name="login" @click="submitLogin">登 录</button>
-				<el-alert :title="errorTip" type="error" show-icon v-show="error">
+				<el-alert :title="errorTip" type="error" show-icon v-if="error" @close="error = false">
 				</el-alert>
 			</div>
 		</div>
@@ -50,12 +53,16 @@ export default {
     return {
       username: localStorage.getItem('username'),
       password: '',
+      mobile: '',
       verifyCode: '',
-      codeSrc: '',
+      // codeSrc: '',
       isRem: true,
       errorTip: '用户名不能为空!',
       error: false,
-      ran:1
+      ran:1,
+      buttonText:'发送验证码',
+      count:60,
+      btnDisabled:false,
     }
   },
   created() {
@@ -69,26 +76,55 @@ export default {
     var date = new Date().getTime()
     this.$cookies.set('CLIENTSESSIONID', date + num, '1y', '/')
     sessionStorage.setItem('CLIENTSESSIONID', date + num)
-    if(sessionStorage.getItem('ran')){
-    	console.log(sessionStorage.getItem('ran'))
-    	var ran=sessionStorage.getItem('ran')+1;
-    	this.ran=ran;
-    	this.codeSrc = location.origin + '/api/sys/login/verifyCode?'+this.ran
-    }else {
-    	this.codeSrc = location.origin + '/api/sys/login/verifyCode?'+this.ran
-    }
 
     if(this.message) {
       this.$message.error(this.message);
     }
   },
   methods: {
+    getCode(){
+      let postData = {}
+      postData.account = this.username || ''
+      postData.mobile = this.mobile || ''
+      if (!postData.account) {
+        this.errorTip = '用户名不能为空!'
+        this.error = true
+        return
+      }
+      if (!postData.mobile) {
+        this.errorTip = '手机号后4位不能为空!'
+        this.error = true
+        return
+      }
+      this.$request.post('/api/sys/login/loginMcode', postData, true, (res) => {
+        if(res.ret == '200000') {
+          this.$message.success('验证码已发送！')
+          this.btnDisabled = true
+          this.buttonText = `重新发送(${this.count--})`;
+          let countInter = setInterval(() => {
+            this.buttonText = `重新发送(${this.count--})`
+
+            if (this.count<0) {
+              clearInterval(countInter);
+              countInter = null;
+              this.count = 60
+              this.buttonText = "获取验证码";
+              this.btnDisabled = false
+            }
+          }, 1000);
+        }else {
+          this.$message.error(res.message)
+        }
+      })
+    },
     submitLogin() {
       var postData = {}
       var that = this
       postData.account = this.username || ''
       postData.pwd = this.password || ''
-      postData.verifyCode = this.verifyCode || ''
+      postData.mobile = this.mobile || ''
+      postData.mobileCode = this.verifyCode || ''
+      console.log(postData)
       if (!postData.account) {
         this.errorTip = '用户名不能为空!'
         this.error = true
@@ -104,7 +140,12 @@ export default {
         this.error = true
         return
       }
-      if (!postData.verifyCode) {
+      if (!postData.mobile) {
+        this.errorTip = '手机号后4位不能为空!'
+        this.error = true
+        return
+      }
+      if (!postData.mobileCode) {
         this.errorTip = '验证码不能为空!'
         this.error = true
         return
@@ -142,15 +183,14 @@ export default {
           }).catch(() => {});
         } else {
           that.$message.error(res.message)
-          that.srcClick()
+          // that.srcClick()
         }
       })
     },
-
-    srcClick(e) {
-      this.ran+=1;
-      this.codeSrc += this.ran
-    },
+    // srcClick(e) {
+    //   this.ran+=1;
+    //   this.codeSrc += this.ran
+    // },
     forget() {
       this.$router.push({path:'/find?f=f&account='});
     },
@@ -334,7 +374,7 @@ input::-webkit-input-placeholder {
   height: 60%;
   max-width: 400px;
   min-height: 330px;
-  max-height: 360px;
+  max-height: 430px;
   left: 50%;
   top: 35%;
   transform: translate(-50%, -50%);
@@ -386,7 +426,7 @@ input::-webkit-input-placeholder {
   position: absolute;
   right: 0;
   bottom: 0px;
-  width: 70%;
+  width: 65%;
   height: 30px;
   padding: 0 10px;
   /*background: #353351;
@@ -403,7 +443,7 @@ input::-webkit-input-placeholder {
 
 .ui-code input {
   right: 35%;
-  width: 35%;
+  width: 30%;
 }
 
 .ui-code img {
@@ -478,6 +518,24 @@ input::-webkit-input-placeholder {
   background: #3287ff;
   border-radius: 0px;
   border: 1px solid rgba(22, 104, 221, 1);
+}
+#get-code{
+  position: relative;
+  height: 32px;
+  width: 30%;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  background: #3287ff;
+  border-radius: 0px;
+  border: 1px solid rgba(22, 104, 221, 1);
+  top:18px
+}
+#get-code.disabled{
+  color: #fff;
+  background-color: #a0cfff;
+  border-color: #a0cfff;
+  cursor: not-allowed;
 }
 
 .ui-login-form > button[disabled] {
