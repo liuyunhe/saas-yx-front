@@ -372,6 +372,7 @@
             this.tableList = res.data || [];
             this.initPagination(res.pageInfo||{});
           }
+          this.$message.error(res.msg)
         });
       },
       showApplication(){
