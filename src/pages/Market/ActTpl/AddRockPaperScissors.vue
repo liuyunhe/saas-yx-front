@@ -433,7 +433,7 @@ export default {
         cryBtnUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/nolucky-btn.png',
         shareImgUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/yr-bg.png',
         shareBtnUrl: 'http://qoss.qrmkt.cn/common/zhuawawa/share-btn-img.png',
-        shareIconUrl: 'http://qoss.qrmkt.cn/common/zhuawawa/share-icon.jpg',
+        shareIconUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/share-icon.png',
         share: {shareTitle: '', shareDesc: ''}
       },
       uploadURL: '/api/wiseqr/attach/commonAliUpload',
