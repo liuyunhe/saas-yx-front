@@ -24,12 +24,16 @@
               <div class="tip"><img :src="configItem.actTip" title="点击编辑" @click="showEditConIndex = 4"alt="" /></div>
               <div class="btn-active" @click="showEditConIndex = 5">
                 <img :src="configItem.btnActiveImgUrl" title="点击编辑"  alt="">
+                <div>石头</div>
+              </div>
+              <div class="btn-active" style="left: 128px">
                 <div>剪刀</div>
               </div>
-              <div class="toyA">
-                <img :src="configItem.gestureAImgUrl" title="点击编辑" @click="showEditConIndex = 6" alt="">
+              <div class="btn-active" style="left: 204px">
+                <div>布</div>
               </div>
-              <div class="toyB"><img :src="configItem.gestureBImgUrl" title="点击编辑" @click="showEditConIndex = 7" alt=""></div>
+              <div class="toyA"><img :src="configItem.gestureBImgUrl" title="点击编辑" @click="showEditConIndex = 7" alt=""></div>
+              <div class="toyB"><img :src="configItem.gestureAImgUrl" title="点击编辑" @click="showEditConIndex = 6" alt=""></div>
               <div class="toyC"><img :src="configItem.gestureCImgUrl" title="点击编辑" @click="showEditConIndex = 8" alt=""></div>
 
 
@@ -418,7 +422,7 @@ export default {
         description: '',
         headerImgUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/banner.png',
         bgImgUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/bg.png',
-        actTip:'http://qoss.qrmkt.cn/common/zhuawawa/jww-tips.png',
+        actTip:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/tips.png',
         startImgUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/ok-btn.png',
         btnActiveImgUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/checked.png',
         gestureAImgUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/s-s-1.png',
