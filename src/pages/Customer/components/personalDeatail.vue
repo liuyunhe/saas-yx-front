@@ -18,6 +18,7 @@
             联系方式：<span>{{userInfo.mobile}}</span>
             生日：<span>{{userInfo.birthday}}</span>
             注册时间：<span>{{userInfo.scribeTime ? new Date(userInfo.scribeTime).Format('yyyy-MM-dd') : ''}}</span>
+            openid：<span>{{userInfo.openid }}</span>
           </p>
           <p class="info">
             所属地区：<span>{{userInfo.province}}{{userInfo.city}}</span>
