@@ -169,6 +169,7 @@
                     orderId:'',
                     awardName:'',
                     userName:'',
+                    mobile:'',
                     pageNo: 1,
                     pageSize: 10
                 },
@@ -252,16 +253,25 @@
                     this.form.orderId=this.form.kyeName;
                     this.form.awardName='';
                     this.form.userName='';
+                    this.form.mobile='';
                 }
                 if(this.selectallKyeType==2){
                     this.form.orderId='';
                     this.form.awardName=this.form.kyeName;
                     this.form.userName='';
+                    this.form.mobile='';
                 }
                 if(this.selectallKyeType==3){
                     this.form.orderId='';
                     this.form.awardName='';
                     this.form.userName=this.form.kyeName;
+                    this.form.mobile='';
+                }
+                if(this.selectallKyeType==4){
+                    this.form.orderId='';
+                    this.form.awardName='';
+                    this.form.userName='';
+                    this.form.mobile=this.form.kyeName;
                 }
             },
             orderStatusList() {//订单状态
