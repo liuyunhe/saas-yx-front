@@ -35,6 +35,12 @@
                 style="width: 200px">
             </el-date-picker>
           </el-form-item>
+          <el-form-item label="姓名：">
+            <el-input size="small"  v-model="filters.userName"></el-input>
+          </el-form-item>
+          <el-form-item label="电话：">
+            <el-input size="small"  v-model="filters.mobile"></el-input>
+          </el-form-item>
           <div></div>
           <el-form-item class="mr0" :size="'small'">
             <el-button type="primary" size="small" @click="commitForm">查询</el-button>
@@ -225,7 +231,8 @@
           startTime:'',
           //结束时间
           endTime:'',
-
+          mobile:'',
+          userName:''
 
         },
         //表单内容
@@ -250,6 +257,8 @@
           endTime: this.filters.endTime,
           pageNo: this.pageNo,
           pageSize: this.pageSize,
+          mobile:this.filters.mobile,
+          userName:this.filters.userName,
           orderType:4    //苏宁
         };
         this.postSearch(params)
@@ -279,6 +288,8 @@
         this.filters.jdOrderStatus = ''
         this.filters.startTime = ''
         this.filters.endTime = ''
+        this.filters.userName = ''
+        this.filters.mobile = ''
 
         this.pageNo = 1
         this.currentPage = 1
