@@ -45,6 +45,7 @@
         <el-form-item>
           <el-button size="small" type="primary" @click="list">查询</el-button>
           <el-button size="small" @click="reset">重置</el-button>
+          <el-button size="small" plain  v-on:click="exportData" >导出搜索结果</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -228,8 +229,34 @@
       this.getFactoryList()
     },
     methods: {
-      aaaa(num){
-        console.log(num)
+      exportData(){//导出
+        var url = "/codesrc/saas/cgRequest/reqListExport";
+        var xhr = new XMLHttpRequest();
+        var formData = JSON.stringify(this.search)
+        xhr.overrideMimeType("text/plain; charset=x-user-defined");
+        xhr.open('POST', url, true);
+        xhr.responseType = "blob";
+        xhr.responseType = "arraybuffer"
+        xhr.setRequestHeader("token", sessionStorage.getItem('access_token'));
+        xhr.setRequestHeader("loginId", sessionStorage.getItem('access_loginId'));
+        xhr.setRequestHeader("Content-Type", 'application/json;charset=UTF-8');
+        xhr.onload = function(res) {
+          if (this.status == 200) {
+            var blob = new Blob([this.response], {type: 'application/vnd.ms-excel'});
+            var respHeader = xhr.getResponseHeader("Content-Disposition");
+            var fileName = decodeURI(respHeader.match(/filename=(.*?)(;|$)/)[1]);
+            if (window.navigator.msSaveOrOpenBlob) {
+              navigator.msSaveBlob(blob, fileName);
+            } else {
+              var link = document.createElement('a');
+              link.href = window.URL.createObjectURL(blob);
+              link.download = fileName;
+              link.click();
+              window.URL.revokeObjectURL(link.href);
+            }
+          }
+        }
+        xhr.send(formData);
       },
       getFactoryList() {
         this.$request.get('/codesrc/saas/factory/list', {}, res => {
