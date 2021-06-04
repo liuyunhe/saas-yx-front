@@ -321,6 +321,7 @@ export default {
         'act-103': '/market/actTpl/addActEgg?edit=',
         'act-111': '/market/actTpl/addHePiaoXiang?edit=',
         'act-112': '/market/actTpl/addRockPaperScissors?edit=',
+        'act-113': '/market/actTpl/addBoating?edit=',
         'act-104': '/market/actTpl/addActFanpaizi?edit=',
         'act-501': '/market/actTpl/addActQuestion?edit=',
         'act-301': '/market/actTpl/addActRedPacked?edit=',
