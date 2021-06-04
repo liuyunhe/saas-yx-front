@@ -413,9 +413,6 @@ export default {
           { max: 15, message: '长度不能超过 15 个字符', trigger: 'blur' }
         ]
       },
-      extInfo:{
-        winPert:0
-      },
       ballonIndex:"",
       configItem: {
         title: '',

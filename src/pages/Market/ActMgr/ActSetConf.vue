@@ -82,10 +82,6 @@
           <el-input-number v-model="redConf.joinNum" :precision="0" :min="1" controls-position="right"></el-input-number>
           次
         </el-form-item>
-        <el-form-item v-if="form == 'act-112'" label="获胜概率：" prop="winPert">
-          <el-input-number v-model="winPert" :precision="0" :min="0" :max="100" controls-position="right"></el-input-number>
-          %
-        </el-form-item>
         <el-form-item v-if="shareAct[form]" label="分享设置：" prop="isShare">
           <el-radio v-model="redConf.share" :label="1">开启分享</el-radio>
           <el-radio v-model="redConf.share" :label="0">关闭分享</el-radio>
@@ -199,13 +195,6 @@ export default {
         callback(new Error('请输入参与次数'))
       }
     }
-    var valideWin = (rules, value, callback) => {
-      if (this.winPert >= 0) {
-        callback()
-      } else {
-        callback(new Error('请输入获胜'))
-      }
-    }
     return {
       isAllSaleZone: sessionStorage.isAllSaleZone,
       showSaleZone:true,
@@ -225,9 +214,8 @@ export default {
       },
       extInfo:{
       	limited:1,
-      	time:60,
+      	time:60
       },
-      winPert:0,
       idxSelect: {},
       confData: {
         actTag: null,
@@ -263,7 +251,6 @@ export default {
         banner: [{ required: true, validator: validateBanner }],
         desc: [{ required: true, validator: validateDesc }],
         number: [{ required: true, validator: valideNumber }],
-        winPert: [{ required: true, validator: valideWin }],
         isShare: [{ required: true, validator: valideShare }]
       },
       // actTime: [],
@@ -412,9 +399,6 @@ export default {
           if(this.form == 'act-501'){
             this.extInfo=this.confData.extInfo?JSON.parse(this.confData.extInfo):{limited:1, time:60}
           }
-          if(this.form == 'act-112'){
-            this.winPert=this.confData.extInfo?JSON.parse(this.confData.extInfo).winPert?JSON.parse(this.confData.extInfo).winPert:0:0
-          }
           // this.actTime.push(this.confData.stimeStr)
           // this.actTime.push(this.confData.etimeStr)
           this.getActTag()
@@ -480,13 +464,6 @@ export default {
           }
         }
         if (this.shareAct[this.form]) this.confData.extInfo = JSON.stringify(this.redConf)
-        if(this.form=='act-112'){
-          this.confData.extInfo = JSON.stringify({
-            winPert:this.winPert,
-            joinNum: this.redConf.joinNum,
-            share: this.redConf.share
-          })
-        }
         this.$request.post('/api/wiseqr/act/saveOrModify', this.confData, true, res => {
           if (res.ret === '200000') {
           	if(this.form=='act-501'){
