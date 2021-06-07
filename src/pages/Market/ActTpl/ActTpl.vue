@@ -158,6 +158,7 @@ export default {
         'act-104': '/market/actTpl/addActFanpaizi?id=',
         'act-111': '/market/actTpl/addHePiaoXiang?id=',
         'act-112': '/market/actTpl/addRockPaperScissors?id=',
+        'act-113': '/market/actTpl/addBoating?id=',
         'act-501': '/market/actTpl/addActQuestion?id=',
         'act-301': '/market/actTpl/addActRedPacked?id=',
         'act-105': '/market/actTpl/addRound?id=',

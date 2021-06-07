@@ -20,23 +20,19 @@
             <div class="content phone">
               <div class="bg"><img :src="configItem.bgImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 1"></div>
               <div class="title-bg"><img :src="configItem.headerImgUrl" alt="" title="点击编辑" @click="showEditConIndex = 2"></div>
-              <div class="start" ><img :src="configItem.startImgUrl" title="点击编辑" alt="" @click="showEditConIndex = 3"/></div>
               <div class="tip"><img :src="configItem.actTip" title="点击编辑" @click="showEditConIndex = 4"alt="" /></div>
               <div class="btn-active" @click="showEditConIndex = 5">
-                <img :src="configItem.btnActiveImgUrl" title="点击编辑"  alt="">
-                <div>石头</div>
+                <img :src="configItem.countBg" title="点击编辑"  alt="">
+                <div>倒计时 : 60S</div>
               </div>
-              <div class="btn-active" style="left: 128px">
-                <div>剪刀</div>
-              </div>
-              <div class="btn-active" style="left: 204px">
-                <div>布</div>
-              </div>
-              <div class="toyA"><img :src="configItem.gestureBImgUrl" title="点击编辑" @click="showEditConIndex = 7" alt=""></div>
-              <div class="toyB"><img :src="configItem.gestureAImgUrl" title="点击编辑" @click="showEditConIndex = 6" alt=""></div>
-              <div class="toyC"><img :src="configItem.gestureCImgUrl" title="点击编辑" @click="showEditConIndex = 8" alt=""></div>
-
-
+              <div class="food" ><img :src="configItem.food" title="点击编辑" alt="" @click="showEditConIndex = 3"/></div>
+              <div class="food pos1" ><img :src="configItem.food" title="点击编辑" alt="" @click="showEditConIndex = 3"/></div>
+              <div class="food pos2" ><img :src="configItem.food" title="点击编辑" alt="" @click="showEditConIndex = 3"/></div>
+              <div class="food pos3" ><img :src="configItem.food" title="点击编辑" alt="" @click="showEditConIndex = 3"/></div>
+              <div class="food pos4" ><img :src="configItem.food" title="点击编辑" alt="" @click="showEditConIndex = 3"/></div>
+              <div class="boat"><img :src="configItem.boat" title="点击编辑" @click="showEditConIndex = 6" alt=""></div>
+              <div class="leftArrow"><img :src="configItem.leftArrow" title="点击编辑" @click="showEditConIndex = 7" alt=""></div>
+              <div class="rightArrow"><img :src="configItem.rightArrow" title="点击编辑" @click="showEditConIndex = 8" alt=""></div>
             </div>
             <div class="footer"></div>
           </div>
@@ -94,10 +90,10 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 3">
                   <div>
-                    <p class="img-title">开始按钮:</p>
-                    <div class="img-con act-tip-img" style="width: 100px;height: 113px;line-height: 113px"><img :src="configItem.startImgUrl" alt=""></div>
+                    <p class="img-title">莲藕图片:</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 113px;line-height: 113px"><img :src="configItem.food" alt=""></div>
                     <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="(res)=>{upLoadImgSuccess(res,'startImgUrl')}" :show-file-list="false">
+                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="(res)=>{upLoadImgSuccess(res,'food')}" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
                       </el-upload>
                     </div>
@@ -116,87 +112,57 @@
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 5">
                   <div>
-                    <p class="img-title">选中按钮:</p>
-                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.btnActiveImgUrl" alt=""></div>
+                    <p class="img-title">倒计时背景:</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.countBg" alt=""></div>
                     <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="(res)=>{upLoadImgSuccess(res,'btnActiveImgUrl')}" :show-file-list="false">
+                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="(res)=>{upLoadImgSuccess(res,'countBg')}" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
                       </el-upload>
                     </div>
                   </div>
                 </div>
-
                 <div class="edit-game-img" v-if="showEditConIndex == 6">
                   <div>
-                    <p class="img-title">剪刀选项图片:</p>
-                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.gestureAImgUrl" alt=""></div>
+                    <p class="img-title">小船图片:</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.boat" alt=""></div>
                     <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="(res)=>{upLoadImgSuccess(res,'gestureAImgUrl')}" :show-file-list="false">
+                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="(res)=>{upLoadImgSuccess(res,'boat')}" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
                       </el-upload>
                     </div>
                   </div>
-                  <p class="tips">* 图片建议尺寸为 162*191px格式为jpg\bmp\png\gif</p>
-                  <div style="margin-top: 30px">
-                    <p class="img-title">剪刀展示图片:</p>
-                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.gestureAImgUrlL" alt=""></div>
-                    <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="(res)=>{upLoadImgSuccess(res,'gestureAImgUrlL')}" :show-file-list="false">
-                        <el-button size="small" type="primary">更换图片</el-button>
-                      </el-upload>
-                    </div>
-                  </div>
-                  <p class="tips">* 图片建议尺寸为 301*210px格式为jpg\bmp\png\gif</p>
+                  <p class="tips">* 图片建议尺寸为 300*290px格式为jpg\bmp\png\gif</p>
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 7">
                   <div>
-                    <p class="img-title">石头选项图片:</p>
-                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.gestureBImgUrl" alt=""></div>
+                    <p class="img-title">左箭头图片:</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px;background: gainsboro;"><img :src="configItem.leftArrow" alt=""></div>
                     <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="(res)=>{upLoadImgSuccess(res,'gestureBImgUrl')}" :show-file-list="false">
+                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="(res)=>{upLoadImgSuccess(res,'leftArrow')}" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
                       </el-upload>
                     </div>
                   </div>
-                  <p class="tips">* 图片建议尺寸为 162*191px格式为jpg\bmp\png\gif</p>
-                  <div style="margin-top: 30px">
-                    <p class="img-title">石头展示图片:</p>
-                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.gestureBImgUrlL" alt=""></div>
-                    <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="(res)=>{upLoadImgSuccess(res,'gestureBImgUrlL')}" :show-file-list="false">
-                        <el-button size="small" type="primary">更换图片</el-button>
-                      </el-upload>
-                    </div>
-                  </div>
-                  <p class="tips">* 图片建议尺寸为 212*196px格式为jpg\bmp\png\gif</p>
+                  <p class="tips">* 图片建议尺寸为 110*110px格式为jpg\bmp\png\gif</p>
                 </div>
                 <div class="edit-game-img" v-if="showEditConIndex == 8">
                   <div>
-                    <p class="img-title">布选项图片:</p>
-                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.gestureCImgUrl" alt=""></div>
+                    <p class="img-title">右箭头图片:</p>
+                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px;background: gainsboro;"><img :src="configItem.rightArrow" alt=""></div>
                     <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="(res)=>{upLoadImgSuccess(res,'gestureCImgUrl')}" :show-file-list="false">
+                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="(res)=>{upLoadImgSuccess(res,'rightArrow')}" :show-file-list="false">
                         <el-button size="small" type="primary">更换图片</el-button>
                       </el-upload>
                     </div>
                   </div>
-                  <p class="tips">* 图片建议尺寸为 162*191px格式为jpg\bmp\png\gif</p>
-                  <div style="margin-top: 30px">
-                    <p class="img-title">布展示图片:</p>
-                    <div class="img-con act-tip-img" style="width: 100px;height: 100px;line-height: 100px"><img :src="configItem.gestureCImgUrlL" alt=""></div>
-                    <div class="btn-con">
-                      <el-upload :action="uploadURL" :headers="headerObj" :on-success="(res)=>{upLoadImgSuccess(res,'gestureCImgUrlL')}" :show-file-list="false">
-                        <el-button size="small" type="primary">更换图片</el-button>
-                      </el-upload>
-                    </div>
-                  </div>
-                  <p class="tips">* 图片建议尺寸为 273*264px格式为jpg\bmp\png\gif</p>
+                  <p class="tips">* 图片建议尺寸为 110*110px格式为jpg\bmp\png\gif</p>
                 </div>
+
                 <p class="tips" v-if="showEditConIndex == 1">* 图片建议尺寸为 750*1600px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 750*726px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 252*125px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 92*109px格式为jpg\bmp\png\gif</p>
-                <p class="tips" v-if="showEditConIndex == 5">* 图片建议尺寸为 108*40px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 2">* 图片建议尺寸为 592*184px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 3">* 图片建议尺寸为 87*118px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 4">* 图片建议尺寸为 140*60px格式为jpg\bmp\png\gif</p>
+                <p class="tips" v-if="showEditConIndex == 5">* 图片建议尺寸为 233*58px格式为jpg\bmp\png\gif</p>
               </div>
 
             </el-card>
@@ -240,7 +206,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 448*240px格式为jpg\bmp\png\gif</p>
+                <p class="tips">* 图片建议尺寸为 448*100px格式为jpg\bmp\png\gif</p>
               </div>
             </el-card>
           </div>
@@ -297,7 +263,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 563*639px格式为jpg\bmp\png\gif</p>
+                <p class="tips">* 图片建议尺寸为 663*754px格式为jpg\bmp\png\gif</p>
               </div>
               <div class="edit-con">
                 <div class="edit-winning-img">
@@ -323,8 +289,8 @@
                 <div class="prize-con">
                   <div class="close"><img src="http://qoss.qrmkt.cn/new_platform/close_icon.png" alt=""></div>
                   <img class="pic" :src="configItem.cryImgUrl" alt="">
-                  <div style="width: 100%;height: 20px;color:#fff;line-height: 20px;text-align: center;position: absolute;left: 0;top: 285px">未中奖</div>
-                  <img class="prize-btn" style="width: 112px;;top: 310px" :src="configItem.cryBtnUrl" alt="">
+                  <div style="width: 100%;height: 20px;color:#fff;line-height: 20px;text-align: center;position: absolute;left: 0;top: 275px">未中奖</div>
+                  <img class="prize-btn" style="width: 112px;;top: 300px" :src="configItem.cryBtnUrl" alt="">
                 </div>
               </div>
             </div>
@@ -345,7 +311,7 @@
                     </el-upload>
                   </div>
                 </div>
-                <p class="tips">* 图片建议尺寸为 330*70px格式为jpg\bmp\png\gif</p>
+                <p class="tips">* 图片建议尺寸为 663*754px格式为jpg\bmp\png\gif</p>
               </div>
               <div class="edit-con">
                 <div class="edit-notWinning-img">
@@ -400,7 +366,7 @@ export default {
       activeName: 'home',
       addActParams: {
         conf: '',
-        form: 'act-112',
+        form: 'act-113',
         id: '',
         name: '',
         note: '',
@@ -413,28 +379,29 @@ export default {
           { max: 15, message: '长度不能超过 15 个字符', trigger: 'blur' }
         ]
       },
+      extInfo:{
+        winPert:0
+      },
       ballonIndex:"",
       configItem: {
         title: '',
         description: '',
-        headerImgUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/banner.png',
-        bgImgUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/bg.png',
-        actTip:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/tips.png',
-        startImgUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/ok-btn.png',
-        btnActiveImgUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/checked.png',
-        gestureAImgUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/s-s-1.png',
-        gestureBImgUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/s-s-2.png',
-        gestureCImgUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/s-s-3.png',
-        gestureAImgUrlL:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/s-l-1.png',
-        gestureBImgUrlL:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/s-l-2.png',
-        gestureCImgUrlL:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/s-l-3.png',
-        drawImgUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/award-pop.png',
-        drawBtnUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/award-btn.png',
-        cryImgUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/jww-nolucky.png',
-        cryBtnUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/nolucky-btn.png',
-        shareImgUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/yr-bg.png',
-        shareBtnUrl: 'http://qoss.qrmkt.cn/common/zhuawawa/share-btn-img.png',
-        shareIconUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/chl/share-icon.png',
+        headerImgUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/boating/banner.png',
+        bgImgUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/boating/bg.png',
+        actTip:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/boating/tips.png',
+        food:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/boating/food.png',
+        countBg:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/boating/count-bg.png',
+        boat:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/boating/boat.png',
+        leftArrow:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/boating/left-arrow.png',
+        rightArrow:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/boating/right-arrow.png',
+
+        drawImgUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/boating/award-pop.png',
+        drawBtnUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/boating/award-btn.png',
+        cryImgUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/boating/nolucky-bg.png',
+        cryBtnUrl:'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/boating/nolucky-btn.png',
+        shareImgUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/boating/yr-bg.png',
+        shareBtnUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/boating/share-btn-img.png',
+        shareIconUrl: 'https://qrmkt.oss-cn-beijing.aliyuncs.com/common/boating/share-icon.png',
         share: {shareTitle: '', shareDesc: ''}
       },
       uploadURL: '/api/wiseqr/attach/commonAliUpload',
@@ -593,10 +560,10 @@ export default {
           }
         }
         .title-bg{
-          width: 300px;
-          height: 258px;
+          width: 237px;
+          height: 74px;
           position: absolute;
-          top: -16px;
+          top: 29px;
           left: 50%;
           transform: translateX(-50%);
           z-index: 39;
@@ -615,11 +582,11 @@ export default {
           z-index: 49;
         }
         .tip {
-        	width:37px;
-        	height: 44px;
+        	width:56px;
+        	height: 24px;
         	position: absolute;
-        	right:31px;
-        	top:26px;
+        	right:2px;
+        	top:8px;
           z-index: 59;
         	img {
         		width:100%;
@@ -627,13 +594,29 @@ export default {
         		object-fit: contain;
         	}
         }
-        .start {
-        	width:101px;
-        	height: 50px;
+        .food {
+        	width:35px;
+        	height: 47px;
         	position: absolute;
-        	top:360px;
-          left: 98px;
+        	top:185px;
+          left: 142px;
           z-index: 99;
+          &.pos1{
+            top:234px;
+            left: 46px;
+          }
+          &.pos2{
+            top:240px;
+            left: 246px;
+          }
+          &.pos3{
+            top:350px;
+            left: 48px;
+          }
+          &.pos4{
+            top:374px;
+            left: 246px;
+          }
         	img {
         		width:100%;
         		height: 100%;
@@ -643,11 +626,12 @@ export default {
         }
         .btn-active{
           position: absolute;
-          width: 43px;
-          height: 16px;
-          top: 335px;
-          left: 51px;
+          width: 93px;
+          height: 23px;
+          top: 105px;
+          left: 109px;
           color: white;
+          line-height: 23px;
           font-size: 10px;
           text-align: center;
           img{
@@ -664,12 +648,12 @@ export default {
             height: 100%;
           }
         }
-        .toyA{
-          width:65px;
-          height:76px;
+        .leftArrow{
+          width:44px;
+          height:44px;
           position: absolute;
-          top:248px;
-          left: 40px;
+          top:420px;
+          left: 81px;
           z-index: 109;
           img {
             width:100%;
@@ -677,12 +661,12 @@ export default {
             object-fit: contain;
           }
         }
-        .toyB{
-          width:65px;
-          height: 76px;
+        .boat{
+          width:100px;
+          height: 95px;
           position: absolute;
-          top:248px;
-          left: 115px;
+          top:350px;
+          left: 100px;
           z-index: 99;
           img {
             width:100%;
@@ -690,12 +674,12 @@ export default {
             object-fit: contain;
           }
         }
-        .toyC{
-          width:65px;
-          height: 76px;
+        .rightArrow{
+          width:44px;
+          height:44px;
           position: absolute;
-          top:248px;
-          right: 40px;
+          top:420px;
+          right: 81px;
           z-index: 99;
           img {
             width:100%;
@@ -814,7 +798,7 @@ export default {
             .pic {
               max-width: 196px;
               // max-height: 200px;
-              margin-top: 130px;
+              margin-top: 115px;
               margin-right: 20px;
             }
             p {
@@ -963,12 +947,12 @@ export default {
   .bg:hover,
   .tip:hover,
   .top:hover,
-  .start:hover,
-  .toyA:hover,
-  .toyB:hover,
-  .toyC:hover,
+  .food:hover,
+  .leftArrow:hover,
+  .boat:hover,
+  .rightArrow:hover,
   .title-bg:hover,
-  .start:hover,
+  .food:hover,
   .btn-active:hover,
   .hook:hover{
     transform: scale(0.99);
@@ -1045,7 +1029,7 @@ export default {
   }
   img:nth-child(2) {
     width: 182px;
-    height: 58px;
+    height: 35px;
     top: 415px;
     left: 50%;
     transform: translateX(-50%);
