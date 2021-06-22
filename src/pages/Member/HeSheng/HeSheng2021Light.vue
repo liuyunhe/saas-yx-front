@@ -10,7 +10,8 @@
         <span v-if="info.openStatus == 4">开奖失败</span>
       </el-col>
       <el-col class="mb20">
-        <div>当前已有<span style="color: #409EFF">{{ openawdUserNum }}</span>人获得瓜分大奖资格，<span style="color: #409EFF">{{ openedNum }}</span>人已开奖</div>
+        <div v-if="info.openStatus == 1">当前已有<span style="color: #409EFF">{{ openawdUserNum }}</span>人获得瓜分大奖资格</div>
+        <div v-if="info.openStatus == 3"><span style="color: #409EFF">{{ openedNum }}</span>人已开奖</div>
       </el-col>
       <el-col class="mb20">
         <el-card :body-style="{ padding: '20px' }">
@@ -78,7 +79,7 @@
               this.info = res.data.nowConfig
             }
             this.canOpenAward = res.data.canOpenAward
-            this.openawdUserNum = res.data.openawdUserNum
+            this.openawdUserNum = res.data.nowConfig.openNumCurr
             this.openedNum = res.data.openedNum
             return
           }
