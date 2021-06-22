@@ -62,7 +62,7 @@
           joinEtime: [{required: true, message: '请输入结束时间', trigger: 'blur'}],
           openRedpack: [{required: true, message: '请输入红包金额', trigger: 'blur'}],
         },
-        confCode:'hs_hedeng_2105_hyy'
+        confCode:'hs_hedeng_2105'
       }
     },
     created() {
