@@ -8,10 +8,11 @@
         <span v-if="info.openStatus == 2">开奖中</span>
         <span v-if="info.openStatus == 3">已开奖</span>
         <span v-if="info.openStatus == 4">开奖失败</span>
+
       </el-col>
       <el-col class="mb20">
         <div v-if="info.openStatus == 1">当前已有<span style="color: #409EFF">{{ openawdUserNum }}</span>人获得瓜分大奖资格</div>
-        <div v-if="info.openStatus == 3"><span style="color: #409EFF">{{ openedNum }}</span>人已开奖</div>
+        <div v-if="info.openStatus == 3"><span style="color: #409EFF">{{ openedNum }}</span>人已开奖 <el-button type="primary" @click="send" style="margin-left: 20px">推送消息</el-button></div>
       </el-col>
       <el-col class="mb20">
         <el-card :body-style="{ padding: '20px' }">
@@ -63,7 +64,8 @@
           joinEtime: [{required: true, message: '请输入结束时间', trigger: 'blur'}],
           openRedpack: [{required: true, message: '请输入红包金额', trigger: 'blur'}],
         },
-        confCode:'hs_hedeng_2105'
+        confCode:'hs_hedeng_2105',
+        orgId:'',
       }
     },
     created() {
@@ -77,6 +79,7 @@
             console.log(res.data)
             if(res.data.nowConfig){
               this.info = res.data.nowConfig
+              this.orgId = res.data.nowConfig.orgId
             }
             this.canOpenAward = res.data.canOpenAward
             this.openawdUserNum = res.data.nowConfig.openNumCurr
@@ -120,6 +123,17 @@
         this.$request.post('/hbact//saas/zt/config/awardOpen', {configId:this.info.id,actConfCode:this.confCode}, false, res => {
           if (res.code == '200') {
             this.$message.success('开奖成功！')
+            this.getInfo()
+            return
+          }
+          this.$message.error(res.msg)
+          this.getInfo()
+        })
+      },
+      send(){
+        this.$request.post('/hbact/saas/zt/award/sendMsg', {orgId:this.orgId,confCode:this.confCode}, false, res => {
+          if (res.code == '200') {
+            this.$message.success(res.msg)
             this.getInfo()
             return
           }
