@@ -45,6 +45,7 @@
           <el-form-item class="mr0" :size="'small'">
             <el-button type="primary" size="small" @click="commitForm">查询</el-button>
             <el-button size="small" class="important" @click="getStatus">重置</el-button>
+            <el-button  size="small" plain  v-on:click="exportData" >导出列表</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -370,8 +371,46 @@
           this.batchOperations = true
         }
 
-      }
-
+      },
+      exportData(){//导出
+        var url = "/sc/saotx/mall/order/authListExport";
+        var xhr = new XMLHttpRequest();
+        let params = {
+          jdOrderStatus: this.filters.jdOrderStatus,
+          startTime: this.filters.startTime,
+          endTime: this.filters.endTime,
+          pageNo: this.pageNo,
+          pageSize: this.pageSize,
+          mobile:this.filters.mobile,
+          userName:this.filters.userName,
+          orderType:4    //苏宁
+        };
+        var formData = JSON.stringify(params)
+        xhr.overrideMimeType("text/plain; charset=x-user-defined");
+        xhr.open('POST', url, true);
+        xhr.responseType = "blob";
+        xhr.responseType = "arraybuffer"
+        xhr.setRequestHeader("token", sessionStorage.getItem('access_token'));
+        xhr.setRequestHeader("loginId", sessionStorage.getItem('access_loginId'));
+        xhr.setRequestHeader("Content-Type", 'application/json;charset=UTF-8');
+        xhr.onload = function(res) {
+          if (this.status == 200) {
+            var blob = new Blob([this.response], {type: 'application/vnd.ms-excel'});
+            var respHeader = xhr.getResponseHeader("Content-Disposition");
+            var fileName = decodeURI(respHeader.match(/filename=(.*?)(;|$)/)[1]);
+            if (window.navigator.msSaveOrOpenBlob) {
+              navigator.msSaveBlob(blob, fileName);
+            } else {
+              var link = document.createElement('a');
+              link.href = window.URL.createObjectURL(blob);
+              link.download = fileName;
+              link.click();
+              window.URL.revokeObjectURL(link.href);
+            }
+          }
+        }
+        xhr.send(formData);
+      },
     },
     created(){
       this.getAuthList()
