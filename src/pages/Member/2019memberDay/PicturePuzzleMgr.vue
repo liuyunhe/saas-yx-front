@@ -283,6 +283,42 @@
           </el-form>
         </el-card>
         <div style="height: 30px"></div>
+        <el-card :body-style="{ padding: '20px' }">
+          <div slot="header" class="clearfix">
+            <span>荷点：</span>
+            <el-button type="primary" @click="addHD">新增</el-button>
+          </div>
+
+          <el-form>
+            <el-form-item v-for="(item,index) in hd" :key="index" label='奖品图片：'>
+              <el-input v-model="item.awdPicture" style="display: none" ></el-input>
+              <el-upload  class="avatar-uploader" :action="uploadURL" :headers="headerObj" :on-success="(res)=>{uploadImgUrlSuccess1(res,index)}" :show-file-list="false">
+                <img v-if="item.awdPicture" :src="item.awdPicture" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+              <span>* 图片建议尺寸为380*280px，格式为*.jpg\ *.bmp\ *.png\ *.gif</span>
+              <div></div>
+              名称：<el-input style="width: 130px" v-model="item.awdName"  placeholder="奖品名称" :disabled="item.id ? true : false"></el-input>
+              <span style="margin-right: 20px"></span>
+              投放数量<el-input-number v-model="item.totalNum" :disabled="item.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number>个
+              <span v-if="item.id ? true : false">
+               <span style="margin-right: 20px"></span>
+            剩余{{ item.totalNum - item.outNum }}个
+            </span>
+<!--              <span style="margin-right: 20px"></span>-->
+<!--              中奖概率<el-input-number v-model="item.probability" :precision="1" :step="0.1" :min="0" controls-position="right"></el-input-number>-->
+<!--              %-->
+              <span style="margin-right: 20px"></span>
+              面额<el-input-number v-model="item.scoreValue" :disabled="item.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number> 分
+              <span v-if="item.id ? true : false">
+              <span style="margin-right: 20px"></span>
+              <el-button type="primary" @click="addRepertory(item)">增库</el-button>
+            </span>
+              <span style="margin-right: 20px"></span>
+              <el-button type='danger' @click="deleteAward('hd',index)">删除</el-button>
+            </el-form-item>
+          </el-form>
+        </el-card>
       </el-card>
     </div>
 
@@ -551,6 +587,7 @@
         hsb:[],
         zkk:[],
         fbk:[],
+        hd:[],
         defaultAwae: { // 给个默认 好复制
           awdCode: '',
           awdPicture: '',
@@ -594,6 +631,17 @@
       }
     },
     methods:{
+      addHD(){
+        let newAwae = JSON.parse(JSON.stringify(this.defaultAwae))
+        newAwae.awdType = 9
+        newAwae.poolId = null
+        this.hd.push(newAwae)
+      },
+      uploadImgUrlSuccess1(resule,index) {
+        if (resule.ret === '200000')
+          return (this.hd[index].awdPicture = resule.data.accessUrl)
+        this.$message.error(resule.message)
+      },
       add(index){
         this.snConfIndex = index
         let rows = []
@@ -787,6 +835,7 @@
             this.hsb = []
             this.zkk = []
             this.fbk = []
+            this.hd = []
             awardArr.forEach((e,i)=>{
               if(e.awdType == 3){
                 this.hb.push(e)
@@ -800,7 +849,9 @@
               else if(e.awdType == 8){
                 this.fbk.push(e)
               }
-
+              else if(e.awdType == 9){
+                this.hd.push(e)
+              }
             })
             return
           }
@@ -1011,7 +1062,7 @@
           })
         })
        if(awardConfig){
-         let arr = [...this.hb,...this.hsb,...this.zkk,...this.fbk]
+         let arr = [...this.hb,...this.hsb,...this.zkk,...this.fbk,...this.hd]
          if(arr.length == 0){
            this.$message.error('请配置奖池')
            return
