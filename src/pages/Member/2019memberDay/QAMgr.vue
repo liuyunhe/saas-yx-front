@@ -113,6 +113,43 @@
           </el-form-item>
         </el-form>
       </el-card>
+      <div style="height: 30px"></div>
+      <el-card :body-style="{ padding: '20px' }">
+        <div slot="header" class="clearfix">
+          <span>荷点：</span>
+          <el-button type="primary" @click="addHD">新增</el-button>
+        </div>
+
+        <el-form>
+          <el-form-item v-for="(item,index) in hd" :key="index" label='奖品图片：'>
+            <el-input v-model="item.awardPic" style="display: none" ></el-input>
+            <el-upload  class="avatar-uploader" :action="uploadURL" :headers="headerObj" :on-success="(res)=>{uploadImgUrlSuccess(res,index)}" :show-file-list="false">
+              <img v-if="item.awardPic" :src="item.awardPic" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+            <span>* 图片建议尺寸为380*280px，格式为*.jpg\ *.bmp\ *.png\ *.gif</span>
+            <div></div>
+            名称：<el-input style="width: 130px" v-model="item.prizeName"  placeholder="奖品名称" :disabled="item.id ? true : false"></el-input>
+            <span style="margin-right: 20px"></span>
+            投放数量<el-input-number v-model="item.totalNum" :disabled="item.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number>个
+            <span v-if="item.id ? true : false">
+               <span style="margin-right: 20px"></span>
+            剩余{{ item.totalNum - item.outNum }}个
+            </span>
+            <span style="margin-right: 20px"></span>
+            中奖概率<el-input-number v-model="item.probability" :precision="1" :step="0.1" :min="0" controls-position="right"></el-input-number>
+            %
+            <span style="margin-right: 20px"></span>
+            面额<el-input-number v-model="item.integral" :disabled="item.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number> 分
+            <span v-if="item.id ? true : false">
+              <span style="margin-right: 20px"></span>
+              <el-button type="primary" @click="addRepertory(item)">增库</el-button>
+            </span>
+            <span style="margin-right: 20px"></span>
+            <el-button type='danger' @click="deleteAward('hd',index)">删除</el-button>
+          </el-form-item>
+        </el-form>
+      </el-card>
     </div>
 
 
@@ -152,6 +189,12 @@
     name: "QAMgr",
     data(){
       return {
+        uploadURL: '/api/wiseqr/attach/commonAliUpload',
+        headerObj: {
+          loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
+          token: sessionStorage.getItem('access_token'),
+          CLIENTSESSIONID: sessionStorage.getItem('CLIENTSESSIONID')
+        },
         id:'',
         actCode:'',
         strategyArr:{},
@@ -173,6 +216,7 @@
         hsb:[],
         zkk:[],
         fbk:[],
+        hd:[],
         defaultAwae: { // 给个默认 好复制
           awardPic: '',
           awardPrice:'',
@@ -229,6 +273,16 @@
       }
     },
     methods:{
+      addHD(){
+        let newAwae = JSON.parse(JSON.stringify(this.defaultAwae))
+        newAwae.awardType = 9
+        this.hd.push(newAwae)
+      },
+      uploadImgUrlSuccess(resule,index) {
+        if (resule.ret === '200000')
+          return (this.hd[index].awardPic = resule.data.accessUrl)
+        this.$message.error(resule.message)
+      },
       // 扫码奖励查询
       getActCode(){
         this.$request.post('/hbact/hyr/home/actCode', {actType:6}, false, res => {
@@ -252,6 +306,7 @@
             this.hsb = []
             this.zkk = []
             this.fbk = []
+            this.hd = []
             awardArr.forEach((e,i)=>{
               if(e.awardType == 3){
                 this.hb.push(e)
@@ -264,6 +319,9 @@
               }
               else if(e.awardType == 8){
                 this.fbk.push(e)
+              }
+              else if(e.awardType == 9){
+                this.hd.push(e)
               }
             })
             return
@@ -364,7 +422,7 @@
               cityArr:this.strategyArr.areas.cityArr,
               districtArr:this.strategyArr.areas.districtArr,
             },
-            awardArr:[...this.hb,...this.hsb,...this.zkk,...this.fbk],
+            awardArr:[...this.hb,...this.hsb,...this.zkk,...this.hd],
             snArr:this.strategyArr.snArr,
             brandArr:this.strategyArr.brandArr,
             tf:{
@@ -425,7 +483,31 @@
 
   }
 </script>
-
+<style>
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 110px;
+  height: 110px;
+  line-height: 110px;
+  text-align: center;
+}
+.avatar {
+  width: 110px;
+  height: 110px;
+  display: block;
+}
+</style>
 <style lang="scss" scoped>
   .QA-container{
     background: #fff;
