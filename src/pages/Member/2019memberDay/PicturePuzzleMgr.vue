@@ -286,7 +286,7 @@
         <el-card :body-style="{ padding: '20px' }">
           <div slot="header" class="clearfix">
             <span>荷点：</span>
-            <el-button type="primary" @click="addHD">新增</el-button>
+            <el-button v-show="newAct" type="primary" @click="addHD">新增</el-button>
           </div>
 
           <el-form>
