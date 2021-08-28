@@ -8,19 +8,21 @@
         <el-form-item label="" prop="blossomNum">
           浇水<el-input-number v-model="confData.blossomNum" :disabled="actStatus>1" :min="0" controls-position="right"></el-input-number> 次，可以养成一朵花；
         </el-form-item>
-        <el-form-item label="" prop="flowerNum">
-          集齐<el-input-number v-model="confData.flowerNum" :disabled="actStatus>1" :min="0" controls-position="right"></el-input-number> 朵花，可以瓜分奖池；
-        </el-form-item>
         <el-form-item label="浇水结束时间：" prop="JSEtimeStr">
           <el-date-picker v-model="confData.JSEtimeStr" :disabled="actStatus>1"value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择浇水时间"></el-date-picker>
         </el-form-item>
         <BZActPutConf :form-name="'浇水必中奖池：'" ref="awardArr" :configId="confData.id" :awardArr="awardArr" :editable="actStatus<2" @modifyAwardArr = "modifyAwardArr" @modifyAwardArrError="modifyAwardArrError" :saleZone="saleZone" :budgetTime="budgetTime"></BZActPutConf>
-        <div style="margin-bottom: 30px"></div>
-
-        <el-card>
+        <div style="margin-bottom: 20px"></div>
+        <el-form-item label="是否使用瓜分奖池：" >
+          <el-switch v-model="confData.needOpenAward" :disabled="actStatus>1" :active-value="1" :inactive-value="0"></el-switch>
+        </el-form-item>
+        <el-card v-if="confData.needOpenAward==1">
           <div slot="header" class="clearfix">
             <span>瓜分奖池:</span>
           </div>
+          <el-form-item label="集齐设置：" prop="flowerNum">
+            集齐<el-input-number v-model="confData.flowerNum" :disabled="actStatus>1" :min="0" controls-position="right"></el-input-number> 朵花，可以瓜分奖池；
+          </el-form-item>
           <el-form-item label="开奖时间：" prop="OpenTimeStr">
             <el-date-picker v-model="confData.OpenTimeStr" :disabled="actStatus>1"value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择开奖时间"></el-date-picker>
           </el-form-item>
@@ -181,7 +183,7 @@
           blossomNum:'',
           flowerNum:'',
           JSEtimeStr: '', //
-
+          needOpenAward:1,
           OpenTimeStr: '', //
           totalMoney: '', //
           totalWinnerNum: ''
@@ -265,6 +267,7 @@
               this.confData.dayNum = res.data.config.dayMaxNum
               this.confData.blossomNum = res.data.config.oneFlowerNeedNum
               this.confData.flowerNum = res.data.config.finishNeedNum
+              this.confData.needOpenAward = res.data.config.needOpenAward
 
               this.jcType =  res.data.config.openAwardType
               this.confData.totalMoney = res.data.config.totalAmount
@@ -363,7 +366,7 @@
             awardConfig = false
           }
         })
-        if(this.jcType == 1){
+        if(this.confData.needOpenAward == 1 && this.jcType == 1){
           this.$refs.ZawardArr.validate(valid => {
             if(valid){
 
@@ -378,7 +381,7 @@
           this.$message.error('开奖时间必须大于浇花截止时间1小时')
           return
         }
-        if(this.jcType == 1){
+        if(this.confData.needOpenAward == 1 && this.jcType == 1){
           let flag = this.judgeDivisor(this.confData.totalMoney-0, this.confData.totalWinnerNum-0)
           if(!flag){
             this.$message.error('红包总金额除不尽配置的瓜分总人数')
@@ -434,6 +437,7 @@
               "dayMaxNum":this.confData.dayNum, //每天的最多参与次数
               "oneFlowerNeedNum":this.confData.blossomNum, //养成一朵花需要浇水几次
               "finishNeedNum":this.confData.flowerNum, //完成任务需要几朵花
+              "needOpenAward":this.confData.needOpenAward, //完成任务需要几朵花
 
               "openAwardType":this.jcType, //开奖类型 1表示瓜分总奖池 2表示多种奖品奖池
               "totalAmount":this.confData.totalMoney, //奖池总金额
@@ -461,6 +465,7 @@
               "dayMaxNum":this.confData.dayNum, //每天的最多参与次数
               "oneFlowerNeedNum":this.confData.blossomNum, //养成一朵花需要浇水几次
               "finishNeedNum":this.confData.flowerNum, //完成任务需要几朵花
+              "needOpenAward":this.confData.needOpenAward, //完成任务需要几朵花
 
               "openAwardType":this.jcType, //开奖类型 1表示瓜分总奖池 2表示多种奖品奖池
               "totalAmount":this.confData.totalMoney, //奖池总金额
