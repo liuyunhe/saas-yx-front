@@ -377,15 +377,17 @@
         }
         if(!awardConfig) return
         console.log(this.confData.JSEtimeStr - this.confData.OpenTimeStr)
-        if(new Date(this.confData.OpenTimeStr).getTime() - new Date(this.confData.JSEtimeStr)< 60 *60 *1000){
-          this.$message.error('开奖时间必须大于浇花截止时间1小时')
-          return
-        }
-        if(this.confData.needOpenAward == 1 && this.jcType == 1){
-          let flag = this.judgeDivisor(this.confData.totalMoney-0, this.confData.totalWinnerNum-0)
-          if(!flag){
-            this.$message.error('红包总金额除不尽配置的瓜分总人数')
+        if(this.confData.needOpenAward == 1){
+          if(new Date(this.confData.OpenTimeStr).getTime() - new Date(this.confData.JSEtimeStr)< 60 *60 *1000){
+            this.$message.error('开奖时间必须大于浇花截止时间1小时')
             return
+          }
+          if(this.jcType == 1){
+            let flag = this.judgeDivisor(this.confData.totalMoney-0, this.confData.totalWinnerNum-0)
+            if(!flag){
+              this.$message.error('红包总金额除不尽配置的瓜分总人数')
+              return
+            }
           }
         }
         let flowerPrizeList = this.awardArr.map((item)=>{
