@@ -584,13 +584,13 @@ export default {
               if(this.clone != 1){
                 this.$refs.actPutConf.nWinTfId = item.tf.id
               }
+              this.$refs.actPutConf.nWinTabs=[]
               item.awardArr.forEach((sonItem, i) => {
-                if (i != 0) {
-                  this.$refs.actPutConf.nWinTabs.push({
-                    title: '常规奖项' + (i + 1),
-                    name: '' + (i + 1)
-                  })
-                }
+
+                this.$refs.actPutConf.nWinTabs.push({
+                  title: sonItem.n + '次必中',
+                  name: '' + (i+1)
+                })
                 // for (let k in sonItem) {
                 //   this.nWinTabs[i][k] = sonItem[k]
                 // }

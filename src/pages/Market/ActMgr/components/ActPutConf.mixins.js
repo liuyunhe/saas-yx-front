@@ -146,6 +146,9 @@ export default {
         warnValue: ''
       }], // n次选项
       nWinTfId: '',
+      nWinAward:{
+        n:0
+      },
       fixationPutConf: [{
         awardPic: '',
         awardType: 1,
@@ -347,7 +350,9 @@ export default {
     }
   },
   methods: {
-
+    handleChangeN({n,index}){
+      this.nWinTabs[index].title = `${n}次必中`
+    },
     // 获取品牌列表
     getBrandList() {
       this.$request.post('/api/wiseqr/prod/listBrand', {
@@ -622,11 +627,19 @@ export default {
         // 深拷贝 防止数据相互串通
         let newAwae = JSON.parse(JSON.stringify(this.defaultAwae))
         this[confName + 'Conf'].push(newAwae)
-        let newTabTitle = '常规奖项' + this[confName + 'Conf'].length
-        this[confName + 'Tabs'].push({
-          title: newTabTitle,
-          name: this[confName + 'Conf'].length + ''
-        })
+        if(confName == 'nWin') {
+          let newTabTitle = 'n次必中'
+          this[confName + 'Tabs'].push({
+            title: newTabTitle,
+            name: this[confName + 'Conf'].length + ''
+          })
+        }else {
+          let newTabTitle = '常规奖项' + this[confName + 'Conf'].length
+          this[confName + 'Tabs'].push({
+            title: newTabTitle,
+            name: this[confName + 'Conf'].length + ''
+          })
+        }
         this[confName + 'TabsValue'] = this[confName + 'Conf'].length + ''
       }
       if (action === 'remove') {
@@ -634,10 +647,18 @@ export default {
         let tabs = this[confName + 'Tabs']
         // let activeName = this[confName + 'TabsValue']
         // let removeIndex = tabs.indexOf(targetName)
-        this[confName + 'Conf'].splice(targetName - 1, 1)
-        this[confName + 'Tabs'] = []
-        for (var i = 1; i <= this[confName + 'Conf'].length; i++) {
-          this[confName + 'Tabs'].push({ title: '常规奖项' + i, name: i + ''})
+        if(confName == 'nWin') {
+          this[confName + 'Conf'].splice(targetName-1, 1)
+          this[confName + 'Tabs'] = []
+          for (let i = 0; i < this[confName + 'Conf'].length; i++) {
+            this[confName + 'Tabs'].push({title: `${this[confName + 'Conf'][i].n}次必中`, name: i+1 + ''})
+          }
+        }else {
+          this[confName + 'Conf'].splice(targetName - 1, 1)
+          this[confName + 'Tabs'] = []
+          for (let i = 1; i <= this[confName + 'Conf'].length; i++) {
+            this[confName + 'Tabs'].push({ title: '常规奖项' + i, name: i + ''})
+          }
         }
         // if (activeName === targetName) {
         //   tabs.forEach((tab, index) => {
