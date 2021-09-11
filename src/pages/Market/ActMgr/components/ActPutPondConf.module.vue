@@ -7,7 +7,7 @@
   <div class="pond">
     <el-form ref="form" :model="awae" label-width="100px" :rules="rules">
       <el-form-item label="N次必中:" v-if="nWin" prop="n">
-        用户第 <el-input-number v-model="awae.n" :min="0" controls-position="right"></el-input-number> 个抽奖必中
+        用户第 <el-input-number v-model="awae.n" :min="0" controls-position="right" @input="handleChangeN(awae.n)"></el-input-number> 个抽奖必中
       </el-form-item>
       <el-form-item label="奖品类型:" prop="type">
         <el-select v-model="awae.awardType" :disabled="awae.id ? true : false" placeholder="请选择" @change="resetPrize">
@@ -215,7 +215,7 @@
 </template>
 <script>
   export default {
-    props: ['awae', 'prizeType', 'nWin', 'isRed', 'hide', 'astrict'],
+    props: ['awae', 'prizeType', 'nWin', 'isRed', 'hide', 'astrict','index'],
     data() {
       var validateImgUrl = (rule, value, callback) => {
         if (this.awae.awardPic) {
@@ -264,6 +264,11 @@
         integralVisible: false,
       }
     },
+    watch:{
+      index(a,b){
+        this.index = a
+      }
+    },
     computed: {
       residue: {
         get: function() {
@@ -291,6 +296,9 @@
       // console.log(this.awae)
     },
     methods: {
+      handleChangeN(n){
+        this.$emit('handleChangeN',{n,index:this.index})
+      },
       uploadImgUrlSuccess(resule,index) {
         if (resule.ret === '200000')
           return (this.awae.awardPic = resule.data.accessUrl)

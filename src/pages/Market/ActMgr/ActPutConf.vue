@@ -88,7 +88,7 @@
                 <div class="conf" v-if="nWinFlag">
                   <el-tabs v-model="nWinTabsValue" type="card" editable @edit="nWinTabsEdit">
                     <el-tab-pane :key="item.name" v-for="(item, index) in nWinTabs" :label="item.title" :name="item.name">
-                      <pond-conf :astrict="astrictRedflg" :awae="nWinConf[index]" :hide="true" :prizeType="prizeType" :saleZone="saleZoneCode" :budgetTime="actSTime" :nWin="true"></pond-conf>
+                      <pond-conf :astrict="astrictRedflg" :awae="nWinConf[index]" :hide="true" :prizeType="prizeType" :saleZone="saleZoneCode" :budgetTime="actSTime" :nWin="true" :index="index" @handleChangeN="handleChangeN"></pond-conf>
                     </el-tab-pane>
                   </el-tabs>
                 </div>
