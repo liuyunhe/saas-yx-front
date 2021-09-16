@@ -77,6 +77,13 @@
             <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：200像素*200像素；格式png、jpg；大小不超过2M</div>
           </el-upload>
         </el-form-item>
+        <el-form-item label="活动弹窗：" prop=" popInfo">
+          <el-upload class="avatar-uploader-popup" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upPopInfoImg" :show-file-list="false">
+            <img v-if="confData.popInfo" :src="confData.popInfo" class="avatar-popup">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：600像素*700像素；格式png、jpg；大小不超过2M</div>
+          </el-upload>
+        </el-form-item>
         <el-form-item v-if="form == 'act-301'" label="参与次数：" prop="number">
           每人每场可参与
           <el-input-number v-model="redConf.joinNum" :precision="0" :min="1" controls-position="right"></el-input-number>
@@ -222,6 +229,7 @@ export default {
         actDesc: '',
         actName: '',
         banner: '',
+        popInfo:'',
         form: '',
         idx: '1',
         note: '',
@@ -438,6 +446,14 @@ export default {
       }
       this.$message.error(resule.message)
     },
+    upPopInfoImg(resule) {
+      if (resule.ret === '200000') {
+        this.confData.popInfo = resule.data.accessUrl
+        // this.$refs.actSetConfRef.validateField('banner', valid => {})
+        return
+      }
+      this.$message.error(resule.message)
+    },
     // 富文本框失焦
     onEditorBlur() {
       this.$refs.actSetConfRef.validateField('desc', valid => {})
@@ -528,6 +544,32 @@ export default {
 .avatar {
   width: 300px;
   height: 64px;
+  display: block;
+  &.red-packet {
+     width: 100px;
+    height: 100px;
+    line-height: 100px
+  }
+}
+.avatar-uploader-popup{
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 120px;
+    height: 140px;
+    line-height: 140px;
+    text-align: center;
+    &.red-packet {
+      width: 100px;
+      height: 100px;
+      line-height: 100px
+    }
+  }
+}
+
+.avatar-popup {
+  width: 120px;
+  height: 140px;
   display: block;
   &.red-packet {
      width: 100px;
