@@ -28,6 +28,13 @@
             <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*160像素；格式png、jpg；大小不超过2M</div>
           </el-upload>
         </el-form-item>
+        <el-form-item label="活动弹窗：" prop=" popInfo">
+          <el-upload class="avatar-uploader-popup" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upPopInfoImg" :show-file-list="false">
+            <img v-if="confData.popInfo" :src="confData.popInfo" class="avatar-popup">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：600像素*700像素；格式png、jpg；大小不超过2M</div>
+          </el-upload>
+        </el-form-item>
         <el-form-item label="活动说明：" prop="desc">
           <quill-editor ref="myTextEditor" v-model="confData.actDesc" :options="editorOption" placeholder="请输入活动说明，300字以内" @blur="onEditorBlur($event)">
           </quill-editor>
@@ -171,6 +178,7 @@ export default {
         actDesc: '', // 活动描述
         actName: '', // 活动名称
         banner: '', // 活动入口banner
+        popInfo: '',
         form: this.form, // 活动类型
         idx: '', // 活动优先级
         note: '', // 活动说明
@@ -267,6 +275,14 @@ export default {
     }
   },
   methods: {
+    upPopInfoImg(resule) {
+      if (resule.ret === '200000') {
+        this.confData.popInfo = resule.data.accessUrl
+        // this.$refs.actSetConfRef.validateField('banner', valid => {})
+        return
+      }
+      this.$message.error(resule.message)
+    },
     getActTag() {
       if(!this.id){
         this.$request.post('/api/actTag/query/saleZoneTag', {saleZoneCode:this.confData.saleZoneCode}, false, (res) => {
@@ -504,6 +520,7 @@ export default {
         actTag: act.actTag||'', // 活动标签
         actName: act.actName||'', // 活动名称
         banner: act.banner||'', // 活动入口banner
+        popInfo: act.popInfo||'', // 活动入口banner
         form: this.form, // 活动类型
         idx: act.idx+''||'', // 活动优先级
         note: act.note||'', // 活动说明
@@ -800,6 +817,32 @@ export default {
   &.red-packet {
      width: 100px;
     height: 100px;
+  }
+}
+.avatar-uploader-popup{
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 120px;
+    height: 140px;
+    line-height: 140px;
+    text-align: center;
+    &.red-packet {
+      width: 100px;
+      height: 100px;
+      line-height: 100px
+    }
+  }
+}
+
+.avatar-popup {
+  width: 120px;
+  height: 140px;
+  display: block;
+  &.red-packet {
+    width: 100px;
+    height: 100px;
+    line-height: 100px
   }
 }
 .quill-editor {
