@@ -223,6 +223,7 @@ const reviewDetail = () => import(/* webpackChunkName: "seller" */ '../pages/Sel
 const addSeller = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/AddSeller/AddSeller')
 //零售户-零售户管理
 const sellerManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/SellerManage/SellerManage')
+const fansManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/FansManage/FansManage')
 //零售户-零售户管理-详情
 const sellerDetail = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/SellerManage/SelllerDetail')
 //零售户-提现审核
@@ -478,6 +479,7 @@ export default new Router({
         { path: '/seller/review/addSeller', name: '新增零售户', component: addSeller},
 
         { path: '/seller/mgr', name: '零售户管理', component: sellerManage},
+        { path: '/seller/fansmgr', name: '零售户管理', component: fansManage},
         { path: '/seller/mgr/addSeller', name: '新增零售户', component: addSeller},
         { path: '/seller/mgr/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
         { path: '/seller/tx', name: '提现审核', component: amountExamine},
