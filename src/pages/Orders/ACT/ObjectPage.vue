@@ -46,7 +46,7 @@
                   <el-form-item label="至" size="small" >
                       <el-date-picker  v-model="form.etime" type="date" placeholder="选择日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd"> </el-date-picker>
                   </el-form-item>
-                  <el-form-item label="中奖人手机号" size="small">
+                  <el-form-item label="收件人手机号" size="small">
                       <el-input  v-model="form.winnerMobile" placeholder="请输入手机号"></el-input>
                   </el-form-item>
               </el-row>
@@ -76,7 +76,7 @@
               <el-table-column prop="actCode" label="活动ID" ></el-table-column>
               <el-table-column prop="actName" label="活动名称"></el-table-column>
               <el-table-column prop="nickname" label="中奖人"></el-table-column>
-              <el-table-column prop="mobile" label="中奖人手机号"></el-table-column>
+              <el-table-column prop="mobile" label="收货人手机号"></el-table-column>
               <el-table-column prop="prizeName" label="奖项名称"></el-table-column>
               <el-table-column prop="snName" label="关联规格"></el-table-column>
               <el-table-column  label="领奖时间">
