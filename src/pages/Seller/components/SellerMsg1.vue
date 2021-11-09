@@ -166,7 +166,7 @@
 <!--        </el-form-item>-->
 <!--        <div></div>-->
 
-        <el-form-item label="审核状态：" prop="status" size="small">
+        <el-form-item label="审核状态：" v-if="$route.path === '/seller/review/reviewDetail' " prop="status" size="small">
           <el-input v-model="ruleForm.status" style="display: none" ></el-input>
           <el-radio v-model="ruleForm.status" label="1" >审核通过</el-radio>
           <el-radio v-model="ruleForm.status" label="3" >审核不通过</el-radio>
@@ -322,6 +322,7 @@
           shopImg:'',
           //门店名称
           shopName:'',
+          shopImgCode:'',
           //地区分类
           provCode: '',
           cityCode: '',
@@ -332,6 +333,7 @@
           licenseNo:'',
           //烟草专卖证号照片
           licenseImg:'',
+          licenseImgCode:'',
           //区域
           areaType:'',
           //业态
@@ -346,7 +348,10 @@
           status:'',
           auditMsg:'',
           shopLat:null,
-          shopLng:null
+          shopLng:null,
+          gender:null,
+          shopIconCode:null,
+          birthday:null,
         },
         rules: {
           shopImg: [
@@ -455,6 +460,7 @@
             //表单内容
             this.ruleForm.shopImg = res.data.info.shopImg
             this.ruleForm.shopName = res.data.info.shopName
+            this.ruleForm.shopImgCode = res.data.info.shopImgCode
             this.ruleForm.contactName = res.data.info.contactName
             this.ruleForm.contactPhone = res.data.info.contactPhone
 
@@ -468,9 +474,13 @@
             this.ruleForm.detailAddr = res.data.info.detailAddr
             this.ruleForm.licenseNo = res.data.info.licenseNo
             this.ruleForm.licenseImg = res.data.info.licenseImg
+            this.ruleForm.licenseImgCode = res.data.info.licenseImgCode
             this.ruleForm.areaType = res.data.info.areaType+''
             this.ruleForm.commercial = res.data.info.commercial+''
             this.ruleForm.salesman = res.data.info.salesman
+            this.ruleForm.gender = res.data.info.gender
+            this.ruleForm.shopIconCode = res.data.info.shopIconCode
+            this.ruleForm.birthday = res.data.info.birthday
             this.ruleForm.status = res.data.info.status+''
             this.ruleForm.auditMsg = res.data.info.auditMsg || ''
 
@@ -520,11 +530,9 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let params = {
-              sellerId:this.sellerId,
-
-              shopImg:this.ruleForm.shopImg,
+              id:this.sellerId,
               shopName:this.ruleForm.shopName,
-
+              shopImgCode:this.ruleForm.shopImgCode,
 
               provCode:this.ruleForm.provCode,
               cityCode:this.ruleForm.cityCode,
@@ -535,17 +543,19 @@
 
               detailAddr:this.ruleForm.detailAddr,
               licenseNo:this.ruleForm.licenseNo,
-              licenseImg:this.ruleForm.licenseImg,
+              licenseImgCode:this.ruleForm.licenseImgCode,
               areaType:this.ruleForm.areaType,
               commercial:this.ruleForm.commercial,
               salesman:this.ruleForm.salesman,
               contactName:this.ruleForm.contactName,
               contactPhone:this.ruleForm.contactPhone,
-              status:this.ruleForm.status,
+              gender:this.ruleForm.gender,
+              shopIconCode:this.ruleForm.shopIconCode,
+              birthday:this.ruleForm.birthday,
             }
-            if(params.status == 3){
-              params.auditMsg = this.ruleForm.auditMsg
-            }
+            // if(params.status == 3){
+            //   params.auditMsg = this.ruleForm.auditMsg
+            // }
 
             this.postParams(params)
           } else {
@@ -555,7 +565,7 @@
         });
       },
       postParams(params){
-        this.$request.post('/lsh/seller-manager/seller/saveOrUpdateSeller',params,false,res => {
+        this.$request.post('/saasHbseller/seller/manager/infoUpdate',params,true,res => {
           if(res.ok){
             this.$message({
               message: '保存成功！',

@@ -85,7 +85,7 @@ export default {
   },
   methods: {
     inputWithSelectChange(val){
-      this.filters.keywords = ""
+      this.search.keyword = ""
     },
     currentChange(page) {
       // 分页pageNo变更监听

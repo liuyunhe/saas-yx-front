@@ -8,19 +8,19 @@
       <!--查询表单-->
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;margin-bottom: 0">
         <el-form :inline="true" :model="filters" label-width="90px">
-          <el-form-item :size="'small'" label="状态：">
-            <el-select
-                v-model="filters.status"
-                placeholder="请选择"
-                style="width: 200px">
-              <el-option
-                  v-for="item in statusList"
-                  :key="item.code"
-                  :label="item.name"
-                  :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
+<!--          <el-form-item :size="'small'" label="状态：">-->
+<!--            <el-select-->
+<!--                v-model="filters.status"-->
+<!--                placeholder="请选择"-->
+<!--                style="width: 200px">-->
+<!--              <el-option-->
+<!--                  v-for="item in statusList"-->
+<!--                  :key="item.code"-->
+<!--                  :label="item.name"-->
+<!--                  :value="item.code">-->
+<!--              </el-option>-->
+<!--            </el-select>-->
+<!--          </el-form-item>-->
           <el-form-item :size="'small'" label="业态：" style="display:none">
             <el-select
                 v-model="filters.commercial"
@@ -300,18 +300,18 @@
                   size="mini"
                   @click="sellerDetail(scope.row.id)"
               >查看详情</el-button>
-              <el-button
-                  v-if="scope.row.status == '2'"
-                  type="text"
-                  size="mini"
-                  @click="approval(scope.row.id)"
-              >审核通过</el-button>
-              <el-button
-                  v-if="scope.row.status == '2'"
-                  type="text"
-                  size="mini"
-                  @click="disapprovalDialog(scope.row.id)"
-              >审核不通过</el-button>
+<!--              <el-button-->
+<!--                  v-if="scope.row.status == '2'"-->
+<!--                  type="text"-->
+<!--                  size="mini"-->
+<!--                  @click="approval(scope.row.id)"-->
+<!--              >审核通过</el-button>-->
+<!--              <el-button-->
+<!--                  v-if="scope.row.status == '2'"-->
+<!--                  type="text"-->
+<!--                  size="mini"-->
+<!--                  @click="disapprovalDialog(scope.row.id)"-->
+<!--              >审核不通过</el-button>-->
             </template>
           </el-table-column>
         </el-table>
@@ -469,9 +469,9 @@
           //区域: 1-城镇；2-乡村
           areaType:'',
           //搜索类型  1-店主联系人名称；2-店主联系人电话；3-烟草专卖许可证号；4-门店名称；5-业务员名称
-          keywordType:'',
+          keywordType:null,
           //模糊搜索内容
-          keyword:'',
+          keyword:null,
           //开始时间
           startDate:'',
           // //结束时间
@@ -479,11 +479,11 @@
           time:[],
 
           //门店所在省份编码
-          provCode:'',
+          provCode:null,
           //门店所在城市编码
-          cityCode:'',
+          cityCode:null,
           //门店所在区县编码
-          countyCode:'',
+          countyCode:null,
           //零售户是否打印过店码
           isPrint:'',
 
@@ -638,7 +638,7 @@
       //获取列表
       getListNewList(type) {
         let params = {
-          status:this.filters.status,
+          // status:this.filters.status,
           saleZoneCode:this.filters.saleZoneCode,
           //业态
           // commercial:this.filters.commercial,
@@ -662,7 +662,7 @@
           // sortType: 1,
           // sortValue: this.filters.sortValue,
 
-          pageNo: this.pageNo,
+          page: this.pageNo,
           pageSize: 10,
 
         };
@@ -698,13 +698,13 @@
       },
       postSearch(params) {
         // this.listLoading = true;
-        this.$request.post('/saasHbseller/audit/query', params, true, (res) => {
+        this.$request.post('/saasHbseller/seller/manager/queryList', params, true, (res) => {
 
-            console.log(res.data)
+            console.log(res)
             // this.listLoading = false;
-            this.newList = res.data.records
-            this.total = res.data.total
-            this.pageNo = res.data.current
+            this.newList = res.data.infoList.records
+            this.total = res.data.infoList.total
+            this.pageNo = res.data.infoList.current
             if(params.status == 2){
               this.showSelection = true
             }else {

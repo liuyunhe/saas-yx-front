@@ -224,6 +224,9 @@ const addSeller = () => import(/* webpackChunkName: "seller" */ '../pages/Seller
 //零售户-零售户管理
 const sellerManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/SellerManage/SellerManage')
 const fansManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/FansManage/FansManage')
+const inviteManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/InviteManage/InviteManage')
+const groupManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/GroupManage/GroupManage')
+const levelManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/LevelManage/LevelManage')
 const messageManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/MessageManage/MessageManage')
 const addMessage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/MessageManage/AddMessage')
 const editMessage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/MessageManage/EditMessage')
@@ -482,12 +485,18 @@ export default new Router({
         { path: '/seller/review/addSeller', name: '新增零售户', component: addSeller},
 
         { path: '/seller/mgr', name: '零售户管理', component: sellerManage},
-        { path: '/seller/fansmgr', name: '粉丝管理', component: fansManage},
+        { path: '/seller/mgr/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
+        { path: '/seller/mgr/addSeller', name: '新增零售户', component: addSeller},
+
+        { path: '/seller/fansMgr', name: '粉丝管理', component: fansManage},
+        { path: '/seller/inviteMgr', name: '邀约管理', component: inviteManage},
+        { path: '/seller/levelMgr', name: '等级管理', component: levelManage},
+        { path: '/seller/groupMgr', name: '分组管理', component: groupManage},
         { path: '/seller/messagemgr', name: '消息管理', component: messageManage},
         { path: '/seller/addMessage', name: '消息管理', component: addMessage},
         { path: '/seller/editMessage', name: '消息管理', component: editMessage,props: (route) => ({id:route.query.id})},
-        { path: '/seller/mgr/addSeller', name: '新增零售户', component: addSeller},
-        { path: '/seller/mgr/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
+
+
         { path: '/seller/tx', name: '提现审核', component: amountExamine},
         { path: '/seller/tx/sellerDetail', name: '零售户管理', component: sellerDetail,props: (route) => ({sellerId:route.query.sellerId})},
         { path: '/seller/achievement', name: '业绩活动', component: sellerAchievement },
