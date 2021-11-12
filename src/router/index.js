@@ -227,6 +227,8 @@ const fansManage = () => import(/* webpackChunkName: "seller" */ '../pages/Selle
 const inviteManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/InviteManage/InviteManage')
 const groupManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/GroupManage/GroupManage')
 const levelManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/LevelManage/LevelManage')
+const iconManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/IconManage/IconManage')
+const editLevel = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/LevelManage/EditLevel')
 const messageManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/MessageManage/MessageManage')
 const addMessage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/MessageManage/AddMessage')
 const editMessage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/MessageManage/EditMessage')
@@ -491,7 +493,9 @@ export default new Router({
         { path: '/seller/fansMgr', name: '粉丝管理', component: fansManage},
         { path: '/seller/inviteMgr', name: '邀约管理', component: inviteManage},
         { path: '/seller/levelMgr', name: '等级管理', component: levelManage},
+        { path: '/seller/editLevel', name: '编辑等级', component: editLevel,props: (route) => ({id:route.query.id})},
         { path: '/seller/groupMgr', name: '分组管理', component: groupManage},
+        { path: '/seller/iconMgr', name: 'icon管理', component: iconManage},
         { path: '/seller/messagemgr', name: '消息管理', component: messageManage},
         { path: '/seller/addMessage', name: '消息管理', component: addMessage},
         { path: '/seller/editMessage', name: '消息管理', component: editMessage,props: (route) => ({id:route.query.id})},
