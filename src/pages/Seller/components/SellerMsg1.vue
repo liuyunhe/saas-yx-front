@@ -2,48 +2,89 @@
   <section class="basic-msg-container">
     <div class="basic-msg-broad">
       <div class="basic-msg-item"><span class="title">申请时间：</span>{{ applyTime }}</div>
-      <div class="basic-msg-item"><span class="title">审核通过时间：</span>{{ passTime }}</div>
-      <div class="basic-msg-item"><span class="title">账户余额：</span>￥{{ balance }}</div>
-      <div class="basic-msg-item"><span class="title">是否打印二维码：</span>{{ printQrCodeCount==null?'否':printQrCodeCount>0?'是':'否' }}</div>
-      <div class="basic-msg-item"><span class="title">打印次数：</span>{{ printQrCodeCount==null?'0':printQrCodeCount}}次</div>
-      <div class="basic-msg-item"><span class="title">扫码次数：</span>{{ scanCount }}</div>
-      <div class="basic-msg-item"><span class="title">店铺粉丝：</span>{{ fansCount }}人</div>
-      <div class="basic-msg-item"><span class="title">积分：</span>{{ score }}</div>
-      <div class="basic-msg-item"><span class="title">微信名：</span>{{ wxNickname }}</div>
-
+      <div class="basic-msg-item"><span class="title">审核时间：</span>{{ auditTime }}</div>
     </div>
     <el-form :model="ruleForm" :disabled="disabled" :inline="true" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
       <div class="basic-msg-form-container">
-        <el-form-item label="门店照片：" prop="headImg" size="small">
-          <el-input v-model="ruleForm.headImg" style="display: none" ></el-input>
+        <el-form-item label="门店照片：" prop="shopImg" size="small">
+          <el-input v-model="ruleForm.shopImg" style="display: none" ></el-input>
           <el-upload
-              action="/api/wiseqr/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonNewUpload"
               list-type="picture-card"
               class="product-img"
               :headers="headers"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
+              :data="{channel:'hebei-sellerInfo '}"
           >
-            <img v-if="ruleForm.headImg" width="200" height="125" :src="ruleForm.headImg" class="avatar">
+            <img v-if="ruleForm.shopImg"  width="200" height="125" :src="ruleForm.shopImg" class="avatar">
           </el-upload>
           <div class="pic-tips">上传图片的最佳尺寸：750像素*468像素；格式png、jpg；大小不超过2M</div>
+          <div>
+            <div class="preview-btn el-button el-button--primary el-button--small" v-if="ruleForm.shopImg" @click="handlePictureCardPreview(ruleForm.shopImg)">预览</div>
+          </div>
         </el-form-item>
         <div></div>
         <el-form-item label="门店名称：" prop="shopName" size="small">
           <el-input v-model="ruleForm.shopName" style="width: 200px"></el-input>
         </el-form-item>
         <div> </div>
-        <el-form-item label="经营人姓名：" prop="ownerName" size="small">
-          <el-input v-model="ruleForm.ownerName" style="width: 200px"></el-input>
+        <el-form-item label="烟草专卖证号：" prop="licenseNo" size="small">
+          <el-input type="number" v-model="ruleForm.licenseNo" style="width: 200px"></el-input>
         </el-form-item>
         <div></div>
-        <el-form-item label="经营人电话：" prop="phoneNo" size="small">
-          <el-input v-model="ruleForm.phoneNo" style="width: 200px"></el-input>
+        <el-form-item label="烟草专卖证号照片：" prop="licenseImg" size="small">
+          <el-input v-model="ruleForm.licenseImg" style="display: none" ></el-input>
+          <el-upload
+              action="/api/wiseqr/attach/commonNewUpload"
+              list-type="picture-card"
+              class="product-url"
+              :headers="headers"
+              :show-file-list="false"
+              :on-preview="handlePictureCardPreview"
+              :on-success="handleAvatarSuccessUrl"
+              :data="{channel:'hebei-sellerInfo '}"
+          >
+            <img v-if="ruleForm.licenseImg" width="200" height="200" :src="ruleForm.licenseImg" class="avatar">
+          </el-upload>
+          <div class="pic-tips">此图用于商品详情展示；尺寸：宽750像素；格式png、jpg；大小不超过2M</div>
+          <div>
+            <div class="preview-btn el-button el-button--primary el-button--small" v-if="ruleForm.licenseImg" @click="handlePictureCardPreview(ruleForm.licenseImg)">预览</div>
+          </div>
         </el-form-item>
         <div></div>
-        <el-form-item size="small" label="位置：" prop="addrProvince">
+        <el-form-item label="经营人姓名：" prop="contactName" size="small">
+          <el-input v-model="ruleForm.contactName" style="width: 200px"></el-input>
+        </el-form-item>
+        <div></div>
+        <el-form-item :size="'small'" prop="gender" label="性别：">
           <el-select
-              v-model="ruleForm.addrProvince"
+              v-model="ruleForm.gender"
+              placeholder="请选择"
+              style="width: 200px">
+            <el-option label="男" :value="1"></el-option>
+            <el-option label="女" :value="2"></el-option>
+          </el-select>
+        </el-form-item>
+        <div></div>
+        <el-form-item label="经营人电话：" prop="contactPhone" size="small">
+          <el-input v-model="ruleForm.contactPhone" style="width: 200px"></el-input>
+        </el-form-item>
+        <div></div>
+        <el-form-item label="LBS显示图标：" prop="saleZoneCode" size="small">
+          <el-select size="small" v-model="ruleForm.shopIconCode" placeholder="请选择" style="width: 200px">
+            <el-option
+                v-for="(item,index) in iconList"
+                :key="index"
+                :label="item.iconName"
+                :value="item.iconCode">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <div></div>
+        <el-form-item size="small" label="位置：" prop="provCode">
+          <el-select
+              v-model="ruleForm.provCode"
               placeholder="请选择"
               @change="selectBrand1"
               style="width: 160px">
@@ -55,9 +96,9 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item size="small" label="" prop="addrCity">
+        <el-form-item size="small" label="" prop="cityCode">
           <el-select
-              v-model="ruleForm.addrCity"
+              v-model="ruleForm.cityCode"
               placeholder="请选择"
               @change="selectBrand2"
               style="width: 160px">
@@ -69,10 +110,11 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item size="small" label="" prop="addrArea">
+        <el-form-item size="small" label="" prop="countyCode">
           <el-select
-              v-model="ruleForm.addrArea "
+              v-model="ruleForm.countyCode "
               placeholder="请选择"
+              @change="selectBrand3"
               style="width: 160px">
             <el-option
                 v-for="item in cateLvl3List"
@@ -83,32 +125,20 @@
           </el-select>
         </el-form-item>
         <div></div>
-        <el-form-item label="门店地址：" prop="addrDetail" size="small">
-          <el-input v-model="ruleForm.addrDetail" style="width: 200px"></el-input>
+        <el-form-item label="门店地址：" prop="detailAddr" size="small">
+          <el-input v-model="ruleForm.detailAddr" style="width: 200px"></el-input>
         </el-form-item>
         <div></div>
-        <el-form-item label="烟草专卖证号：" prop="licenceNo" size="small">
-          <el-input type="number" v-model="ruleForm.licenceNo" style="width: 200px"></el-input>
+        <el-form-item label="定位lat：" prop="shopLat" size="small">
+          <el-input v-model="ruleForm.shopLat" style="width: 200px"></el-input>
+        </el-form-item>
+        <el-form-item label="定位lng：" prop="shopLat" size="small">
+          <el-input v-model="ruleForm.shopLng" style="width: 200px"></el-input>
         </el-form-item>
         <div></div>
-        <el-form-item label="烟草专卖证号照片：" prop="licenceImg" size="small">
-          <el-input v-model="ruleForm.licenceImg" style="display: none" ></el-input>
-          <el-upload
-              action="/api/wiseqr/attach/commonAliUpload"
-              list-type="picture-card"
-              class="product-url"
-              :headers="headers"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccessUrl"
-          >
-            <img v-if="ruleForm.licenceImg" width="200" height="200" :src="ruleForm.licenceImg" class="avatar">
-          </el-upload>
-          <div class="pic-tips">此图用于商品详情展示；尺寸：宽750像素；格式png、jpg；大小不超过2M</div>
-        </el-form-item>
-        <div></div>
-        <el-form-item :size="'small'" prop="district" label="区域">
+        <el-form-item :size="'small'" prop="areaType" label="区域">
           <el-select
-              v-model="ruleForm.district"
+              v-model="ruleForm.areaType"
               placeholder="请选择"
               style="width: 200px">
             <el-option
@@ -120,50 +150,70 @@
           </el-select>
         </el-form-item>
         <div></div>
-        <el-form-item :size="'small'" prop="commercial" label="业态">
-          <el-select
-              v-model="ruleForm.commercial"
-              placeholder="请选择"
-              style="width: 200px">
+        <el-form-item label="销区：" prop="saleZoneCode" size="small">
+          <el-select size="small" v-model="ruleForm.saleZoneCode" placeholder="请选择" style="width: 200px">
             <el-option
-                v-for="item in commercialList"
-                :key="item.code"
-                :label="item.name"
-                :value="item.code">
+                v-for="(item,index) in saleZone"
+                :key="index"
+                :label="item.zoneName"
+                :value="item.zoneCode">
             </el-option>
           </el-select>
         </el-form-item>
         <div></div>
+<!--        <el-form-item :size="'small'" prop="commercial" label="业态">-->
+<!--          <el-select-->
+<!--              v-model="ruleForm.commercial"-->
+<!--              placeholder="请选择"-->
+<!--              style="width: 200px">-->
+<!--            <el-option-->
+<!--                v-for="item in commercialList"-->
+<!--                :key="item.code"-->
+<!--                :label="item.name"-->
+<!--                :value="item.code">-->
+<!--            </el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
+<!--        <div></div>-->
 
-        <el-form-item  label="业务员姓名：" prop="salesManNames" size="small">
-          <el-input  v-model="ruleForm.salesManNames" style="width: 200px"></el-input>
+        <el-form-item  label="业务员姓名：" prop="salesman" size="small">
+          <el-input  v-model="ruleForm.salesman" style="width: 200px"></el-input>
         </el-form-item>
         <div></div>
 
-        <el-form-item  label="联系人姓名：" prop="contactName" size="small">
-          <el-input  v-model="ruleForm.contactName" style="width: 200px"></el-input>
-        </el-form-item>
-        <div></div>
-        <el-form-item  label="联系人电话：" prop="contactPhone" size="small">
-          <el-input type="number" v-model="ruleForm.contactPhone" style="width: 200px"></el-input>
-        </el-form-item>
-        <div></div>
+<!--        <el-form-item  label="联系人姓名：" prop="contactName" size="small">-->
+<!--          <el-input  v-model="ruleForm.salesman" style="width: 200px"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <div></div>-->
+<!--        <el-form-item  label="联系人电话：" prop="contactPhone" size="small">-->
+<!--          <el-input type="number" v-model="ruleForm.contactPhone" style="width: 200px"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <div></div>-->
 
-        <el-form-item label="状态：" prop="status" size="small">
+        <el-form-item label="审核状态：" v-if="$route.path === '/seller/review/reviewDetail' " prop="status" size="small">
           <el-input v-model="ruleForm.status" style="display: none" ></el-input>
-          <el-radio v-model="ruleForm.status" label="0" >下架</el-radio>
-          <el-radio v-model="ruleForm.status" label="1" >上架</el-radio>
+          <el-radio v-model="ruleForm.status" label="1" >审核通过</el-radio>
+          <el-radio v-model="ruleForm.status" label="3" >审核不通过</el-radio>
         </el-form-item>
         <div></div>
-
+        <el-form-item v-if="ruleForm.status == 3" label="审核不通过理由：" prop="auditMsg" size="small">
+          <el-input v-model="ruleForm.auditMsg" style="width: 300px"></el-input>
+        </el-form-item>
+        <div></div>
       </div>
     </el-form>
     <div class="basic-msg-form-bt">
-      <el-button type="primary" v-if="disabled" @click="disabled = !disabled">修改基本信息</el-button>
+      <template v-if="$route.path === '/seller/mgr/sellerDetail'">
+        <el-button type="primary" v-if="disabled" @click="disabled = !disabled">修改基本信息</el-button>
+      </template>
+
       <el-button type="primary" v-if="!disabled" @click="submitForm('ruleForm')">保存</el-button>
       <el-button v-if="!disabled" @click="cancelModify">取消</el-button>
       <el-button v-if="disabled" @click="returnMgr">返回列表</el-button>
     </div>
+    <el-dialog :visible.sync="dialogVisible">
+      <img width="100%" :src="dialogImageUrl" alt="">
+    </el-dialog>
   </section>
 </template>
 
@@ -209,6 +259,11 @@
   }
 </style>
 <style>
+  .preview-btn{
+    color: #fff;
+    background-color: #409EFF;
+    border-color: #409EFF;
+  }
   .basic-msg-container .product-img .el-upload {
     width: 202px;
     height: 127px;
@@ -231,6 +286,7 @@
           'loginId':sessionStorage.getItem('access_loginId'),
           'token':sessionStorage.getItem('access_token')
         },
+        saleZone:[],
         commercialList:[
           {
             code:"",
@@ -284,86 +340,101 @@
         cateLvl1List:[],
         cateLvl2List:[],
         cateLvl3List:[],
+        iconList:[],
 
 
 
         ruleForm: {
+          saleZoneCode:'',
           //门店照片
-          headImg:'',
+          shopImg:'',
           //门店名称
           shopName:'',
-          //经营人姓名
-          ownerName:'',
-          //经营人电话
-          phoneNo:'',
+          shopImgCode:'',
           //地区分类
-          addrProvince: '',
-          addrCity: '',
-          addrArea: '',
+          provCode: '',
+          provName:'',
+          cityCode: '',
+          cityName: '',
+          countyCode: '',
+          countyName: '',
           //门店地址
-          addrDetail: '',
+          detailAddr: '',
           //烟草专卖证号
-          licenceNo:'',
+          licenseNo:'',
           //烟草专卖证号照片
-          licenceImg:'',
+          licenseImg:'',
+          licenseImgCode:'',
           //区域
-          district:'',
+          areaType:'',
           //业态
           commercial:'',
           //业务员姓名
-          salesManNames:'',
+          salesman:'',
           //联系人姓名
           contactName:'',
           //联系人电话
           contactPhone:'',
           //状态
           status:'',
+          auditMsg:'',
+          shopLat:null,
+          shopLng:null,
+          gender:null,
+          shopIconCode:null,
+          birthday:null,
         },
         rules: {
-          headImg: [
+          shopImg: [
             { required: true, message: '请上传门店照片', trigger: 'change' },
           ],
           shopName: [
             { required: true, message: '请输入门店名称', trigger: 'blur' },
           ],
-          ownerName: [
+          contactName: [
             { required: true, message: '请输入经营人姓名', trigger: 'blur' },
           ],
-          phoneNo: [
+          contactPhone: [
             { required: true, message: '请输入经营人电话', trigger: 'blur' },
           ],
-          addrProvince: [
+          shopLat: [
+            { required: true, message: '请输入Lat', trigger: 'blur' },
+          ],
+          shopLng: [
+            { required: true, message: '请输入Lng', trigger: 'blur' },
+          ],
+          provCode: [
             { required: true, message: '请选择省份', trigger: 'change' },
           ],
-          addrCity: [
+          cityCode: [
             { required: true, message: '请选择城市', trigger: 'change' },
           ],
-          addrArea: [
+          countyCode: [
             { required: true, message: '请选择地区', trigger: 'change' },
           ],
-          addrDetail: [
+          detailAddr: [
             { required: true, message: '请输入门店地址', trigger: 'blur' },
           ],
-          licenceNo: [
+          licenseNo: [
             { required: true, message: '请输入烟草专卖证号', trigger: 'blur' },
           ],
-          licenceImg: [
+          licenseImg: [
             { required: true, message: '请上传烟草专卖证号照片', trigger: 'change' },
           ],
-          district: [
+          areaType: [
             { required: true, message: '请选择区域', trigger: 'change' },
+          ],
+          saleZoneCode: [
+            { required: true, message: '请选择销区', trigger: 'change' },
           ],
           commercial: [
             { required: true, message: '请选择业态', trigger: 'change' },
           ],
-          salesManNames: [
+          salesman: [
             { required: true, message: '请输入业务员姓名', trigger: 'change' },
           ],
-          contactName: [
-            { required: true, message: '请输入联系人姓名', trigger: 'change' },
-          ],
-          contactPhone: [
-            { required: true, message: '请输入联系人电话', trigger: 'change' },
+          auditMsg: [
+            { required: true, message: '请输入审核不通过理由', trigger: 'change' },
           ],
           authStatus: [
             { required: true, message: '请选择审核状态', trigger: 'change' },
@@ -376,22 +447,34 @@
         },
 
         applyTime:'',
-        passTime:'',
-        balance:'',
-        printQrCodeCount:'',
-        scanCount:'',
-        fansCount:'',
-        score:'',
-        wxNickname:'',
-
+        auditTime:'',
+        dialogImageUrl: '',
+        dialogVisible: false
       }
     },
     created(){
+      this.getIconList()
+      this.getSaleZone()
       this.getOneCategory()
       this.getReviewDetail()
     },
     methods:{
-
+      getIconList() {
+        this.$request.post('/saasHbseller/shop/lbsIcon/query', {
+          page: 1,
+          pageSize: 50,
+          iconName: "",
+        }, false, (res) => {
+          if (res.code == '200') {
+            this.iconList = res.data.records || []
+          }
+        })
+      },
+      handlePictureCardPreview(file) {
+        console.log(file)
+        this.dialogImageUrl = file;
+        this.dialogVisible = true;
+      },
       //从后台拿取商品类型列表
       // getProductType(){
       //   this.$request.post('/sc/saotx/mall/giftTypeMap',{}, true, (res) => {
@@ -400,109 +483,132 @@
       //     }
       //   })
       // },
+      getSaleZone() {
+        this.$request.post('/api/saleZone/userSzList', {}, true, (res) => {
+          if (res.code == '200') {
+            this.saleZone = res.data || []
+          }
+        })
+      },
 
       getReviewDetail(){
-        this.$request.post('/lsh/seller-manager/seller/select/detail',{sellerId:this.sellerId},false,res => {
-          if (res.ok) {
+        this.$request.post('/saasHbseller/seller/manager/selectById',{id:this.sellerId},false,res => {
+          if (res.code == 200) {
 
-            this.applyTime = new Date(res.data.sellerInfo.applyTime).Format('yyyy-MM-dd hh:mm:ss')
-            this.passTime = new Date(res.data.sellerInfo.passTime).Format('yyyy-MM-dd hh:mm:ss')
-            this.balance = res.data.sellerInfo.wallet.balance
-            this.printQrCodeCount = res.data.sellerInfo.printQrCodeCount
-            this.scanCount = res.data.sellerInfo.scanCount
-            this.fansCount = res.data.sellerInfo.fansCount
-            this.score = res.data.sellerInfo.score
-            this.wxNickname = res.data.sellerInfo.wxNickname
+            this.applyTime = res.data.info.ctime
+            this.auditTime = res.data.info.auditTime
 
-            // this.ruleForm.phoneNo = new Date(res.data.createTime).Format('yyyy-MM-dd hh:mm:ss')
+            // this.ruleForm.contactPhone = new Date(res.data.createTime).Format('yyyy-MM-dd hh:mm:ss')
 
             //表单内容
-            this.ruleForm.headImg = res.data.sellerInfo.headImg
-            this.ruleForm.shopName = res.data.sellerInfo.shopName
-            this.ruleForm.ownerName = res.data.sellerInfo.ownerName
-            this.ruleForm.phoneNo = res.data.sellerInfo.phoneNo
+            this.ruleForm.shopImg = res.data.info.shopImg
+            this.ruleForm.shopName = res.data.info.shopName
+            this.ruleForm.shopImgCode = res.data.info.shopImgCode
+            this.ruleForm.contactName = res.data.info.contactName
+            this.ruleForm.contactPhone = res.data.info.contactPhone
 
-            this.ruleForm.addrProvince = res.data.sellerInfo.addrProvince+''
-            this.ruleForm.addrCity = res.data.sellerInfo.addrCity+''
-            this.ruleForm.addrArea = res.data.sellerInfo.addrArea+''
+            this.ruleForm.provCode = res.data.info.provCode+''
+            this.ruleForm.provName = res.data.info.provCode+''
+            this.ruleForm.cityCode = res.data.info.cityCode+''
+            this.ruleForm.cityName = res.data.info.cityCode+''
+            this.ruleForm.countyCode = res.data.info.countyCode+''
+            this.ruleForm.countyName = res.data.info.countyCode+''
+            this.ruleForm.shopLat = res.data.info.shopLat+''
+            this.ruleForm.shopLng = res.data.info.shopLng+''
+            this.ruleForm.saleZoneCode = res.data.info.saleZoneCode
 
-            this.ruleForm.addrDetail = res.data.sellerInfo.addrDetail
-            this.ruleForm.licenceNo = res.data.sellerInfo.licenceNo
-            this.ruleForm.licenceImg = res.data.sellerInfo.licenceImg
-            this.ruleForm.district = res.data.sellerInfo.district+''
-            this.ruleForm.commercial = res.data.sellerInfo.commercial+''
-            this.ruleForm.salesManNames = res.data.sellerInfo.salesManNames
-            this.ruleForm.contactName = res.data.sellerInfo.contactName
-            this.ruleForm.contactPhone = res.data.sellerInfo.contactPhone
-            this.ruleForm.status = res.data.sellerInfo.authOrg.status+''
+            this.ruleForm.detailAddr = res.data.info.detailAddr
+            this.ruleForm.licenseNo = res.data.info.licenseNo
+            this.ruleForm.licenseImg = res.data.info.licenseImg
+            this.ruleForm.licenseImgCode = res.data.info.licenseImgCode
+            this.ruleForm.areaType = res.data.info.areaType+''
+            // this.ruleForm.commercial = res.data.info.commercial+''
+            this.ruleForm.salesman = res.data.info.salesman
+            this.ruleForm.gender = res.data.info.gender
+            this.ruleForm.shopIconCode = res.data.info.shopIconCode
+            this.ruleForm.birthday = res.data.info.birthday
+            this.ruleForm.status = res.data.info.status+''
+            this.ruleForm.auditMsg = res.data.info.auditMsg || ''
 
             this.getTwoCategory()
             this.getThreeCategory()
 
             //状态
-            // this.ruleForm.authStatus = res.data.sellerInfo.authStatus+''
+            // this.ruleForm.authStatus = res.data.info.authStatus+''
           }
         })
       },
 
       //从后台拿取商品分类1
       getOneCategory(){
-        this.$request.post('/lsh/seller-manager/region/province',{}, true, (res) => {
+        this.$request.post('/saasHbseller/region/province',{}, true, (res) => {
           this.cateLvl1List = [...res]
         })
       },
-      selectBrand1(){
-        this.ruleForm.addrCity = ''
+      selectBrand1(item){
+        this.ruleForm.provName = this.cateLvl1List.find((i=>(i.code === item))).name
+        this.ruleForm.cityCode = ''
         this.cateLvl2List = []
-        this.ruleForm.addrArea = ''
+        this.ruleForm.countyCode = ''
         this.cateLvl3List = []
         this.getTwoCategory()
       },
       //从后台拿取商品分类2
       getTwoCategory(){
-        if(this.ruleForm.addrProvince  == '')return
-        this.$request.post('/lsh/seller-manager/region/newCity',{parentCode:this.ruleForm.addrProvince}, true, (res) => {
+        if(this.ruleForm.provCode  == '')return
+        this.$request.post('/saasHbseller/region/city',{parentCode:this.ruleForm.provCode}, false, (res) => {
           this.cateLvl2List = [...res]
         })
       },
-      selectBrand2(){
-        this.ruleForm.addrArea = ''
+      selectBrand2(item){
+        this.ruleForm.cityName = this.cateLvl2List.find((i=>i.code === item)).name
+        this.ruleForm.countyCode = ''
         this.cateLvl3List = []
         this.getThreeCategory()
       },
       //从后台拿取商品分类3
       getThreeCategory(){
-        if(this.ruleForm.addrCity == '')return
-        this.$request.post('/lsh/seller-manager/region/newDistrict',{parentCode:this.ruleForm.addrCity}, true, (res) => {
+        if(this.ruleForm.cityCode == '')return
+        this.$request.post('/saasHbseller/region/district',{parentCode:this.ruleForm.cityCode}, false, (res) => {
           this.cateLvl3List = [...res]
         })
       },
-
+      selectBrand3(item){
+        this.ruleForm.countyName = this.cateLvl3List.find((i=>i.code === item)).name
+      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let params = {
-              sellerId:this.sellerId,
-
-              headImg:this.ruleForm.headImg,
+              id:this.sellerId,
               shopName:this.ruleForm.shopName,
-              ownerName:this.ruleForm.ownerName,
-              phoneNo:this.ruleForm.phoneNo,
+              shopImgCode:this.ruleForm.shopImgCode,
 
-              addrProvince:this.ruleForm.addrProvince,
-              addrCity:this.ruleForm.addrCity,
-              addrArea:this.ruleForm.addrArea,
+              provCode:this.ruleForm.provCode,
+              provName:this.ruleForm.provName,
+              cityCode:this.ruleForm.cityCode,
+              cityName:this.ruleForm.cityName,
+              countyCode:this.ruleForm.countyCode,
+              countyName:this.ruleForm.countyName,
+              shopLat:this.ruleForm.shopLat,
+              shopLng:this.ruleForm.shopLng,
+              saleZoneCode:this.ruleForm.saleZoneCode,
 
-              addrDetail:this.ruleForm.addrDetail,
-              licenceNo:this.ruleForm.licenceNo,
-              licenceImg:this.ruleForm.licenceImg,
-              district:this.ruleForm.district,
-              commercial:this.ruleForm.commercial,
-              salesManNames:this.ruleForm.salesManNames,
+              detailAddr:this.ruleForm.detailAddr,
+              licenseNo:this.ruleForm.licenseNo,
+              licenseImgCode:this.ruleForm.licenseImgCode,
+              areaType:this.ruleForm.areaType,
+              // commercial:this.ruleForm.commercial,
+              salesman:this.ruleForm.salesman,
               contactName:this.ruleForm.contactName,
               contactPhone:this.ruleForm.contactPhone,
-              status:this.ruleForm.status
+              gender:this.ruleForm.gender,
+              shopIconCode:this.ruleForm.shopIconCode,
+              birthday:this.ruleForm.birthday,
             }
+            // if(params.status == 3){
+            //   params.auditMsg = this.ruleForm.auditMsg
+            // }
 
             this.postParams(params)
           } else {
@@ -512,8 +618,8 @@
         });
       },
       postParams(params){
-        this.$request.post('/lsh/seller-manager/seller/saveOrUpdateSeller',params,false,res => {
-          if(res.ok){
+        this.$request.post('/saasHbseller/seller/manager/infoUpdate',params,true,res => {
+          if(res.code == 200){
             this.$message({
               message: '保存成功！',
               type: 'success'
@@ -529,15 +635,13 @@
 
         })
       },
-      handleAvatarSuccess(res, file) {
-        var data = res.data || {};
-        var imgUrl = data && data.accessUrl;
-        this.ruleForm.headImg = imgUrl;
+      handleAvatarSuccess(resule, file) {
+        this.ruleForm.shopImg = resule.data.filePath
+        this.ruleForm.shopImgCode = resule.data.rdmCode
       },
-      handleAvatarSuccessUrl(res, file){
-        var data = res.data || {};
-        var imgUrl = data && data.accessUrl;
-        this.ruleForm.licenceImg = imgUrl;
+      handleAvatarSuccessUrl(resule, file){
+        this.ruleForm.licenseImgCode = resule.data.rdmCode
+        this.ruleForm.licenseImg = resule.data.filePath
       },
       returnMgr(){
         this.$router.push({
