@@ -496,7 +496,7 @@ export default new Router({
         { path: '/seller/editLevel', name: '编辑等级', component: editLevel,props: (route) => ({id:route.query.id})},
         { path: '/seller/groupMgr', name: '分组管理', component: groupManage},
         { path: '/seller/iconMgr', name: 'icon管理', component: iconManage},
-        { path: '/seller/messagemgr', name: '消息管理', component: messageManage},
+        { path: '/seller/messageMgr', name: '消息管理', component: messageManage},
         { path: '/seller/addMessage', name: '消息管理', component: addMessage},
         { path: '/seller/editMessage', name: '消息管理', component: editMessage,props: (route) => ({id:route.query.id})},
 

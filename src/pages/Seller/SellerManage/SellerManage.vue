@@ -738,11 +738,11 @@
         this.filters.endDate = ''
 
         //门店所在省份编码
-        this.filters.provCode = ''
+        this.filters.provCode = null
         //门店所在城市编码
-        this.filters.cityCode = ''
+        this.filters.cityCode = null
         //门店所在区县编码
-        this.filters.countyCode = ''
+        this.filters.countyCode = null
 
         this.filters.status = '1'
         this.filters.isPrint = ''

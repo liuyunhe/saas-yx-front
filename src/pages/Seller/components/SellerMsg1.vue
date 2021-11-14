@@ -9,12 +9,13 @@
         <el-form-item label="门店照片：" prop="shopImg" size="small">
           <el-input v-model="ruleForm.shopImg" style="display: none" ></el-input>
           <el-upload
-              action="/api/wiseqr/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonNewUpload"
               list-type="picture-card"
               class="product-img"
               :headers="headers"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
+              :data="{channel:'hebei-sellerInfo '}"
           >
             <img v-if="ruleForm.shopImg"  width="200" height="125" :src="ruleForm.shopImg" class="avatar">
           </el-upload>
@@ -35,13 +36,14 @@
         <el-form-item label="烟草专卖证号照片：" prop="licenseImg" size="small">
           <el-input v-model="ruleForm.licenseImg" style="display: none" ></el-input>
           <el-upload
-              action="/api/wiseqr/attach/commonAliUpload"
+              action="/api/wiseqr/attach/commonNewUpload"
               list-type="picture-card"
               class="product-url"
               :headers="headers"
               :show-file-list="false"
               :on-preview="handlePictureCardPreview"
               :on-success="handleAvatarSuccessUrl"
+              :data="{channel:'hebei-sellerInfo '}"
           >
             <img v-if="ruleForm.licenseImg" width="200" height="200" :src="ruleForm.licenseImg" class="avatar">
           </el-upload>
@@ -55,8 +57,29 @@
           <el-input v-model="ruleForm.contactName" style="width: 200px"></el-input>
         </el-form-item>
         <div></div>
+        <el-form-item :size="'small'" prop="gender" label="性别：">
+          <el-select
+              v-model="ruleForm.gender"
+              placeholder="请选择"
+              style="width: 200px">
+            <el-option label="男" :value="1"></el-option>
+            <el-option label="女" :value="2"></el-option>
+          </el-select>
+        </el-form-item>
+        <div></div>
         <el-form-item label="经营人电话：" prop="contactPhone" size="small">
           <el-input v-model="ruleForm.contactPhone" style="width: 200px"></el-input>
+        </el-form-item>
+        <div></div>
+        <el-form-item label="LBS显示图标：" prop="saleZoneCode" size="small">
+          <el-select size="small" v-model="ruleForm.shopIconCode" placeholder="请选择" style="width: 200px">
+            <el-option
+                v-for="(item,index) in iconList"
+                :key="index"
+                :label="item.iconName"
+                :value="item.iconCode">
+            </el-option>
+          </el-select>
         </el-form-item>
         <div></div>
         <el-form-item size="small" label="位置：" prop="provCode">
@@ -91,6 +114,7 @@
           <el-select
               v-model="ruleForm.countyCode "
               placeholder="请选择"
+              @change="selectBrand3"
               style="width: 160px">
             <el-option
                 v-for="item in cateLvl3List"
@@ -179,7 +203,10 @@
       </div>
     </el-form>
     <div class="basic-msg-form-bt">
-      <el-button type="primary" v-if="disabled" @click="disabled = !disabled">修改基本信息</el-button>
+      <template v-if="$route.path === '/seller/mgr/sellerDetail'">
+        <el-button type="primary" v-if="disabled" @click="disabled = !disabled">修改基本信息</el-button>
+      </template>
+
       <el-button type="primary" v-if="!disabled" @click="submitForm('ruleForm')">保存</el-button>
       <el-button v-if="!disabled" @click="cancelModify">取消</el-button>
       <el-button v-if="disabled" @click="returnMgr">返回列表</el-button>
@@ -313,6 +340,7 @@
         cateLvl1List:[],
         cateLvl2List:[],
         cateLvl3List:[],
+        iconList:[],
 
 
 
@@ -325,8 +353,11 @@
           shopImgCode:'',
           //地区分类
           provCode: '',
+          provName:'',
           cityCode: '',
+          cityName: '',
           countyCode: '',
+          countyName: '',
           //门店地址
           detailAddr: '',
           //烟草专卖证号
@@ -422,11 +453,23 @@
       }
     },
     created(){
+      this.getIconList()
       this.getSaleZone()
       this.getOneCategory()
       this.getReviewDetail()
     },
     methods:{
+      getIconList() {
+        this.$request.post('/saasHbseller/shop/lbsIcon/query', {
+          page: 1,
+          pageSize: 50,
+          iconName: "",
+        }, false, (res) => {
+          if (res.code == '200') {
+            this.iconList = res.data.records || []
+          }
+        })
+      },
       handlePictureCardPreview(file) {
         console.log(file)
         this.dialogImageUrl = file;
@@ -465,8 +508,11 @@
             this.ruleForm.contactPhone = res.data.info.contactPhone
 
             this.ruleForm.provCode = res.data.info.provCode+''
+            this.ruleForm.provName = res.data.info.provCode+''
             this.ruleForm.cityCode = res.data.info.cityCode+''
+            this.ruleForm.cityName = res.data.info.cityCode+''
             this.ruleForm.countyCode = res.data.info.countyCode+''
+            this.ruleForm.countyName = res.data.info.countyCode+''
             this.ruleForm.shopLat = res.data.info.shopLat+''
             this.ruleForm.shopLng = res.data.info.shopLng+''
             this.ruleForm.saleZoneCode = res.data.info.saleZoneCode
@@ -476,7 +522,7 @@
             this.ruleForm.licenseImg = res.data.info.licenseImg
             this.ruleForm.licenseImgCode = res.data.info.licenseImgCode
             this.ruleForm.areaType = res.data.info.areaType+''
-            this.ruleForm.commercial = res.data.info.commercial+''
+            // this.ruleForm.commercial = res.data.info.commercial+''
             this.ruleForm.salesman = res.data.info.salesman
             this.ruleForm.gender = res.data.info.gender
             this.ruleForm.shopIconCode = res.data.info.shopIconCode
@@ -499,7 +545,8 @@
           this.cateLvl1List = [...res]
         })
       },
-      selectBrand1(){
+      selectBrand1(item){
+        this.ruleForm.provName = this.cateLvl1List.find((i=>(i.code === item))).name
         this.ruleForm.cityCode = ''
         this.cateLvl2List = []
         this.ruleForm.countyCode = ''
@@ -513,7 +560,8 @@
           this.cateLvl2List = [...res]
         })
       },
-      selectBrand2(){
+      selectBrand2(item){
+        this.ruleForm.cityName = this.cateLvl2List.find((i=>i.code === item)).name
         this.ruleForm.countyCode = ''
         this.cateLvl3List = []
         this.getThreeCategory()
@@ -525,7 +573,9 @@
           this.cateLvl3List = [...res]
         })
       },
-
+      selectBrand3(item){
+        this.ruleForm.countyName = this.cateLvl3List.find((i=>i.code === item)).name
+      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -535,8 +585,11 @@
               shopImgCode:this.ruleForm.shopImgCode,
 
               provCode:this.ruleForm.provCode,
+              provName:this.ruleForm.provName,
               cityCode:this.ruleForm.cityCode,
+              cityName:this.ruleForm.cityName,
               countyCode:this.ruleForm.countyCode,
+              countyName:this.ruleForm.countyName,
               shopLat:this.ruleForm.shopLat,
               shopLng:this.ruleForm.shopLng,
               saleZoneCode:this.ruleForm.saleZoneCode,
@@ -545,7 +598,7 @@
               licenseNo:this.ruleForm.licenseNo,
               licenseImgCode:this.ruleForm.licenseImgCode,
               areaType:this.ruleForm.areaType,
-              commercial:this.ruleForm.commercial,
+              // commercial:this.ruleForm.commercial,
               salesman:this.ruleForm.salesman,
               contactName:this.ruleForm.contactName,
               contactPhone:this.ruleForm.contactPhone,
@@ -566,7 +619,7 @@
       },
       postParams(params){
         this.$request.post('/saasHbseller/seller/manager/infoUpdate',params,true,res => {
-          if(res.ok){
+          if(res.code == 200){
             this.$message({
               message: '保存成功！',
               type: 'success'
@@ -582,15 +635,13 @@
 
         })
       },
-      handleAvatarSuccess(res, file) {
-        var data = res.data || {};
-        var imgUrl = data && data.accessUrl;
-        this.ruleForm.shopImg = imgUrl;
+      handleAvatarSuccess(resule, file) {
+        this.ruleForm.shopImg = resule.data.filePath
+        this.ruleForm.shopImgCode = resule.data.rdmCode
       },
-      handleAvatarSuccessUrl(res, file){
-        var data = res.data || {};
-        var imgUrl = data && data.accessUrl;
-        this.ruleForm.licenseImg = imgUrl;
+      handleAvatarSuccessUrl(resule, file){
+        this.ruleForm.licenseImgCode = resule.data.rdmCode
+        this.ruleForm.licenseImg = resule.data.filePath
       },
       returnMgr(){
         this.$router.push({
