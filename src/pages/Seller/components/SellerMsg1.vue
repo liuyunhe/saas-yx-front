@@ -17,7 +17,7 @@
               :on-success="handleAvatarSuccess"
               :data="{channel:'hebei-sellerInfo '}"
           >
-            <img v-if="ruleForm.shopImg"  width="200" height="125" :src="ruleForm.shopImg" class="avatar">
+            <img v-if="ruleForm.shopImg"  width="200" height="200" :src="ruleForm.shopImg" class="avatar">
           </el-upload>
           <div class="pic-tips">上传图片的最佳尺寸：750像素*468像素；格式png、jpg；大小不超过2M</div>
           <div>
