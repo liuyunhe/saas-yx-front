@@ -240,7 +240,7 @@
         authList:[],
 
         //每页条数
-        pageSize:10,
+        pageSize:50,
 
         pageNo: 1,
         //当前页码
