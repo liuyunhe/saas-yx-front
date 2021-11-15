@@ -259,6 +259,11 @@
   }
 </style>
 <style>
+.basic-msg-container .avatar {
+  width: 200px;
+  height: 200px;
+  display: block;
+}
   .preview-btn{
     color: #fff;
     background-color: #409EFF;
