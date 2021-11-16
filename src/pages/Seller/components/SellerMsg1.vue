@@ -1,5 +1,5 @@
 <template>
-  <section class="basic-msg-container">
+  <section class="basic-msg-container-1">
     <div class="basic-msg-broad">
       <div class="basic-msg-item"><span class="title">申请时间：</span>{{ applyTime }}</div>
       <div class="basic-msg-item"><span class="title">审核时间：</span>{{ auditTime }}</div>
@@ -218,7 +218,7 @@
 </template>
 
 <style lang="scss" scoped>
-  .basic-msg-container{
+  .basic-msg-container-1{
     background-color:   #fff;
     padding: 30px 15px;
     .basic-msg-broad{
@@ -259,7 +259,7 @@
   }
 </style>
 <style>
-.basic-msg-container .avatar {
+.basic-msg-container-1 .avatar {
   width: 200px;
   height: 200px;
   display: block;
@@ -269,12 +269,12 @@
     background-color: #409EFF;
     border-color: #409EFF;
   }
-  .basic-msg-container .product-img .el-upload {
+  .basic-msg-container-1 .product-img .el-upload {
     width: 202px;
-    height: 127px;
+    height: 202px;
 
   }
-  .basic-msg-container .product-url .el-upload {
+  .basic-msg-container-1 .product-url .el-upload {
     width: 202px;
     height: 202px;
 
