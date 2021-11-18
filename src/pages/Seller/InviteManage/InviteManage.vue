@@ -8,8 +8,8 @@
           <el-input placeholder="请输入内容" v-model="search.keyValue" class="input-with-select" style="width: 300px">
             <el-select v-model="search.keyType" slot="prepend" @change="inputWithSelectChange" placeholder="请选择" style="width: 120px">
               <el-option label="烟草证号" value="1"></el-option>
-              <el-option label="联系人姓名" value="2"></el-option>
-              <el-option label="联系人手机号" value="3"></el-option>
+              <el-option label="发起人姓名" value="2"></el-option>
+              <el-option label="发起人手机号" value="3"></el-option>
               <el-option label="门店名称" value="4"></el-option>
               <el-option label="业务员名称" value="5"></el-option>
             </el-select>
@@ -42,7 +42,12 @@
           </template>
         </el-table-column>
         <el-table-column prop="title" label="邀约模板" align="center"></el-table-column>
-        <el-table-column prop="msgContent" label="详细内容" align="center"></el-table-column>
+        <el-table-column prop="msgContent" label="详细内容" align="center" >
+          <template slot-scope="scope">
+            <span v-if="scope.row.msgContent&&scope.row.msgContent.length>10" :title="scope.row.msgContent">{{scope.row.msgContent.substring(0,10)}}...</span>
+            <span v-else>{{scope.row.msgContent}}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="licenseNo" label="烟草专卖号" align="center"></el-table-column>
         <el-table-column prop="shopName" label="门店名称" width="150" align="center"></el-table-column>
         <el-table-column prop="contactName" label="发起人"  align="center"></el-table-column>
@@ -111,7 +116,7 @@
         <div class="basic-msg"><span class="title">副标题：</span>{{ sellerInvite.subTitle }}</div>
         <div class="basic-msg"><span class="title">详细内容：</span><span class="content">{{ sellerInvite.msgContent }}</span></div>
         <div></div>
-        <el-form label-width="162px" v-if="sellerInvite.status == 0">
+        <el-form label-width="162px" :disabled="sellerInvite.status != 0">
           <el-form-item label="审核状态："  prop="status" size="small" style="width: 385px">
             <el-input v-model="ruleForm.status" style="display: none" ></el-input>
             <el-radio v-model="ruleForm.status" label="1" >审核通过</el-radio>
@@ -179,6 +184,10 @@ export default {
         if (res.code == '200') {
           this.hbsSeller = res.data.hbsSeller
           this.sellerInvite = res.data.sellerInvite
+          if(res.data.sellerInvite.status != 0){
+            this.ruleForm.status = res.data.sellerInvite.status+''
+            this.ruleForm.auditMsg = res.data.sellerInvite.auditMsg
+          }
           this.dialogVisible = true
         }else {
           this.$message({

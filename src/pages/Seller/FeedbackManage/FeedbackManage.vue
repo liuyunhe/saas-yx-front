@@ -1,26 +1,5 @@
 <template>
   <div v-loading="loading">
-    <el-card class="box-card">
-      <div class="space"></div>
-      <!-- 数据查询条件 -->
-      <el-form :inline="true" :model="search">
-        <el-form-item :size="'small'" label="关键词：">
-          <el-input placeholder="请输入内容" v-model="search.keyword" class="input-with-select" style="width: 320px">
-            <el-select v-model="search.keywordType" slot="prepend" @change="inputWithSelectChange" placeholder="请选择" style="width: 140px">
-              <el-option label="昵称 " value="1"></el-option>
-              <el-option label="手机号" value="2"></el-option>
-              <el-option label="店铺名称" value="3"></el-option>
-              <el-option label="烟草许可证号" value="4"></el-option>
-            </el-select>
-          </el-input>
-        </el-form-item>
-        <div></div>
-        <el-form-item>
-          <el-button size="small" type="primary" @click="list">查询</el-button>
-          <el-button size="small" @click="reset">重置</el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
     <div class="space"></div>
     <el-card>
       <!-- 数据表格 -->
@@ -30,17 +9,21 @@
             {{ (search.page-1)*search.pageSize + scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column prop="fanNickName" label="昵称" align="center"></el-table-column>
-        <el-table-column prop="fanGender" label="性别" align="center"></el-table-column>
-        <el-table-column prop="birthday" label="出生年月" align="center"></el-table-column>
-        <el-table-column prop="fanMobile" label="手机号" width="150" align="center"></el-table-column>
-        <el-table-column prop="licenseNo" label="烟草专卖证号"  align="center"></el-table-column>
-        <el-table-column prop="shopName" label="所属门店" align="center"></el-table-column>
-        <el-table-column prop="ctime" label="绑定时间" align="center"></el-table-column>
-        <el-table-column prop="scanCodeNum" label="扫烟码次数" align="center"></el-table-column>
-        <el-table-column prop="shopScanActNum" label="核销次数" align="center"></el-table-column>
-
-
+        <el-table-column prop="feedContent" label="反馈内容" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.feedContent&&scope.row.feedContent.length>10" :title="scope.row.feedContent">{{scope.row.feedContent.substring(0,10)}}...</span>
+            <span v-else>{{scope.row.feedContent}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="openid" label="反馈人" align="center"></el-table-column>
+        <el-table-column prop="phoneNo" label="联系电话" align="center"></el-table-column>
+        <el-table-column prop="ctime" label="反馈时间" width="150" align="center"></el-table-column>
+        <el-table-column prop="feedFrom" label="反馈来源" width="150" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.feedFrom == 1">消费者</span>
+            <span v-if="scope.row.feedFrom == 2">零售户</span>
+          </template>
+        </el-table-column>
       </el-table>
       <div class="space"></div>
       <!-- 分页组件 -->
@@ -61,8 +44,6 @@ export default {
       search: {
         page: 1,
         pageSize: 10,
-        keywordType:'',
-        keyword:'',
       },
       pagination: { // 分页
         total: 0
@@ -105,8 +86,6 @@ export default {
       this.search = {
         page: 1,
         pageSize: 10,
-        keywordType:'',
-        keyword:'',
       }
       this.list();
     },
@@ -118,7 +97,7 @@ export default {
       let _pageSize = 10;
       if(pageSize) _pageSize = pageSize;
       this.search.pageSize = _pageSize;
-      this.$request.post('/saasHbseller/fans/select', this.search, false, (res)=>{
+      this.$request.post('/saasHbseller/feedback/queryList', this.search, false, (res)=>{
         if (res.code == '200') {
           this.tableList = res.data.records || [];
           this.initPagination(res.data.total);

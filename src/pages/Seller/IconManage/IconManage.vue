@@ -43,7 +43,7 @@
                      :total="pagination.total">
       </el-pagination>
     </el-card>
-    <el-dialog title="查看详情" width="500px" :visible.sync="form.show" center @close="handleCloseForm">
+    <el-dialog title="新建/编辑图标" width="500px" :visible.sync="form.show" center @close="handleCloseForm">
       <el-form  :inline="false"  label-width="100px">
         <el-form-item label="图标名称：">
           <el-input size="small"  v-model="form.iconName"></el-input>
@@ -53,7 +53,9 @@
             <img v-if="form.iconUrl" :src="form.iconUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
+          <div class="pic-tips">图标格式要求：png、jpg，尺寸：266x220px</div>
         </el-form-item>
+
       </el-form>
       <span slot="footer" class="dialog-footer" style="text-align: center">
 
@@ -273,5 +275,8 @@ export default {
   width: 110px;
   height: 110px;
   display: block;
+}
+.pic-tips{
+  color: #ccc;
 }
 </style>
