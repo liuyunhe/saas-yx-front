@@ -7,133 +7,121 @@
 <!--      <div style="height:20px"></div>-->
       <!--查询表单-->
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;margin-bottom: 0">
-        <el-form :inline="true" :model="filters" label-width="90px">
-          <el-form-item :size="'small'" label="状态：">
-            <el-select
-                v-model="filters.status"
-                placeholder="请选择"
-                style="width: 200px">
-              <el-option
-                  v-for="item in statusList"
-                  :key="item.code"
-                  :label="item.name"
-                  :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item :size="'small'" label="业态：" style="display:none">
-            <el-select
-                v-model="filters.commercial"
-                placeholder="请选择"
-                style="width: 200px">
-              <el-option
-                  v-for="item in commercialList"
-                  :key="item.code"
-                  :label="item.name"
-                  :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="销区：" prop="saleZoneCode">
-            <el-select size="small" v-model="filters.saleZoneCode" placeholder="请选择">
-              <el-option
-                  v-for="(item,index) in saleZone"
-                  :key="index"
-                  :label="item.zoneName"
-                  :value="item.zoneCode">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item :size="'small'" label="区域：" >
-            <el-select
-                v-model="filters.areaType"
-                placeholder="请选择"
-                style="width: 200px">
-              <el-option
-                  v-for="item in districtList"
-                  :key="item.code"
-                  :label="item.name"
-                  :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item :size="'small'" label="关键词：">
-            <el-input placeholder="请输入内容" v-model="filters.keyword" class="input-with-select" style="width: 300px">
-              <el-select v-model="filters.keywordType" slot="prepend" @change="inputWithSelectChange" placeholder="请选择" style="width: 120px">
-                <el-option label="烟草证号" value="1"></el-option>
-                <el-option label="联系人姓名" value="2"></el-option>
-                <el-option label="联系人手机号" value="3"></el-option>
-                <el-option label="门店名称" value="4"></el-option>
-                <el-option label="业务员名称" value="5"></el-option>
+        <el-form :inline="true" :model="filters" label-width="82px" label-position="left">
+          <el-row :gutter="30">
+            <el-col :span="8" >
+              <el-form-item :size="'small'" label="状态：" label-width="68px" style="margin-right:0">
+                <el-select
+                    v-model="filters.status"
+                    placeholder="请选择"
+                    style="width: 200px">
+                  <el-option
+                      v-for="item in statusList"
+                      :key="item.code"
+                      :label="item.name"
+                      :value="item.code">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" >
+              <el-form-item label="销区：" prop="saleZoneCode" style="margin-right:0">
+                <el-select size="small" v-model="filters.saleZoneCode" placeholder="请选择" style="width: 200px">
+                  <el-option
+                      v-for="(item,index) in saleZone"
+                      :key="index"
+                      :label="item.zoneName"
+                      :value="item.zoneCode">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" >
+              <el-form-item :size="'small'" label="区域：" style="margin-right:0">
+                <el-select
+                    v-model="filters.areaType"
+                    placeholder="请选择"
+                    style="width: 200px">
+                  <el-option
+                      v-for="item in districtList"
+                      :key="item.code"
+                      :label="item.name"
+                      :value="item.code">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="30">
+            <el-col :span="8" >
+              <el-form-item :size="'small'" label="关键词：" label-width="68px" style="margin-right:0">
+                <el-input placeholder="请输入内容" v-model="filters.keyword" class="input-with-select" style="width: 260px">
+                  <el-select v-model="filters.keywordType" slot="prepend" @change="inputWithSelectChange" placeholder="请选择" style="width: 120px">
+                    <el-option label="烟草证号" value="1"></el-option>
+                    <el-option label="联系人姓名" value="2"></el-option>
+                    <el-option label="联系人手机号" value="3"></el-option>
+                    <el-option label="门店名称" value="4"></el-option>
+                    <el-option label="业务员名称" value="5"></el-option>
+                  </el-select>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :size="'small'" label="时间区间：" style="margin-right:0">
+                <el-date-picker
+                    v-model="filters.time"
+                    type="datetimerange"
+                    placeholder="选择日期时间"
+                    value-format="yyyy-MM-dd HH:mm:ss"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    style="width: 350px">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+            <el-form-item size="small" label="位置：" prop="provCode" label-width="68px" >
+              <el-select
+                  v-model="filters.provCode"
+                  placeholder="请选择"
+                  @change="selectBrand1"
+                  style="width: 160px">
+                <el-option
+                    v-for="item in cateLvl1List"
+                    :key="item.code"
+                    :label="item.name"
+                    :value="item.code">
+                </el-option>
               </el-select>
-            </el-input>
-          </el-form-item>
-          <el-form-item :size="'small'" label="时间区间：">
-            <el-date-picker
-                v-model="filters.time"
-                type="datetimerange"
-                placeholder="选择日期时间"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                style="width: 350px">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item size="small" label="位置：" prop="provCode">
-            <el-select
-                v-model="filters.provCode"
-                placeholder="请选择"
-                @change="selectBrand1"
-                style="width: 160px">
-              <el-option
-                  v-for="item in cateLvl1List"
-                  :key="item.code"
-                  :label="item.name"
-                  :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item size="small" label="" prop="cityCode">
-            <el-select
-                v-model="filters.cityCode"
-                placeholder="请选择"
-                @change="selectBrand2"
-                style="width: 160px">
-              <el-option
-                  v-for="item in cateLvl2List"
-                  :key="item.code"
-                  :label="item.name"
-                  :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item size="small" label="" prop="countyCode">
-            <el-select
-                v-model="filters.countyCode "
-                placeholder="请选择"
-                style="width: 160px">
-              <el-option
-                  v-for="item in cateLvl3List"
-                  :key="item.code"
-                  :label="item.name"
-                  :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item class="large" :size="'small'" label="是否打印店码：" style="display:none">
-            <el-select
-                v-model="filters.isPrint"
-                placeholder="请选择"
-                style="width: 200px">
-              <el-option
-                  v-for="item in isPrintList"
-                  :key="item.code"
-                  :label="item.name"
-                  :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
+            </el-form-item>
+            <el-form-item size="small" label="" prop="cityCode">
+              <el-select
+                  v-model="filters.cityCode"
+                  placeholder="请选择"
+                  @change="selectBrand2"
+                  style="width: 160px">
+                <el-option
+                    v-for="item in cateLvl2List"
+                    :key="item.code"
+                    :label="item.name"
+                    :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item size="small" label="" prop="countyCode">
+              <el-select
+                  v-model="filters.countyCode "
+                  placeholder="请选择"
+                  style="width: 160px">
+                <el-option
+                    v-for="item in cateLvl3List"
+                    :key="item.code"
+                    :label="item.name"
+                    :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
           <div></div>
           <el-form-item class="mr0" :size="'small'">
             <el-button type="primary" size="small" @click="commitForm">查询</el-button>
@@ -460,7 +448,7 @@
         filters: {
           saleZoneCode: sessionStorage.getItem('isAllSaleZone') == 1 ? null : sessionStorage.getItem('saleZoneCode'),
           //零售户在某组织公司的状态
-          status:'1',
+          status:'2',
           //审核状态：1: 审核通过, 2: 待审核, 3: 审核不通过
           authStatus :'4',
           //业态 : 1-食杂店；2-便利店；3-超市；4-商场；5-烟酒商店；6-娱乐服务；7-其他
@@ -665,6 +653,7 @@
           pageSize: 10,
 
         };
+        console.log(params)
         // if(type){
         //   params.sortType = type
         //   if(this.filters.sortValue==1){

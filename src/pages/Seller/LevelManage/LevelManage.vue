@@ -9,7 +9,7 @@
           </div>
           <div class="lv-tips">需要等级值{{item.levelScoreMin}}</div>
           <div style="padding: 14px;">
-            <div style="margin-bottom: 10px;height: 24px;color: #999;">
+            <div style="margin-bottom: 10px;height: 24px;color: #999;display: none">
               <span style="float: left">等级权益</span>
               <span style="float: right">{{item.shopLevel}}</span>
             </div>

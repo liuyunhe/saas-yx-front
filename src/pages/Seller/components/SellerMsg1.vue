@@ -71,8 +71,8 @@
           <el-input v-model="ruleForm.contactPhone" style="width: 200px"></el-input>
         </el-form-item>
         <div></div>
-        <el-form-item label="LBS显示图标：" prop="saleZoneCode" size="small">
-          <el-select size="small" v-model="ruleForm.shopIconCode" placeholder="请选择" style="width: 200px">
+        <el-form-item label="LBS显示图标名称：" prop="saleZoneCode" size="small">
+          <el-select size="small" v-model="ruleForm.shopIconCode" placeholder="请选择" style="width: 200px" @change="handleLbsIconChange">
             <el-option
                 v-for="(item,index) in iconList"
                 :key="index"
@@ -80,6 +80,10 @@
                 :value="item.iconCode">
             </el-option>
           </el-select>
+        </el-form-item>
+        <div></div>
+        <el-form-item label="LBS图标：" size="small">
+          <img v-if="ruleForm.shopIconCode" width="100" height="100" :src="lbsIocn" style="display: block;border: 1px dashed #c0ccda;">
         </el-form-item>
         <div></div>
         <el-form-item size="small" label="位置：" prop="provCode">
@@ -134,6 +138,7 @@
         </el-form-item>
         <el-form-item label="定位lng：" prop="shopLat" size="small">
           <el-input v-model="ruleForm.shopLng" style="width: 200px"></el-input>
+          <div class="preview-btn el-button el-button--primary el-button--small" style="margin-left: 20px" @click="handleClickMap(ruleForm.shopLat,ruleForm.shopLng)">核对定位</div>
         </el-form-item>
         <div></div>
         <el-form-item :size="'small'" prop="areaType" label="区域">
@@ -176,7 +181,7 @@
 <!--        </el-form-item>-->
 <!--        <div></div>-->
 
-        <el-form-item  label="业务员姓名：" prop="salesman" size="small">
+        <el-form-item  label="业务员姓名：" size="small">
           <el-input  v-model="ruleForm.salesman" style="width: 200px"></el-input>
         </el-form-item>
         <div></div>
@@ -346,7 +351,7 @@
         cateLvl2List:[],
         cateLvl3List:[],
         iconList:[],
-
+        lbsIocn:'',
 
 
         ruleForm: {
@@ -461,9 +466,12 @@
       this.getIconList()
       this.getSaleZone()
       this.getOneCategory()
-      this.getReviewDetail()
+
     },
     methods:{
+      handleClickMap(lat,lng){
+        window.open(`https://mapapi.qq.com/web/mapComponents/locationPicker/v/index.html?search=1&type=0&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77&referer=myapp&coord=${lat},${lng}`)
+      },
       getIconList() {
         this.$request.post('/saasHbseller/shop/lbsIcon/query', {
           page: 1,
@@ -473,7 +481,11 @@
           if (res.code == '200') {
             this.iconList = res.data.records || []
           }
+          this.getReviewDetail()
         })
+      },
+      handleLbsIconChange(value){
+        this.lbsIocn = this.iconList.find(i=>i.iconCode ==  value).iconUrl
       },
       handlePictureCardPreview(file) {
         console.log(file)
@@ -537,7 +549,7 @@
 
             this.getTwoCategory()
             this.getThreeCategory()
-
+            this.lbsIocn = this.iconList.find(i=>i.iconCode ==  this.ruleForm.shopIconCode).iconUrl
             //状态
             // this.ruleForm.authStatus = res.data.info.authStatus+''
           }
