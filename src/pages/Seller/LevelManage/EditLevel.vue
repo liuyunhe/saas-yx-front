@@ -93,7 +93,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          if(this.ruleForm.levelScoreMin>=this.ruleForm.levelScoreMax){
+          if((this.ruleForm.levelScoreMin-0)>=(this.ruleForm.levelScoreMax-0)){
             this.$message.error('最小等级值不能超过最大等级值！')
             return
           }

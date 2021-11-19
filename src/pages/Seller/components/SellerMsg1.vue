@@ -525,11 +525,11 @@
             this.ruleForm.contactPhone = res.data.info.contactPhone
 
             this.ruleForm.provCode = res.data.info.provCode+''
-            this.ruleForm.provName = res.data.info.provCode+''
+            this.ruleForm.provName = res.data.info.provName+''
             this.ruleForm.cityCode = res.data.info.cityCode+''
-            this.ruleForm.cityName = res.data.info.cityCode+''
+            this.ruleForm.cityName = res.data.info.cityName+''
             this.ruleForm.countyCode = res.data.info.countyCode+''
-            this.ruleForm.countyName = res.data.info.countyCode+''
+            this.ruleForm.countyName = res.data.info.countyName+''
             this.ruleForm.shopLat = res.data.info.shopLat+''
             this.ruleForm.shopLng = res.data.info.shopLng+''
             this.ruleForm.saleZoneCode = res.data.info.saleZoneCode
