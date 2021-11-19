@@ -51,7 +51,7 @@
         <el-table-column prop="licenseNo" label="烟草专卖号" align="center"></el-table-column>
         <el-table-column prop="shopName" label="门店名称" width="150" align="center"></el-table-column>
         <el-table-column prop="contactName" label="发起人"  align="center"></el-table-column>
-        <el-table-column prop="contactPhone" label="联系人电话" align="center"></el-table-column>
+        <el-table-column prop="contactPhone" label="发起人电话" align="center"></el-table-column>
         <el-table-column prop="saleZoneName" label="所属销区" align="center"></el-table-column>
         <el-table-column prop="ctime" label="发起时间" align="center"></el-table-column>
         <el-table-column prop="status" label="状态" align="center">
@@ -116,7 +116,7 @@
         <div class="basic-msg"><span class="title">副标题：</span>{{ sellerInvite.subTitle }}</div>
         <div class="basic-msg"><span class="title">详细内容：</span><span class="content">{{ sellerInvite.msgContent }}</span></div>
         <div></div>
-        <el-form label-width="162px" :disabled="sellerInvite.status != 0">
+        <el-form label-width="162px" :disabled="sellerInvite.status != 0" :rules="rules">
           <el-form-item label="审核状态："  prop="status" size="small" style="width: 385px">
             <el-input v-model="ruleForm.status" style="display: none" ></el-input>
             <el-radio v-model="ruleForm.status" label="1" >审核通过</el-radio>
@@ -165,6 +165,14 @@ export default {
       ruleForm:{
         status:null,
         auditMsg:null,
+      },
+      rules: {
+        status: [
+          {required: true, message: '请选择审核状态',trigger: 'blur'},
+        ],
+        auditMsg: [
+          {required: true, message: '请输入审核不通过理由', trigger: 'blur'},
+        ],
       }
     }
   },
