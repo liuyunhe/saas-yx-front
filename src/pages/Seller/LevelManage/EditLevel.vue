@@ -17,6 +17,7 @@
             <img v-if="ruleForm.levelIcon" :src="ruleForm.levelIcon" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
+          <div class="pic-tips">图标格式要求：png、jpg，尺寸：100x100px</div>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">确定</el-button>
@@ -120,6 +121,9 @@ export default {
 </script>
 
 <style >
+.pic-tips{
+  color: #ccc;
+}
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
