@@ -229,6 +229,8 @@ const groupManage = () => import(/* webpackChunkName: "seller" */ '../pages/Sell
 const levelManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/LevelManage/LevelManage')
 const iconManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/IconManage/IconManage')
 const feedbackManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/FeedbackManage/FeedbackManage')
+const SellerRank = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/DataManage/SellerRank')
+const FansRank = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/DataManage/FansRank')
 const editLevel = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/LevelManage/EditLevel')
 const messageManage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/MessageManage/MessageManage')
 const addMessage = () => import(/* webpackChunkName: "seller" */ '../pages/Seller/MessageManage/AddMessage')
@@ -499,6 +501,10 @@ export default new Router({
         { path: '/seller/iconMgr', name: 'icon管理', component: iconManage},
         { path: '/seller/feedbackMgr', name: '意见反馈', component: feedbackManage},
         { path: '/seller/messageMgr', name: '消息管理', component: messageManage},
+        { path: '/seller/sellerData', name: '零售户排行', component: SellerRank},
+        { path: '/seller/sellerData/sellerRank', name: '零售户排行', component: SellerRank},
+        { path: '/seller/fansData', name: '粉丝排行', component: FansRank},
+        { path: '/seller/fansData/fansRank', name: '粉丝排行', component: FansRank},
         { path: '/seller/addMessage', name: '消息管理', component: addMessage},
         { path: '/seller/editMessage', name: '消息管理', component: editMessage,props: (route) => ({id:route.query.id})},
 
