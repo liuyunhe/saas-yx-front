@@ -411,6 +411,10 @@ export default {
         saleZoneCode:this.search.saleZoneCode,
         provCode:this.search.provinceCode,
       }
+      if(!params.saleZoneCode&&!params.provCode){
+        this.$message.warning("提示：请选择销区或省份进行查询！");
+        return
+      }
       this.$request.post('/dataStats/statHbsSeller/fansDs/rank', params, false, (res) => {
         if (res.code == '200') {
 
