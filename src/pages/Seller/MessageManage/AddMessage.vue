@@ -7,10 +7,10 @@
           <el-input placeholder="请输入消息主标题，最长10个字" v-model="form.title" maxlength="10"   style="width: 300px" />
         </el-form-item>
         <el-form-item :size="'small'" label="消息副标题：" prop="subTitle">
-          <el-input placeholder="请输入消息副标题，最长10个字" v-model="form.subTitle" maxlength="10"  style="width: 300px" />
+          <el-input placeholder="请输入消息副标题，最长20个字" v-model="form.subTitle" maxlength="20"  style="width: 300px" />
         </el-form-item>
         <el-form-item :size="'small'" label="消息内容：" prop="msgContent">
-          <el-input type="textarea" placeholder="请输入消息内容，最长60个字" v-model="form.msgContent" maxlength="60"   style="width: 300px" />
+          <el-input type="textarea" placeholder="请输入消息内容，最长100个字" v-model="form.msgContent" maxlength="100"   style="width: 300px" />
         </el-form-item>
         <div class="title">接收条件：</div>
         <el-form-item label="目标销区：" prop="saleZoneCode">
