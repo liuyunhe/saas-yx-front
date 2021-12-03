@@ -18,7 +18,7 @@
         </el-form-item>
         <el-form-item>
           <el-form-item label="省份：" prop="saleZoneCode">
-            <el-select size="small" v-model="search.provinceCode" placeholder="请选择省份">
+            <el-select size="small" v-model="search.provCode" placeholder="请选择省份">
               <el-option
                   v-for="(item,index) in saleZoneProv"
                   :key="index"
@@ -52,15 +52,15 @@ export default {
       saleZoneCode: sessionStorage.getItem('isAllSaleZone') == 1 ? null : sessionStorage.getItem('saleZoneCode'),
       search:{
         saleZoneCode: sessionStorage.getItem('isAllSaleZone') == 1 ? null : sessionStorage.getItem('saleZoneCode'),
-        provinceCode:null
+        provCode:null
       },
       saleZone:[],
       saleZoneProv:[],
       showBtn:false,
       listLoading:false,
-      dimAgeLevel:[],
-      ageList:[],
-      genderList:[]
+      curAllNum:'',
+      newAllNum:'',
+      listData:[]
     }
   },
   mounted() {
@@ -77,117 +77,95 @@ export default {
   methods:{
     handleClickALL(type){
       this.search.saleZoneCode = null
-      this.search.provinceCode = null
+      this.search.provCode = null
       let params = {
         saleZoneCode:type === 'allZone'?'all':null,
         provCode:type === 'allProv'?'all':null,
       }
-      this.$request.post('/dataStats/statHbsSeller/fansDs/ageGenderDistribution', params, false, (res) => {
+      this.$request.post('/dataStats/statHbsSeller/fansDs/regionDistribution', params, false, (res) => {
         if (res.code == '200') {
-          this.dimAgeLevel = res.data.dimAgeLevel
-          this.ageList = res.data.ageList
-          this.genderList = res.data.genderList
+          this.curAllNum = res.data.heJi[0]?res.data.heJi[0].totalFans : 0
+          this.newAllNum = res.data.heJi[0]?res.data.heJi[0].newFanNum : 0
+          this.listData = res.data.dataList
           this.handleDrawMap1()
-          this.handleDrawMap2()
         }
       })
     },
     handleDrawMap1(){
       let myChart1 = this.$echarts.init(document.getElementById('echart-1'))
       console.log(myChart1)
-      const data = this.genderList.map(i=>{
-        return {
-          value:i.num,
-          name:i.fanGender == 1?'男':i.fanGender == 2?'女':'未知'
-        }
+      let seriesData1 = []
+      let seriesData2 = []
+      const xAxisData = this.listData.map(i=>{
+        seriesData1.push(i.totalFans||0)
+        seriesData2.push(i.newFanNum||0)
+        return i.displayName
       })
+      console.log(seriesData1,seriesData2,xAxisData)
+      const curAllNum = this.curAllNum
+      const newAllNum = this.newAllNum
       let option = {
-        color:['#00a3ff','#ffd135','#00ce7b'],
+        color: ['#00a3ff','#d5d5d5'],
         title: {
-          text: '性别',
-          left: 'center'
+          text: '粉丝区域分布',
+          left: 'center',
+          subtext:`新增粉丝:${newAllNum}人   累计粉丝:${curAllNum}人`
         },
         tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)'
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
         },
         legend: {
-          orient: 'vertical',
-          right: 10,
-          top: '40%',
-          formatter: function (name) {
-            return   name ;
-          }
+          top: 'bottom',
         },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '10%',
+          top:'15%',
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: xAxisData
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value',
+            name:'数量'
+          }
+        ],
         series: [
           {
-            name: '性别',
-            type: 'pie',
-            radius: '50%',
-            data: data,
+            name: '新增粉丝',
+            type: 'bar',
+            stack: 'Ad',
             emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
-          }
+              focus: 'series'
+            },
+            barMaxWidth:40,
+            data: seriesData2
+          },
+          {
+            name: '累计粉丝',
+            type: 'bar',
+            stack: 'Ad',
+            emphasis: {
+              focus: 'series'
+            },
+            barMaxWidth:40,
+            data: seriesData1
+          },
         ]
       };
       myChart1.setOption(option);
     },
-    handleDrawMap2(){
-      let myChart2 = this.$echarts.init(document.getElementById('echart-2'))
-      const data = this.ageList.map(i=>{
-        if(i.ageLevel === undefined) return
-        return {
-          value:i.num,
-          name:this.dimAgeLevel.find(j=>{
-            return j.ageLevel ===i.ageLevel
-          }).levelName
-        }
-      })
-      console.log(data)
-      let option = {
-        color:['#00a3ff','#ffd135','#00ce7b','#a15ee3','#00cece','#ff3559'],
-        title: {
-          text: '年龄',
-          left: '40%'
-        },
-        tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)'
-        },
-        legend: {
-          orient: 'vertical',
-          right: 0,
-          top: '30%',
-          formatter: function (name) {
-            return   name ;
-          }
-        },
-        series: [
-          {
-            name: '年龄',
-            type: 'pie',
-            radius: '50%',
-            data: data,
-            center: ["45%","50%"],
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
-          }
-        ]
-      };
-      myChart2.setOption(option);
-    },
     handleSaleZoneCodeChange(saleZone){
-      this.search.provinceCode = null
+      this.search.provCode = null
       this.$request.post('/api/saleZone/saleZoneProv', {saleZone}, false, (res) => {
         if (res.code == '200') {
           this.saleZoneProv = res.data || []
@@ -208,21 +186,18 @@ export default {
     getData() {
       let params = {
         saleZoneCode:this.search.saleZoneCode,
-        provCode:this.search.provinceCode,
+        provCode:this.search.provCode,
       }
       if(!params.saleZoneCode&&!params.provCode){
         this.$message.warning("提示：请选择销区或省份进行查询！");
         return
       }
-      this.$request.post('/dataStats/statHbsSeller/fansDs/ageGenderDistribution', params, false, (res) => {
+      this.$request.post('/dataStats/statHbsSeller/fansDs/regionDistribution', params, false, (res) => {
         if (res.code == '200') {
-          if(res.data){
-            this.dimAgeLevel = res.data.dimAgeLevel
-            this.ageList = res.data.ageList
-            this.genderList = res.data.genderList
-            this.handleDrawMap1()
-            this.handleDrawMap2()
-          }
+          this.curAllNum = res.data.heJi[0]?res.data.heJi[0].totalFans : 0
+          this.newAllNum = res.data.heJi[0]?res.data.heJi[0].newFanNum : 0
+          this.listData = res.data.dataList
+          this.handleDrawMap1()
         }
       })
     },
@@ -232,19 +207,11 @@ export default {
 
 <style lang="scss" scoped>
 .echart-container{
-  overflow: auto;
+  padding-top: 30px;
   #echart-1{
-    float: left;
-    width: 480px;
-    height: 300px;
-    margin-right: 20px;
-  }
-  #echart-2{
-    float: left;
-    width: 480px;
-    height: 300px;
+    width: 100%;
+    height: 500px;
+    margin-bottom: 20px;
   }
 }
-
-
 </style>
