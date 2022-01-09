@@ -285,6 +285,7 @@ const HeYearEndFishing = () => import(/* webpackChunkName: "activity" */ '@/page
 const HeSheng2021Diy = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HeSheng2021Diy')
 const HeSheng2021Light = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HeSheng2021Light')
 const JH2021Round = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/Jihe/RoundMgr')
+const NianhuoMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/Jihe/NianhuoMgr')
 
 const ScanMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/ScanMgr')
 const CardCollectingMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/CardCollectingMgr')
@@ -609,6 +610,7 @@ export default new Router({
         { path: '/actall/HeYearEndRun', name: '集荷跑步', component: HeYearEndRun },
         { path: '/actall/HeYearEndFishing', name: '集荷跑步', component: HeYearEndFishing },
         { path: '/actall/JH2021Round', name: '集荷跑步', component: JH2021Round },
+        { path: '/actall/NianhuoMgr', name: '集荷年货', component: NianhuoMgr },
         { path: '/actall/HeSheng2021Diy', name: '集荷跑步', component: HeSheng2021Diy },
         { path: '/actall/HeSheng2021Light', name: '荷灯', component: HeSheng2021Light },
         { path: '/actall/HeShengFuKa', name: '荷声福卡', component: HeShengAward },
