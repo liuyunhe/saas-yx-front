@@ -79,7 +79,13 @@
             <div class="img" @click="templateLink('B')">
               <img src="http://qoss.qrmkt.cn/scoremall/template3.png" alt="B模板">
             </div>
-            <p>B模板</p>
+            <p>B1模板</p>
+          </div>
+          <div class="left">
+            <div class="img" @click="templateLink('D')">
+              <img src="http://qoss.qrmkt.cn/scoremall/template3.png" alt="B模板">
+            </div>
+            <p>B2模板</p>
           </div>
           <!-- 屏蔽这个推荐位 -->
           <!-- <div class="left">
@@ -170,6 +176,10 @@
         }else if(type==3){
           this.$router.push({
             path:'/mall/recommend/editCommendTpmC?id='+id
+          })
+        }else if(type==5){
+          this.$router.push({
+            path:'/mall/recommend/editCommendTpmD?id='+id
           })
         }
 

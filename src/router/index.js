@@ -211,6 +211,10 @@ const editCommendTpmB = () => import(/* webpackChunkName: "mall" */ '../pages/Ma
 const addCommendTpmC = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/AddCommendTpmC')
 // 商城-推荐位管理-编辑推荐位C
 const editCommendTpmC = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/EditCommendTpmC')
+// 商城-推荐位管理-新增推荐位C
+const addCommendTpmD = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/AddCommendTpmD')
+// 商城-推荐位管理-编辑推荐位C
+const editCommendTpmD = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/EditCommendTpmD')
 // 商城 - 积分活动
 const scoreAct = () =>import(/* webpackChunkName: "mall" */ '../pages/Mall/ScoreAct/ActList')
 // 商城 - 积分活动编辑
@@ -543,9 +547,11 @@ export default new Router({
         { path: '/mall/recommend/addCommendTpmA', name: '新增推荐位模板A', component: addCommendTpmA },
         { path: '/mall/recommend/addCommendTpmB', name: '新增推荐位模板B', component: addCommendTpmB },
         { path: '/mall/recommend/addCommendTpmC', name: '新增推荐位模板C', component: addCommendTpmC },
+        { path: '/mall/recommend/addCommendTpmD', name: '新增推荐位模板B2', component: addCommendTpmD },
         { path: '/mall/recommend/editCommendTpmA', name: '编辑推荐位模板A', component: editCommendTpmA,props: (route) => ({id:route.query.id})},
         { path: '/mall/recommend/editCommendTpmB', name: '编辑推荐位模板B', component: editCommendTpmB,props: (route) => ({id:route.query.id})},
         { path: '/mall/recommend/editCommendTpmC', name: '编辑推荐位模板C', component: editCommendTpmC,props: (route) => ({id:route.query.id})},
+        { path: '/mall/recommend/editCommendTpmD', name: '编辑推荐位模板B2', component: editCommendTpmD,props: (route) => ({id:route.query.id})},
         { path: '/mall/banner', name: 'banner位管理', component: bannerManage},
         { path: '/mall/banner/addBanner', name: '新增banner', component: addBanner},
         { path: '/mall/banner/editBanner', name: '编辑banner', component: editBanner,props: (route) => ({id:route.query.id})},
