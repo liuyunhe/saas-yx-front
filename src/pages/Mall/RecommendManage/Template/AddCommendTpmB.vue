@@ -265,11 +265,28 @@
   }
 </style>
 <style>
-  .add-commend-form-container .product-img .el-upload {
-    width: 102px;
-    height: 65px;
-    line-height: 73px;
-  }
+.add-commend-form-container .product-img .el-upload {
+  width: 102px;
+  height: 65px;
+  line-height: 73px;
+}
+.add-commend-form-container .product-img .el-upload .avatar{
+  width: 102px;
+  height: 65px;
+  line-height: 73px;
+}
+.add-commend-form-container .main-product-img .el-upload {
+  width: 102px;
+  height: 36px;
+  line-height: 44px;
+
+}
+.add-commend-form-container .main-product-img .el-upload .avatar{
+  width: 102px;
+  height: 36px;
+  line-height: 44px;
+
+}
   .add-commend-container .el-table{text-align: center}
   .add-commend-container .el-table th{text-align: center}
   .add-commend-container .el-table td{text-align: center}
