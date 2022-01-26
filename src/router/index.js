@@ -187,6 +187,10 @@ const editProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/C
 const SNProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/SNProduct/SNProduct')
 const AddSNProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/SNProduct/AddSNProduct')
 const EditSNProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/SNProduct/EditSNProduct')
+// 商城-商品管理-第三方商品管理
+const ThirdProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ThirdProduct/ThirdProduct')
+const AddThirdProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ThirdProduct/AddThirdProduct')
+const EditThirdProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ThirdProduct/EditThirdProduct')
 // 商城-商品管理-活动物料管理
 const ActProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ActProduct/ActProduct')
 const AddActProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ActProduct/AddActProduct')
@@ -566,6 +570,9 @@ export default new Router({
         { path: '/mall/product/sn', name: '苏宁商品管理', component: SNProduct },
         { path: '/mall/product/sn/addSNProduct', name: '新建苏宁商品', component: AddSNProduct },
         { path: '/mall/product/sn/editSNProduct', name: '编辑苏宁商品', component: EditSNProduct,props: (route) => ({id:route.query.id})},
+        { path: '/mall/product/third', name: '第三方商品管理', component: ThirdProduct },
+        { path: '/mall/product/third/addThirdProduct', name: '新建第三方商品', component: AddThirdProduct },
+        { path: '/mall/product/third/editThirdProduct', name: '编辑第三方商品', component: EditThirdProduct,props: (route) => ({id:route.query.id})},
         { path: '/mall/product/act', name: '活动物料管理', component: ActProduct },
         { path: '/mall/product/act/addActProduct', name: '新建活动物料管理', component: AddActProduct },
         { path: '/mall/product/act/editActProduct', name: '编辑活动物料管理', component: EditActProduct,props: (route) => ({pid:route.query.pid})},
