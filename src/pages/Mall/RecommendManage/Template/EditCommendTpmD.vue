@@ -140,16 +140,16 @@
 
     <el-dialog title="选择商品" :visible.sync="dialogTableVisible" width="850px">
 
-      <el-form :inline="true" :model="filters" label-width="80px">
-        <el-form-item :size="'small'" label="关键词">
+      <el-form :inline="true" :model="filters" label-width="100px">
+        <el-form-item :size="'small'" label="关键词：">
           <el-input placeholder="请输入内容" v-model="filters[filters.select]" class="input-with-select" style="width: 300px">
-          <el-select v-model="filters.select" slot="prepend" @change="inputWithSelectChange" placeholder="请选择" style="width: 100px">
+          <el-select v-model="filters.select" slot="prepend" @change="inputWithSelectChange" placeholder="请选择" style="width: 110px">
             <el-option label="商品名称" value="keywords"></el-option>
-            <el-option label="商品ID" value="productId"></el-option>
+            <el-option label="商品ID" value="productId" v-if="listType != 'TD'"></el-option>
           </el-select>
         </el-input>
         </el-form-item>
-        <el-form-item :size="'small'" label="分类">
+        <el-form-item :size="'small'" label="分类：" v-if="listType != 'TD'">
           <el-select
               v-model="filters.cateLvl1"
               placeholder="请选择"
@@ -168,6 +168,19 @@
               style="width: 100px">
             <el-option
                 v-for="item in cateLvl2List"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item :size="'small'" label="供应商：" v-if="listType == 'TD'">
+          <el-select
+              v-model="filters.sourceType"
+              placeholder="请选择"
+              style="width: 200px">
+            <el-option
+                v-for="item in supplierList"
                 :key="item.id"
                 :label="item.name"
                 :value="item.id">
@@ -228,6 +241,36 @@
                 layout="total,prev, pager, next,jumper"
                 :current-page="currentPage"
                 @current-change="handleCurrentChangeZJ"
+                :page-size="filters.pageSize"
+                :total="filters.total"
+                style="float:right;">
+            </el-pagination>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="第三方商品" name="TD">
+          <el-table :data="listTD" ref="TDTable" v-loading="listLoading" highlight-current-row @current-change="handleSelectProduct"  @row-click = "showRowTD">
+            <el-table-column label="选择" width="50" align="center">
+              <template slot-scope="scope">
+                <el-radio class="radio"  v-model="radiotd"  :label="scope.$index">&nbsp;</el-radio>
+              </template>
+            </el-table-column>
+            <el-table-column type="index" label="序号" width="50"></el-table-column>
+            <el-table-column property="outSourceId" label="商品ID" width="200"></el-table-column>
+            <el-table-column property="memo" label="商品名称"  width="200"></el-table-column>
+            <el-table-column
+                prop="giftType"
+                label="供应商">
+              <template slot-scope="scope">
+                <span>{{ supplierList.find(item=>item.id == scope.row.sourceType).name }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+          <div class="footer-toolbar clearfix">
+            <el-pagination
+                background
+                layout="total,prev, pager, next,jumper"
+                :current-page="currentPage"
+                @current-change="handleCurrentChangeTD"
                 :page-size="filters.pageSize"
                 :total="filters.total"
                 style="float:right;">
@@ -302,8 +345,10 @@
         listType: 'JD',
         radiojd:'',
         radiozj:'',
+        radiotd:'',
         listJD: [],
         listZJ: [],
+        listTD: [],
 
         ProductIndex:"",
 
@@ -370,13 +415,6 @@
             { required: true, message: '请上传图片', trigger: 'change' },
           ],
 
-          product2Name: [
-            { required: true, message: '请选择商品', trigger: 'change' },
-          ],
-          image2: [
-            { required: true, message: '请上传图片', trigger: 'change' },
-          ],
-
           product3Name: [
             { required: true, message: '请选择商品', trigger: 'change' },
           ],
@@ -414,6 +452,7 @@
           cateLvl1:"",
           cateLvl2:"",
           productId:"",
+          sourceType:"",
           //每页条数
           pageSize:5,
 
@@ -425,7 +464,9 @@
         },
         //当前页码
         currentPage:1,
-
+        supplierList:[
+          {name: "全部", id: ""}
+        ],
         selectProduct:{
           productId : "",
           productName : "",
@@ -438,6 +479,7 @@
       this.getOneCategory()
       this.getListJD()
       this.getListZJ()
+      this.getSupplierList()
       this.getRecommendDetail()
     },
     methods:{
@@ -448,6 +490,10 @@
         showRowZJ(row){
             //赋值给radio
             this.radiozj = this.listZJ.indexOf(row);
+        },
+        showRowTD(row){
+            //赋值给radio
+            this.radiotd = this.listTD.indexOf(row);
         },
         checkIdx(value){
             if (value) {
@@ -479,6 +525,19 @@
 
             })
 
+          }
+        })
+      },
+      getSupplierList(){
+        this.$request.post('/sc/product/supplier/list',{}, true, (res) => {
+          if (res.ret == '200000') {
+            let data = res.data.map(item=>{
+              return {
+                id:Object.keys(item)[0],
+                name:Object.values(item)[0]
+              }
+            })
+            this.supplierList = [...this.supplierList,...data]
           }
         })
       },
@@ -547,8 +606,45 @@
           }
         })
       },
+      getListTD() {
+        let params = {
+          //商品状态
+          status:this.filters.status,
+          //供应商
+          sourceType:this.filters.sourceType,
+          //关键词
+          keywords:this.filters.keywords,
+
+          pageSize:this.pageSize,
+          pageNo:this.pageNo
+        };
+        this.postSearchTD(params)
+      },
+      postSearchTD(params) {
+        this.listLoading = true;
+        this.$request.post('/sc/mall/product/listThirdProduct', params, true, (res) => {
+          if (res.ret == '200000') {
+            console.log(res.data)
+            this.listLoading = false;
+            this.listTD = res.data.list
+            this.filters.total = res.data.page.count
+            this.filters.pageNo = res.data.page.pageNo
+          }
+        })
+      },
       commitForm() {
-        this.handleClick()
+        this.filters.pageNo = 1
+        this.currentPage = 1
+        this.radiojd = ''
+        this.radiozj = ''
+        this.radiotd = ''
+        if(this.listType == "JD"){
+          this.getListJD()
+        }else if(this.listType == "ZJ"){
+          this.getListZJ()
+        }else if(this.listType == "TD"){
+          this.getListTD()
+        }
       },
       inputWithSelectChange(val){
         this.filters.keywords = ""
@@ -749,10 +845,21 @@
         this.currentPage = 1
         this.radiojd = ''
         this.radiozj = ''
+        this.radiotd = ''
         if(this.listType == "JD"){
+          this.filters.select = ''
+          this.filters.keywords = ''
+          this.filters.productId = ''
           this.getListJD()
         }else if(this.listType == "ZJ"){
+          this.filters.select = ''
+          this.filters.keywords = ''
+          this.filters.productId = ''
           this.getListZJ()
+        }else if(this.listType == "TD"){
+          this.filters.select = ''
+          this.filters.keywords = ''
+          this.getListTD()
         }
       },
       //跳转按钮功能
@@ -763,15 +870,24 @@
       handleCurrentChangeZJ(val) {
         this.radiojd = ''
         this.radiozj = ''
+        this.radiotd = ''
         this.filters.pageNo = val
         this.currentPage = val
         this.getListZJ()
       },handleCurrentChangeJD(val) {
         this.radiojd = ''
         this.radiozj = ''
+        this.radiotd = ''
         this.filters.pageNo = val
         this.currentPage = val
         this.getListJD()
+      },handleCurrentChangeTD(val) {
+        this.radiojd = ''
+        this.radiozj = ''
+        this.radiotd = ''
+        this.filters.pageNo = val
+        this.currentPage = val
+        this.getListTD()
       },
 
       confirmDialog(){
@@ -792,6 +908,7 @@
           }
           this.$refs.JDTable.setCurrentRow();
           this.$refs.ZJTable.setCurrentRow();
+          this.$refs.TDTable.setCurrentRow();
           this.dialogTableVisible = false
           this.filters.select = ""
           this.filters.productId = ""
@@ -807,11 +924,13 @@
           this.selectProduct.image = ""
           this.radiojd = ''
           this.radiozj = ''
+          this.radiotd = ''
         }
       },
       cancelDialog() {
         this.$refs.JDTable.setCurrentRow();
         this.$refs.ZJTable.setCurrentRow();
+        this.$refs.TDTable.setCurrentRow();
         this.dialogTableVisible = false
         this.filters.select = ""
         this.filters.productId = ""
@@ -828,6 +947,7 @@
         this.dialogTableVisible = false
         this.radiojd = ''
         this.radiozj = ''
+        this.radiotd = ''
       }
     }
   }

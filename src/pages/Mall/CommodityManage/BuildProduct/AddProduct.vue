@@ -125,6 +125,23 @@
           <el-radio v-model="ruleForm.isHostGood" label="0">否</el-radio>
           <el-radio v-model="ruleForm.isHostGood" label="1">是</el-radio>
         </el-form-item>-->
+        <el-form-item label="角标：" prop="cornerUrl" size="small">
+          <el-input v-model="ruleForm.cornerUrl" style="display: none" ></el-input>
+          <el-upload
+              action="/api/wiseqr/attach/commonAliUpload"
+              list-type="picture-card"
+              class="product-url"
+              :headers="headers"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccessCornerUrl"
+          >
+            <img v-if="ruleForm.cornerUrl" width="100" height="100" :src="ruleForm.cornerUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+          <div class="pic-tips">* 图片建议尺寸为 长200px，宽200px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
+          <el-button type="primary" v-if="ruleForm.cornerUrl" @click="handleDeleteCornerUrl">清除角标</el-button>
+        </el-form-item>
+        <div></div>
         <div></div>
         <div class="add-product-form-bt">
           <el-form-item>
@@ -218,6 +235,7 @@
           status:'1',
           //是否为热门商品0否，1是
           // isHostGood:'0'
+          cornerUrl:null,
         },
         rules: {
           memo: [
@@ -258,6 +276,9 @@
       this.getOneCategory()
     },
     methods:{
+      handleDeleteCornerUrl(){
+        this.ruleForm.cornerUrl = null
+      },
       //从后台拿取商品状态列表
       getProductList(){
         this.$request.post('/sc/saotx/mall/statusMap',{}, true, (res) => {
@@ -345,6 +366,7 @@
               score: this.ruleForm.score,
               status: this.ruleForm.status,
               url: this.ruleForm.url,
+              cornerUrl: this.ruleForm.cornerUrl,
               // isHostGood: this.ruleForm.isHostGood
             }
             this.postParams(params)
@@ -381,6 +403,11 @@
         var data = res.data || {};
         var imgUrl = data && data.accessUrl;
         this.ruleForm.url = imgUrl;
+      },
+      handleAvatarSuccessCornerUrl(res, file){
+        var data = res.data || {};
+        var imgUrl = data && data.accessUrl;
+        this.ruleForm.cornerUrl = imgUrl;
       },
       returnZJProduct(){
         this.$router.push({
