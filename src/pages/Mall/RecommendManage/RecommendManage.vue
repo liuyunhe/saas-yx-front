@@ -83,9 +83,15 @@
           </div>
           <div class="left">
             <div class="img" @click="templateLink('D')">
-              <img src="http://qoss.qrmkt.cn/scoremall/template3.png" alt="B模板">
+              <img src="http://qoss.qrmkt.cn/scoremall/template3.png" alt="B2模板">
             </div>
             <p>B2模板</p>
+          </div>
+          <div class="left">
+            <div class="img" @click="templateLink('H')">
+              <img src="http://qoss.qrmkt.cn/scoremall/template3.png" alt="爆款专区模板">
+            </div>
+            <p>爆款专区模板</p>
           </div>
           <!-- 屏蔽这个推荐位 -->
           <!-- <div class="left">
@@ -180,6 +186,10 @@
         }else if(type==5){
           this.$router.push({
             path:'/mall/recommend/editCommendTpmD?id='+id
+          })
+        }else if(type==9){
+          this.$router.push({
+            path:'/mall/recommend/editCommendTpmH?id='+id
           })
         }
 

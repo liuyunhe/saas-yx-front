@@ -187,6 +187,10 @@ const editProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/C
 const SNProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/SNProduct/SNProduct')
 const AddSNProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/SNProduct/AddSNProduct')
 const EditSNProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/SNProduct/EditSNProduct')
+// 商城-商品管理-第三方商品管理
+const ThirdProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ThirdProduct/ThirdProduct')
+const AddThirdProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ThirdProduct/AddThirdProduct')
+const EditThirdProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ThirdProduct/EditThirdProduct')
 // 商城-商品管理-活动物料管理
 const ActProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ActProduct/ActProduct')
 const AddActProduct = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/CommodityManage/ActProduct/AddActProduct')
@@ -211,10 +215,14 @@ const editCommendTpmB = () => import(/* webpackChunkName: "mall" */ '../pages/Ma
 const addCommendTpmC = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/AddCommendTpmC')
 // 商城-推荐位管理-编辑推荐位C
 const editCommendTpmC = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/EditCommendTpmC')
-// 商城-推荐位管理-新增推荐位C
+// 商城-推荐位管理-新增推荐位B2
 const addCommendTpmD = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/AddCommendTpmD')
-// 商城-推荐位管理-编辑推荐位C
+// 商城-推荐位管理-编辑推荐位B2
 const editCommendTpmD = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/EditCommendTpmD')
+// 商城-推荐位管理-新增爆款推荐位
+const addCommendTpmH = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/AddCommendTpmH')
+// 商城-推荐位管理-编辑爆款推荐位
+const editCommendTpmH = () => import(/* webpackChunkName: "mall" */ '../pages/Mall/RecommendManage/Template/EditCommendTpmH')
 // 商城 - 积分活动
 const scoreAct = () =>import(/* webpackChunkName: "mall" */ '../pages/Mall/ScoreAct/ActList')
 // 商城 - 积分活动编辑
@@ -548,10 +556,12 @@ export default new Router({
         { path: '/mall/recommend/addCommendTpmB', name: '新增推荐位模板B', component: addCommendTpmB },
         { path: '/mall/recommend/addCommendTpmC', name: '新增推荐位模板C', component: addCommendTpmC },
         { path: '/mall/recommend/addCommendTpmD', name: '新增推荐位模板B2', component: addCommendTpmD },
+        { path: '/mall/recommend/addCommendTpmH', name: '新增推荐位爆款模板', component: addCommendTpmH },
         { path: '/mall/recommend/editCommendTpmA', name: '编辑推荐位模板A', component: editCommendTpmA,props: (route) => ({id:route.query.id})},
         { path: '/mall/recommend/editCommendTpmB', name: '编辑推荐位模板B', component: editCommendTpmB,props: (route) => ({id:route.query.id})},
         { path: '/mall/recommend/editCommendTpmC', name: '编辑推荐位模板C', component: editCommendTpmC,props: (route) => ({id:route.query.id})},
         { path: '/mall/recommend/editCommendTpmD', name: '编辑推荐位模板B2', component: editCommendTpmD,props: (route) => ({id:route.query.id})},
+        { path: '/mall/recommend/editCommendTpmH', name: '编辑推荐位爆款模板', component: editCommendTpmH,props: (route) => ({id:route.query.id})},
         { path: '/mall/banner', name: 'banner位管理', component: bannerManage},
         { path: '/mall/banner/addBanner', name: '新增banner', component: addBanner},
         { path: '/mall/banner/editBanner', name: '编辑banner', component: editBanner,props: (route) => ({id:route.query.id})},
@@ -566,6 +576,9 @@ export default new Router({
         { path: '/mall/product/sn', name: '苏宁商品管理', component: SNProduct },
         { path: '/mall/product/sn/addSNProduct', name: '新建苏宁商品', component: AddSNProduct },
         { path: '/mall/product/sn/editSNProduct', name: '编辑苏宁商品', component: EditSNProduct,props: (route) => ({id:route.query.id})},
+        { path: '/mall/product/third', name: '第三方商品管理', component: ThirdProduct },
+        { path: '/mall/product/third/addThirdProduct', name: '新建第三方商品', component: AddThirdProduct },
+        { path: '/mall/product/third/editThirdProduct', name: '编辑第三方商品', component: EditThirdProduct,props: (route) => ({id:route.query.id})},
         { path: '/mall/product/act', name: '活动物料管理', component: ActProduct },
         { path: '/mall/product/act/addActProduct', name: '新建活动物料管理', component: AddActProduct },
         { path: '/mall/product/act/editActProduct', name: '编辑活动物料管理', component: EditActProduct,props: (route) => ({pid:route.query.pid})},

@@ -100,40 +100,37 @@
         </el-form-item>
         <div></div>
 
-        <div></div>
-
-<!--        额外增加商品-->
-          <template v-for="(item,index) in ruleForm.addItem">
-            <el-form :model="item" :inline="true" :rules="addItemRules" ref="addItem" label-width="120px" class="demo-ruleForm">
-              <el-form-item :label="`商品${index + 5}：`" :prop="`productName`" size="small">
-                <el-input v-model="item.productName" disabled placeholder="请选择商品" style="width: 200px"></el-input>
-                <el-button type="primary" @click="chooseProduct(`${index+5}`)" style="margin-left: 30px">选择商品</el-button>
-                <el-button type="danger" @click="delProduct(index)" style="margin-left: 30px">删除商品</el-button>
-              </el-form-item>
-              <div></div>
-              <el-form-item :label="`图${index + 5}：`" prop="image" size="small">
-                <el-input v-model="item.image" style="display: none" ></el-input>
-                <el-upload
-                    action="/api/wiseqr/attach/commonAliUpload"
-                    list-type="picture-card"
-                    class="product-img"
-                    :headers="headers"
-                    :show-file-list="false"
-                    :on-success="(res)=> handleSuccess(index, res)"
-                >
-                  <img v-if="item.image" width="100" height="63" :src="item.image" class="avatar">
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-                <div class="pic-tips">* 图片建议尺寸为 120*148px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
-              </el-form-item>
-              <div></div>
-            </el-form>
-          </template>
-
+        <!--        额外增加商品-->
+        <template v-for="(item,index) in ruleForm.addItem">
+          <el-form :model="item" :inline="true" :rules="addItemRules" ref="addItem" label-width="120px" class="demo-ruleForm">
+            <el-form-item :label="`商品${index + 5}：`" :prop="`productName`" size="small">
+              <el-input v-model="item.productName" disabled placeholder="请选择商品" style="width: 200px"></el-input>
+              <el-button type="primary" @click="chooseProduct(`${index+5}`)" style="margin-left: 30px">选择商品</el-button>
+              <el-button type="danger" @click="delProduct(index)" style="margin-left: 30px">删除商品</el-button>
+            </el-form-item>
+            <div></div>
+            <el-form-item :label="`图${index + 5}：`" prop="image" size="small">
+              <el-input v-model="item.image" style="display: none" ></el-input>
+              <el-upload
+                  action="/api/wiseqr/attach/commonAliUpload"
+                  list-type="picture-card"
+                  class="product-img"
+                  :headers="headers"
+                  :show-file-list="false"
+                  :on-success="(res)=> handleSuccess(index, res)"
+              >
+                <img v-if="item.image" width="100" height="63" :src="item.image" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+              <div class="pic-tips">* 图片建议尺寸为 120*148px，格式为*.jpg\ *.bmp\ *.png\ *.gif</div>
+            </el-form-item>
+            <div></div>
+          </el-form>
+        </template>
         <div class="add-commend-form-bt">
           <el-form-item>
-            <el-button type="primary" @click="handleAddItem">新增商品</el-button>
-            <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+<!--            <el-button type="primary" @click="handleAddItem">新增商品</el-button>-->
+            <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
             <el-button @click="returnRecommend">取消</el-button>
           </el-form-item>
         </div>
@@ -197,7 +194,7 @@
 
       <el-tabs v-model="listType" type="card" @tab-click="handleClick">
         <el-tab-pane label="苏宁商品" name="JD">
-          <el-table :data="listJD" ref="JDTable" v-loading="listLoading" highlight-current-row @current-change="handleSelectProduct"  @row-click = "showRowJD">
+          <el-table :data="listJD" ref="JDTable" v-loading="listLoading" highlight-current-row @current-change="handleSelectProduct"  @row-click = "showRowJD" >
             <el-table-column label="选择" width="50" align="center">
               <template slot-scope="scope">
                 <el-radio class="radio"  v-model="radiojd"  :label="scope.$index">&nbsp;</el-radio>
@@ -330,12 +327,13 @@
   line-height: 44px;
 
 }
-  .add-commend-container .el-table{text-align: center}
-  .add-commend-container .el-table th{text-align: center}
-  .add-commend-container .el-table td{text-align: center}
+.add-commend-container .el-table{text-align: center}
+.add-commend-container .el-table th{text-align: center}
+.add-commend-container .el-table td{text-align: center}
 </style>
 <script>
   export default {
+    props:["id"],
     name: "",
     data() {
       return {
@@ -369,7 +367,7 @@
 
         ruleForm: {
           //推荐位展示类型
-          type:"5",
+          type:"9",
           //推荐位名称
           name: '',
           //排序值
@@ -429,6 +427,7 @@
           image4: [
             { required: true, message: '请上传图片', trigger: 'change' },
           ],
+
         },
         addItemRules:{
           productName: [
@@ -473,7 +472,6 @@
           productName : "",
           image:""
         }
-
       }
     },
     created(){
@@ -481,6 +479,7 @@
       this.getListJD()
       this.getListZJ()
       this.getSupplierList()
+      this.getRecommendDetail()
     },
     methods:{
         showRowJD(row){
@@ -502,6 +501,32 @@
                 }
             }
         },
+      getRecommendDetail() {
+        this.$request.post('/sc/saotx/mall/recommend/detail',{id:this.id},true,res => {
+          if (res.ret == '200000') {
+            this.ruleForm.name = res.data.name
+            this.ruleForm.idx = res.data.idx
+            let recommendProducts = res.data.recommendProducts
+            recommendProducts.map((e,i)=>{
+              if(i<4){
+                this.ruleForm['product'+e.idx+'Id'] = e.productId
+                this.ruleForm['product'+e.idx+'Name'] = e.productName
+                this.ruleForm['image'+e.idx] = e.productImage
+              }else {
+                this.ruleForm.addItem.push(
+                  {
+                    productId:e.productId,
+                    productName:e.productName,
+                    image:e.productImage
+                  }
+                )
+              }
+
+            })
+
+          }
+        })
+      },
       getSupplierList(){
         this.$request.post('/sc/product/supplier/list',{}, true, (res) => {
           if (res.ret == '200000') {
@@ -661,7 +686,7 @@
         )
       },
       delProduct(index){
-          this.ruleForm.addItem.splice(index,1)
+        this.ruleForm.addItem.splice(index,1)
       },
       submitForm(formName) {
         let $this = this
@@ -701,16 +726,17 @@
             let addItem = []
             if(this.ruleForm.addItem.length){
               addItem = this.ruleForm.addItem.map((e,i)=>{
-              return {
-                productId: e.productId,
-                productName:e.productName,
-                productImage:e.image,
-                idx: i+5
-              }
-            })
+                return {
+                  productId: e.productId,
+                  productName:e.productName,
+                  productImage:e.image,
+                  idx: i+5
+                }
+              })
             }
             let params = {
-              type:5,
+              id:this.id,
+              type:9,
               name:this.ruleForm.name,
               idx:this.ruleForm.idx,
               recommendProducts:[

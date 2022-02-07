@@ -132,7 +132,7 @@
 
         <div class="add-commend-form-bt">
           <el-form-item>
-            <el-button type="primary" @click="handleAddItem">新增商品</el-button>
+<!--            <el-button type="primary" @click="handleAddItem">新增商品</el-button>-->
             <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
             <el-button @click="returnRecommend">取消</el-button>
           </el-form-item>
@@ -369,7 +369,7 @@
 
         ruleForm: {
           //推荐位展示类型
-          type:"5",
+          type:"9",
           //推荐位名称
           name: '',
           //排序值
@@ -710,7 +710,7 @@
             })
             }
             let params = {
-              type:5,
+              type:9,
               name:this.ruleForm.name,
               idx:this.ruleForm.idx,
               recommendProducts:[

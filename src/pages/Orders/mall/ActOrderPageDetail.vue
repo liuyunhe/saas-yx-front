@@ -201,7 +201,7 @@
                     province: this.formDetail.province,
                     city: this.formDetail.city,
                     district: this.formDetail.district,
-                    adddress: this.formDetail.address,
+                    address: this.formDetail.address,
                     orderId: this.formDetail.orderId
                 }
                 this.$request.post('/sc/saotx/mall/order/actModifyReceiptInfo',params,true,res => {
