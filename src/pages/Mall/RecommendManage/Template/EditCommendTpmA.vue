@@ -99,7 +99,20 @@
           <div class="pic-tips">上传图片的最佳尺寸：230像素*144像素;格式png，jpg;大小不超过2M</div>
         </el-form-item>
         <div></div>
-
+        <el-form-item size="small" label="更多商品：">
+          <el-select
+              v-model="ruleForm.cateId"
+              placeholder="请选择跳转分类"
+              style="width: 200px">
+            <el-option
+                v-for="item in cateIdList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <div></div>
         <div class="edit-commend-form-bt">
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
@@ -329,7 +342,7 @@
           'loginId':sessionStorage.getItem('access_loginId'),
           'token':sessionStorage.getItem('access_token')
         },
-
+        cateIdList:[],
         //分类列表
         cateLvl1List:[
           {name: "全部", id: ""}
@@ -363,6 +376,7 @@
           product4Id:'',
           product4Name:'',
           image4:'',
+          cateId:null
 
         },
         rules: {
@@ -472,6 +486,7 @@
           if (res.ret == '200000') {
             this.ruleForm.name = res.data.name
             this.ruleForm.idx = res.data.idx
+            this.ruleForm.cateId = res.data.cateId
             let recommendProducts = res.data.recommendProducts
             recommendProducts.map((e,i)=>{
               this.ruleForm['product'+e.idx+'Id'] = e.productId
@@ -609,6 +624,7 @@
         this.$request.post('/sc/saotx/mall/cate/oneCategory',{}, true, (res) => {
           if (res.ret == '200000') {
             this.cateLvl1List = [...this.cateLvl1List,...res.data]
+            this.cateIdList = [...res.data]
           }
         })
       },
@@ -640,6 +656,7 @@
               type:1,
               name:this.ruleForm.name,
               idx:this.ruleForm.idx,
+              cateId:this.ruleForm.cateId,
               recommendProducts:[
                 {
                   productId: this.ruleForm.product1Id,
