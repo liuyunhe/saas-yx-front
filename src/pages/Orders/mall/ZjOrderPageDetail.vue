@@ -202,7 +202,10 @@
                     city: this.formDetail.city,
                     district: this.formDetail.district,
                     address: this.formDetail.address,
-                    orderId: this.formDetail.orderId
+                    orderId: this.formDetail.orderId,
+                    provinceName: this.allProvinceData.find((item)=>item.code == this.formDetail.province).name,
+                    cityName: this.allCityData.find((item)=>item.code == this.formDetail.city).name,
+                    countryName: this.allDistrictData.find((item)=>item.code == this.formDetail.district).name
                 }
                 this.$request.post('/sc/saotx/mall/order/modifyReceiptInfo',params,true,res => {
                     if(res.ret == '200000'){
