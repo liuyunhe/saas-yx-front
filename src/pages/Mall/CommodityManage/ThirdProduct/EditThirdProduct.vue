@@ -124,6 +124,16 @@
   line-height: 1!important;
   text-align: center;
 }
+.product-img .avatar {
+  width: 102px!important;
+  height: 76px!important;
+  display: block;
+}
+.product-url .avatar {
+  width: 102px!important;
+  height: 102px!important;
+  display: block;
+}
 </style>
 <script>
 export default {
