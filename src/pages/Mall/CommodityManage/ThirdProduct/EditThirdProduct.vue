@@ -113,25 +113,25 @@
 
 }
 .product-img .avatar-uploader-icon {
-  width: unset!important;
-  height: unset!important;
-  line-height: 1!important;
+  width: unset;
+  height: unset;
+  line-height: 1;
   text-align: center;
 }
 .product-url .avatar-uploader-icon {
-  width: unset!important;
-  height: unset!important;
-  line-height: 1!important;
+  width: unset;
+  height: unset;
+  line-height: 1;
   text-align: center;
 }
 .product-img .avatar {
-  width: 102px!important;
-  height: 76px!important;
+  width: 100px;
+  height: 73px;
   display: block;
 }
 .product-url .avatar {
-  width: 102px!important;
-  height: 102px!important;
+  width: 100px;
+  height: 100px;
   display: block;
 }
 </style>
