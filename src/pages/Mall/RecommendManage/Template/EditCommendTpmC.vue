@@ -267,15 +267,15 @@
   line-height: 73px;
 }
 .add-commend-form-container .main-product-img .el-upload {
-  width: 102px;
-  height: 36px;
-  line-height: 44px;
+  width: 204px;
+  height: 72px;
+  line-height: 83px;
 
 }
 .add-commend-form-container .main-product-img .el-upload .avatar{
-  width: 100px;
-  height: 34px;
-  line-height: 44px;
+  width: 202px;
+  height: 70px;
+  line-height: 83px;
 
 }
 .product-img .avatar-uploader-icon {
