@@ -326,26 +326,15 @@
   line-height: 73px;
 }
 .add-commend-form-container .product-img .el-upload .avatar{
-  width: 102px;
-  height: 65px;
+  width: 100px;
+  height: 62px;
   line-height: 73px;
 }
-.add-commend-form-container .main-product-img .el-upload {
-  width: 102px;
-  height: 36px;
-  line-height: 44px;
 
-}
-.add-commend-form-container .main-product-img .el-upload .avatar{
-  width: 102px;
-  height: 36px;
-  line-height: 44px;
-
-}
 .product-img .avatar-uploader-icon {
-  width: unset!important;
-  height: unset!important;
-  line-height: 1!important;
+  width: unset;
+  height: unset;
+  line-height: 1;
   text-align: center;
 }
 .add-commend-container .el-table{text-align: center}

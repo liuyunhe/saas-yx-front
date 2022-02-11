@@ -192,6 +192,28 @@
     height: 102px;
     line-height: 110px;
   }
+  .product-img .avatar-uploader-icon {
+    width: unset;
+    height: unset;
+    line-height: 1;
+    text-align: center;
+  }
+  .product-img .avatar {
+    width: 100px;
+    height: 73px;
+    display: block;
+  }
+  .product-url .avatar {
+    width: 100px;
+    height: 100px;
+    display: block;
+  }
+  .product-url .avatar-uploader-icon {
+    width: unset;
+    height: unset;
+    line-height: 1;
+    text-align: center;
+  }
 </style>
 <script>
   export default {
