@@ -326,7 +326,7 @@
 }
 .add-commend-form-container .product-img .el-upload .avatar{
   width: 100px;
-  height: 63px;
+  height: 62px;
   line-height: 73px;
 }
 .product-img .avatar-uploader-icon {

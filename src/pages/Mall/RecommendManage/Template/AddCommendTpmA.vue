@@ -308,7 +308,7 @@
 
   }
   .add-commend-form-container .main-product-img .el-upload .avatar{
-    width: 202px;
+    width: 201px;
     height: 70px;
     line-height: 83px;
 
