@@ -110,7 +110,18 @@
   width: 102px;
   height: 102px;
   line-height: 110px;
-
+}
+.product-img .avatar-uploader-icon {
+  width: unset!important;
+  height: unset!important;
+  line-height: 1!important;
+  text-align: center;
+}
+.product-url .avatar-uploader-icon {
+  width: unset!important;
+  height: unset!important;
+  line-height: 1!important;
+  text-align: center;
 }
 </style>
 <script>

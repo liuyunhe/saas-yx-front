@@ -278,6 +278,12 @@
   line-height: 44px;
 
 }
+.product-img .avatar-uploader-icon {
+  width: unset!important;
+  height: unset!important;
+  line-height: 1!important;
+  text-align: center;
+}
 
   .add-commend-container .el-table{text-align: center}
   .add-commend-container .el-table th{text-align: center}

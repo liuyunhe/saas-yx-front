@@ -301,16 +301,30 @@
     line-height: 73px;
   }
   .edit-commend-form-container .main-product-img .el-upload {
-    width: 102px;
-    height: 36px;
-    line-height: 44px;
+    width: 204px;
+    height: 72px;
+    line-height: 83px;
 
   }
   .edit-commend-form-container .main-product-img .el-upload .avatar{
-    width: 102px;
-    height: 36px;
-    line-height: 44px;
+    width: 204px;
+    height: 72px;
+    line-height: 83px;
 
+  }
+
+  .main-product-img .avatar-uploader-icon {
+    width: unset!important;
+    height: unset!important;
+    line-height: 1!important;
+    text-align: center;
+  }
+
+  .product-img .avatar-uploader-icon {
+    width: unset!important;
+    height: unset!important;
+    line-height: 1!important;
+    text-align: center;
   }
 
   .edit-commend-form-bt .el-table{text-align: center}
