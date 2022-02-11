@@ -302,15 +302,15 @@
     line-height: 73px;
   }
   .add-commend-form-container .main-product-img .el-upload {
-    width: 204px;
-    height: 72px;
-    line-height: 83px;
+    width: 204px !important;
+    height: 72px !important;
+    line-height: 83px !important;
 
   }
   .add-commend-form-container .main-product-img .el-upload .avatar{
-    width: 204px;
-    height: 72px;
-    line-height: 83px;
+    width: 204px !important;
+    height: 72px !important;
+    line-height: 83px !important;
 
   }
   .main-product-img .avatar-uploader-icon {
