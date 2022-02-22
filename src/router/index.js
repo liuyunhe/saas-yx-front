@@ -302,6 +302,7 @@ const NianhuoMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Memb
 const ScanMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/ScanMgr')
 const CardCollectingMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/CardCollectingMgr')
 const QAMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/QAMgr')
+const ARMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/ARMgr')
 const PartyMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/PartyMgr')
 const ParkourMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/ParkourMgr')
 const MineMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/2019memberDay/MineMgr')
@@ -638,6 +639,7 @@ export default new Router({
         { path: '/memberday/ScanMgr', name: '每日扫码', component: ScanMgr },
         { path: '/memberday/CardCollectingMgr', name: '社区卡', component: CardCollectingMgr },
         { path: '/memberday/QAMgr', name: '钻石学堂', component: QAMgr },
+        { path: '/memberday/ARMgr', name: 'AR识钻', component: ARMgr },
         { path: '/memberday/MineMgr', name: '钻石矿场', component: MineMgr },
         { path: '/memberday/PartyMgr', name: '钻石Party', component: PartyMgr },
         { path: '/memberday/ParkourMgr', name: '钻石Party', component: ParkourMgr },
