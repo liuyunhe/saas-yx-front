@@ -58,7 +58,7 @@ http.interceptors.response.use(
     if (response.headers['content-type'] == "application/vnd.ms-excel") {
       //do something
     }
-    
+
     return response;
   },
   function (error) {
@@ -75,7 +75,7 @@ http.interceptors.response.use(
       } else if (error.response.status === 404) {
         alert('服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置"您所请求的资源无法找到"的个性页面！');
       } else if (error.response.status === 500) {
-        alert('服务器内部错误，无法完成请求！');
+        alert('数据量较大，载入失败，请刷新重试～');
       } else {
         error.response = '服务器错误，无法完成请求！';
       }
