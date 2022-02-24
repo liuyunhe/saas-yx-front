@@ -18,11 +18,11 @@
           </el-form-item>
           <el-form-item label='获取海报概率：' prop="postProbility">
             每人每期获取海报的概率为
-            <el-input-number v-model="config.postProbility" :disabled="actStart" :precision="0" :min="0" controls-position="right"></el-input-number>
+            <el-input-number v-model="config.postProbility"  :precision="0" :min="0" controls-position="right"></el-input-number>
             %
           </el-form-item>
           <el-form-item label='上传海报URL地址：' prop="postUrl">
-            <el-input v-model="config.postUrl" controls-position="right" style="width: 300px;"></el-input>
+            <el-input v-model="config.postUrl" :disabled="actStart" controls-position="right" style="width: 300px;"></el-input>
           </el-form-item>
         </el-form>
       </el-card>
@@ -393,7 +393,7 @@
       },
       // 扫码奖励查询
       getActCode(){
-        this.$request.post('/hbact/hyr/home/actCode', {actType:6}, false, res => {
+        this.$request.post('/hbact/hyr/home/actCode', {actType:11}, false, res => {
           if (res.code == '200') {
             this.actCode = res.data.actCode
             this.id = res.data.id
@@ -534,7 +534,7 @@
               cityArr:this.strategyArr.areas.cityArr,
               districtArr:this.strategyArr.areas.districtArr,
             },
-            awardArr:[...this.hb,...this.sw,...this.hsb,...this.zkk,...this.hd],
+            awardArr:[...this.hb,...this.sw,...this.hsb,...this.zkk,...this.fbk],
             snArr:this.strategyArr.snArr,
             brandArr:this.strategyArr.brandArr,
             tf:{
@@ -567,7 +567,7 @@
       },
       confirmSubmit() {
         this.saveConf()
-
+        this.saveJC()
       },
       // 选择奖品
       selectPrize(obj,title) {
