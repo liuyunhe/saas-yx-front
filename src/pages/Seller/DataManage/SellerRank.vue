@@ -40,7 +40,7 @@
           <div class="title">注册排名</div>
           <template v-if="!showMore1">
             <el-table
-                :data="sellerScanRank"
+                :data="sellerNumRank"
                 style="width: 300px;height: 440px">
               <el-table-column
                   align="center"
@@ -49,7 +49,7 @@
               </el-table-column>
               <el-table-column
                   align="center"
-                  prop="sellerScan"
+                  prop="curNum"
                   label="注册数量"
               >
               </el-table-column>
@@ -66,7 +66,7 @@
           <template v-else>
             <el-table
                 v-if="showMore1"
-                :data="sellerScanRank"
+                :data="sellerNumRank"
                 max-height="600"
                 style="width: 300px;min-height: 440px">
               <el-table-column
@@ -75,9 +75,8 @@
                   width="50">
               </el-table-column>
               <el-table-column
-
                   align="center"
-                  prop="sellerScan"
+                  prop="curNum"
                   label="注册数量"
               >
               </el-table-column>
@@ -96,7 +95,7 @@
           <div class="title">扫码量排名</div>
           <template v-if="!showMore2">
             <el-table
-                :data="sellerNumRank"
+                :data="sellerScanRank"
                 style="width: 300px;height: 440px">
               <el-table-column
                   align="center"
@@ -105,7 +104,7 @@
               </el-table-column>
               <el-table-column
                   align="center"
-                  prop="curNum"
+                  prop="sellerScan"
                   label="扫码次数"
               >
               </el-table-column>
@@ -122,7 +121,7 @@
           <template v-else>
             <el-table
                 v-if="showMore2"
-                :data="sellerNumRank"
+                :data="sellerScanRank"
                 max-height="600"
                 style="width: 300px;min-height: 440px">
               <el-table-column
@@ -132,7 +131,7 @@
               </el-table-column>
               <el-table-column
                   align="center"
-                  prop="curNum"
+                  prop="sellerScan"
                   label="扫码次数"
               >
               </el-table-column>
