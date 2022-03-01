@@ -288,7 +288,7 @@
         },
         listTotal: 0,
         listVisible: false,
-        actStart:true,
+        actStart:false,
         config:{
           id:'-1',
           confCode:'"20220216-171800"',
