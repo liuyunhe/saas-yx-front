@@ -560,14 +560,14 @@
           if (res.code == '200') {
             this.getConfShow()
             this.$message({type: 'success', message: '操作成功!'});
+            this.saveJC()
           } else {
-            this.$message.error(res.message);
+            this.$message.error(res.msg);
           }
         })
       },
       confirmSubmit() {
         this.saveConf()
-        this.saveJC()
       },
       // 选择奖品
       selectPrize(obj,title) {
