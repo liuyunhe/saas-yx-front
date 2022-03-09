@@ -55,6 +55,7 @@
           </el-form-item>
         </el-form>
       </el-card>
+      <div style="height: 30px"></div>
       <el-card :body-style="{ padding: '20px' }">
         <div slot="header" class="clearfix">
           <span>实物：</span>
@@ -64,8 +65,14 @@
           <el-form-item v-for="(item,index) in sw" :key="index" label='名称：'>
 <!--            面额 <el-input-number v-model="item.redMoney" :disabled="item.id ? true : false" :precision="2" :min="0" controls-position="right"></el-input-number>元-->
 <!--            <span style="margin-right: 20px"></span>-->
+            <span style="margin-right: 20px">{{ item.prizeName }}</span>
+            <el-upload  class="avatar-uploader" :action="uploadURL" :headers="headerObj" :on-success="(res)=>{uploadSWImgUrlSuccess(res,index)}" :show-file-list="false">
+              <img v-if="item.awardPic" :src="item.awardPic" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+            <span>* 图片建议尺寸为280*280px，格式为*.jpg\ *.bmp\ *.png\ *.gif</span>
+            <div></div>
             投放数量 <el-input-number v-model="item.totalNum" :disabled="item.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number>个
-
             <span v-if="item.id ? true : false">
                <span style="margin-right: 20px"></span>
             剩余{{ item.totalNum - item.outNum }}个
@@ -391,6 +398,11 @@
           return (this.hd[index].awardPic = resule.data.accessUrl)
         this.$message.error(resule.message)
       },
+      uploadSWImgUrlSuccess(resule,index) {
+        if (resule.ret === '200000')
+          return (this.sw[index].awardPic = resule.data.accessUrl)
+        this.$message.error(resule.message)
+      },
       // 扫码奖励查询
       getActCode(){
         this.$request.post('/hbact/hyr/home/actCode', {actType:11}, false, res => {
@@ -559,7 +571,7 @@
         this.$request.post('/hbact/hyr/saas/ar/confSave', params, true, res => {
           if (res.code == '200') {
             this.getConfShow()
-            this.$message({type: 'success', message: '操作成功!'});
+            // this.$message({type: 'success', message: '操作成功!'});
             this.saveJC()
           } else {
             this.$message.error(res.msg);
