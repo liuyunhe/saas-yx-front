@@ -205,6 +205,42 @@
         <div style="height: 30px"></div>
         <el-card :body-style="{ padding: '20px' }">
           <div slot="header" class="clearfix">
+            <span>实物：</span>
+          </div>
+          <div style="margin-bottom: 20px">选择实物:<el-button size="" style="margin-left: 20px"  @click="getList(1)">选择</el-button></div>
+          <el-form>
+            <el-form-item v-for="(item,index) in sw" :key="index" label='名称：'>
+              <!--            面额 <el-input-number v-model="item.redMoney" :disabled="item.id ? true : false" :precision="2" :min="0" controls-position="right"></el-input-number>元-->
+              <!--            <span style="margin-right: 20px"></span>-->
+              <span style="margin-right: 20px">{{ item.awdName }}</span>
+              <el-upload  class="avatar-uploader" :action="uploadURL" :headers="headerObj" :on-success="(res)=>{uploadSWImgUrlSuccess(res,index)}" :show-file-list="false">
+                <img v-if="item.awdPicture" :src="item.awdPicture" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+              <span>* 图片建议尺寸为280*280px，格式为*.jpg\ *.bmp\ *.png\ *.gif</span>
+              <div></div>
+              投放数量 <el-input-number v-model="item.totalNum" :disabled="item.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number>个
+              <span v-if="item.id ? true : false">
+               <span style="margin-right: 20px"></span>
+            剩余{{ item.totalNum - item.outNum }}个
+            </span>
+              <!--            <span style="margin-right: 20px"></span>-->
+              <!--            总金额:{{ parseFloat((item.redMoney*item.totalNum).toPrecision(12))  }}元-->
+<!--              <span style="margin-right: 20px"></span>-->
+<!--              中奖概率 <el-input-number v-model="item.probability" :precision="1" :step="0.1" :min="0" controls-position="right"></el-input-number>-->
+<!--              %-->
+              <span v-if="item.id ? true : false">
+              <span style="margin-right: 20px"></span>
+              <el-button type='primary' @click="addRepertory(item)">增库</el-button>
+            </span>
+              <span style="margin-right: 20px"></span>
+              <el-button type='danger' @click="deleteAward('sw',index)">删除</el-button>
+            </el-form-item>
+          </el-form>
+        </el-card>
+        <div style="height: 30px"></div>
+        <el-card :body-style="{ padding: '20px' }">
+          <div slot="header" class="clearfix">
             <span>荷石币：</span>
           </div>
           <div style="margin-bottom: 20px">选择荷石币:<el-button style="margin-left: 20px" :disabled="!newAct"  @click="getList(6)">选择</el-button></div>
@@ -584,6 +620,7 @@
         pintuGroupSettings:[],
         pintuPrizes:[],
         hb:[],
+        sw:[],
         hsb:[],
         zkk:[],
         fbk:[],
@@ -640,6 +677,11 @@
       uploadImgUrlSuccess1(resule,index) {
         if (resule.ret === '200000')
           return (this.hd[index].awdPicture = resule.data.accessUrl)
+        this.$message.error(resule.message)
+      },
+      uploadSWImgUrlSuccess(resule,index) {
+        if (resule.ret === '200000')
+          return (this.sw[index].awdPicture = resule.data.accessUrl)
         this.$message.error(resule.message)
       },
       add(index){
@@ -832,6 +874,7 @@
             if(!(res.data.pintuPrizes && res.data.pintuPrizes.length)) return
             let awardArr = this.pintuPrizes
             this.hb = []
+            this.sw = []
             this.hsb = []
             this.zkk = []
             this.fbk = []
@@ -839,6 +882,9 @@
             awardArr.forEach((e,i)=>{
               if(e.awdType == 3){
                 this.hb.push(e)
+              }
+              if(e.awdType == 1){
+                this.sw.push(e)
               }
               else if(e.awdType == 6){
                 this.hsb.push(e)
@@ -1062,7 +1108,7 @@
           })
         })
        if(awardConfig){
-         let arr = [...this.hb,...this.hsb,...this.zkk,...this.fbk,...this.hd]
+         let arr = [...this.hb,...this.sw,...this.hsb,...this.zkk,...this.fbk,...this.hd]
          if(arr.length == 0){
            this.$message.error('请配置奖池')
            return
@@ -1102,6 +1148,10 @@
         if(title == '选择红包'){
           newAwae.awdType = 3
           this.hb.push(newAwae)
+        }
+        if(title == '选择实物'){
+          newAwae.awdType = 1
+          this.sw.push(newAwae)
         }
         if(title == '选择荷石币'){
           newAwae.awdType = 6
