@@ -468,7 +468,7 @@
               cityArr:this.strategyArr.areas.cityArr,
               districtArr:this.strategyArr.areas.districtArr,
             },
-            awardArr:[...this.hb,...this.sw,...this.hsb,...this.zkk,...this.hd],
+            awardArr:[...this.hb,...this.sw,...this.hsb,...this.zkk,...this.fbk,...this.hd],
             snArr:this.strategyArr.snArr,
             brandArr:this.strategyArr.brandArr,
             tf:{
