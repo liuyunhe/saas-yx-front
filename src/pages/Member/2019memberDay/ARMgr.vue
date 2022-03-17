@@ -11,7 +11,14 @@
             至
             <el-date-picker v-model="config.etime" :disabled="actStart" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择结束时间" ></el-date-picker>
           </el-form-item>
-          <el-form-item label='抽奖限制：' prop="drawNum">
+          <el-form-item label='AR识别抽奖限制：' prop="scanDrawNum">
+            每人每期可参与
+            <el-input-number v-model="config.scanDrawNum" :disabled="actStart" :precision="0" :min="0" controls-position="right"></el-input-number>
+            次抽奖,获得
+            <el-input-number v-model="config.scanPointsAward" :disabled="actStart" :precision="0" :min="0" controls-position="right"></el-input-number>
+            荷石璧
+          </el-form-item>
+          <el-form-item label='上传凭证抽奖限制：' prop="drawNum">
             每人每期可参与
             <el-input-number v-model="config.drawNum" :disabled="actStart" :precision="0" :min="0" controls-position="right"></el-input-number>
             次抽奖
@@ -266,6 +273,13 @@
           callback()
         }
       }
+      var validateScanDrawNum = (rule, value, callback) => {
+        if (!this.config.scanDrawNum || !this.config.scanPointsAward ) {
+          callback(new Error('请输入AR识别抽奖限制'))
+        } else {
+          callback()
+        }
+      }
       var validatePostProbility = (rule, value, callback) => {
         if (!this.config.postProbility) {
           callback(new Error('请输入获取海报概率'))
@@ -301,6 +315,10 @@
           confCode:'"20220216-171800"',
           stime:'',
           etime:'',
+
+          scanDrawNum:null,
+          scanPointsAward:null,
+
           drawNum:null,
           postProbility:null,
           postUrl:null,
@@ -309,6 +327,7 @@
         confRules: {
           date: [{ required: true, validator: validateDate, trigger: 'change' }],
           drawNum: [{ required: true, validator: validateDrawNum, trigger: 'change' }],
+          scanDrawNum: [{ required: true, validator: validateScanDrawNum, trigger: 'change' }],
           postProbility: [{ required: true, validator: validatePostProbility, trigger: 'change' }],
           postUrl: [{ required: true, message: '请输入海报url', trigger: 'blur' }],
         },
@@ -567,6 +586,7 @@
         })
       },
       saveConf(){
+
         let params = this.config
         this.$request.post('/hbact/hyr/saas/ar/confSave', params, true, res => {
           if (res.code == '200') {
@@ -579,7 +599,11 @@
         })
       },
       confirmSubmit() {
-        this.saveConf()
+        this.$refs.actSetConfRef.validate(valid => {
+          if(valid){
+            this.saveConf()
+          }
+        })
       },
       // 选择奖品
       selectPrize(obj,title) {
