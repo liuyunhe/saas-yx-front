@@ -289,6 +289,7 @@ const Answer = () => import(/* webpackChunkName: "member" */ '@/pages/Member/Gam
 const HeSheng = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HeSheng')
 const HeShengAward = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HeShengAward')
 const HeShengND = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HeShengND')
+const HeShengMusic = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HeShengMusic')
 const HePiaoXiang = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HePiaoXiang')
 const HeFood = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HeFood')
 const HeShengLC = () => import(/* webpackChunkName: "activity" */ '@/pages/Member/HeSheng/HeShengLC')
@@ -336,6 +337,10 @@ const SystemMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/Distr
 
 //成码
 const Application = () => import(/* webpackChunkName: "activity" */ '@/pages/Code/Application')
+
+//消费者活动
+
+const CustomerScanMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/ScanMgr')
 
 Vue.use(Router)
 
@@ -635,6 +640,7 @@ export default new Router({
         { path: '/actall/HeSheng2021Light', name: '荷灯', component: HeSheng2021Light },
         { path: '/actall/HeShengFuKa', name: '荷声福卡', component: HeShengAward },
         { path: '/actall/HeShengND', name: '荷声扭蛋', component: HeShengND },
+        { path: '/actall/HeShengMusic', name: '荷声音符', component: HeShengMusic },
 
         { path: '/memberday/ScanMgr', name: '每日扫码', component: ScanMgr },
         { path: '/memberday/CardCollectingMgr', name: '社区卡', component: CardCollectingMgr },
@@ -676,6 +682,9 @@ export default new Router({
 
         //成码
         { path: '/code/application', name: '成码申请', component: Application },
+
+        //私域-消费者活动
+        { path: '/customerAct/scanMgr', name: '签到活动', component: CustomerScanMgr },
       ]
     },
     {
