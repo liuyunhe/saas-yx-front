@@ -127,6 +127,7 @@ const prodBrand = () => import(/* webpackChunkName: "product" */ '@/pages/Produc
 const BudgetObject = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Budget/Object.vue')
 const BudgetRedpack = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Budget/Redpack.vue')
 const BudgetIntegral = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Budget/Integral.vue')
+const BudgetExpenses = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Budget/Expenses.vue')
 
 
 // 设置-日志管理
@@ -456,6 +457,7 @@ export default new Router({
         { path: '/product/budget/object', name: '预算管理-实物', component: BudgetObject },
         { path: '/product/budget/redpack', name: '预算管理-红包', component: BudgetRedpack },
         { path: '/product/budget/integral', name: '预算管理-积分', component: BudgetIntegral },
+        { path: '/product/budget/expenses', name: '预算管理-费用', component: BudgetExpenses },
         // 营销
         { path: '/market', name: '营销'},
         { path: '/market/actTpl', name: '活动模板', component: ActTpl },
