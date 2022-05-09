@@ -342,6 +342,9 @@ const Application = () => import(/* webpackChunkName: "activity" */ '@/pages/Cod
 //消费者活动
 
 const CustomerScanMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/ScanMgr')
+const CustomerRankMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/RankMgr')
+const CustomerRankConf = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/RankConf')
+const BindFanConf = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/BindFanConf')
 
 Vue.use(Router)
 
@@ -687,6 +690,9 @@ export default new Router({
 
         //私域-消费者活动
         { path: '/customerAct/scanMgr', name: '签到活动', component: CustomerScanMgr },
+        { path: '/customerAct/rankMgr', name: '排行活动', component: CustomerRankMgr },
+        { path: '/customerAct/rankConf', name: '排行活动', component: CustomerRankConf,props: (route) => ({actCode:route.query.actCode,type:route.query.type})  },
+        { path: '/customerAct/bindFanConf', name: '排行活动', component: BindFanConf,},
       ]
     },
     {
