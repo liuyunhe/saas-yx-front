@@ -345,6 +345,10 @@ const CustomerScanMgr = () => import(/* webpackChunkName: "activity" */ '@/pages
 const CustomerRankMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/RankMgr')
 const CustomerRankConf = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/RankConf')
 const BindFanConf = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/BindFanConf')
+const RebateMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/RebateMgr')
+const ScanCodeRankMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/ScanCodeRankMgr')
+const ScanCodeListMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/ScanCodeListMgr')
+const CustomerSetting = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/Setting')
 
 Vue.use(Router)
 
@@ -693,6 +697,9 @@ export default new Router({
         { path: '/customerAct/rankMgr', name: '排行活动', component: CustomerRankMgr },
         { path: '/customerAct/rankConf', name: '排行活动', component: CustomerRankConf,props: (route) => ({actCode:route.query.actCode,type:route.query.type})  },
         { path: '/customerAct/bindFanConf', name: '排行活动', component: BindFanConf,},
+        { path: '/customerAct/rebateMgr', name: '排行活动', component: RebateMgr,},
+        { path: '/customerAct/scanCodeRankMgr', name: '扫码返现排名', component: ScanCodeRankMgr,},
+        { path: '/customerAct/setting', name: '扫码返现排名', component: CustomerSetting,},
       ]
     },
     {

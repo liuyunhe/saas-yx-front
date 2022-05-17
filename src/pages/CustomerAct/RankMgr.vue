@@ -83,9 +83,7 @@ export default {
     },
     // page = {"pageCount":总页数, "count":总数据条数}
     initPagination(page) {
-      if(page) {
         this.pagination.total = page;
-      }
     },
     // 重置查询
     reset() {
@@ -107,7 +105,7 @@ export default {
       this.$request.post('/saasHbseller/seller/actRank/list', this.search, true, (res)=>{
         if (res.code == '200') {
           this.tableList = res.data.list.records || [];
-          this.initPagination(res.data.list.total||{});
+          this.initPagination(res.data.list.total||0);
         }
       });
     },
