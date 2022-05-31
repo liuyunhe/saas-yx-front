@@ -16,7 +16,7 @@
           <el-form-item>
             <el-button size="small" type="primary" @click="list">查询</el-button>
             <el-button size="small" @click="reset">重置</el-button>
-            <el-button  size="small" type="primary" plain  :click="exportData" >导出列表</el-button>
+            <el-button  size="small" type="primary" plain  @click="exportData" >导出列表</el-button>
           </el-form-item>
         </el-form>
       </el-row>
@@ -85,16 +85,18 @@ export default {
   },
   methods: {
     exportData(){//导出
-      var url = "/sc/saotx/mall/order/exportOrder";
+      var url = "/saasHbseller/sellerRebate/statics/rankByScanCodeNum/exportData";
       var xhr = new XMLHttpRequest();
-      var formData = new FormData();
-      for(var attr in this.search) {
-        formData.append(attr, this.search[attr]);
-      }
+      // var formData = new FormData();
+      // for(var attr in this.search) {
+      //   formData.append(attr, this.search[attr]);
+      // }
+      var formData = JSON.stringify(this.search)
       xhr.overrideMimeType("text/plain; charset=x-user-defined");
       xhr.open('POST', url, true);
       xhr.responseType = "blob";
-      xhr.responseType = "arraybuffer"
+      xhr.responseType = "arraybuffer";
+      xhr.setRequestHeader('Content-Type','application/json');
       xhr.setRequestHeader("token", sessionStorage.getItem('access_token'));
       xhr.setRequestHeader("loginId", sessionStorage.getItem('access_loginId'));
       xhr.onload = function(res) {

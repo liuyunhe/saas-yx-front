@@ -1,6 +1,16 @@
 <template>
   <div class="QA-container">
     <div >
+      <el-col class="mb20" v-if="type != 0">
+        <el-button type="primary" @click="open" :disabled="info.openStatus !== 0">开奖</el-button>
+        <span style="margin-left: 20px"></span>
+        <span v-if="info.openStatus == 0" style="color: #7c7f83">活动进行中，未开奖</span>
+        <span v-if="info.openStatus == 1" style="color: #7c7f83">开奖中</span>
+        <span v-if="info.openStatus == 2" style="color: #7c7f83">已开奖</span>
+      </el-col>
+      <el-col class="mb20" v-if="type != 0">
+        <div  style="color: #111">截止{{info.dataTime}}，共计参与人数：<span style="color: #409EFF">{{ info.dataNum }}</span>人</div>
+      </el-col>
       <el-card :body-style="{ padding: '20px' }">
         <div slot="header" class="clearfix">
           <span>活动设置：</span>
@@ -35,12 +45,21 @@
               <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*160像素；格式png、jpg</div>
             </el-upload>
           </el-form-item>
+          <el-form-item label="活动参与截止时间：" prop="actJoinEtime">
+            <el-date-picker v-model="config.actJoinEtime" :disabled="config.outStatus == 2" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择活动参与截止时间"></el-date-picker>
+          </el-form-item>
+          <el-form-item label="统计规则：">
+            <div>1、参与活动时间结束后当天24:00后自动刷新排名；</div>
+            <div>2、手动开奖，系统自动发送推送消息；</div>
+            <div>3、开奖前，需配置好奖品，不允许超过参与人数。</div>
+          </el-form-item>
         </el-form>
+
       </el-card>
       <el-col class="mb20"></el-col>
       <el-card :body-style="{ padding: '20px' }">
         <div slot="header" class="clearfix">
-          <span>零售户拉新粉丝数排名奖励：（统计规则：活动时间结束自动刷新排名；刷新排名后系统自动发送推送消息；活动时间结束前，需配置好奖品。）</span>
+          <span>零售户拉新粉丝数排名奖励：</span>
         </div>
         <div>
           <el-button size="small" type="primary" @click="addItem" v-if="awardConf.length<14 && type != 2">新增商品</el-button>
@@ -168,6 +187,13 @@ export default {
         callback()
       }
     }
+    var validateActJoinEtime = (rule, value, callback) => {
+      if (!this.config.actJoinEtime ) {
+        callback(new Error('请选择截止时间'))
+      } else {
+        callback()
+      }
+    }
     return {
       uploadURL: '/api/wiseqr/attach/commonNewUpload',
       uploadAwdURL: '/api/wiseqr/attach/commonAliUpload',
@@ -176,7 +202,6 @@ export default {
         token: sessionStorage.getItem('access_token'),
         CLIENTSESSIONID: sessionStorage.getItem('CLIENTSESSIONID')
       },
-
       id: null,
       newAct: false,
       loading:true,
@@ -193,10 +218,16 @@ export default {
       openawdUserNum:0,
       openedNum:0,
       canOpenAward:false,
+      info:{
+        "dataTime": "2022-05-17 23:59:59", //数据时间
+        "dataNum": 3,    // 参与人数
+        "openStatus": 0  // 活动开奖状态, 0: 未开奖, 1:开奖中, 2: 已开奖
+      },
       rules: {
         actName: [{required: true, message: '请输入活动名称', trigger: 'blur'}],
         date: [{ required: true, validator: validateDate, trigger: 'change' }],
         actPic: [{ required: true, validator: validateActPic,trigger: 'change' }],
+        actJoinEtime: [{ required: true, validator: validateActJoinEtime,trigger: 'change' }],
       },
       orgId:'',
 
@@ -209,6 +240,7 @@ export default {
           "awdPr": 0,
           "numTotal":0,
           "startNum":null,
+          "actJoinEtime":null,
           "endNum":null
         }
       ],
@@ -264,10 +296,37 @@ export default {
       return
     }
     this.getInfo()
+    this.getAwdOpenInfo()
   },
   methods:{
     handleOpen(value){
 
+    },
+    open(){
+      this.$request.post('/saasHbseller/seller/actRank/openAwd', {actCode:this.actCode}, false, res => {
+        if (res.code == '200') {
+          this.$message.success('开奖成功！')
+          this.getAwdOpenInfo()
+          return
+        }
+        this.$message.error(res.msg)
+        this.getAwdOpenInfo()
+      })
+    },
+    getAwdOpenInfo() {
+      this.$request.post('/saasHbseller/seller/actRank/awdOpenInfo', {actCode:this.actCode}, false, res => {
+        this.loading = false
+        if (res.code == '200') {
+          console.log(res.data)
+          if(res.data){
+            this.info.dataNum = res.data.dataNum
+            this.info.dataTime = res.data.dataTime
+            this.info.openStatus = res.data.openStstus
+          }
+          return
+        }
+        this.$message.error(res.msg)
+      })
     },
     getInfo() {
       this.$request.get('/saasHbseller/seller/actRank/queryInfo', {actCode:this.actCode}, res => {
@@ -286,6 +345,7 @@ export default {
             this.config.actPic = res.data.baseInfo.actPic
             this.config.stime = res.data.baseInfo.stime
             this.config.etime = res.data.baseInfo.etime
+            this.config.actJoinEtime = res.data.baseInfo.actJoinEtime
             if(res.data.awdList.length > 0){
               this.awardConf = []
               res.data.awdList.forEach(item => {
@@ -367,6 +427,7 @@ export default {
             "levelNum":  item.endNum - item.startNum + 1, //本批次总数
             "awdType": item.awdType, //奖品类型, 1: 实物, 3: 红包, 6: 积分
             "awdName": item.awdName, //奖品名称
+            "awdValue": item.awdValue, //奖品名称
             "awdPicture": item.awdPicture //奖品图片
           }
         });
@@ -378,6 +439,7 @@ export default {
             "etime": this.config.etime, //结束时间
             "actName": this.config.actName, //活动名称
             "actPicCode": this.config.actPicCode, //活动图片code
+            "actJoinEtime": this.config.actJoinEtime, //截止时间
             "actRuleDesc": null //活动规则描述
           },
           awdParamList: awdParams

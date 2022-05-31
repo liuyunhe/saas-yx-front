@@ -48,7 +48,7 @@
           <el-form-item>
             <el-button size="small" type="primary" @click="list">查询</el-button>
             <el-button size="small" @click="reset">重置</el-button>
-            <el-button  size="small" type="primary" plain  :click="exportData" >导出列表</el-button>
+            <el-button  size="small" type="primary" plain  @click="exportData" >导出列表</el-button>
           </el-form-item>
         </el-form>
       </el-row>
@@ -70,7 +70,12 @@
         <el-table-column prop="scanNickname" label="昵称" align="center"></el-table-column>
         <el-table-column prop="scanTime" label="扫烟码时间" align="center"></el-table-column>
         <el-table-column prop="prodName" label="关联规格" align="center"></el-table-column>
-        <el-table-column prop="unitType" label="扫码单位" align="center"></el-table-column>
+        <el-table-column prop="unitType" label="扫码单位" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.unitType == 1">盒</span>
+            <span v-if="scope.row.unitType == 2">条</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="rebateValue" label="返现值" align="center">
           <template slot-scope="scope">
             <span v-if="scope.row.type == 3">￥{{ scope.row.rebateValue }}</span>
@@ -97,13 +102,13 @@ export default {
       search: {
         page: 1,
         pageSize: 10,
-        contactPhone: null, //联系电话
-        licenseNo: null, //烟草证号
-        shopName: null, //店铺名称
-        timeStart: null, //开始时间
-        timeEnd: null, //结束时间
-        unitType: "", //扫码单位
-        sn: null //规格
+        contactPhone: '', //联系电话
+        licenseNo: '', //烟草证号
+        shopName: '', //店铺名称
+        timeStart: '', //开始时间
+        timeEnd: '', //结束时间
+        unitType: '', //扫码单位
+        sn: '' //规格
       },
       pagination: { // 分页
         total: 0
@@ -152,16 +157,19 @@ export default {
       this.search.sn = null
     },
     exportData(){//导出
-      var url = "/sc/saotx/mall/order/exportOrder";
+      var url = "/saasHbseller/sellerRebate/statics/rebateDetailExportData";
       var xhr = new XMLHttpRequest();
-      var formData = new FormData();
-      for(var attr in this.search) {
-        formData.append(attr, this.search[attr]);
-      }
+      // var formData = new FormData();
+      // console.log(url)
+      // for(var attr in this.search) {
+      //   formData.append(attr, this.search[attr]);
+      // }
+      var formData = JSON.stringify(this.search)
       xhr.overrideMimeType("text/plain; charset=x-user-defined");
       xhr.open('POST', url, true);
       xhr.responseType = "blob";
       xhr.responseType = "arraybuffer"
+      xhr.setRequestHeader('Content-Type','application/json')
       xhr.setRequestHeader("token", sessionStorage.getItem('access_token'));
       xhr.setRequestHeader("loginId", sessionStorage.getItem('access_loginId'));
       xhr.onload = function(res) {

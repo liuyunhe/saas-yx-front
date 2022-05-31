@@ -2,7 +2,7 @@
   <div>
     <el-card class="box-card">
       <el-row>
-        <el-button size="small" type="primary" @click="dataForm(null,0)">新建排名活动</el-button>
+        <el-button size="small" type="primary" @click="dataForm('',0)">新建排名活动</el-button>
       </el-row>
       <!-- 数据查询条件 -->
     </el-card>
@@ -20,6 +20,7 @@
             {{ scope.row.stime }}至{{ scope.row.etime }}
           </template>
         </el-table-column>
+        <el-table-column prop="actJoinEtime" label="活动截止时间" align="center"></el-table-column>
         <el-table-column prop="outStatus" label="状态" align="center">
           <template slot-scope="scope">
             <span v-if="scope.row.outStatus==0">已删除</span>
