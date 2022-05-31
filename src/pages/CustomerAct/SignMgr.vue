@@ -418,8 +418,6 @@
     },
     created() {
       this.getConfShow()
-      this.getDetail()
-
     },
     mounted() {
     },
@@ -514,6 +512,7 @@
               if(res.data.signContConfs.length){
                 this.config.hbsSignContConfList = res.data.signContConfs
               }
+              this.getDetail()
             }
             return
           }

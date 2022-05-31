@@ -62,7 +62,7 @@
                 </el-form-item>
             </el-form>
             <el-table :data="listData" style="width: 100%" border>
-                <el-table-column prop="hdCode" label="活动编号" ></el-table-column>
+<!--                <el-table-column prop="hdCode" label="活动编号" ></el-table-column>-->
                 <el-table-column prop="orderCode" label="订单号" ></el-table-column>
                 <el-table-column prop="actCode" label="活动ID" ></el-table-column>
                 <el-table-column prop="actName" label="活动名称"></el-table-column>

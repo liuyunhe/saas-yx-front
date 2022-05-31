@@ -76,9 +76,15 @@
             <span v-if="scope.row.unitType == 2">条</span>
           </template>
         </el-table-column>
-        <el-table-column prop="rebateValue" label="返现值" align="center">
+        <el-table-column prop="rebateValue" label="返回金额" align="center">
           <template slot-scope="scope">
             <span v-if="scope.row.type == 3">￥{{ scope.row.rebateValue }}</span>
+            <span v-if="scope.row.type == 6">—</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="rebateValue" label="返回积分" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.type == 3">—</span>
             <span v-if="scope.row.type == 6">{{ scope.row.rebateValue }}荷石璧</span>
           </template>
         </el-table-column>
