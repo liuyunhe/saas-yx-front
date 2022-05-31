@@ -45,6 +45,11 @@
 <!--                        <el-input  v-model="form.winnerMobile" placeholder="请输入手机号"></el-input>-->
 <!--                    </el-form-item>-->
                 </el-row>
+                <el-row>
+                  <el-form-item label="userId" size="small" >
+                    <el-input v-model="form.userId" placeholder="请输入UserId"></el-input>
+                  </el-form-item>
+                </el-row>
                 <el-form-item>
                     <el-row>
                         <el-button size="small"  type="primary" v-on:click="queryData">查询</el-button>
@@ -59,6 +64,7 @@
                 <el-table-column prop="actCode" label="活动ID" ></el-table-column>
                 <el-table-column prop="actName" label="活动名称"></el-table-column>
                 <el-table-column prop="nickname" label="中奖人"></el-table-column>
+                <el-table-column prop="UserId" label="userId"></el-table-column>
 <!--                <el-table-column prop="winnerMobile" label="中奖人手机号"></el-table-column>-->
                 <el-table-column prop="awdName" label="奖项名称"></el-table-column>
 <!--                <el-table-column prop="snName" label="关联规格"></el-table-column>-->
@@ -113,6 +119,8 @@
                     winnerMobile:"",
                     pageNo: 1,
                     pageSize: 10,
+                    userId:'',
+                    actTypeMain:1,  //奖品平台类型， 1:营销 2:私域流量
                 },
                 pagination: { // 分页
                     total: 0
@@ -276,6 +284,8 @@
                     stime: '', // 开始时间
                     etime: '', // 结束时间
                     winnerMobile:'',
+                    userId:null,
+                    actTypeMain:1,  //奖品平台类型， 1:营销 2:私域流量
                     pageNo: 1,
                     pageSize: 10
                 }

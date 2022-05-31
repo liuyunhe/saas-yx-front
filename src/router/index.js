@@ -12,6 +12,11 @@ const ObjectPageDetail = () => import(/* webpackChunkName: "activity" */ '@/page
 const VirtualPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/ACT/VirtualPage.vue')
 const RedpackPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/ACT/RedpackPage.vue')
 const IntegralPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/ACT/IntegralPage.vue')
+//私域活动订单管理
+const HbSellerObjectPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/HbSellerAct/ObjectPage.vue')
+const HbSellerRedpackPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/HbSellerAct/RedpackPage.vue')
+const HbSellerIntegralPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/HbSellerAct/IntegralPage.vue')
+const HbSellerObjectPageDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/HbSellerAct/ObjectPageDetail.vue')
 //商城订单管理
 const ZjOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ZjOrderPage.vue')
 const ZjOrderPageDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ZjOrderPageDetail.vue')
@@ -342,6 +347,16 @@ const Application = () => import(/* webpackChunkName: "activity" */ '@/pages/Cod
 //消费者活动
 
 const CustomerScanMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/ScanMgr')
+const CustomerSignMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/SignMgr')
+const CustomerRankMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/RankMgr')
+const CustomerRankConf = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/RankConf')
+const BindFanConf = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/BindFanConf')
+const RebateMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/RebateMgr')
+const ScanCodeRankMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/ScanCodeRankMgr')
+const ScanCodeListMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/ScanCodeListMgr')
+const CustomerSetting = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/Setting')
+const CustomerRedpackListMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/RedpackListMgr')
+const CustomerPointsListMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/PointsListMgr')
 
 Vue.use(Router)
 
@@ -501,6 +516,12 @@ export default new Router({
         { path: '/Orders/ACT/redpack', name: '红包领奖明细', component: RedpackPage },
         { path: '/Orders/ACT/integral', name: '积分领奖明细', component: IntegralPage },
         { path: '/Orders/mall', name: '商城订单'},
+
+        { path: '/Orders/HbSellerAct', name: '实物领奖明细', redirect: '/Orders/HbSellerAct/object'},
+        { path: '/Orders/HbSellerAct/object', name: '实物领奖明细', component: HbSellerObjectPage },
+        { path: '/Orders/HbSellerAct/objectDetail', name: '实物领奖订单详细', component: HbSellerObjectPageDetail,props: (route) => ({orderId:route.query.orderId})  },
+        { path: '/Orders/HbSellerAct/redpack', name: '红包领奖明细', component: HbSellerRedpackPage },
+        { path: '/Orders/HbSellerAct/integral', name: '积分领奖明细', component: HbSellerIntegralPage },
         // { path: '/Orders/mall', name: '商城订单', redirect: '/Orders/mall/zj'},
         { path: '/Orders/mall/zj', name: '自建商品订单', component: ZjOrderPage },
         { path: '/Orders/mall/zjOrderPageDetail', name: '自建商品订单详情',  component: ZjOrderPageDetail,props: (route) => ({orderCode:route.query.orderCode})  },
@@ -686,7 +707,18 @@ export default new Router({
         { path: '/code/application', name: '成码申请', component: Application },
 
         //私域-消费者活动
-        { path: '/customerAct/scanMgr', name: '签到活动', component: CustomerScanMgr },
+        { path: '/customerAct/scanMgr', name: '扫码活动', component: CustomerScanMgr },
+        { path: '/customerAct/signMgr', name: '签到活动', component: CustomerSignMgr },
+        { path: '/customerAct/rankMgr', name: '排行活动列表', component: CustomerRankMgr },
+        { path: '/customerAct/rankConf', name: '排行活动配置', component: CustomerRankConf,props: (route) => ({actCode:route.query.actCode,type:route.query.type})  },
+        { path: '/customerAct/bindFanConf', name: '拉新设置', component: BindFanConf,},
+        { path: '/customerAct/rebateMgr', name: '返佣设置', component: RebateMgr,},
+        { path: '/customerAct', name: '数据', redirect: '/customerAct/scanCodeRankMgr'},
+        { path: '/customerAct/scanCodeRankMgr', name: '扫码返现排名', component: ScanCodeRankMgr,},
+        { path: '/customerAct/scanCodeListMgr', name: '扫码返现列表', component: ScanCodeListMgr,},
+        { path: '/customerAct/setting', name: '零售户设置', component: CustomerSetting,},
+        { path: '/customerAct/redpackListMgr', name: '红包提现', component: CustomerRedpackListMgr,},
+        { path: '/customerAct/pointsListMgr', name: '积分提现', component: CustomerPointsListMgr,},
       ]
     },
     {

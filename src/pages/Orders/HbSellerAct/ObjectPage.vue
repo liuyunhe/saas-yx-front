@@ -10,16 +10,25 @@
                   <el-form-item label="活动ID" size="small">
                       <el-input  v-model="form.hdCode" placeholder="请输入活动ID"></el-input>
                   </el-form-item>
-                  <el-form-item label="品牌" size="small" >
-                      <el-select  v-model="selectAllBrands" placeholder="请选择">
-                          <el-option v-for="(item,index) in allBrandsData" :key="item.brandCode" :label="item.name" :value="item.brandCode"></el-option>
+                  <el-form-item label="UserId" size="small" >
+                    <el-input v-model="form.userId" placeholder="请输入UserId"></el-input>
+                  </el-form-item>
+                  <el-form-item label="订单来源" size="small" >
+                      <el-select v-model="form.actTypeSub" placeholder="请选择"   >
+                          <el-option label="消费者" value="1"></el-option>
+                          <el-option label="零售户" value="2"></el-option>
                       </el-select>
                   </el-form-item>
-                  <el-form-item label="规格" size="small" >
-                      <el-select v-model="selectSpeciSns" placeholder="请选择" :disabled="id?true:false" :clearable="id?true:false"   >
-                          <el-option v-for="(item,index) in allSpecisData" :key="item.product.sn" :label="item.product.allName" :value="item.product.sn"></el-option>
-                      </el-select>
-                  </el-form-item>
+<!--                <el-form-item label="品牌" size="small" >-->
+<!--                  <el-select  v-model="selectAllBrands" placeholder="请选择">-->
+<!--                    <el-option v-for="(item,index) in allBrandsData" :key="item.brandCode" :label="item.name" :value="item.brandCode"></el-option>-->
+<!--                  </el-select>-->
+<!--                </el-form-item>-->
+<!--                  <el-form-item label="规格" size="small" >-->
+<!--                      <el-select v-model="selectSpeciSns" placeholder="请选择" :disabled="id?true:false" :clearable="id?true:false"   >-->
+<!--                          <el-option v-for="(item,index) in allSpecisData" :key="item.product.sn" :label="item.product.allName" :value="item.product.sn"></el-option>-->
+<!--                      </el-select>-->
+<!--                  </el-form-item>-->
               </el-row>
               <el-row>
                   <el-form-item label="发货状态" size="small" >
@@ -50,11 +59,6 @@
                       <el-input  v-model="form.winnerMobile" placeholder="请输入手机号"></el-input>
                   </el-form-item>
               </el-row>
-              <el-row>
-                <el-form-item label="UserId" size="small" >
-                  <el-input v-model="form.userId" placeholder="请输入UserId"></el-input>
-                </el-form-item>
-              </el-row>
               <el-form-item>
                   <el-row>
                       <el-button  size="small" type="primary" v-on:click="queryData">查询</el-button>
@@ -76,7 +80,7 @@
               </el-form-item>
           </el-form>
           <el-table :data="listData" style="width: 100%" border>
-              <el-table-column prop="hdCode" width="150px" label="活动编号" ></el-table-column>
+<!--              <el-table-column prop="hdCode" width="150px" label="活动编号" ></el-table-column>-->
               <el-table-column prop="orderCode" label="订单号" ></el-table-column>
               <el-table-column prop="actCode" label="活动ID" ></el-table-column>
               <el-table-column prop="actName" label="活动名称"></el-table-column>
@@ -84,7 +88,7 @@
               <el-table-column prop="mobile" label="收货人手机号"></el-table-column>
               <el-table-column prop="userId" label="userId"></el-table-column>
               <el-table-column prop="prizeName" label="奖项名称"></el-table-column>
-              <el-table-column prop="snName" label="关联规格"></el-table-column>
+<!--              <el-table-column prop="snName" label="关联规格"></el-table-column>-->
               <el-table-column  label="领奖时间">
                   <template slot-scope="scope">
                       {{new Date(scope.row.ctime).Format("yyyy-MM-dd hh:mm:ss")}}
@@ -148,10 +152,11 @@ import draggable from 'vuedraggable'
                     status:"",
                     metraType: 1,
                     winnerMobile:"",
+                    userId:"",
+                    actTypeSub:'',
+                    actTypeMain:2,  //奖品平台类型， 1:营销 2:私域流量
                     pageNo: 1,
                     pageSize: 10,
-                    userId:'',
-                    actTypeMain:1,  //奖品平台类型， 1:营销 2:私域流量
                 },
                 pagination: { // 分页
                     total: 0
@@ -332,8 +337,9 @@ import draggable from 'vuedraggable'
                     stime: '', // 开始时间
                     etime: '', // 结束时间
                     winnerMobile:'',
-                    userId:null,
-                    actTypeMain:1,  //奖品平台类型， 1:营销 2:私域流量
+                    userId:'',
+                    actTypeSub:null,
+                    actTypeMain:2,
                     pageNo: 1,
                     pageSize: 10
                 }
@@ -388,7 +394,7 @@ import draggable from 'vuedraggable'
                 xhr.send(formData);
             },
             ObjectPageDatail(orderId){//订单详细
-                this.$router.push({path:'/Orders/ACT/objectDetail?orderId='+orderId})
+                this.$router.push({path:'/Orders/HbSellerAct/objectDetail?orderId='+orderId})
             }
         }
 
