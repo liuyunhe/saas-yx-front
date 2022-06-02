@@ -161,7 +161,7 @@ export default {
       openFlag: true,
       useOpen: true,
       id: '',
-      actCode: 'hbsAct_buildint_1001',
+      actCode: '',
       strategyArr: {},
       act: {},
 
@@ -265,7 +265,7 @@ export default {
     handleOpen(value) {
       console.log(value)
       let params = {
-        actCode: "hbsAct_buildint_1002",
+        actCode: this.actCode,
         openFlag: this.openFlag ? "1" : "2"
       }
       this.$request.post(' /saasHbseller/actCommon/actOpenSwitch', params, false, res => {
@@ -306,6 +306,7 @@ export default {
             } else {
               this.useOpen = false
             }
+            this.actCode = res.data.actBaseInfo.actCode
             this.actStart = res.data.actBaseInfo.status == 1 ? true : false
             this.openFlag = this.actStart
             this.config.hbsRebateConf.oneUserMaxNum = res.data.rebateConf.oneUserMaxNum
@@ -447,7 +448,7 @@ export default {
     saveJC() {
       let params = [...this.hb, ...this.hsb].map((item) => {
         let i = {
-          "actCode": "hbsAct_buildint_1001",
+          "actCode": this.actCode,
           "awdName": item.prizeName,
           "awdPic": item.awardPic,
           "awdType": item.awardType,
