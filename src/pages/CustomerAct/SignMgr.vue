@@ -116,7 +116,7 @@
         </el-form>
       </el-card>
       <div style="height: 30px"></div>
-      <el-card :body-style="{ padding: '20px' }">
+      <el-card :body-style="{ padding: '20px' }" v-if="config.drawFlag == 1">
         <div slot="header" class="clearfix">
           <span>实物：</span>
         </div>
