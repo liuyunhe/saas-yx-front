@@ -33,8 +33,8 @@
               <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*160像素；格式png、jpg</div>
             </el-upload>
           </el-form-item>
-          <el-form-item label="活动说明：" prop="desc">
-            <quill-editor ref="myTextEditor" v-model="config.actRuleDesc" style="width: 420px;" :options="editorOption" placeholder="请输入活动说明，300字以内">
+          <el-form-item label="活动规则：" prop="desc">
+            <quill-editor ref="myTextEditor" v-model="config.actRuleDesc" style="width: 420px;" :options="editorOption" placeholder="请输入活动规则，300字以内">
             </quill-editor>
           </el-form-item>
           <el-form-item label='参与限制：' prop="dayJoinLimit">
@@ -63,6 +63,42 @@
           <div style="height: 40px;text-align: center;margin-top: 30px">
             <el-button type="primary" @click="confirmSubmit">保存</el-button>
           </div>
+        </el-form>
+      </el-card>
+      <div style="height: 30px"></div>
+      <el-card :body-style="{ padding: '20px' }">
+        <div slot="header" class="clearfix">
+          <span>实物：</span>
+        </div>
+        <div style="margin-bottom: 20px">选择实物:<el-button  size="" style="margin-left: 20px"  @click="getList(1)">选择</el-button></div>
+        <el-form>
+          <el-form-item v-for="(item,index) in sw" :key="index" label='名称：'>
+            <!--            面额 <el-input-number v-model="item.redMoney" :disabled="item.id ? true : false" :precision="2" :min="0" controls-position="right"></el-input-number>元-->
+            <!--            <span style="margin-right: 20px"></span>-->
+            <span style="margin-right: 20px">{{ item.prizeName }}</span>
+            <el-upload :disabled="item.id ? true : false" class="avatar-uploader2" :action="uploadURL1" :headers="headerObj" :on-success="(res)=>{uploadSWImgUrlSuccess(res,index)}" :show-file-list="false">
+              <img v-if="item.awardPic" :src="item.awardPic" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+            <span>* 图片建议尺寸为280*280px，格式为*.jpg\ *.bmp\ *.png\ *.gif</span>
+            <div></div>
+            投放数量 <el-input-number v-model="item.totalNum" :disabled="item.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number>个
+            <span v-if="item.id ? true : false">
+               <span style="margin-right: 20px"></span>
+            剩余{{ item.totalNum - item.outNum }}个
+            </span>
+            <!--            <span style="margin-right: 20px"></span>-->
+            <!--            总金额:{{ parseFloat((item.redMoney*item.totalNum).toPrecision(12))  }}元-->
+            <span style="margin-right: 20px"></span>
+            中奖概率 <el-input-number v-model="item.probability" :precision="1" :step="0.1" :min="0" controls-position="right"></el-input-number>
+            %
+            <span v-if="item.id ? true : false">
+              <span style="margin-right: 20px"></span>
+              <el-button type='primary' @click="addRepertory(item)">增库</el-button>
+            </span>
+            <span style="margin-right: 20px"></span>
+            <el-button type='danger' @click="deleteAward('sw',index)">删除</el-button>
+          </el-form-item>
         </el-form>
       </el-card>
       <div style="height: 30px"></div>
@@ -181,7 +217,7 @@
       }
       var validateDesc = (rule, value, callback) => {
         if (!this.config.actRuleDesc) {
-          callback(new Error('请输入活动说明'))
+          callback(new Error('请输入活动规则'))
         } else {
           callback()
         }
@@ -211,6 +247,7 @@
         }
       }
       return {
+        uploadURL1: '/api/wiseqr/attach/commonAliUpload',
         uploadURL: '/api/wiseqr/attach/commonNewUpload',
         headerObj: {
           loginId: sessionStorage.getItem('access_loginId') || '2d07e7953a2a63ceda6df5144d1abec3',
@@ -226,7 +263,7 @@
               [{ color: [] }, { background: [] }, { align: [] }]
             ]
           },
-          placeholder: '请输入活动说明'
+          placeholder: '请输入活动规则'
         },
         openFlag:true,
         useOpen:true,
@@ -333,11 +370,16 @@
       }
     },
     methods:{
+      uploadSWImgUrlSuccess(resule,index) {
+        if (resule.ret === '200000')
+          return (this.sw[index].awardPic = resule.data.accessUrl)
+        this.$message.error(resule.message)
+      },
       handleOpen(value){
         console.log(value)
         let params = {
           actCode:this.actCode,
-          openFlag:this.openFlag ? "1" : "2"
+          openFlag:this.openFlag ? "1" : "3"
         }
         this.$request.post(' /saasHbseller/actCommon/actOpenSwitch',params, false, res => {
           if (res.code == '200') {
@@ -741,14 +783,14 @@
         });
       },
       saveJC(){
-        let params = [...this.hb,...this.hsb].map((item)=>{
+        let params = [...this.hb,...this.hsb,...this.sw].map((item)=>{
           let i = {
             "actCode": this.actCode,
             "awdName": item.prizeName,
             "awdPic": item.awardPic,
             "awdType": item.awardType,
             "awdPr": item.probability,
-            "awdValue": item.awardPrice,
+            "awdValue": item.awardPrice || 0,
             "numTotal": item.totalNum
           }
           if(item.id){
@@ -875,6 +917,18 @@
   width: 300px;
   height: 64px;
   line-height: 64px;
+  display: block;
+}
+.avatar-uploader2 .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader2 .avatar {
+  width: 110px;
+  height: 110px;
   display: block;
 }
 </style>

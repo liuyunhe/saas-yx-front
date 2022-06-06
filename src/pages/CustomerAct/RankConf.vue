@@ -45,6 +45,10 @@
               <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*160像素；格式png、jpg</div>
             </el-upload>
           </el-form-item>
+          <el-form-item label="活动规则：" prop="desc">
+            <quill-editor ref="myTextEditor" v-model="config.actRuleDesc" style="width: 420px;" :options="editorOption" placeholder="请输入活动规则，300字以内">
+            </quill-editor>
+          </el-form-item>
           <el-form-item label="活动参与截止时间：" prop="actJoinEtime">
             <el-date-picker v-model="config.actJoinEtime" :disabled="config.outStatus == 2" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择活动参与截止时间"></el-date-picker>
           </el-form-item>
@@ -187,6 +191,13 @@ export default {
         callback()
       }
     }
+    var validateDesc = (rule, value, callback) => {
+      if (!this.config.actRuleDesc) {
+        callback(new Error('请输入活动规则'))
+      } else {
+        callback()
+      }
+    }
     var validateActJoinEtime = (rule, value, callback) => {
       if (!this.config.actJoinEtime ) {
         callback(new Error('请选择截止时间'))
@@ -202,6 +213,17 @@ export default {
         token: sessionStorage.getItem('access_token'),
         CLIENTSESSIONID: sessionStorage.getItem('CLIENTSESSIONID')
       },
+      editorOption: {
+        modules: {
+          toolbar: [
+            [{ header: 1 }, { header: 2 }],
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            ['bold', 'italic', 'underline', 'strike', , 'blockquote'],
+            [{ color: [] }, { background: [] }, { align: [] }]
+          ]
+        },
+        placeholder: '请输入活动规则'
+      },
       id: null,
       newAct: false,
       loading:true,
@@ -213,6 +235,7 @@ export default {
         "etime":null,
         "actPicCode":null,
         "actPic":null,
+        "actRuleDesc":null,
       },
       addNum :0,
       openawdUserNum:0,
@@ -225,6 +248,7 @@ export default {
       },
       rules: {
         actName: [{required: true, message: '请输入活动名称', trigger: 'blur'}],
+        desc: [{ required: true, validator: validateDesc,trigger: 'blur' }],
         date: [{ required: true, validator: validateDate, trigger: 'change' }],
         actPic: [{ required: true, validator: validateActPic,trigger: 'change' }],
         actJoinEtime: [{ required: true, validator: validateActJoinEtime,trigger: 'change' }],
@@ -340,6 +364,7 @@ export default {
             }else {
               this.config.openFlag = false
             }
+            this.config.actRuleDesc = res.data.baseInfo.actRuleDesc
             this.config.actName = res.data.baseInfo.actName
             this.config.actPicCode = res.data.baseInfo.actPicCode
             this.config.actPic = res.data.baseInfo.actPic
@@ -440,7 +465,7 @@ export default {
             "actName": this.config.actName, //活动名称
             "actPicCode": this.config.actPicCode, //活动图片code
             "actJoinEtime": this.config.actJoinEtime, //截止时间
-            "actRuleDesc": null //活动规则描述
+            actRuleDesc:this.config.actRuleDesc, //活动规则描述
           },
           awdParamList: awdParams
         }
