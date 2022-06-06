@@ -73,7 +73,7 @@
               <el-button v-if="!actStart" type="danger" @click="deleteProduct(index)">删除规则</el-button>
             </div>
             <div> <el-button v-if="!actStart" type="primary" @click="addProduct">增加规则</el-button></div>
-            <div>每两天一个循环，最多连续签到2天，断签从第一天开始从新计算</div>
+            <div v-if="actStart&&config.contSignFlag == 1&&config.hbsSignContConfList.length>0">每{{config.hbsSignContConfList[config.hbsSignContConfList.length - 1].contSignDays}}天一个循环，最多连续签到{{config.hbsSignContConfList[config.hbsSignContConfList.length - 1].contSignDays}}天，断签从第一天开始从新计算</div>
           </el-form-item>
 
         </el-form>
@@ -100,12 +100,12 @@
             >
             </el-switch>
           </el-form-item>
-          <el-form-item label="活动时间：" prop="date">
+          <el-form-item label="活动时间：" prop="date" v-if="config.drawFlag == 1">
             <el-date-picker v-model="config.drawStime" :disabled="actStart" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择开始时间"></el-date-picker>
             至
             <el-date-picker v-model="config.drawEtime" :disabled="actStart" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择结束时间"></el-date-picker>
           </el-form-item>
-          <el-form-item label='抽奖限制：' prop="drawContDays">
+          <el-form-item label='抽奖限制：' prop="drawContDays" v-if="config.drawFlag == 1">
             签到满
             <el-input-number v-model="config.drawContDays"  :precision="0" :min="0" controls-position="right"></el-input-number>
             天，可参与抽奖
@@ -151,6 +151,7 @@
           </el-form-item>
         </el-form>
       </el-card>
+      <div style="height: 30px"></div>
       <el-card :body-style="{ padding: '20px' }" v-if="config.drawFlag == 1">
         <div slot="header" class="clearfix">
           <span>红包：</span>
@@ -449,9 +450,9 @@
         console.log(value)
         let params = {
           actCode:this.actCode,
-          openFlag:this.openFlag ? "1" : "2"
+          openFlag:this.openFlag ? "1" : "3"
         }
-        this.$request.post(' /saasHbseller/actCommon/actOpenSwitch',params, false, res => {
+        this.$request.post('/saasHbseller/actCommon/actOpenSwitch',params, false, res => {
           if (res.code == '200') {
             this.$message.success('操作成功')
             if(value){
@@ -467,9 +468,9 @@
       },
       handleDrawFlag(value){
         if(value == 0){
-          this.sw = []
-          this.hb = []
-          this.hsb = []
+          // this.sw = []
+          // this.hb = []
+          // this.hsb = []
         }
       },
       beforeAvatarUpload(file) {

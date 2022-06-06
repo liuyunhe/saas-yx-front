@@ -32,7 +32,7 @@
         </el-table-column>
         <el-table-column label="操作" align="center" width="220">
           <template slot-scope="scope">
-            <span style="color:#409EFF;cursor: pointer;margin: 0 5px" v-if="scope.row.outStatus==1||scope.row.outStatus==2" size="mini" @click="dataForm(scope.row.actCode, 1)">编辑</span>
+            <span style="color:#409EFF;cursor: pointer;margin: 0 5px" v-if="scope.row.outStatus==1||scope.row.outStatus==2||scope.row.outStatus==3" size="mini" @click="dataForm(scope.row.actCode, 1)">编辑</span>
             <span style="color:#409EFF;cursor: pointer;margin: 0 5px" v-if="scope.row.outStatus==3" size="mini" @click="modifyData(scope.row.actCode, 1)">启用</span>
             <span style="color:red;cursor: pointer;margin: 0 5px" v-if="scope.row.outStatus==3 || scope.row.outStatus==4" size="mini" @click="modifyData(scope.row.actCode, 0)">删除</span>
             <span style="color:#409EFF;cursor: pointer;margin: 0 5px" v-if="scope.row.outStatus==4" size="mini" @click="dataForm(scope.row.actCode, 2)">查看详情</span>

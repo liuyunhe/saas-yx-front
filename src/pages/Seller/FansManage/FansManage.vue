@@ -31,7 +31,12 @@
           </template>
         </el-table-column>
         <el-table-column prop="fanNickName" label="昵称" align="center"></el-table-column>
-        <el-table-column prop="fanGender" label="性别" align="center"></el-table-column>
+        <el-table-column prop="fanGender" label="性别" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.fanGender == 1">男</span>
+            <span v-if="scope.row.fanGender == 2">女</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="birthday" label="出生年月" align="center"></el-table-column>
         <el-table-column prop="fanMobile" label="手机号" width="150" align="center"></el-table-column>
         <el-table-column prop="licenseNo" label="烟草专卖证号"  align="center"></el-table-column>

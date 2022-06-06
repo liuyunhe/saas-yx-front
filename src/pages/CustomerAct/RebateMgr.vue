@@ -266,7 +266,7 @@ export default {
       console.log(value)
       let params = {
         actCode: this.actCode,
-        openFlag: this.openFlag ? "1" : "2"
+        openFlag: this.openFlag ? "1" : "3"
       }
       this.$request.post(' /saasHbseller/actCommon/actOpenSwitch', params, false, res => {
         if (res.code == '200') {
