@@ -446,6 +446,10 @@ export default {
       })
     },
     saveJC() {
+      if(!this.actCode){
+        this.$message.error('当前活动没有actCode,请检查活动配置信息！')
+        return
+      }
       let params = [...this.hb, ...this.hsb].map((item) => {
         let i = {
           "actCode": this.actCode,
@@ -468,7 +472,7 @@ export default {
         return i
       })
       console.log(params)
-      this.$request.post('/saasHbseller/actCommon/actAwdSave', params, true, res => {
+      this.$request.post(`/saasHbseller/actCommon/actAwdSave?actCode=${this.actCode}`, params, true, res => {
         if (res.code == '200') {
           this.getDetail()
           this.$message({type: 'success', message: '操作成功!'})

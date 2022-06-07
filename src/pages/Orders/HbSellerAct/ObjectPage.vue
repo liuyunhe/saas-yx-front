@@ -338,7 +338,7 @@ import draggable from 'vuedraggable'
                     etime: '', // 结束时间
                     winnerMobile:'',
                     userId:'',
-                    actTypeSub:null,
+                    actTypeSub:'',
                     actTypeMain:2,
                     pageNo: 1,
                     pageSize: 10

@@ -89,7 +89,6 @@
         <el-form ref="drawConf" :model="config" label-width="150px" :rules="confRules">
           <el-form-item label="是否关联抽奖：" prop="date" :show-message="false">
             <el-switch
-                :disabled="actStart"
                 v-model="config.drawFlag"
                 active-color="#13ce66"
                 inactive-color="#ff4949"
@@ -107,7 +106,7 @@
           </el-form-item>
           <el-form-item label='抽奖限制：' prop="drawContDays" v-if="config.drawFlag == 1">
             签到满
-            <el-input-number v-model="config.drawContDays"  :precision="0" :min="0" controls-position="right"></el-input-number>
+            <el-input-number v-model="config.drawContDays" :disabled="actStart"  :precision="0" :min="0" controls-position="right"></el-input-number>
             天，可参与抽奖
           </el-form-item>
           <div style="height: 40px;text-align: center;margin-top: 30px">
@@ -120,7 +119,7 @@
         <div slot="header" class="clearfix">
           <span>实物：</span>
         </div>
-        <div style="margin-bottom: 20px">选择实物:<el-button :disabled="actStart" size="" style="margin-left: 20px"  @click="getList(1)">选择</el-button></div>
+        <div style="margin-bottom: 20px">选择实物:<el-button size="" style="margin-left: 20px"  @click="getList(1)">选择</el-button></div>
         <el-form>
           <el-form-item v-for="(item,index) in sw" :key="index" label='名称：'>
             <!--            面额 <el-input-number v-model="item.redMoney" :disabled="item.id ? true : false" :precision="2" :min="0" controls-position="right"></el-input-number>元-->
@@ -156,7 +155,7 @@
         <div slot="header" class="clearfix">
           <span>红包：</span>
         </div>
-        <div style="margin-bottom: 20px">选择红包:<el-button :disabled="actStart" size="" style="margin-left: 20px"  @click="getList(3)">选择</el-button></div>
+        <div style="margin-bottom: 20px">选择红包:<el-button  size="" style="margin-left: 20px"  @click="getList(3)">选择</el-button></div>
         <el-form>
           <el-form-item v-for="(item,index) in hb" :key="index" label='名称：'>
             面额 <el-input-number v-model="item.redMoney" :disabled="item.id ? true : false" :precision="2" :min="0" controls-position="right"></el-input-number>元
@@ -186,7 +185,7 @@
         <div slot="header" class="clearfix">
           <span>荷石币：</span>
         </div>
-        <div style="margin-bottom: 20px">选择荷石币:<el-button :disabled="actStart" style="margin-left: 20px"  @click="getList(6)">选择</el-button></div>
+        <div style="margin-bottom: 20px">选择荷石币:<el-button  style="margin-left: 20px"  @click="getList(6)">选择</el-button></div>
         <el-form>
           <el-form-item v-for="(item,index) in hsb" :key="index" label='名称：'>
             面额 <el-input-number v-model="item.integral" :disabled="item.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number>荷石币
@@ -819,6 +818,10 @@
         });
       },
       saveJC(){
+        if(!this.actCode){
+          this.$message.error('当前活动没有actCode,请检查活动配置信息！')
+          return
+        }
         let params = [...this.hb,...this.hsb,...this.sw].map((item)=>{
           let i = {
             "actCode": this.actCode,
@@ -841,7 +844,7 @@
           return i
         })
         console.log(params)
-        this.$request.post('/saasHbseller/actCommon/actAwdSave', params, true, res => {
+        this.$request.post(`/saasHbseller/actCommon/actAwdSave?actCode=${this.actCode}`, params, true, res => {
           if (res.code == '200') {
             this.getDetail()
             this.$message({type: 'success', message: '操作成功!'});
