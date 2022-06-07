@@ -46,7 +46,7 @@
             </el-upload>
           </el-form-item>
           <el-form-item label="活动规则：" prop="desc">
-            <quill-editor ref="myTextEditor" v-model="config.actRuleDesc" style="width: 420px;" :options="editorOption" placeholder="请输入活动规则，300字以内">
+            <quill-editor ref="myTextEditor" :disabled="type == 2 " v-model="config.actRuleDesc" style="width: 420px;" :options="editorOption" placeholder="请输入活动规则，300字以内">
             </quill-editor>
           </el-form-item>
           <el-form-item label="活动参与截止时间：" prop="actJoinEtime">
@@ -205,6 +205,24 @@ export default {
         callback()
       }
     }
+    var validateEndNum = (rule, value, callback) =>{
+      let i
+      let n = 0
+      this.awardConf.forEach(item=>{
+        if(item.endNum == value){
+          n += 1
+          i = item
+        }
+      })
+      if(n>1){
+        callback(new Error('名次有重复，请检查！'))
+      }
+      if(i.startNum > value){
+        callback(new Error('结束名次不能小于开始名次！'))
+      }else {
+        callback()
+      }
+    }
     return {
       uploadURL: '/api/wiseqr/attach/commonNewUpload',
       uploadAwdURL: '/api/wiseqr/attach/commonAliUpload',
@@ -290,7 +308,7 @@ export default {
         awdPr: [{ required: true, message: '请输入中奖概率',trigger:'blur' }],
         awdValue: [{ required: true, message: '请输入奖品面额',trigger:'blur' }],
         startNum: [{ required: true, message: '请输入名次起始值',trigger:'blur' }],
-        endNum: [{ required: true, message: '请输入名次结束值',trigger:'blur' }],
+        endNum: [{ required: true,validator: validateEndNum,trigger:'blur' }],
       },
 
       awardType:[

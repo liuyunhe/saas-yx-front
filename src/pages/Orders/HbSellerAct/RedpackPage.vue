@@ -288,7 +288,7 @@
                     etime: '', // 结束时间
                     winnerMobile:'',
                     userId:"",
-                    actTypeSub:null,
+                    actTypeSub:'',
                     actTypeMain:2,  //奖品平台类型， 1:营销 2:私域流量
                     pageNo: 1,
                     pageSize: 10
