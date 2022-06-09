@@ -32,7 +32,7 @@
         </el-table-column>
         <el-table-column label="操作" align="center" width="220">
           <template slot-scope="scope">
-            <span style="color:#409EFF;cursor: pointer;margin: 0 5px" v-if="scope.row.outStatus==1" size="mini" @click="dataForm(scope.row.actCode, 1)">暂停</span>
+            <span style="color:#409EFF;cursor: pointer;margin: 0 5px" v-if="scope.row.outStatus==1" size="mini" @click="modifyData(scope.row.actCode, 3)">暂停</span>
             <span style="color:#409EFF;cursor: pointer;margin: 0 5px" v-if="scope.row.outStatus==1||scope.row.outStatus==2||scope.row.outStatus==3" size="mini" @click="dataForm(scope.row.actCode, 1)">编辑</span>
             <span style="color:#409EFF;cursor: pointer;margin: 0 5px" v-if="scope.row.outStatus==3" size="mini" @click="modifyData(scope.row.actCode, 1)">启用</span>
             <span style="color:red;cursor: pointer;margin: 0 5px" v-if="scope.row.outStatus==3 || scope.row.outStatus==4" size="mini" @click="modifyData(scope.row.actCode, 0)">删除</span>
@@ -115,7 +115,11 @@ export default {
       this.$router.push(`/customerAct/rankConf?actCode=${actCode}&type=${type}`)
     },
     modifyData(actCode, status) {
-      this.$confirm(`您确认${status == 0 ? '删除':'启用'}此活动吗？ `, '提示', {
+      let t = ''
+      if(status == 0) t ='删除'
+      if(status == 1) t ='启用'
+      if(status == 3) t ='暂停'
+      this.$confirm(`您确认${t}此活动吗？ `, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

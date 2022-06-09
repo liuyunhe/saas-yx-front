@@ -19,9 +19,6 @@
           <el-form-item label="零售户烟草证号：">
             <el-input size="small"  v-model="search.licenseNo"></el-input>
           </el-form-item>
-          <el-form-item label="门店名称：">
-            <el-input size="small"  v-model="search.shopName"></el-input>
-          </el-form-item>
           <el-form-item label="申请时间：">
             <el-date-picker
                 v-model="search.txTime"
@@ -42,6 +39,8 @@
           <el-form-item>
             <el-button size="small" type="primary" @click="list">查询</el-button>
             <el-button size="small" @click="reset">重置</el-button>
+<!--            <el-button size="small" type="primary" @click="handleClickReTry">重新转账</el-button>-->
+            <el-button  size="small" type="primary" plain  @click="exportData" >导出列表</el-button>
           </el-form-item>
         </el-form>
       </el-row>
@@ -56,9 +55,8 @@
             type="selection"
             width="55">
         </el-table-column>
-        <el-table-column label="序号" type="index" align="center">
-
-        </el-table-column>
+        <el-table-column label="序号" type="index" align="center"></el-table-column>
+        <el-table-column label="id" prop="id" align="center"></el-table-column>
         <el-table-column prop="licenseNo" label="烟草专卖证号" align="center"></el-table-column>
         <el-table-column prop="shopName" label="门店名称" align="center"></el-table-column>
         <el-table-column prop="addr" label="门店地址" align="center"></el-table-column>
@@ -169,7 +167,6 @@ export default {
         pageSize: 10,
         contactPhone: "", //联系电话
         licenseNo: "", //烟草证号
-        shopName: "", //店铺名称
         status:null,
         txTime:null, //提现时间
         optFinishTime:null //到账时间
@@ -195,6 +192,59 @@ export default {
     this.list();
   },
   methods: {
+    exportData(){//导出
+      var url = "/saasHbseller/sellerRebate/statics//tx/redpack/list/ExportData";
+      var xhr = new XMLHttpRequest();
+      // var formData = new FormData();
+      // for(var attr in this.search) {
+      //   formData.append(attr, this.search[attr]);
+      // }
+      var formData = JSON.stringify(this.search)
+      xhr.overrideMimeType("text/plain; charset=x-user-defined");
+      xhr.open('POST', url, true);
+      xhr.responseType = "blob";
+      xhr.responseType = "arraybuffer";
+      xhr.setRequestHeader('Content-Type','application/json');
+      xhr.setRequestHeader("token", sessionStorage.getItem('access_token'));
+      xhr.setRequestHeader("loginId", sessionStorage.getItem('access_loginId'));
+      xhr.onload = function(res) {
+        if (this.status == 200) {
+          var blob = new Blob([this.response], {type: 'application/vnd.ms-excel'});
+          var respHeader = xhr.getResponseHeader("Content-Disposition");
+          var fileName = decodeURI(respHeader.match(/filename=(.*?)(;|$)/)[1]);
+          if (window.navigator.msSaveOrOpenBlob) {
+            navigator.msSaveBlob(blob, fileName);
+          } else {
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+            window.URL.revokeObjectURL(link.href);
+          }
+        }
+      }
+      xhr.send(formData);
+    },
+    // handleClickReTry(){
+    //   let params = {
+    //     ids:this.tableList.map(item=>{return item.}),
+    //     type:3
+    //   }
+    //   this.$request.post('/saasHbseller/sellerRebate/tx/failRetry',params,false,res => {
+    //     if(res.code == "200" ){
+    //       this.$message({
+    //         message: '操作成功！',
+    //         type: 'success'
+    //       });
+    //       this.list()
+    //     }else{
+    //       this.$message({
+    //         message: res.msg,
+    //         type: 'warning'
+    //       });
+    //     }
+    //   })
+    // },
     handleClickFailNotes(msg){
 
     },
@@ -230,7 +280,7 @@ export default {
             this.list()
           }else{
             this.$message({
-              message: res.msg ,
+              message: res.msg ? res.msg : `id为${res.data.failList.join(',')}的条目操作失败！`,
               type: 'warning'
             });
           }
@@ -320,7 +370,6 @@ export default {
         page: 1,
         pageSize: 10,
         contactPhone: "", //联系电话
-        shopName:"",
         licenseNo: "", //烟草证号
         status:null, //提现时间
         txTime:null, //提现时间

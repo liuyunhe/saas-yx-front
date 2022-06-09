@@ -39,6 +39,7 @@
           <el-form-item>
             <el-button size="small" type="primary" @click="list">查询</el-button>
             <el-button size="small" @click="reset">重置</el-button>
+            <el-button  size="small" type="primary" plain  @click="exportData" >导出列表</el-button>
           </el-form-item>
         </el-form>
       </el-row>
@@ -53,9 +54,8 @@
             type="selection"
             width="55">
         </el-table-column>
-        <el-table-column label="序号" type="index" align="center">
-
-        </el-table-column>
+        <el-table-column label="序号" type="index" align="center"></el-table-column>
+        <el-table-column label="id" prop="id" align="center"></el-table-column>
         <el-table-column prop="licenseNo" label="烟草专卖证号" align="center"></el-table-column>
         <el-table-column prop="addr" label="门店地址" align="center"></el-table-column>
         <el-table-column prop="contactName" label="经营人姓名" align="center"></el-table-column>
@@ -190,6 +190,39 @@ export default {
     this.list();
   },
   methods: {
+    exportData(){//导出
+      var url = "/saasHbseller/sellerRebate/statics//tx/points/list/ExportData";
+      var xhr = new XMLHttpRequest();
+      // var formData = new FormData();
+      // for(var attr in this.search) {
+      //   formData.append(attr, this.search[attr]);
+      // }
+      var formData = JSON.stringify(this.search)
+      xhr.overrideMimeType("text/plain; charset=x-user-defined");
+      xhr.open('POST', url, true);
+      xhr.responseType = "blob";
+      xhr.responseType = "arraybuffer";
+      xhr.setRequestHeader('Content-Type','application/json');
+      xhr.setRequestHeader("token", sessionStorage.getItem('access_token'));
+      xhr.setRequestHeader("loginId", sessionStorage.getItem('access_loginId'));
+      xhr.onload = function(res) {
+        if (this.status == 200) {
+          var blob = new Blob([this.response], {type: 'application/vnd.ms-excel'});
+          var respHeader = xhr.getResponseHeader("Content-Disposition");
+          var fileName = decodeURI(respHeader.match(/filename=(.*?)(;|$)/)[1]);
+          if (window.navigator.msSaveOrOpenBlob) {
+            navigator.msSaveBlob(blob, fileName);
+          } else {
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+            window.URL.revokeObjectURL(link.href);
+          }
+        }
+      }
+      xhr.send(formData);
+    },
     handleClickFailNotes(msg){
 
     },
@@ -216,7 +249,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$request.post('/saasHbseller/sellerRebate/tx/redpack/agree',params,false,res => {
+        this.$request.post('/saasHbseller/sellerRebate/tx/points/agree',params,false,res => {
           if(res.code == "200" && !res.data.failList.length){
             this.$message({
               message: '操作成功！',
@@ -225,7 +258,7 @@ export default {
             this.list()
           }else{
             this.$message({
-              message: res.msg ,
+              message: res.msg ? res.msg : `id为${res.data.failList.join(',')}的条目操作失败！`,
               type: 'warning'
             });
           }
@@ -239,7 +272,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$request.post('/saasHbseller/sellerRebate/tx/redpack/unAgree',params,false,res => {
+        this.$request.post('/saasHbseller/sellerRebate/tx/points/unAgree',params,false,res => {
           if(res.code == 200){
             this.$message({
               message: '操作成功！',
