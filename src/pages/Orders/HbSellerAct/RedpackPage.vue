@@ -67,7 +67,7 @@
                 <el-table-column prop="actCode" label="活动ID" ></el-table-column>
                 <el-table-column prop="actName" label="活动名称"></el-table-column>
                 <el-table-column prop="nickname" label="中奖人"></el-table-column>
-                <el-table-column prop="mobile" label="中奖人手机号"></el-table-column>
+<!--                <el-table-column prop="mobile" label="中奖人手机号"></el-table-column>-->
                 <el-table-column prop="userId" label="userId"></el-table-column>
                 <el-table-column prop="awdName" label="奖项名称"></el-table-column>
                 <el-table-column  label="领奖时间">

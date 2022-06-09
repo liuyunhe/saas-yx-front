@@ -96,21 +96,22 @@
                 :active-value="1"
                 :inactive-value="0"
                 @change="handleDrawFlag"
+                :disabled="!ljSignEdit"
             >
             </el-switch>
           </el-form-item>
           <el-form-item label="活动时间：" prop="date" v-if="config.drawFlag == 1">
-            <el-date-picker v-model="config.drawStime" :disabled="actStart" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择开始时间"></el-date-picker>
+            <el-date-picker v-model="config.drawStime" :disabled="!ljSignEdit" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择开始时间"></el-date-picker>
             至
-            <el-date-picker v-model="config.drawEtime" :disabled="actStart" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择结束时间"></el-date-picker>
+            <el-date-picker v-model="config.drawEtime" :disabled="!ljSignEdit" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择结束时间"></el-date-picker>
           </el-form-item>
           <el-form-item label='抽奖限制：' prop="drawContDays" v-if="config.drawFlag == 1">
             签到满
-            <el-input-number v-model="config.drawContDays" :disabled="actStart"  :precision="0" :min="0" controls-position="right"></el-input-number>
+            <el-input-number v-model="config.drawContDays" :disabled="!ljSignEdit"  :precision="0" :min="0" controls-position="right"></el-input-number>
             天，可参与抽奖
           </el-form-item>
           <div style="height: 40px;text-align: center;margin-top: 30px">
-            <el-button type="primary" @click="confirmSubmitDrawConf">保存</el-button>
+            <el-button type="primary" v-if="ljSignEdit" @click="confirmSubmitDrawConf">保存</el-button>
           </div>
         </el-form>
       </el-card>
@@ -345,7 +346,8 @@
         },
         listTotal: 0,
         listVisible: false,
-        actStart:false,
+        actStart:true,
+        ljSignEdit:false,
         config:{
           id:'-1',
           actName: null, //活动名称
@@ -496,6 +498,7 @@
         this.$request.get('/saasHbseller/actSign/queryConf', {}, res => {
           if (res.code == '200') {
             if(res.data){
+              this.ljSignEdit = res.data.ljSignEdit
               this.actCode = res.data.actBaseInfo.actCode
               this.actStart = res.data.actBaseInfo.status == 1 ? true : false  //状态,1:启用, 2:未启用(或暂停)
               this.openFlag = this.actStart
@@ -889,9 +892,9 @@
       saveDrawConf(){
         let params = {
           "drawFlag": this.config.drawFlag, //开关 1:打开 0:关闭。 关闭时候无需传递其它参数
-          "drawStime": this.config.drawStime, //开始时间
-          "drawEtime": this.config.drawEtime, //截止时间
-          "drawContDays": this.config.drawContDays //需签到天数
+          "drawStime": this.config.drawFlag == 1 ? this.config.drawStime : null, //开始时间
+          "drawEtime": this.config.drawFlag == 1 ? this.config.drawEtime : null, //截止时间
+          "drawContDays": this.config.drawFlag == 1 ? this.config.drawContDays : null //需签到天数
         }
         console.log(params)
         this.$request.post('/saasHbseller/actSign/saveDrawConf', params, true, res => {
