@@ -39,7 +39,7 @@
           <el-form-item>
             <el-button size="small" type="primary" @click="list">查询</el-button>
             <el-button size="small" @click="reset">重置</el-button>
-<!--            <el-button size="small" type="primary" @click="handleClickReTry">重新转账</el-button>-->
+            <el-button size="small" type="primary" @click="handleClickReTry">重新转账</el-button>
             <el-button  size="small" type="primary" plain  @click="exportData" >导出列表</el-button>
           </el-form-item>
         </el-form>
@@ -193,7 +193,7 @@ export default {
   },
   methods: {
     exportData(){//导出
-      var url = "/saasHbseller/sellerRebate/statics//tx/redpack/list/ExportData";
+      var url = "/saasHbseller/sellerRebate/statics/tx/redpack/list/ExportData";
       var xhr = new XMLHttpRequest();
       // var formData = new FormData();
       // for(var attr in this.search) {
@@ -225,26 +225,40 @@ export default {
       }
       xhr.send(formData);
     },
-    // handleClickReTry(){
-    //   let params = {
-    //     ids:this.tableList.map(item=>{return item.}),
-    //     type:3
-    //   }
-    //   this.$request.post('/saasHbseller/sellerRebate/tx/failRetry',params,false,res => {
-    //     if(res.code == "200" ){
-    //       this.$message({
-    //         message: '操作成功！',
-    //         type: 'success'
-    //       });
-    //       this.list()
-    //     }else{
-    //       this.$message({
-    //         message: res.msg,
-    //         type: 'warning'
-    //       });
-    //     }
-    //   })
-    // },
+    handleClickReTry(){
+      let ids = []
+       this.tableList.forEach(item=>{
+        if(item.status == 6){
+          ids.push(item.id)
+        }
+      })
+      console.log(ids)
+      if(ids.length == 0){
+        this.$message({
+          message: '当前列表没有可重新转账的条目！',
+          type: 'warning'
+        });
+        return
+      }
+      let params = {
+        ids:ids.join(','),
+        type:3
+      }
+      this.$request.post('/saasHbseller/sellerRebate/tx/failRetry',params,false,res => {
+        if(res.code == "200" ){
+          this.$message({
+            message: '操作成功！',
+            type: 'success'
+          });
+          this.list()
+        }else{
+          this.$message({
+            message: res.msg,
+            type: 'warning'
+          });
+        }
+      })
+    },
     handleClickFailNotes(msg){
 
     },
@@ -387,7 +401,6 @@ export default {
       this.search.pageSize = _pageSize;
 
       this.$request.post('/saasHbseller/sellerRebate/statics//tx/redpack/list', this.search, true, (res)=>{
-        console.log(res.records)
         this.tableList = res.records || [];
         this.initPagination(res.total||0);
         if(this.search.status == 1){

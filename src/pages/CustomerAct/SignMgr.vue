@@ -900,6 +900,7 @@
         this.$request.post('/saasHbseller/actSign/saveDrawConf', params, true, res => {
           if (res.code == '200') {
             this.$message({type: 'success', message: '操作成功!'});
+            this.getConfShow()
           } else {
             this.$message.error(res.msg);
           }
