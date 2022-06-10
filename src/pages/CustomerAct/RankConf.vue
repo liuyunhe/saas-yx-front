@@ -2,9 +2,9 @@
   <div class="QA-container">
     <div >
       <el-col class="mb20" v-if="type != 0">
-        <el-button type="primary" @click="open" :disabled="info.openStatus !== 0">开奖</el-button>
+        <el-button type="primary" @click="open" :disabled="!info.btnFlag">开奖</el-button>
         <span style="margin-left: 20px"></span>
-        <span v-if="info.openStatus == 0" style="color: #7c7f83">活动进行中，未开奖</span>
+        <span v-if="info.openStatus == 0" style="color: #7c7f83">未开奖</span>
         <span v-if="info.openStatus == 1" style="color: #7c7f83">开奖中</span>
         <span v-if="info.openStatus == 2" style="color: #7c7f83">已开奖</span>
       </el-col>
@@ -67,6 +67,7 @@
         </div>
         <div>
           <el-button size="small" type="primary" @click="addItem" v-if="awardConf.length<14 && type != 2">新增商品</el-button>
+          <span style="margin-left: 20px">提醒：物料名称会在C端“我的礼品”中显示</span>
         </div>
         <template v-for="(ai,key) in awardConf">
           <div  style="height: 30px;font-size: 18px;line-height: 30px;margin:20px;color: #409EFF">
@@ -262,6 +263,7 @@ export default {
       info:{
         "dataTime": "2022-05-17 23:59:59", //数据时间
         "dataNum": 3,    // 参与人数
+        "btnFlag": true,
         "openStatus": 0  // 活动开奖状态, 0: 未开奖, 1:开奖中, 2: 已开奖
       },
       rules: {
@@ -361,6 +363,7 @@ export default {
         if (res.code == '200') {
           console.log(res.data)
           if(res.data){
+            this.info.btnFlag = res.data.btnFlag
             this.info.dataNum = res.data.dataNum
             this.info.dataTime = res.data.dataTime
             this.info.openStatus = res.data.openStstus

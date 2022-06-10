@@ -87,7 +87,7 @@
           <span>抽奖设置：</span>
         </div>
         <el-form ref="drawConf" :model="config" label-width="150px" :rules="confRules">
-          <el-form-item label="是否关联抽奖：" prop="date" :show-message="false">
+          <el-form-item label="是否关联抽奖："  :show-message="false">
             <el-switch
                 v-model="config.drawFlag"
                 active-color="#13ce66"
