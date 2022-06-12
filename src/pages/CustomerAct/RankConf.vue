@@ -51,6 +51,7 @@
           </el-form-item>
           <el-form-item label="活动参与截止时间：" prop="actJoinEtime">
             <el-date-picker v-model="config.actJoinEtime" :disabled="config.outStatus == 2" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择活动参与截止时间"></el-date-picker>
+            <span style="margin-left: 20px;color: #c0c4cc">可选时间在10:00-23:00之间</span>
           </el-form-item>
           <el-form-item label="统计规则：">
             <div>1、参与活动时间结束后当天24:00后自动刷新排名；</div>

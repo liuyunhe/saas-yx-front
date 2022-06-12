@@ -62,6 +62,7 @@
                 :inactive-value="0"
             >
             </el-switch>
+            <span style="margin-left: 20px;color: #c0c4cc">修改连续签到奖励配置，需在当前已配置天数循环结束后；或间隔1天后再开启签到活动</span>
           </el-form-item>
           <el-form-item label="" v-if="config.contSignFlag == 1" prop="selectProductList" >
             <div v-for="(item,index) in config.hbsSignContConfList" :key="index" style="margin-bottom: 10px">
