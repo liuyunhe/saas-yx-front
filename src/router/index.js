@@ -154,6 +154,7 @@ const SettingSystemAuth = () => import(/* webpackChunkName: "setting" */ '@/page
 const Sign = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Sign/Sign.vue')
 const SignDetail = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Sign/signActEdit.vue')
 const ActSetting = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Act.vue')
+const ActManage = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/ActManage.vue')
 const BrandGroup = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/BrandGroup.vue')
 const CodeLimit = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/CodeLimit.vue')
 
@@ -625,6 +626,7 @@ export default new Router({
         { path: '/setting/mall', name: '积分设置', component: PointsConf },
         { path: '/setting/act', name: '活动设置' },
         { path: '/setting/act/setting', name: '活动类型管理', component: ActSetting },
+        { path: '/setting/act/actManage', name: '活动类型管理', component: ActManage },
         { path: '/setting/act/brandGroup', name: '规格设置', component: BrandGroup },
         { path: '/setting/act/codeLimit', name: '规格设置', component: CodeLimit },
 

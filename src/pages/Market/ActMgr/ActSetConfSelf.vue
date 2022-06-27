@@ -352,13 +352,13 @@ export default {
         }
       })
     },
-    getCityList() {
+    getCityList(val) {
       this.districtList = [];
-      this.confData.selectCityList = [];
       this.confData.selectDistrictList = [];
       if(this.confData.selectProvList.length>0) {
         if(this.confData.selectProvList[this.confData.selectProvList.length-1]=='000000') {
           // 最后一次点击是全国
+          this.confData.selectCityList = [];
           this.confData.selectProvList = ['000000'];
           this.cityList.splice(0,this.cityList.length)
           let allcity = Object.values(this.allCity)
@@ -387,16 +387,49 @@ export default {
         } else if(this.confData.selectProvList.length>1&&this.confData.selectProvList[0]=='000000') {
           // 第一个点击的是全国，并且最后一个点击的非全国，则去除全国的选中
           this.confData.selectProvList.shift();
+          this.confData.selectDistrictList = [];
         }
+        console.log(111)
+        let arr = []
         this.cityList = [];
-        let tmpList = [];
-        for(let i=0; i<this.confData.selectProvList.length; i++) {
-          let provCode = this.confData.selectProvList[i];
-          tmpList = tmpList.concat(this.allCity[provCode]);
+        this.confData.selectProvList.forEach(item=>{
+          this.cityList.push(...this.allCity[item])
+        })
+        this.confData.selectCityList.forEach((item,index)=>{
+          const city = this.cityList.find(i=>{
+            return i.code == item
+          })
+          console.log(city)
+          if(city){
+            arr.push(item)
+          }
+        })
+        this.confData.selectCityList =  arr
+        let l = this.confData.selectCityList.length
+        if(this.confData.selectCityList.includes('全选')){
+          l = l - 1
         }
-        this.cityList = tmpList;
+        console.log(l,this.cityList.length)
+        if(l != this.cityList.length){
+          if(this.confData.selectCityList[0]=='全选'){
+            this.confData.selectCityList.shift();
+          }
+        }else {
+          if(this.confData.selectCityList[0]!='全选'){
+            this.confData.selectCityList.unshift('全选')
+          }
+        }
+        // if(this.confData.selectCityList.length>1&&this.confData.selectProvList[0]=='000000')
+        // let tmpList = [];
+        // for(let i=0; i<this.confData.selectProvList.length; i++) {
+        //   let provCode = this.confData.selectProvList[i];
+        //   tmpList = tmpList.concat(this.allCity[provCode]);
+        // }
+        // this.cityList = tmpList;
       } else {
+        console.log(2222)
         this.cityList = [];
+        this.confData.selectCityList=[]
       }
       if (this.initCity) {
         let strategy = this.strategyArr[this.Cindex];
