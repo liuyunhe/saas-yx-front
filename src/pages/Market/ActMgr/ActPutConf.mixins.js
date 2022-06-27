@@ -582,8 +582,12 @@ export default {
         })
       }
     },
+    hanldeRemoveProv(val){
+      console.log(val)
+    },
     // 获取市
     getCityList(val) {
+      console.log(val)
       if (this.provList.length == 1 && !this.saleZoneCode) {
         setTimeout(() => {
           console.log(111)
@@ -618,7 +622,6 @@ export default {
         this.specialAreas.provinceArr = []
         this.specialAreas.cityArr = []
         this.restrictProv()
-
       }
       // 全选之后取消单个
       if (oldVal.includes('000000') && val.includes('000000')) {
@@ -668,6 +671,34 @@ export default {
             //   code: '000000',
             //   name: '全部'
             // })
+            let arr = []
+            this.selectCityList.forEach((item,index)=>{
+              const city = this.cityList.find(i=>{
+                return i.code == item
+              })
+              console.log(city)
+              if(city){
+                arr.push(item)
+              }
+            })
+            this.selectCityList =  arr
+            let l = arr.length
+            if(arr.includes('000000')){
+              l = l - 1
+            }
+            console.log(arr, l,this.cityList.length)
+            if( l+1 != this.cityList.length){
+              this.selectCityList.forEach((item,index)=>{
+                if(item == '000000'){
+                  this.selectCityList.splice(index,1)
+                }
+              })
+            }else {
+              if(!this.selectCityList.includes('000000')){
+                this.selectCityList = ['000000'].concat(this.selectCityList)
+              }
+            }
+            this.oldSelectCityList[1] = this.selectCityList
             return
           }
           this.message.error(res.message)
@@ -690,16 +721,20 @@ export default {
       }
       const oldVal = this.oldSelectCityList.length === 1 ? [] : this.oldSelectCityList[1]
       if (val.includes('000000')){
+        console.log(111)
         this.selectCityList = allValue
         this.specialAreas.cityArr = []
         this.restrictCity()
       }
       if (oldVal.includes('000000') && !val.includes('000000')){
+        console.log(222)
         this.selectCityList = []
         this.specialAreas.cityArr = []
         this.restrictCity()
       }
       if (oldVal.includes('000000') && val.includes('000000')) {
+        console.log(333)
+        console.log(this.selectCityList)
         const index = val.indexOf('000000')
         val.splice(index, 1)
         this.selectCityList = val
@@ -707,6 +742,7 @@ export default {
         this.restrictCity()
       }
       if (!oldVal.includes('000000') && !val.includes('000000')) {
+        console.log(444)
         if (val.length === allValue.length - 1) {
           this.selectCityList = ['000000'].concat(val)
         }
@@ -1048,6 +1084,7 @@ export default {
           }
         )
       }
+
     },
     getAreaListSpecial(val) {
       let allValue = []
