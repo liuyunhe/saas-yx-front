@@ -46,6 +46,7 @@
         </el-table-column>
         <el-table-column label="等级" prop="gradeNumber" align="center" width="60px"></el-table-column>
         <el-table-column label="openid" prop="openid" align="center" width="150px"></el-table-column>
+        <el-table-column label="userId" prop="userId" align="center" width="100px"></el-table-column>
         <el-table-column label="积分" prop="points" align="center" width="100px"></el-table-column>
         <el-table-column label="成长值" prop="growth" align="center" width="100px"></el-table-column>
         <el-table-column label="地区" align="center" width="140px">
@@ -82,6 +83,7 @@ export default {
         nickName: '马', //昵称
         gradeNumber: '', //等级
         openid:'',
+        userId:'',
         pageNo:1,
         pageSize:10,
         ban: 0 //正常用户
@@ -110,7 +112,7 @@ export default {
           })
       },
     getUserList() {
-      if(this.queryParams.mobile==""&&this.queryParams.nickName==""&&this.queryParams.openid=="") return this.$message.error('搜索条件:昵称、手机号、openid不能都为空!');
+      if(this.queryParams.mobile==""&&this.queryParams.nickName==""&&this.queryParams.openid==""&&this.queryParams.userId=="") return this.$message.error('搜索条件:昵称、手机号、openid不能都为空!');
       this.$refs.queryRef.validate(valid => {
         if (!valid) return this.$message.error('请完善手机号!')
         this.load = true
