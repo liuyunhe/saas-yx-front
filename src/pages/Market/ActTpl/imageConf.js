@@ -154,42 +154,89 @@ const img = {
             },
         },
         item: {
+            item6: {
+                hidden:false,
+                name: '牌子1背景框',
+                url: handle.getUrl('fanpaizi-card-bg', 2),
+                pos: [89, 571],
+                size: [175, 240]
+            },
+            item7: {
+                hidden:false,
+                name: '牌子2背景框',
+                url: handle.getUrl('fanpaizi-card-bg', 2),
+                pos: [287, 571],
+                size: [175, 240]
+            },
+            item8: {
+                hidden:false,
+                name: '牌子3背景框',
+                url: handle.getUrl('fanpaizi-card-bg', 2),
+                pos: [486, 571],
+                size: [175, 240]
+            },
+            item9: {
+                hidden:false,
+                name: '牌子4背景框',
+                url: handle.getUrl('fanpaizi-card-bg', 2),
+                pos: [89, 826],
+                size: [175, 240]
+            },
+            item10: {
+                name: '牌子5背景框',
+                url: handle.getUrl('fanpaizi-card-bg', 2),
+                pos: [287, 826],
+                size: [175, 240]
+            },
+            item11: {
+                name: '牌子6背景框',
+                url: handle.getUrl('fanpaizi-card-bg', 2),
+                pos: [486, 826],
+                size: [175, 240]
+            },
             item0: {
+                hidden:false,
                 name: '牌子1',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [89, 571],
                 size: [175, 240]
             },
             item1: {
+                hidden:false,
                 name: '牌子2',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [287, 571],
                 size: [175, 240]
             },
             item2: {
+                hidden:false,
                 name: '牌子3',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [486, 571],
                 size: [175, 240]
             },
             item3: {
+                hidden:false,
                 name: '牌子4',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [89, 826],
                 size: [175, 240]
             },
             item4: {
+                hidden:false,
                 name: '牌子5',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [287, 826],
                 size: [175, 240]
             },
             item5: {
+                hidden:false,
                 name: '牌子6',
                 url: handle.getUrl('fanpaizi-card', 2),
                 pos: [486, 826],
                 size: [175, 240]
             },
+
         }
     },
     ACT_JIUGONGGE: {

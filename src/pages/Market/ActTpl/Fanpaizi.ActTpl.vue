@@ -144,6 +144,7 @@ props: ['id', 'edit'],
         let that = this;
         let index = e.index;
         let type = index.indexOf('item') > -1 ? 'item' : 'normal';
+        console.log(type)
         that.editType =  type;
         that.editData = type == 'item' ? that.itemRepeat ? [this.conf.img[type]['item0']] : this.conf.img[type] : [this.conf.img[type][index]];
     },
