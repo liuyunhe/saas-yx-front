@@ -15,10 +15,14 @@
           <el-form-item label="openid：" prop="openid">
             <el-input v-model="queryParams.openid"></el-input>
           </el-form-item>
+          <el-form-item label="userId ：" prop="userId">
+            <el-input v-model="queryParams.userId "></el-input>
+          </el-form-item>
         </el-form>
         <div class="btn">
           <el-button type="primary" @click="getUserList">查询</el-button>
           <el-button plain @click="reset">重置</el-button>
+          <span style="margin-left: 20px;color: #cccccc">C端转化过来的正确userid计算规则：userid=粉丝号-9396593965</span>
         </div>
       </el-card>
       <el-form>
@@ -63,12 +67,34 @@
           <template slot-scope="scope">
             <el-button type="text" @click="$router.push(`/customer/mgr/detail?id=${scope.row.id}`)">查看详情</el-button>
             <el-button type="text" @click="addBlack(scope.row.id)">加入黑名单</el-button>
+            <el-button type="text" @click="dataForm(scope.$index, scope.row)">更改手机号</el-button>
           </template>
         </el-table-column>
       </el-table>
        <el-pagination class="mt20" background @current-change="handleCurrentChange" :current-page="queryParams.pageNo" layout="total, prev, pager, next, jumper" :total="total">
     </el-pagination>
     </el-card>
+    <el-dialog title="更改手机号" width="30%" :visible.sync="form.show">
+      <el-form label-width="100px">
+        <div style="font-size: 20px;line-height: 50px;font-weight: bold;margin-bottom: 20px;">用户基本信息</div>
+        <el-form-item label="用户昵称:">
+          <div>{{ this.form.nickName }}</div>
+        </el-form-item>
+        <el-form-item label="userId:">
+          <div>{{ this.form.userId }}</div>
+        </el-form-item>
+        <el-form-item v-if="form.mobile" label="绑定手机号:">
+          <div>{{ this.form.mobileBind }}</div>
+        </el-form-item>
+        <el-form-item label="更改手机号:">
+          <el-input size="small" v-model="form.mobile" style="width: 200px;"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+                <el-button size="small" @click="form.show=false">取 消</el-button>
+                <el-button size="small" type="primary" @click="saveForm">确 定</el-button>
+            </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -94,7 +120,15 @@ export default {
         mobile: [{ max: 11, message: '手机号长度为11位', trigger: 'blur' }],
         gradeNumber: [{ min: 1, max: 3, message: '用户等级应为 1 到 3 位', trigger: 'blur' }]
       },
-      userList: []
+      userList: [],
+      form: {
+        show: false, // 增库弹框是否展示
+        id: '',
+        mobile: '',
+        mobileBind: '',
+        nickName: '',
+        userId: '',
+      }
     }
   },
   mounted () {
@@ -159,7 +193,40 @@ export default {
     handleCurrentChange(newPageNo) {
       this.queryParams.pageNo = newPageNo
       this.getUserList()
-    }
+    },
+    dataForm(index, row) {
+        console.log(row)
+      this.form.id = "";
+      this.form.mobile = "";
+      this.form.mobileBind = "";
+      this.form.nickName = "";
+      this.form.userId = "";
+      if(row&&row.id) {
+        this.form.id = row.id;
+        this.form.mobile = row.mobile || null;
+        this.form.mobileBind = row.mobile || null;
+        this.form.nickName = row.nickname;
+        this.form.userId = row.userId;
+      }
+      this.form.show = true;
+    },
+    saveForm() {
+      if (!/^1[34578]\d{9}$/.test(this.form.mobile)) return this.$message.error('手机号填写错误！')
+        let params = {
+          id: this.form.id,
+          mobile: this.form.mobile
+        }
+      this.$request.post('/api/wiseqr/mber/updateMobile', params, true, (res)=>{
+        console.log(res)
+        if (res.ret == '200000') {
+          this.getUserList();
+          this.form.show = false;
+          this.$message({type: 'success', message: '操作成功!'});
+        } else {
+          this.$message.error(res.message);
+        }
+      });
+    },
   }
 }
 </script>
