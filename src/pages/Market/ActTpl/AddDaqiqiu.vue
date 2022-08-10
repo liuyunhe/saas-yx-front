@@ -41,7 +41,7 @@
                 <el-input v-model="addActParams.name" placeholder="请输入模板名称"maxLength='15'></el-input>
               </el-form-item>
               <el-form-item label="销区：" prop="saleZoneCode">
-                <el-select size="small" v-model="addActParams.saleZone" placeholder="请选择">
+                <el-select size="small" v-model="addActParams.saleZone" placeholder="请选择" clearable>
                   <el-option
                       v-for="(item,index) in saleZone"
                       :key="index"

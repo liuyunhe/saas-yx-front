@@ -155,7 +155,7 @@
         </div>
         <el-form ref="form" :model="f" :rules="formRules">
           <el-form-item label="码源数量：" prop="codeSize" label-width="200px">
-            <el-input-number style="width: 200px" v-model="f.codeSize" :controls="false" :max="50000000" :min="1"></el-input-number>个
+            <el-input-number style="width: 200px" v-model="f.codeSize" :controls="false"  :min="1"></el-input-number> 个
             <span style="margin-left: 20px">（{{parseFloat((f.codeSize/10000).toPrecision(12))}}万）</span>
           </el-form-item>
           <el-form-item label="印刷厂名称：" prop="factoryCode" label-width="200px">
@@ -178,6 +178,15 @@
   export default {
     name:'Application',
     data() {
+      var validateCodeSize = (rule, value, callback) => {
+        if (!value ) {
+          callback(new Error('请输入码源数量！'))
+        } else if (value > 5000*10000){
+          callback(new Error('码源数量不能超过5000万！'))
+        } else {
+          callback()
+        }
+      }
       return {
         brandList:[],
         brandSonList:[],
@@ -215,7 +224,7 @@
         dialogVisible:false,
         dialogFormVisible:false,
         formRules: {
-          codeSize: [{ required: true, message: '请输入码源数量',trigger:'blur' }],
+          codeSize: [{ required: true, validator: validateCodeSize,trigger:'blur' }],
           factoryCode: [{ required: true, message: '请选择印刷厂',trigger:'change' }],
         },
 

@@ -6,7 +6,7 @@
                 <span class="words-tips">{{info.title.length}}/{{titleLength}}</span>
             </el-form-item>
             <el-form-item label="销区：" prop="saleZoneCode">
-                <el-select size="small" v-model="info.saleZone" placeholder="请选择">
+                <el-select size="small" v-model="info.saleZone" placeholder="请选择" clearable>
                     <el-option
                         v-for="(item,index) in saleZoneGroup"
                         :key="index"

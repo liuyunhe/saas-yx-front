@@ -48,7 +48,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="活动标签：" prop="actTag" >
-          <el-radio v-for="(item,index) in actTagGroup" :key="index" :disabled="id ? true : false" v-model="confData.actTag" :label="item.id">{{ item.name }}</el-radio>
+          <el-radio v-for="(item,index) in actTagGroup" :key="index" :disabled="id ? true : false" v-model="confData.actTag" :label="item.id" @click.native.prevent="changeRadio(item.id)">{{ item.name }}</el-radio>
           <span v-if="showNoneActTag">无</span>
           <div class="">(非销区活动时为非必选项)</div>
         </el-form-item>
@@ -323,6 +323,10 @@ export default {
 
   },
   methods: {
+    changeRadio(val) {
+      this.confData.actTag= this.confData.actTag== val ? null : val
+      // this.radioKey= ! this.radioKey
+    },
       getSaleZone() {
         this.$request.post('/api/saleZone/userSzList', {}, true, (res) => {
           if (res.code == '200') {
