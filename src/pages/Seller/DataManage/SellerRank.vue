@@ -28,6 +28,39 @@
             </el-select>
           </el-form-item>
         </el-form-item>
+        <div></div>
+        <el-form-item>
+          <el-form-item label="日期类型：" prop="dateType">
+            <el-select size="small" v-model="search.dateType" @change="handleSelectDateType" placeholder="请选择日期类型">
+              <el-option
+                  v-for="(item,index) in dateType"
+                  :key="index"
+                  :label="item.name"
+                  :value="item.code">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form-item>
+        <el-form-item>
+          <el-form-item label="日期：" prop="opDate">
+            <el-date-picker
+                v-if="search.dateType == 'day'"
+                v-model="search.opDate"
+                type="date"
+                value-format="yyyy-MM-dd"
+                format="yyyy-MM-dd"
+                placeholder="选择日期">
+            </el-date-picker>
+            <el-select  v-if="search.dateType != 'day'" size="small" v-model="search.opDate" placeholder="选择日期">
+              <el-option
+                  v-for="(item,index) in dates"
+                  :key="index"
+                  :label="item.dateShow"
+                  :value="item.opDate">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form-item>
         <el-button size="small" type="primary" @click="getSellerRank">查询</el-button>
         <el-button size="small" v-if="showBtn" @click="handleClickALL('allZone')">全部销区</el-button>
         <el-button size="small" v-if="showBtn" @click="handleClickALL('allProv')">全部省份</el-button>
@@ -533,8 +566,23 @@ export default {
       saleZoneCode: sessionStorage.getItem('isAllSaleZone') == 1 ? null : sessionStorage.getItem('saleZoneCode'),
       search:{
         saleZoneCode: sessionStorage.getItem('isAllSaleZone') == 1 ? null : sessionStorage.getItem('saleZoneCode'),
-        provinceCode:null
+        provinceCode:null,
+        opDate:new Date(new Date().getTime() - 24 * 60 * 60 * 1000).Format('yyyy-MM-dd'),
+        dateType:'day'
       },
+      dateType:[
+        {
+          name:'日',
+          code:'day'
+        },{
+          name:'周',
+          code:'week'
+        },{
+          name:'月',
+          code:'month'
+        },
+      ],
+      dates:[],
       saleZone:[],
       saleZoneProv:[],
       sellerScanRank:[],
@@ -561,19 +609,41 @@ export default {
     }
   },
   methods:{
+    handleSelectDateType(type){
+      console.log(type)
+      this.search.opDate = null
+      if(type!='day'){
+        let params = {
+          type
+        }
+        this.$request.post('/dataStats/dim/dataShow/select', params, false, (res) => {
+          if (res.code == '200') {
+            this.dates = res.data
+          }
+        })
+      }
+    },
     handleClickALL(type){
       this.search.saleZoneCode = null
       this.search.provinceCode = null
       let params = {
-        type
+        type,
+        optDate:this.search.opDate,
+        dateType: this.search.dateType
+      }
+      if(!params.optDate){
+        this.$message.warning("提示：请选择日期进行查询！");
+        return
       }
       this.$request.post('/dataStats/statHbsSeller/sellerRank/allRankData', params, false, (res) => {
         if (res.code == '200') {
-
-          this.sellerScanRank = res.data.sellerScanRank.length?res.data.sellerScanRank: RankData.sellerScanRank
-          this.sellerNumRank = res.data.sellerNumRank.length?res.data.sellerNumRank: RankData.sellerNumRank
-          this.sellerShopFansNumRank = res.data.sellerShopFansNumRank.length?res.data.sellerShopFansNumRank: RankData.sellerShopFansNumRank
-          this.sellerSnScanRank = res.data.sellerSnScanRank.length?res.data.sellerSnScanRank: RankData.sellerSnScanRank
+          this.sellerScanRank = res.data.sellerScanRank.length?res.data.sellerScanRank: []
+          this.sellerNumRank = res.data.sellerNumRank.length?res.data.sellerNumRank: []
+          this.sellerShopFansNumRank = res.data.sellerShopFansNumRank.length?res.data.sellerShopFansNumRank: []
+          this.sellerSnScanRank = res.data.sellerSnScanRank.length?res.data.sellerSnScanRank: []
+        }
+        else {
+          this.$message.error(res.msg)
         }
       })
     },
@@ -600,9 +670,15 @@ export default {
       let params = {
         saleZoneCode:this.search.saleZoneCode,
         provCode:this.search.provinceCode,
+        optDate:this.search.opDate,
+        dateType: this.search.dateType
       }
       if(!params.saleZoneCode&&!params.provCode){
         this.$message.warning("提示：请选择销区或省份进行查询！");
+        return
+      }
+      if(!params.optDate){
+        this.$message.warning("提示：请选择日期进行查询！");
         return
       }
       this.$request.post('/dataStats/statHbsSeller/sellerRank/regionRankData', params, false, (res) => {
@@ -615,6 +691,9 @@ export default {
           this.sellerNumRank = res.data.sellerNumRank
           this.sellerShopFansNumRank = res.data.sellerShopFansNumRank
           this.sellerSnScanRank = res.data.sellerSnScanRank
+        }
+        else {
+          this.$message.error(res.msg)
         }
       })
     },
