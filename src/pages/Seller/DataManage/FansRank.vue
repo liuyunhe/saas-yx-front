@@ -85,6 +85,10 @@
                   prop="totalFans"
                   label="粉丝数量"
               >
+                <template slot-scope="scope">
+                  <span v-if="!scope.row.totalFans">0</span>
+                  <span v-else>{{scope.row.totalFans}}</span>
+                </template>
               </el-table-column>
               <el-table-column
                   show-overflow-tooltip
@@ -112,6 +116,10 @@
                   prop="totalFans"
                   label="粉丝数量"
               >
+                <template slot-scope="scope">
+                  <span v-if="!scope.row.totalFans">0</span>
+                  <span v-else>{{scope.row.totalFans}}</span>
+                </template>
               </el-table-column>
               <el-table-column
                   align="center"
@@ -192,10 +200,11 @@
               <el-table-column
                   align="center"
                   prop="totalScanCount"
-                  label="扫码次数"
+                  label="扫码包数"
               >
               </el-table-column>
               <el-table-column
+                  show-overflow-tooltip
                   align="center"
                   prop="snName"
                   label="规格"
@@ -218,7 +227,7 @@
               <el-table-column
                   align="center"
                   prop="totalScanCount"
-                  label="扫码次数"
+                  label="扫码包数"
               >
               </el-table-column>
               <el-table-column
@@ -423,6 +432,7 @@ export default {
     handleSelectDateType(type){
       console.log(type)
       this.search.opDate = null
+      this.dates = []
       if(type!='day'){
         let params = {
           type

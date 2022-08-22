@@ -193,7 +193,7 @@
               <el-table-column
                   align="center"
                   prop="sellerScan"
-                  label="扫码次数"
+                  label="扫码包数"
               >
               </el-table-column>
               <el-table-column
@@ -220,7 +220,7 @@
               <el-table-column
                   align="center"
                   prop="sellerScan"
-                  label="扫码次数"
+                  label="扫码包数"
               >
               </el-table-column>
               <el-table-column
@@ -267,6 +267,10 @@
                   prop="fansNum"
                   label="粉丝数量"
               >
+                <template slot-scope="scope">
+                  <span v-if="!scope.row.fansNum">0</span>
+                  <span v-else>{{scope.row.fansNum}}</span>
+                </template>
               </el-table-column>
             </el-table>
             <div class="more" @click="showMore4 = true">点击查看更多</div>
@@ -301,6 +305,10 @@
                   prop="fansNum"
                   label="粉丝数量"
               >
+                <template slot-scope="scope">
+                  <span v-if="!scope.row.fansNum">0</span>
+                  <span v-else>{{scope.row.fansNum}}</span>
+                </template>
               </el-table-column>
             </el-table>
             <div class="more" @click="showMore4 = false">收起</div>
@@ -612,6 +620,7 @@ export default {
     handleSelectDateType(type){
       console.log(type)
       this.search.opDate = null
+      this.dates = []
       if(type!='day'){
         let params = {
           type
