@@ -1116,6 +1116,18 @@
          arr.forEach((i,k) => {
            arr[k].actId = this.config.id
          })
+         let per = 0
+         console.log(this.snConf)
+         this.snConf.forEach((i)=>{
+           i.cardInfo.forEach((j) => {
+             per += j.prizePert - 0
+           })
+         })
+         console.log(per)
+         if(per > 100){
+           this.$message.error('获得卡片概率之和超过100%，请调整配置！')
+           return
+         }
          let params = {
            actId: this.config.id,
            pintuGroupSettings:this.snConf.map(item => {
