@@ -15,6 +15,10 @@
 			<div class="form-part">
 				<div class="form-find" v-show='next'>
 					<el-form :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic">
+            <el-form-item prop="account" label="用户名" :rules="[
+							{ required: true, message: '请输入用户名', trigger: 'blur' } ]">
+              <el-input v-model="dynamicValidateForm.account" class='style_phone'></el-input>
+            </el-form-item>
 						<el-form-item prop="phone" label="手机号码" :rules="[
 							{ required: true, message: '请输入手机号', trigger: 'blur' },
 							{ pattern:/^1[2-9]{1}[0-9]{9}$/, message: '请输入正确的手机号', trigger: ['blur'] } ]">
@@ -31,10 +35,10 @@
 				</div>
 				<div class="form-find" v-show='!next'>
 					<el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
-						<el-form-item label="用户名" prop="user">
-							<el-input v-model="ruleForm2.user" class='style_user' name="account" autocomplete="off"></el-input>
+						<el-form-item label="用户名">
+							<el-input v-model="dynamicValidateForm.account" readonly class='style_user' name="account" autocomplete="off"></el-input>
 						</el-form-item>
-						<el-form-item label="密码" prop="pass">
+						<el-form-item label="新密码" prop="pass">
 							<el-input type="password" v-model="ruleForm2.pass" class='style_user' name="pwd" autocomplete="new-password"></el-input>
 						</el-form-item>
 						<el-form-item label="确认密码" prop="checkPass">
@@ -87,12 +91,13 @@
 			};
 			return {
 				dynamicValidateForm: {
+          account: '',
 					code: '',
 					phone: ''
 				},
 				timeText: '获取验证码',
 				active: '',
-				next: true,
+				next: false,
 				ruleForm2: {
 					pass: '',
 					checkPass: '',
@@ -152,32 +157,17 @@
 			},
 			checkSyshasPhone () {
 				let mobile = this.dynamicValidateForm.phone;
+				let account = this.dynamicValidateForm.account;
 				if(!mobile) return;
 				if(this.active) return;
 				// 验证手机号在系统中是否存在
-				this.$request.post('/api/public/qbm', {mobile: mobile}, true,(res)=>{
+				this.$request.post('/api/public/qbm', {account,mobile}, true,(res)=>{
 					if(res.ret == '200000') {
-						let users = res.data || [];
-						if (users.length==0) {
-							this.$message.error("此手机号不在系统中！");
-						} else {
-							let judgeMobileCode = false;
-							for (let i=0; i<users.length; i++) {
-								let data = users[i];
-								if (mobile === data.mobile) {
-									judgeMobileCode = true; // 手机号相同说明在系统中存在
-									if (this.account && data.account!==this.account) {
-										judgeMobileCode = false; // 手机号相同说明在系统中存在
-										this.$message.error("此手机号与修改密码账号绑定的手机号不符！");
-									}
-									break
-								}
-							}
-							// 运行获取及验证手机动态码
-							if (judgeMobileCode) {
-								this.time()
-							}
-						}
+						if(res.data.has&&res.data.has == '1'){
+              this.time()
+            }else {
+              this.$message.error("此手机号不在系统中！");
+            }
 					} else {
 						this.$message.error(res.message);
 					}
@@ -216,21 +206,21 @@
 				that.$refs[formName].validate((valid) => {
 					if(valid) {
 						var params = {
-							oldPwd: '',
-							account: that.ruleForm2.user,
-							newPwd: that.ruleForm2.pass,
+							oldPwd: that.ruleForm2.pass,
+							account: that.dynamicValidateForm.account,
+							newPwd: that.ruleForm2.checkPass,
 							mobile: that.dynamicValidateForm.phone
 						}
 						params.newPwd=that.$md5(params.newPwd);
 						that.$request.post('/api/sys/login/findPwd', params, true, (res)=>{
 							if(res.ret == '200000') {
-								this.$message({type:'success', message: "找回密码成功，请重新登陆！"});
+								this.$message({type:'success', message: "重置密码成功，请重新登陆！"});
 								this.$router.push({path:"/login"});
 							} else {
 								that.$message.error(res.message || "验证码不正确！")
 							}
 						}, (err)=>{
-							that.$message.error(res.message || "找回密码失败！")
+							that.$message.error(res.message || "重置密码失败！")
 						});
 					} else {
 						that.$message.error('请输入正确的信息')
@@ -248,7 +238,7 @@
 		background: #D1DBE5;
 		overflow: hidden;
 	}
-	
+
 	.navbar {
 		background: #283543;
 		height: 50px;
@@ -260,7 +250,7 @@
 			object-fit: contain;
 		}
 	}
-	
+
 	.content {
 		width: 100%;
 		height: 100%;
