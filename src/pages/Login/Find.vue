@@ -97,7 +97,7 @@
 				},
 				timeText: '获取验证码',
 				active: '',
-				next: false,
+				next: true,
 				ruleForm2: {
 					pass: '',
 					checkPass: '',
