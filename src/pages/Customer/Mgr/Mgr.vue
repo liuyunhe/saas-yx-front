@@ -211,7 +211,7 @@ export default {
       this.form.show = true;
     },
     saveForm() {
-      if (!/^1[34578]\d{9}$/.test(this.form.mobile)) return this.$message.error('手机号填写错误！')
+      if (!/^1[345789]\d{9}$/.test(this.form.mobile)) return this.$message.error('手机号填写错误！')
         let params = {
           id: this.form.id,
           mobile: this.form.mobile
