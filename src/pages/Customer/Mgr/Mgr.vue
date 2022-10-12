@@ -102,11 +102,11 @@ export default {
   data() {
     return {
       total: 100,
-      load: true,
+      load: false,
       queryParams: {
         countDate:'',
-        mobile: '159', //电话号
-        nickName: '马', //昵称
+        mobile: '', //电话号
+        nickName: '', //昵称
         gradeNumber: '', //等级
         openid:'',
         userId:'',
@@ -132,7 +132,7 @@ export default {
     }
   },
   mounted () {
-    this.getUserList();
+    // this.getUserList();
     this.getCount();
   },
   methods: {
@@ -188,7 +188,7 @@ export default {
       // this.queryParams.gradeNumber = ''
       this.queryParams.pageNo = 1
       this.$refs.queryRef.resetFields()
-      this.getUserList()
+      // this.getUserList()
     },
     handleCurrentChange(newPageNo) {
       this.queryParams.pageNo = newPageNo
@@ -211,7 +211,7 @@ export default {
       this.form.show = true;
     },
     saveForm() {
-      if (!/^1[345789]\d{9}$/.test(this.form.mobile)) return this.$message.error('手机号填写错误！')
+      if (!/^1[3456789]\d{9}$/.test(this.form.mobile)) return this.$message.error('手机号填写错误！')
         let params = {
           id: this.form.id,
           mobile: this.form.mobile
