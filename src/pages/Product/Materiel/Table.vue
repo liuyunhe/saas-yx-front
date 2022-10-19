@@ -3,6 +3,7 @@
     <el-card class="box-card">
       <el-row>
         <el-button size="small" type="primary" @click="materielForm">新建</el-button>
+        <el-button v-if="metraFlag == 'integral'" size="small" type="primary" @click="addTotalPool.show = true">总池增库</el-button>
         <template v-if="metraFlag == 'integral'">
           <span style="margin-left: 30px"></span>
           <span>总奖池：{{ pointsPool }}</span>
@@ -157,6 +158,18 @@
         <el-button size="small" type="primary" @click="confirmAddPool">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog title="物料积分总池增库" width="30%" :visible.sync="addTotalPool.show">
+      <el-form ref="addPool" label-width="100px">
+        <el-form-item label="增加库存" prop="stock">
+          <el-input size="small" placeholder="请输入增库积分值" type="number" v-model="addTotalPool.num"></el-input>
+        </el-form-item>
+        <!-- 虚拟物料有此项内容 -->
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="small" @click="addTotalPool.show=false">取 消</el-button>
+        <el-button size="small" type="primary" @click="confirmAddTotalPool">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -193,6 +206,12 @@ export default {
       operLogDatas: [],  // 物料操作日志数据
 
       addPool: {
+        show: false, // 增库弹框是否展示
+        id: '', // 增库时，数据主键id值
+        num: '', // 增库时，增库数量
+        type: '',  // 虚拟物料增库时，记录物料类型
+      },
+      addTotalPool: {
         show: false, // 增库弹框是否展示
         id: '', // 增库时，数据主键id值
         num: '', // 增库时，增库数量
@@ -319,7 +338,7 @@ export default {
       let _pageSize = 10;
       if(pageSize) _pageSize = pageSize;
       this.form.pageSize = _pageSize;
-      
+
       this.$request.post('/api/wiseqr/metra/list', this.form, true, (res)=>{
         if (res.ret == '200000') {
           this.materielDatas = res.data.list || [];
@@ -444,8 +463,27 @@ export default {
           this.$message.error(res.message);
         }
       });
+    },
+    confirmAddTotalPool() {
+      if(this.addTotalPool.num <= 0) {
+        this.$message.error("增库值不能为空且必须是大于0的整数！");
+        return false;
+      }
+      let params = {addPoints:this.addTotalPool.num};
+      this.$request.post('/sc/orgPoint/updatePointsPool', params, false, (res)=>{
+        if (res.code == '200') {
+          this.addTotalPool.id = '';
+          this.addTotalPool.num = '';
+          this.addTotalPool.type = '';
+          this.addTotalPool.show = false;
+          this.getOrgPoint();
+          this.$message.success('增库成功！')
+        } else {
+          this.$message.error(res.msg);
+        }
+      });
     }
-  }
+  },
 }
 </script>
 
