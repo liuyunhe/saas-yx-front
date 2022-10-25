@@ -147,6 +147,7 @@ const SettingRole = () => import(/* webpackChunkName: "setting" */ '@/pages/Sett
 const SettingSeller = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Seller.vue')
 // 积分设置
 const PointsConf = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/PointsConf.vue')
+const Abutment = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Abutment.vue')
 // 设置-资源管理-系统菜单管理
 const SettingSystemMenu = () => import(/* webpackChunkName: "setting" */ '@/pages/Setting/Resources/SystemMenu.vue')
 // 设置-资源管理-企业授权src\pages\Setting\Sign\Sign.vue
@@ -625,6 +626,7 @@ export default new Router({
         { path: '/setting/logs', name: '日志管理', component: SettingLogs },
         { path: '/setting/seller', name: '零售户管理', component: SettingSeller },
         { path: '/setting/mall', name: '积分设置', component: PointsConf },
+        { path: '/setting/abutment', name: '对接设置', component: Abutment },
         { path: '/setting/act', name: '活动设置' },
         { path: '/setting/act/setting', name: '活动类型管理', component: ActSetting },
         { path: '/setting/act/actManage', name: '活动类型管理', component: ActManage },
