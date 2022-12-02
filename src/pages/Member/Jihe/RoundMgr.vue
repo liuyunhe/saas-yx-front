@@ -299,7 +299,7 @@
           return item
         });
         console.log(params)
-        this.$request.post(' /hbact/saas/zt/ztActAwdSave', params, true, res => {
+        this.$request.post('/hbact/saas/zt/ztActAwdSave', params, true, res => {
           if (res.code == '200') {
             this.$message({type: 'success', message: '操作成功!'});
             this.getActDetail()
