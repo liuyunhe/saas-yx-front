@@ -61,10 +61,10 @@
               <el-button size="small" type="primary" v-if="!!ai.id" style="margin-left: 20px" @click="addRepertory(ai)">增库</el-button>
             </el-form-item>
 
-            <!--            <el-form-item label='中奖概率：' prop="awdPr">-->
-            <!--              <el-input-number controls-position="right" :precision="1" :step="0.1" :min="0" :max="100" v-model="ai.awdPr"></el-input-number>-->
-            <!--              <span>%</span>-->
-            <!--            </el-form-item>-->
+            <el-form-item label='中奖概率：' prop="awdPr">
+              <el-input-number controls-position="right" :precision="1" :step="0.1" :min="0" :max="100" v-model="ai.awdPr"></el-input-number>
+              <span>%</span>
+            </el-form-item>
 
             <div style="height: 30px"></div>
           </el-form>
