@@ -1,5 +1,5 @@
 export default {
-  props: ['id', 'actCode','form','awardArr'],
+  props: ['id', 'actCode','form','awardArr','nLimit'],
   inject:['routerRefresh'], //在子组件中注入在父组件中出创建的属性
   data() {
     return {
@@ -254,6 +254,8 @@ export default {
       brandVisible: false, // 品牌
       specialRuleConfFlag: false, // 特殊规则开关
       prizeLimitFlag: false, // 抽奖限制开关
+      NprizeLimitFlag: false, // 抽奖限制开关
+
       firstScanFlag: false,
       nWinFlag: false,
       fixationPutFlag: false,
@@ -331,6 +333,10 @@ export default {
           }
         })
       }
+    },
+    nLimit(val){
+      console.log(val)
+      this.nLimit = val
     },
     status: function (val) {
       if (val) {

@@ -269,6 +269,12 @@ export default {
       brandVisible: false, // 品牌
       specialRuleConfFlag: false, // 特殊规则开关
       prizeLimitFlag: false, // 抽奖限制开关
+      NprizeLimitFlag: false, // 抽奖限制开关
+      nLimit:{
+        nlimit:0,
+        nlimitNum:null,
+        nlimitProb:null,
+      },
       firstScanFlag: false,
       nWinFlag: false,
       fixationPutFlag: false,
@@ -357,6 +363,14 @@ export default {
             this.saleZoneDisabled = false
           } else {
             this.saleZoneDisabled = true
+          }
+          if(res.data.act.tfExtInfo != null && 'nlimit' in JSON.parse(res.data.act.tfExtInfo)){
+            if(JSON.parse(res.data.act.tfExtInfo)['nlimit'] == 1){
+              this.nLimit.nlimit = 1
+              this.nLimit.nlimitNum = JSON.parse(res.data.act.tfExtInfo)['nlimitNum']
+              this.nLimit.nlimitProb = JSON.parse(res.data.act.tfExtInfo)['nlimitProb']
+              this.NprizeLimitFlag = true
+            }
           }
           this.status = res.data.act.status == 1 ? true : false
           this.prizeLimitFlag = res.data.act.dwnum ? true : false
@@ -823,6 +837,7 @@ export default {
       }
       this.act.id = this.id
       this.act.actCode = this.actCode
+      this.act.tfExtInfo = JSON.stringify(this.nLimit)
       let data = {
         act: {},
         strategyArr: []
