@@ -94,7 +94,7 @@
         <el-form-item label="是否直接抽奖：" v-if="useAwardArr">
           <el-switch v-model="directDraw" :active-value="'1'" :inactive-value="'0'"></el-switch>
         </el-form-item>
-        <ActPutConf ref="actPutConf" :awardArr="awardArr" @modifyAwardArr = "modifyAwardArr" v-show="useAwardArr"></ActPutConf>
+        <ActPutConf ref="actPutConf" :awardArr="awardArr" :nLimit="nLimit" @modifyAwardArr = "modifyAwardArr" v-show="useAwardArr"></ActPutConf>
         <el-form-item v-if="!useAwardArr">
           <el-button type="primary" @click="confirmSubmit">确定</el-button>
           <el-button @click="$router.push('/market/actMgr')">返回列表</el-button>
@@ -238,6 +238,11 @@ export default {
       awardArr:[],
       useAwardArr:false,
       directDraw:"0",
+      nLimit:{
+        nlimit:0,
+        nlimitNum:null,
+        nlimitProb:null,
+      },
       Cindex:0,
 
       showSaleZone:sessionStorage.getItem('account').indexOf('shankun') == -1,
@@ -602,6 +607,15 @@ export default {
                     this.directDraw = '1'
                   }
                 }
+                if(res.data.act.tfExtInfo != null && 'nlimit' in JSON.parse(res.data.act.tfExtInfo)){
+                  console.log(11111111)
+                  if(JSON.parse(res.data.act.tfExtInfo)['nlimit'] == 1){
+                    this.nLimit.nlimit = 1
+                    this.nLimit.nlimitNum = JSON.parse(res.data.act.tfExtInfo)['nlimitNum']
+                    this.nLimit.nlimitProb = JSON.parse(res.data.act.tfExtInfo)['nlimitProb']
+                    this.$refs.actPutConf.NprizeLimitFlag = true
+                  }
+                }
               }
             }
             if (item.tfType == 'sn_first') {
@@ -723,8 +737,17 @@ export default {
     confirmSubmit() {
       this.$refs.actSetConfRef.validate(valid => {
         if (valid) {
-          this.extInfo = {link: this.confData.link,directDraw:this.directDraw};
+          this.extInfo = {
+            link: this.confData.link,
+            directDraw:this.directDraw,
+          };
+          let tfExtInfo = {
+            nlimit:this.$refs.actPutConf.nLimit.nlimit,
+            nlimitNum:this.$refs.actPutConf.nLimit.nlimitNum,
+            nlimitProb:this.$refs.actPutConf.nLimit.nlimitProb,
+          };
           this.confData.extInfo = JSON.stringify(this.extInfo);
+          this.confData.tfExtInfo = JSON.stringify(tfExtInfo);
           let params = {};
           params.act = this.confData;
           let strategyParams = {tf:{}, tfType:'common', snArr: this.confData.selectProductList, areas: {provinceArr:this.confData.selectProvList, cityArr:this.confData.selectCityList, districtArr:this.confData.selectDistrictList}};

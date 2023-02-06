@@ -74,7 +74,7 @@
                                 >
                             <el-button slot="trigger" size="small" type="primary">导入物流信息</el-button>
                         </el-upload></el-button>
-                        <el-button plain  v-on:click="exportData" >导出搜索结果</el-button>
+                        <el-button plain  v-on:click="exportData" >导出待发货搜索结果</el-button>
                     </el-row>
                 </el-form-item>
             </el-form>
