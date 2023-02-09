@@ -76,7 +76,7 @@
               <el-row>
                 <el-col :span="6" class="label">N次后奖池中奖概率限制:</el-col>
                  用户在活动期间，参与活动每天<el-input-number size="small" v-model="nLimit.nlimitNum" :min="0" :step="1" :precision="0" controls-position="right" style="width: 100px"></el-input-number>
-                后，总奖池中奖概率<el-input-number size="small" v-model="nLimit.nlimitProb" :min="0" :max="100" controls-position="right" style="width: 100px"></el-input-number>%
+                后，总奖池中奖概率整体降低至原先的<el-input-number size="small" v-model="nLimit.nlimitProb" :min="0" :max="100" controls-position="right" style="width: 100px"></el-input-number>%
               </el-row>
             </div>
           </div>
