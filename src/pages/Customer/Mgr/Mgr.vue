@@ -89,6 +89,10 @@
         <el-form-item label="更改手机号:">
           <el-input size="small" v-model="form.mobile" style="width: 200px;"></el-input>
         </el-form-item>
+        <el-form-item label="操作：" prop="mobileUpdateType" size="small">
+          <el-radio v-model="form.mobileUpdateType" :label="0">解绑手机号</el-radio>
+          <el-radio v-model="form.mobileUpdateType" :label="1">更新手机号</el-radio>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
                 <el-button size="small" @click="form.show=false">取 消</el-button>
@@ -128,6 +132,7 @@ export default {
         mobileBind: '',
         nickName: '',
         userId: '',
+        mobileUpdateType: 1,
       }
     }
   },
@@ -208,13 +213,15 @@ export default {
         this.form.nickName = row.nickname;
         this.form.userId = row.userId;
       }
+      this.form.mobileUpdateType = 1
       this.form.show = true;
     },
     saveForm() {
       if (!/^1[3456789]\d{9}$/.test(this.form.mobile)) return this.$message.error('手机号填写错误！')
         let params = {
           id: this.form.id,
-          mobile: this.form.mobile
+          mobile: this.form.mobile,
+          mobileUpdateType: this.form.mobileUpdateType
         }
       this.$request.post('/api/wiseqr/mber/updateMobile', params, true, (res)=>{
         console.log(res)
