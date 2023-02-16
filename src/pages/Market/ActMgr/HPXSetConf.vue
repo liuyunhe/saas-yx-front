@@ -11,7 +11,7 @@
         <el-form-item label="浇水结束时间：" prop="JSEtimeStr">
           <el-date-picker v-model="confData.JSEtimeStr" :disabled="actStatus>1"value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择浇水时间"></el-date-picker>
         </el-form-item>
-        <BZActPutConf :form-name="'浇水必中奖池：'" ref="awardArr" :configId="confData.id" :awardArr="awardArr" :editable="actStatus<2" @modifyAwardArr = "modifyAwardArr" @modifyAwardArrError="modifyAwardArrError" :saleZone="saleZone" :budgetTime="budgetTime"></BZActPutConf>
+        <BZActPutConf :form-name="'养成必中奖池：'" ref="awardArr" :configId="confData.id" :awardArr="awardArr" :editable="actStatus<2" @modifyAwardArr = "modifyAwardArr" @modifyAwardArrError="modifyAwardArrError" :saleZone="saleZone" :budgetTime="budgetTime"></BZActPutConf>
         <div style="margin-bottom: 20px"></div>
         <el-card style="margin-bottom: 20px;position: relative">
           <div slot="header" class="clearfix" >
@@ -455,7 +455,7 @@
           }
         })
         if(!valFlag){
-          this.$message.error('[浇水必中奖池]中物料奖项红包和积分面额需非空且大于0！')
+          this.$message.error('[养成必中奖池]中物料奖项红包和积分面额需非空且大于0！')
           return
         }
         let params
