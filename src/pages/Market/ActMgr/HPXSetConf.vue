@@ -13,6 +13,23 @@
         </el-form-item>
         <BZActPutConf :form-name="'浇水必中奖池：'" ref="awardArr" :configId="confData.id" :awardArr="awardArr" :editable="actStatus<2" @modifyAwardArr = "modifyAwardArr" @modifyAwardArrError="modifyAwardArrError" :saleZone="saleZone" :budgetTime="budgetTime"></BZActPutConf>
         <div style="margin-bottom: 20px"></div>
+        <el-card style="margin-bottom: 20px;position: relative">
+          <div slot="header" class="clearfix" >
+            <span>奖池选择：（需至少开启1种或2种均开启）</span>
+          </div>
+          <el-form-item label="是否开启常规奖池：" label-width="180px" >
+            <el-switch v-model="confData.usualAwardOpen" :disabled="actStatus>1" :active-value="1" :inactive-value="0"></el-switch>
+          </el-form-item>
+          <el-form-item label="是否开启养成必中奖池：" label-width="180px">
+            <el-switch v-model="confData.finishOneAwardOpen" :disabled="actStatus>1" :active-value="1" :inactive-value="0"></el-switch>
+          </el-form-item>
+          <div style="position: absolute;width: 450px;top: 70px;left: 400px;">
+            <p style="font-size: 14px;color: #c0c4cc;margin: 0;line-height: 1.5">备注：</p>
+            <p style="font-size: 14px;color: #c0c4cc;margin: 0;line-height: 1.5">1、开启常规奖池，养成不开，完成浇水1次则抽常规奖池；</p>
+            <p style="font-size: 14px;color: #c0c4cc;margin: 0;line-height: 1.5">2、开启养成必中奖池，常规不开，浇水不抽奖，养成时抽必中奖池）</p>
+            <p style="font-size: 14px;color: #c0c4cc;margin: 0;line-height: 1.5">3、两者均开启，浇水1次抽常规奖池，养成时抽必中奖池</p>
+          </div>
+        </el-card>
         <el-form-item label="是否使用瓜分奖池：" >
           <el-switch v-model="confData.needOpenAward" :disabled="actStatus>1" :active-value="1" :inactive-value="0"></el-switch>
         </el-form-item>
@@ -186,9 +203,9 @@
           needOpenAward:1,
           OpenTimeStr: '', //
           totalMoney: '', //
-          totalWinnerNum: ''
-
-
+          totalWinnerNum: '',
+          usualAwardOpen:1,
+          finishOneAwardOpen:1
         },
         confRules: {
           dayNum: [{ required: true, validator: validateDayNum, trigger: 'change' }],
@@ -268,6 +285,8 @@
               this.confData.blossomNum = res.data.config.oneFlowerNeedNum
               this.confData.flowerNum = res.data.config.finishNeedNum
               this.confData.needOpenAward = res.data.config.needOpenAward
+              this.confData.finishOneAwardOpen = res.data.config.finishOneAwardOpen
+              this.confData.usualAwardOpen = res.data.config.usualAwardOpen
 
               this.jcType =  res.data.config.openAwardType
               this.confData.totalMoney = res.data.config.totalAmount
@@ -390,6 +409,11 @@
             }
           }
         }
+        if(this.confData.usualAwardOpen == 0 && this.confData.finishOneAwardOpen == 0){
+          this.$message.error('常规奖池和养成必中奖池需至少开启1种或2种均开启')
+          return
+        }
+        let valFlag = true
         let flowerPrizeList = this.awardArr.map((item)=>{
           if(item.awardType == 1){
             return {
@@ -404,6 +428,7 @@
             }
           }
           if(item.awardType == 3){
+            if(item.redMoney == 0) valFlag = false
             return {
               "awdCode":item.poolId,
               "awdType":item.awardType,
@@ -416,6 +441,7 @@
             }
           }
           if(item.awardType == 6){
+            if(item.integral == 0) valFlag = false
             return {
               "awdCode":item.poolId,
               "awdType":item.awardType,
@@ -427,8 +453,11 @@
               "totalNum":item.totalNum //奖品投放数量
             }
           }
-
         })
+        if(!valFlag){
+          this.$message.error('[浇水必中奖池]中物料奖项红包和积分面额需非空且大于0！')
+          return
+        }
         let params
         if(this.jcType == 1){
           params = {
@@ -445,7 +474,9 @@
               "totalAmount":this.confData.totalMoney, //奖池总金额
               "totalWinnerNum":this.confData.totalWinnerNum, //奖池总金额
               "prizeName": this.ZawardArr.awardName,
-              "prizePicture": this.ZawardArr.awardPic
+              "prizePicture": this.ZawardArr.awardPic,
+              "usualAwardOpen":this.confData.usualAwardOpen,
+              "finishOneAwardOpen":this.confData.finishOneAwardOpen,
             },
             flowerPrizeList
           }
@@ -471,6 +502,8 @@
 
               "openAwardType":this.jcType, //开奖类型 1表示瓜分总奖池 2表示多种奖品奖池
               "totalAmount":this.confData.totalMoney, //奖池总金额
+              "usualAwardOpen":this.confData.usualAwardOpen,
+              "finishOneAwardOpen":this.confData.finishOneAwardOpen,
             },
             flowerPrizeList,
             flowerAwardList
