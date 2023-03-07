@@ -2,7 +2,7 @@
   <div>
     <el-card class="box-card">
       <el-row>
-        <el-button size="small" type="primary" @click="dataForm('',0)">新建拉新排名活动</el-button>
+        <el-button size="small" type="primary" @click="dataForm('',0)">新建扫码粉丝排名活动</el-button>
       </el-row>
       <!-- 数据查询条件 -->
     </el-card>
@@ -104,7 +104,7 @@ export default {
       if(pageSize) _pageSize = pageSize;
       this.search.pageSize = _pageSize;
 
-      this.$request.post('/saasHbseller/seller/actRank/list', this.search, true, (res)=>{
+      this.$request.post('/saasHbseller/sellerAct/corefan/list', this.search, true, (res)=>{
         if (res.code == '200') {
           this.tableList = res.data.list.records || [];
           this.initPagination(res.data.list.total||0);
@@ -112,7 +112,7 @@ export default {
       });
     },
     dataForm(actCode, type) {
-      this.$router.push(`/customerAct/rankConf?actCode=${actCode}&type=${type}`)
+      this.$router.push(`/customerAct/scanRankConf?actCode=${actCode}&type=${type}`)
     },
     modifyData(actCode, status) {
       let t = ''
@@ -125,7 +125,7 @@ export default {
         type: 'warning'
       }).then(() => {
         let params = {actCode:actCode, status:status}
-        this.$request.post('/saasHbseller/seller/actRank/statModify', params, false, (res)=>{
+        this.$request.post('/saasHbseller/sellerAct/corefan/statModify', params, false, (res)=>{
           if (res.code == '200') {
             this.list();
             this.$message({type: 'success', message: '操作成功!'});

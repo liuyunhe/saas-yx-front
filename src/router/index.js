@@ -355,6 +355,8 @@ const CustomerScanMgr = () => import(/* webpackChunkName: "activity" */ '@/pages
 const CustomerSignMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/SignMgr')
 const CustomerRankMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/RankMgr')
 const CustomerRankConf = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/RankConf')
+const CustomerScanRankMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/ScanRankMgr')
+const CustomerScanankConf = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/ScanRankConf')
 const BindFanConf = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/BindFanConf')
 const RebateMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/RebateMgr')
 const ScanCodeRankMgr = () => import(/* webpackChunkName: "activity" */ '@/pages/CustomerAct/ScanCodeRankMgr')
@@ -721,6 +723,8 @@ export default new Router({
         { path: '/customerAct/signMgr', name: '签到活动', component: CustomerSignMgr },
         { path: '/customerAct/rankMgr', name: '排行活动列表', component: CustomerRankMgr },
         { path: '/customerAct/rankConf', name: '排行活动配置', component: CustomerRankConf,props: (route) => ({actCode:route.query.actCode,type:route.query.type})  },
+        { path: '/customerAct/scanRankMgr', name: '新增扫码排行活动列表', component: CustomerScanRankMgr },
+        { path: '/customerAct/scanRankConf', name: '新增扫码排行活动配置', component: CustomerScanankConf,props: (route) => ({actCode:route.query.actCode,type:route.query.type})  },
         { path: '/customerAct/bindFanConf', name: '拉新设置', component: BindFanConf,},
         { path: '/customerAct/rebateMgr', name: '返佣设置', component: RebateMgr,},
         { path: '/customerAct', name: '数据', redirect: '/customerAct/scanCodeRankMgr'},
