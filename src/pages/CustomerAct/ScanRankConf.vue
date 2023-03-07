@@ -14,7 +14,7 @@
       <el-col class="mb20" v-if="type != 0 && info.dataNum">
         <div  style="color: #111">
           <span style="color: #f56c6c">*</span>开奖人数设置：零售户排名开奖人数设置为
-          <el-input-number :step="1" :precision="0":min="0"  controls-position="right" v-model="config.rankLimitNumber"></el-input-number>
+          <el-input-number :step="1" :precision="0":min="0"  controls-position="right" v-model="config.rankLimitNumber" :disabled="info.openStatus != 0"></el-input-number>
           人
           <span style="margin-right: 20px"></span>
           <el-button type="primary" @click="setRankLimitNumber" :disabled="info.openStatus != 0">保存</el-button>
