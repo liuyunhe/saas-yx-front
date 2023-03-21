@@ -1233,4 +1233,9 @@
     padding: 30px;
     box-sizing: border-box;
   }
+  .avatar {
+    width: 110px;
+    height: 110px;
+    display: block;
+  }
 </style>
