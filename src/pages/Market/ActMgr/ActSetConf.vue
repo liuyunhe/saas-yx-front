@@ -89,6 +89,26 @@
           <el-input-number v-model="redConf.joinNum" :precision="0" :min="1" controls-position="right"></el-input-number>
           次
         </el-form-item>
+        <el-form-item label="是否开启引流：" >
+          <el-switch
+              v-model="jumpConf.jump"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              :active-value="1"
+              :inactive-value="0"
+          >
+          </el-switch>
+        </el-form-item>
+        <el-form-item label="跳转地址：" prop="jumpUrl" v-if="jumpConf.jump == 1">
+          <el-input v-model="jumpConf.jumpUrl"  placeholder='请输入跳转地址'></el-input>
+        </el-form-item>
+        <el-form-item label="引流弹框图：" v-if="jumpConf.jump == 1">
+          <el-upload class="avatar-uploader-popup" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :on-success="upPopJumpImg" :show-file-list="false">
+            <img v-if="jumpConf.jumpImg" :src="jumpConf.jumpImg" class="avatar-popup">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：600像素*700像素；格式png、jpg；大小不超过2M</div>
+          </el-upload>
+        </el-form-item>
         <el-form-item v-if="shareAct[form]" label="分享设置：" prop="isShare">
           <el-radio v-model="redConf.share" :label="1">开启分享</el-radio>
           <el-radio v-model="redConf.share" :label="0">关闭分享</el-radio>
@@ -202,9 +222,17 @@ export default {
         callback(new Error('请输入参与次数'))
       }
     }
+    var valideJumpUrl = (rules, value, callback) => {
+      if (this.jumpConf.jumpUrl) {
+        callback()
+      } else {
+        callback(new Error('请输入跳转地址'))
+      }
+    }
     return {
       isAllSaleZone: sessionStorage.isAllSaleZone,
       showSaleZone:true,
+      showYL:true,
       showNoneActTag:false,
       pickerOptions: {},
       // 富文本设置
@@ -249,6 +277,11 @@ export default {
         joinNum: 1,
         share: 0
       },
+      jumpConf:{
+        jump: 1,   // 0:不跳转，1:跳转。如果不跳转，则不需要后面两个字段。
+        jumpUrl: "", // 跳转地址
+        jumpImg: "" // 图片地址
+      },
       confRules: {
         actName: [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
         note: [{ required: true, message: '请输入活动描述', trigger: 'blur' }],
@@ -259,7 +292,8 @@ export default {
         banner: [{ required: true, validator: validateBanner }],
         desc: [{ required: true, validator: validateDesc }],
         number: [{ required: true, validator: valideNumber }],
-        isShare: [{ required: true, validator: valideShare }]
+        isShare: [{ required: true, validator: valideShare }],
+        jumpUrl: [{ required: true, validator: valideJumpUrl, trigger: 'blur' }],
       },
       // actTime: [],
       timeDisable: false,
@@ -411,6 +445,11 @@ export default {
           if(this.form == 'act-501'){
             this.extInfo=this.confData.extInfo?JSON.parse(this.confData.extInfo):{limited:1, time:60}
           }
+          this.jumpConf  = this.confData.extInfo?JSON.parse(this.confData.extInfo):{
+            jump: 1,   // 0:不跳转，1:跳转。如果不跳转，则不需要后面两个字段。
+            jumpUrl: "", // 跳转地址
+            jumpImg: "" // 图片地址
+          },
           // this.actTime.push(this.confData.stimeStr)
           // this.actTime.push(this.confData.etimeStr)
           this.getActTag()
@@ -458,6 +497,14 @@ export default {
       }
       this.$message.error(resule.message)
     },
+    upPopJumpImg(resule) {
+      if (resule.ret === '200000') {
+        this.jumpConf.jumpImg = resule.data.accessUrl
+        // this.$refs.actSetConfRef.validateField('banner', valid => {})
+        return
+      }
+      this.$message.error(resule.message)
+    },
     // 富文本框失焦
     onEditorBlur() {
       this.$refs.actSetConfRef.validateField('desc', valid => {})
@@ -472,18 +519,28 @@ export default {
 	        	}
 	        }
         }
+        let jumpConf
+        if(this.jumpConf.jump == 1){
+          jumpConf = this.jumpConf
+        }else {
+          jumpConf = {
+            jump : 0,
+            jumpUrl: "", // 跳转地址
+            jumpImg: "" // 图片地址
+          }
+        }
         if (!this.id) {
           this.confData.form = this.form;
           if(this.form=='act-501'){
-          	this.confData.extInfo=JSON.stringify(this.extInfo);
+          	this.confData.extInfo=JSON.stringify(Object.assign(this.extInfo,jumpConf));
           }
           this.confData.tplCode = this.tplCode
         }else {
         	if(this.form=='act-501'){
-          	this.confData.extInfo=JSON.stringify(this.extInfo);
+          	this.confData.extInfo=JSON.stringify(Object.assign(this.extInfo,jumpConf));
           }
         }
-        if (this.shareAct[this.form]) this.confData.extInfo = JSON.stringify(this.redConf)
+        if (this.shareAct[this.form]) this.confData.extInfo = JSON.stringify(Object.assign(this.redConf,jumpConf))
         this.$request.post('/api/wiseqr/act/saveOrModify', this.confData, true, res => {
           if (res.ret === '200000') {
           	if(this.form=='act-501'){
