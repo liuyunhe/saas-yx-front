@@ -314,6 +314,10 @@ export default {
         'act-111': 1,
         'act-112': 1,
         'act-113': 1,
+      },
+      noShareAct:{
+        'act-100': 1,
+        'act-104': 1,
       }
     }
   },
@@ -541,6 +545,7 @@ export default {
           }
         }
         if (this.shareAct[this.form]) this.confData.extInfo = JSON.stringify(Object.assign(this.redConf,jumpConf))
+        if (this.noShareAct[this.form]) this.confData.extInfo = JSON.stringify(Object.assign(jumpConf))
         this.$request.post('/api/wiseqr/act/saveOrModify', this.confData, true, res => {
           if (res.ret === '200000') {
           	if(this.form=='act-501'){
