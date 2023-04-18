@@ -317,6 +317,9 @@ export default {
       },
       noShareAct:{
         'act-100': 1,
+        'act-101': 1,
+        'act-102': 1,
+        'act-103': 1,
         'act-104': 1,
       }
     }
