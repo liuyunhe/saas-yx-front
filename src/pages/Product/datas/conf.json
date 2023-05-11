@@ -1,6 +1,7 @@
 {
   "banner": {
     "object": "https://qoss.qrmkt.cn/saas_platform/common/materiel-object.png",
+    "selfRcvObj": "https://qoss.qrmkt.cn/saas_platform/common/materiel-object.png",
     "virtual": "https://qoss.qrmkt.cn/saas_platform/common/materiel-virtual.png",
     "redpack": "https://qoss.qrmkt.cn/saas_platform/common/materiel-redpack.png",
     "integral": "https://qoss.qrmkt.cn/saas_platform/common/materiel-integral.png",
@@ -9,6 +10,7 @@
   },
   "materielName": {
     "object":"实物礼品",
+    "selfRcvObj":"线下实物礼品",
     "virtual":"虚拟礼品",
     "redpack":"红包池",
     "integral":"积分池",
@@ -17,6 +19,7 @@
   },
   "materielUnit": {
     "object":"件",
+    "selfRcvObj":"件",
     "virtual":"个",
     "redpack":"元",
     "integral":"个",
@@ -29,6 +32,7 @@
     "redpack": 3,
     "integral": 6,
     "cdDisc": 7,
-    "cdDouble": 8
+    "cdDouble": 8,
+    "selfRcvObj": 10
   }
 }

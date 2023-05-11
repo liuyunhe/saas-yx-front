@@ -293,6 +293,13 @@ export default {
   }
 }
 </script>
+<style>
+ .materiel .avatar-uploader .el-upload {
+  width: 102px;
+  height:76px;
+  line-height: 84px;
+}
+</style>
 
 <style scoped>
   .el-input, .el-select, .el-textarea, .el-upload-list {
