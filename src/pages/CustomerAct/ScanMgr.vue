@@ -30,7 +30,7 @@
             <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :data="{channel:'hebei-sellerInfo '}"  :on-success="uploadImgUrlSuccess" :show-file-list="false">
               <img v-if="config.actPic" :src="config.actPic" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon1"></i>
-              <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*160像素；格式png、jpg</div>
+              <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：690像素*280像素；格式png、jpg</div>
             </el-upload>
           </el-form-item>
           <el-form-item label="活动规则：" prop="desc">
