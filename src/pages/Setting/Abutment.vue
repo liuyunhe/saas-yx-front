@@ -21,6 +21,7 @@
                 <el-table-column prop="id" label="ID" align="center"></el-table-column>
                 <el-table-column prop="note" label="对接方名称" align="center"></el-table-column>
                 <el-table-column prop="channel" label="渠道编码" align="center"></el-table-column>
+                <el-table-column prop="pointsTotalAmount" label="累计积分总额度" align="center"></el-table-column>
                 <el-table-column  label="可使用积分值" align="center">
                   <template slot-scope="scope">
                     <span>{{ scope.row.pointsTotalAmount - scope.row.pointsOutAmount }}</span>
