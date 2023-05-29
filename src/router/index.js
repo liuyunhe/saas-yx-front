@@ -14,9 +14,11 @@ const RedpackPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Ord
 const IntegralPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/ACT/IntegralPage.vue')
 //私域活动订单管理
 const HbSellerObjectPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/HbSellerAct/ObjectPage.vue')
+const OfflineObjectPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/HbSellerAct/OfflineObjectPage.vue')
 const HbSellerRedpackPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/HbSellerAct/RedpackPage.vue')
 const HbSellerIntegralPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/HbSellerAct/IntegralPage.vue')
 const HbSellerObjectPageDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/HbSellerAct/ObjectPageDetail.vue')
+const OfflineObjectPageDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/HbSellerAct/OfflineObjectPageDetail.vue')
 //商城订单管理
 const ZjOrderPage = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ZjOrderPage.vue')
 const ZjOrderPageDetail = () => import(/* webpackChunkName: "activity" */ '@/pages/Orders/mall/ZjOrderPageDetail.vue')
@@ -116,6 +118,8 @@ const addSupplier = () => import(/* webpackChunkName: "product" */ '@/pages/Prod
 const editSupplier = () => import(/* webpackChunkName: "product" */ '@/pages/Product/SupplyManagement/EditSupplier')
 // 产品-物料管理-实物礼品
 const MaterielObject = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Object.vue')
+// 产品-物料管理-线下实物礼品
+const MaterielOfflineObject = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/OfflineObject.vue')
 // 产品-物料管理-虚拟礼品
 const MaterielVirtual = () => import(/* webpackChunkName: "product" */ '@/pages/Product/Materiel/Virtual.vue')
 // 产品-物料管理-红包礼品
@@ -469,6 +473,7 @@ export default new Router({
         { path: '/product/materiel', name: '物料管理',redirect:'/product/materiel/object'},
         // { path: '/product/materiel', name: '物料管理', redirect: '/product/materiel/object' },
         { path: '/product/materiel/object', name: '实物礼品', component: MaterielObject },
+        { path: '/product/materiel/offlineObject', name: '线下实物礼品', component: MaterielOfflineObject },
         { path: '/product/materiel/virtual', name: '虚拟礼品', component: MaterielVirtual },
         { path: '/product/materiel/redpack', name: '红包', component: MaterielRedpack },
         { path: '/product/materiel/integral', name: '积分', component: MaterielIntegral },
@@ -527,6 +532,8 @@ export default new Router({
         { path: '/Orders/HbSellerAct', name: '实物领奖明细', redirect: '/Orders/HbSellerAct/object'},
         { path: '/Orders/HbSellerAct/object', name: '实物领奖明细', component: HbSellerObjectPage },
         { path: '/Orders/HbSellerAct/objectDetail', name: '实物领奖订单详细', component: HbSellerObjectPageDetail,props: (route) => ({orderId:route.query.orderId})  },
+        { path: '/Orders/HbSellerAct/offlineObject', name: '线下实物领奖明细', component: OfflineObjectPage },
+        { path: '/Orders/HbSellerAct/offlineObjectDetail', name: '线下实物领奖订单详细', component: OfflineObjectPageDetail,props: (route) => ({orderId:route.query.orderId})  },
         { path: '/Orders/HbSellerAct/redpack', name: '红包领奖明细', component: HbSellerRedpackPage },
         { path: '/Orders/HbSellerAct/integral', name: '积分领奖明细', component: HbSellerIntegralPage },
         // { path: '/Orders/mall', name: '商城订单', redirect: '/Orders/mall/zj'},

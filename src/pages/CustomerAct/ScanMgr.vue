@@ -30,7 +30,7 @@
             <el-upload class="avatar-uploader" :before-upload="beforeAvatarUpload" :action="uploadURL" :headers="headerObj" :data="{channel:'hebei-sellerInfo '}"  :on-success="uploadImgUrlSuccess" :show-file-list="false">
               <img v-if="config.actPic" :src="config.actPic" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon1"></i>
-              <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：750像素*160像素；格式png、jpg</div>
+              <div slot="tip" class="el-upload__tip">上传图片的最佳尺寸：690像素*280像素；格式png、jpg</div>
             </el-upload>
           </el-form-item>
           <el-form-item label="活动规则：" prop="desc">
@@ -160,7 +160,44 @@
           </el-form-item>
         </el-form>
       </el-card>
+      <div style="height: 30px"></div>
+      <el-card :body-style="{ padding: '20px' }">
+        <div slot="header" class="clearfix">
+          <span>线下实物：</span>
+        </div>
+        <div style="margin-bottom: 20px">选择线下实物:<el-button  size="" style="margin-left: 20px"  @click="getList(10)">选择</el-button></div>
+        <el-form>
+          <el-form-item v-for="(item,index) in xxsw" :key="index" label='名称：'>
+            <!--            面额 <el-input-number v-model="item.redMoney" :disabled="item.id ? true : false" :precision="2" :min="0" controls-position="right"></el-input-number>元-->
+            <!--            <span style="margin-right: 20px"></span>-->
+            <span style="margin-right: 20px">{{ item.prizeName }}</span>
+            <el-upload :disabled="item.id ? true : false" class="avatar-uploader2" :action="uploadURL1" :headers="headerObj" :on-success="(res)=>{uploadSWImgUrlSuccess(res,index)}" :show-file-list="false">
+              <img v-if="item.awardPic" :src="item.awardPic" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+            <span>* 图片建议尺寸为280*280px，格式为*.jpg\ *.bmp\ *.png\ *.gif</span>
+            <div></div>
+            投放数量 <el-input-number v-model="item.totalNum" :disabled="item.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number>个
+            <span v-if="item.id ? true : false">
+               <span style="margin-right: 20px"></span>
+            剩余{{ item.totalNum - item.outNum }}个
+            </span>
+            <!--            <span style="margin-right: 20px"></span>-->
+            <!--            总金额:{{ parseFloat((item.redMoney*item.totalNum).toPrecision(12))  }}元-->
+            <span style="margin-right: 20px"></span>
+            中奖概率 <el-input-number v-model="item.probability" :precision="1" :step="0.1" :min="0" controls-position="right"></el-input-number>
+            %
+            <span v-if="item.id ? true : false">
+              <span style="margin-right: 20px"></span>
+              <el-button type='primary' @click="addRepertory(item)">增库</el-button>
+            </span>
+            <span style="margin-right: 20px"></span>
+            <el-button type='danger' @click="deleteAward('xxsw',index)">删除</el-button>
+          </el-form-item>
+        </el-form>
+      </el-card>
     </div>
+
 
 
     <div style="height: 40px;text-align: center;margin-top: 30px">
@@ -311,6 +348,7 @@
         zkk:[],
         fbk:[],
         hd:[],
+        xxsw:[],
         defaultAwae: { // 给个默认 好复制
           awardPic: '',
           awardPrice:'',
@@ -513,6 +551,7 @@
             this.zkk = []
             this.fbk = []
             this.hd = []
+            this.xxsw = []
             awardArr.forEach((e,i)=>{
               if(e.awdType == 3){
                 this.hb.push({
@@ -549,6 +588,39 @@
               }
               if(e.awdType == 1){
                 this.sw.push({
+                  id: e.id,
+                  awardPic: e.awdPic,
+                  awardPrice:'',
+                  awardType: 1, // 奖项类型
+                  curActive: true,
+                  giveScore: 0, // 是否赠送积分 0-否 1-是
+                  guideGzh: 0, // 是否引导关注公众号 0-否 1-是
+                  hasPdMaxOut: false,
+                  hasWarn: false,
+                  integral: null, // 投放积分面额 如果非积分奖，赠送积分时，代表赠送的积分面额
+                  integralPool: null, // 赠送积分池主键id
+                  integralPoolName: null,
+                  integralPoolPic: null,
+                  isGiveScore: false,
+                  isGuideGzh: false,
+                  isPdMaxOut: false,
+                  isWarn: false,
+                  n: '',
+                  outNum: e.numUsed,
+                  pdMaxOut: '', // 奖项每天最多出奖个数
+                  poolId: 1, // 奖项物料池主键id
+                  poolName: '',
+                  prizeName: e.awdName, // 奖项名称
+                  probability: e.awdPr, // 中奖概率
+                  redMoney:'', // 投放红包面额
+                  redTotalMoney: '',
+                  remainNum: 0,
+                  totalNum: e.numTotal, // totalNum
+                  warnValue: '' //告警阀值 非空且大于0时为设置告警
+                })
+              }
+              if(e.awdType == 10){
+                this.xxsw.push({
                   id: e.id,
                   awardPic: e.awdPic,
                   awardPrice:'',
@@ -743,6 +815,9 @@
         } else if (type == '8') {
           this.params.metraFlag = 'cdDouble'
           this.title = '选择翻倍卡'
+        } else if (type == '10') {
+          this.params.metraFlag = 'selfRcvObj'
+          this.title = '选择线下实物'
         }
         this.$request.post('/api/wiseqr/metra/list', this.params, true, res => {
           if (res.ret === '200000') {
@@ -787,7 +862,7 @@
           this.$message.error('当前活动没有actCode,请检查活动配置信息！')
           return
         }
-        let params = [...this.hb,...this.hsb,...this.sw].map((item)=>{
+        let params = [...this.hb,...this.hsb,...this.sw,...this.xxsw].map((item)=>{
           let i = {
             "actCode": this.actCode,
             "awdName": item.prizeName,
@@ -872,6 +947,10 @@
         if(title == '选择翻倍卡'){
           newAwae.awardType = 8
           this.fbk.push(newAwae)
+        }
+        if(title == '选择线下实物'){
+          newAwae.awardType = 10
+          this.xxsw.push(newAwae)
         }
         this.listVisible = false
       },

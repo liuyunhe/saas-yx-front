@@ -31,6 +31,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="fanNickName" label="昵称" align="center"></el-table-column>
+        <el-table-column prop="userId" label="userId" align="center"></el-table-column>
         <el-table-column prop="fanGender" label="性别" align="center">
           <template slot-scope="scope">
             <span v-if="scope.row.fanGender == 1">男</span>
