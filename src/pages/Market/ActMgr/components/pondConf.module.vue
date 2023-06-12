@@ -128,8 +128,9 @@
             <el-button @click="addRepertory">增库</el-button>
           </span>
         </el-form-item>
-        <el-form-item label="折扣值:" prop="awardPrice">
+        <el-form-item label="折扣率:" prop="awardPrice">
           <el-input-number v-model="awae.awardPrice" :disabled="awae.id ? true : false" :precision="2" :min="0" :max="1" controls-position="right"></el-input-number>
+          <span style="margin-left: 20px;color: #909399">(示例：配置为0.85，即85折)</span>
         </el-form-item>
       </template>
       <template v-if="awae.awardType == '9'">
@@ -160,7 +161,7 @@
       <el-form-item v-if="!hide" label="中奖概率:" prop="probability">
         <el-input-number v-model="awae.probability" :min="0" :max="100" controls-position="right"></el-input-number> %
       </el-form-item>
-      <el-form-item>
+      <el-form-item v-if="awae.awardType != '7'">
         <el-checkbox v-model="awae.hasWarn" @change="resetWarn">阈值预警</el-checkbox>
         <span v-if="awae.hasWarn">
           <el-input-number v-model="awae.warnValue" :min="0" controls-position="right"></el-input-number> 个
@@ -174,7 +175,7 @@
           <el-input-number v-model="awae.integral" :min="0" :precision="0" controls-position="right"></el-input-number> 积分
         </span>
       </el-form-item>
-      <el-form-item>
+      <el-form-item v-if="awae.awardType != '7'">
         <el-checkbox v-model="awae.guideGzh" :checked="awae.guideGzh == 1 ? true : false" :true-label=1 :false-label=0>中奖后引导关注公众号</el-checkbox>
         <el-checkbox v-if="!isRed" v-model="awae.hasPdMaxOut" @change="resetPdMaxOut">每天出奖总次数限制</el-checkbox>
         <span v-if="awae.hasPdMaxOut">
