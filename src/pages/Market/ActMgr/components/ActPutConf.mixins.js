@@ -44,6 +44,7 @@ export default {
         hasPdMaxOut: false,
         hasWarn: false,
         integral: null, // 投放积分面额 如果非积分奖，赠送积分时，代表赠送的积分面额
+        awardPrice: null, // 折扣卡折扣值
         integralPool: null, // 赠送积分池主键id
         integralPoolName: null,
         integralPoolPic: null,
@@ -73,6 +74,7 @@ export default {
         hasPdMaxOut: false,
         hasWarn: false,
         integral: null, // 投放积分面额 如果非积分奖，赠送积分时，代表赠送的积分面额
+        awardPrice: null, // 折扣卡折扣值
         integralPool: null, // 赠送积分池主键id
         integralPoolName: null,
         integralPoolPic: null,
@@ -102,6 +104,7 @@ export default {
         hasPdMaxOut: false,
         hasWarn: false,
         integral: '',
+        awardPrice: null, // 折扣卡折扣值
         integralPool: '',
         integralPoolName: '',
         integralPoolPic: '',
@@ -128,6 +131,7 @@ export default {
         hasPdMaxOut: false,
         hasWarn: false,
         integral: '',
+        awardPrice: null, // 折扣卡折扣值
         integralPool: '',
         integralPoolName: '',
         integralPoolPic: '',
@@ -158,6 +162,7 @@ export default {
         hasPdMaxOut: false,
         hasWarn: false,
         integral: '',
+        awardPrice: null, // 折扣卡折扣值
         integralPool: '',
         integralPoolName: '',
         integralPoolPic: '',
@@ -213,6 +218,10 @@ export default {
         {
           name: '积分',
           type: 6
+        },
+        {
+          name: '折扣卡',
+          type: 7
         },
         {
           name: '自定义礼品',
@@ -297,6 +306,7 @@ export default {
         hasPdMaxOut: false,
         hasWarn: false,
         integral: null, // 投放积分面额 如果非积分奖，赠送积分时，代表赠送的积分面额
+        awardPrice: null, // 折扣卡折扣值
         integralPool: null, // 赠送积分池主键id
         integralPoolName: null,
         integralPoolPic: null,

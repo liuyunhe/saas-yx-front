@@ -1,9 +1,9 @@
 export default {
-  props: ['id', 'actCode','form'],
-  inject:['routerRefresh'], //在子组件中注入在父组件中出创建的属性
+  props: ['id', 'actCode', 'form'],
+  inject: ['routerRefresh'], //在子组件中注入在父组件中出创建的属性
   data() {
     return {
-    	stepActive:2,
+      stepActive: 2,
       act: {
         id: null,
         actCode: '', // 编码
@@ -44,6 +44,7 @@ export default {
         hasPdMaxOut: false,
         hasWarn: false,
         integral: null, // 投放积分面额 如果非积分奖，赠送积分时，代表赠送的积分面额
+        awardPrice: null, // 折扣卡折扣值
         integralPool: null, // 赠送积分池主键id
         integralPoolName: null,
         integralPoolPic: null,
@@ -63,7 +64,7 @@ export default {
         totalNum: '', // totalNum
         warnValue: '', //告警阀值 非空且大于0时为设置告警
         budgetId: null,
-        integralBudgetId:null
+        integralBudgetId: null
       }],
       normalTfId: '',
       defaultAwae: { // 给个默认 好复制
@@ -75,6 +76,7 @@ export default {
         hasPdMaxOut: false,
         hasWarn: false,
         integral: null, // 投放积分面额 如果非积分奖，赠送积分时，代表赠送的积分面额
+        awardPrice: null, // 折扣卡折扣值
         integralPool: null, // 赠送积分池主键id
         integralPoolName: null,
         integralPoolPic: null,
@@ -95,7 +97,7 @@ export default {
         totalNum: '', // totalNum
         warnValue: '', //告警阀值 非空且大于0时为设置告警
         budgetId: null,
-        integralBudgetId:null
+        integralBudgetId: null
       },
       firstScanConf: [{
         awardPic: '',
@@ -106,6 +108,7 @@ export default {
         hasPdMaxOut: false,
         hasWarn: false,
         integral: '',
+        awardPrice: null, // 折扣卡折扣值
         integralPool: '',
         integralPoolName: '',
         integralPoolPic: '',
@@ -122,7 +125,7 @@ export default {
         totalNum: '',
         warnValue: '',
         budgetId: null,
-        integralBudgetId:null
+        integralBudgetId: null
       }], // 首扫选项
       firstScanTfId: '',
       nWinConf: [{
@@ -134,6 +137,7 @@ export default {
         hasPdMaxOut: false,
         hasWarn: false,
         integral: '',
+        awardPrice: null, // 折扣卡折扣值
         integralPool: '',
         integralPoolName: '',
         integralPoolPic: '',
@@ -151,11 +155,11 @@ export default {
         totalNum: '',
         warnValue: '',
         budgetId: null,
-        integralBudgetId:null
+        integralBudgetId: null
       }], // n次选项
       nWinTfId: '',
-      nWinAward:{
-    	  n:0
+      nWinAward: {
+        n: 0
       },
       fixationPutConf: [{
         awardPic: '',
@@ -166,6 +170,7 @@ export default {
         hasPdMaxOut: false,
         hasWarn: false,
         integral: '',
+        awardPrice: null, // 折扣卡折扣值
         integralPool: '',
         integralPoolName: '',
         integralPoolPic: '',
@@ -182,7 +187,7 @@ export default {
         totalNum: '',
         warnValue: '',
         budgetId: null,
-        integralBudgetId:null
+        integralBudgetId: null
       }], // 定投选项
       fixationPutTfId: '',
       normalTabsValue: '1', // 正常tabs
@@ -209,25 +214,29 @@ export default {
       tfTimeArr: [], // 投放策略开始/结束时间 0-开始时间 1-结束时间
       tfDurationArr: [], // 投放策略开始/结束时段(发放时间) 0-开始时间 1-结束时间
       prizeType: [{ // 类型
-          name: '实物礼品',
-          type: 1
-        },
-        {
-          name: '虚拟礼品',
-          type: 2
-        },
-        {
-          name: '红包',
-          type: 3
-        },
-        {
-          name: '积分',
-          type: 6
-        },
-        {
-          name: '自定义礼品',
-          type: 9
-        }
+        name: '实物礼品',
+        type: 1
+      },
+      {
+        name: '虚拟礼品',
+        type: 2
+      },
+      {
+        name: '红包',
+        type: 3
+      },
+      {
+        name: '积分',
+        type: 6
+      },
+      {
+        name: '折扣卡',
+        type: 7
+      },
+      {
+        name: '自定义礼品',
+        type: 9
+      }
       ],
       normalIndex: 1,
       firstScanIndex: 1,
@@ -248,8 +257,8 @@ export default {
       brandSonList: [], // 子品牌
       specialBrandList: [], // 定投品牌
       specialBrandSonList: [],
-      saleZoneCode:null,
-      saleZone:[],
+      saleZoneCode: null,
+      saleZone: [],
       provList: [{
         code: '000000',
         name: '全部'
@@ -270,17 +279,17 @@ export default {
       specialRuleConfFlag: false, // 特殊规则开关
       prizeLimitFlag: false, // 抽奖限制开关
       NprizeLimitFlag: false, // 抽奖限制开关
-      nLimit:{
-        nlimit:0,
-        nlimitNum:null,
-        nlimitProb:null,
+      nLimit: {
+        nlimit: 0,
+        nlimitNum: null,
+        nlimitProb: null,
       },
       firstScanFlag: false,
       nWinFlag: false,
       fixationPutFlag: false,
       isPut: false, // 是否投放
       isDisabled: false, // 是否禁用
-      saleZoneDisabled:false,
+      saleZoneDisabled: false,
       // 时间限制
       pickerOptions: {
         disabledDate: (time) => {
@@ -288,7 +297,7 @@ export default {
         }
       },
       astrictRedflg: false, // 红包限制  为true 红包最高金额为0.3
-      showSaleZone:sessionStorage.getItem('account').indexOf('shankun') == -1
+      showSaleZone: sessionStorage.getItem('account').indexOf('shankun') == -1
     }
   },
   created() {
@@ -336,13 +345,13 @@ export default {
     }
   },
   methods: {
-    handleChangeN({n,index}){
+    handleChangeN({ n, index }) {
       this.nWinTabs[index].title = `${n}次必中`
     },
     getSaleZone() {
-      this.$request.post('/api/saleZone/userSzList', {}, true, (res)=>{
+      this.$request.post('/api/saleZone/userSzList', {}, true, (res) => {
         if (res.code == '200') {
-          this.saleZone = res.data||[];
+          this.saleZone = res.data || [];
         }
       });
     },
@@ -364,8 +373,8 @@ export default {
           } else {
             this.saleZoneDisabled = true
           }
-          if(res.data.act.tfExtInfo != null && 'nlimit' in JSON.parse(res.data.act.tfExtInfo)){
-            if(JSON.parse(res.data.act.tfExtInfo)['nlimit'] == 1){
+          if (res.data.act.tfExtInfo != null && 'nlimit' in JSON.parse(res.data.act.tfExtInfo)) {
+            if (JSON.parse(res.data.act.tfExtInfo)['nlimit'] == 1) {
               this.nLimit.nlimit = 1
               this.nLimit.nlimitNum = JSON.parse(res.data.act.tfExtInfo)['nlimitNum']
               this.nLimit.nlimitProb = JSON.parse(res.data.act.tfExtInfo)['nlimitProb']
@@ -448,11 +457,11 @@ export default {
               }
               if (item.tfType == 'n_mwin') {
                 this.nWinTfId = item.tf.id
-                this.nWinTabs=[]
+                this.nWinTabs = []
                 item.awardArr.forEach((sonItem, i) => {
                   this.nWinTabs.push({
                     title: sonItem.n + '次必中',
-                    name: '' + (i+1)
+                    name: '' + (i + 1)
                   })
                   // for (let k in sonItem) {
                   //   this.nWinTabs[i][k] = sonItem[k]
@@ -495,7 +504,7 @@ export default {
                 this.fixationPutFlag = true
                 this.fixationPutConf = item.awardArr
                 this.specialAreas = item.areas
-                console.log(this.specialAreas,item.areas)
+                console.log(this.specialAreas, item.areas)
                 this.specialBrand.brandArr = item.brandArr
                 this.specialBrand.snArr = item.snArr
                 this.tfDurationArr.push(item.tf.sduration)
@@ -527,12 +536,12 @@ export default {
     getBrandSonList() {
       // 定投限制品牌
       this.restrictBrand()
-      if(this.saleZoneCode){
+      if (this.saleZoneCode) {
         this.$request.post(
           '/api/actSale/product/sn', {
-            id: this.id,
-            brandCode : this.selectBrand.join(","),
-          },
+          id: this.id,
+          brandCode: this.selectBrand.join(","),
+        },
           false,
           res => {
             if (res.code === '200') {
@@ -543,13 +552,13 @@ export default {
             this.$message.error(res.msg)
           }
         )
-      }else {
+      } else {
         this.$request.post(
           '/api/wiseqr/prod/list', {
-            status: "1",
-            brandCodeArr: this.selectBrand,
-            pageSize: '-1'
-          },
+          status: "1",
+          brandCodeArr: this.selectBrand,
+          pageSize: '-1'
+        },
           true,
           res => {
             if (res.ret === '200000') {
@@ -564,7 +573,7 @@ export default {
     },
     // 获取省
     getProvList() {
-      if(this.saleZoneCode){
+      if (this.saleZoneCode) {
         this.$request.post('/api/actSale/province/list', {
           id: this.id
         }, false, res => {
@@ -579,7 +588,7 @@ export default {
           }
           this.$message.error(res.msg)
         })
-      }else {
+      } else {
         this.$request.post('/api/wiseqr/dim/regionByMultiParent', {
           parentArr: []
         }, true, res => {
@@ -596,7 +605,7 @@ export default {
         })
       }
     },
-    hanldeRemoveProv(val){
+    hanldeRemoveProv(val) {
       console.log(val)
     },
     // 获取市
@@ -667,8 +676,8 @@ export default {
       let params = {
         parentArr: this.selectProvList
       }
-      if(this.saleZoneCode){
-        params.saleZoneCode =  this.saleZoneCode
+      if (this.saleZoneCode) {
+        params.saleZoneCode = this.saleZoneCode
       }
       this.$request.post(
         '/api/wiseqr/dim/regionByMultiParent',
@@ -676,7 +685,7 @@ export default {
         true,
         res => {
           if (res.ret === '200000') {
-            this.cityList = [{ code: '000000', name: '全部'}]
+            this.cityList = [{ code: '000000', name: '全部' }]
             this.cityList.push(...res.data)
             // 定点投放地区限制
             this.restrictProv()
@@ -686,29 +695,29 @@ export default {
             //   name: '全部'
             // })
             let arr = []
-            this.selectCityList.forEach((item,index)=>{
-              const city = this.cityList.find(i=>{
+            this.selectCityList.forEach((item, index) => {
+              const city = this.cityList.find(i => {
                 return i.code == item
               })
               console.log(city)
-              if(city){
+              if (city) {
                 arr.push(item)
               }
             })
-            this.selectCityList =  arr
+            this.selectCityList = arr
             let l = arr.length
-            if(arr.includes('000000')){
+            if (arr.includes('000000')) {
               l = l - 1
             }
-            console.log(arr, l,this.cityList.length)
-            if( l+1 != this.cityList.length){
-              this.selectCityList.forEach((item,index)=>{
-                if(item == '000000'){
-                  this.selectCityList.splice(index,1)
+            console.log(arr, l, this.cityList.length)
+            if (l + 1 != this.cityList.length) {
+              this.selectCityList.forEach((item, index) => {
+                if (item == '000000') {
+                  this.selectCityList.splice(index, 1)
                 }
               })
-            }else {
-              if(!this.selectCityList.includes('000000')){
+            } else {
+              if (!this.selectCityList.includes('000000')) {
                 this.selectCityList = ['000000'].concat(this.selectCityList)
               }
             }
@@ -734,13 +743,13 @@ export default {
         allValue.push(item.code)
       }
       const oldVal = this.oldSelectCityList.length === 1 ? [] : this.oldSelectCityList[1]
-      if (val.includes('000000')){
+      if (val.includes('000000')) {
         console.log(111)
         this.selectCityList = allValue
         this.specialAreas.cityArr = []
         this.restrictCity()
       }
-      if (oldVal.includes('000000') && !val.includes('000000')){
+      if (oldVal.includes('000000') && !val.includes('000000')) {
         console.log(222)
         this.selectCityList = []
         this.specialAreas.cityArr = []
@@ -771,12 +780,12 @@ export default {
       }
       this.$request.post(
         '/api/wiseqr/dim/regionByMultiParent', {
-          parentArr: this.selectCityList
-        },
+        parentArr: this.selectCityList
+      },
         true,
         res => {
           if (res.ret === '200000') {
-            this.areaList = [{ code: '000000', name: '全部'}]
+            this.areaList = [{ code: '000000', name: '全部' }]
             this.areaList.push(...res.data)
             // 定点投放地区限制
             this.restrictCity()
@@ -825,13 +834,13 @@ export default {
       if (this.selectBrand.length == 0 || this.selectSonBrand.length == 0) return this.$message.error('请选择品牌规格')
       if (this.selectProvList.length == 0 || this.selectCityList.length == 0) return this.$message.error('请选择地区')
       if (!this.isDisabled) {
-        if(this.selectCityList.indexOf('000000') != -1) {
+        if (this.selectCityList.indexOf('000000') != -1) {
           this.selectCityList.splice(this.selectCityList.indexOf('000000'), 1)
         }
-        if(this.selectAreaList.indexOf('000000') != -1) {
+        if (this.selectAreaList.indexOf('000000') != -1) {
           this.selectAreaList.splice(this.selectAreaList.indexOf('000000'), 1)
         }
-        if(this.selectProvList.indexOf('000000') != -1) {
+        if (this.selectProvList.indexOf('000000') != -1) {
           this.selectProvList.splice(this.selectProvList.indexOf('000000'), 1)
         }
       }
@@ -875,11 +884,11 @@ export default {
         index = data.strategyArr.length
 
         data.strategyArr[index - 1].areas = this.specialAreas
-        if(data.strategyArr[index - 1].areas.provinceArr[0] == '000000'){
-          data.strategyArr[index - 1].areas.provinceArr.splice(0,1)
+        if (data.strategyArr[index - 1].areas.provinceArr[0] == '000000') {
+          data.strategyArr[index - 1].areas.provinceArr.splice(0, 1)
         }
-        if(data.strategyArr[index - 1].areas.cityArr[0] == '000000'){
-          data.strategyArr[index - 1].areas.cityArr.splice(0,1)
+        if (data.strategyArr[index - 1].areas.cityArr[0] == '000000') {
+          data.strategyArr[index - 1].areas.cityArr.splice(0, 1)
         }
 
         data.strategyArr[index - 1].awardArr = this.fixationPutConf
@@ -903,7 +912,7 @@ export default {
       this.$request.post('/api/wiseqr/act/somtf', data, true, res => {
         if (res.ret === '200000') {
           this.$message.success('保存成功')
-          if(this.form == "act-111"){
+          if (this.form == "act-111") {
             return this.$router.push(
               '/market/actTpl/HPXSetConf?id=' + this.id + '&actCode=' + this.actCode + '&form=' + this.form + '&saleZone=' + (this.saleZoneCode || '') + '&budgetTime=' + this.actSTime
             )
@@ -969,13 +978,13 @@ export default {
         // 深拷贝 防止数据相互串通
         let newAwae = JSON.parse(JSON.stringify(this.defaultAwae))
         this[confName + 'Conf'].push(newAwae)
-        if(confName == 'nWin') {
+        if (confName == 'nWin') {
           let newTabTitle = 'n次必中'
           this[confName + 'Tabs'].push({
             title: newTabTitle,
             name: this[confName + 'Conf'].length + ''
           })
-        }else {
+        } else {
           let newTabTitle = '常规奖项' + this[confName + 'Conf'].length
           this[confName + 'Tabs'].push({
             title: newTabTitle,
@@ -990,17 +999,17 @@ export default {
         // let activeName = this[confName + 'TabsValue']
         // let removeIndex = tabs.indexOf(targetName)
 
-        if(confName == 'nWin') {
-          this[confName + 'Conf'].splice(targetName-1, 1)
+        if (confName == 'nWin') {
+          this[confName + 'Conf'].splice(targetName - 1, 1)
           this[confName + 'Tabs'] = []
           for (let i = 0; i < this[confName + 'Conf'].length; i++) {
-            this[confName + 'Tabs'].push({title: `${this[confName + 'Conf'][i].n}次必中`, name: i+1 + ''})
+            this[confName + 'Tabs'].push({ title: `${this[confName + 'Conf'][i].n}次必中`, name: i + 1 + '' })
           }
-        }else {
+        } else {
           this[confName + 'Conf'].splice(targetName - 1, 1)
           this[confName + 'Tabs'] = []
           for (let i = 1; i <= this[confName + 'Conf'].length; i++) {
-            this[confName + 'Tabs'].push({ title: '常规奖项' + i, name: i + ''})
+            this[confName + 'Tabs'].push({ title: '常规奖项' + i, name: i + '' })
           }
         }
 
@@ -1030,9 +1039,9 @@ export default {
           }
         })
       })
-      if(this.specialProvList[0].code == '000000'){
+      if (this.specialProvList[0].code == '000000') {
         this.specialProvList[0].name = "全选"
-      }else {
+      } else {
         this.specialProvList.unshift(
           {
             code: '000000',
@@ -1045,7 +1054,7 @@ export default {
       let allValue = []
       // 保存所有的值
       for (let item of this.specialProvList) {
-        if(!item.disabled){
+        if (!item.disabled) {
           allValue.push(item.code)
         }
       }
@@ -1089,9 +1098,9 @@ export default {
           }
         })
       })
-      if(this.specialCityList[0].code == '000000'){
+      if (this.specialCityList[0].code == '000000') {
         this.specialCityList[0].name = "全选"
-      }else {
+      } else {
         this.specialCityList.unshift(
           {
             code: '000000',
@@ -1105,7 +1114,7 @@ export default {
       let allValue = []
       // 保存所有的值
       for (let item of this.specialCityList) {
-        if(!item.disabled){
+        if (!item.disabled) {
           allValue.push(item.code)
         }
       }

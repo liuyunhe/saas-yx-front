@@ -110,6 +110,29 @@
           <el-input-number v-model="awae.integral" :disabled="awae.id ? true : false" :precision="0" :min="0" controls-position="right"></el-input-number> 分
         </el-form-item>
       </template>
+      <template v-if="awae.awardType == '7'">
+        <el-form-item label="选择折扣卡:" prop="pool">
+          <!-- <el-button  @click="getIntegrallList">选择</el-button> -->
+          <el-button v-if="!awae.awardPic" @click="getList">选择</el-button>
+          <img v-if="awae.awardPic" :src="awae.awardPic" @click="!awae.id && getList()">
+        </el-form-item>
+        <el-form-item label="物料名称:" prop="name">
+          <el-col :span="10">
+            <el-input v-model="awae.prizeName" :disabled="true" placeholder="奖品名称"></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="投放数量:" prop="putNum">
+          <el-input-number v-model="awae.totalNum" :precision="0" :disabled="awae.id ? true : false" :min="0" controls-position="right"></el-input-number> 个
+          <span v-if="awae.id ? true : false">
+            剩余<el-input-number v-model="residue" :disabled="true"></el-input-number>个
+            <el-button @click="addRepertory">增库</el-button>
+          </span>
+        </el-form-item>
+        <el-form-item label="折扣率:" prop="awardPrice">
+          <el-input-number v-model="awae.awardPrice" :disabled="awae.id ? true : false" :precision="2" :min="0" :max="1" controls-position="right"></el-input-number>
+          <span style="margin-left: 20px;color: #909399">(示例：配置为0.85，即85折)</span>
+        </el-form-item>
+      </template>
       <template v-if="awae.awardType == '9'">
         <el-form-item label="奖品图片:" prop="pool">
           <el-input v-model="awae.awardPic" style="display: none" ></el-input>
@@ -138,7 +161,7 @@
       <el-form-item v-if="!hide" label="中奖概率:" prop="probability">
         <el-input-number v-model="awae.probability" :min="0" :max="100" controls-position="right"></el-input-number> %
       </el-form-item>
-      <el-form-item>
+      <el-form-item v-if="awae.awardType != '7'">
         <el-checkbox v-model="awae.hasWarn" @change="resetWarn">阈值预警</el-checkbox>
         <span v-if="awae.hasWarn">
           <el-input-number v-model="awae.warnValue" :min="0" controls-position="right"></el-input-number> 个
@@ -152,7 +175,7 @@
           <el-input-number v-model="awae.integral" :min="0" :precision="0" controls-position="right"></el-input-number> 积分
         </span>
       </el-form-item>
-      <el-form-item>
+      <el-form-item v-if="awae.awardType != '7'">
         <el-checkbox v-model="awae.guideGzh" :checked="awae.guideGzh == 1 ? true : false" :true-label=1 :false-label=0>中奖后引导关注公众号</el-checkbox>
         <el-checkbox v-if="!isRed" v-model="awae.hasPdMaxOut" @change="resetPdMaxOut">每天出奖总次数限制</el-checkbox>
         <span v-if="awae.hasPdMaxOut">
@@ -246,6 +269,7 @@
           putNum: [{required: true, validator: tips}],
           intTotal: [{required: true, validator: tips}],
           redTotal: [{required: true, validator: tips}],
+          awardPrice: [{required: true, validator: tips}],
           // pool: [{required: true, validator: tips}],
         },
         title: '选择物品',
@@ -322,6 +346,7 @@
         this.awae.redMoney = ''
         this.awae.redTotalMoney = ''
         this.awae.integral = ''
+        this.awae.awardPrice = ''
       },
       getList() {
         if (this.awae.awardType == '1') {
@@ -336,6 +361,9 @@
         } else if (this.awae.awardType == '6') {
           this.params.metraFlag = 'integral'
           this.title = '选择积分'
+        } else if (this.awae.awardType == '7') {
+          this.params.metraFlag = 'cdDisc'
+          this.title = '选择折扣卡'
         }
         this.$request.post('/api/wiseqr/metra/list', this.params, true, res => {
           if (res.ret === '200000') {
